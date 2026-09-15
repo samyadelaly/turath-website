@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://turath-egypt.vercel.app/sitemap.xml

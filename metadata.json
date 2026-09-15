@@ -1,0 +1,6 @@
+{
+  "name": "TURATH - Handcrafted Brass, Copper & Decorative Metals",
+  "description": "Egyptian manufacturer specializing in premium handcrafted brass, copper, and decorative metal products with traditional craftsmanship from Cairo, Egypt.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

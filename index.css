@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --color-logo-gold: #d4c59d;
+  --color-logo-gold-hover: #e6d8b5;
+  --color-logo-gold-muted: #9e9174;
+  --color-logo-gold-dark: #5c533e;
+  --color-logo-black: #000000;
+  --color-logo-surface: #0a0a0a;
+  --color-logo-card: #0f0f0f;
+  --color-logo-border: rgba(212, 197, 157, 0.25);
+  --color-logo-border-strong: #d4c59d;
+}
+
+@layer utilities {
+  .font-serif-luxury {
+    font-family: 'Cinzel', 'Marcellus', 'Georgia', serif;
+  }
+  .font-arabic {
+    font-family: 'Amiri', 'Cairo', 'Traditional Arabic', serif;
+  }
+}
+
+/* Custom Sleek Dark Gold Scrollbar in exact logo solid colors */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #000000;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #332e24;
+  border-radius: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d4c59d;
+}
+
+/* Subtle Gold Sheen Animation */
+@keyframes goldShimmerSweep {
+  0% { transform: translateX(-150%) skewX(-20deg); }
+  100% { transform: translateX(250%) skewX(-20deg); }
+}
+
+.gold-shimmer-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-shimmer-hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  transform: translateX(-150%) skewX(-20deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.gold-shimmer-hover:hover::after {
+  animation: goldShimmerSweep 1.1s ease-in-out forwards;
+}
