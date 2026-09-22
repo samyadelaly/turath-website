@@ -116,19 +116,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span>Custom Manufacturing</span>
             </motion.button>
 
-            {onOpenVideoModal && (
-              <motion.button
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onOpenVideoModal}
-                className="gold-shimmer-hover w-full sm:w-auto px-7 py-4 text-xs sm:text-sm font-bold uppercase tracking-widest rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
-                title="فيديو الصنعة والحرفية المصرية في ورش تراث"
-              >
-                <Play className="w-4 h-4 fill-current" />
-                <span>فيديو الصنعة (Craft Video)</span>
-              </motion.button>
-            )}
-
             <motion.a
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
