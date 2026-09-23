@@ -738,14 +738,28 @@ export const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                     </label>
                   </div>
 
-                  <div>
+                  <div className="flex gap-2">
                     <input
                       type="url"
                       value={coverVideoUrl}
                       onChange={(e) => setCoverVideoUrl(e.target.value)}
                       placeholder="أو الصق رابط فيديو مباشر (https://...mp4) أو رابط YouTube / Vimeo"
-                      className="w-full bg-[#0e0e13] text-[#f5f0e6] border border-white/10 rounded-lg px-3.5 py-2 text-xs focus:border-[#d4c59d] outline-none"
+                      className="flex-1 bg-[#0e0e13] text-[#f5f0e6] border border-white/10 rounded-lg px-3.5 py-2 text-xs focus:border-[#d4c59d] outline-none"
                     />
+                    {coverVideoUrl && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCoverVideoUrl('');
+                          setCoverMediaType('image');
+                        }}
+                        className="px-3.5 py-2 rounded-lg bg-red-950/60 border border-red-500/40 text-red-300 hover:bg-red-900/80 transition-colors text-xs font-bold flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
+                        title="حذف الفيديو والرجوع للصورة (Remove Video)"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                        <span>حذف الفيديو (Remove Video)</span>
+                      </button>
+                    )}
                   </div>
 
                   {/* Audio Controls for Video */}

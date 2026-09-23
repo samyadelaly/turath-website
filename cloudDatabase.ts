@@ -31,6 +31,11 @@ import {
   loadCloudCategoryVideoChunks,
   deleteCloudCategoryVideoChunks,
   saveLocalCategoryVideo,
+  saveCloudProductVideoChunks,
+  loadCloudProductVideoChunks,
+  deleteCloudProductVideoChunks,
+  saveLocalProductVideo,
+  getLocalProductVideo,
 } from './mediaStorage';
 
 const SETTINGS_DOC = 'general';
@@ -357,11 +362,26 @@ export function subscribeToCloudProducts(
     }
 
     const loadedCloudMap = new Map<string, ProductItem>();
+    const chunkedProductIds: string[] = [];
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
       if (data && data.id && !deletedIds.has(data.id)) {
-        // Restore local device video if cloud document stripped base64 video to stay under 1MB
-        if (!data.videoUrl) {
+        if (data.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
+          chunkedProductIds.push(data.id);
+          // Try local cache first for instant UI response
+          data.videoUrl = '';
+          getLocalProductVideo(data.id).then((cached) => {
+            if (cached) {
+              const currentList = Array.from(mergedMap.values());
+              const target = currentList.find(p => p.id === data.id);
+              if (target) {
+                target.videoUrl = cached;
+                onProductsChange([...currentList]);
+              }
+            }
+          }).catch(() => {});
+        } else if (!data.videoUrl) {
+          // Restore local device video if cloud document stripped base64 video to stay under 1MB
           try {
             const localVideo = localStorage.getItem(`turath_video_${data.id}`);
             if (localVideo && !isDemoVideoUrl(localVideo)) {
@@ -399,6 +419,25 @@ export function subscribeToCloudProducts(
     if (completeCatalog.length > 0) {
       saveStoredProducts(completeCatalog);
       onProductsChange(completeCatalog);
+    }
+
+    // Hydrate any cloud-chunked product videos across devices
+    if (chunkedProductIds.length > 0) {
+      chunkedProductIds.forEach((pid) => {
+        loadCloudProductVideoChunks(pid).then((assembled) => {
+          if (assembled) {
+            const currentCatalog = Array.from(mergedMap.values());
+            const target = currentCatalog.find(p => p.id === pid);
+            if (target && target.videoUrl !== assembled) {
+              target.videoUrl = assembled;
+              saveStoredProducts(currentCatalog);
+              onProductsChange([...currentCatalog]);
+            }
+          }
+        }).catch((err) => {
+          console.warn('Could not load cloud video chunks for product:', pid, err);
+        });
+      });
     }
   }, (error) => {
     console.warn('Error subscribing to cloud products:', error);
@@ -447,13 +486,16 @@ export async function prepareProductForFirestore(product: ProductItem): Promise<
   }
 
   // Handle Base64 video file uploads:
+  // If video is base64, save chunked video into Firestore products/{productId}/video_chunks
+  // and mark videoUrl with FIRESTORE_CHUNK_INDICATOR so all devices know video is stored in cloud
+  let hasBase64Video = false;
+  let base64VideoContent = '';
   if (typeof rawObj.videoUrl === 'string' && rawObj.videoUrl.startsWith('data:video/')) {
-    try {
-      localStorage.setItem(`turath_video_${product.id}`, rawObj.videoUrl);
-    } catch {
-      // Ignore localStorage quota
-    }
-    rawObj.videoUrl = '';
+    hasBase64Video = true;
+    base64VideoContent = rawObj.videoUrl;
+    rawObj.videoUrl = FIRESTORE_CHUNK_INDICATOR;
+    // Also cache locally in IndexedDB immediately for this admin session
+    saveLocalProductVideo(product.id, base64VideoContent).catch(() => {});
   }
 
   // Check document byte size
@@ -485,6 +527,11 @@ export async function prepareProductForFirestore(product: ProductItem): Promise<
     rawObj.mainImage = rawObj.images[0];
   }
 
+  // Attach temporary flag for saveCloudProduct so it writes chunks
+  if (hasBase64Video) {
+    (rawObj as any).__rawBase64Video = base64VideoContent;
+  }
+
   return rawObj;
 }
 
@@ -496,7 +543,23 @@ export async function saveCloudProduct(product: ProductItem): Promise<void> {
     const docRef = doc(db, PRODUCTS_COLLECTION, product.id);
     const prepared = await prepareProductForFirestore(product);
     
-    // Save to Firestore with merge to guarantee document integrity across browsers
+    const pendingVideo = (prepared as any).__rawBase64Video;
+    delete (prepared as any).__rawBase64Video;
+
+    // If a new base64 video was uploaded, upload chunks to Firestore
+    if (pendingVideo && typeof pendingVideo === 'string') {
+      try {
+        await saveCloudProductVideoChunks(product.id, pendingVideo);
+        console.log(`[CloudDatabase] Successfully stored video chunks for product ${product.id} to Firestore.`);
+      } catch (videoErr) {
+        console.warn('Could not store video chunks to cloud for product:', product.id, videoErr);
+      }
+    } else if (!product.videoUrl) {
+      // If user cleared or removed the video, clean up any previous video chunks
+      deleteCloudProductVideoChunks(product.id).catch(() => {});
+    }
+
+    // Save product document to Firestore with merge to guarantee document integrity across browsers
     await setDoc(docRef, prepared, { merge: true });
     console.log(`[CloudDatabase] Successfully saved product ${product.id} to Firestore.`);
   } catch (err) {
@@ -512,6 +575,9 @@ export async function deleteCloudProduct(productId: string): Promise<void> {
   try {
     const docRef = doc(db, PRODUCTS_COLLECTION, productId);
     await deleteDoc(docRef);
+
+    // Delete any associated video chunks in Firestore
+    deleteCloudProductVideoChunks(productId).catch(() => {});
 
     // Track in deleted list so initial products aren't re-added
     try {
