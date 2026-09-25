@@ -357,6 +357,7 @@ ZIP_FILES.forEach((zipName) => {
     if (fs.existsSync(targetPath)) {
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-Disposition', `attachment; filename="${zipName}"`);
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
       return res.sendFile(targetPath);
     }
     return res.status(404).send('ZIP file not found');

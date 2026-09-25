@@ -1457,6 +1457,17 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
                           showVideoBadge={true}
                         />
                       </div>
+                      <div className="flex justify-center pt-1">
+                        <button
+                          type="button"
+                          onClick={handleRemoveVideo}
+                          className="px-4 py-1.5 rounded-lg bg-red-950/60 border border-red-500/40 text-red-300 hover:bg-red-900/80 transition-colors text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow"
+                          title="Remove product video"
+                        >
+                          <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                          <span>Remove Product Video / حذف فيديو القطعة</span>
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <div className="p-6 rounded-lg border border-dashed border-[#d4c59d]/20 text-center text-xs text-[#9e9174] bg-[#0d0d12]">

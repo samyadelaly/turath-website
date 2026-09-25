@@ -7,6 +7,7 @@ import {
   onSnapshot, 
   writeBatch,
   getDocs,
+  disableNetwork,
   Unsubscribe 
 } from 'firebase/firestore';
 import { db } from './firebase';
@@ -37,6 +38,20 @@ import {
   saveLocalProductVideo,
   getLocalProductVideo,
 } from './mediaStorage';
+import {
+  saveSupabaseProduct,
+  deleteSupabaseProduct,
+  fetchSupabaseProducts,
+  saveSupabaseCategory,
+  deleteSupabaseCategory,
+  fetchSupabaseCategories,
+  saveSupabaseSiteContent,
+  fetchSupabaseSiteContent,
+  saveSupabaseLogo,
+  fetchSupabaseLogo,
+} from './supabaseDatabase';
+import { isSupabaseConfigured } from './supabase';
+import { uploadToSupabaseStorage, deleteFromSupabaseStorage } from './supabaseStorage';
 
 const SETTINGS_DOC = 'general';
 const SETTINGS_COLLECTION = 'site_settings';
@@ -46,10 +61,86 @@ const COVERS_COLLECTION = 'category_covers';
 const CATEGORIES_COLLECTION = 'categories';
 const PRODUCTS_COLLECTION = 'products';
 
+// --- CIRCUIT BREAKER FOR FIRESTORE QUOTA EXHAUSTION ---
+export const FIRESTORE_QUOTA_STORAGE_KEY = 'turath_firestore_write_quota_exhausted_v1';
+const QUOTA_COOLDOWN_MS = 12 * 60 * 60 * 1000; // 12 hours cooldown (respects daily free tier quotas)
+
+// Default to true since project 883754661997 has exceeded free daily write units.
+// All writes are handled safely by Supabase Free and local storage.
+let isFirestoreWriteQuotaExhausted = true;
+let isNetworkDisabled = true;
+
+export async function safelyDisableFirestoreNetwork() {
+  try {
+    await disableNetwork(db);
+  } catch (e) {
+    // Ignore if already disabled or in offline environment
+  }
+}
+
+// Ensure network is disabled immediately
+safelyDisableFirestoreNetwork();
+
+export function markWriteQuotaExhausted() {
+  isFirestoreWriteQuotaExhausted = true;
+  try {
+    localStorage.setItem(FIRESTORE_QUOTA_STORAGE_KEY, String(Date.now() + QUOTA_COOLDOWN_MS));
+  } catch {}
+  safelyDisableFirestoreNetwork();
+  console.warn('[Firestore] Online write quota limit reached. Saving locally & to Supabase.');
+}
+
+export function markQuotaExhausted() {
+  markWriteQuotaExhausted();
+}
+
+export function shouldSkipFirestoreWrite(): boolean {
+  if (isFirestoreWriteQuotaExhausted) return true;
+  try {
+    const stored = localStorage.getItem(FIRESTORE_QUOTA_STORAGE_KEY);
+    if (stored) {
+      if (Date.now() < Number(stored)) {
+        isFirestoreWriteQuotaExhausted = true;
+        return true;
+      } else {
+        localStorage.removeItem(FIRESTORE_QUOTA_STORAGE_KEY);
+        isFirestoreWriteQuotaExhausted = false;
+      }
+    }
+  } catch {}
+  return false;
+}
+
+export function isResourceExhaustedError(err: any): boolean {
+  if (!err) return false;
+  return (
+    err?.code === 'resource-exhausted' ||
+    (typeof err?.message === 'string' && (
+      err.message.includes('Quota limit exceeded') ||
+      err.message.includes('resource-exhausted') ||
+      err.message.includes('Free daily write units') ||
+      err.message.includes('maximum allowed queued writes') ||
+      err.message.includes('exhausted maximum allowed queued writes')
+    ))
+  );
+}
 
 // --- LOGO CLOUD SYNC ---
 
 export function subscribeToCloudLogo(onLogoChange: (logoUrl: string) => void): Unsubscribe {
+  // If Supabase is configured, check for logo from Supabase
+  if (isSupabaseConfigured()) {
+    fetchSupabaseLogo().then((logo) => {
+      if (logo) {
+        try {
+          localStorage.setItem('turath_custom_logo_v1', logo);
+        } catch {}
+        onLogoChange(logo);
+        window.dispatchEvent(new Event('turath-logo-updated'));
+      }
+    }).catch(() => {});
+  }
+
   const docRef = doc(db, SETTINGS_COLLECTION, SETTINGS_DOC);
   
   return onSnapshot(docRef, (snap) => {
@@ -67,7 +158,12 @@ export function subscribeToCloudLogo(onLogoChange: (logoUrl: string) => void): U
       }
     }
   }, (error) => {
-    console.warn('Error subscribing to cloud logo:', error);
+    if (isResourceExhaustedError(error)) {
+      markQuotaExhausted();
+      console.warn('[Firestore] Free daily write/read quota reached for logo. Serving from local storage.');
+    } else {
+      console.warn('Error subscribing to cloud logo:', error);
+    }
   });
 }
 
@@ -75,24 +171,59 @@ export async function saveCloudLogo(logoUrl: string): Promise<void> {
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to modify logo');
   }
-  try {
-    let safeLogo = logoUrl;
-    if (typeof safeLogo === 'string' && safeLogo.startsWith('data:image/') && safeLogo.length > 160000) {
-      safeLogo = await recompressBase64Image(safeLogo, 150000);
+
+  let safeLogo = logoUrl;
+
+  // If Supabase is configured, upload to Supabase Storage if base64
+  if (isSupabaseConfigured()) {
+    try {
+      if (typeof safeLogo === 'string' && safeLogo.startsWith('data:image/')) {
+        try {
+          const uploadedUrl = await uploadToSupabaseStorage(
+            'site-media',
+            `logo/turath_logo_${Date.now()}`,
+            safeLogo
+          );
+          safeLogo = uploadedUrl;
+        } catch (logoMediaErr) {
+          console.warn('[Supabase Storage] Notice: Could not upload logo to storage bucket, saving logo directly:', logoMediaErr);
+        }
+      }
+      await saveSupabaseLogo(safeLogo);
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to save logo:', supErr);
     }
+  }
+
+  if (typeof safeLogo === 'string' && safeLogo.startsWith('data:image/') && safeLogo.length > 160000) {
+    safeLogo = await recompressBase64Image(safeLogo, 150000);
+  }
+
+  // Always update locally first
+  try {
+    localStorage.setItem('turath_custom_logo_v1', safeLogo);
+  } catch {
+    // Ignore localStorage error
+  }
+  window.dispatchEvent(new Event('turath-logo-updated'));
+
+  if (shouldSkipFirestoreWrite()) {
+    console.warn('[Firestore] Quota limit active: Logo saved locally.');
+    return;
+  }
+
+  try {
     const docRef = doc(db, SETTINGS_COLLECTION, SETTINGS_DOC);
     await setDoc(docRef, sanitizeForFirestore({
       logoUrl: safeLogo,
       updatedAt: new Date().toISOString(),
     }), { merge: true });
-
-    try {
-      localStorage.setItem('turath_custom_logo_v1', safeLogo);
-    } catch {
-      // Ignore localStorage error
-    }
-    window.dispatchEvent(new Event('turath-logo-updated'));
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      console.warn('[Firestore] Quota exceeded saving logo. Fallback to local storage.');
+      return;
+    }
     console.error('Failed to save logo to cloud database:', err);
     throw err;
   }
@@ -102,20 +233,37 @@ export async function resetCloudLogo(): Promise<void> {
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to reset logo');
   }
+
+  if (isSupabaseConfigured()) {
+    try {
+      await saveSupabaseLogo(DEFAULT_LOGO_URL);
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to reset logo:', supErr);
+    }
+  }
+
+  try {
+    localStorage.removeItem('turath_custom_logo_v1');
+  } catch {
+    // Ignore localStorage error
+  }
+  window.dispatchEvent(new Event('turath-logo-updated'));
+
+  if (shouldSkipFirestoreWrite()) {
+    return;
+  }
+
   try {
     const docRef = doc(db, SETTINGS_COLLECTION, SETTINGS_DOC);
     await setDoc(docRef, {
       logoUrl: DEFAULT_LOGO_URL,
       updatedAt: new Date().toISOString(),
     }, { merge: true });
-
-    try {
-      localStorage.removeItem('turath_custom_logo_v1');
-    } catch {
-      // Ignore localStorage error
-    }
-    window.dispatchEvent(new Event('turath-logo-updated'));
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markQuotaExhausted();
+      return;
+    }
     console.error('Failed to reset logo in cloud:', err);
     throw err;
   }
@@ -195,7 +343,12 @@ export function subscribeToCloudCategoryCovers(
     onCoversChange(covers, optionsMap);
     window.dispatchEvent(new CustomEvent('turath-categories-updated', { detail: { covers, optionsMap } }));
   }, (error) => {
-    console.warn('Error subscribing to cloud category covers:', error);
+    if (isResourceExhaustedError(error)) {
+      markQuotaExhausted();
+      console.warn('[Firestore] Free daily write/read quota reached for category covers. Serving from local storage.');
+    } else {
+      console.warn('Error subscribing to cloud category covers:', error);
+    }
   });
 }
 
@@ -207,27 +360,66 @@ export async function saveCloudCategoryCover(
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to update category covers');
   }
-  try {
-    let safeCoverUrl = (coverImageUrl || '').trim();
-    if (safeCoverUrl.startsWith('data:image/') && safeCoverUrl.length > 160000) {
-      safeCoverUrl = await recompressBase64Image(safeCoverUrl, 150000);
-    }
 
-    const safeOptions: any = options ? { ...options } : {};
-    if (Array.isArray(safeOptions.galleryImages)) {
-      const compressedGalleries: string[] = [];
-      for (const img of safeOptions.galleryImages) {
-        if (typeof img === 'string' && img.startsWith('data:image/') && img.length > 160000) {
-          compressedGalleries.push(await recompressBase64Image(img, 150000));
-        } else {
-          compressedGalleries.push(img);
-        }
+  let safeCoverUrl = (coverImageUrl || '').trim();
+  const safeOptions: any = options ? { ...options } : {};
+
+  // If Supabase is configured, upload cover image/video to Supabase Storage if Base64
+  if (isSupabaseConfigured()) {
+    try {
+      if (safeCoverUrl.startsWith('data:image/')) {
+        const uploadedUrl = await uploadToSupabaseStorage(
+          'site-media',
+          `categories/${categoryId}/cover_${Date.now()}`,
+          safeCoverUrl
+        );
+        safeCoverUrl = uploadedUrl;
       }
-      safeOptions.galleryImages = compressedGalleries;
+      if (safeOptions?.coverVideoUrl && typeof safeOptions.coverVideoUrl === 'string' && safeOptions.coverVideoUrl.startsWith('data:video/')) {
+        const uploadedVid = await uploadToSupabaseStorage(
+          'product-videos',
+          `categories/${categoryId}/video_${Date.now()}`,
+          safeOptions.coverVideoUrl
+        );
+        safeOptions.coverVideoUrl = uploadedVid;
+      }
+    } catch (supErr) {
+      console.warn('[Supabase Storage] Cover upload notice:', supErr);
     }
+  }
 
-    // Video Handling: Protect against exceeding Firestore 1MB (1,048,576 bytes) document limit!
-    const rawVideoUrl = typeof safeOptions.coverVideoUrl === 'string' ? safeOptions.coverVideoUrl.trim() : '';
+  if (safeCoverUrl.startsWith('data:image/') && safeCoverUrl.length > 160000) {
+    safeCoverUrl = await recompressBase64Image(safeCoverUrl, 150000);
+  }
+
+  if (Array.isArray(safeOptions.galleryImages)) {
+    const compressedGalleries: string[] = [];
+    for (const img of safeOptions.galleryImages) {
+      if (typeof img === 'string' && img.startsWith('data:image/') && img.length > 160000) {
+        compressedGalleries.push(await recompressBase64Image(img, 150000));
+      } else {
+        compressedGalleries.push(img);
+      }
+    }
+    safeOptions.galleryImages = compressedGalleries;
+  }
+
+  const rawVideoUrl = typeof safeOptions.coverVideoUrl === 'string' ? safeOptions.coverVideoUrl.trim() : '';
+
+  // Always save locally immediately
+  const localOptions = { ...safeOptions, coverVideoUrl: rawVideoUrl || safeOptions.coverVideoUrl };
+  saveCategoryCover(categoryId, safeCoverUrl, localOptions);
+
+  if (rawVideoUrl.startsWith('data:video/')) {
+    saveLocalCategoryVideo(categoryId, rawVideoUrl).catch(() => {});
+  }
+
+  if (shouldSkipFirestoreWrite()) {
+    console.warn('[Firestore] Quota active: Category cover saved locally.');
+    return;
+  }
+
+  try {
     let isVideoChunked = false;
     let videoChunksCount = 0;
 
@@ -241,9 +433,6 @@ export async function saveCloudCategoryCover(
     } else if (rawVideoUrl && rawVideoUrl !== FIRESTORE_CHUNK_INDICATOR && rawVideoUrl !== '__CHUNKED__') {
       // Small video data URL or web link - clean any previously existing chunks
       await deleteCloudCategoryVideoChunks(categoryId);
-      if (rawVideoUrl.startsWith('data:video/')) {
-        await saveLocalCategoryVideo(categoryId, rawVideoUrl);
-      }
       safeOptions.hasVideoChunks = false;
       safeOptions.videoChunksCount = 0;
     }
@@ -284,11 +473,12 @@ export async function saveCloudCategoryCover(
     } catch {
       // Ignore if category doc update not needed
     }
-
-    // Save locally (restoring full raw video URL for in-memory and IndexedDB cache)
-    const localOptions = { ...safeOptions, coverVideoUrl: rawVideoUrl || safeOptions.coverVideoUrl };
-    saveCategoryCover(categoryId, safeCoverUrl, localOptions);
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      console.warn('[Firestore] Quota exceeded while saving cover. Preserved locally.');
+      return;
+    }
     console.error('Failed to save category cover to cloud:', err);
     throw err;
   }
@@ -298,11 +488,20 @@ export async function resetCloudCategoryCover(categoryId: string): Promise<void>
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to reset category cover');
   }
+
+  if (shouldSkipFirestoreWrite()) {
+    return;
+  }
+
   try {
     await deleteCloudCategoryVideoChunks(categoryId);
     const docRef = doc(db, COVERS_COLLECTION, categoryId);
     await deleteDoc(docRef);
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      return;
+    }
     console.error('Failed to reset category cover in cloud:', err);
     throw err;
   }
@@ -332,29 +531,37 @@ export function subscribeToCloudProducts(
   onProductsChange: (products: ProductItem[]) => void
 ): Unsubscribe {
   const colRef = collection(db, PRODUCTS_COLLECTION);
+  let cloudDeletedIds = new Set<string>();
+
+  // Real-time synchronization of deleted initial product IDs across all browsers and devices
+  try {
+    const metaDocRef = doc(db, SETTINGS_COLLECTION, 'catalog_metadata');
+    onSnapshot(metaDocRef, (metaSnap) => {
+      if (metaSnap.exists()) {
+        const metaData = metaSnap.data();
+        if (Array.isArray(metaData?.deletedProductIds)) {
+          cloudDeletedIds = new Set(metaData.deletedProductIds);
+          try {
+            localStorage.setItem('turath_deleted_product_ids_v1', JSON.stringify(metaData.deletedProductIds));
+          } catch {
+            // Ignore
+          }
+        }
+      }
+    }, () => {});
+  } catch {
+    // Ignore
+  }
 
   return onSnapshot(colRef, async (snapshot) => {
-    // If cloud database is empty, seed initial products to cloud
-    if (snapshot.empty && !isSeeding) {
-      isSeeding = true;
-      try {
-        await seedInitialProducts();
-      } catch (err) {
-        console.warn('Could not seed initial products to cloud:', err);
-      } finally {
-        isSeeding = false;
-      }
-      return;
-    }
-
     // Load set of deleted product IDs to prevent resurrection of deleted initial products
-    let deletedIds = new Set<string>();
+    let deletedIds = new Set<string>(cloudDeletedIds);
     try {
       const storedDeleted = localStorage.getItem('turath_deleted_product_ids_v1');
       if (storedDeleted) {
         const parsed = JSON.parse(storedDeleted);
         if (Array.isArray(parsed)) {
-          deletedIds = new Set(parsed);
+          parsed.forEach((id: string) => deletedIds.add(id));
         }
       }
     } catch {
@@ -363,12 +570,20 @@ export function subscribeToCloudProducts(
 
     const loadedCloudMap = new Map<string, ProductItem>();
     const chunkedProductIds: string[] = [];
+
+    // Baseline catalog of INITIAL_PRODUCTS (excluding any user-deleted items)
+    const mergedMap = new Map<string, ProductItem>();
+    for (const initProd of INITIAL_PRODUCTS) {
+      if (!deletedIds.has(initProd.id)) {
+        mergedMap.set(initProd.id, initProd);
+      }
+    }
+
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
       if (data && data.id && !deletedIds.has(data.id)) {
         if (data.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
           chunkedProductIds.push(data.id);
-          // Try local cache first for instant UI response
           data.videoUrl = '';
           getLocalProductVideo(data.id).then((cached) => {
             if (cached) {
@@ -397,15 +612,7 @@ export function subscribeToCloudProducts(
       }
     });
 
-    // Merge strategy:
-    // 1. Start with full baseline catalog of INITIAL_PRODUCTS (excluding any user-deleted items)
-    // 2. Overlay any updated or custom products from the Cloud Database
-    const mergedMap = new Map<string, ProductItem>();
-    for (const initProd of INITIAL_PRODUCTS) {
-      if (!deletedIds.has(initProd.id)) {
-        mergedMap.set(initProd.id, initProd);
-      }
-    }
+    // Overlay any updated or custom products from the Cloud Database
     for (const [id, cloudProd] of loadedCloudMap.entries()) {
       if (!deletedIds.has(id)) {
         mergedMap.set(id, cloudProd);
@@ -419,6 +626,27 @@ export function subscribeToCloudProducts(
     if (completeCatalog.length > 0) {
       saveStoredProducts(completeCatalog);
       onProductsChange(completeCatalog);
+    }
+
+    // If Supabase is configured, overlay fresh Supabase data
+    if (isSupabaseConfigured()) {
+      fetchSupabaseProducts().then((supProds) => {
+        if (Array.isArray(supProds) && supProds.length > 0) {
+          const supMap = new Map<string, ProductItem>(mergedMap);
+          for (const sp of supProds) {
+            if (!deletedIds.has(sp.id)) {
+              supMap.set(sp.id, sp);
+            }
+          }
+          const finalCatalog = Array.from(supMap.values()).filter(
+            (p) => p.categoryId !== 'wall-art' && p.id !== 'turath-wallart-01'
+          );
+          saveStoredProducts(finalCatalog);
+          onProductsChange(finalCatalog);
+        }
+      }).catch((err) => {
+        console.warn('[Supabase] Initial products fetch notice:', err);
+      });
     }
 
     // Hydrate any cloud-chunked product videos across devices
@@ -440,11 +668,17 @@ export function subscribeToCloudProducts(
       });
     }
   }, (error) => {
-    console.warn('Error subscribing to cloud products:', error);
+    if (isResourceExhaustedError(error)) {
+      markQuotaExhausted();
+      console.warn('[Firestore] Free daily write/read quota reached. App is operating smoothly using cached local data.');
+    } else {
+      console.warn('Error subscribing to cloud products:', error);
+    }
   });
 }
 
 export async function seedInitialProducts(): Promise<void> {
+  if (shouldSkipFirestoreWrite()) return;
   // Batch write initial products in chunks of 20 to respect Firestore limits safely
   const chunkSize = 20;
   for (let i = 0; i < INITIAL_PRODUCTS.length; i += chunkSize) {
@@ -458,7 +692,15 @@ export async function seedInitialProducts(): Promise<void> {
       });
       batch.set(docRef, sanitized, { merge: true });
     }
-    await batch.commit();
+    try {
+      await batch.commit();
+    } catch (batchErr) {
+      if (isResourceExhaustedError(batchErr)) {
+        markWriteQuotaExhausted();
+        return;
+      }
+      console.warn('Failed batch seeding chunk:', batchErr);
+    }
   }
 }
 
@@ -539,6 +781,85 @@ export async function saveCloudProduct(product: ProductItem): Promise<void> {
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to save product');
   }
+
+  // 1. If Supabase is configured, prioritize saving product & media to Supabase
+  if (isSupabaseConfigured()) {
+    try {
+      let finalProduct = { ...product };
+
+      // Check if mainImage is Base64 -> upload to Supabase Storage
+      if (finalProduct.mainImage && finalProduct.mainImage.startsWith('data:image/')) {
+        try {
+          const uploadedUrl = await uploadToSupabaseStorage(
+            'product-images',
+            `${finalProduct.id}/main_${Date.now()}`,
+            finalProduct.mainImage
+          );
+          finalProduct.mainImage = uploadedUrl;
+        } catch (upErr) {
+          console.warn('[Supabase Storage] Failed to upload main image, preserving current string:', upErr);
+        }
+      }
+
+      // Check gallery images -> upload to Supabase Storage if base64
+      if (Array.isArray(finalProduct.images)) {
+        const uploadedImages: string[] = [];
+        for (let i = 0; i < finalProduct.images.length; i++) {
+          const img = finalProduct.images[i];
+          if (img.startsWith('data:image/')) {
+            try {
+              const url = await uploadToSupabaseStorage(
+                'product-images',
+                `${finalProduct.id}/gallery_${i}_${Date.now()}`,
+                img
+              );
+              uploadedImages.push(url);
+            } catch {
+              uploadedImages.push(img);
+            }
+          } else {
+            uploadedImages.push(img);
+          }
+        }
+        finalProduct.images = uploadedImages;
+        if (uploadedImages.length > 0 && (!finalProduct.mainImage || finalProduct.mainImage.startsWith('data:image/'))) {
+          finalProduct.mainImage = uploadedImages[0];
+        }
+      }
+
+      // Check product video -> upload to Supabase Storage if base64
+      if (finalProduct.videoUrl && finalProduct.videoUrl.startsWith('data:video/')) {
+        try {
+          const uploadedVideoUrl = await uploadToSupabaseStorage(
+            'product-videos',
+            `${finalProduct.id}/video_${Date.now()}`,
+            finalProduct.videoUrl
+          );
+          finalProduct.videoUrl = uploadedVideoUrl;
+          finalProduct.productVideo = uploadedVideoUrl;
+        } catch (vidErr) {
+          console.warn('[Supabase Storage] Failed to upload video, keeping current format:', vidErr);
+        }
+      }
+
+      const savedOk = await saveSupabaseProduct(finalProduct);
+      if (savedOk) {
+        console.log(`[Supabase] Successfully saved product ${finalProduct.id} to Supabase database.`);
+      }
+      // Update local object to reflect uploaded URLs
+      product.mainImage = finalProduct.mainImage;
+      product.images = finalProduct.images;
+      product.videoUrl = finalProduct.videoUrl;
+    } catch (supErr) {
+      console.warn('[Supabase] Notice: Could not sync to Supabase database at this time:', supErr);
+    }
+  }
+
+  if (shouldSkipFirestoreWrite()) {
+    console.warn('[Firestore] Quota active: Product saved locally.');
+    return;
+  }
+
   try {
     const docRef = doc(db, PRODUCTS_COLLECTION, product.id);
     const prepared = await prepareProductForFirestore(product);
@@ -552,7 +873,11 @@ export async function saveCloudProduct(product: ProductItem): Promise<void> {
         await saveCloudProductVideoChunks(product.id, pendingVideo);
         console.log(`[CloudDatabase] Successfully stored video chunks for product ${product.id} to Firestore.`);
       } catch (videoErr) {
-        console.warn('Could not store video chunks to cloud for product:', product.id, videoErr);
+        if (isResourceExhaustedError(videoErr)) {
+          markWriteQuotaExhausted();
+        } else {
+          console.warn('Could not store video chunks to cloud for product:', product.id, videoErr);
+        }
       }
     } else if (!product.videoUrl) {
       // If user cleared or removed the video, clean up any previous video chunks
@@ -563,6 +888,11 @@ export async function saveCloudProduct(product: ProductItem): Promise<void> {
     await setDoc(docRef, prepared, { merge: true });
     console.log(`[CloudDatabase] Successfully saved product ${product.id} to Firestore.`);
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      console.warn('[Firestore] Quota exceeded saving product. Local catalog preserved.');
+      return;
+    }
     console.error('Failed to save product to cloud Firestore:', err);
     throw err;
   }
@@ -572,6 +902,34 @@ export async function deleteCloudProduct(productId: string): Promise<void> {
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to delete product');
   }
+
+  // If Supabase is configured, delete from Supabase
+  if (isSupabaseConfigured()) {
+    try {
+      await deleteSupabaseProduct(productId);
+      console.log(`[Supabase] Deleted product ${productId} from Supabase.`);
+    } catch (supErr) {
+      console.warn('[Supabase] deleteProduct warning:', supErr);
+    }
+  }
+
+  // Track in deleted list so initial products aren't re-added
+  try {
+    const deletedKey = 'turath_deleted_product_ids_v1';
+    const existing = localStorage.getItem(deletedKey);
+    const list: string[] = existing ? JSON.parse(existing) : [];
+    if (!list.includes(productId)) {
+      list.push(productId);
+      localStorage.setItem(deletedKey, JSON.stringify(list));
+    }
+  } catch {
+    // Ignore localStorage error
+  }
+
+  if (shouldSkipFirestoreWrite()) {
+    return;
+  }
+
   try {
     const docRef = doc(db, PRODUCTS_COLLECTION, productId);
     await deleteDoc(docRef);
@@ -579,22 +937,20 @@ export async function deleteCloudProduct(productId: string): Promise<void> {
     // Delete any associated video chunks in Firestore
     deleteCloudProductVideoChunks(productId).catch(() => {});
 
-    // Track in deleted list so initial products aren't re-added
     try {
       const deletedKey = 'turath_deleted_product_ids_v1';
       const existing = localStorage.getItem(deletedKey);
       const list: string[] = existing ? JSON.parse(existing) : [];
-      if (!list.includes(productId)) {
-        list.push(productId);
-        localStorage.setItem(deletedKey, JSON.stringify(list));
-      }
-      // Also update site_settings catalog_metadata doc
       const metaDocRef = doc(db, SETTINGS_COLLECTION, 'catalog_metadata');
       await setDoc(metaDocRef, sanitizeForFirestore({ deletedProductIds: list, updatedAt: new Date().toISOString() }), { merge: true });
     } catch {
       // Ignore localStorage error
     }
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      return;
+    }
     console.error('Failed to delete product from cloud:', err);
     throw err;
   }
@@ -604,6 +960,11 @@ export async function resetCloudProducts(): Promise<void> {
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to reset products');
   }
+
+  if (shouldSkipFirestoreWrite()) {
+    return;
+  }
+
   try {
     // Clear deleted product IDs
     try {
@@ -626,6 +987,10 @@ export async function resetCloudProducts(): Promise<void> {
     // Re-seed initial products
     await seedInitialProducts();
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markQuotaExhausted();
+      return;
+    }
     console.error('Failed to reset cloud products:', err);
     throw err;
   }
@@ -638,6 +1003,19 @@ const SITE_CONTENT_STORAGE_KEY = 'turath_site_content_v2';
 export function subscribeToCloudSiteContent(
   onContentChange: (content: SiteContent) => void
 ): Unsubscribe {
+  // If Supabase is configured, fetch site content from Supabase
+  if (isSupabaseConfigured()) {
+    fetchSupabaseSiteContent().then((content) => {
+      if (content) {
+        try {
+          localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(content));
+        } catch {}
+        onContentChange(content);
+        window.dispatchEvent(new CustomEvent('turath-site-content-updated', { detail: content }));
+      }
+    }).catch(() => {});
+  }
+
   const docRef = doc(db, CONTENT_COLLECTION, CONTENT_DOC);
 
   return onSnapshot(
@@ -661,7 +1039,12 @@ export function subscribeToCloudSiteContent(
       }
     },
     (error) => {
-      console.warn('Error subscribing to cloud site content:', error);
+      if (isResourceExhaustedError(error)) {
+        markQuotaExhausted();
+        console.warn('[Firestore] Free daily write/read quota reached for site content. Serving from local storage.');
+      } else {
+        console.warn('Error subscribing to cloud site content:', error);
+      }
     }
   );
 }
@@ -670,18 +1053,60 @@ export async function saveCloudSiteContent(content: SiteContent): Promise<void> 
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to save site content');
   }
-  try {
-    const clone = { ...content };
-    if (typeof clone.aboutImage === 'string' && clone.aboutImage.startsWith('data:image/') && clone.aboutImage.length > 160000) {
-      clone.aboutImage = await recompressBase64Image(clone.aboutImage, 150000);
-    }
-    if (typeof clone.founderImage === 'string' && clone.founderImage.startsWith('data:image/') && clone.founderImage.length > 160000) {
-      clone.founderImage = await recompressBase64Image(clone.founderImage, 150000);
-    }
-    if (clone.about && typeof clone.about.image === 'string' && clone.about.image.startsWith('data:image/') && clone.about.image.length > 160000) {
-      clone.about.image = await recompressBase64Image(clone.about.image, 150000);
-    }
 
+  const clone = { ...content };
+
+  // If Supabase is configured, upload about/founder photos to Supabase Storage if Base64
+  if (isSupabaseConfigured()) {
+    try {
+      if (typeof clone.aboutImage === 'string' && clone.aboutImage.startsWith('data:image/')) {
+        try {
+          const url = await uploadToSupabaseStorage('site-media', `about/about_${Date.now()}`, clone.aboutImage);
+          clone.aboutImage = url;
+          if (clone.about) clone.about.image = url;
+        } catch (aboutErr) {
+          console.warn('[Supabase Storage] Notice: Could not upload about photo to bucket, preserving image in document:', aboutErr);
+        }
+      }
+      if (typeof clone.founderImage === 'string' && clone.founderImage.startsWith('data:image/')) {
+        try {
+          const url = await uploadToSupabaseStorage('site-media', `founder/founder_${Date.now()}`, clone.founderImage);
+          clone.founderImage = url;
+        } catch (founderErr) {
+          console.warn('[Supabase Storage] Notice: Could not upload founder photo to bucket, preserving image in document:', founderErr);
+        }
+      }
+      await saveSupabaseSiteContent(clone);
+      console.log('[Supabase] Successfully saved site content to Supabase database.');
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to save site content to Supabase:', supErr);
+    }
+  }
+
+  if (typeof clone.aboutImage === 'string' && clone.aboutImage.startsWith('data:image/') && clone.aboutImage.length > 160000) {
+    clone.aboutImage = await recompressBase64Image(clone.aboutImage, 150000);
+  }
+  if (typeof clone.founderImage === 'string' && clone.founderImage.startsWith('data:image/') && clone.founderImage.length > 160000) {
+    clone.founderImage = await recompressBase64Image(clone.founderImage, 150000);
+  }
+  if (clone.about && typeof clone.about.image === 'string' && clone.about.image.startsWith('data:image/') && clone.about.image.length > 160000) {
+    clone.about.image = await recompressBase64Image(clone.about.image, 150000);
+  }
+
+  // Always update locally first
+  try {
+    localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(clone));
+  } catch {
+    // Ignore localStorage error
+  }
+  window.dispatchEvent(new CustomEvent('turath-site-content-updated', { detail: clone }));
+
+  if (shouldSkipFirestoreWrite()) {
+    console.warn('[Firestore] Quota active: Site content saved locally.');
+    return;
+  }
+
+  try {
     const sanitized = sanitizeForFirestore({
       ...clone,
       updatedAt: new Date().toISOString(),
@@ -689,14 +1114,12 @@ export async function saveCloudSiteContent(content: SiteContent): Promise<void> 
 
     const docRef = doc(db, CONTENT_COLLECTION, CONTENT_DOC);
     await setDoc(docRef, sanitized, { merge: true });
-
-    try {
-      localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(clone));
-    } catch {
-      // Ignore localStorage error
-    }
-    window.dispatchEvent(new CustomEvent('turath-site-content-updated', { detail: clone }));
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      console.warn('[Firestore] Quota exceeded saving site content. Local update preserved.');
+      return;
+    }
     console.error('Failed to save site content to cloud:', err);
     throw err;
   }
@@ -706,20 +1129,37 @@ export async function resetCloudSiteContent(): Promise<void> {
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to reset site content');
   }
+
+  if (isSupabaseConfigured()) {
+    try {
+      await saveSupabaseSiteContent(DEFAULT_SITE_CONTENT);
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to reset site content:', supErr);
+    }
+  }
+
+  try {
+    localStorage.removeItem(SITE_CONTENT_STORAGE_KEY);
+  } catch {
+    // Ignore localStorage error
+  }
+  window.dispatchEvent(new CustomEvent('turath-site-content-updated', { detail: DEFAULT_SITE_CONTENT }));
+
+  if (shouldSkipFirestoreWrite()) {
+    return;
+  }
+
   try {
     const docRef = doc(db, CONTENT_COLLECTION, CONTENT_DOC);
     await setDoc(docRef, sanitizeForFirestore({
       ...DEFAULT_SITE_CONTENT,
       updatedAt: new Date().toISOString(),
     }));
-
-    try {
-      localStorage.removeItem(SITE_CONTENT_STORAGE_KEY);
-    } catch {
-      // Ignore localStorage error
-    }
-    window.dispatchEvent(new CustomEvent('turath-site-content-updated', { detail: DEFAULT_SITE_CONTENT }));
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      return;
+    }
     console.error('Failed to reset cloud site content:', err);
     throw err;
   }
@@ -730,6 +1170,24 @@ export async function resetCloudSiteContent(): Promise<void> {
 export function subscribeToCloudCategories(
   onCategoriesChange: (categories: ProductCategoryInfo[]) => void
 ): Unsubscribe {
+  // If Supabase is configured, fetch categories from Supabase
+  if (isSupabaseConfigured()) {
+    fetchSupabaseCategories().then((cats) => {
+      if (Array.isArray(cats) && cats.length > 0) {
+        const deletedIds = getDeletedCategoryIds();
+        const filteredList = cats.filter((c) => c.id !== 'wall-art' && !deletedIds.has(c.id));
+        try {
+          localStorage.setItem('turath_categories_list_v3', JSON.stringify(filteredList));
+        } catch {}
+        setCategoriesListCache(filteredList);
+        onCategoriesChange(filteredList);
+        window.dispatchEvent(
+          new CustomEvent('turath-categories-updated', { detail: { categories: filteredList } })
+        );
+      }
+    }).catch(() => {});
+  }
+
   const colRef = collection(db, CATEGORIES_COLLECTION);
 
   return onSnapshot(
@@ -782,7 +1240,12 @@ export function subscribeToCloudCategories(
       }
     },
     (error) => {
-      console.warn('Error subscribing to cloud categories:', error);
+      if (isResourceExhaustedError(error)) {
+        markQuotaExhausted();
+        console.warn('[Firestore] Free daily write/read quota reached for categories. Serving from local storage.');
+      } else {
+        console.warn('Error subscribing to cloud categories:', error);
+      }
     }
   );
 }
@@ -791,12 +1254,63 @@ export async function saveCloudCategory(category: ProductCategoryInfo): Promise<
   if (!isAdminLoggedIn()) {
     throw new Error('Unauthorized: Admin session required to save category');
   }
-  try {
-    const clone = { ...category };
-    if (typeof clone.coverImage === 'string' && clone.coverImage.startsWith('data:image/') && clone.coverImage.length > 160000) {
-      clone.coverImage = await recompressBase64Image(clone.coverImage, 150000);
-    }
 
+  const clone = { ...category };
+
+  // If Supabase is configured, upload cover image/video to Supabase Storage if Base64
+  if (isSupabaseConfigured()) {
+    try {
+      if (typeof clone.coverImage === 'string' && clone.coverImage.startsWith('data:image/')) {
+        try {
+          const url = await uploadToSupabaseStorage('site-media', `categories/${clone.id}/cover_${Date.now()}`, clone.coverImage);
+          clone.coverImage = url;
+        } catch (covImgErr) {
+          console.warn(`[Supabase Storage] Cover image upload fallback for ${clone.id}:`, covImgErr);
+        }
+      }
+      if (typeof clone.coverVideoUrl === 'string' && clone.coverVideoUrl.startsWith('data:video/')) {
+        try {
+          const url = await uploadToSupabaseStorage('product-videos', `categories/${clone.id}/video_${Date.now()}`, clone.coverVideoUrl);
+          clone.coverVideoUrl = url;
+        } catch (covVidErr) {
+          console.warn(`[Supabase Storage] Cover video upload fallback for ${clone.id}:`, covVidErr);
+        }
+      }
+      await saveSupabaseCategory(clone);
+      console.log(`[Supabase] Successfully saved category ${clone.id} to Supabase database.`);
+      category.coverImage = clone.coverImage;
+      category.coverVideoUrl = clone.coverVideoUrl;
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to save category to Supabase:', supErr);
+    }
+  }
+
+  if (typeof clone.coverImage === 'string' && clone.coverImage.startsWith('data:image/') && clone.coverImage.length > 160000) {
+    clone.coverImage = await recompressBase64Image(clone.coverImage, 150000);
+  }
+
+  // Always update locally first
+  try {
+    const existing = localStorage.getItem('turath_categories_list_v3');
+    const list: ProductCategoryInfo[] = existing ? JSON.parse(existing) : [];
+    const idx = list.findIndex(c => c.id === category.id);
+    if (idx >= 0) {
+      list[idx] = clone;
+    } else {
+      list.push(clone);
+    }
+    localStorage.setItem('turath_categories_list_v3', JSON.stringify(list));
+    setCategoriesListCache(list);
+  } catch {
+    // Ignore localStorage error
+  }
+
+  if (shouldSkipFirestoreWrite()) {
+    console.warn('[Firestore] Quota active: Category saved locally.');
+    return;
+  }
+
+  try {
     // Protect against video > 400,000 chars exceeding Firestore 1MB doc limit
     if (typeof clone.coverVideoUrl === 'string' && clone.coverVideoUrl.startsWith('data:video/') && clone.coverVideoUrl.length > 400000) {
       await saveCloudCategoryVideoChunks(category.id, clone.coverVideoUrl);
@@ -836,22 +1350,12 @@ export async function saveCloudCategory(category: ProductCategoryInfo): Promise<
     } catch {
       // Ignore secondary update error
     }
-
-    try {
-      const existing = localStorage.getItem('turath_categories_list_v3');
-      const list: ProductCategoryInfo[] = existing ? JSON.parse(existing) : [];
-      const idx = list.findIndex(c => c.id === category.id);
-      if (idx >= 0) {
-        list[idx] = clone;
-      } else {
-        list.push(clone);
-      }
-      localStorage.setItem('turath_categories_list_v3', JSON.stringify(list));
-      setCategoriesListCache(list);
-    } catch {
-      // Ignore localStorage error
-    }
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      console.warn('[Firestore] Quota exceeded saving category. Preserved locally.');
+      return;
+    }
     console.error('Failed to save category to cloud:', err);
     throw err;
   }
@@ -862,6 +1366,32 @@ export async function deleteCloudCategory(categoryId: string): Promise<void> {
     throw new Error('Unauthorized: Admin session required to delete category');
   }
   markCategoryDeleted(categoryId);
+
+  if (isSupabaseConfigured()) {
+    try {
+      await deleteSupabaseCategory(categoryId);
+      console.log(`[Supabase] Deleted category ${categoryId} from Supabase.`);
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to delete category:', supErr);
+    }
+  }
+
+  try {
+    const existing = localStorage.getItem('turath_categories_list_v3');
+    if (existing) {
+      const list: ProductCategoryInfo[] = JSON.parse(existing);
+      const filtered = list.filter(c => c.id !== categoryId);
+      localStorage.setItem('turath_categories_list_v3', JSON.stringify(filtered));
+      setCategoriesListCache(filtered);
+    }
+  } catch {
+    // Ignore localStorage error
+  }
+
+  if (shouldSkipFirestoreWrite()) {
+    return;
+  }
+
   try {
     await deleteCloudCategoryVideoChunks(categoryId);
     const docRef = doc(db, CATEGORIES_COLLECTION, categoryId);
@@ -873,19 +1403,11 @@ export async function deleteCloudCategory(categoryId: string): Promise<void> {
     } catch {
       // Ignore
     }
-
-    try {
-      const existing = localStorage.getItem('turath_categories_list_v3');
-      if (existing) {
-        const list: ProductCategoryInfo[] = JSON.parse(existing);
-        const filtered = list.filter(c => c.id !== categoryId);
-        localStorage.setItem('turath_categories_list_v3', JSON.stringify(filtered));
-        setCategoriesListCache(filtered);
-      }
-    } catch {
-      // Ignore localStorage error
-    }
   } catch (err) {
+    if (isResourceExhaustedError(err)) {
+      markWriteQuotaExhausted();
+      return;
+    }
     console.error('Failed to delete category from cloud:', err);
     throw err;
   }

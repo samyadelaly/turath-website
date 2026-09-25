@@ -18,6 +18,16 @@ const IDB_VERSION = 2;
 export const FIRESTORE_VIDEO_CHUNK_SIZE = 600000;
 export const FIRESTORE_CHUNK_INDICATOR = '__CHUNKED__';
 
+function shouldSkipFirestoreChunking(): boolean {
+  try {
+    const stored = localStorage.getItem('turath_firestore_write_quota_exhausted_v1');
+    if (stored && Date.now() < Number(stored)) {
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
 // --- INDEXEDDB LOCAL MEDIA CACHE ---
 
 function openMediaDatabase(): Promise<IDBDatabase | null> {
@@ -184,28 +194,49 @@ export async function saveCloudCategoryVideoChunks(
   // Always cache locally in IndexedDB first for instant responsiveness
   await saveLocalCategoryVideo(categoryId, videoDataUrl);
 
+  if (shouldSkipFirestoreChunking()) {
+    console.warn('[MediaStorage] Firestore write quota exhausted. Category video cached locally.');
+    return 0;
+  }
+
   const totalLength = videoDataUrl.length;
   const totalChunks = Math.ceil(totalLength / FIRESTORE_VIDEO_CHUNK_SIZE);
   const chunksCollection = collection(db, 'category_covers', categoryId, 'video_chunks');
 
-  const writePromises: Promise<void>[] = [];
-  for (let i = 0; i < totalChunks; i++) {
-    const chunkData = videoDataUrl.slice(
-      i * FIRESTORE_VIDEO_CHUNK_SIZE, 
-      (i + 1) * FIRESTORE_VIDEO_CHUNK_SIZE
-    );
-    const chunkDocRef = doc(chunksCollection, `chunk_${String(i).padStart(4, '0')}`);
-    writePromises.push(
-      setDoc(chunkDocRef, {
-        index: i,
-        data: chunkData,
-        totalChunks,
-        categoryId,
-        updatedAt: new Date().toISOString()
-      })
-    );
+  try {
+    const writePromises: Promise<void>[] = [];
+    for (let i = 0; i < totalChunks; i++) {
+      const chunkData = videoDataUrl.slice(
+        i * FIRESTORE_VIDEO_CHUNK_SIZE, 
+        (i + 1) * FIRESTORE_VIDEO_CHUNK_SIZE
+      );
+      const chunkDocRef = doc(chunksCollection, `chunk_${String(i).padStart(4, '0')}`);
+      writePromises.push(
+        setDoc(chunkDocRef, {
+          index: i,
+          data: chunkData,
+          totalChunks,
+          categoryId,
+          updatedAt: new Date().toISOString()
+        })
+      );
+    }
+    await Promise.all(writePromises);
+  } catch (chunkErr: any) {
+    if (
+      chunkErr?.code === 'resource-exhausted' ||
+      chunkErr?.message?.includes('resource-exhausted') ||
+      chunkErr?.message?.includes('Quota limit exceeded')
+    ) {
+      try {
+        localStorage.setItem('turath_firestore_write_quota_exhausted_v1', String(Date.now() + 12 * 60 * 60 * 1000));
+      } catch {}
+      console.warn('[MediaStorage] Quota exceeded saving category video chunks. Preserved in IndexedDB.');
+      return 0;
+    }
+    console.warn('Could not save category video chunks to cloud:', chunkErr);
+    return 0;
   }
-  await Promise.all(writePromises);
 
   // Clean up any old leftover chunks beyond totalChunks
   try {
@@ -298,28 +329,49 @@ export async function saveCloudProductVideoChunks(
   // Cache locally in IndexedDB first for instant playback
   await saveLocalProductVideo(productId, videoDataUrl);
 
+  if (shouldSkipFirestoreChunking()) {
+    console.warn('[MediaStorage] Firestore write quota exhausted. Product video cached locally.');
+    return 0;
+  }
+
   const totalLength = videoDataUrl.length;
   const totalChunks = Math.ceil(totalLength / FIRESTORE_VIDEO_CHUNK_SIZE);
   const chunksCollection = collection(db, 'products', productId, 'video_chunks');
 
-  const writePromises: Promise<void>[] = [];
-  for (let i = 0; i < totalChunks; i++) {
-    const chunkData = videoDataUrl.slice(
-      i * FIRESTORE_VIDEO_CHUNK_SIZE, 
-      (i + 1) * FIRESTORE_VIDEO_CHUNK_SIZE
-    );
-    const chunkDocRef = doc(chunksCollection, `chunk_${String(i).padStart(4, '0')}`);
-    writePromises.push(
-      setDoc(chunkDocRef, {
-        index: i,
-        data: chunkData,
-        totalChunks,
-        productId,
-        updatedAt: new Date().toISOString()
-      })
-    );
+  try {
+    const writePromises: Promise<void>[] = [];
+    for (let i = 0; i < totalChunks; i++) {
+      const chunkData = videoDataUrl.slice(
+        i * FIRESTORE_VIDEO_CHUNK_SIZE, 
+        (i + 1) * FIRESTORE_VIDEO_CHUNK_SIZE
+      );
+      const chunkDocRef = doc(chunksCollection, `chunk_${String(i).padStart(4, '0')}`);
+      writePromises.push(
+        setDoc(chunkDocRef, {
+          index: i,
+          data: chunkData,
+          totalChunks,
+          productId,
+          updatedAt: new Date().toISOString()
+        })
+      );
+    }
+    await Promise.all(writePromises);
+  } catch (chunkErr: any) {
+    if (
+      chunkErr?.code === 'resource-exhausted' ||
+      chunkErr?.message?.includes('resource-exhausted') ||
+      chunkErr?.message?.includes('Quota limit exceeded')
+    ) {
+      try {
+        localStorage.setItem('turath_firestore_write_quota_exhausted_v1', String(Date.now() + 12 * 60 * 60 * 1000));
+      } catch {}
+      console.warn('[MediaStorage] Quota exceeded saving product video chunks. Preserved in IndexedDB.');
+      return 0;
+    }
+    console.warn('Could not save product video chunks to cloud:', chunkErr);
+    return 0;
   }
-  await Promise.all(writePromises);
 
   // Clean up any old leftover chunks beyond totalChunks
   try {

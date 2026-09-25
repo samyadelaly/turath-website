@@ -24,6 +24,7 @@ interface AdminBarProps {
   onOpenChangeAboutPhoto?: () => void;
   onOpenDownloadZip?: () => void;
   onOpenChangePassword?: () => void;
+  onOpenSupabaseMigration?: () => void;
   onLogout: () => void;
 }
 
@@ -37,6 +38,7 @@ export const AdminBar: React.FC<AdminBarProps> = ({
   onOpenChangeAboutPhoto,
   onOpenDownloadZip,
   onOpenChangePassword,
+  onOpenSupabaseMigration,
   onLogout,
 }) => {
   return (
@@ -135,6 +137,18 @@ export const AdminBar: React.FC<AdminBarProps> = ({
             >
               <Camera className="w-3.5 h-3.5 text-amber-400" />
               <span>صورة قصة تراث</span>
+            </button>
+          )}
+
+          {/* Supabase Sync & Migrate */}
+          {onOpenSupabaseMigration && (
+            <button
+              onClick={onOpenSupabaseMigration}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#0f1f17] hover:bg-[#163524] text-emerald-400 border border-emerald-500/40 text-xs transition-colors cursor-pointer"
+              title="مزامنة ونقل الكتالوج والوسائط إلى Supabase Free"
+            >
+              <Cloud className="w-3.5 h-3.5 text-emerald-400" />
+              <span>مزامنة Supabase</span>
             </button>
           )}
 

@@ -625,6 +625,38 @@ export const EditCategoryCoverModal: React.FC<EditCategoryCoverModalProps> = ({
               {/* Video Configuration Section */}
               {coverMediaType === 'video' ? (
                 <div className="space-y-4">
+                  {/* Remove Video & Switch to Image Button if video exists */}
+                  {videoUrl && (
+                    <div className="bg-red-950/30 border border-red-500/40 rounded-xl p-3.5 flex items-center justify-between flex-wrap gap-2">
+                      <div className="space-y-0.5">
+                        <span className="text-xs font-bold text-red-300 flex items-center gap-1.5 font-arabic">
+                          <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                          <span>إزالة فيديو الغلاف (Remove Cover Video)</span>
+                        </span>
+                        <p className="text-[11px] text-red-200/70 font-arabic">
+                          حذف الفيديو الحالي لغلاف هذا القسم والرجوع إلى الصورة الأصلية
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setVideoUrl('');
+                          setCoverMediaType('image');
+                          if (videoFileInputRef.current) {
+                            videoFileInputRef.current.value = '';
+                          }
+                          setSavedSuccess(false);
+                          setErrorMessage(null);
+                        }}
+                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition-all cursor-pointer"
+                        title="Remove Video & Switch to Image"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>حذف الفيديو والرجوع للصورة (Remove Video)</span>
+                      </button>
+                    </div>
+                  )}
+
                   {/* Option 1: Direct Video Link URL */}
                   <div className="bg-[#0c0c0c] border border-[#d4c59d]/30 rounded-xl p-4 space-y-3">
                     <div className="space-y-0.5">
@@ -652,11 +684,17 @@ export const EditCategoryCoverModal: React.FC<EditCategoryCoverModalProps> = ({
                       {videoUrl && (
                         <button
                           type="button"
-                          onClick={() => setVideoUrl('')}
+                          onClick={() => {
+                            setVideoUrl('');
+                            setCoverMediaType('image');
+                            if (videoFileInputRef.current) {
+                              videoFileInputRef.current.value = '';
+                            }
+                          }}
                           className="px-3 py-2 rounded-lg bg-red-950/40 border border-red-500/40 text-red-300 hover:bg-red-900/60 transition-colors text-xs font-bold"
                           title="Clear Video"
                         >
-                          حذف الرابط
+                          حذف الفيديو
                         </button>
                       )}
                     </div>
@@ -696,6 +734,23 @@ export const EditCategoryCoverModal: React.FC<EditCategoryCoverModalProps> = ({
                           className="hidden"
                         />
                       </label>
+
+                      {videoUrl && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setVideoUrl('');
+                            setCoverMediaType('image');
+                            if (videoFileInputRef.current) {
+                              videoFileInputRef.current.value = '';
+                            }
+                          }}
+                          className="px-3 py-2 rounded-lg bg-red-950/50 border border-red-500/40 text-red-300 hover:bg-red-900/70 transition-colors text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                          <span>حذف الفيديو المرفوع (Remove Video)</span>
+                        </button>
+                      )}
 
                       {videoUrl && videoUrl.startsWith('data:') && (
                         <span className="text-xs text-emerald-400 font-arabic">

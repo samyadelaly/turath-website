@@ -58,6 +58,7 @@ import { ChangePasswordModal } from './ChangePasswordModal';
 import { initMetaPixel, trackPageView } from './metaPixel';
 import { DownloadZipModal } from './DownloadZipModal';
 import { AdminBar } from './AdminBar';
+import { SupabaseMigrationModal } from './MigrationModal';
 import { pauseAndMuteAllVideos } from './videoManager';
 import { TiltCard } from './TiltCard';
 import { computeCategoryCoverRatio, computeCategoryCoverMediaRatio } from './imageRatioUtils';
@@ -325,6 +326,9 @@ export function App() {
   // About / Founder Photo replacement modal
   const [isAboutPhotoModalOpen, setIsAboutPhotoModalOpen] = useState<boolean>(false);
   const [aboutPhotoTarget, setAboutPhotoTarget] = useState<'about' | 'founder'>('about');
+
+  // Supabase Data & Media Migration modal
+  const [isSupabaseMigrationOpen, setIsSupabaseMigrationOpen] = useState<boolean>(false);
 
   // Pause and mute all playing videos immediately whenever user changes page, category, or opens/closes a modal
   useEffect(() => {
@@ -666,6 +670,7 @@ export function App() {
           onOpenCategoryManager={() => openCategoryManager()}
           onOpenAddCategory={() => openCategoryManager('new')}
           onOpenChangePassword={() => setIsChangePasswordModalOpen(true)}
+          onOpenSupabaseMigration={() => setIsSupabaseMigrationOpen(true)}
           onLogout={handleAdminLogout}
         />
       )}
@@ -1212,6 +1217,12 @@ export function App() {
       <DownloadZipModal
         isOpen={isDownloadZipModalOpen}
         onClose={() => setIsDownloadZipModalOpen(false)}
+      />
+
+      {/* Supabase Free Migration Modal */}
+      <SupabaseMigrationModal
+        isOpen={isSupabaseMigrationOpen}
+        onClose={() => setIsSupabaseMigrationOpen(false)}
       />
     </div>
   );
