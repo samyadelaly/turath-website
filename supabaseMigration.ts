@@ -79,7 +79,7 @@ export async function migrateTurathToSupabase(
     report('Migrating categories to Supabase...');
     for (const cat of categories) {
       const catClone = { ...cat };
-      if (catClone.coverImage && catClone.coverImage.startsWith('data:image/')) {
+      if (catClone.coverImage && (catClone.coverImage.startsWith('data:') || catClone.coverImage.startsWith('blob:'))) {
         try {
           catClone.coverImage = await uploadToSupabaseStorage(
             'site-media',
@@ -90,7 +90,7 @@ export async function migrateTurathToSupabase(
           console.warn(`Could not upload cover image for category ${cat.id}:`, e);
         }
       }
-      if (catClone.coverVideoUrl && catClone.coverVideoUrl.startsWith('data:video/')) {
+      if (catClone.coverVideoUrl && (catClone.coverVideoUrl.startsWith('data:') || catClone.coverVideoUrl.startsWith('blob:'))) {
         try {
           catClone.coverVideoUrl = await uploadToSupabaseStorage(
             'product-videos',
@@ -111,8 +111,8 @@ export async function migrateTurathToSupabase(
     for (const prod of products) {
       const prodClone = { ...prod };
 
-      // Upload main image if base64
-      if (prodClone.mainImage && prodClone.mainImage.startsWith('data:image/')) {
+      // Upload main image if base64 or blob
+      if (prodClone.mainImage && (prodClone.mainImage.startsWith('data:') || prodClone.mainImage.startsWith('blob:'))) {
         try {
           prodClone.mainImage = await uploadToSupabaseStorage(
             'product-images',
@@ -124,44 +124,51 @@ export async function migrateTurathToSupabase(
         }
       }
 
-      // Upload gallery images if base64
-      if (Array.isArray(prodClone.images)) {
-        const uploadedImages: string[] = [];
-        for (let i = 0; i < prodClone.images.length; i++) {
-          const img = prodClone.images[i];
-          if (img.startsWith('data:image/')) {
-            try {
-              const url = await uploadToSupabaseStorage(
-                'product-images',
-                `${prodClone.id}/gallery_${i}_${Date.now()}`,
-                img
-              );
-              uploadedImages.push(url);
-            } catch {
-              uploadedImages.push(img);
-            }
-          } else {
+      // Upload gallery images if base64 or blob
+      const rawProdImages = Array.isArray(prodClone.images) ? [...prodClone.images] : (prodClone.mainImage ? [prodClone.mainImage] : []);
+      const uploadedImages: string[] = [];
+      for (let i = 0; i < rawProdImages.length; i++) {
+        const img = rawProdImages[i];
+        if (img && (img.startsWith('data:') || img.startsWith('blob:'))) {
+          try {
+            const url = await uploadToSupabaseStorage(
+              'product-images',
+              `${prodClone.id}/gallery_${i}_${Date.now()}`,
+              img
+            );
+            uploadedImages.push(url);
+          } catch {
             uploadedImages.push(img);
           }
-        }
-        prodClone.images = uploadedImages;
-        if (uploadedImages.length > 0 && (!prodClone.mainImage || prodClone.mainImage.startsWith('data:image/'))) {
-          prodClone.mainImage = uploadedImages[0];
+        } else if (img) {
+          uploadedImages.push(img);
         }
       }
 
-      // Upload product video if base64
-      if (prodClone.videoUrl && prodClone.videoUrl.startsWith('data:video/')) {
+      if (uploadedImages.length > 0) {
+        prodClone.images = uploadedImages;
+        if (!prodClone.mainImage || prodClone.mainImage.startsWith('data:') || prodClone.mainImage.startsWith('blob:')) {
+          prodClone.mainImage = uploadedImages[0];
+        }
+        prodClone.galleryImages = uploadedImages.slice(1);
+      }
+
+      // Upload product video if base64 or blob
+      const rawVideo = prodClone.videoUrl || prodClone.productVideo;
+      if (rawVideo && (rawVideo.startsWith('data:') || rawVideo.startsWith('blob:'))) {
         try {
           const vidUrl = await uploadToSupabaseStorage(
             'product-videos',
             `${prodClone.id}/video_${Date.now()}`,
-            prodClone.videoUrl
+            rawVideo
           );
           prodClone.videoUrl = vidUrl;
           prodClone.productVideo = vidUrl;
         } catch (e) {
           console.warn(`Could not upload video for product ${prod.id}:`, e);
+          // If video failed to upload to storage, avoid sending 20MB base64 to PostgREST to prevent 413 error
+          prodClone.videoUrl = undefined;
+          prodClone.productVideo = undefined;
         }
       }
 

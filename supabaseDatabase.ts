@@ -203,6 +203,137 @@ export async function checkSupabaseSchemaStatus(): Promise<{
   }
 }
 
+export interface SupabaseFullTestResult {
+  isConfigured: boolean;
+  canConnect: boolean;
+  hasTables: boolean;
+  tables: {
+    products: boolean;
+    categories: boolean;
+  };
+  hasBuckets: boolean;
+  buckets: {
+    productImages: boolean;
+    productVideos: boolean;
+    siteMedia: boolean;
+  };
+  uploadPermission: boolean;
+  message: string;
+  error?: string;
+}
+
+/**
+ * Runs a complete diagnostic test on Supabase connection, schema tables, buckets, and upload permissions
+ */
+export async function testSupabaseFullSetup(): Promise<SupabaseFullTestResult> {
+  if (!supabase || !isSupabaseConfigured()) {
+    return {
+      isConfigured: false,
+      canConnect: false,
+      hasTables: false,
+      tables: { products: false, categories: false },
+      hasBuckets: false,
+      buckets: { productImages: false, productVideos: false, siteMedia: false },
+      uploadPermission: false,
+      message: 'لم يتم إدخال مفتاح الاتصال VITE_SUPABASE_PUBLISHABLE_KEY بعد.',
+    };
+  }
+
+  try {
+    // 1. Test database connection & tables
+    const { error: prodErr } = await supabase.from('products').select('id').limit(1);
+    const { error: catErr } = await supabase.from('categories').select('id').limit(1);
+
+    // Check if key is invalid / auth error
+    const authError =
+      (prodErr && (prodErr.code === 'PGRST301' || prodErr.message?.toLowerCase().includes('jwt') || prodErr.message?.toLowerCase().includes('api key'))) ||
+      (catErr && (catErr.code === 'PGRST301' || catErr.message?.toLowerCase().includes('jwt') || catErr.message?.toLowerCase().includes('api key')));
+
+    if (authError) {
+      return {
+        isConfigured: true,
+        canConnect: false,
+        hasTables: false,
+        tables: { products: false, categories: false },
+        hasBuckets: false,
+        buckets: { productImages: false, productVideos: false, siteMedia: false },
+        uploadPermission: false,
+        message: 'مفتاح الاتصال غير صالح أو منتهي الصلاحية. يرجى التأكد من نسخ المفتاح العام (anon public) كاملاً.',
+        error: prodErr?.message || catErr?.message,
+      };
+    }
+
+    const hasProductsTable = !prodErr || !isMissingTableError(prodErr);
+    const hasCategoriesTable = !catErr || !isMissingTableError(catErr);
+    const hasTables = hasProductsTable && hasCategoriesTable;
+
+    // 2. Test storage buckets
+    let hasBuckets = false;
+    const buckets = { productImages: false, productVideos: false, siteMedia: false };
+    try {
+      const { data: bucketList, error: bucketErr } = await supabase.storage.listBuckets();
+      if (!bucketErr && bucketList) {
+        const bucketSet = new Set(bucketList.map((b) => b.id));
+        buckets.productImages = bucketSet.has('product-images');
+        buckets.productVideos = bucketSet.has('product-videos');
+        buckets.siteMedia = bucketSet.has('site-media');
+        hasBuckets = buckets.productImages && buckets.productVideos && buckets.siteMedia;
+      }
+    } catch {
+      // Continue
+    }
+
+    // 3. Test storage upload permissions (RLS policy check)
+    let uploadPermission = false;
+    try {
+      const probeBlob = new Blob(['probe'], { type: 'text/plain' });
+      const probeFile = `_test/probe-${Date.now()}.txt`;
+      const { error: upErr } = await supabase.storage.from('product-images').upload(probeFile, probeBlob, { upsert: true });
+      if (!upErr) {
+        uploadPermission = true;
+        // Clean up immediately
+        await supabase.storage.from('product-images').remove([probeFile]);
+      } else {
+        uploadPermission = false;
+      }
+    } catch {
+      uploadPermission = false;
+    }
+
+    let message = 'فحص المزامنة ممتاز 100%! قاعدة البيانات والمخازن وصلاحيات الرفع جاهزة تماماً.';
+    if (!hasTables) {
+      message = 'الاتصال يعمل ولكن الجداول غير موجودة. اضغط نسخ كود الـ SQL وشغله في Supabase SQL Editor.';
+    } else if (!hasBuckets) {
+      message = 'الجداول جاهزة ولكن أوعية التخزين (Buckets) لم تنشأ بعد. شغل كود مخازن الصور في SQL Editor.';
+    } else if (!uploadPermission) {
+      message = 'الأوعية موجودة ولكن سياسة الأمان (RLS Policy) تمنع الرفع. تأكد من تشغيل كود الـ Policy في SQL Editor.';
+    }
+
+    return {
+      isConfigured: true,
+      canConnect: true,
+      hasTables,
+      tables: { products: hasProductsTable, categories: hasCategoriesTable },
+      hasBuckets,
+      buckets,
+      uploadPermission,
+      message,
+    };
+  } catch (err: any) {
+    return {
+      isConfigured: true,
+      canConnect: false,
+      hasTables: false,
+      tables: { products: false, categories: false },
+      hasBuckets: false,
+      buckets: { productImages: false, productVideos: false, siteMedia: false },
+      uploadPermission: false,
+      message: 'تعذر الاتصال بخادم Supabase. تأكد من اتصال الإنترنت وصحة المفتاح.',
+      error: err?.message || String(err),
+    };
+  }
+}
+
 export async function fetchSupabaseProducts(): Promise<ProductItem[] | null> {
   if (!supabase || !isSupabaseConfigured()) return null;
 
@@ -244,13 +375,13 @@ export async function saveSupabaseProduct(product: ProductItem): Promise<boolean
       if (isMissingTableError(error)) {
         console.warn('[Supabase Database] Table "products" does not exist in schema cache yet (PGRST205). Run supabase_schema.sql in Supabase SQL Editor to enable persistent sync.');
       } else {
-        console.warn('[Supabase Database] saveProduct notice:', error.message || error);
+        console.error('[Supabase Database] saveProduct error:', error.message || error, 'Details:', error.details, 'Hint:', error.hint);
       }
       return false;
     }
     return true;
   } catch (err: any) {
-    console.warn('[Supabase Database] saveProduct exception:', err?.message || err);
+    console.error('[Supabase Database] saveProduct exception:', err?.message || err);
     return false;
   }
 }

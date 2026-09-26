@@ -147,12 +147,28 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
 -- ==============================================================================
 -- STORAGE BUCKETS INITIALIZATION
 -- ==============================================================================
-INSERT INTO storage.buckets (id, name, public)
+INSERT INTO storage.buckets (id, name, public, file_size_limit)
 VALUES 
-  ('product-images', 'product-images', true),
-  ('product-videos', 'product-videos', true),
-  ('site-media', 'site-media', true)
-ON CONFLICT (id) DO UPDATE SET public = true;
+  ('product-images', 'product-images', true, 52428800),
+  ('product-videos', 'product-videos', true, 104857600),
+  ('site-media', 'site-media', true, 52428800)
+ON CONFLICT (id) DO UPDATE SET 
+  public = true,
+  file_size_limit = EXCLUDED.file_size_limit;
+
+-- Enable RLS on storage buckets and objects safely
+DO $$
+BEGIN
+  EXECUTE 'ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY';
+  EXECUTE 'ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END $$;
+
+-- Allow public read of public buckets metadata
+DROP POLICY IF EXISTS "Public read buckets" ON storage.buckets;
+DROP POLICY IF EXISTS "Allow all buckets read" ON storage.buckets;
+CREATE POLICY "Public read buckets" ON storage.buckets FOR SELECT TO public USING (true);
 
 -- ==============================================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
@@ -169,31 +185,64 @@ ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 
 -- Categories RLS
-CREATE POLICY "Public read categories" ON public.categories FOR SELECT USING (true);
-CREATE POLICY "Admin write categories" ON public.categories FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read categories" ON public.categories;
+DROP POLICY IF EXISTS "Admin write categories" ON public.categories;
+CREATE POLICY "Public read categories" ON public.categories FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write categories" ON public.categories FOR ALL TO public USING (true) WITH CHECK (true);
 
 -- Products RLS
-CREATE POLICY "Public read products" ON public.products FOR SELECT USING (true);
-CREATE POLICY "Admin write products" ON public.products FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read products" ON public.products;
+DROP POLICY IF EXISTS "Admin write products" ON public.products;
+CREATE POLICY "Public read products" ON public.products FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write products" ON public.products FOR ALL TO public USING (true) WITH CHECK (true);
 
 -- Product Images RLS
-CREATE POLICY "Public read product_images" ON public.product_images FOR SELECT USING (true);
-CREATE POLICY "Admin write product_images" ON public.product_images FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read product_images" ON public.product_images;
+DROP POLICY IF EXISTS "Admin write product_images" ON public.product_images;
+CREATE POLICY "Public read product_images" ON public.product_images FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write product_images" ON public.product_images FOR ALL TO public USING (true) WITH CHECK (true);
 
 -- Product Videos RLS
-CREATE POLICY "Public read product_videos" ON public.product_videos FOR SELECT USING (true);
-CREATE POLICY "Admin write product_videos" ON public.product_videos FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read product_videos" ON public.product_videos;
+DROP POLICY IF EXISTS "Admin write product_videos" ON public.product_videos;
+CREATE POLICY "Public read product_videos" ON public.product_videos FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write product_videos" ON public.product_videos FOR ALL TO public USING (true) WITH CHECK (true);
 
 -- Site Content RLS
-CREATE POLICY "Public read site_content" ON public.site_content FOR SELECT USING (true);
-CREATE POLICY "Admin write site_content" ON public.site_content FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read site_content" ON public.site_content;
+DROP POLICY IF EXISTS "Admin write site_content" ON public.site_content;
+CREATE POLICY "Public read site_content" ON public.site_content FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write site_content" ON public.site_content FOR ALL TO public USING (true) WITH CHECK (true);
 
 -- Site Settings RLS
-CREATE POLICY "Public read site_settings" ON public.site_settings FOR SELECT USING (true);
-CREATE POLICY "Admin write site_settings" ON public.site_settings FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read site_settings" ON public.site_settings;
+DROP POLICY IF EXISTS "Admin write site_settings" ON public.site_settings;
+CREATE POLICY "Public read site_settings" ON public.site_settings FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write site_settings" ON public.site_settings FOR ALL TO public USING (true) WITH CHECK (true);
 
--- Storage Objects RLS
-CREATE POLICY "Public read storage" ON storage.objects FOR SELECT USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
-CREATE POLICY "Admin upload storage" ON storage.objects FOR INSERT WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
-CREATE POLICY "Admin update storage" ON storage.objects FOR UPDATE USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
-CREATE POLICY "Admin delete storage" ON storage.objects FOR DELETE USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+-- Storage Objects RLS (product-images, product-videos, site-media)
+DROP POLICY IF EXISTS "Public read storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin upload storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin update storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin delete storage" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage select" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage insert" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage update" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage delete" ON storage.objects;
+
+CREATE POLICY "Allow public storage select" ON storage.objects 
+  FOR SELECT TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage insert" ON storage.objects 
+  FOR INSERT TO public 
+  WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage update" ON storage.objects 
+  FOR UPDATE TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'))
+  WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage delete" ON storage.objects 
+  FOR DELETE TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Database, CheckCircle2, AlertCircle, Loader2, UploadCloud, X, Copy, Check, ExternalLink, Code } from 'lucide-react';
-import { isSupabaseConfigured } from './supabase';
+import { Database, CheckCircle2, AlertCircle, Loader2, UploadCloud, X, Copy, Check, ExternalLink, Code, KeyRound, ChevronDown, ChevronUp, Activity, ShieldCheck, RefreshCw } from 'lucide-react';
+import { isSupabaseConfigured, getSupabasePublishableKey, setSupabaseCredentials } from './supabase';
 import { migrateTurathToSupabase, MigrationProgress } from './supabaseMigration';
+import { testSupabaseFullSetup, SupabaseFullTestResult } from './supabaseDatabase';
 
 interface SupabaseMigrationModalProps {
   isOpen: boolean;
@@ -171,28 +172,127 @@ ALTER TABLE public.product_videos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Public read categories" ON public.categories;
+DROP POLICY IF EXISTS "Admin write categories" ON public.categories;
 CREATE POLICY "Public read categories" ON public.categories FOR SELECT USING (true);
 CREATE POLICY "Admin write categories" ON public.categories FOR ALL USING (true) WITH CHECK (true);
 
-CREATE POLICY "Public read products" ON public.products FOR SELECT USING (true);
-CREATE POLICY "Admin write products" ON public.products FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read products" ON public.products;
+DROP POLICY IF EXISTS "Public read products" ON public.products;
+DROP POLICY IF EXISTS "Admin write products" ON public.products;
+CREATE POLICY "Public read products" ON public.products FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write products" ON public.products FOR ALL TO public USING (true) WITH CHECK (true);
 
-CREATE POLICY "Public read product_images" ON public.product_images FOR SELECT USING (true);
-CREATE POLICY "Admin write product_images" ON public.product_images FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read product_images" ON public.product_images;
+DROP POLICY IF EXISTS "Admin write product_images" ON public.product_images;
+CREATE POLICY "Public read product_images" ON public.product_images FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write product_images" ON public.product_images FOR ALL TO public USING (true) WITH CHECK (true);
 
-CREATE POLICY "Public read product_videos" ON public.product_videos FOR SELECT USING (true);
-CREATE POLICY "Admin write product_videos" ON public.product_videos FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read product_videos" ON public.product_videos;
+DROP POLICY IF EXISTS "Admin write product_videos" ON public.product_videos;
+CREATE POLICY "Public read product_videos" ON public.product_videos FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write product_videos" ON public.product_videos FOR ALL TO public USING (true) WITH CHECK (true);
 
-CREATE POLICY "Public read site_content" ON public.site_content FOR SELECT USING (true);
-CREATE POLICY "Admin write site_content" ON public.site_content FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read site_content" ON public.site_content;
+DROP POLICY IF EXISTS "Admin write site_content" ON public.site_content;
+CREATE POLICY "Public read site_content" ON public.site_content FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write site_content" ON public.site_content FOR ALL TO public USING (true) WITH CHECK (true);
 
-CREATE POLICY "Public read site_settings" ON public.site_settings FOR SELECT USING (true);
-CREATE POLICY "Admin write site_settings" ON public.site_settings FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public read site_settings" ON public.site_settings;
+DROP POLICY IF EXISTS "Admin write site_settings" ON public.site_settings;
+CREATE POLICY "Public read site_settings" ON public.site_settings FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write site_settings" ON public.site_settings FOR ALL TO public USING (true) WITH CHECK (true);
 
-CREATE POLICY "Public read storage" ON storage.objects FOR SELECT USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
-CREATE POLICY "Admin upload storage" ON storage.objects FOR INSERT WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
-CREATE POLICY "Admin update storage" ON storage.objects FOR UPDATE USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
-CREATE POLICY "Admin delete storage" ON storage.objects FOR DELETE USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+-- Storage Buckets & Objects RLS
+DO $$
+BEGIN
+  EXECUTE 'ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY';
+  EXECUTE 'ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END $$;
+
+DROP POLICY IF EXISTS "Public read buckets" ON storage.buckets;
+CREATE POLICY "Public read buckets" ON storage.buckets FOR SELECT TO public USING (true);
+
+DROP POLICY IF EXISTS "Public read storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin upload storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin update storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin delete storage" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage select" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage insert" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage update" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage delete" ON storage.objects;
+
+CREATE POLICY "Allow public storage select" ON storage.objects 
+  FOR SELECT TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage insert" ON storage.objects 
+  FOR INSERT TO public 
+  WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage update" ON storage.objects 
+  FOR UPDATE TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'))
+  WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage delete" ON storage.objects 
+  FOR DELETE TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+`;
+
+const STORAGE_ONLY_SQL_SCRIPT = `-- ==============================================================================
+-- 1. إنشاء الـ 3 مخازن (Storage Buckets) للصور والفيديوهات في Supabase
+-- ==============================================================================
+INSERT INTO storage.buckets (id, name, public, file_size_limit)
+VALUES 
+  ('product-images', 'product-images', true, 52428800),
+  ('product-videos', 'product-videos', true, 104857600),
+  ('site-media', 'site-media', true, 52428800)
+ON CONFLICT (id) DO UPDATE SET 
+  public = true,
+  file_size_limit = EXCLUDED.file_size_limit;
+
+-- ==============================================================================
+-- 2. إتاحة الصلاحيات للرفع والقراءة العامة بدون أخطاء RLS
+-- ==============================================================================
+DO $$
+BEGIN
+  EXECUTE 'ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY';
+  EXECUTE 'ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END $$;
+
+DROP POLICY IF EXISTS "Public read buckets" ON storage.buckets;
+CREATE POLICY "Public read buckets" ON storage.buckets FOR SELECT TO public USING (true);
+
+DROP POLICY IF EXISTS "Public read storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin upload storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin update storage" ON storage.objects;
+DROP POLICY IF EXISTS "Admin delete storage" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage select" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage insert" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage update" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public storage delete" ON storage.objects;
+
+CREATE POLICY "Allow public storage select" ON storage.objects 
+  FOR SELECT TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage insert" ON storage.objects 
+  FOR INSERT TO public 
+  WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage update" ON storage.objects 
+  FOR UPDATE TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'))
+  WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
+
+CREATE POLICY "Allow public storage delete" ON storage.objects 
+  FOR DELETE TO public 
+  USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 `;
 
 export const SupabaseMigrationModal: React.FC<SupabaseMigrationModalProps> = ({
@@ -208,15 +308,66 @@ export const SupabaseMigrationModal: React.FC<SupabaseMigrationModalProps> = ({
   });
   const [copiedSql, setCopiedSql] = useState(false);
   const [showSqlDetails, setShowSqlDetails] = useState(false);
+  const [copiedStorageSql, setCopiedStorageSql] = useState(false);
+  const [showStorageDetails, setShowStorageDetails] = useState(false);
+  const [keyInput, setKeyInput] = useState(getSupabasePublishableKey());
+  const [isConfiguredState, setIsConfiguredState] = useState(isSupabaseConfigured());
+  const [keySavedFeedback, setKeySavedFeedback] = useState(false);
+  const [showKeyGuide, setShowKeyGuide] = useState(!isSupabaseConfigured());
+  const [copiedVarName, setCopiedVarName] = useState(false);
+  const [testResult, setTestResult] = useState<SupabaseFullTestResult | null>(null);
+  const [isTesting, setIsTesting] = useState(false);
 
-  const isConfigured = isSupabaseConfigured();
+  const isConfigured = isConfiguredState;
 
   if (!isOpen) return null;
+
+  const handleRunTest = async () => {
+    setIsTesting(true);
+    try {
+      const res = await testSupabaseFullSetup();
+      setTestResult(res);
+    } catch (err: any) {
+      setTestResult({
+        isConfigured: isSupabaseConfigured(),
+        canConnect: false,
+        hasTables: false,
+        tables: { products: false, categories: false },
+        hasBuckets: false,
+        buckets: { productImages: false, productVideos: false, siteMedia: false },
+        uploadPermission: false,
+        message: err?.message || 'تعذر استكمال الفحص.',
+      });
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
+  const handleSaveKey = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!keyInput.trim()) return;
+    const ok = setSupabaseCredentials(keyInput.trim());
+    setIsConfiguredState(ok);
+    setKeySavedFeedback(true);
+    setTimeout(() => setKeySavedFeedback(false), 3000);
+  };
+
+  const handleCopyVarName = () => {
+    navigator.clipboard.writeText('VITE_SUPABASE_PUBLISHABLE_KEY');
+    setCopiedVarName(true);
+    setTimeout(() => setCopiedVarName(false), 2500);
+  };
 
   const handleCopySql = () => {
     navigator.clipboard.writeText(SUPABASE_SQL_SCRIPT);
     setCopiedSql(true);
     setTimeout(() => setCopiedSql(false), 3000);
+  };
+
+  const handleCopyStorageSql = () => {
+    navigator.clipboard.writeText(STORAGE_ONLY_SQL_SCRIPT);
+    setCopiedStorageSql(true);
+    setTimeout(() => setCopiedStorageSql(false), 3000);
   };
 
   const handleStartMigration = async () => {
@@ -288,6 +439,208 @@ export const SupabaseMigrationModal: React.FC<SupabaseMigrationModalProps> = ({
             </p>
           </div>
 
+          {/* Key Input & Setup Guide Box */}
+          <div className="p-4 rounded-lg bg-[#14141c] border border-[#d4c59d]/30 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-[#d4c59d] flex items-center gap-2">
+                <KeyRound className="w-4 h-4 text-[#d4c59d]" />
+                مفتاح Supabase (Anon / Publishable Key)
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowKeyGuide(!showKeyGuide)}
+                className="text-[11px] text-stone-400 hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+              >
+                <span>{showKeyGuide ? 'إخفاء الخطوات' : 'شرح الخطوات'}</span>
+                {showKeyGuide ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveKey} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={keyInput}
+                  onChange={(e) => setKeyInput(e.target.value)}
+                  placeholder="الصق مفتاح anon / public هنا (eyJhbGciOi...)"
+                  className="flex-1 px-3 py-2 text-xs bg-black/70 border border-stone-700 rounded-lg text-white font-mono placeholder:text-stone-600 focus:outline-none focus:border-[#d4c59d] transition-colors"
+                  dir="ltr"
+                />
+                <button
+                  type="submit"
+                  disabled={!keyInput.trim()}
+                  className="px-3.5 py-2 text-xs font-bold text-black bg-[#d4c59d] hover:bg-[#c2b28a] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer flex-shrink-0"
+                >
+                  {keySavedFeedback ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      <span>تم الحفظ!</span>
+                    </>
+                  ) : (
+                    <span>تفعيل فوراً</span>
+                  )}
+                </button>
+              </div>
+              <p className="text-[11px] text-stone-400">
+                يمكنك لصق المفتاح هنا مباشرة لتفعيل المزامنة في هذه الجلسة فوراً دون إعادة نشر الموقع.
+              </p>
+            </form>
+
+            {showKeyGuide && (
+              <div className="p-3 bg-black/50 rounded-lg border border-stone-800 space-y-2.5 text-xs text-stone-300">
+                <div className="font-bold text-[#d4c59d] flex items-center justify-between">
+                  <span>خطوات جلب المفتاح وإضافته:</span>
+                  <a
+                    href="https://supabase.com/dashboard/project/rpyzvhetoviqpjvncqfy/settings/api"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-[#d4c59d] hover:text-white flex items-center gap-1 underline transition-colors"
+                  >
+                    فتح صفحة الـ API في Supabase
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <ol className="list-decimal list-inside space-y-1.5 text-stone-300 text-[11px] leading-relaxed">
+                  <li>
+                    افتح لوحة تحكم مشروعك في <strong>Supabase</strong> ثم اذهب إلى <strong>Settings</strong> ➔ <strong>API</strong>.
+                  </li>
+                  <li>
+                    تحت عنوان <strong>Project API keys</strong>، انسخ قيمة المفتاح المسمى <strong>anon</strong> (public).
+                  </li>
+                  <li>
+                    الصقه في الحقل أعلاه واضغط <strong>«تفعيل فوراً»</strong> للمزامنة المباشرة.
+                  </li>
+                </ol>
+
+                <div className="pt-2 border-t border-stone-800 text-[11px] space-y-1">
+                  <div className="font-bold text-[#e6dcc5]">للتشغيل الدائم على Vercel:</div>
+                  <p className="text-stone-400 leading-relaxed">
+                    1. افتح مشروعك في Vercel ➔ Settings ➔ Environment Variables.
+                  </p>
+                  <div className="flex items-center gap-2 py-1">
+                    <span className="text-stone-400">اسم المتغير:</span>
+                    <code className="px-2 py-0.5 bg-stone-900 border border-stone-700 rounded text-amber-300 font-mono text-[10px]">
+                      VITE_SUPABASE_PUBLISHABLE_KEY
+                    </code>
+                    <button
+                      type="button"
+                      onClick={handleCopyVarName}
+                      className="px-2 py-0.5 rounded bg-stone-800 hover:bg-stone-700 text-stone-300 text-[10px] flex items-center gap-1 cursor-pointer"
+                    >
+                      {copiedVarName ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedVarName ? 'تم النسخ' : 'نسخ الاسم'}</span>
+                    </button>
+                  </div>
+                  <p className="text-stone-400 leading-relaxed">
+                    2. في خانة Value الصق المفتاح الذي نسخته من Supabase ثم اضغط <strong>Save</strong>.
+                  </p>
+                  <p className="text-stone-400 leading-relaxed">
+                    3. اذهب إلى Deployments واضغط <strong>Redeploy</strong> ليعمل بشكل دائم.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Test & Diagnostic Box */}
+          <div className="p-4 rounded-lg bg-[#14141c] border border-cyan-500/30 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-cyan-300 flex items-center gap-2">
+                <Activity className="w-4 h-4 text-cyan-400" />
+                فحص واختبار الجاهزية (Test Supabase)
+              </span>
+              <button
+                type="button"
+                onClick={handleRunTest}
+                disabled={isTesting || progress.status === 'running'}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-300 text-xs font-bold border border-cyan-500/40 transition-colors cursor-pointer disabled:opacity-50"
+              >
+                {isTesting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+                    <span>جاري الفحص...</span>
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>تشغيل فحص شامل</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <p className="text-[11px] text-stone-300 leading-relaxed">
+              يمكنك التحقق فوراً وبضغطة زر واحدة من أن المفتاح والجداول ومخازن الصور وسياسات الأمان (Policies) تعمل بنجاح 100% قبل بدء النقل.
+            </p>
+
+            {testResult && (
+              <div className="p-3 bg-black/60 rounded border border-stone-800 space-y-2.5 text-xs">
+                <div className="grid grid-cols-2 gap-2 text-[11px]">
+                  <div className="flex items-center gap-1.5">
+                    {testResult.canConnect ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
+                    )}
+                    <span className={testResult.canConnect ? 'text-emerald-300' : 'text-stone-400'}>
+                      الاتصال بالسيرفر
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    {testResult.hasTables ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                    )}
+                    <span className={testResult.hasTables ? 'text-emerald-300' : 'text-stone-400'}>
+                      جداول المنتجات والأقسام
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    {testResult.hasBuckets ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                    )}
+                    <span className={testResult.hasBuckets ? 'text-emerald-300' : 'text-stone-400'}>
+                      أوعية الصور (3 Buckets)
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    {testResult.uploadPermission ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                    )}
+                    <span className={testResult.uploadPermission ? 'text-emerald-300' : 'text-stone-400'}>
+                      صلاحيات الرفع (Policies)
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  className={`p-2.5 rounded text-[11px] leading-relaxed ${
+                    testResult.canConnect && testResult.hasTables && testResult.hasBuckets && testResult.uploadPermission
+                      ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
+                      : 'bg-amber-950/40 border border-amber-500/40 text-amber-300'
+                  }`}
+                >
+                  <p className="font-bold flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 flex-shrink-0" />
+                    {testResult.message}
+                  </p>
+                  {testResult.error && (
+                    <p className="mt-1 text-[10px] text-red-300 font-mono">{testResult.error}</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* SQL Setup Helper */}
           <div className="p-4 rounded-lg bg-[#111116] border border-[#d4c59d]/30 space-y-3">
             <div className="flex items-center justify-between">
@@ -343,6 +696,73 @@ export const SupabaseMigrationModal: React.FC<SupabaseMigrationModalProps> = ({
             )}
           </div>
 
+          {/* Storage Buckets Setup Card */}
+          <div className="p-4 rounded-lg bg-[#111116] border border-amber-500/30 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-amber-300 flex items-center gap-2">
+                <Database className="w-4 h-4 text-amber-400" />
+                مخازن الصور والفيديوهات (Storage Buckets)
+              </span>
+              <a
+                href="https://supabase.com/dashboard/project/rpyzvhetoviqpjvncqfy/storage/buckets"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[11px] text-amber-300 hover:text-white flex items-center gap-1 underline transition-colors"
+              >
+                فتح Storage في Supabase
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+            <p className="text-[11px] text-stone-300 leading-relaxed">
+              لحفظ ورفع الصور والفيديوهات، يحتاج Supabase إلى إنشاء <strong className="text-white">3 أوعية تخزين عامة (Public Buckets)</strong>:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
+              <div className="p-2 bg-black/50 border border-stone-800 rounded">
+                <span className="font-mono text-emerald-400 block font-bold">product-images</span>
+                <span className="text-stone-400 text-[10px]">لصور المنتجات والمعرض</span>
+              </div>
+              <div className="p-2 bg-black/50 border border-stone-800 rounded">
+                <span className="font-mono text-emerald-400 block font-bold">product-videos</span>
+                <span className="text-stone-400 text-[10px]">لفيديوهات المنتجات والأقسام</span>
+              </div>
+              <div className="p-2 bg-black/50 border border-stone-800 rounded">
+                <span className="font-mono text-emerald-400 block font-bold">site-media</span>
+                <span className="text-stone-400 text-[10px]">لصور من نحن واللوجو</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 pt-1">
+              <button
+                type="button"
+                onClick={handleCopyStorageSql}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 text-xs font-bold border border-amber-500/40 transition-colors cursor-pointer"
+              >
+                {copiedStorageSql ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-emerald-400">تم نسخ كود الـ Buckets والصلاحيات!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>نسخ كود SQL لإنشاء وتفعيل الـ Buckets</span>
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowStorageDetails(!showStorageDetails)}
+                className="text-[11px] text-stone-400 hover:text-white underline cursor-pointer"
+              >
+                {showStorageDetails ? 'إخفاء' : 'معاينة'}
+              </button>
+            </div>
+            {showStorageDetails && (
+              <pre className="p-3 bg-black/60 rounded text-[10px] text-amber-200/90 font-mono max-h-36 overflow-y-auto whitespace-pre-wrap border border-stone-800">
+                {STORAGE_ONLY_SQL_SCRIPT}
+              </pre>
+            )}
+          </div>
+
           {/* Progress Section */}
           {progress.status === 'running' && (
             <div className="space-y-3">
@@ -383,30 +803,51 @@ export const SupabaseMigrationModal: React.FC<SupabaseMigrationModalProps> = ({
           )}
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex items-center justify-between gap-3 pt-2">
             <button
-              onClick={onClose}
-              className="px-4 py-2 text-xs font-bold text-stone-300 hover:text-white transition-colors cursor-pointer"
+              type="button"
+              onClick={handleRunTest}
+              disabled={isTesting || progress.status === 'running'}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-stone-900 hover:bg-stone-800 text-cyan-400 hover:text-cyan-300 text-xs font-bold border border-cyan-500/30 transition-all cursor-pointer disabled:opacity-50"
             >
-              إغلاق
-            </button>
-            <button
-              onClick={handleStartMigration}
-              disabled={progress.status === 'running'}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs transition-all shadow-md cursor-pointer"
-            >
-              {progress.status === 'running' ? (
+              {isTesting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>جاري النقل...</span>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+                  <span>جاري الفحص...</span>
                 </>
               ) : (
                 <>
-                  <UploadCloud className="w-4 h-4" />
-                  <span>بدء النقل والمزامنة</span>
+                  <Activity className="w-3.5 h-3.5" />
+                  <span>فحص واختبار (Test)</span>
                 </>
               )}
             </button>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 text-xs font-bold text-stone-300 hover:text-white transition-colors cursor-pointer"
+              >
+                إغلاق
+              </button>
+              <button
+                onClick={handleStartMigration}
+                disabled={progress.status === 'running'}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs transition-all shadow-md cursor-pointer"
+              >
+                {progress.status === 'running' ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>جاري النقل...</span>
+                  </>
+                ) : (
+                  <>
+                    <UploadCloud className="w-4 h-4" />
+                    <span>بدء النقل والمزامنة</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

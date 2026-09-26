@@ -787,8 +787,8 @@ export async function saveCloudProduct(product: ProductItem): Promise<void> {
     try {
       let finalProduct = { ...product };
 
-      // Check if mainImage is Base64 -> upload to Supabase Storage
-      if (finalProduct.mainImage && finalProduct.mainImage.startsWith('data:image/')) {
+      // Check if mainImage is Base64 or Blob -> upload to Supabase Storage
+      if (finalProduct.mainImage && (finalProduct.mainImage.startsWith('data:') || finalProduct.mainImage.startsWith('blob:'))) {
         try {
           const uploadedUrl = await uploadToSupabaseStorage(
             'product-images',
@@ -796,62 +796,80 @@ export async function saveCloudProduct(product: ProductItem): Promise<void> {
             finalProduct.mainImage
           );
           finalProduct.mainImage = uploadedUrl;
-        } catch (upErr) {
-          console.warn('[Supabase Storage] Failed to upload main image, preserving current string:', upErr);
+        } catch (upErr: any) {
+          console.error('[Supabase Storage] Failed to upload main image:', upErr);
+          throw new Error(`تعذر حفظ الصورة الرئيسية في Supabase: ${upErr?.message || upErr}`);
         }
       }
 
-      // Check gallery images -> upload to Supabase Storage if base64
-      if (Array.isArray(finalProduct.images)) {
-        const uploadedImages: string[] = [];
-        for (let i = 0; i < finalProduct.images.length; i++) {
-          const img = finalProduct.images[i];
-          if (img.startsWith('data:image/')) {
-            try {
-              const url = await uploadToSupabaseStorage(
-                'product-images',
-                `${finalProduct.id}/gallery_${i}_${Date.now()}`,
-                img
-              );
-              uploadedImages.push(url);
-            } catch {
-              uploadedImages.push(img);
-            }
-          } else {
+      // Check gallery images -> upload to Supabase Storage if base64 or blob
+      const rawImages = Array.isArray(finalProduct.images) ? [...finalProduct.images] : (finalProduct.mainImage ? [finalProduct.mainImage] : []);
+      const uploadedImages: string[] = [];
+      for (let i = 0; i < rawImages.length; i++) {
+        const img = rawImages[i];
+        if (img && (img.startsWith('data:') || img.startsWith('blob:'))) {
+          try {
+            const url = await uploadToSupabaseStorage(
+              'product-images',
+              `${finalProduct.id}/gallery_${i}_${Date.now()}`,
+              img
+            );
+            uploadedImages.push(url);
+          } catch (imgErr) {
+            console.warn(`[Supabase Storage] Failed to upload gallery image ${i}:`, imgErr);
             uploadedImages.push(img);
           }
-        }
-        finalProduct.images = uploadedImages;
-        if (uploadedImages.length > 0 && (!finalProduct.mainImage || finalProduct.mainImage.startsWith('data:image/'))) {
-          finalProduct.mainImage = uploadedImages[0];
+        } else if (img) {
+          uploadedImages.push(img);
         }
       }
 
-      // Check product video -> upload to Supabase Storage if base64
-      if (finalProduct.videoUrl && finalProduct.videoUrl.startsWith('data:video/')) {
+      if (uploadedImages.length > 0) {
+        finalProduct.images = uploadedImages;
+        if (!finalProduct.mainImage || finalProduct.mainImage.startsWith('data:') || finalProduct.mainImage.startsWith('blob:')) {
+          finalProduct.mainImage = uploadedImages[0];
+        }
+        finalProduct.galleryImages = uploadedImages.slice(1);
+      }
+
+      // Check product video -> upload to Supabase Storage if base64 or blob
+      const rawVideo = finalProduct.videoUrl || finalProduct.productVideo;
+      if (rawVideo && (rawVideo.startsWith('data:') || rawVideo.startsWith('blob:'))) {
+        // Save locally to IndexedDB immediately so user never loses their video
+        saveLocalProductVideo(finalProduct.id, rawVideo).catch(() => {});
         try {
           const uploadedVideoUrl = await uploadToSupabaseStorage(
             'product-videos',
             `${finalProduct.id}/video_${Date.now()}`,
-            finalProduct.videoUrl
+            rawVideo
           );
           finalProduct.videoUrl = uploadedVideoUrl;
           finalProduct.productVideo = uploadedVideoUrl;
-        } catch (vidErr) {
-          console.warn('[Supabase Storage] Failed to upload video, keeping current format:', vidErr);
+        } catch (vidErr: any) {
+          console.error('[Supabase Storage] Failed to upload video:', vidErr);
+          // Video upload failed to storage; do not keep multi-megabyte string in row to avoid PostgREST 413
+          finalProduct.videoUrl = undefined;
+          finalProduct.productVideo = undefined;
+          throw new Error(`تعذر حفظ الفيديو في مخزن Supabase: ${vidErr?.message || vidErr}. تأكد من إنشاء وعاء product-videos في Supabase Storage وجعله Public.`);
         }
       }
 
       const savedOk = await saveSupabaseProduct(finalProduct);
       if (savedOk) {
         console.log(`[Supabase] Successfully saved product ${finalProduct.id} to Supabase database.`);
+      } else {
+        throw new Error(`تعذر حفظ سجل المنتج في جدول products بـ Supabase. تأكد من تهيئة الجداول عبر supabase_schema.sql.`);
       }
+
       // Update local object to reflect uploaded URLs
       product.mainImage = finalProduct.mainImage;
       product.images = finalProduct.images;
+      product.galleryImages = finalProduct.galleryImages;
       product.videoUrl = finalProduct.videoUrl;
-    } catch (supErr) {
-      console.warn('[Supabase] Notice: Could not sync to Supabase database at this time:', supErr);
+      product.productVideo = finalProduct.productVideo;
+    } catch (supErr: any) {
+      console.error('[Supabase] Save error:', supErr);
+      throw supErr;
     }
   }
 
@@ -1260,7 +1278,7 @@ export async function saveCloudCategory(category: ProductCategoryInfo): Promise<
   // If Supabase is configured, upload cover image/video to Supabase Storage if Base64
   if (isSupabaseConfigured()) {
     try {
-      if (typeof clone.coverImage === 'string' && clone.coverImage.startsWith('data:image/')) {
+      if (typeof clone.coverImage === 'string' && (clone.coverImage.startsWith('data:') || clone.coverImage.startsWith('blob:'))) {
         try {
           const url = await uploadToSupabaseStorage('site-media', `categories/${clone.id}/cover_${Date.now()}`, clone.coverImage);
           clone.coverImage = url;
@@ -1268,7 +1286,7 @@ export async function saveCloudCategory(category: ProductCategoryInfo): Promise<
           console.warn(`[Supabase Storage] Cover image upload fallback for ${clone.id}:`, covImgErr);
         }
       }
-      if (typeof clone.coverVideoUrl === 'string' && clone.coverVideoUrl.startsWith('data:video/')) {
+      if (typeof clone.coverVideoUrl === 'string' && (clone.coverVideoUrl.startsWith('data:') || clone.coverVideoUrl.startsWith('blob:'))) {
         try {
           const url = await uploadToSupabaseStorage('product-videos', `categories/${clone.id}/video_${Date.now()}`, clone.coverVideoUrl);
           clone.coverVideoUrl = url;
