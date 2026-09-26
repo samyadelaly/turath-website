@@ -73,6 +73,8 @@ export interface SiteContent {
   contactEmail: string;
   contactAddress: string;
   contactHours: string;
+  contactFacebook?: string;
+  contactInstagram?: string;
 
   // Structured component helpers (derived or custom)
   hero?: {
@@ -105,10 +107,47 @@ export interface SiteContent {
     email: string;
     address: string;
     hours: string;
+    facebook?: string;
+    instagram?: string;
   };
 }
 
 export const DEFAULT_ABOUT_IMAGE = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80';
+
+export const TURATH_FACEBOOK_URL = 'https://www.facebook.com/Egyptian.Turath';
+export const TURATH_INSTAGRAM_URL = 'https://www.instagram.com/turath_egypt';
+
+export function sanitizeFacebookUrl(url?: string | null): string {
+  if (!url || typeof url !== 'string') return TURATH_FACEBOOK_URL;
+  const trimmed = url.trim();
+  if (
+    !trimmed ||
+    trimmed.includes('turath.egypt') ||
+    trimmed === 'https://www.facebook.com' ||
+    trimmed === 'https://www.facebook.com/' ||
+    trimmed === 'https://facebook.com' ||
+    trimmed.endsWith('Egyptian.Turath/')
+  ) {
+    return TURATH_FACEBOOK_URL;
+  }
+  return trimmed;
+}
+
+export function sanitizeInstagramUrl(url?: string | null): string {
+  if (!url || typeof url !== 'string') return TURATH_INSTAGRAM_URL;
+  const trimmed = url.trim();
+  if (
+    !trimmed ||
+    trimmed.includes('turath.egypt') ||
+    trimmed === 'https://www.instagram.com' ||
+    trimmed === 'https://www.instagram.com/' ||
+    trimmed === 'https://instagram.com' ||
+    trimmed.endsWith('turath_egypt/')
+  ) {
+    return TURATH_INSTAGRAM_URL;
+  }
+  return trimmed;
+}
 
 export function ensureSiteContentSections(data: Partial<SiteContent>): SiteContent {
   const merged = { ...DEFAULT_BASE_SITE_CONTENT, ...data };
@@ -233,7 +272,9 @@ export function ensureSiteContentSections(data: Partial<SiteContent>): SiteConte
       email: merged.contactEmail,
       address: merged.contactAddress,
       hours: merged.contactHours,
-      ...(data.contact || {}),
+      ...rawContact,
+      facebook: sanitizeFacebookUrl(rawContact.facebook || merged.contactFacebook),
+      instagram: sanitizeInstagramUrl(rawContact.instagram || merged.contactInstagram),
     },
   };
 }
@@ -317,6 +358,8 @@ const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'whyUs' | 
   contactEmail: 'turath.egypt@gmail.com',
   contactAddress: 'Gamaliya Street, Historic Cairo, Egypt',
   contactHours: 'Saturday – Thursday: 9:00 AM – 7:00 PM (GMT+2)',
+  contactFacebook: 'https://www.facebook.com/Egyptian.Turath',
+  contactInstagram: 'https://www.instagram.com/turath_egypt',
 };
 
 export const DEFAULT_SITE_CONTENT: SiteContent = ensureSiteContentSections(DEFAULT_BASE_SITE_CONTENT);
@@ -326,10 +369,17 @@ const SITE_CONTENT_STORAGE_KEY = 'turath_site_content_v2';
 export function getStoredSiteContent(): SiteContent {
   if (typeof window === 'undefined') return DEFAULT_SITE_CONTENT;
   try {
-    const raw = localStorage.getItem(SITE_CONTENT_STORAGE_KEY);
+    const raw = localStorage.getItem(SITE_CONTENT_STORAGE_KEY) || localStorage.getItem('turath_site_content');
     if (!raw) return DEFAULT_SITE_CONTENT;
     const parsed = JSON.parse(raw);
-    return ensureSiteContentSections(parsed);
+    const enriched = ensureSiteContentSections(parsed);
+    // Write back sanitized object to localStorage so stale/broken URLs are permanently eliminated
+    try {
+      localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(enriched));
+    } catch {
+      // ignore storage quota error
+    }
+    return enriched;
   } catch (err) {
     console.warn('Could not read stored site content from localStorage:', err);
     return DEFAULT_SITE_CONTENT;

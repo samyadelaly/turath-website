@@ -14,11 +14,13 @@ import {
   Image as ImageIcon,
   Download,
   Layers,
-  FileText
+  FileText,
+  Facebook,
+  Instagram
 } from 'lucide-react';
 import { ProductCategoryInfo } from './types';
 import { getStoredCategories } from './categoryStorage';
-import { SiteContent, getStoredSiteContent } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
 
 interface FooterProps {
   onNavigate: (view: string, categoryId?: string | null) => void;
@@ -70,6 +72,26 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
             {/* Social / contact buttons with NO border frames */}
             <div className="pt-2 flex items-center gap-3">
+              <a
+                href={sanitizeFacebookUrl(contact.facebook)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                title="Facebook - Turath"
+                aria-label="Facebook Turath"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href={sanitizeInstagramUrl(contact.instagram)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                title="Instagram - Turath"
+                aria-label="Instagram Turath"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
               <a
                 href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}?text=Hello%20Turath%20Egypt`}
                 target="_blank"

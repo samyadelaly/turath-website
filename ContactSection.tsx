@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InquiryFormData } from './types';
-import { SiteContent, getStoredSiteContent } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
 import { trackContact } from './metaPixel';
 import { 
   Send, 
@@ -9,7 +9,9 @@ import {
   MapPin, 
   Clock, 
   CheckCircle2, 
-  MessageCircle 
+  MessageCircle,
+  Facebook,
+  Instagram 
 } from 'lucide-react';
 
 interface ContactSectionProps {
@@ -174,16 +176,40 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
               </div>
 
               {/* Direct WhatsApp Quick Connect in solid color with NO border frame */}
-              <div className="pt-2 border-t border-[#d4c59d]/20">
+              <div className="pt-2 border-t border-[#d4c59d]/20 space-y-2.5">
                 <a
                   href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}?text=Hello%20Turath%20Egypt%2C%20I%20would%20like%20to%20inquire%20about%20your%20brass%20products`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 px-4 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider"
+                  className="w-full py-3 px-4 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider shadow"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Instant WhatsApp Chat ({contact.whatsapp})</span>
                 </a>
+
+                {/* Facebook & Instagram buttons with identical gold brass styling */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  <a
+                    href={sanitizeFacebookUrl(contact.facebook)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 px-3 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"
+                    title="Facebook - Turath Egypt"
+                  >
+                    <Facebook className="w-4 h-4" />
+                    <span>Facebook</span>
+                  </a>
+                  <a
+                    href={sanitizeInstagramUrl(contact.instagram)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 px-3 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"
+                    title="Instagram - Turath Egypt"
+                  >
+                    <Instagram className="w-4 h-4" />
+                    <span>Instagram</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

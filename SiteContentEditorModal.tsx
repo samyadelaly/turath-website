@@ -15,7 +15,7 @@ import {
   Image as ImageIcon,
   Link as LinkIcon
 } from 'lucide-react';
-import { SiteContent, DEFAULT_SITE_CONTENT, DEFAULT_ABOUT_IMAGE } from './siteContentStorage';
+import { SiteContent, DEFAULT_SITE_CONTENT, DEFAULT_ABOUT_IMAGE, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
 import { compressPortraitImage1080x1920 } from './imageCompressor';
 
 interface SiteContentEditorModalProps {
@@ -39,7 +39,11 @@ export const SiteContentEditorModal: React.FC<SiteContentEditorModalProps> = ({
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    setFormData(currentContent);
+    setFormData({
+      ...currentContent,
+      contactFacebook: sanitizeFacebookUrl(currentContent.contactFacebook || currentContent.contact?.facebook),
+      contactInstagram: sanitizeInstagramUrl(currentContent.contactInstagram || currentContent.contact?.instagram),
+    });
   }, [currentContent, isOpen]);
 
   if (!isOpen) return null;
@@ -53,7 +57,19 @@ export const SiteContentEditorModal: React.FC<SiteContentEditorModalProps> = ({
     setIsSaving(true);
     setStatusMessage('جاري الحفظ والمزامنة السحابية...');
     try {
-      await onSaveContent(formData);
+      const cleanFb = sanitizeFacebookUrl(formData.contactFacebook);
+      const cleanIg = sanitizeInstagramUrl(formData.contactInstagram);
+      const sanitized: SiteContent = {
+        ...formData,
+        contactFacebook: cleanFb,
+        contactInstagram: cleanIg,
+        contact: {
+          ...(formData.contact || {}),
+          facebook: cleanFb,
+          instagram: cleanIg,
+        },
+      };
+      await onSaveContent(sanitized);
       setStatusMessage('تم حفظ جميع النصوص سحابياً بنجاح! تظهر الآن لجميع الزوار.');
       setTimeout(() => {
         onClose();
@@ -607,6 +623,34 @@ export const SiteContentEditorModal: React.FC<SiteContentEditorModalProps> = ({
                   onChange={(e) => handleChange('contactHours', e.target.value)}
                   className="w-full bg-[#14141c] text-[#f5f0e6] border border-[#d4c59d]/30 rounded-lg px-3 py-2 text-xs"
                 />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-[#9e9174] mb-1">
+                    رابط صفحة فيسبوك (Facebook URL)
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://www.facebook.com/Egyptian.Turath"
+                    value={formData.contactFacebook || ''}
+                    onChange={(e) => handleChange('contactFacebook', e.target.value)}
+                    className="w-full bg-[#14141c] text-[#f5f0e6] border border-[#d4c59d]/30 rounded-lg px-3 py-2 text-xs"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-[#9e9174] mb-1">
+                    رابط حساب انستغرام (Instagram URL)
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://www.instagram.com/turath_egypt"
+                    value={formData.contactInstagram || ''}
+                    onChange={(e) => handleChange('contactInstagram', e.target.value)}
+                    className="w-full bg-[#14141c] text-[#f5f0e6] border border-[#d4c59d]/30 rounded-lg px-3 py-2 text-xs"
+                  />
+                </div>
               </div>
 
               <div>

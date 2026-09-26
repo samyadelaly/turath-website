@@ -215,29 +215,29 @@ END $$;
 DROP POLICY IF EXISTS "Public read buckets" ON storage.buckets;
 CREATE POLICY "Public read buckets" ON storage.buckets FOR SELECT TO public USING (true);
 
-DROP POLICY IF EXISTS "Public read storage" ON storage.objects;
-DROP POLICY IF EXISTS "Admin upload storage" ON storage.objects;
-DROP POLICY IF EXISTS "Admin update storage" ON storage.objects;
-DROP POLICY IF EXISTS "Admin delete storage" ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_select ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_insert ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_update ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_delete ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage select" ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage insert" ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage update" ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage delete" ON storage.objects;
 
-CREATE POLICY "Allow public storage select" ON storage.objects 
+CREATE POLICY storage_allow_select ON storage.objects 
   FOR SELECT TO public 
   USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 
-CREATE POLICY "Allow public storage insert" ON storage.objects 
+CREATE POLICY storage_allow_insert ON storage.objects 
   FOR INSERT TO public 
   WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 
-CREATE POLICY "Allow public storage update" ON storage.objects 
+CREATE POLICY storage_allow_update ON storage.objects 
   FOR UPDATE TO public 
   USING (bucket_id IN ('product-images', 'product-videos', 'site-media'))
   WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 
-CREATE POLICY "Allow public storage delete" ON storage.objects 
+CREATE POLICY storage_allow_delete ON storage.objects 
   FOR DELETE TO public 
   USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 `;
@@ -268,29 +268,29 @@ END $$;
 DROP POLICY IF EXISTS "Public read buckets" ON storage.buckets;
 CREATE POLICY "Public read buckets" ON storage.buckets FOR SELECT TO public USING (true);
 
-DROP POLICY IF EXISTS "Public read storage" ON storage.objects;
-DROP POLICY IF EXISTS "Admin upload storage" ON storage.objects;
-DROP POLICY IF EXISTS "Admin update storage" ON storage.objects;
-DROP POLICY IF EXISTS "Admin delete storage" ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_select ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_insert ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_update ON storage.objects;
+DROP POLICY IF EXISTS storage_allow_delete ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage select" ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage insert" ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage update" ON storage.objects;
 DROP POLICY IF EXISTS "Allow public storage delete" ON storage.objects;
 
-CREATE POLICY "Allow public storage select" ON storage.objects 
+CREATE POLICY storage_allow_select ON storage.objects 
   FOR SELECT TO public 
   USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 
-CREATE POLICY "Allow public storage insert" ON storage.objects 
+CREATE POLICY storage_allow_insert ON storage.objects 
   FOR INSERT TO public 
   WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 
-CREATE POLICY "Allow public storage update" ON storage.objects 
+CREATE POLICY storage_allow_update ON storage.objects 
   FOR UPDATE TO public 
   USING (bucket_id IN ('product-images', 'product-videos', 'site-media'))
   WITH CHECK (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 
-CREATE POLICY "Allow public storage delete" ON storage.objects 
+CREATE POLICY storage_allow_delete ON storage.objects 
   FOR DELETE TO public 
   USING (bucket_id IN ('product-images', 'product-videos', 'site-media'));
 `;
