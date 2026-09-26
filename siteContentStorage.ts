@@ -149,146 +149,7 @@ export function sanitizeInstagramUrl(url?: string | null): string {
   return trimmed;
 }
 
-export function ensureSiteContentSections(data: Partial<SiteContent>): SiteContent {
-  const merged = { ...DEFAULT_BASE_SITE_CONTENT, ...data };
-
-  // Populate founder section defaults
-  if (!merged.founderName) merged.founderName = 'SAMY ADEL ABDALLAH';
-  if (!merged.founderRole) merged.founderRole = 'FOUNDER / CREATIVE DIRECTOR';
-  if (!merged.founderTitle || merged.founderTitle === 'From Graphic Design to Metal Craft') {
-    merged.founderTitle = 'FROM GRAPHIC DESIGN & MARKETING TO BRASS & COPPER CRAFTSMANSHIP';
-  }
-  if (!merged.founderParagraph1 || merged.founderParagraph1.includes('Modern Academy')) {
-    merged.founderParagraph1 =
-      'Samy Adel Abdallah, founder of Turath, graduated in Computer Science in 2000 and began his career in marketing.';
-  }
-  if (!merged.founderParagraph2 || merged.founderParagraph2.includes('composition, and visual detail')) {
-    merged.founderParagraph2 =
-      'His creative mindset and passion for design shaped his approach to brass and copper, combining craftsmanship with artistic vision.';
-  }
-  if (!merged.founderParagraph3 || merged.founderParagraph3.includes('beginning a journey that brings together')) {
-    merged.founderParagraph3 =
-      'In 2016, he founded Turath, turning an idea into a journey of creativity, craftsmanship, and Egyptian design.';
-  }
-  merged.founderQuote = '';
-
-  // Ensure About Turath copy is the new brand text
-  if (
-    !merged.aboutTitle ||
-    merged.aboutTitle === 'From Graphic Design to Metal Craft' ||
-    merged.aboutTitle === 'Centuries of Egyptian Metalworking Tradition Reborn'
-  ) {
-    merged.aboutTitle = 'About Turath';
-  }
-  if (
-    !merged.aboutParagraph1 ||
-    merged.aboutParagraph1.startsWith('Samy Adel Abdallah') ||
-    merged.aboutParagraph1.startsWith('Turath was founded in the historic artisan quarter')
-  ) {
-    merged.aboutParagraph1 =
-      'Turath is an Egyptian craftsmanship brand specializing in handcrafted brass and copper products, where traditional metalworking meets creativity and contemporary design.';
-  }
-  if (
-    !merged.aboutParagraph2 ||
-    merged.aboutParagraph2.startsWith('His passion for design') ||
-    merged.aboutParagraph2.startsWith('Every lantern, chandelier, console')
-  ) {
-    merged.aboutParagraph2 =
-      'Founded in Cairo, Turath creates distinctive pieces for residential, hospitality, commercial, and architectural spaces.';
-  }
-  if (
-    !merged.aboutParagraph3 ||
-    merged.aboutParagraph3.startsWith('In 2016, he founded Turath') ||
-    merged.aboutParagraph3.startsWith('Today, Turath supplies')
-  ) {
-    merged.aboutParagraph3 =
-      'From lighting and mirrors to furniture, decorative pieces, and custom metalwork, every creation reflects a balance between craftsmanship, artistic vision, and attention to detail.';
-  }
-
-  const rawAbout = { ...(data.about || {}) };
-  if (
-    rawAbout.title === 'From Graphic Design to Metal Craft' ||
-    rawAbout.title === 'Centuries of Egyptian Metalworking Tradition Reborn'
-  ) {
-    rawAbout.title = 'About Turath';
-  }
-  if (
-    rawAbout.storyPart1 &&
-    (rawAbout.storyPart1.startsWith('Samy Adel Abdallah') ||
-      rawAbout.storyPart1.startsWith('Turath was founded in the historic artisan quarter'))
-  ) {
-    rawAbout.storyPart1 =
-      'Turath is an Egyptian craftsmanship brand specializing in handcrafted brass and copper products, where traditional metalworking meets creativity and contemporary design.';
-  }
-  if (
-    rawAbout.storyPart2 &&
-    (rawAbout.storyPart2.startsWith('His passion for design') ||
-      rawAbout.storyPart2.startsWith('Every lantern, chandelier, console'))
-  ) {
-    rawAbout.storyPart2 =
-      'Founded in Cairo, Turath creates distinctive pieces for residential, hospitality, commercial, and architectural spaces.';
-  }
-  if (
-    !rawAbout.storyPart3 ||
-    rawAbout.storyPart3.startsWith('In 2016, he founded Turath') ||
-    rawAbout.storyPart3.startsWith('Today, Turath supplies')
-  ) {
-    rawAbout.storyPart3 =
-      'From lighting and mirrors to furniture, decorative pieces, and custom metalwork, every creation reflects a balance between craftsmanship, artistic vision, and attention to detail.';
-  }
-
-  // Ensure contact facebook and instagram links are sanitized and strictly updated
-  const rawContact = { ...(data.contact || {}) };
-  const resolvedFacebook = sanitizeFacebookUrl(rawContact.facebook || merged.contactFacebook);
-  const resolvedInstagram = sanitizeInstagramUrl(rawContact.instagram || merged.contactInstagram);
-  merged.contactFacebook = resolvedFacebook;
-  merged.contactInstagram = resolvedInstagram;
-  rawContact.facebook = resolvedFacebook;
-  rawContact.instagram = resolvedInstagram;
-
-  return {
-    ...merged,
-    hero: {
-      badge: merged.heroBadge,
-      headlinePart1: merged.heroTitleLine1,
-      headlineGold: merged.heroTitleHighlight,
-      description: merged.heroDescription,
-      subDescription: merged.heroSubDescription,
-      phone: merged.topPhone,
-      whatsapp: merged.topWhatsApp,
-      ...(data.hero || {}),
-    },
-    about: {
-      title: merged.aboutTitle,
-      storyPart1: merged.aboutParagraph1,
-      storyPart2: merged.aboutParagraph2,
-      storyPart3: merged.aboutParagraph3,
-      mission: 'Preserving millennia of Egyptian brass and copper artistry while engineering architectural-grade lighting, decorative metalwork, and bespoke fixtures for the world’s most distinguished spaces.',
-      vision: 'To be the globally recognized benchmark for luxury Egyptian brass, copper, and decorative metal craftsmanship, elevating traditional Gamaliya artisan lineages onto the international architectural stage.',
-      image: merged.aboutImage || DEFAULT_ABOUT_IMAGE,
-      ...rawAbout,
-    },
-    whyUs: {
-      title: merged.whyUsTitle,
-      subtitle: merged.whyUsSubtitle,
-      ...(data.whyUs || {}),
-    },
-    contact: {
-      title: merged.contactTitle,
-      subtitle: merged.contactSubtitle,
-      phone: merged.contactPhone,
-      whatsapp: merged.contactWhatsApp,
-      email: merged.contactEmail,
-      address: merged.contactAddress,
-      hours: merged.contactHours,
-      ...rawContact,
-      facebook: resolvedFacebook,
-      instagram: resolvedInstagram,
-    },
-  };
-}
-
-const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'whyUs' | 'contact'> = {
+export const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'whyUs' | 'contact'> = {
   // Top Banner
   topAnnouncement: '',
   topPhone: '002 01016771010',
@@ -370,6 +231,146 @@ const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'whyUs' | 
   contactFacebook: 'https://www.facebook.com/Egyptian.Turath',
   contactInstagram: 'https://www.instagram.com/turath_egypt',
 };
+
+export function ensureSiteContentSections(data?: Partial<SiteContent> | null): SiteContent {
+  const safeData = data && typeof data === 'object' ? data : {};
+  const merged = { ...DEFAULT_BASE_SITE_CONTENT, ...safeData };
+
+  // Populate founder section defaults
+  if (!merged.founderName) merged.founderName = 'SAMY ADEL ABDALLAH';
+  if (!merged.founderRole) merged.founderRole = 'FOUNDER / CREATIVE DIRECTOR';
+  if (!merged.founderTitle || merged.founderTitle === 'From Graphic Design to Metal Craft') {
+    merged.founderTitle = 'FROM GRAPHIC DESIGN & MARKETING TO BRASS & COPPER CRAFTSMANSHIP';
+  }
+  if (!merged.founderParagraph1 || merged.founderParagraph1.includes('Modern Academy')) {
+    merged.founderParagraph1 =
+      'Samy Adel Abdallah, founder of Turath, graduated in Computer Science in 2000 and began his career in marketing.';
+  }
+  if (!merged.founderParagraph2 || merged.founderParagraph2.includes('composition, and visual detail')) {
+    merged.founderParagraph2 =
+      'His creative mindset and passion for design shaped his approach to brass and copper, combining craftsmanship with artistic vision.';
+  }
+  if (!merged.founderParagraph3 || merged.founderParagraph3.includes('beginning a journey that brings together')) {
+    merged.founderParagraph3 =
+      'In 2016, he founded Turath, turning an idea into a journey of creativity, craftsmanship, and Egyptian design.';
+  }
+  merged.founderQuote = '';
+
+  // Ensure About Turath copy is the new brand text
+  if (
+    !merged.aboutTitle ||
+    merged.aboutTitle === 'From Graphic Design to Metal Craft' ||
+    merged.aboutTitle === 'Centuries of Egyptian Metalworking Tradition Reborn'
+  ) {
+    merged.aboutTitle = 'About Turath';
+  }
+  if (
+    !merged.aboutParagraph1 ||
+    merged.aboutParagraph1.startsWith('Samy Adel Abdallah') ||
+    merged.aboutParagraph1.startsWith('Turath was founded in the historic artisan quarter')
+  ) {
+    merged.aboutParagraph1 =
+      'Turath is an Egyptian craftsmanship brand specializing in handcrafted brass and copper products, where traditional metalworking meets creativity and contemporary design.';
+  }
+  if (
+    !merged.aboutParagraph2 ||
+    merged.aboutParagraph2.startsWith('His passion for design') ||
+    merged.aboutParagraph2.startsWith('Every lantern, chandelier, console')
+  ) {
+    merged.aboutParagraph2 =
+      'Founded in Cairo, Turath creates distinctive pieces for residential, hospitality, commercial, and architectural spaces.';
+  }
+  if (
+    !merged.aboutParagraph3 ||
+    merged.aboutParagraph3.startsWith('In 2016, he founded Turath') ||
+    merged.aboutParagraph3.startsWith('Today, Turath supplies')
+  ) {
+    merged.aboutParagraph3 =
+      'From lighting and mirrors to furniture, decorative pieces, and custom metalwork, every creation reflects a balance between craftsmanship, artistic vision, and attention to detail.';
+  }
+
+  const rawAbout = { ...(safeData.about || {}) };
+  if (
+    rawAbout.title === 'From Graphic Design to Metal Craft' ||
+    rawAbout.title === 'Centuries of Egyptian Metalworking Tradition Reborn'
+  ) {
+    rawAbout.title = 'About Turath';
+  }
+  if (
+    rawAbout.storyPart1 &&
+    (rawAbout.storyPart1.startsWith('Samy Adel Abdallah') ||
+      rawAbout.storyPart1.startsWith('Turath was founded in the historic artisan quarter'))
+  ) {
+    rawAbout.storyPart1 =
+      'Turath is an Egyptian craftsmanship brand specializing in handcrafted brass and copper products, where traditional metalworking meets creativity and contemporary design.';
+  }
+  if (
+    rawAbout.storyPart2 &&
+    (rawAbout.storyPart2.startsWith('His passion for design') ||
+      rawAbout.storyPart2.startsWith('Every lantern, chandelier, console'))
+  ) {
+    rawAbout.storyPart2 =
+      'Founded in Cairo, Turath creates distinctive pieces for residential, hospitality, commercial, and architectural spaces.';
+  }
+  if (
+    !rawAbout.storyPart3 ||
+    rawAbout.storyPart3.startsWith('In 2016, he founded Turath') ||
+    rawAbout.storyPart3.startsWith('Today, Turath supplies')
+  ) {
+    rawAbout.storyPart3 =
+      'From lighting and mirrors to furniture, decorative pieces, and custom metalwork, every creation reflects a balance between craftsmanship, artistic vision, and attention to detail.';
+  }
+
+  // Ensure contact facebook and instagram links are sanitized and strictly updated
+  const rawContact: Partial<NonNullable<SiteContent['contact']>> = { ...(safeData.contact || {}) };
+  const resolvedFacebook = sanitizeFacebookUrl(rawContact.facebook || merged.contactFacebook);
+  const resolvedInstagram = sanitizeInstagramUrl(rawContact.instagram || merged.contactInstagram);
+  merged.contactFacebook = resolvedFacebook;
+  merged.contactInstagram = resolvedInstagram;
+  rawContact.facebook = resolvedFacebook;
+  rawContact.instagram = resolvedInstagram;
+
+  return {
+    ...merged,
+    hero: {
+      badge: merged.heroBadge || '',
+      headlinePart1: merged.heroTitleLine1 || 'Handcrafted Brass & Copper Excellence',
+      headlineGold: merged.heroTitleHighlight || 'from Egypt',
+      description: merged.heroDescription || '',
+      subDescription: merged.heroSubDescription || '',
+      phone: merged.topPhone || '002 01016771010',
+      whatsapp: merged.topWhatsApp || '+20 101 677 1010',
+      ...(safeData.hero || {}),
+    },
+    about: {
+      title: merged.aboutTitle || 'About Turath',
+      storyPart1: merged.aboutParagraph1 || DEFAULT_BASE_SITE_CONTENT.aboutParagraph1,
+      storyPart2: merged.aboutParagraph2 || DEFAULT_BASE_SITE_CONTENT.aboutParagraph2,
+      storyPart3: merged.aboutParagraph3 || DEFAULT_BASE_SITE_CONTENT.aboutParagraph3,
+      mission: 'Preserving millennia of Egyptian brass and copper artistry while engineering architectural-grade lighting, decorative metalwork, and bespoke fixtures for the world’s most distinguished spaces.',
+      vision: 'To be the globally recognized benchmark for luxury Egyptian brass, copper, and decorative metal craftsmanship, elevating traditional Gamaliya artisan lineages onto the international architectural stage.',
+      image: merged.aboutImage || DEFAULT_ABOUT_IMAGE,
+      ...rawAbout,
+    },
+    whyUs: {
+      title: merged.whyUsTitle || 'Why Choose Turath?',
+      subtitle: merged.whyUsSubtitle || DEFAULT_BASE_SITE_CONTENT.whyUsSubtitle,
+      ...(safeData.whyUs || {}),
+    },
+    contact: {
+      title: merged.contactTitle || DEFAULT_BASE_SITE_CONTENT.contactTitle,
+      subtitle: merged.contactSubtitle || DEFAULT_BASE_SITE_CONTENT.contactSubtitle,
+      phone: merged.contactPhone || DEFAULT_BASE_SITE_CONTENT.contactPhone,
+      whatsapp: merged.contactWhatsApp || DEFAULT_BASE_SITE_CONTENT.contactWhatsApp,
+      email: merged.contactEmail || DEFAULT_BASE_SITE_CONTENT.contactEmail,
+      address: merged.contactAddress || DEFAULT_BASE_SITE_CONTENT.contactAddress,
+      hours: merged.contactHours || DEFAULT_BASE_SITE_CONTENT.contactHours,
+      ...rawContact,
+      facebook: resolvedFacebook,
+      instagram: resolvedInstagram,
+    },
+  };
+}
 
 export const DEFAULT_SITE_CONTENT: SiteContent = ensureSiteContentSections(DEFAULT_BASE_SITE_CONTENT);
 

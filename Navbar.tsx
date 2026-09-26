@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { ProductCategoryInfo } from './types';
 import { getStoredCategories } from './categoryStorage';
-import { SiteContent, getStoredSiteContent, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
 
 interface NavbarProps {
   currentView: string;
@@ -55,8 +55,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const activeCategories = (categories || getStoredCategories()).filter((c) => c.id !== 'wall-art');
-  const activeContent = content || getStoredSiteContent();
-  const contact = activeContent.contact;
+  const activeContent = content ? ensureSiteContentSections(content) : getStoredSiteContent();
+  const contact = activeContent.contact || DEFAULT_SITE_CONTENT.contact!;
 
   const handleNavClick = (view: string, categoryId?: string | null) => {
     onNavigate(view, categoryId);
@@ -331,7 +331,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Turath Facebook & Instagram Icons in identical gold styling */}
             <div className="flex items-center gap-1.5">
               <a
-                href={sanitizeFacebookUrl(contact.facebook)}
+                href={sanitizeFacebookUrl(contact.facebook || activeContent.contactFacebook)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors shadow-sm flex items-center justify-center"
@@ -341,7 +341,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <Facebook className="w-3.5 h-3.5" />
               </a>
               <a
-                href={sanitizeInstagramUrl(contact.instagram)}
+                href={sanitizeInstagramUrl(contact.instagram || activeContent.contactInstagram)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors shadow-sm flex items-center justify-center"
@@ -559,7 +559,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mobile Social Links */}
             <div className="grid grid-cols-2 gap-2 pt-1">
               <a
-                href={sanitizeFacebookUrl(contact.facebook)}
+                href={sanitizeFacebookUrl(contact.facebook || activeContent.contactFacebook)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="py-2.5 px-3 rounded bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"
@@ -569,7 +569,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Facebook</span>
               </a>
               <a
-                href={sanitizeInstagramUrl(contact.instagram)}
+                href={sanitizeInstagramUrl(contact.instagram || activeContent.contactInstagram)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="py-2.5 px-3 rounded bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"

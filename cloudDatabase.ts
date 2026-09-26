@@ -14,7 +14,7 @@ import { db } from './firebase';
 import { ProductItem, ProductCategoryInfo } from './types';
 import { INITIAL_PRODUCTS, PRODUCT_CATEGORIES } from './initialCatalog';
 import { DEFAULT_LOGO_URL } from './logoStorage';
-import { SiteContent, DEFAULT_SITE_CONTENT } from './siteContentStorage';
+import { SiteContent, DEFAULT_SITE_CONTENT, ensureSiteContentSections } from './siteContentStorage';
 import { 
   setCategoryCoversCache, 
   setCategoriesListCache, 
@@ -1025,11 +1025,12 @@ export function subscribeToCloudSiteContent(
   if (isSupabaseConfigured()) {
     fetchSupabaseSiteContent().then((content) => {
       if (content) {
+        const enriched = ensureSiteContentSections(content);
         try {
-          localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(content));
+          localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(enriched));
         } catch {}
-        onContentChange(content);
-        window.dispatchEvent(new CustomEvent('turath-site-content-updated', { detail: content }));
+        onContentChange(enriched);
+        window.dispatchEvent(new CustomEvent('turath-site-content-updated', { detail: enriched }));
       }
     }).catch(() => {});
   }
@@ -1042,10 +1043,10 @@ export function subscribeToCloudSiteContent(
       if (snap.exists()) {
         const data = snap.data();
         if (data && typeof data === 'object') {
-          const merged: SiteContent = {
+          const merged = ensureSiteContentSections({
             ...DEFAULT_SITE_CONTENT,
             ...(data as Partial<SiteContent>),
-          };
+          });
           try {
             localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(merged));
           } catch {

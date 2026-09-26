@@ -1,7 +1,6 @@
 import React from 'react';
-import { SiteContent, getStoredSiteContent } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT } from './siteContentStorage';
 import { 
-  Check, 
   Hammer, 
   ShieldCheck, 
   Palette, 
@@ -17,8 +16,8 @@ interface WhyChooseUsSectionProps {
 }
 
 export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content }) => {
-  const activeContent = content || getStoredSiteContent();
-  const whyUs = activeContent.whyUs;
+  const activeContent = content ? ensureSiteContentSections(content) : getStoredSiteContent();
+  const whyUs = activeContent.whyUs || DEFAULT_SITE_CONTENT.whyUs!;
   const points = [
     {
       title: 'Handmade by skilled craftsmen',
@@ -67,11 +66,11 @@ export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content 
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
         <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
           <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
-            {whyUs.title}
+            {whyUs.title || 'Why Choose Turath?'}
           </h2>
 
           <p className="text-sm sm:text-base text-[#d4c59d]">
-            {whyUs.subtitle}
+            {whyUs.subtitle || 'Authentic Egyptian handcrafted brass, copper, and decorative metalwork.'}
           </p>
         </div>
 
@@ -82,21 +81,17 @@ export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content 
             return (
               <div
                 key={pt.title}
-                className="p-6 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-all duration-300 shadow-md group flex flex-col justify-between"
+                className="p-5 sm:p-6 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-all duration-300 shadow-md group flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] group-hover:scale-110 transition-transform">
-                      <Icon className="w-5 h-5" />
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="p-1.5 rounded-md bg-[#d4c59d] text-[#000000] flex-shrink-0 group-hover:scale-105 transition-transform">
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
-                    <span className="w-6 h-6 rounded-full bg-[#d4c59d] text-[#000000] flex items-center justify-center text-xs font-bold">
-                      <Check className="w-3.5 h-3.5 text-[#000000]" />
-                    </span>
+                    <h3 className="font-serif-luxury text-base font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors leading-snug">
+                      {pt.title}
+                    </h3>
                   </div>
-
-                  <h3 className="font-serif-luxury text-base font-bold text-[#f5f0e6] mb-2 group-hover:text-[#d4c59d] transition-colors leading-snug">
-                    {pt.title}
-                  </h3>
 
                   <p className="text-xs text-[#9e9174] leading-relaxed">
                     {pt.desc}

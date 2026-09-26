@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { ProductCategoryInfo } from './types';
 import { getStoredCategories } from './categoryStorage';
-import { SiteContent, getStoredSiteContent, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
 
 interface FooterProps {
   onNavigate: (view: string, categoryId?: string | null) => void;
@@ -52,8 +52,13 @@ export const Footer: React.FC<FooterProps> = ({
   onAdminLogout,
 }) => {
   const activeCategories = categories || getStoredCategories();
-  const activeContent = content || getStoredSiteContent();
-  const contact = activeContent.contact;
+  const activeContent = content ? ensureSiteContentSections(content) : getStoredSiteContent();
+  const contact = activeContent.contact || DEFAULT_SITE_CONTENT.contact!;
+  const whatsappDigits = (contact.whatsapp || activeContent.contactWhatsApp || '201016771010').replace(/[^0-9]/g, '');
+  const phoneDigits = (contact.phone || activeContent.contactPhone || '00201016771010').replace(/\s+/g, '');
+  const emailAddress = contact.email || activeContent.contactEmail || 'turath.egypt@gmail.com';
+  const displayAddress = contact.address || activeContent.contactAddress || 'Gamaliya Street, Historic Cairo, Egypt';
+  const displayPhone = contact.phone || activeContent.contactPhone || '002 01016771010';
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -73,7 +78,7 @@ export const Footer: React.FC<FooterProps> = ({
             {/* Social / contact buttons with NO border frames */}
             <div className="pt-2 flex items-center gap-3">
               <a
-                href={sanitizeFacebookUrl(contact.facebook)}
+                href={sanitizeFacebookUrl(contact.facebook || activeContent.contactFacebook)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
@@ -83,7 +88,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <Facebook className="w-4 h-4" />
               </a>
               <a
-                href={sanitizeInstagramUrl(contact.instagram)}
+                href={sanitizeInstagramUrl(contact.instagram || activeContent.contactInstagram)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
@@ -93,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}?text=Hello%20Turath%20Egypt`}
+                href={`https://wa.me/${whatsappDigits}?text=Hello%20Turath%20Egypt`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
@@ -102,14 +107,14 @@ export const Footer: React.FC<FooterProps> = ({
                 <MessageCircle className="w-4 h-4" />
               </a>
               <a
-                href={`mailto:${contact.email}`}
+                href={`mailto:${emailAddress}`}
                 className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
                 title="Email"
               >
                 <Mail className="w-4 h-4" />
               </a>
               <a
-                href={`tel:${contact.phone.replace(/\s+/g, '')}`}
+                href={`tel:${phoneDigits}`}
                 className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
                 title="Call"
               >
@@ -145,18 +150,18 @@ export const Footer: React.FC<FooterProps> = ({
             <div className="space-y-3 text-xs text-[#9e9174]">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#d4c59d] flex-shrink-0 mt-0.5" />
-                <span>{contact.address}</span>
+                <span>{displayAddress}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-[#d4c59d] flex-shrink-0 mt-0.5" />
-                <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="text-[#f5f0e6] hover:text-[#d4c59d]">
-                  {contact.phone}
+                <a href={`tel:${phoneDigits}`} className="text-[#f5f0e6] hover:text-[#d4c59d]">
+                  {displayPhone}
                 </a>
               </div>
               <div className="flex items-start gap-2.5">
                 <Mail className="w-4 h-4 text-[#d4c59d] flex-shrink-0 mt-0.5" />
-                <a href={`mailto:${contact.email}`} className="text-[#f5f0e6] hover:text-[#d4c59d]">
-                  {contact.email}
+                <a href={`mailto:${emailAddress}`} className="text-[#f5f0e6] hover:text-[#d4c59d]">
+                  {emailAddress}
                 </a>
               </div>
             </div>

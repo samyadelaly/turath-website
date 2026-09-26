@@ -86,8 +86,8 @@ export const TurathLogo: React.FC<TurathLogoProps> = ({
           <span className="font-serif-luxury text-lg md:text-xl font-bold tracking-[0.2em] text-[#d4c59d]">
             TURATH
           </span>
-          <span className="text-[10px] md:text-xs tracking-[0.16em] uppercase text-[#d4c59d]/80 font-medium font-arabic">
-            فخامة النحاس المصري • Gamaliya
+          <span className="text-[10px] md:text-xs tracking-[0.18em] uppercase text-[#d4c59d]/80 font-medium">
+            Devoted to Creativity
           </span>
         </div>
       )}

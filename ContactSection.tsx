@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InquiryFormData } from './types';
-import { SiteContent, getStoredSiteContent, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
 import { trackContact } from './metaPixel';
 import { 
   Send, 
@@ -20,8 +20,15 @@ interface ContactSectionProps {
 }
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, content }) => {
-  const activeContent = content || getStoredSiteContent();
-  const contact = activeContent.contact;
+  const activeContent = content ? ensureSiteContentSections(content) : getStoredSiteContent();
+  const contact = activeContent.contact || DEFAULT_SITE_CONTENT.contact!;
+  const cleanWhatsAppNumber = (contact.whatsapp || activeContent.contactWhatsApp || '201016771010').replace(/[^0-9]/g, '');
+  const cleanPhoneNumber = (contact.phone || activeContent.contactPhone || '00201016771010').replace(/\s+/g, '');
+  const contactEmailAddress = contact.email || activeContent.contactEmail || 'turath.egypt@gmail.com';
+  const contactDisplayAddress = contact.address || activeContent.contactAddress || 'Gamaliya Street, Historic Cairo, Egypt';
+  const contactDisplayHours = contact.hours || activeContent.contactHours || 'Saturday – Thursday: 9:00 AM – 7:00 PM (GMT+2)';
+  const contactDisplayPhone = contact.phone || activeContent.contactPhone || '002 01016771010';
+  const contactDisplayWhatsApp = contact.whatsapp || activeContent.contactWhatsApp || '+20 101 677 1010';
 
   const [formData, setFormData] = useState<InquiryFormData>({
     name: '',
@@ -64,12 +71,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
       `--\nSent via Turath Handcrafted Brass Website`
     );
 
-    window.location.href = `mailto:${contact.email}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${contactEmailAddress}?subject=${subject}&body=${body}`;
   };
 
   const getWhatsAppLink = () => {
-    const cleanNumber = contact.whatsapp.replace(/[^0-9]/g, '');
-    if (!lastSubmission) return `https://wa.me/${cleanNumber}`;
+    if (!lastSubmission) return `https://wa.me/${cleanWhatsAppNumber}`;
     const text = encodeURIComponent(
       `Hello Turath Egypt,\n\nI just submitted an inquiry on your website:\n` +
       `*Name:* ${lastSubmission.name}\n` +
@@ -78,7 +84,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
       (lastSubmission.productName ? `*Piece:* ${lastSubmission.productName}\n` : '') +
       `*Notes:* ${lastSubmission.notes}`
     );
-    return `https://wa.me/${cleanNumber}?text=${text}`;
+    return `https://wa.me/${cleanWhatsAppNumber}?text=${text}`;
   };
 
   return (
@@ -86,11 +92,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
         <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
           <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
-            {contact.title}
+            {contact.title || 'Request a Project Quotation'}
           </h2>
 
           <p className="text-sm sm:text-base text-[#d4c59d]">
-            {contact.subtitle}
+            {contact.subtitle || 'Connect directly with our master craftsmen and engineering team in Cairo.'}
           </p>
         </div>
 
@@ -121,10 +127,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                       Email Address
                     </span>
                     <a
-                      href={`mailto:${contact.email}`}
+                      href={`mailto:${contactEmailAddress}`}
                       className="text-[#f5f0e6] hover:text-[#d4c59d] transition-colors font-medium"
                     >
-                      {contact.email}
+                      {contactEmailAddress}
                     </a>
                   </div>
                 </div>
@@ -138,10 +144,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                       Mobile Number
                     </span>
                     <a
-                      href={`tel:${contact.phone.replace(/\s+/g, '')}`}
+                      href={`tel:${cleanPhoneNumber}`}
                       className="text-[#f5f0e6] hover:text-[#d4c59d] transition-colors font-medium tracking-wide"
                     >
-                      {contact.phone}
+                      {contactDisplayPhone}
                     </a>
                   </div>
                 </div>
@@ -155,7 +161,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                       Workshop & Studio
                     </span>
                     <p className="text-[#f5f0e6]">
-                      {contact.address}
+                      {contactDisplayAddress}
                     </p>
                   </div>
                 </div>
@@ -169,7 +175,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                       Artisan Working Hours
                     </span>
                     <p className="text-[#f5f0e6]">
-                      {contact.hours}
+                      {contactDisplayHours}
                     </p>
                   </div>
                 </div>
@@ -178,19 +184,19 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
               {/* Direct WhatsApp Quick Connect in solid color with NO border frame */}
               <div className="pt-2 border-t border-[#d4c59d]/20 space-y-2.5">
                 <a
-                  href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}?text=Hello%20Turath%20Egypt%2C%20I%20would%20like%20to%20inquire%20about%20your%20brass%20products`}
+                  href={`https://wa.me/${cleanWhatsAppNumber}?text=Hello%20Turath%20Egypt%2C%20I%20would%20like%20to%20inquire%20about%20your%20brass%20products`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-3 px-4 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider shadow"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Instant WhatsApp Chat ({contact.whatsapp})</span>
+                  <span>Instant WhatsApp Chat ({contactDisplayWhatsApp})</span>
                 </a>
 
                 {/* Facebook & Instagram buttons with identical gold brass styling */}
                 <div className="grid grid-cols-2 gap-2.5">
                   <a
-                    href={sanitizeFacebookUrl(contact.facebook)}
+                    href={sanitizeFacebookUrl(contact.facebook || activeContent.contactFacebook)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="py-2.5 px-3 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"
@@ -200,7 +206,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                     <span>Facebook</span>
                   </a>
                   <a
-                    href={sanitizeInstagramUrl(contact.instagram)}
+                    href={sanitizeInstagramUrl(contact.instagram || activeContent.contactInstagram)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="py-2.5 px-3 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"

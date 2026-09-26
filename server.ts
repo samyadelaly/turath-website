@@ -23,8 +23,19 @@ import {
   injectProductSocialMetadata,
 } from "./metaFeed";
 
+function parseCliArg(flag: string): string | undefined {
+  const arg = process.argv.find((a) => a.startsWith(`${flag}=`));
+  if (arg) return arg.split('=')[1];
+  const idx = process.argv.indexOf(flag);
+  if (idx !== -1 && idx + 1 < process.argv.length) {
+    return process.argv[idx + 1];
+  }
+  return undefined;
+}
+
 const app = express();
-const PORT = 3000;
+const PORT = Number(parseCliArg('--port') || parseCliArg('-p') || process.env.PORT || 3000);
+const HOST = parseCliArg('--host') || process.env.HOST || '0.0.0.0';
 
 // Middleware
 app.use(express.json({ limit: '25mb' }));
@@ -444,10 +455,34 @@ async function startServer() {
 
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        hmr: false,
+      },
       appType: 'spa',
     });
     app.use(vite.middlewares);
+
+    // Development catch-all to transform index.html with Vite
+    app.get('*', async (req: Request, res: Response, next: NextFunction) => {
+      if (req.path.startsWith('/api/') || req.path.includes('.')) {
+        return next();
+      }
+      try {
+        const indexHtmlPath = path.resolve(process.cwd(), 'index.html');
+        if (fs.existsSync(indexHtmlPath)) {
+          let template = fs.readFileSync(indexHtmlPath, 'utf-8');
+          template = await vite.transformIndexHtml(req.originalUrl, template);
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+          return res.status(200).send(template);
+        }
+      } catch (err) {
+        vite.ssrFixStacktrace(err as Error);
+        return next(err);
+      }
+      next();
+    });
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     // Serve hashed assets with immutable cache, but never cache HTML
@@ -468,8 +503,19 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[TURATH Server] Running on http://0.0.0.0:${PORT}`);
+  const server = app.listen(PORT, HOST, () => {
+    console.log(`[TURATH Server] Running on http://${HOST}:${PORT}`);
+    console.log(`  ➜  Local:   http://localhost:${PORT}/`);
+    console.log(`  ➜  Network: http://${HOST}:${PORT}/`);
+  });
+
+  server.on('error', (err: NodeJS.ErrnoException) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`[TURATH Server] Port ${PORT} already in use. Exiting cleanly to allow supervisor reload.`);
+      process.exit(1);
+    } else {
+      console.error('[TURATH Server] Fatal server error:', err);
+    }
   });
 }
 

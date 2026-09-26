@@ -222,14 +222,16 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               return (
                 <div
                   key={val.name}
-                  className="p-6 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-all shadow-md group"
+                  className="p-5 sm:p-6 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-all shadow-md group"
                 >
-                  <div className="p-2.5 w-fit rounded-lg bg-[#d4c59d] text-[#000000] mb-4 group-hover:scale-110 transition-transform">
-                    <Icon className="w-5 h-5" />
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="p-1.5 rounded-md bg-[#d4c59d] text-[#000000] flex-shrink-0 group-hover:scale-105 transition-transform">
+                      <Icon className="w-3.5 h-3.5" />
+                    </div>
+                    <h4 className="font-serif-luxury text-base sm:text-lg font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors leading-snug">
+                      {val.name}
+                    </h4>
                   </div>
-                  <h4 className="font-serif-luxury text-lg font-bold text-[#f5f0e6] mb-2 group-hover:text-[#d4c59d] transition-colors">
-                    {val.name}
-                  </h4>
                   <p className="text-xs text-[#9e9174] leading-relaxed">
                     {val.desc}
                   </p>
