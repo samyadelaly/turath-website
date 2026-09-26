@@ -237,6 +237,15 @@ export function ensureSiteContentSections(data: Partial<SiteContent>): SiteConte
       'From lighting and mirrors to furniture, decorative pieces, and custom metalwork, every creation reflects a balance between craftsmanship, artistic vision, and attention to detail.';
   }
 
+  // Ensure contact facebook and instagram links are sanitized and strictly updated
+  const rawContact = { ...(data.contact || {}) };
+  const resolvedFacebook = sanitizeFacebookUrl(rawContact.facebook || merged.contactFacebook);
+  const resolvedInstagram = sanitizeInstagramUrl(rawContact.instagram || merged.contactInstagram);
+  merged.contactFacebook = resolvedFacebook;
+  merged.contactInstagram = resolvedInstagram;
+  rawContact.facebook = resolvedFacebook;
+  rawContact.instagram = resolvedInstagram;
+
   return {
     ...merged,
     hero: {
@@ -273,8 +282,8 @@ export function ensureSiteContentSections(data: Partial<SiteContent>): SiteConte
       address: merged.contactAddress,
       hours: merged.contactHours,
       ...rawContact,
-      facebook: sanitizeFacebookUrl(rawContact.facebook || merged.contactFacebook),
-      instagram: sanitizeInstagramUrl(rawContact.instagram || merged.contactInstagram),
+      facebook: resolvedFacebook,
+      instagram: resolvedInstagram,
     },
   };
 }
@@ -376,6 +385,7 @@ export function getStoredSiteContent(): SiteContent {
     // Write back sanitized object to localStorage so stale/broken URLs are permanently eliminated
     try {
       localStorage.setItem(SITE_CONTENT_STORAGE_KEY, JSON.stringify(enriched));
+      localStorage.removeItem('turath_site_content');
     } catch {
       // ignore storage quota error
     }
