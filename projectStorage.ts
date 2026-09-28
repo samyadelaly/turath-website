@@ -1,10 +1,14 @@
 import { ProjectItem } from './types';
 import { INITIAL_PROJECTS } from './initialProjects';
+import { saveLocalProjectVideo, getLocalProjectVideo, deleteLocalProjectVideo } from './mediaStorage';
 
 const PROJECTS_STORAGE_KEY = 'turath_projects_catalog_v1';
 const DELETED_PROJECTS_KEY = 'turath_deleted_projects_v1';
 const PROJECTS_INDEXED_DB_NAME = 'turath_projects_db';
 const PROJECTS_STORE_NAME = 'projects';
+
+// High-speed In-Memory Cache to prevent flash of empty data and quota wipeouts
+let inMemoryProjectsCache: ProjectItem[] | null = null;
 
 export function getDeletedProjectIds(): Set<string> {
   if (typeof window === 'undefined') return new Set();
@@ -90,52 +94,91 @@ export function normalizeProject(data: Partial<ProjectItem>, fallback?: ProjectI
   };
 }
 
+export function setProjectsCache(projects: ProjectItem[]): void {
+  inMemoryProjectsCache = projects;
+}
+
 export function getStoredProjects(): ProjectItem[] {
+  if (inMemoryProjectsCache && inMemoryProjectsCache.length > 0) {
+    const deleted = getDeletedProjectIds();
+    return inMemoryProjectsCache.filter((p) => !deleted.has(p.id));
+  }
+
   if (typeof window === 'undefined') return INITIAL_PROJECTS;
   const deleted = getDeletedProjectIds();
 
   try {
     const raw = localStorage.getItem(PROJECTS_STORAGE_KEY);
-    if (!raw) {
-      return INITIAL_PROJECTS.filter((p) => !deleted.has(p.id));
-    }
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      const storedMap = new Map<string, ProjectItem>();
-      parsed.forEach((item: any) => {
-        if (item && item.id && !deleted.has(item.id)) {
-          const fallback = INITIAL_PROJECTS.find((p) => p.id === item.id);
-          storedMap.set(item.id, normalizeProject(item, fallback));
-        }
-      });
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        const storedMap = new Map<string, ProjectItem>();
+        parsed.forEach((item: any) => {
+          if (item && item.id && !deleted.has(item.id)) {
+            const fallback = INITIAL_PROJECTS.find((p) => p.id === item.id);
+            storedMap.set(item.id, normalizeProject(item, fallback));
+          }
+        });
 
-      // Merge initial projects that are not deleted and not in storage
-      INITIAL_PROJECTS.forEach((init) => {
-        if (!deleted.has(init.id) && !storedMap.has(init.id)) {
-          storedMap.set(init.id, init);
-        }
-      });
+        // Merge initial projects that are not deleted and not in storage
+        INITIAL_PROJECTS.forEach((init) => {
+          if (!deleted.has(init.id) && !storedMap.has(init.id)) {
+            storedMap.set(init.id, init);
+          }
+        });
 
-      return Array.from(storedMap.values()).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+        const list = Array.from(storedMap.values()).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+        inMemoryProjectsCache = list;
+        return list;
+      }
     }
-    return INITIAL_PROJECTS.filter((p) => !deleted.has(p.id));
   } catch (err) {
     console.warn('[ProjectStorage] Error loading projects from localStorage:', err);
-    return INITIAL_PROJECTS.filter((p) => !deleted.has(p.id));
   }
+
+  const fallbackList = INITIAL_PROJECTS.filter((p) => !deleted.has(p.id));
+  inMemoryProjectsCache = fallbackList;
+  return fallbackList;
+}
+
+/**
+ * Creates a quota-safe clone for localStorage by omitting raw multi-megabyte video base64
+ * (Full pristine data is always stored in IndexedDB and in-memory cache)
+ */
+function createSafeLocalStorageProjects(projects: ProjectItem[]): any[] {
+  return projects.map((p) => {
+    const clone = { ...p };
+    if (clone.videoUrl && clone.videoUrl.startsWith('data:video/')) {
+      clone.videoUrl = '__IDB_VIDEO__';
+    }
+    return clone;
+  });
 }
 
 export function saveStoredProjects(projects: ProjectItem[]): void {
   if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
-  } catch (err) {
-    console.warn('[ProjectStorage] Could not save projects to localStorage (quota?):', err);
-  }
+
+  // 1. Update in-memory cache immediately
+  inMemoryProjectsCache = [...projects];
+
+  // 2. Persist full pristine copy (with full images & videos) to IndexedDB
   saveProjectsToIndexedDB(projects).catch(() => {});
+
+  // 3. Save safe copy to localStorage
+  try {
+    const safePayload = createSafeLocalStorageProjects(projects);
+    localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(safePayload));
+  } catch (err) {
+    console.warn('[ProjectStorage] localStorage quota reached. Preserving in IndexedDB & Memory:', err);
+  }
 }
 
 export function saveProject(project: ProjectItem): ProjectItem[] {
+  // If video is base64, also save into dedicated IDB video store
+  if (project.videoUrl && project.videoUrl.startsWith('data:video/')) {
+    saveLocalProjectVideo(project.id, project.videoUrl).catch(() => {});
+  }
+
   const current = getStoredProjects();
   const normalized = normalizeProject(project);
   const exists = current.some((p) => p.id === normalized.id);
@@ -152,6 +195,9 @@ export function saveProject(project: ProjectItem): ProjectItem[] {
 
 export function deleteProject(projectId: string): ProjectItem[] {
   markProjectDeleted(projectId);
+  deleteLocalProjectVideo(projectId).catch(() => {});
+  deleteProjectFromIndexedDB(projectId).catch(() => {});
+
   const current = getStoredProjects();
   const updated = current.filter((p) => p.id !== projectId);
   saveStoredProjects(updated);
@@ -196,34 +242,75 @@ function openProjectsDB(): Promise<IDBDatabase> {
   });
 }
 
-export async function saveProjectsToIndexedDB(projects: ProjectItem[]): Promise<void> {
+export function saveProjectsToIndexedDB(projects: ProjectItem[]): Promise<void> {
+  return new Promise((resolve) => {
+    openProjectsDB()
+      .then((db) => {
+        try {
+          const tx = db.transaction(PROJECTS_STORE_NAME, 'readwrite');
+          const store = tx.objectStore(PROJECTS_STORE_NAME);
+          store.clear();
+          for (const proj of projects) {
+            store.put(proj);
+          }
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch {
+          resolve();
+        }
+      })
+      .catch(() => resolve());
+  });
+}
+
+export async function deleteProjectFromIndexedDB(projectId: string): Promise<void> {
   try {
     const db = await openProjectsDB();
     const tx = db.transaction(PROJECTS_STORE_NAME, 'readwrite');
-    const store = tx.objectStore(PROJECTS_STORE_NAME);
-    await store.clear();
-    for (const proj of projects) {
-      store.put(proj);
-    }
+    tx.objectStore(PROJECTS_STORE_NAME).delete(projectId);
   } catch {}
 }
 
 export async function loadProjectsFromIndexedDB(): Promise<ProjectItem[] | null> {
   try {
     const db = await openProjectsDB();
-    return new Promise((resolve) => {
-      const tx = db.transaction(PROJECTS_STORE_NAME, 'readonly');
-      const store = tx.objectStore(PROJECTS_STORE_NAME);
-      const req = store.getAll();
-      req.onsuccess = () => {
-        if (Array.isArray(req.result) && req.result.length > 0) {
-          resolve(req.result);
-        } else {
-          resolve(null);
-        }
-      };
-      req.onerror = () => resolve(null);
+    const rawList: ProjectItem[] = await new Promise((resolve) => {
+      try {
+        const tx = db.transaction(PROJECTS_STORE_NAME, 'readonly');
+        const store = tx.objectStore(PROJECTS_STORE_NAME);
+        const req = store.getAll();
+        req.onsuccess = () => {
+          if (Array.isArray(req.result) && req.result.length > 0) {
+            resolve(req.result);
+          } else {
+            resolve([]);
+          }
+        };
+        req.onerror = () => resolve([]);
+      } catch {
+        resolve([]);
+      }
     });
+
+    if (!rawList || rawList.length === 0) return null;
+
+    // Hydrate local video for any project stored with __IDB_VIDEO__ or missing videoUrl
+    const hydrated = await Promise.all(
+      rawList.map(async (proj) => {
+        if (!proj.videoUrl || proj.videoUrl === '__IDB_VIDEO__') {
+          try {
+            const localVid = await getLocalProjectVideo(proj.id);
+            if (localVid) {
+              return { ...proj, videoUrl: localVid };
+            }
+          } catch {}
+        }
+        return proj;
+      })
+    );
+
+    inMemoryProjectsCache = hydrated;
+    return hydrated;
   } catch {
     return null;
   }

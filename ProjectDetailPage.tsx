@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ProjectItem, ProductItem } from './types';
 import { TurathMedia } from "./TurathMedia";
 import { ProjectGalleryModal } from "./ProjectGalleryModal";
+import { getLocalProjectVideo } from './mediaStorage';
 import { 
   Building2, 
   MapPin, 
@@ -40,6 +41,19 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 }) => {
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
+  const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | undefined>(
+    project.videoUrl && project.videoUrl !== '__IDB_VIDEO__' ? project.videoUrl : undefined
+  );
+
+  useEffect(() => {
+    if (project.videoUrl && project.videoUrl !== '__IDB_VIDEO__') {
+      setResolvedVideoUrl(project.videoUrl);
+    } else {
+      getLocalProjectVideo(project.id).then((localVid) => {
+        if (localVid) setResolvedVideoUrl(localVid);
+      });
+    }
+  }, [project.id, project.videoUrl]);
 
   // Dynamic SEO Page Title & Meta tags
   useEffect(() => {
@@ -162,7 +176,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           <TurathMedia
             type={project.mediaType === 'video' ? 'video' : 'image'}
             src={project.coverImage}
-            videoUrl={project.videoUrl}
+            videoUrl={resolvedVideoUrl || project.videoUrl}
             poster={project.videoPoster || project.coverImage}
             ratio={project.coverRatio || 'Original'}
             customWidth={project.coverCustomRatioWidth}
@@ -265,7 +279,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           )}
 
           {/* SECTION 5: PROJECT VIDEO EMBED */}
-          {project.videoUrl && (
+          {(resolvedVideoUrl || project.videoUrl) && (
             <section className="bg-[#0e0d0a] border border-[#d4c59d]/25 rounded-2xl p-6 sm:p-8">
               <div className="flex items-center gap-2.5 text-[#d4c59d] text-xs font-bold uppercase tracking-widest mb-3">
                 <Play className="w-4 h-4" />
@@ -278,7 +292,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               <div className="relative rounded-xl overflow-hidden bg-black border border-[#d4c59d]/30">
                 <TurathMedia
                   type="video"
-                  videoUrl={project.videoUrl}
+                  videoUrl={resolvedVideoUrl || project.videoUrl}
                   poster={project.videoPoster || project.coverImage}
                   ratio={project.videoRatio || '16:9'}
                   customWidth={project.videoCustomRatioWidth}

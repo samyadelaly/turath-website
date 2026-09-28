@@ -12,7 +12,8 @@ import { db } from './firebase';
 const IDB_MEDIA_DB = 'turath_media_db';
 const IDB_CATEGORY_VIDEO_STORE = 'category_videos';
 const IDB_PRODUCT_VIDEO_STORE = 'product_videos';
-const IDB_VERSION = 2;
+const IDB_PROJECT_VIDEO_STORE = 'project_videos';
+const IDB_VERSION = 3;
 
 // 600,000 chars is ~585 KB, safely below Firestore 1,048,576 bytes (1 MiB) limit
 export const FIRESTORE_VIDEO_CHUNK_SIZE = 600000;
@@ -45,6 +46,9 @@ function openMediaDatabase(): Promise<IDBDatabase | null> {
         }
         if (!idb.objectStoreNames.contains(IDB_PRODUCT_VIDEO_STORE)) {
           idb.createObjectStore(IDB_PRODUCT_VIDEO_STORE, { keyPath: 'id' });
+        }
+        if (!idb.objectStoreNames.contains(IDB_PROJECT_VIDEO_STORE)) {
+          idb.createObjectStore(IDB_PROJECT_VIDEO_STORE, { keyPath: 'id' });
         }
       };
       request.onsuccess = () => resolve(request.result);
@@ -171,6 +175,68 @@ export async function deleteLocalProductVideo(productId: string): Promise<void> 
       const tx = dbInst.transaction(IDB_PRODUCT_VIDEO_STORE, 'readwrite');
       const store = tx.objectStore(IDB_PRODUCT_VIDEO_STORE);
       store.delete(productId);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => resolve();
+    } catch {
+      resolve();
+    }
+  });
+}
+
+// ---------------- PROJECT VIDEOS (LOCAL CACHE) ----------------
+
+export async function saveLocalProjectVideo(projectId: string, videoDataUrl: string): Promise<void> {
+  if (!projectId || !videoDataUrl) return;
+  const dbInst = await openMediaDatabase();
+  if (!dbInst) return;
+
+  return new Promise((resolve) => {
+    try {
+      const tx = dbInst.transaction(IDB_PROJECT_VIDEO_STORE, 'readwrite');
+      const store = tx.objectStore(IDB_PROJECT_VIDEO_STORE);
+      store.put({ id: projectId, data: videoDataUrl, updatedAt: Date.now() });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => resolve();
+    } catch {
+      resolve();
+    }
+  });
+}
+
+export async function getLocalProjectVideo(projectId: string): Promise<string | null> {
+  if (!projectId) return null;
+  const dbInst = await openMediaDatabase();
+  if (!dbInst) return null;
+
+  return new Promise((resolve) => {
+    try {
+      const tx = dbInst.transaction(IDB_PROJECT_VIDEO_STORE, 'readonly');
+      const store = tx.objectStore(IDB_PROJECT_VIDEO_STORE);
+      const req = store.get(projectId);
+      req.onsuccess = () => {
+        if (req.result && typeof req.result.data === 'string' && req.result.data.length > 0) {
+          resolve(req.result.data);
+        } else {
+          resolve(null);
+        }
+      };
+      req.onerror = () => resolve(null);
+    } catch {
+      resolve(null);
+    }
+  });
+}
+
+export async function deleteLocalProjectVideo(projectId: string): Promise<void> {
+  if (!projectId) return;
+  const dbInst = await openMediaDatabase();
+  if (!dbInst) return;
+
+  return new Promise((resolve) => {
+    try {
+      const tx = dbInst.transaction(IDB_PROJECT_VIDEO_STORE, 'readwrite');
+      const store = tx.objectStore(IDB_PROJECT_VIDEO_STORE);
+      store.delete(projectId);
       tx.oncomplete = () => resolve();
       tx.onerror = () => resolve();
     } catch {

@@ -219,15 +219,18 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setStatusMessage('Optimizing cover image...');
       try {
-        const compressed = await preserveOriginalUploadedImage(file, 1600, 0.84);
+        const compressed = await preserveOriginalUploadedImage(file, 1600, 0.82);
         setCoverImage(compressed);
+        setStatusMessage(null);
       } catch (err) {
         const reader = new FileReader();
         reader.onload = () => {
           if (typeof reader.result === 'string') {
             setCoverImage(reader.result);
           }
+          setStatusMessage(null);
         };
         reader.readAsDataURL(file);
       }
@@ -236,9 +239,11 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
 
   const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    setStatusMessage(`Processing ${files.length} gallery photo(s)...`);
     for (const file of files) {
       try {
-        const compressed = await preserveOriginalUploadedImage(file, 1600, 0.84);
+        const compressed = await preserveOriginalUploadedImage(file, 1600, 0.82);
         setGallery((prev) => [...prev, compressed]);
       } catch (err) {
         const reader = new FileReader();
@@ -250,6 +255,7 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
         reader.readAsDataURL(file);
       }
     }
+    setStatusMessage(null);
   };
 
   const handleSetGalleryAsCover = (img: string) => {
@@ -264,11 +270,23 @@ export const ProjectEditorModal: React.FC<ProjectEditorModalProps> = ({
   const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 80 * 1024 * 1024) {
+        setStatusMessage('Video file is too large (max 80MB). Please select a compressed MP4 video or paste a YouTube/Vimeo/Cloud link.');
+        return;
+      }
+      setIsSubmitting(true);
+      setStatusMessage('Reading and preparing video file...');
       const reader = new FileReader();
       reader.onload = () => {
         if (typeof reader.result === 'string') {
           setVideoUrl(reader.result);
+          setStatusMessage('Video loaded successfully! Click "Save Project" to store.');
         }
+        setIsSubmitting(false);
+      };
+      reader.onerror = () => {
+        setStatusMessage('Failed to read video file.');
+        setIsSubmitting(false);
       };
       reader.readAsDataURL(file);
     }

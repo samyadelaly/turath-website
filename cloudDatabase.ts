@@ -49,6 +49,9 @@ import {
   deleteCloudProductVideoChunks,
   saveLocalProductVideo,
   getLocalProductVideo,
+  saveLocalProjectVideo,
+  getLocalProjectVideo,
+  deleteLocalProjectVideo,
 } from './mediaStorage';
 import {
   saveSupabaseProduct,
@@ -1514,33 +1517,67 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
   }
 
   // 2. Hydrate from IndexedDB for high-fidelity offline/persistent cache
-  loadProjectsFromIndexedDB().then((idbProjects) => {
+  loadProjectsFromIndexedDB().then(async (idbProjects) => {
     if (Array.isArray(idbProjects) && idbProjects.length > 0) {
       const liveDeleted = getDeletedProjectIds();
       const filtered = idbProjects.filter((p) => !liveDeleted.has(p.id));
       if (filtered.length > 0) {
-        saveStoredProjects(filtered);
-        onProjectsChange(filtered);
+        // Hydrate any local project videos
+        const withVideos = await Promise.all(
+          filtered.map(async (p) => {
+            if (!p.videoUrl || p.videoUrl === '__IDB_VIDEO__') {
+              try {
+                const vid = await getLocalProjectVideo(p.id);
+                if (vid) return { ...p, videoUrl: vid };
+              } catch {}
+            }
+            return p;
+          })
+        );
+        saveStoredProjects(withVideos);
+        onProjectsChange(withVideos);
       }
     }
   }).catch(() => {});
 
   // 3. If Supabase is configured, fetch freshest live projects from Supabase
   if (isSupabaseConfigured()) {
-    fetchSupabaseProjects().then((supProjects) => {
+    fetchSupabaseProjects().then(async (supProjects) => {
       if (Array.isArray(supProjects) && supProjects.length > 0) {
         const liveDeleted = getDeletedProjectIds();
+        const currentProjects = getStoredProjects();
         const mergedMap = new Map<string, ProjectItem>();
-        // Add default/local projects first
-        localProjects.forEach((p) => {
+
+        // Add current local projects first
+        currentProjects.forEach((p) => {
           if (!liveDeleted.has(p.id)) mergedMap.set(p.id, p);
         });
-        // Overlay Supabase authoritative data
-        supProjects.forEach((sp) => {
+
+        // Overlay Supabase authoritative data without wiping richer local media
+        for (const sp of supProjects) {
           if (!liveDeleted.has(sp.id)) {
-            mergedMap.set(sp.id, sp);
+            const existing = mergedMap.get(sp.id);
+            const resolved: ProjectItem = existing
+              ? {
+                  ...sp,
+                  videoUrl: sp.videoUrl || existing.videoUrl,
+                  gallery: (Array.isArray(sp.gallery) && sp.gallery.length > 0) ? sp.gallery : existing.gallery,
+                  coverImage: sp.coverImage || existing.coverImage,
+                }
+              : sp;
+
+            // Check if local video exists in IndexedDB
+            if (!resolved.videoUrl) {
+              try {
+                const localVid = await getLocalProjectVideo(resolved.id);
+                if (localVid) resolved.videoUrl = localVid;
+              } catch {}
+            }
+
+            mergedMap.set(sp.id, resolved);
           }
-        });
+        }
+
         const finalProjects = Array.from(mergedMap.values()).sort(
           (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
         );
@@ -1554,7 +1591,7 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
 
   // 4. Firestore real-time listener
   const colRef = collection(db, PROJECTS_COLLECTION);
-  return onSnapshot(colRef, (snap) => {
+  return onSnapshot(colRef, async (snap) => {
     if (snap.empty) return;
     const currentDeleted = getDeletedProjectIds();
     const loadedMap = new Map<string, ProjectItem>();
@@ -1574,11 +1611,30 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
       current.forEach((p) => {
         if (!currentDeleted.has(p.id)) mergedMap.set(p.id, p);
       });
-      loadedMap.forEach((p, id) => {
+
+      for (const [id, p] of loadedMap.entries()) {
         if (!currentDeleted.has(id)) {
-          mergedMap.set(id, p);
+          const existing = mergedMap.get(id);
+          const resolved: ProjectItem = existing
+            ? {
+                ...p,
+                videoUrl: p.videoUrl || existing.videoUrl,
+                gallery: (Array.isArray(p.gallery) && p.gallery.length > 0) ? p.gallery : existing.gallery,
+                coverImage: p.coverImage || existing.coverImage,
+              }
+            : p;
+
+          if (!resolved.videoUrl) {
+            try {
+              const localVid = await getLocalProjectVideo(id);
+              if (localVid) resolved.videoUrl = localVid;
+            } catch {}
+          }
+
+          mergedMap.set(id, resolved);
         }
-      });
+      }
+
       const finalProjects = Array.from(mergedMap.values()).sort(
         (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
       );
@@ -1595,19 +1651,28 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
   });
 }
 
-export async function saveCloudProject(project: ProjectItem): Promise<void> {
+export async function saveCloudProject(project: ProjectItem): Promise<ProjectItem> {
   let finalProject: ProjectItem = {
     ...project,
     updatedAt: new Date().toISOString(),
   };
 
-  // 1. Always save locally and in IndexedDB first so changes never get lost
+  // 1. If video is raw Base64/blob, immediately save to local IndexedDB
+  if (finalProject.videoUrl && (finalProject.videoUrl.startsWith('data:video/') || finalProject.videoUrl.startsWith('blob:'))) {
+    try {
+      await saveLocalProjectVideo(finalProject.id, finalProject.videoUrl);
+    } catch (vidLocalErr) {
+      console.warn('[MediaStorage] Could not cache project video to IndexedDB:', vidLocalErr);
+    }
+  }
+
+  // 2. Always persist locally and in IndexedDB first
   saveProject(finalProject);
 
-  // 2. Upload media to Supabase Storage if configured
+  // 3. Upload media to Supabase Storage if configured
   if (isSupabaseConfigured()) {
     try {
-      // Cover image
+      // Cover image with fallback bucket support
       if (finalProject.coverImage && (finalProject.coverImage.startsWith('data:') || finalProject.coverImage.startsWith('blob:'))) {
         try {
           const uploadedCover = await uploadToSupabaseStorage(
@@ -1617,11 +1682,21 @@ export async function saveCloudProject(project: ProjectItem): Promise<void> {
           );
           finalProject.coverImage = uploadedCover;
         } catch (coverErr) {
-          console.warn('[Supabase Storage] Notice: Could not upload project cover to storage, saving directly:', coverErr);
+          // Fallback to product-images bucket
+          try {
+            const uploadedFallback = await uploadToSupabaseStorage(
+              'product-images',
+              `projects/${finalProject.id}/cover_${Date.now()}`,
+              finalProject.coverImage
+            );
+            finalProject.coverImage = uploadedFallback;
+          } catch (fbErr) {
+            console.warn('[Supabase Storage] Notice: Could not upload project cover to storage, preserving locally:', fbErr);
+          }
         }
       }
 
-      // Gallery images
+      // Gallery images with fallback bucket support
       if (Array.isArray(finalProject.gallery) && finalProject.gallery.length > 0) {
         const uploadedGallery: string[] = [];
         for (let i = 0; i < finalProject.gallery.length; i++) {
@@ -1635,8 +1710,16 @@ export async function saveCloudProject(project: ProjectItem): Promise<void> {
               );
               uploadedGallery.push(url);
             } catch (gErr) {
-              console.warn(`[Supabase Storage] Gallery upload error for image ${i}:`, gErr);
-              uploadedGallery.push(img);
+              try {
+                const fbUrl = await uploadToSupabaseStorage(
+                  'product-images',
+                  `projects/${finalProject.id}/gallery_${i}_${Date.now()}`,
+                  img
+                );
+                uploadedGallery.push(fbUrl);
+              } catch {
+                uploadedGallery.push(img);
+              }
             }
           } else if (img) {
             uploadedGallery.push(img);
@@ -1645,7 +1728,7 @@ export async function saveCloudProject(project: ProjectItem): Promise<void> {
         finalProject.gallery = uploadedGallery;
       }
 
-      // Video
+      // Video upload to Supabase Storage
       if (finalProject.videoUrl && (finalProject.videoUrl.startsWith('data:') || finalProject.videoUrl.startsWith('blob:'))) {
         try {
           const uploadedVideo = await uploadToSupabaseStorage(
@@ -1655,12 +1738,21 @@ export async function saveCloudProject(project: ProjectItem): Promise<void> {
           );
           finalProject.videoUrl = uploadedVideo;
         } catch (vidErr) {
-          console.warn('[Supabase Storage] Notice: Could not upload project video to storage:', vidErr);
+          console.warn('[Supabase Storage] Notice: Could not upload project video to storage, keeping local:', vidErr);
         }
       }
 
+      // Prepare safe object for Supabase Database row (avoid PostgREST 413 if video is still Base64)
+      const rowProject: ProjectItem = {
+        ...finalProject,
+        videoUrl: (finalProject.videoUrl && (finalProject.videoUrl.startsWith('data:') || finalProject.videoUrl.startsWith('blob:')))
+          ? undefined
+          : finalProject.videoUrl,
+      };
+
       // Save to Supabase table
-      await saveSupabaseProject(finalProject);
+      await saveSupabaseProject(rowProject);
+
       // Re-persist updated URLs locally
       saveProject(finalProject);
     } catch (supErr) {
@@ -1668,15 +1760,14 @@ export async function saveCloudProject(project: ProjectItem): Promise<void> {
     }
   }
 
-  // 3. Firestore update with size protection
+  // 4. Firestore update with size protection
   if (!shouldSkipFirestoreWrite()) {
     try {
       const docRef = doc(db, PROJECTS_COLLECTION, finalProject.id);
       
       // Avoid saving huge raw base64 videos into Firestore document (1MB limit)
       const firestorePayload = { ...finalProject };
-      if (firestorePayload.videoUrl && firestorePayload.videoUrl.startsWith('data:video/')) {
-        // Keep video URL locally and only store reference in Firestore if not yet in storage
+      if (firestorePayload.videoUrl && (firestorePayload.videoUrl.startsWith('data:video/') || firestorePayload.videoUrl.startsWith('blob:'))) {
         delete (firestorePayload as any).videoUrl;
       }
 
@@ -1693,12 +1784,23 @@ export async function saveCloudProject(project: ProjectItem): Promise<void> {
       }
     }
   }
+
+  return finalProject;
 }
 
 export async function deleteCloudProject(projectId: string): Promise<void> {
   // 1. Delete locally and mark permanently deleted immediately
   markProjectDeleted(projectId);
   deleteProject(projectId);
+  deleteLocalProjectVideo(projectId).catch(() => {});
+
+  if (isSupabaseConfigured()) {
+    try {
+      await deleteSupabaseProject(projectId);
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to delete project row:', supErr);
+    }
+  }
 
   // 2. Track deleted ID in cloud metadata so other browsers & devices sync the deletion
   if (!shouldSkipFirestoreWrite()) {

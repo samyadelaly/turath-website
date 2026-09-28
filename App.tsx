@@ -650,7 +650,12 @@ export function App() {
 
     // 2. Sync to cloud and Supabase
     try {
-      await saveCloudProject(projectData);
+      const synced = await saveCloudProject(projectData);
+      if (synced) {
+        const finalList = saveProject(synced);
+        setProjects(finalList);
+        setActiveProjectPage((curr) => (curr && curr.id === synced.id ? synced : curr));
+      }
     } catch (err) {
       console.warn('Failed to sync project to cloud immediately:', err);
     }
