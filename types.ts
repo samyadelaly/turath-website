@@ -180,6 +180,7 @@ export interface ProductCategoryInfo {
   description: string;
   coverImage: string;
   iconName: string;
+  order?: number;
 
   // Unified Dynamic Media Ratio System for Sections/Categories (Image & Video)
   coverMediaType?: 'image' | 'video';
@@ -211,3 +212,72 @@ export interface InquiryFormData {
   productName?: string;
   notes: string;
 }
+
+export type ProjectType =
+  | 'Hotel'
+  | 'Restaurant'
+  | 'Villa'
+  | 'Palace'
+  | 'Residential'
+  | 'Commercial'
+  | 'Retail'
+  | 'Architectural'
+  | 'Custom Project'
+  | 'Other'
+  | string;
+
+export interface ProjectItem {
+  id: string;
+  title: string;
+  titleAR?: string;
+  slug: string;
+  location: string;
+  projectType: ProjectType;
+  year?: string | number;
+  shortDescription?: string;
+  description: string;
+  craftStory?: string;
+  materials: string;
+  finish?: string;
+  workDelivered: string[];
+  customManufacturing?: string;
+
+  // Cover Media
+  coverImage: string;
+  mediaType?: 'image' | 'video';
+  coverRatio?: 'Original' | '1:1' | '4:5' | '3:4' | '16:9' | '4:3' | '16:7' | 'Custom' | string;
+  coverCustomRatioWidth?: number | string;
+  coverCustomRatioHeight?: number | string;
+  coverFit?: 'cover' | 'contain';
+  coverPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | string;
+
+  // Gallery
+  gallery: string[];
+  galleryRatios?: Record<string, string>;
+  galleryFits?: Record<string, 'cover' | 'contain'>;
+  galleryPositions?: Record<string, string>;
+
+  // Project Video
+  videoUrl?: string;
+  videoRatio?: 'Original' | '1:1' | '4:5' | '3:4' | '16:9' | '4:3' | '16:7' | 'Custom' | string;
+  videoCustomRatioWidth?: number | string;
+  videoCustomRatioHeight?: number | string;
+  videoFit?: 'cover' | 'contain';
+  videoPosition?: 'center' | 'top' | 'bottom' | 'left' | 'right' | string;
+  videoPoster?: string;
+
+  // Related Products
+  relatedProductIds?: string[];
+
+  // Publication & Display
+  published: boolean;
+  sortOrder?: number;
+
+  // SEO
+  seoTitle?: string;
+  metaDescription?: string;
+
+  createdAt?: string;
+  updatedAt?: string;
+}
+

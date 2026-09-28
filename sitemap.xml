@@ -1,9 +1,349 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Homepage -->
   <url>
     <loc>https://turath-egypt.vercel.app/</loc>
-    <lastmod>2026-09-11</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://turath-egypt.vercel.app/turath_logo.jpg</image:loc>
+      <image:title>TURATH Egypt - Handcrafted Brass &amp; Copper Excellence</image:title>
+      <image:caption>Authentic handcrafted Egyptian brass, copper, and decorative metalwork from Historic Cairo.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Architectural Projects Portfolio -->
+  <url>
+    <loc>https://turath-egypt.vercel.app/projects</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=1400&amp;q=80</image:loc>
+      <image:title>TURATH Architectural Installations &amp; Landmark Portfolio</image:title>
+      <image:caption>Bespoke luxury hospitality and palace metal installations by TURATH Egypt.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Categories -->
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/mirrors</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Handcrafted Egyptian Brass &amp; Copper Mirrors</image:title>
+      <image:caption>Sunburst, arched, and geometric hand-hammered brass mirrors.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/lighting</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Monumental Pierced Brass Chandeliers &amp; Sconces</image:title>
+      <image:caption>Handcrafted Islamic pierced brass chandeliers and ambient wall lights from Cairo.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/tables</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Hand-Engraved Brass &amp; Copper Tables</image:title>
+      <image:caption>Solid brass structural bases and hand-hammered tray tables paired with marble or glass.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/consoles</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Monumental Handcrafted Brass Consoles</image:title>
+      <image:caption>Solid forged brass frames and intricate geometric aprons paired with Egyptian alabaster.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/vases</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Chiseled Egyptian Brass Floor Vases &amp; Amphoras</image:title>
+      <image:caption>Hand-spun and hand-engraved brass vessels featuring classical Islamic patterns.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/decorative-objects</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Artisan Brass Decorative Objects &amp; Burners</image:title>
+      <image:caption>Ceremonial brass burners (Mabkhara), candleholders, and hand-etched brass trays.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/handles</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Solid Cast Brass Palace Door Pulls &amp; Hardware</image:title>
+      <image:caption>Heavy architectural door pulls, traditional knockers, and bespoke forged brass levers.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/handrails</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Architectural Brass Balustrades &amp; Handrails</image:title>
+      <image:caption>Precision-forged brass handrails, spiral balustrades, and geometric brass guardrails.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/wall-cladding</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Architectural Brass Wall Cladding &amp; Feature Screens</image:title>
+      <image:caption>Custom-engineered brass wall cladding panels, hand-patinated tiles, and mashrabiya brass screens.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/custom-pieces</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Bespoke Custom Architectural Metalwork</image:title>
+      <image:caption>Full custom metal fabrication for architects and interior designers worldwide.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Individual Products with High-Resolution Image tags for Google Images -->
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/mirrors/gamaliya-sunburst-brass-mirror</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>The Gamaliya Sunburst Brass Mirror</image:title>
+      <image:caption>Hand-chiseled radial petals in antique golden brass by master Egyptian coppersmiths in Cairo.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Gamaliya Sunburst Brass Mirror Detail View</image:title>
+      <image:caption>Hand-chiseled brass petals and antique fire patina.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/mirrors/mamluk-arched-mihrab-mirror</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Mamluk Arched Mihrab Mirror</image:title>
+      <image:caption>Arched brass mirror with pierced arabesque crown inspired by historic Cairo palaces.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/lighting/sultan-hassan-monumental-chandelier</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Sultan Hassan Monumental Pierced Chandelier</image:title>
+      <image:caption>Monumental pierced brass chandelier casting ambient Islamic arabesque shadow patterns.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/lighting/al-muizz-grand-geometric-chandelier</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Al-Mu’izz Grand Geometric Brass Chandelier</image:title>
+      <image:caption>Multi-tiered dodecahedron brass chandelier with pierced starry arabesque panels.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/lighting/fatimid-filigree-wall-applique</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Fatimid Filigree Pierced Brass Wall Applique</image:title>
+      <image:caption>Architectural brass sconce projecting warm lace-like shadows on luxury walls.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/tables/bab-zuweila-repousse-brass-table</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Bab Zuweila Repoussé Brass Siniya Table</image:title>
+      <image:caption>Hand-hammered brass tray coffee table on solid folding brass base.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/consoles/al-andalus-fluted-brass-console</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Al-Andalus Fluted Brass Architectural Console</image:title>
+      <image:caption>Hand-forged brass foyer console with fluted tapered legs and Nero Marquina marble.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/handles/citadel-cast-brass-palace-door-pull</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1509644851169-2acc08aa25b5?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Cairo Citadel Cast Brass Palace Door Pull</image:title>
+      <image:caption>Monumental cast solid brass door handle with classical rosettes for grand entries.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/handrails/royal-opera-spiral-brass-balustrade</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Royal Opera Spiral Brass Balustrade &amp; Handrail</image:title>
+      <image:caption>Forged solid brass spindle balustrades and contoured handrails for grand staircases.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/lighting/bayt-al-suhaymi-hanging-lantern</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Bayt Al-Suhaymi Pierced Brass Hanging Lantern</image:title>
+      <image:caption>Hexagonal pierced brass lantern inspired by 17th-century Cairo Ottoman courtyard mansions.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/wall-cladding/mashrabiya-geometric-brass-cladding</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Mashrabiya Geometric Pierced Brass Cladding Panels</image:title>
+      <image:caption>Precision laser-pierced and hand-patinated architectural brass wall panels for luxury spaces.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/custom-pieces/custom-architectural-brass-feature</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Custom Architectural Brass Engineering &amp; Fabrication</image:title>
+      <image:caption>Full bespoke custom metalwork tailored to architectural drawings and CAD models.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/decorative-objects/fatimid-geometric-ceremonial-incense-burner</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Fatimid Geometric Ceremonial Brass Incense Burner (Mabkhara)</image:title>
+      <image:caption>Intricately pierced brass Mabkhara burner for luxury oud and incense ceremonies.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/products/vases/khan-el-khalili-engraved-brass-amphora</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&amp;fit=crop&amp;w=1000&amp;q=80</image:loc>
+      <image:title>Khan el-Khalili Engraved Brass Floor Amphora</image:title>
+      <image:caption>Monumental hand-engraved Egyptian brass floor vase with classical Islamic floral scrollwork.</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Landmark Projects -->
+  <url>
+    <loc>https://turath-egypt.vercel.app/projects/nile-ritz-carlton-presidential-suites</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=1400&amp;q=80</image:loc>
+      <image:title>The Nile Ritz-Carlton Presidential Suites Metalwork</image:title>
+      <image:caption>Custom pierced chandeliers and door hardware for royal suites overlooking the Nile.</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://turath-egypt.vercel.app/projects/bab-al-qasr-royal-majlis</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1400&amp;q=80</image:loc>
+      <image:title>Bab Al-Qasr Palace Private Majlis &amp; Dining Pavilion</image:title>
+      <image:caption>Monumental hand-hammered Siniya tables and architectural brass fit-out in Riyadh.</image:caption>
+    </image:image>
   </url>
 </urlset>

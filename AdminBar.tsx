@@ -11,7 +11,10 @@ import {
   Cloud,
   Type,
   Layers,
-  KeyRound
+  KeyRound,
+  SlidersHorizontal,
+  Building2,
+  Briefcase
 } from 'lucide-react';
 
 interface AdminBarProps {
@@ -20,11 +23,14 @@ interface AdminBarProps {
   onOpenAddCategory?: () => void;
   onOpenEditCategoryCovers: () => void;
   onOpenProductEditor: () => void;
+  onOpenProjectManager?: () => void;
+  onOpenAddProject?: () => void;
   onOpenChangeLogo: () => void;
   onOpenChangeAboutPhoto?: () => void;
   onOpenDownloadZip?: () => void;
   onOpenChangePassword?: () => void;
   onOpenSupabaseMigration?: () => void;
+  onOpenMenuSortModal?: () => void;
   onLogout: () => void;
 }
 
@@ -34,11 +40,14 @@ export const AdminBar: React.FC<AdminBarProps> = ({
   onOpenAddCategory,
   onOpenEditCategoryCovers,
   onOpenProductEditor,
+  onOpenProjectManager,
+  onOpenAddProject,
   onOpenChangeLogo,
   onOpenChangeAboutPhoto,
   onOpenDownloadZip,
   onOpenChangePassword,
   onOpenSupabaseMigration,
+  onOpenMenuSortModal,
   onLogout,
 }) => {
   return (
@@ -98,6 +107,30 @@ export const AdminBar: React.FC<AdminBarProps> = ({
             <span>+ قسم جديد</span>
           </button>
 
+          {/* Manage Projects */}
+          {onOpenProjectManager && (
+            <button
+              onClick={onOpenProjectManager}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1c1912] hover:bg-[#2a261c] text-[#d4c59d] border border-[#d4c59d]/40 text-xs transition-colors cursor-pointer"
+              title="إدارة وتعديل معرض المشاريع والأعمال المنفذة"
+            >
+              <Building2 className="w-3.5 h-3.5 text-amber-400" />
+              <span>إدارة المشاريع</span>
+            </button>
+          )}
+
+          {/* Quick Add Project */}
+          {onOpenAddProject && (
+            <button
+              onClick={onOpenAddProject}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1c1912] hover:bg-[#2a261c] text-[#d4c59d] border border-[#d4c59d]/40 text-xs transition-colors cursor-pointer"
+              title="إضافة مشروع معماري أو فندقي منفذ جديد"
+            >
+              <Plus className="w-3.5 h-3.5 text-amber-400" />
+              <span>+ مشروع جديد</span>
+            </button>
+          )}
+
           {/* Edit Category Covers */}
           <button
             onClick={onOpenEditCategoryCovers}
@@ -117,6 +150,18 @@ export const AdminBar: React.FC<AdminBarProps> = ({
             <Type className="w-3.5 h-3.5 text-amber-400" />
             <span className="hidden md:inline">نصوص الموقع</span>
           </button>
+
+          {/* Sort Navigation Menu */}
+          {onOpenMenuSortModal && (
+            <button
+              onClick={onOpenMenuSortModal}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1c1912] hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/40 text-xs font-bold transition-all cursor-pointer shadow-sm"
+              title="تخصيص وترتيب عناصر القائمة الرئيسية وموقعها"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400" />
+              <span>ترتيب القائمة</span>
+            </button>
+          )}
 
           {/* Change Logo Button */}
           <button

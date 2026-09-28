@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from './supabase';
-import { ProductItem, ProductCategoryInfo } from './types';
+import { ProductItem, ProductCategoryInfo, ProjectItem } from './types';
 import { SiteContent } from './siteContentStorage';
 
 // -----------------------------------------------------------------------------
@@ -642,3 +642,220 @@ export async function saveSupabaseLogo(logoUrl: string): Promise<boolean> {
     return false;
   }
 }
+
+// -----------------------------------------------------------------------------
+// PROJECTS CRUD (SUPABASE)
+// -----------------------------------------------------------------------------
+
+export function mapProjectToSupabaseRow(project: ProjectItem): Record<string, any> {
+  return {
+    id: project.id,
+    title: project.title,
+    title_ar: project.titleAR || null,
+    slug: project.slug,
+    location: project.location,
+    project_type: project.projectType,
+    year: project.year ? String(project.year) : null,
+    short_description: project.shortDescription || null,
+    description: project.description,
+    craft_story: project.craftStory || null,
+    materials: project.materials,
+    finish: project.finish || null,
+    work_delivered: Array.isArray(project.workDelivered) ? project.workDelivered : [],
+    custom_manufacturing: project.customManufacturing || null,
+
+    // Cover Media
+    cover_image: project.coverImage,
+    media_type: project.mediaType || 'image',
+    cover_ratio: project.coverRatio || 'Original',
+    cover_custom_ratio_width: Number(project.coverCustomRatioWidth) || 16,
+    cover_custom_ratio_height: Number(project.coverCustomRatioHeight) || 9,
+    cover_fit: project.coverFit || 'cover',
+    cover_position: project.coverPosition || 'center',
+
+    // Gallery
+    gallery: Array.isArray(project.gallery) ? project.gallery : [],
+    gallery_ratios: project.galleryRatios || {},
+    gallery_fits: project.galleryFits || {},
+    gallery_positions: project.galleryPositions || {},
+
+    // Video
+    video_url: project.videoUrl || null,
+    video_ratio: project.videoRatio || '16:9',
+    video_custom_ratio_width: Number(project.videoCustomRatioWidth) || 16,
+    video_custom_ratio_height: Number(project.videoCustomRatioHeight) || 9,
+    video_fit: project.videoFit || 'cover',
+    video_poster: project.videoPoster || null,
+
+    // Related Products
+    related_product_ids: Array.isArray(project.relatedProductIds) ? project.relatedProductIds : [],
+
+    // Publication & Sort
+    published: Boolean(project.published),
+    sort_order: Number(project.sortOrder) || 0,
+
+    // SEO
+    seo_title: project.seoTitle || null,
+    meta_description: project.metaDescription || null,
+
+    created_at: project.createdAt || new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+}
+
+export function mapSupabaseRowToProject(row: Record<string, any>): ProjectItem {
+  return {
+    id: row.id,
+    title: row.title,
+    titleAR: row.title_ar || undefined,
+    slug: row.slug || row.id,
+    location: row.location || 'Cairo, Egypt',
+    projectType: row.project_type || 'Custom Project',
+    year: row.year || undefined,
+    shortDescription: row.short_description || undefined,
+    description: row.description || '',
+    craftStory: row.craft_story || undefined,
+    materials: row.materials || 'Solid Egyptian Yellow Brass',
+    finish: row.finish || undefined,
+    workDelivered: Array.isArray(row.work_delivered) ? row.work_delivered : [],
+    customManufacturing: row.custom_manufacturing || undefined,
+
+    // Cover Media
+    coverImage: row.cover_image,
+    mediaType: row.media_type || 'image',
+    coverRatio: row.cover_ratio || 'Original',
+    coverCustomRatioWidth: row.cover_custom_ratio_width || 16,
+    coverCustomRatioHeight: row.cover_custom_ratio_height || 9,
+    coverFit: row.cover_fit || 'cover',
+    coverPosition: row.cover_position || 'center',
+
+    // Gallery
+    gallery: Array.isArray(row.gallery) ? row.gallery : [],
+    galleryRatios: row.gallery_ratios || {},
+    galleryFits: row.gallery_fits || {},
+    galleryPositions: row.gallery_positions || {},
+
+    // Video
+    videoUrl: row.video_url || undefined,
+    videoRatio: row.video_ratio || '16:9',
+    videoCustomRatioWidth: row.video_custom_ratio_width || 16,
+    videoCustomRatioHeight: row.video_custom_ratio_height || 9,
+    videoFit: row.video_fit || 'cover',
+    videoPoster: row.video_poster || undefined,
+
+    // Related Products
+    relatedProductIds: Array.isArray(row.related_product_ids) ? row.related_product_ids : [],
+
+    // Publication & Sort
+    published: row.published !== false,
+    sortOrder: row.sort_order || 0,
+
+    // SEO
+    seoTitle: row.seo_title || undefined,
+    metaDescription: row.meta_description || undefined,
+
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export async function fetchSupabaseProjects(): Promise<ProjectItem[] | null> {
+  if (!supabase || !isSupabaseConfigured()) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .order('sort_order', { ascending: true });
+
+    if (error) {
+      if (isMissingTableError(error)) {
+        console.warn('[Supabase Database] Table "projects" not found in schema cache yet (PGRST205). Run supabase_schema.sql in Supabase SQL Editor.');
+      } else {
+        console.warn('[Supabase Database] fetchProjects notice:', error.message);
+      }
+      return null;
+    }
+
+    if (Array.isArray(data) && data.length > 0) {
+      return data.map(mapSupabaseRowToProject);
+    }
+    return [];
+  } catch (err) {
+    console.warn('[Supabase Database] fetchProjects exception:', err);
+    return null;
+  }
+}
+
+export async function saveSupabaseProject(project: ProjectItem): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured()) return false;
+
+  try {
+    const row = mapProjectToSupabaseRow(project);
+    const { error } = await supabase
+      .from('projects')
+      .upsert(row, { onConflict: 'id' });
+
+    if (error) {
+      if (isMissingTableError(error)) {
+        console.warn('[Supabase Database] Table "projects" not found in schema cache yet (PGRST205).');
+      } else {
+        console.error('[Supabase Database] saveProject error:', error.message || error);
+      }
+      return false;
+    }
+    return true;
+  } catch (err: any) {
+    console.error('[Supabase Database] saveProject exception:', err?.message || err);
+    return false;
+  }
+}
+
+export async function deleteSupabaseProject(projectId: string): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured()) return false;
+
+  try {
+    const { error } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', projectId);
+
+    if (error) {
+      if (isMissingTableError(error)) {
+        console.warn('[Supabase Database] Table "projects" not found in schema cache.');
+      } else {
+        console.warn('[Supabase Database] deleteProject notice:', error.message || error);
+      }
+      return false;
+    }
+    return true;
+  } catch (err: any) {
+    console.warn('[Supabase Database] deleteProject exception:', err?.message || err);
+    return false;
+  }
+}
+
+export async function saveSupabaseProjectsOrder(projects: ProjectItem[]): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured() || !projects.length) return false;
+
+  try {
+    const rows = projects.map((p, index) => ({
+      ...mapProjectToSupabaseRow(p),
+      sort_order: index + 1,
+    }));
+
+    const { error } = await supabase
+      .from('projects')
+      .upsert(rows, { onConflict: 'id' });
+
+    if (error) {
+      console.warn('[Supabase Database] saveProjectsOrder error:', error.message || error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.warn('[Supabase Database] saveProjectsOrder exception:', err);
+    return false;
+  }
+}
+

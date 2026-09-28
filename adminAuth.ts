@@ -30,7 +30,20 @@ if (typeof window !== 'undefined') {
  * Returns current admin logged in status
  */
 export function isAdminLoggedIn(): boolean {
-  return currentAdminState;
+  if (currentAdminState) return true;
+  if (typeof window !== 'undefined') {
+    try {
+      const isSessionActive = window.sessionStorage?.getItem('turath_admin_session_active') === 'true';
+      const isLocalActive = window.localStorage?.getItem('turath_admin_session_active') === 'true';
+      if (isSessionActive || isLocalActive) {
+        currentAdminState = true;
+        return true;
+      }
+    } catch {
+      // Ignore
+    }
+  }
+  return false;
 }
 
 /**

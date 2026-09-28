@@ -25,10 +25,15 @@ import {
   Heart,
   Key,
   Star,
-  Feather,
-  ExternalLink
+  Feather, 
+  ExternalLink,
+  ArrowUp,
+  ArrowDown,
+  ArrowUpDown,
+  RotateCcw
 } from 'lucide-react';
 import { ProductCategoryInfo, ProductItem } from './types';
+import { PRODUCT_CATEGORIES } from './initialCatalog';
 import { compressSquareImage1080, preserveOriginalUploadedImage } from './imageCompressor';
 import { TurathMedia } from "./TurathMedia";
 import { ImageRatioSelectorControl } from "./ImageRatioSelectorControl";
@@ -53,6 +58,7 @@ interface CategoryManagerModalProps {
   onSaveCategory: (category: ProductCategoryInfo) => Promise<void>;
   onDeleteCategory: (categoryId: string) => Promise<void>;
   onNavigateToCategory?: (categoryId: string) => void;
+  onReorderCategories?: (categories: ProductCategoryInfo[]) => Promise<void> | void;
 }
 
 const LUXURY_ICONS = [
@@ -79,8 +85,56 @@ export const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
   onSaveCategory,
   onDeleteCategory,
   onNavigateToCategory,
+  onReorderCategories,
 }) => {
   const [selectedCatId, setSelectedCatId] = useState<string>(() => initialSelectedId || 'new');
+
+  const handleMoveCategoryUp = async (index: number) => {
+    if (index <= 0) return;
+    const next = [...categories];
+    const temp = next[index - 1];
+    next[index - 1] = next[index];
+    next[index] = temp;
+    if (onReorderCategories) {
+      await onReorderCategories(next);
+    }
+  };
+
+  const handleMoveCategoryDown = async (index: number) => {
+    if (index >= categories.length - 1) return;
+    const next = [...categories];
+    const temp = next[index + 1];
+    next[index + 1] = next[index];
+    next[index] = temp;
+    if (onReorderCategories) {
+      await onReorderCategories(next);
+    }
+  };
+
+  const handleQuickSortCategories = async (type: 'az' | 'za' | 'count' | 'default') => {
+    let sorted = [...categories];
+    if (type === 'az') {
+      sorted.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (type === 'za') {
+      sorted.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (type === 'count') {
+      sorted.sort((a, b) => {
+        const countA = products.filter((p) => p.categoryId === a.id).length;
+        const countB = products.filter((p) => p.categoryId === b.id).length;
+        return countB - countA;
+      });
+    } else if (type === 'default') {
+      const initial = PRODUCT_CATEGORIES.map((c) => c.id);
+      sorted.sort((a, b) => {
+        const idxA = initial.indexOf(a.id);
+        const idxB = initial.indexOf(b.id);
+        return (idxA >= 0 ? idxA : 99) - (idxB >= 0 ? idxB : 99);
+      });
+    }
+    if (onReorderCategories) {
+      await onReorderCategories(sorted);
+    }
+  };
   const [name, setName] = useState<string>('');
   const [nameArabic, setNameArabic] = useState<string>('');
   const [shortDesc, setShortDesc] = useState<string>('');
@@ -390,25 +444,101 @@ export const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
               </button>
             </div>
 
+            {/* Quick Sort Bar for Collections */}
+            <div className="bg-[#14141c] p-2 rounded-xl border border-[#d4c59d]/25 space-y-1.5">
+              <div className="flex items-center justify-between text-[11px] text-[#d4c59d] font-bold">
+                <span className="flex items-center gap-1">
+                  <ArrowUpDown className="w-3 h-3 text-[#d4c59d]" />
+                  <span>ترتيب المجموعات (Sort Collections):</span>
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => handleQuickSortCategories('az')}
+                  className="px-2 py-0.5 rounded bg-black/60 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-black border border-[#d4c59d]/30 text-[10px] font-bold transition-colors cursor-pointer"
+                  title="ترتيب أبجدي A إلى Z"
+                >
+                  A → Z
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickSortCategories('za')}
+                  className="px-2 py-0.5 rounded bg-black/60 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-black border border-[#d4c59d]/30 text-[10px] font-bold transition-colors cursor-pointer"
+                  title="ترتيب أبجدي Z إلى A"
+                >
+                  Z → A
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickSortCategories('count')}
+                  className="px-2 py-0.5 rounded bg-black/60 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-black border border-[#d4c59d]/30 text-[10px] font-bold transition-colors cursor-pointer"
+                  title="ترتيب حسب الأكثر منتجات"
+                >
+                  الأكثر منتجات
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickSortCategories('default')}
+                  className="px-1.5 py-0.5 rounded bg-black/60 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-black border border-[#d4c59d]/30 text-[10px] transition-colors cursor-pointer"
+                  title="استعادة الترتيب القياسي"
+                >
+                  <RotateCcw className="w-2.5 h-2.5" />
+                </button>
+              </div>
+            </div>
+
             <div className="space-y-2 pt-1">
               {categories.length === 0 ? (
                 <div className="p-4 text-center text-xs text-[#9e9174] border border-dashed border-white/10 rounded-xl">
                   لا توجد أقسام حالياً. اضغط على زر &quot;إضافة قسم جديد&quot; أعلاه.
                 </div>
               ) : (
-                categories.map((cat) => {
+                categories.map((cat, index) => {
                   const productCount = products.filter((p) => p.categoryId === cat.id).length;
                   const isCatVideo = cat.coverMediaType === 'video' && !!cat.coverVideoUrl;
                   return (
                     <div
                       key={cat.id}
                       onClick={() => handleSelectCategory(cat)}
-                      className={`group p-2.5 rounded-xl border transition-all cursor-pointer flex items-center gap-3 ${
+                      className={`group p-2 rounded-xl border transition-all cursor-pointer flex items-center gap-2.5 ${
                         selectedCatId === cat.id
                           ? 'bg-[#1e1c24] border-[#d4c59d] shadow-md ring-1 ring-[#d4c59d]/30'
                           : 'bg-[#121218] border-white/5 hover:border-[#d4c59d]/40'
                       }`}
                     >
+                      {/* Reorder Buttons (Move Up / Down) */}
+                      <div className="flex flex-col items-center gap-0.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+                        <button
+                          type="button"
+                          onClick={() => handleMoveCategoryUp(index)}
+                          disabled={index === 0}
+                          className={`p-1 rounded transition-colors ${
+                            index === 0
+                              ? 'text-white/20 cursor-not-allowed'
+                              : 'text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black cursor-pointer'
+                          }`}
+                          title="تحريك للأعلى"
+                        >
+                          <ArrowUp className="w-3 h-3" />
+                        </button>
+                        <span className="text-[9px] font-mono text-[#9e9174] font-bold">
+                          {index + 1}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleMoveCategoryDown(index)}
+                          disabled={index === categories.length - 1}
+                          className={`p-1 rounded transition-colors ${
+                            index === categories.length - 1
+                              ? 'text-white/20 cursor-not-allowed'
+                              : 'text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black cursor-pointer'
+                          }`}
+                          title="تحريك للأسفل"
+                        >
+                          <ArrowDown className="w-3 h-3" />
+                        </button>
+                      </div>
                       <div className="w-12 h-12 rounded-lg border border-[#d4c59d]/30 overflow-hidden bg-black flex-shrink-0 relative">
                         {isCatVideo ? (
                           <div className="w-full h-full flex items-center justify-center bg-black/60 text-[#d4c59d]">

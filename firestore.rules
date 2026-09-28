@@ -11,6 +11,9 @@ service cloud.firestore {
     match /products/{productId} {
       allow read, write: if true;
     }
+    match /projects/{projectId} {
+      allow read, write: if true;
+    }
     match /{document=**} {
       allow read, write: if true;
     }

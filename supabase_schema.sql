@@ -144,6 +144,48 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
   updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- 7. PROJECTS TABLE (Architectural & Custom Completed Works)
+CREATE TABLE IF NOT EXISTS public.projects (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  title_ar TEXT,
+  slug TEXT UNIQUE NOT NULL,
+  location TEXT NOT NULL,
+  project_type TEXT NOT NULL,
+  year TEXT,
+  short_description TEXT,
+  description TEXT NOT NULL,
+  craft_story TEXT,
+  materials TEXT NOT NULL,
+  finish TEXT,
+  work_delivered JSONB DEFAULT '[]'::jsonb,
+  custom_manufacturing TEXT,
+  cover_image TEXT NOT NULL,
+  media_type TEXT DEFAULT 'image',
+  cover_ratio TEXT DEFAULT 'Original',
+  cover_custom_ratio_width NUMERIC DEFAULT 16,
+  cover_custom_ratio_height NUMERIC DEFAULT 9,
+  cover_fit TEXT DEFAULT 'cover',
+  cover_position TEXT DEFAULT 'center',
+  gallery JSONB DEFAULT '[]'::jsonb,
+  gallery_ratios JSONB DEFAULT '{}'::jsonb,
+  gallery_fits JSONB DEFAULT '{}'::jsonb,
+  gallery_positions JSONB DEFAULT '{}'::jsonb,
+  video_url TEXT,
+  video_ratio TEXT DEFAULT '16:9',
+  video_custom_ratio_width NUMERIC DEFAULT 16,
+  video_custom_ratio_height NUMERIC DEFAULT 9,
+  video_fit TEXT DEFAULT 'cover',
+  video_poster TEXT,
+  related_product_ids JSONB DEFAULT '[]'::jsonb,
+  published BOOLEAN DEFAULT true,
+  sort_order INT DEFAULT 0,
+  seo_title TEXT,
+  meta_description TEXT,
+  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- ==============================================================================
 -- STORAGE BUCKETS INITIALIZATION
 -- ==============================================================================
@@ -219,6 +261,14 @@ DROP POLICY IF EXISTS "Public read site_settings" ON public.site_settings;
 DROP POLICY IF EXISTS "Admin write site_settings" ON public.site_settings;
 CREATE POLICY "Public read site_settings" ON public.site_settings FOR SELECT TO public USING (true);
 CREATE POLICY "Admin write site_settings" ON public.site_settings FOR ALL TO public USING (true) WITH CHECK (true);
+
+-- Projects RLS
+ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public read projects" ON public.projects;
+DROP POLICY IF EXISTS "Admin write projects" ON public.projects;
+CREATE POLICY "Public read projects" ON public.projects FOR SELECT TO public USING (true);
+CREATE POLICY "Admin write projects" ON public.projects FOR ALL TO public USING (true) WITH CHECK (true);
+
 
 -- Storage Objects RLS (product-images, product-videos, site-media)
 DROP POLICY IF EXISTS storage_allow_select ON storage.objects;

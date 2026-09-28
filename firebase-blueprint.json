@@ -79,6 +79,28 @@
         "updatedAt": { "type": "string", "description": "ISO timestamp of last update" }
       },
       "required": ["id", "name", "categoryId", "imageUrl"]
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Architectural and luxury custom manufactured projects portfolio",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique project ID" },
+        "title": { "type": "string", "description": "Project title" },
+        "titleAR": { "type": "string", "description": "Arabic project title" },
+        "slug": { "type": "string", "description": "SEO friendly slug" },
+        "location": { "type": "string", "description": "Location city / country" },
+        "projectType": { "type": "string", "description": "Type of project" },
+        "year": { "type": "string", "description": "Completion year" },
+        "description": { "type": "string", "description": "Detailed project description" },
+        "materials": { "type": "string", "description": "Materials used" },
+        "finish": { "type": "string", "description": "Finishes applied" },
+        "coverImage": { "type": "string", "description": "Cover photo URL" },
+        "published": { "type": "boolean", "description": "Whether project is published" },
+        "sortOrder": { "type": "number", "description": "Display order" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last update" }
+      },
+      "required": ["id", "title", "slug", "coverImage"]
     }
   },
   "firestoreRules": "rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /{document=**} {\n      allow read, write: if true;\n    }\n  }\n}"

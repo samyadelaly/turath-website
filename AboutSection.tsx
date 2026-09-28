@@ -174,8 +174,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           {/* Mission */}
           <div className="p-8 rounded-2xl bg-[#000000] border border-[#d4c59d] shadow-xl relative overflow-hidden group hover:border-[#d4c59d] transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000]">
-                <Target className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-lg bg-[#d4c59d] text-[#000000] flex items-center justify-center flex-shrink-0">
+                <Target className="w-5 h-5" />
               </div>
               <h3 className="font-serif-luxury text-2xl font-bold text-[#f5f0e6]">
                 Our Mission
@@ -189,8 +189,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           {/* Vision */}
           <div className="p-8 rounded-2xl bg-[#000000] border border-[#d4c59d] shadow-xl relative overflow-hidden group hover:border-[#d4c59d] transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000]">
-                <Eye className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-lg bg-[#d4c59d] text-[#000000] flex items-center justify-center flex-shrink-0">
+                <Eye className="w-5 h-5" />
               </div>
               <h3 className="font-serif-luxury text-2xl font-bold text-[#f5f0e6]">
                 Our Vision

@@ -22,6 +22,7 @@ import {
   updatePublicFeedFile,
   injectProductSocialMetadata,
 } from "./metaFeed";
+import shareHandler from "./share";
 
 function parseCliArg(flag: string): string | undefined {
   const arg = process.argv.find((a) => a.startsWith(`${flag}=`));
@@ -388,6 +389,14 @@ app.get(['/api/download-flat-zip', '/api/download-zip'], (req: Request, res: Res
     return res.sendFile(target);
   }
   return res.status(404).json({ success: false, error: 'ZIP file not found on server' });
+});
+
+// Social Share / Open Graph rich preview endpoint
+app.get(['/api/share', '/share/:slug', '/p/:slug'], (req: Request, res: Response) => {
+  if (req.params.slug && !req.query.slug) {
+    req.query.slug = req.params.slug;
+  }
+  return shareHandler(req, res);
 });
 
 // Health check endpoint

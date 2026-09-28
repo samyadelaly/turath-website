@@ -115,7 +115,7 @@ export const CustomManufacturingSection: React.FC<CustomManufacturingSectionProp
 
               <div className="p-4 rounded-xl bg-[#000000] border border-[#d4c59d]/40 text-xs">
                 <span className="text-[#f5f0e6] font-bold block mb-1">Direct Workshop Address:</span>
-                <span className="text-[#d4c59d]">Gamaliya Street, Historic Cairo, Egypt</span>
+                <span className="text-[#d4c59d]">Bab el nasr, Gamaliya Street, Kahla building, Historic Cairo, Egypt</span>
                 <span className="text-[#9e9174] block text-[11px] mt-1">Phone: 002 01016771010</span>
               </div>
             </div>

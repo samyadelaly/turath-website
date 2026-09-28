@@ -4,12 +4,9 @@ import { TurathLogo } from './TurathLogo';
 import { SiteContent, getStoredSiteContent } from './siteContentStorage';
 import { 
   ArrowRight, 
-  ShieldCheck, 
-  Globe2, 
-  Hammer, 
-  Building2, 
   PhoneCall,
-  Play
+  Play,
+  Hammer
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -140,7 +137,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               className="p-4 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-colors shadow"
             >
               <div className="flex items-center gap-2 text-[#d4c59d] mb-1">
-                <Hammer className="w-4 h-4" />
+                <span className="w-2 h-2 rounded-full bg-[#d4c59d] inline-block flex-shrink-0" />
                 <span className="text-xs uppercase font-bold tracking-wider">Gamaliya Heritage</span>
               </div>
               <div className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#f5f0e6]">
@@ -155,7 +152,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               className="p-4 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-colors shadow"
             >
               <div className="flex items-center gap-2 text-[#d4c59d] mb-1">
-                <ShieldCheck className="w-4 h-4" />
+                <span className="w-2 h-2 rounded-full bg-[#d4c59d] inline-block flex-shrink-0" />
                 <span className="text-xs uppercase font-bold tracking-wider">100% Solid Brass</span>
               </div>
               <div className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#f5f0e6]">
@@ -170,7 +167,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               className="p-4 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-colors shadow"
             >
               <div className="flex items-center gap-2 text-[#d4c59d] mb-1">
-                <Building2 className="w-4 h-4" />
+                <span className="w-2 h-2 rounded-full bg-[#d4c59d] inline-block flex-shrink-0" />
                 <span className="text-xs uppercase font-bold tracking-wider">Turnkey Projects</span>
               </div>
               <div className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#f5f0e6]">
@@ -185,7 +182,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               className="p-4 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-colors shadow"
             >
               <div className="flex items-center gap-2 text-[#d4c59d] mb-1">
-                <Globe2 className="w-4 h-4" />
+                <span className="w-2 h-2 rounded-full bg-[#d4c59d] inline-block flex-shrink-0" />
                 <span className="text-xs uppercase font-bold tracking-wider">Global Reach</span>
               </div>
               <div className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#f5f0e6]">

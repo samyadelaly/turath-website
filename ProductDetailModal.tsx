@@ -11,15 +11,23 @@ import {
   Clock, 
   Edit3, 
   Video, 
-  Sparkles,
+  Scale,
   MessageCircle,
+  Share2,
+  Copy,
+  Check,
+  Download,
+  Facebook,
   Image as ImageIcon
 } from 'lucide-react';
 import { PRODUCT_CATEGORIES } from './initialCatalog';
 import { EmbeddedVideoPlayer } from './EmbeddedVideoPlayer';
-import { computeProductImageRatio, computeProductMediaRatio } from './imageRatioUtils';
+import { computeProductImageRatio, computeProductMediaRatio, MediaRatioPreset, MediaObjectFit, MediaObjectPosition, computeImageRatio } from './imageRatioUtils';
 import { TurathImage } from "./TurathImage";
 import { TurathMedia } from "./TurathMedia";
+import { MediaPlaceResizeControl, MediaPlaceSizePreset } from "./MediaPlaceResizeControl";
+import { saveSingleStoredProduct } from './storage';
+import { saveCloudProduct } from './cloudDatabase';
 import { trackViewContent, trackContact } from './metaPixel';
 import { pauseAndMuteAllVideos } from './videoManager';
 
@@ -50,6 +58,44 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [selectedFinish, setSelectedFinish] = useState<string>(
     product?.finishOptions[0] || 'Natural Antique Patina'
   );
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+
+  // Dynamic Photo & Video Place Resizing and Ratio Controls
+  const [activeMediaRatio, setActiveMediaRatio] = useState<MediaRatioPreset>(() => {
+    return ((showVideo ? product?.videoRatio : product?.imageRatio) as MediaRatioPreset) || '4:5';
+  });
+  const [activeMediaFit, setActiveMediaFit] = useState<MediaObjectFit>(() => {
+    return ((showVideo ? product?.videoFit : product?.imageFit) as MediaObjectFit) || 'contain';
+  });
+  const [activeMediaPosition, setActiveMediaPosition] = useState<MediaObjectPosition>(() => {
+    return ((showVideo ? product?.videoPosition : product?.imagePosition) as MediaObjectPosition) || 'center';
+  });
+  const [customRatioW, setCustomRatioW] = useState<string>(() => {
+    return String((showVideo ? product?.videoCustomRatioWidth : product?.customRatioWidth) || '5');
+  });
+  const [customRatioH, setCustomRatioH] = useState<string>(() => {
+    return String((showVideo ? product?.videoCustomRatioHeight : product?.customRatioHeight) || '7');
+  });
+  const [placeSizePreset, setPlaceSizePreset] = useState<MediaPlaceSizePreset>('standard');
+  const [placePixelWidth, setPlacePixelWidth] = useState<number>(460);
+
+  // Sync when toggling between video and photos or product change
+  useEffect(() => {
+    if (!product) return;
+    if (showVideo) {
+      setActiveMediaRatio(((product.videoRatio as MediaRatioPreset) || '16:9'));
+      setActiveMediaFit(((product.videoFit as MediaObjectFit) || 'contain'));
+      setActiveMediaPosition(((product.videoPosition as MediaObjectPosition) || 'center'));
+      setCustomRatioW(String(product.videoCustomRatioWidth || '16'));
+      setCustomRatioH(String(product.videoCustomRatioHeight || '9'));
+    } else {
+      setActiveMediaRatio(((product.imageRatio as MediaRatioPreset) || '4:5'));
+      setActiveMediaFit(((product.imageFit as MediaObjectFit) || 'contain'));
+      setActiveMediaPosition(((product.imagePosition as MediaObjectPosition) || 'center'));
+      setCustomRatioW(String(product.customRatioWidth || '5'));
+      setCustomRatioH(String(product.customRatioHeight || '7'));
+    }
+  }, [showVideo, product?.id]);
 
   if (!product) return null;
 
@@ -180,30 +226,104 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </span>
             </div>
 
+            {/* Place Resizing & Ratio Control Toolbar (Admin Only) */}
+            {isAdmin && (
+              <MediaPlaceResizeControl
+                mediaType={showVideo && Boolean(product.videoUrl) ? 'video' : 'image'}
+                currentRatio={activeMediaRatio}
+                onChangeRatio={setActiveMediaRatio}
+                currentFit={activeMediaFit}
+                onChangeFit={setActiveMediaFit}
+                customWidth={customRatioW}
+                onChangeCustomWidth={setCustomRatioW}
+                customHeight={customRatioH}
+                onChangeCustomHeight={setCustomRatioH}
+                sizePreset={placeSizePreset}
+                onChangeSizePreset={setPlaceSizePreset}
+                pixelWidth={placePixelWidth}
+                onChangePixelWidth={setPlacePixelWidth}
+                currentPosition={activeMediaPosition}
+                onChangePosition={setActiveMediaPosition}
+                isAdmin={isAdmin}
+                onSaveAsDefault={async () => {
+                  const isDisplayingVideo = showVideo && Boolean(product.videoUrl);
+                  const updated: ProductItem = {
+                    ...product,
+                    ...(isDisplayingVideo
+                      ? {
+                          videoRatio: activeMediaRatio,
+                          videoFit: activeMediaFit,
+                          videoPosition: activeMediaPosition,
+                          videoCustomRatioWidth: customRatioW,
+                          videoCustomRatioHeight: customRatioH,
+                        }
+                      : {
+                          imageRatio: activeMediaRatio,
+                          imageFit: activeMediaFit,
+                          imagePosition: activeMediaPosition,
+                          customRatioWidth: customRatioW,
+                          customRatioHeight: customRatioH,
+                        }),
+                  };
+                  saveSingleStoredProduct(updated);
+                  try {
+                    await saveCloudProduct(updated);
+                  } catch (e) {
+                    console.warn('Could not sync to cloud:', e);
+                  }
+                }}
+                onResetDefaults={() => {
+                  const isDisplayingVideo = showVideo && Boolean(product.videoUrl);
+                  if (isDisplayingVideo) {
+                    setActiveMediaRatio((product.videoRatio as MediaRatioPreset) || 'Original');
+                    setActiveMediaFit((product.videoFit as MediaObjectFit) || 'contain');
+                    setPlacePixelWidth(460);
+                    setPlaceSizePreset('standard');
+                  } else {
+                    setActiveMediaRatio((product.imageRatio as MediaRatioPreset) || '4:5');
+                    setActiveMediaFit((product.imageFit as MediaObjectFit) || 'contain');
+                    setPlacePixelWidth(460);
+                    setPlaceSizePreset('standard');
+                  }
+                }}
+              />
+            )}
+
             {/* Primary Display with Dynamic Aspect Ratio & Fit Mode */}
             {(() => {
-              const modalRatio = computeProductImageRatio(product, mainImageSrc);
               const isDisplayingVideo = showVideo && Boolean(product.videoUrl);
-              const videoAspect = computeProductMediaRatio(product, 'video');
+              const activeAspect = computeImageRatio({
+                ratio: activeMediaRatio,
+                customWidth: customRatioW,
+                customHeight: customRatioH,
+                fit: activeMediaFit,
+                position: activeMediaPosition,
+              });
+
+              const maxWidthStyle = !isAdmin
+                ? '100%' 
+                : placeSizePreset === 'full' 
+                  ? '100%' 
+                  : `${placePixelWidth || 460}px`;
 
               return (
                 <div 
-                  className="relative w-full max-w-[440px] max-h-[75vh] mx-auto rounded-xl overflow-hidden bg-[#000000] border border-[#d4c59d]/40 flex items-center justify-center shadow-[0_10px_35px_rgba(0,0,0,0.8)]"
+                  className="relative w-full mx-auto rounded-xl overflow-hidden bg-[#000000] border border-[#d4c59d]/40 flex items-center justify-center shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300"
                   style={{ 
-                    aspectRatio: isDisplayingVideo 
-                      ? (videoAspect.isOriginal ? undefined : videoAspect.aspectRatioCss)
-                      : (modalRatio.isOriginal ? undefined : modalRatio.aspectRatioCss)
+                    maxWidth: maxWidthStyle,
+                    aspectRatio: activeAspect.isOriginal ? undefined : activeAspect.aspectRatioCss,
+                    maxHeight: '75vh',
                   }}
                 >
                   {isDisplayingVideo ? (
                     <TurathMedia
                       type="video"
                       videoUrl={product.videoUrl}
-                      ratio={product.videoRatio || 'Original'}
-                      customWidth={product.videoCustomRatioWidth}
-                      customHeight={product.videoCustomRatioHeight}
-                      fit={product.videoFit || 'contain'}
-                      position={product.videoPosition || 'center'}
+                      ratio={activeMediaRatio}
+                      customWidth={customRatioW}
+                      customHeight={customRatioH}
+                      fit={activeMediaFit}
+                      position={activeMediaPosition}
                       poster={product.videoPoster || mainImageSrc}
                       title={product.name}
                       autoPlay={true}
@@ -220,11 +340,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       type="image"
                       src={mainImageSrc}
                       alt={product.name}
-                      ratio={product.imageRatio || 'Original'}
-                      customWidth={product.customRatioWidth}
-                      customHeight={product.customRatioHeight}
-                      fit={product.imageFit || 'contain'}
-                      position={product.imagePosition || 'center'}
+                      ratio={activeMediaRatio}
+                      customWidth={customRatioW}
+                      customHeight={customRatioH}
+                      fit={activeMediaFit}
+                      position={activeMediaPosition}
                       containerClassName="w-full h-full bg-[#000000]"
                     />
                   )}
@@ -356,7 +476,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
                 {product.weight && (
                   <div className="flex items-start gap-2.5">
-                    <Sparkles className="w-4 h-4 text-[#d4c59d] flex-shrink-0 mt-0.5" />
+                    <Scale className="w-4 h-4 text-[#d4c59d] flex-shrink-0 mt-0.5" />
                     <div>
                       <span className="text-[#9e9174] block text-[11px] uppercase tracking-wider font-bold">Piece Weight:</span>
                       <span className="text-[#f5f0e6]">{product.weight}</span>
@@ -412,6 +532,68 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <MessageCircle className="w-4 h-4" />
                 <span>Inquire on WhatsApp (+20 01016771010)</span>
               </a>
+
+              {/* Social Media Post Share & Photo Export */}
+              <div className="pt-3 border-t border-[#d4c59d]/25 space-y-2">
+                <div className="flex items-center justify-between text-[11px] text-[#d4c59d]">
+                  <span className="font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    <Share2 className="w-3.5 h-3.5 text-[#d4c59d]" />
+                    <span>Share Photo & Link:</span>
+                  </span>
+                  <span className="font-arabic text-[10px] text-[#9e9174]">مشاركة الصورة والمنشور</span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(`${product.nameEN || product.name} | TURATH Handcrafted Egyptian Brass: https://turath-egypt.vercel.app/share/${product.seoSlug || product.id}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5"
+                    title="Share with photo preview to WhatsApp"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+                    <span>WhatsApp</span>
+                  </a>
+
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://turath-egypt.vercel.app/share/${product.seoSlug || product.id}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5"
+                    title="Share to Facebook with photo preview"
+                  >
+                    <Facebook className="w-3.5 h-3.5 text-[#1877F2]" />
+                    <span>Facebook</span>
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const shareUrl = `https://turath-egypt.vercel.app/share/${product.seoSlug || product.id}`;
+                      navigator.clipboard.writeText(shareUrl);
+                      setIsCopied(true);
+                      setTimeout(() => setIsCopied(false), 2500);
+                    }}
+                    className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
+                    title="Copy direct share link with photo preview"
+                  >
+                    {isCopied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-[#d4c59d]" />}
+                    <span>{isCopied ? 'Copied!' : 'Copy Link'}</span>
+                  </button>
+
+                  <a
+                    href={mainImageSrc}
+                    download={`${(product.seoSlug || product.id)}.jpg`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
+                    title="Save high-res product photo for Instagram or social media upload"
+                  >
+                    <Download className="w-3.5 h-3.5 text-[#d4c59d]" />
+                    <span>Save Photo</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

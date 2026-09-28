@@ -8,11 +8,13 @@ import { pauseAndMuteAllVideos } from './videoManager';
 import { 
   Search, 
   ArrowRight, 
-  PlusCircle,
-  Plus,
-  Image as ImageIcon,
-  Camera,
-  Edit3
+  PlusCircle, 
+  Plus, 
+  Image as ImageIcon, 
+  Camera, 
+  Edit3,
+  ArrowUpDown,
+  SlidersHorizontal
 } from 'lucide-react';
 
 interface AllProductsViewProps {
@@ -36,6 +38,7 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
   isAdmin = false,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [categorySortBy, setCategorySortBy] = useState<'default' | 'name-asc' | 'name-desc' | 'count-desc'>('default');
 
   // Pause and mute videos when searching or when component unmounts
   useEffect(() => {
@@ -54,6 +57,23 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
       (p) => p.categoryId === cat.id && p.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     return !searchQuery || matchCat || hasMatchingProduct;
+  });
+
+  const sortedCategories = [...filteredCategories].sort((a, b) => {
+    if (categorySortBy === 'name-asc') {
+      return a.name.localeCompare(b.name);
+    }
+    if (categorySortBy === 'name-desc') {
+      return b.name.localeCompare(a.name);
+    }
+    if (categorySortBy === 'count-desc') {
+      const countA = products.filter((p) => p.categoryId === a.id).length;
+      const countB = products.filter((p) => p.categoryId === b.id).length;
+      return countB - countA;
+    }
+    const orderA = typeof a.order === 'number' ? a.order : 999;
+    const orderB = typeof b.order === 'number' ? b.order : 999;
+    return orderA - orderB;
   });
 
   return (
@@ -126,11 +146,67 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
               </>
             )}
           </div>
+
+          {/* Collection Sort Toolbar - Admin Only */}
+          {isAdmin && (
+            <div className="flex items-center justify-between flex-wrap gap-2 pt-2 border-t border-[#d4c59d]/20 max-w-2xl mx-auto">
+              <div className="flex items-center gap-1.5 text-xs text-[#d4c59d] font-bold">
+                <ArrowUpDown className="w-3.5 h-3.5 text-[#d4c59d]" />
+                <span>ترتيب المجموعات (Sort):</span>
+              </div>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setCategorySortBy('default')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    categorySortBy === 'default'
+                      ? 'bg-[#d4c59d] text-[#000000]'
+                      : 'bg-[#141414] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                  }`}
+                >
+                  الافتراضي
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategorySortBy('name-asc')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    categorySortBy === 'name-asc'
+                      ? 'bg-[#d4c59d] text-[#000000]'
+                      : 'bg-[#141414] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                  }`}
+                >
+                  A → Z
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategorySortBy('name-desc')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    categorySortBy === 'name-desc'
+                      ? 'bg-[#d4c59d] text-[#000000]'
+                      : 'bg-[#141414] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                  }`}
+                >
+                  Z → A
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategorySortBy('count-desc')}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    categorySortBy === 'count-desc'
+                      ? 'bg-[#d4c59d] text-[#000000]'
+                      : 'bg-[#141414] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                  }`}
+                >
+                  الأكثر قطعاً
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Product Categories Grid in solid black and gold */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCategories.map((category) => {
+          {sortedCategories.map((category) => {
             const count = products.filter((p) => p.categoryId === category.id).length;
             const isVideo = category.coverMediaType === 'video' && !!category.coverVideoUrl;
             const coverRatio = computeCategoryCoverMediaRatio(category);

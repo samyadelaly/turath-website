@@ -4,7 +4,7 @@ import {
   Phone, 
   Mail, 
   MapPin, 
-  Sparkles, 
+  PlusCircle, 
   MessageCircle, 
   ArrowUp,
   Lock,
@@ -57,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({
   const whatsappDigits = (contact.whatsapp || activeContent.contactWhatsApp || '201016771010').replace(/[^0-9]/g, '');
   const phoneDigits = (contact.phone || activeContent.contactPhone || '00201016771010').replace(/\s+/g, '');
   const emailAddress = contact.email || activeContent.contactEmail || 'turath.egypt@gmail.com';
-  const displayAddress = contact.address || activeContent.contactAddress || 'Gamaliya Street, Historic Cairo, Egypt';
+  const displayAddress = contact.address || activeContent.contactAddress || 'Bab el nasr, Gamaliya Street, Kahla building, Historic Cairo, Egypt';
   const displayPhone = contact.phone || activeContent.contactPhone || '002 01016771010';
 
   const scrollToTop = () => {
@@ -208,7 +208,7 @@ export const Footer: React.FC<FooterProps> = ({
                     onClick={onOpenProductEditor}
                     className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center gap-1.5"
                   >
-                    <Sparkles className="w-3.5 h-3.5" />
+                    <PlusCircle className="w-3.5 h-3.5" />
                     <span>Open Product Catalog Editor</span>
                   </button>
 

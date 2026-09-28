@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Sparkles, Hammer, Flame, ShieldCheck } from 'lucide-react';
+import { X, Sparkles, Hammer, Flame, ShieldCheck, Ratio, Maximize2, Minimize2, SlidersHorizontal } from 'lucide-react';
 import { EmbeddedVideoPlayer } from "./EmbeddedVideoPlayer";
 
 interface TurathCraftVideoModalProps {
@@ -8,6 +8,7 @@ interface TurathCraftVideoModalProps {
   onClose: () => void;
   videoUrl?: string;
   title?: string;
+  isAdmin?: boolean;
 }
 
 export const TurathCraftVideoModal: React.FC<TurathCraftVideoModalProps> = ({
@@ -15,8 +16,25 @@ export const TurathCraftVideoModal: React.FC<TurathCraftVideoModalProps> = ({
   onClose,
   videoUrl = 'https://www.youtube-nocookie.com/embed/n51TrE7f17I',
   title = 'فيديو الصنعة والحرفية المصرية • ورش تراث',
+  isAdmin = false,
 }) => {
+  const [videoAspect, setVideoAspect] = useState<'16:9' | '4:3' | '21:9' | '1:1'>('16:9');
+  const [modalSize, setModalSize] = useState<'standard' | 'large' | 'full'>('standard');
+
   if (!isOpen) return null;
+
+  const sizeClass = {
+    standard: 'max-w-4xl',
+    large: 'max-w-5xl',
+    full: 'max-w-7xl',
+  }[modalSize];
+
+  const aspectCss = {
+    '16:9': '16 / 9',
+    '4:3': '4 / 3',
+    '21:9': '21 / 9',
+    '1:1': '1 / 1',
+  }[videoAspect];
 
   return (
     <AnimatePresence>
@@ -29,10 +47,10 @@ export const TurathCraftVideoModal: React.FC<TurathCraftVideoModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-4xl bg-[#0d0d0d] border border-[#d4c59d]/40 rounded-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+          className={`relative w-full ${sizeClass} bg-[#0d0d0d] border border-[#d4c59d]/40 rounded-xl overflow-hidden shadow-2xl flex flex-col max-h-[95vh] transition-all duration-300`}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#d4c59d]/20 bg-[#121212]">
+          <div className="flex items-center justify-between px-5 py-3 border-b border-[#d4c59d]/20 bg-[#121212] flex-wrap gap-2">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-[#d4c59d]/10 border border-[#d4c59d]/40 flex items-center justify-center text-[#d4c59d]">
                 <Hammer className="w-4 h-4" />
@@ -47,23 +65,70 @@ export const TurathCraftVideoModal: React.FC<TurathCraftVideoModalProps> = ({
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={onClose}
-              className="p-1.5 rounded-lg text-[#9e9174] hover:text-[#f5f0e6] hover:bg-[#1a1a1a] transition-colors"
-              title="إغلاق النافذة (Close)"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            {/* Video Place Resizing & Ratio Quick Controls (Admin Only) */}
+            <div className="flex items-center gap-2 flex-wrap">
+              {isAdmin && (
+                <>
+                  {/* Ratio Selector */}
+                  <div className="flex items-center gap-1 bg-[#1a1a24] p-0.5 rounded-lg border border-[#d4c59d]/30 text-[11px]">
+                    <span className="text-[#9e9174] px-1 text-[10px] hidden sm:inline">Ratio:</span>
+                    {(['16:9', '4:3', '21:9', '1:1'] as const).map((r) => (
+                      <button
+                        key={r}
+                        type="button"
+                        onClick={() => setVideoAspect(r)}
+                        className={`px-2 py-0.5 rounded font-mono font-bold transition-all ${
+                          videoAspect === r
+                            ? 'bg-[#d4c59d] text-black shadow'
+                            : 'text-[#d4c59d] hover:text-white'
+                        }`}
+                      >
+                        {r}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Size Selector */}
+                  <div className="flex items-center gap-1 bg-[#1a1a24] p-0.5 rounded-lg border border-[#d4c59d]/30 text-[11px]">
+                    {(['standard', 'large', 'full'] as const).map((sz) => (
+                      <button
+                        key={sz}
+                        type="button"
+                        onClick={() => setModalSize(sz)}
+                        className={`px-2 py-0.5 rounded uppercase font-bold text-[10px] transition-all ${
+                          modalSize === sz
+                            ? 'bg-[#d4c59d] text-black shadow'
+                            : 'text-[#9e9174] hover:text-white'
+                        }`}
+                      >
+                        {sz === 'standard' ? 'Std' : sz === 'large' ? 'Large' : 'Full'}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              <button
+                type="button"
+                onClick={onClose}
+                className="p-1.5 rounded-lg text-[#9e9174] hover:text-[#f5f0e6] hover:bg-[#1a1a1a] transition-colors ml-1"
+                title="إغلاق النافذة (Close)"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
-          {/* Video Container */}
-          <div className="relative bg-black flex-1 min-h-[260px] sm:min-h-[420px] max-h-[65vh]">
+          {/* Video Container with Dynamic Aspect Ratio */}
+          <div 
+            className="relative bg-black w-full mx-auto flex items-center justify-center overflow-hidden transition-all duration-300"
+            style={{ aspectRatio: aspectCss, maxHeight: '72vh' }}
+          >
             <EmbeddedVideoPlayer
               videoUrl={videoUrl}
               title={title}
               autoPlay={true}
-              className="w-full h-full aspect-video"
+              className="w-full h-full"
             />
           </div>
 

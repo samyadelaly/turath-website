@@ -11,10 +11,22 @@ import {
   Unsubscribe 
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { ProductItem, ProductCategoryInfo } from './types';
+import { ProductItem, ProductCategoryInfo, ProjectItem } from './types';
 import { INITIAL_PRODUCTS, PRODUCT_CATEGORIES } from './initialCatalog';
+import { INITIAL_PROJECTS } from './initialProjects';
 import { DEFAULT_LOGO_URL } from './logoStorage';
 import { SiteContent, DEFAULT_SITE_CONTENT, ensureSiteContentSections } from './siteContentStorage';
+import { 
+  getStoredProjects, 
+  saveStoredProjects, 
+  saveProject, 
+  deleteProject, 
+  saveProjectsOrder, 
+  normalizeProject, 
+  getDeletedProjectIds,
+  markProjectDeleted,
+  loadProjectsFromIndexedDB 
+} from './projectStorage';
 import { 
   setCategoryCoversCache, 
   setCategoriesListCache, 
@@ -49,6 +61,10 @@ import {
   fetchSupabaseSiteContent,
   saveSupabaseLogo,
   fetchSupabaseLogo,
+  fetchSupabaseProjects,
+  saveSupabaseProject,
+  deleteSupabaseProject,
+  saveSupabaseProjectsOrder,
 } from './supabaseDatabase';
 import { isSupabaseConfigured } from './supabase';
 import { uploadToSupabaseStorage, deleteFromSupabaseStorage } from './supabaseStorage';
@@ -60,6 +76,7 @@ const CONTENT_DOC = 'current_content';
 const COVERS_COLLECTION = 'category_covers';
 const CATEGORIES_COLLECTION = 'categories';
 const PRODUCTS_COLLECTION = 'products';
+const PROJECTS_COLLECTION = 'projects';
 
 // --- CIRCUIT BREAKER FOR FIRESTORE QUOTA EXHAUSTION ---
 export const FIRESTORE_QUOTA_STORAGE_KEY = 'turath_firestore_write_quota_exhausted_v1';
@@ -1239,12 +1256,21 @@ export function subscribeToCloudCategories(
               galleryRatios: data.galleryRatios || {},
               galleryFits: data.galleryFits || {},
               galleryPositions: data.galleryPositions || {},
+              order: typeof data.order === 'number' ? data.order : undefined,
             });
           }
         });
 
         const deletedIds = getDeletedCategoryIds();
         const filteredList = list.filter((c) => c.id !== 'wall-art' && !deletedIds.has(c.id));
+
+        // Sort by order if defined
+        filteredList.sort((a, b) => {
+          const orderA = typeof a.order === 'number' ? a.order : 999;
+          const orderB = typeof b.order === 'number' ? b.order : 999;
+          if (orderA !== orderB) return orderA - orderB;
+          return 0;
+        });
 
         try {
           localStorage.setItem('turath_categories_list_v3', JSON.stringify(filteredList));
@@ -1431,4 +1457,296 @@ export async function deleteCloudCategory(categoryId: string): Promise<void> {
     throw err;
   }
 }
+
+export async function saveCloudCategoriesOrder(orderedCategories: ProductCategoryInfo[]): Promise<void> {
+  const updated = orderedCategories.map((cat, idx) => ({
+    ...cat,
+    order: idx + 1,
+  }));
+
+  try {
+    localStorage.setItem('turath_categories_list_v3', JSON.stringify(updated));
+    setCategoriesListCache(updated);
+  } catch {
+    // Ignore localStorage error
+  }
+
+  if (shouldSkipFirestoreWrite()) {
+    return;
+  }
+
+  try {
+    const promises = updated.map((cat) => {
+      const docRef = doc(db, CATEGORIES_COLLECTION, cat.id);
+      return setDoc(docRef, { order: cat.order, updatedAt: new Date().toISOString() }, { merge: true });
+    });
+    await Promise.all(promises);
+  } catch (err) {
+    console.warn('[Firestore] Error saving categories order to cloud:', err);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// PROJECTS CLOUD SYNCHRONIZATION (SUPABASE & FIRESTORE)
+// -----------------------------------------------------------------------------
+
+export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectItem[]) => void): Unsubscribe {
+  // 1. Initial hydration from local cache
+  const initialDeleted = getDeletedProjectIds();
+  const localProjects = getStoredProjects().filter((p) => !initialDeleted.has(p.id));
+  onProjectsChange(localProjects);
+
+  // Cross-browser sync of deleted projects metadata
+  try {
+    const metaDocRef = doc(db, SETTINGS_COLLECTION, 'projects_metadata');
+    onSnapshot(metaDocRef, (metaSnap) => {
+      if (metaSnap.exists()) {
+        const metaData = metaSnap.data();
+        if (Array.isArray(metaData?.deletedProjectIds)) {
+          metaData.deletedProjectIds.forEach((id: string) => markProjectDeleted(id));
+          const refreshed = getStoredProjects();
+          onProjectsChange(refreshed);
+        }
+      }
+    }, () => {});
+  } catch {
+    // Ignore
+  }
+
+  // 2. Hydrate from IndexedDB for high-fidelity offline/persistent cache
+  loadProjectsFromIndexedDB().then((idbProjects) => {
+    if (Array.isArray(idbProjects) && idbProjects.length > 0) {
+      const liveDeleted = getDeletedProjectIds();
+      const filtered = idbProjects.filter((p) => !liveDeleted.has(p.id));
+      if (filtered.length > 0) {
+        saveStoredProjects(filtered);
+        onProjectsChange(filtered);
+      }
+    }
+  }).catch(() => {});
+
+  // 3. If Supabase is configured, fetch freshest live projects from Supabase
+  if (isSupabaseConfigured()) {
+    fetchSupabaseProjects().then((supProjects) => {
+      if (Array.isArray(supProjects) && supProjects.length > 0) {
+        const liveDeleted = getDeletedProjectIds();
+        const mergedMap = new Map<string, ProjectItem>();
+        // Add default/local projects first
+        localProjects.forEach((p) => {
+          if (!liveDeleted.has(p.id)) mergedMap.set(p.id, p);
+        });
+        // Overlay Supabase authoritative data
+        supProjects.forEach((sp) => {
+          if (!liveDeleted.has(sp.id)) {
+            mergedMap.set(sp.id, sp);
+          }
+        });
+        const finalProjects = Array.from(mergedMap.values()).sort(
+          (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
+        );
+        saveStoredProjects(finalProjects);
+        onProjectsChange(finalProjects);
+      }
+    }).catch((err) => {
+      console.warn('[Supabase Database] Initial projects fetch notice:', err);
+    });
+  }
+
+  // 4. Firestore real-time listener
+  const colRef = collection(db, PROJECTS_COLLECTION);
+  return onSnapshot(colRef, (snap) => {
+    if (snap.empty) return;
+    const currentDeleted = getDeletedProjectIds();
+    const loadedMap = new Map<string, ProjectItem>();
+    
+    snap.docs.forEach((d) => {
+      const data = d.data();
+      if (data && data.id && !currentDeleted.has(data.id)) {
+        const fallback = INITIAL_PROJECTS.find((p) => p.id === data.id);
+        const normalized = normalizeProject(data as Partial<ProjectItem>, fallback);
+        loadedMap.set(normalized.id, normalized);
+      }
+    });
+
+    if (loadedMap.size > 0) {
+      const current = getStoredProjects();
+      const mergedMap = new Map<string, ProjectItem>();
+      current.forEach((p) => {
+        if (!currentDeleted.has(p.id)) mergedMap.set(p.id, p);
+      });
+      loadedMap.forEach((p, id) => {
+        if (!currentDeleted.has(id)) {
+          mergedMap.set(id, p);
+        }
+      });
+      const finalProjects = Array.from(mergedMap.values()).sort(
+        (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
+      );
+      saveStoredProjects(finalProjects);
+      onProjectsChange(finalProjects);
+    }
+  }, (error) => {
+    if (isResourceExhaustedError(error)) {
+      markQuotaExhausted();
+      console.warn('[Firestore] Quota reached for projects. Using Supabase & local storage.');
+    } else {
+      console.warn('Error subscribing to cloud projects:', error);
+    }
+  });
+}
+
+export async function saveCloudProject(project: ProjectItem): Promise<void> {
+  let finalProject: ProjectItem = {
+    ...project,
+    updatedAt: new Date().toISOString(),
+  };
+
+  // 1. Always save locally and in IndexedDB first so changes never get lost
+  saveProject(finalProject);
+
+  // 2. Upload media to Supabase Storage if configured
+  if (isSupabaseConfigured()) {
+    try {
+      // Cover image
+      if (finalProject.coverImage && (finalProject.coverImage.startsWith('data:') || finalProject.coverImage.startsWith('blob:'))) {
+        try {
+          const uploadedCover = await uploadToSupabaseStorage(
+            'site-media',
+            `projects/${finalProject.id}/cover_${Date.now()}`,
+            finalProject.coverImage
+          );
+          finalProject.coverImage = uploadedCover;
+        } catch (coverErr) {
+          console.warn('[Supabase Storage] Notice: Could not upload project cover to storage, saving directly:', coverErr);
+        }
+      }
+
+      // Gallery images
+      if (Array.isArray(finalProject.gallery) && finalProject.gallery.length > 0) {
+        const uploadedGallery: string[] = [];
+        for (let i = 0; i < finalProject.gallery.length; i++) {
+          const img = finalProject.gallery[i];
+          if (img && (img.startsWith('data:') || img.startsWith('blob:'))) {
+            try {
+              const url = await uploadToSupabaseStorage(
+                'site-media',
+                `projects/${finalProject.id}/gallery_${i}_${Date.now()}`,
+                img
+              );
+              uploadedGallery.push(url);
+            } catch (gErr) {
+              console.warn(`[Supabase Storage] Gallery upload error for image ${i}:`, gErr);
+              uploadedGallery.push(img);
+            }
+          } else if (img) {
+            uploadedGallery.push(img);
+          }
+        }
+        finalProject.gallery = uploadedGallery;
+      }
+
+      // Video
+      if (finalProject.videoUrl && (finalProject.videoUrl.startsWith('data:') || finalProject.videoUrl.startsWith('blob:'))) {
+        try {
+          const uploadedVideo = await uploadToSupabaseStorage(
+            'product-videos',
+            `projects/${finalProject.id}/video_${Date.now()}`,
+            finalProject.videoUrl
+          );
+          finalProject.videoUrl = uploadedVideo;
+        } catch (vidErr) {
+          console.warn('[Supabase Storage] Notice: Could not upload project video to storage:', vidErr);
+        }
+      }
+
+      // Save to Supabase table
+      await saveSupabaseProject(finalProject);
+      // Re-persist updated URLs locally
+      saveProject(finalProject);
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to save project to Supabase database:', supErr);
+    }
+  }
+
+  // 3. Firestore update with size protection
+  if (!shouldSkipFirestoreWrite()) {
+    try {
+      const docRef = doc(db, PROJECTS_COLLECTION, finalProject.id);
+      
+      // Avoid saving huge raw base64 videos into Firestore document (1MB limit)
+      const firestorePayload = { ...finalProject };
+      if (firestorePayload.videoUrl && firestorePayload.videoUrl.startsWith('data:video/')) {
+        // Keep video URL locally and only store reference in Firestore if not yet in storage
+        delete (firestorePayload as any).videoUrl;
+      }
+
+      const sanitized = sanitizeForFirestore({
+        ...firestorePayload,
+        updatedAt: new Date().toISOString(),
+      });
+      await setDoc(docRef, sanitized, { merge: true });
+    } catch (err) {
+      if (isResourceExhaustedError(err)) {
+        markWriteQuotaExhausted();
+      } else {
+        console.warn('[Firestore] Error saving project to Firestore:', err);
+      }
+    }
+  }
+}
+
+export async function deleteCloudProject(projectId: string): Promise<void> {
+  // 1. Delete locally and mark permanently deleted immediately
+  markProjectDeleted(projectId);
+  deleteProject(projectId);
+
+  // 2. Track deleted ID in cloud metadata so other browsers & devices sync the deletion
+  if (!shouldSkipFirestoreWrite()) {
+    try {
+      const metaDocRef = doc(db, SETTINGS_COLLECTION, 'projects_metadata');
+      const currentDeleted = Array.from(getDeletedProjectIds());
+      await setDoc(metaDocRef, { deletedProjectIds: currentDeleted, updatedAt: new Date().toISOString() }, { merge: true });
+    } catch {
+      // Ignore metadata sync error
+    }
+  }
+
+  // 3. Delete from Supabase
+  if (isSupabaseConfigured()) {
+    try {
+      await deleteSupabaseProject(projectId);
+    } catch (supErr) {
+      console.warn('[Supabase] Failed to delete project from Supabase:', supErr);
+    }
+  }
+
+  // 4. Delete from Firestore
+  if (!shouldSkipFirestoreWrite()) {
+    try {
+      const docRef = doc(db, PROJECTS_COLLECTION, projectId);
+      await deleteDoc(docRef);
+    } catch (err) {
+      if (isResourceExhaustedError(err)) {
+        markWriteQuotaExhausted();
+      } else {
+        console.warn('[Firestore] Error deleting project document:', err);
+      }
+    }
+  }
+}
+
+export async function saveCloudProjectsOrder(orderedProjects: ProjectItem[]): Promise<void> {
+  if (!isAdminLoggedIn()) return;
+
+  saveProjectsOrder(orderedProjects);
+
+  if (isSupabaseConfigured()) {
+    try {
+      await saveSupabaseProjectsOrder(orderedProjects);
+    } catch (supErr) {
+      console.warn('[Supabase] Error saving projects order:', supErr);
+    }
+  }
+}
+
 

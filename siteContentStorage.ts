@@ -1,4 +1,30 @@
+export type MenuItemId = 'home' | 'about' | 'founder' | 'products' | 'projects' | 'custom' | 'why-us' | 'contact';
+
+export interface MenuItemDefinition {
+  id: MenuItemId;
+  labelEn: string;
+  labelAr: string;
+  defaultIndex: number;
+}
+
+export const DEFAULT_MENU_ITEMS: MenuItemDefinition[] = [
+  { id: 'home', labelEn: 'Home', labelAr: 'الرئيسية', defaultIndex: 0 },
+  { id: 'about', labelEn: 'About Us', labelAr: 'من نحن', defaultIndex: 1 },
+  { id: 'founder', labelEn: 'Founder', labelAr: 'المؤسس', defaultIndex: 2 },
+  { id: 'products', labelEn: 'Products', labelAr: 'المنتجات والأقسام', defaultIndex: 3 },
+  { id: 'projects', labelEn: 'Projects', labelAr: 'المشاريع', defaultIndex: 4 },
+  { id: 'custom', labelEn: 'Custom Fabrication', labelAr: 'تصنيع خاص', defaultIndex: 5 },
+  { id: 'why-us', labelEn: 'Why Turath', labelAr: 'لماذا تراث', defaultIndex: 6 },
+  { id: 'contact', labelEn: 'Contact Us', labelAr: 'تواصل معنا', defaultIndex: 7 },
+];
+
+export const DEFAULT_MENU_ITEMS_ORDER: MenuItemId[] = ['home', 'about', 'founder', 'products', 'projects', 'custom', 'why-us', 'contact'];
+
 export interface SiteContent {
+  // Navigation & Menu Order
+  menuItemsOrder?: MenuItemId[];
+  hiddenMenuItems?: MenuItemId[];
+
   // Announcement / Top Banner
   topAnnouncement: string;
   topPhone: string;
@@ -150,6 +176,10 @@ export function sanitizeInstagramUrl(url?: string | null): string {
 }
 
 export const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'whyUs' | 'contact'> = {
+  // Navigation & Menu Order
+  menuItemsOrder: [...DEFAULT_MENU_ITEMS_ORDER],
+  hiddenMenuItems: [],
+
   // Top Banner
   topAnnouncement: '',
   topPhone: '002 01016771010',
@@ -226,7 +256,7 @@ export const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'wh
   contactPhone: '002 01016771010',
   contactWhatsApp: '+20 101 677 1010',
   contactEmail: 'turath.egypt@gmail.com',
-  contactAddress: 'Gamaliya Street, Historic Cairo, Egypt',
+  contactAddress: 'Bab el nasr, Gamaliya Street, Kahla building, Historic Cairo, Egypt',
   contactHours: 'Saturday – Thursday: 9:00 AM – 7:00 PM (GMT+2)',
   contactFacebook: 'https://www.facebook.com/Egyptian.Turath',
   contactInstagram: 'https://www.instagram.com/turath_egypt',
@@ -235,6 +265,20 @@ export const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'wh
 export function ensureSiteContentSections(data?: Partial<SiteContent> | null): SiteContent {
   const safeData = data && typeof data === 'object' ? data : {};
   const merged = { ...DEFAULT_BASE_SITE_CONTENT, ...safeData };
+
+  // Sanitize and ensure complete menuItemsOrder
+  if (!Array.isArray(merged.menuItemsOrder) || merged.menuItemsOrder.length === 0) {
+    merged.menuItemsOrder = [...DEFAULT_MENU_ITEMS_ORDER];
+  } else {
+    const validSet = new Set<string>(DEFAULT_MENU_ITEMS_ORDER);
+    const existing = merged.menuItemsOrder.filter((id) => validSet.has(id)) as MenuItemId[];
+    const existingSet = new Set(existing);
+    const missing = DEFAULT_MENU_ITEMS_ORDER.filter((id) => !existingSet.has(id));
+    merged.menuItemsOrder = [...existing, ...missing];
+  }
+  if (!Array.isArray(merged.hiddenMenuItems)) {
+    merged.hiddenMenuItems = [];
+  }
 
   // Populate founder section defaults
   if (!merged.founderName) merged.founderName = 'SAMY ADEL ABDALLAH';
@@ -329,6 +373,16 @@ export function ensureSiteContentSections(data?: Partial<SiteContent> | null): S
   merged.contactInstagram = resolvedInstagram;
   rawContact.facebook = resolvedFacebook;
   rawContact.instagram = resolvedInstagram;
+
+  // Ensure contact address is updated to official workshop location
+  const OLD_DEFAULT_ADDRESS = 'Gamaliya Street, Historic Cairo, Egypt';
+  const CURRENT_OFFICIAL_ADDRESS = 'Bab el nasr, Gamaliya Street, Kahla building, Historic Cairo, Egypt';
+  if (!merged.contactAddress || merged.contactAddress.trim() === '' || merged.contactAddress === OLD_DEFAULT_ADDRESS) {
+    merged.contactAddress = CURRENT_OFFICIAL_ADDRESS;
+  }
+  if (!rawContact.address || rawContact.address.trim() === '' || rawContact.address === OLD_DEFAULT_ADDRESS) {
+    rawContact.address = CURRENT_OFFICIAL_ADDRESS;
+  }
 
   return {
     ...merged,

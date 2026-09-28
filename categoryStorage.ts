@@ -237,8 +237,42 @@ export function getStoredCategories(): ProductCategoryInfo[] {
     };
   });
 
+  // Sort by defined order if specified
+  merged.sort((a, b) => {
+    const orderA = typeof a.order === 'number' ? a.order : 999;
+    const orderB = typeof b.order === 'number' ? b.order : 999;
+    if (orderA !== orderB) return orderA - orderB;
+    return 0;
+  });
+
   memoryCategoriesCache = merged;
   return merged;
+}
+
+export function saveCategoriesOrder(orderedCategories: ProductCategoryInfo[]): ProductCategoryInfo[] {
+  const updated = orderedCategories.map((cat, idx) => ({
+    ...cat,
+    order: idx + 1,
+  }));
+  memoryCategoriesCache = updated;
+
+  try {
+    if (isStorageAvailable()) {
+      window.localStorage.setItem(CATEGORIES_LIST_STORAGE_KEY, JSON.stringify(updated));
+    }
+  } catch (err) {
+    console.warn('Could not save categories order to localStorage:', err);
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('turath-categories-updated', {
+        detail: { categories: updated },
+      })
+    );
+  }
+
+  return updated;
 }
 
 export function saveCategory(category: ProductCategoryInfo): ProductCategoryInfo[] {

@@ -8,11 +8,17 @@ import {
   computeProductImageRatio, 
   computeCategoryCoverRatio, 
   computeCategoryCoverMediaRatio,
-  computeImageRatio 
+  computeImageRatio,
+  MediaRatioPreset,
+  MediaObjectFit,
+  MediaObjectPosition
 } from './imageRatioUtils';
 import { UnifiedResponsiveImage } from "./UnifiedResponsiveImage";
 import { TurathMedia } from "./TurathMedia";
 import { TurathImage } from "./TurathImage";
+import { MediaPlaceResizeControl, MediaPlaceSizePreset } from "./MediaPlaceResizeControl";
+import { saveCategory } from './categoryStorage';
+import { saveCloudCategory } from './cloudDatabase';
 import { 
   ArrowLeft, 
   Sparkles, 
@@ -23,7 +29,8 @@ import {
   Layers, 
   MessageCircle, 
   Camera,
-  Edit3
+  Edit3,
+  ArrowUpDown
 } from 'lucide-react';
 
 interface ProductCategoryViewProps {
@@ -54,6 +61,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
   const allCategoriesList = (categories || getStoredCategories()).filter((c) => c.id !== 'wall-art');
   const [selectedFinishFilter, setSelectedFinishFilter] = useState<string>('all');
   const [onlyWithVideo, setOnlyWithVideo] = useState<boolean>(false);
+  const [productSortBy, setProductSortBy] = useState<'default' | 'name-asc' | 'name-desc' | 'video-first'>('default');
 
   const categoryProducts = products.filter((p) => p.categoryId === category.id);
 
@@ -63,7 +71,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
     return () => {
       pauseAndMuteAllVideos();
     };
-  }, [category.id, selectedFinishFilter, onlyWithVideo]);
+  }, [category.id, selectedFinishFilter, onlyWithVideo, productSortBy]);
 
   // Unique finishes in this category
   const allFinishes = Array.from(
@@ -72,7 +80,42 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
 
   const filteredProducts = categoryProducts
     .filter((p) => selectedFinishFilter === 'all' || p.finishOptions.includes(selectedFinishFilter))
-    .filter((p) => (!onlyWithVideo ? true : Boolean(p.videoUrl)));
+    .filter((p) => (!onlyWithVideo ? true : Boolean(p.videoUrl)))
+    .sort((a, b) => {
+      if (productSortBy === 'name-asc') return a.name.localeCompare(b.name);
+      if (productSortBy === 'name-desc') return b.name.localeCompare(a.name);
+      if (productSortBy === 'video-first') {
+        const hasVidA = a.videoUrl ? 1 : 0;
+        const hasVidB = b.videoUrl ? 1 : 0;
+        return hasVidB - hasVidA;
+      }
+      return 0;
+    });
+
+  // Category Cover Place Resizing & Ratio States
+  const isCoverVideo = category.coverMediaType === 'video' && Boolean(category.coverVideoUrl);
+  const [coverRatio, setCoverRatio] = useState<MediaRatioPreset>(() => {
+    return ((isCoverVideo ? category.coverVideoRatio : category.coverImageRatio) as MediaRatioPreset) || '16:7';
+  });
+  const [coverFit, setCoverFit] = useState<MediaObjectFit>(() => {
+    return ((isCoverVideo ? category.coverVideoFit : category.coverImageFit) as MediaObjectFit) || 'cover';
+  });
+  const [coverPosition, setCoverPosition] = useState<MediaObjectPosition>(() => {
+    return ((isCoverVideo ? category.coverVideoPosition : category.coverImagePosition) as MediaObjectPosition) || 'center';
+  });
+  const [coverCustomW, setCoverCustomW] = useState<string>(() => String(category.customRatioWidth || '16'));
+  const [coverCustomH, setCoverCustomH] = useState<string>(() => String(category.customRatioHeight || '7'));
+  const [coverSizePreset, setCoverSizePreset] = useState<MediaPlaceSizePreset>('full');
+  const [coverPixelWidth, setCoverPixelWidth] = useState<number>(1000);
+
+  useEffect(() => {
+    const isVid = category.coverMediaType === 'video' && Boolean(category.coverVideoUrl);
+    setCoverRatio(((isVid ? category.coverVideoRatio : category.coverImageRatio) as MediaRatioPreset) || '16:7');
+    setCoverFit(((isVid ? category.coverVideoFit : category.coverImageFit) as MediaObjectFit) || 'cover');
+    setCoverPosition(((isVid ? category.coverVideoPosition : category.coverImagePosition) as MediaObjectPosition) || 'center');
+    setCoverCustomW(String(category.customRatioWidth || '16'));
+    setCoverCustomH(String(category.customRatioHeight || '7'));
+  }, [category.id, category.coverMediaType]);
 
   return (
     <div className="min-h-screen pb-16 sm:pb-20 lg:pb-24 bg-[#000000]">
@@ -143,53 +186,128 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
 
           {/* Section Cover Showcase with Preserved Ratio & Framing (Image or Video) */}
           {(category.coverImage || (category.coverMediaType === 'video' && category.coverVideoUrl)) && (
-            <div className="mt-8 rounded-2xl overflow-hidden border border-[#d4c59d]/40 shadow-2xl relative group/cover bg-black">
+            <div className="mt-8 space-y-3">
+              {/* Category Cover Resizing & Ratio Control (Admin Only) */}
+              {isAdmin && (
+                <MediaPlaceResizeControl
+                  mediaType={isCoverVideo ? 'video' : 'image'}
+                  currentRatio={coverRatio}
+                  onChangeRatio={setCoverRatio}
+                  currentFit={coverFit}
+                  onChangeFit={setCoverFit}
+                  customWidth={coverCustomW}
+                  onChangeCustomWidth={setCoverCustomW}
+                  customHeight={coverCustomH}
+                  onChangeCustomHeight={setCoverCustomH}
+                  sizePreset={coverSizePreset}
+                  onChangeSizePreset={setCoverSizePreset}
+                  pixelWidth={coverPixelWidth}
+                  onChangePixelWidth={setCoverPixelWidth}
+                  currentPosition={coverPosition}
+                  onChangePosition={setCoverPosition}
+                  isAdmin={isAdmin}
+                  onSaveAsDefault={async () => {
+                    const updated: ProductCategoryInfo = {
+                      ...category,
+                      ...(isCoverVideo
+                        ? {
+                            coverVideoRatio: coverRatio,
+                            coverVideoFit: coverFit,
+                            coverVideoPosition: coverPosition,
+                            customRatioWidth: coverCustomW,
+                            customRatioHeight: coverCustomH,
+                          }
+                        : {
+                            coverImageRatio: coverRatio,
+                            coverImageFit: coverFit,
+                            coverImagePosition: coverPosition,
+                            customRatioWidth: coverCustomW,
+                            customRatioHeight: coverCustomH,
+                          }),
+                    };
+                    saveCategory(updated);
+                    try {
+                      await saveCloudCategory(updated);
+                    } catch (e) {
+                      console.warn('Could not sync category to cloud:', e);
+                    }
+                  }}
+                  onResetDefaults={() => {
+                    setCoverRatio(((isCoverVideo ? category.coverVideoRatio : category.coverImageRatio) as MediaRatioPreset) || '16:7');
+                    setCoverFit(((isCoverVideo ? category.coverVideoFit : category.coverImageFit) as MediaObjectFit) || 'cover');
+                    setCoverSizePreset('full');
+                    setCoverPixelWidth(1000);
+                  }}
+                />
+              )}
+
               {(() => {
-                const coverRatio = computeCategoryCoverMediaRatio(category);
                 const isVideo = category.coverMediaType === 'video' && !!category.coverVideoUrl;
+                const activeAspect = computeImageRatio({
+                  ratio: coverRatio,
+                  customWidth: coverCustomW,
+                  customHeight: coverCustomH,
+                  fit: coverFit,
+                  position: coverPosition,
+                });
+
+                const maxWidthStyle = !isAdmin
+                  ? '100%'
+                  : coverSizePreset === 'full' 
+                    ? '100%' 
+                    : `${coverPixelWidth || 1000}px`;
 
                 return (
-                  <TurathMedia
-                    type={isVideo ? 'video' : 'image'}
-                    src={category.coverImage}
-                    videoUrl={category.coverVideoUrl}
-                    computedRatio={coverRatio}
-                    containerClassName="w-full bg-[#0a0a0f] max-h-[500px]"
-                    mediaClassName="brightness-95 group-hover/cover:scale-105 transition-transform duration-700"
-                    autoPlay={true}
-                    muted={true}
-                    loop={true}
-                    playsInline={true}
-                    controls={false}
-                    showSoundToggle={isVideo}
-                    soundTogglePosition="top-right"
-                    showVideoBadge={isVideo}
+                  <div 
+                    className="mx-auto rounded-2xl overflow-hidden border border-[#d4c59d]/40 shadow-2xl relative group/cover bg-black transition-all duration-300"
+                    style={{ maxWidth: maxWidthStyle }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20 pointer-events-none" />
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white z-10 flex-wrap gap-2 pointer-events-auto">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs sm:text-sm font-serif-luxury font-bold text-[#f5f0e6] bg-black/80 px-3 py-1 rounded border border-[#d4c59d]/40">
-                          {category.name} ({category.nameArabic})
-                        </span>
-                        {!isVideo && (
-                          <span className="text-[10px] font-mono text-[#d4c59d] bg-black/80 px-2 py-0.5 rounded border border-[#d4c59d]/30">
-                            {coverRatio.isOriginal ? 'Original Ratio' : coverRatio.aspectRatioCss} • {coverRatio.objectFit}
+                    <TurathMedia
+                      type={isVideo ? 'video' : 'image'}
+                      src={category.coverImage}
+                      videoUrl={category.coverVideoUrl}
+                      ratio={coverRatio}
+                      customWidth={coverCustomW}
+                      customHeight={coverCustomH}
+                      fit={coverFit}
+                      position={coverPosition}
+                      containerClassName="w-full bg-[#0a0a0f] max-h-[600px]"
+                      mediaClassName="brightness-95 group-hover/cover:scale-105 transition-transform duration-700"
+                      autoPlay={true}
+                      muted={true}
+                      loop={true}
+                      playsInline={true}
+                      controls={false}
+                      showSoundToggle={isVideo}
+                      soundTogglePosition="top-right"
+                      showVideoBadge={isVideo}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20 pointer-events-none" />
+                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white z-10 flex-wrap gap-2 pointer-events-auto">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs sm:text-sm font-serif-luxury font-bold text-[#f5f0e6] bg-black/80 px-3 py-1 rounded border border-[#d4c59d]/40">
+                            {category.name} ({category.nameArabic})
                           </span>
+                          {!isVideo && (
+                            <span className="text-[10px] font-mono text-[#d4c59d] bg-black/80 px-2 py-0.5 rounded border border-[#d4c59d]/30">
+                              {activeAspect.isOriginal ? 'Original Ratio' : activeAspect.aspectRatioCss} • {activeAspect.objectFit}
+                            </span>
+                          )}
+                        </div>
+
+                        {isAdmin && onOpenEditCover && (
+                          <button
+                            type="button"
+                            onClick={() => onOpenEditCover(category.id)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/70 text-xs font-bold uppercase tracking-wider transition-all shadow cursor-pointer"
+                          >
+                            <Camera className="w-3.5 h-3.5" />
+                            <span>تعديل نسبة الغلاف</span>
+                          </button>
                         )}
                       </div>
-
-                      {isAdmin && onOpenEditCover && (
-                        <button
-                          type="button"
-                          onClick={() => onOpenEditCover(category.id)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/70 text-xs font-bold uppercase tracking-wider transition-all shadow cursor-pointer"
-                        >
-                          <Camera className="w-3.5 h-3.5" />
-                          <span>تعديل نسبة الغلاف</span>
-                        </button>
-                      )}
-                    </div>
-                  </TurathMedia>
+                    </TurathMedia>
+                  </div>
                 );
               })()}
             </div>
@@ -270,6 +388,63 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
             Showing <strong className="text-[#f5f0e6]">{filteredProducts.length}</strong> handcrafted item(s)
           </div>
         </div>
+
+        {/* Sort Products in Collection Bar - Admin Only */}
+        {isAdmin && (
+          <div className="flex items-center justify-between flex-wrap gap-2 mb-6 sm:mb-8 bg-[#101014] border border-[#d4c59d]/25 rounded-xl px-4 py-2.5">
+            <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold">
+              <ArrowUpDown className="w-3.5 h-3.5 text-[#d4c59d]" />
+              <span>ترتيب المنتجات داخل المجموعة (Sort Collection Products):</span>
+            </div>
+
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setProductSortBy('default')}
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  productSortBy === 'default'
+                    ? 'bg-[#d4c59d] text-[#000000]'
+                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                }`}
+              >
+                الافتراضي (Featured)
+              </button>
+              <button
+                type="button"
+                onClick={() => setProductSortBy('name-asc')}
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  productSortBy === 'name-asc'
+                    ? 'bg-[#d4c59d] text-[#000000]'
+                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                }`}
+              >
+                الاسم A → Z
+              </button>
+              <button
+                type="button"
+                onClick={() => setProductSortBy('name-desc')}
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  productSortBy === 'name-desc'
+                    ? 'bg-[#d4c59d] text-[#000000]'
+                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                }`}
+              >
+                الاسم Z → A
+              </button>
+              <button
+                type="button"
+                onClick={() => setProductSortBy('video-first')}
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  productSortBy === 'video-first'
+                    ? 'bg-[#d4c59d] text-[#000000]'
+                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                }`}
+              >
+                بالفيديو أولاً (With Video)
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Product Cards Grid in solid black and gold */}
         {filteredProducts.length === 0 ? (
