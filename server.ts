@@ -22,6 +22,12 @@ import {
   updatePublicFeedFile,
   injectProductSocialMetadata,
 } from "./metaFeed";
+import {
+  getAllServerProjects,
+  saveServerProject,
+  deleteServerProject,
+  saveServerProjectsOrder,
+} from "./serverProjectStorage";
 import shareHandler from "./share";
 
 function parseCliArg(flag: string): string | undefined {
@@ -348,6 +354,63 @@ app.post('/api/admin/sync-logo', requireAdminAuth, (req: Request, res: Response)
 
 app.post('/api/admin/restore-catalog', requireAdminAuth, (req: Request, res: Response) => {
   return res.json({ success: true, message: 'Catalog restored successfully' });
+});
+
+// --- PROJECTS SERVER API ---
+
+// Public endpoint to get projects across all browsers & platforms
+app.get('/api/projects', (_req: Request, res: Response) => {
+  try {
+    const projects = getAllServerProjects();
+    return res.json({ success: true, projects });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err?.message || 'Failed to get projects' });
+  }
+});
+
+// Admin endpoint to save/update a project
+app.post('/api/admin/sync-project', requireAdminAuth, (req: Request, res: Response) => {
+  const project = req.body;
+  if (!project || !project.id || !project.title) {
+    return res.status(400).json({ success: false, error: 'Project data with id and title required' });
+  }
+  try {
+    const updated = saveServerProject(project);
+    return res.json({ success: true, project, projects: updated });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err?.message || 'Failed to save project' });
+  }
+});
+
+// Admin endpoint to delete a project (supports both path param /:id and query param ?id=)
+const handleProjectDelete = (req: Request, res: Response) => {
+  const id = (req.params.id || req.query.id || req.body?.id) as string;
+  if (!id) {
+    return res.status(400).json({ success: false, error: 'Project ID required' });
+  }
+  try {
+    const updated = deleteServerProject(id);
+    return res.json({ success: true, deletedId: id, projects: updated });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err?.message || 'Failed to delete project' });
+  }
+};
+
+app.delete('/api/admin/sync-project/:id', requireAdminAuth, handleProjectDelete);
+app.delete('/api/admin/sync-project', requireAdminAuth, handleProjectDelete);
+
+// Admin endpoint to reorder projects
+app.post('/api/admin/save-projects-order', requireAdminAuth, (req: Request, res: Response) => {
+  const { orderedProjects } = req.body || {};
+  if (!Array.isArray(orderedProjects)) {
+    return res.status(400).json({ success: false, error: 'orderedProjects array required' });
+  }
+  try {
+    const updated = saveServerProjectsOrder(orderedProjects);
+    return res.json({ success: true, projects: updated });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err?.message || 'Failed to reorder projects' });
+  }
 });
 
 // Direct ZIP file serving endpoints

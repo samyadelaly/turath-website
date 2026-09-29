@@ -37,7 +37,7 @@ import {
 } from './categoryStorage';
 import { normalizeProduct, saveStoredProducts, isDemoVideoUrl } from './storage';
 import { recompressBase64Image } from './imageCompressor';
-import { isAdminLoggedIn } from './adminAuth';
+import { isAdminLoggedIn, getAuthHeaders } from './adminAuth';
 import {
   FIRESTORE_CHUNK_INDICATOR,
   saveCloudCategoryVideoChunks,
@@ -72,7 +72,7 @@ import {
   deleteSupabaseProject,
   saveSupabaseProjectsOrder,
 } from './supabaseDatabase';
-import { isSupabaseConfigured, setSupabaseCredentials } from './supabase';
+import { isSupabaseConfigured, setSupabaseCredentials, supabase } from './supabase';
 import { uploadToSupabaseStorage, deleteFromSupabaseStorage } from './supabaseStorage';
 
 const SETTINGS_DOC = 'general';
@@ -1535,61 +1535,19 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
   const localProjects = getStoredProjects().filter((p) => !initialDeleted.has(p.id));
   onProjectsChange(localProjects);
 
-  // Cross-browser sync of deleted projects metadata
-  try {
-    const metaDocRef = doc(db, SETTINGS_COLLECTION, 'projects_metadata');
-    onSnapshot(metaDocRef, (metaSnap) => {
-      if (metaSnap.exists()) {
-        const metaData = metaSnap.data();
-        if (Array.isArray(metaData?.deletedProjectIds)) {
-          metaData.deletedProjectIds.forEach((id: string) => markProjectDeleted(id));
-          const refreshed = getStoredProjects();
-          onProjectsChange(refreshed);
-        }
-      }
-    }, () => {});
-  } catch {
-    // Ignore
-  }
-
-  // 2. Hydrate from IndexedDB for high-fidelity offline/persistent cache
-  loadProjectsFromIndexedDB().then(async (idbProjects) => {
-    if (Array.isArray(idbProjects) && idbProjects.length > 0) {
-      const liveDeleted = getDeletedProjectIds();
-      const filtered = idbProjects.filter((p) => !liveDeleted.has(p.id));
-      if (filtered.length > 0) {
-        // Hydrate any local project videos
-        const withVideos = await Promise.all(
-          filtered.map(async (p) => {
-            if (!p.videoUrl || p.videoUrl === '__IDB_VIDEO__') {
-              try {
-                const vid = await getLocalProjectVideo(p.id);
-                if (vid) return { ...p, videoUrl: vid };
-              } catch {}
-            }
-            return p;
-          })
-        );
-        saveStoredProjects(withVideos);
-        onProjectsChange(withVideos);
-      }
-    }
-  }).catch(() => {});
-
-  // 3. If Supabase is configured, fetch freshest live projects from Supabase
-  if (isSupabaseConfigured()) {
-    fetchSupabaseProjects().then(async (supProjects) => {
+  const syncFromSupabase = async () => {
+    if (!isSupabaseConfigured()) return;
+    try {
+      const supProjects = await fetchSupabaseProjects();
       if (Array.isArray(supProjects) && supProjects.length > 0) {
         const liveDeleted = getDeletedProjectIds();
         const currentProjects = getStoredProjects();
         const mergedMap = new Map<string, ProjectItem>();
 
-        // Add current local projects first
         currentProjects.forEach((p) => {
           if (!liveDeleted.has(p.id)) mergedMap.set(p.id, p);
         });
 
-        // Overlay Supabase authoritative data without wiping richer local media
         for (const sp of supProjects) {
           if (!liveDeleted.has(sp.id)) {
             const existing = mergedMap.get(sp.id);
@@ -1602,7 +1560,6 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
                 }
               : sp;
 
-            // Check if local video exists in IndexedDB
             if (!resolved.videoUrl) {
               try {
                 const localVid = await getLocalProjectVideo(resolved.id);
@@ -1620,92 +1577,191 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
         saveStoredProjects(finalProjects);
         onProjectsChange(finalProjects);
       }
-    }).catch((err) => {
-      console.warn('[Supabase Database] Initial projects fetch notice:', err);
-    });
+    } catch (err) {
+      console.warn('[Supabase Database] Projects fetch notice:', err);
+    }
+  };
+
+  // 2. Hydrate from server-side API (works across all browsers, independent of Firebase quota)
+  if (typeof window !== 'undefined') {
+    fetch('/api/projects')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.success && Array.isArray(data.projects) && data.projects.length > 0) {
+          const liveDeleted = getDeletedProjectIds();
+          const valid = data.projects.filter((p: ProjectItem) => !liveDeleted.has(p.id));
+          if (valid.length > 0) {
+            saveStoredProjects(valid);
+            onProjectsChange(valid);
+          }
+        }
+      })
+      .catch(() => {});
   }
 
-  // 4. Firestore real-time listener
-  const colRef = collection(db, PROJECTS_COLLECTION);
-  return onSnapshot(colRef, async (snap) => {
-    const currentDeleted = getDeletedProjectIds();
-
-    // Cross-browser sync of document removals
-    snap.docChanges().forEach((change) => {
-      if (change.type === 'removed') {
-        markProjectDeleted(change.doc.id);
-        deleteProject(change.doc.id);
-      }
-    });
-
-    if (snap.empty) return;
-    const loadedMap = new Map<string, ProjectItem>();
-    
-    snap.docs.forEach((d) => {
-      const data = d.data();
-      if (data && data.id && !currentDeleted.has(data.id)) {
-        const fallback = INITIAL_PROJECTS.find((p) => p.id === data.id);
-        const normalized = normalizeProject(data as Partial<ProjectItem>, fallback);
-        loadedMap.set(normalized.id, normalized);
-      }
-    });
-
-    if (loadedMap.size > 0) {
-      const current = getStoredProjects();
-      const mergedMap = new Map<string, ProjectItem>();
-      current.forEach((p) => {
-        if (!currentDeleted.has(p.id)) mergedMap.set(p.id, p);
-      });
-
-      for (const [id, p] of loadedMap.entries()) {
-        if (!currentDeleted.has(id)) {
-          const existing = mergedMap.get(id);
-          const resolved: ProjectItem = existing
-            ? {
-                ...p,
-                videoUrl: (p.videoUrl && p.videoUrl !== FIRESTORE_CHUNK_INDICATOR) ? p.videoUrl : existing.videoUrl,
-                gallery: (Array.isArray(p.gallery) && p.gallery.length > 0) ? p.gallery : existing.gallery,
-                coverImage: p.coverImage || existing.coverImage,
-              }
-            : p;
-
-          // Check if video needs to be loaded from local IDB or cloud chunks
-          if (!resolved.videoUrl || resolved.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
-            try {
-              const localVid = await getLocalProjectVideo(id);
-              if (localVid) {
-                resolved.videoUrl = localVid;
-              } else if (p.hasVideoChunks || p.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
-                loadCloudProjectVideoChunks(id).then((assembled) => {
-                  if (assembled) {
-                    const currentAll = getStoredProjects();
-                    const updatedAll = currentAll.map((item) => item.id === id ? { ...item, videoUrl: assembled } : item);
-                    saveStoredProjects(updatedAll);
-                    onProjectsChange(updatedAll);
-                  }
-                });
-              }
-            } catch {}
-          }
-
-          mergedMap.set(id, resolved);
+  // Cross-browser sync of deleted projects metadata from Firestore
+  try {
+    const metaDocRef = doc(db, SETTINGS_COLLECTION, 'projects_metadata');
+    onSnapshot(metaDocRef, (metaSnap) => {
+      if (metaSnap.exists()) {
+        const metaData = metaSnap.data();
+        if (Array.isArray(metaData?.deletedProjectIds)) {
+          metaData.deletedProjectIds.forEach((id: string) => markProjectDeleted(id));
+          const refreshed = getStoredProjects();
+          onProjectsChange(refreshed);
         }
       }
+    }, () => {});
+  } catch {
+    // Ignore
+  }
 
-      const finalProjects = Array.from(mergedMap.values()).sort(
-        (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
-      );
-      saveStoredProjects(finalProjects);
-      onProjectsChange(finalProjects);
+  // 3. Hydrate from IndexedDB for high-fidelity offline/persistent cache
+  loadProjectsFromIndexedDB().then(async (idbProjects) => {
+    if (Array.isArray(idbProjects) && idbProjects.length > 0) {
+      const liveDeleted = getDeletedProjectIds();
+      const filtered = idbProjects.filter((p) => !liveDeleted.has(p.id));
+      if (filtered.length > 0) {
+        const withVideos = await Promise.all(
+          filtered.map(async (p) => {
+            if (!p.videoUrl || p.videoUrl === '__IDB_VIDEO__') {
+              try {
+                const vid = await getLocalProjectVideo(p.id);
+                if (vid) return { ...p, videoUrl: vid };
+              } catch {}
+            }
+            return p;
+          })
+        );
+        saveStoredProjects(withVideos);
+        onProjectsChange(withVideos);
+      }
     }
-  }, (error) => {
-    if (isResourceExhaustedError(error)) {
-      markQuotaExhausted();
-      console.warn('[Firestore] Quota reached for projects. Using Supabase & local storage.');
-    } else {
-      console.warn('Error subscribing to cloud projects:', error);
+  }).catch(() => {});
+
+  // 4. Initial sync from Supabase
+  syncFromSupabase();
+
+  // 5. Real-time Supabase subscription across browsers
+  let supabaseChannel: any = null;
+  if (supabase && isSupabaseConfigured()) {
+    try {
+      supabaseChannel = supabase
+        .channel('turath-projects-sync')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'site_content' }, (payload: any) => {
+          if (payload?.new && (payload.new.id === 'projects_catalog' || payload.new.id === 'deleted_projects_registry')) {
+            syncFromSupabase();
+          }
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => {
+          syncFromSupabase();
+        })
+        .subscribe();
+    } catch {}
+  }
+
+  // 6. Window focus listener for instant multi-tab & multi-browser update
+  const handleFocus = () => {
+    syncFromSupabase();
+  };
+  if (typeof window !== 'undefined') {
+    window.addEventListener('focus', handleFocus);
+  }
+
+  // 7. Firestore real-time listener (if available/quota allows)
+  let firestoreUnsub: Unsubscribe = () => {};
+  try {
+    const colRef = collection(db, PROJECTS_COLLECTION);
+    firestoreUnsub = onSnapshot(colRef, async (snap) => {
+      const currentDeleted = getDeletedProjectIds();
+
+      snap.docChanges().forEach((change) => {
+        if (change.type === 'removed') {
+          markProjectDeleted(change.doc.id);
+          deleteProject(change.doc.id);
+        }
+      });
+
+      if (snap.empty) return;
+      const loadedMap = new Map<string, ProjectItem>();
+      
+      snap.docs.forEach((d) => {
+        const data = d.data();
+        if (data && data.id && !currentDeleted.has(data.id)) {
+          const fallback = INITIAL_PROJECTS.find((p) => p.id === data.id);
+          const normalized = normalizeProject(data as Partial<ProjectItem>, fallback);
+          loadedMap.set(normalized.id, normalized);
+        }
+      });
+
+      if (loadedMap.size > 0) {
+        const current = getStoredProjects();
+        const mergedMap = new Map<string, ProjectItem>();
+        current.forEach((p) => {
+          if (!currentDeleted.has(p.id)) mergedMap.set(p.id, p);
+        });
+
+        for (const [id, p] of loadedMap.entries()) {
+          if (!currentDeleted.has(id)) {
+            const existing = mergedMap.get(id);
+            const resolved: ProjectItem = existing
+              ? {
+                  ...p,
+                  videoUrl: (p.videoUrl && p.videoUrl !== FIRESTORE_CHUNK_INDICATOR) ? p.videoUrl : existing.videoUrl,
+                  gallery: (Array.isArray(p.gallery) && p.gallery.length > 0) ? p.gallery : existing.gallery,
+                  coverImage: p.coverImage || existing.coverImage,
+                }
+              : p;
+
+            if (!resolved.videoUrl || resolved.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
+              try {
+                const localVid = await getLocalProjectVideo(id);
+                if (localVid) {
+                  resolved.videoUrl = localVid;
+                } else if (p.hasVideoChunks || p.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
+                  loadCloudProjectVideoChunks(id).then((assembled) => {
+                    if (assembled) {
+                      const currentAll = getStoredProjects();
+                      const updatedAll = currentAll.map((item) => item.id === id ? { ...item, videoUrl: assembled } : item);
+                      saveStoredProjects(updatedAll);
+                      onProjectsChange(updatedAll);
+                    }
+                  });
+                }
+              } catch {}
+            }
+
+            mergedMap.set(id, resolved);
+          }
+        }
+
+        const finalProjects = Array.from(mergedMap.values()).sort(
+          (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
+        );
+        saveStoredProjects(finalProjects);
+        onProjectsChange(finalProjects);
+      }
+    }, (error) => {
+      if (isResourceExhaustedError(error)) {
+        markQuotaExhausted();
+        console.warn('[Firestore] Quota reached for projects. Using Supabase & local storage.');
+      } else {
+        console.warn('Notice from cloud projects listener:', error);
+      }
+    });
+  } catch {}
+
+  return () => {
+    firestoreUnsub();
+    if (supabaseChannel && supabase) {
+      try {
+        supabase.removeChannel(supabaseChannel);
+      } catch {}
     }
-  });
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('focus', handleFocus);
+    }
+  };
 }
 
 export async function saveCloudProject(project: ProjectItem): Promise<ProjectItem> {
@@ -1853,6 +1909,16 @@ export async function saveCloudProject(project: ProjectItem): Promise<ProjectIte
     }
   }
 
+  // 5. Always sync to server API for universal cross-browser persistence
+  if (typeof window !== 'undefined') {
+    fetch('/api/admin/sync-project', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+      body: JSON.stringify(finalProject),
+    }).catch(() => {});
+  }
+
   return finalProject;
 }
 
@@ -1863,7 +1929,24 @@ export async function deleteCloudProject(projectId: string): Promise<void> {
   deleteLocalProjectVideo(projectId).catch(() => {});
   deleteCloudProjectVideoChunks(projectId).catch(() => {});
 
-  // 2. Track deleted ID in cloud metadata so other browsers & devices sync the deletion in real time
+  // 2. Sync deletion to server API
+  if (typeof window !== 'undefined') {
+    fetch(`/api/admin/sync-project?id=${encodeURIComponent(projectId)}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+      body: JSON.stringify({ id: projectId }),
+    }).catch(() => {});
+
+    // Also send to express route format /:id
+    fetch(`/api/admin/sync-project/${encodeURIComponent(projectId)}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    }).catch(() => {});
+  }
+
+  // 3. Track deleted ID in cloud metadata so other browsers & devices sync the deletion in real time
   if (!shouldSkipFirestoreWrite()) {
     try {
       const metaDocRef = doc(db, SETTINGS_COLLECTION, 'projects_metadata');
@@ -1874,7 +1957,7 @@ export async function deleteCloudProject(projectId: string): Promise<void> {
     }
   }
 
-  // 3. Delete from Supabase
+  // 4. Delete from Supabase
   if (isSupabaseConfigured()) {
     try {
       await deleteSupabaseProject(projectId);
@@ -1883,7 +1966,7 @@ export async function deleteCloudProject(projectId: string): Promise<void> {
     }
   }
 
-  // 4. Delete document from Firestore
+  // 5. Delete document from Firestore
   if (!shouldSkipFirestoreWrite()) {
     try {
       const docRef = doc(db, PROJECTS_COLLECTION, projectId);
@@ -1902,6 +1985,16 @@ export async function saveCloudProjectsOrder(orderedProjects: ProjectItem[]): Pr
   if (!isAdminLoggedIn()) return;
 
   saveProjectsOrder(orderedProjects);
+
+  // Sync order to server API
+  if (typeof window !== 'undefined') {
+    fetch('/api/admin/save-projects-order', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+      body: JSON.stringify({ orderedProjects }),
+    }).catch(() => {});
+  }
 
   if (isSupabaseConfigured()) {
     try {

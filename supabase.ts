@@ -1,6 +1,7 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const DEFAULT_SUPABASE_URL = 'https://rpyzvhetoviqpjvncqfy.supabase.co';
+const DEFAULT_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_xJpsJH--P7kPUwmrVNOwwQ_T12KVuWG';
 
 export function getSupabaseUrl(): string {
   if (typeof window !== 'undefined') {
@@ -15,7 +16,7 @@ export function getSupabasePublishableKey(): string {
     const local = localStorage.getItem('turath_supabase_key');
     if (local && local.trim()) return local.trim();
   }
-  return import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+  return import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
 }
 
 function createSupabaseInstance(): SupabaseClient | null {

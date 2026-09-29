@@ -86,7 +86,7 @@ export function setAdminLoggedIn(status: boolean): void {
 /**
  * Helper to build auth headers (supports HttpOnly cookies and Bearer token)
  */
-function getAuthHeaders(): HeadersInit {
+export function getAuthHeaders(): HeadersInit {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };

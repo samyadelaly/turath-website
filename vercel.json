@@ -26,6 +26,7 @@
   "rewrites": [
     { "source": "/share/:slug", "destination": "/api/share?slug=:slug" },
     { "source": "/p/:slug", "destination": "/api/share?slug=:slug" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

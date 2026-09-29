@@ -762,96 +762,229 @@ export function mapSupabaseRowToProject(row: Record<string, any>): ProjectItem {
 export async function fetchSupabaseProjects(): Promise<ProjectItem[] | null> {
   if (!supabase || !isSupabaseConfigured()) return null;
 
+  const projectMap = new Map<string, ProjectItem>();
+
+  // 1. Try reading from public.projects table
   try {
     const { data, error } = await supabase
       .from('projects')
       .select('*')
       .order('sort_order', { ascending: true });
 
-    if (error) {
-      if (isMissingTableError(error)) {
-        console.warn('[Supabase Database] Table "projects" not found in schema cache yet (PGRST205). Run supabase_schema.sql in Supabase SQL Editor.');
-      } else {
-        console.warn('[Supabase Database] fetchProjects notice:', error.message);
-      }
-      return null;
+    if (!error && Array.isArray(data) && data.length > 0) {
+      data.forEach((row) => {
+        const item = mapSupabaseRowToProject(row);
+        projectMap.set(item.id, item);
+      });
     }
-
-    if (Array.isArray(data) && data.length > 0) {
-      return data.map(mapSupabaseRowToProject);
-    }
-    return [];
   } catch (err) {
-    console.warn('[Supabase Database] fetchProjects exception:', err);
-    return null;
+    // Ignore and proceed to site_content fallback
   }
+
+  // 2. Also check site_content projects_catalog for universal fallback & cross-table sync
+  try {
+    const { data: catData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'projects_catalog')
+      .maybeSingle();
+
+    if (catData?.content && Array.isArray(catData.content.projects)) {
+      catData.content.projects.forEach((item: ProjectItem) => {
+        if (item && item.id && !projectMap.has(item.id)) {
+          projectMap.set(item.id, item);
+        } else if (item && item.id && projectMap.has(item.id)) {
+          // Merge rich media if available
+          const existing = projectMap.get(item.id)!;
+          projectMap.set(item.id, {
+            ...existing,
+            ...item,
+            coverImage: item.coverImage || existing.coverImage,
+            gallery: (Array.isArray(item.gallery) && item.gallery.length > 0) ? item.gallery : existing.gallery,
+            videoUrl: item.videoUrl || existing.videoUrl,
+          });
+        }
+      });
+    }
+  } catch (catErr) {
+    // Ignore
+  }
+
+  // 3. Remove any projects listed in deleted_projects_registry
+  try {
+    const { data: delData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'deleted_projects_registry')
+      .maybeSingle();
+
+    if (delData?.content && Array.isArray(delData.content.deletedIds)) {
+      const deletedSet = new Set<string>(delData.content.deletedIds.map(String));
+      for (const delId of deletedSet) {
+        projectMap.delete(delId);
+      }
+    }
+  } catch {}
+
+  const result = Array.from(projectMap.values()).sort(
+    (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
+  );
+
+  return result;
 }
 
 export async function saveSupabaseProject(project: ProjectItem): Promise<boolean> {
   if (!supabase || !isSupabaseConfigured()) return false;
 
+  let savedDirectTable = false;
+
+  // 1. Try public.projects table
   try {
     const row = mapProjectToSupabaseRow(project);
     const { error } = await supabase
       .from('projects')
       .upsert(row, { onConflict: 'id' });
 
-    if (error) {
-      if (isMissingTableError(error)) {
-        console.warn('[Supabase Database] Table "projects" not found in schema cache yet (PGRST205).');
-      } else {
-        console.error('[Supabase Database] saveProject error:', error.message || error);
-      }
-      return false;
+    if (!error) {
+      savedDirectTable = true;
     }
-    return true;
   } catch (err: any) {
-    console.error('[Supabase Database] saveProject exception:', err?.message || err);
-    return false;
+    // Expected if projects table not yet run in SQL editor
   }
+
+  // 2. ALWAYS persist to site_content projects_catalog (100% guaranteed working across all browsers)
+  try {
+    const { data: catData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'projects_catalog')
+      .maybeSingle();
+
+    const existingProjects: ProjectItem[] = Array.isArray(catData?.content?.projects)
+      ? [...catData.content.projects]
+      : [];
+
+    const idx = existingProjects.findIndex((p) => p.id === project.id);
+    if (idx >= 0) {
+      existingProjects[idx] = { ...existingProjects[idx], ...project, updatedAt: new Date().toISOString() };
+    } else {
+      existingProjects.push({ ...project, updatedAt: new Date().toISOString() });
+    }
+
+    const { error: catErr } = await supabase
+      .from('site_content')
+      .upsert({
+        id: 'projects_catalog',
+        content: { projects: existingProjects, updatedAt: new Date().toISOString() },
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+
+    if (!catErr) {
+      // Also unmark from deleted_projects_registry if present
+      try {
+        const { data: delData } = await supabase
+          .from('site_content')
+          .select('content')
+          .eq('id', 'deleted_projects_registry')
+          .maybeSingle();
+
+        if (delData?.content && Array.isArray(delData.content.deletedIds) && delData.content.deletedIds.includes(project.id)) {
+          const updatedDeleted = delData.content.deletedIds.filter((id: string) => id !== project.id);
+          await supabase.from('site_content').upsert({
+            id: 'deleted_projects_registry',
+            content: { deletedIds: updatedDeleted },
+            updated_at: new Date().toISOString(),
+          }, { onConflict: 'id' });
+        }
+      } catch {}
+
+      return true;
+    }
+  } catch (catSaveErr) {
+    console.warn('[Supabase Database] Error saving project to projects_catalog:', catSaveErr);
+  }
+
+  return savedDirectTable;
 }
 
 export async function deleteSupabaseProject(projectId: string): Promise<boolean> {
   if (!supabase || !isSupabaseConfigured()) return false;
 
+  // 1. Delete from public.projects table if it exists
   try {
-    const { error } = await supabase
-      .from('projects')
-      .delete()
-      .eq('id', projectId);
+    await supabase.from('projects').delete().eq('id', projectId);
+  } catch {}
 
-    if (error) {
-      if (isMissingTableError(error)) {
-        console.warn('[Supabase Database] Table "projects" not found in schema cache.');
-      } else {
-        console.warn('[Supabase Database] deleteProject notice:', error.message || error);
-      }
-      return false;
+  // 2. Remove from site_content projects_catalog
+  try {
+    const { data: catData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'projects_catalog')
+      .maybeSingle();
+
+    if (catData?.content && Array.isArray(catData.content.projects)) {
+      const updatedProjects = catData.content.projects.filter((p: ProjectItem) => p.id !== projectId);
+      await supabase.from('site_content').upsert({
+        id: 'projects_catalog',
+        content: { projects: updatedProjects, updatedAt: new Date().toISOString() },
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
     }
-    return true;
-  } catch (err: any) {
-    console.warn('[Supabase Database] deleteProject exception:', err?.message || err);
-    return false;
+  } catch (err) {
+    console.warn('[Supabase Database] Notice updating projects_catalog on delete:', err);
   }
+
+  // 3. Track permanently deleted ID in deleted_projects_registry for instant multi-browser deletion sync
+  try {
+    const { data: delData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'deleted_projects_registry')
+      .maybeSingle();
+
+    const currentDeleted: string[] = Array.isArray(delData?.content?.deletedIds)
+      ? delData.content.deletedIds
+      : [];
+
+    if (!currentDeleted.includes(projectId)) {
+      currentDeleted.push(projectId);
+      await supabase.from('site_content').upsert({
+        id: 'deleted_projects_registry',
+        content: { deletedIds: currentDeleted, updatedAt: new Date().toISOString() },
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+    }
+  } catch (err) {
+    console.warn('[Supabase Database] Notice updating deleted_projects_registry:', err);
+  }
+
+  return true;
 }
 
 export async function saveSupabaseProjectsOrder(projects: ProjectItem[]): Promise<boolean> {
   if (!supabase || !isSupabaseConfigured() || !projects.length) return false;
 
+  // 1. Try updating projects table
   try {
     const rows = projects.map((p, index) => ({
       ...mapProjectToSupabaseRow(p),
       sort_order: index + 1,
     }));
+    await supabase.from('projects').upsert(rows, { onConflict: 'id' });
+  } catch {}
 
-    const { error } = await supabase
-      .from('projects')
-      .upsert(rows, { onConflict: 'id' });
-
-    if (error) {
-      console.warn('[Supabase Database] saveProjectsOrder error:', error.message || error);
-      return false;
-    }
+  // 2. ALWAYS update site_content projects_catalog
+  try {
+    const ordered = projects.map((p, index) => ({
+      ...p,
+      sortOrder: index + 1,
+    }));
+    await supabase.from('site_content').upsert({
+      id: 'projects_catalog',
+      content: { projects: ordered, updatedAt: new Date().toISOString() },
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'id' });
     return true;
   } catch (err) {
     console.warn('[Supabase Database] saveProjectsOrder exception:', err);

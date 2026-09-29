@@ -283,12 +283,17 @@ export function recordSuccessfulLogin(ip: string): void {
   loginAttempts.delete(ip);
 }
 
+const SESSION_SIGN_SECRET = process.env.SESSION_SECRET || 'turath_secret_sign_key_v1';
+
 /**
  * Session Management
  */
 export function createAdminSession(ip?: string): string {
-  const sessionId = crypto.randomBytes(32).toString('hex');
   const now = Date.now();
+  const randomPart = crypto.randomBytes(16).toString('hex');
+  const payload = `${now}.${randomPart}`;
+  const sig = crypto.createHmac('sha256', SESSION_SIGN_SECRET).update(payload).digest('hex');
+  const sessionId = `${payload}.${sig}`;
 
   activeSessions.set(sessionId, {
     sessionId,
@@ -305,24 +310,41 @@ export function validateAdminSession(sessionId: string | undefined): boolean {
     return false;
   }
 
-  const session = activeSessions.get(sessionId);
-  if (!session) {
-    return false;
-  }
-
   const now = Date.now();
-  if (now - session.lastActive > SESSION_INACTIVITY_TIMEOUT_MS) {
-    activeSessions.delete(sessionId);
-    return false;
+
+  // 1. Check in-memory session if present
+  const session = activeSessions.get(sessionId);
+  if (session) {
+    if (now - session.lastActive > SESSION_INACTIVITY_TIMEOUT_MS || now - session.createdAt > SESSION_MAX_LIFETIME_MS) {
+      activeSessions.delete(sessionId);
+      return false;
+    }
+    session.lastActive = now;
+    return true;
   }
 
-  if (now - session.createdAt > SESSION_MAX_LIFETIME_MS) {
-    activeSessions.delete(sessionId);
-    return false;
+  // 2. Stateless cryptographic HMAC verification for serverless (Vercel) / restarts
+  const parts = sessionId.split('.');
+  if (parts.length === 3) {
+    const [timeStr, randomPart, sig] = parts;
+    const time = Number(timeStr);
+    if (!isNaN(time) && now - time < SESSION_MAX_LIFETIME_MS) {
+      const payload = `${timeStr}.${randomPart}`;
+      const expectedSig = crypto.createHmac('sha256', SESSION_SIGN_SECRET).update(payload).digest('hex');
+      try {
+        if (sig.length === expectedSig.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig))) {
+          activeSessions.set(sessionId, {
+            sessionId,
+            createdAt: time,
+            lastActive: now,
+          });
+          return true;
+        }
+      } catch {}
+    }
   }
 
-  session.lastActive = now;
-  return true;
+  return false;
 }
 
 export function revokeSession(sessionId: string | undefined): void {
