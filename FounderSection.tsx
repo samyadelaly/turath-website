@@ -1,8 +1,10 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { SiteContent, getStoredSiteContent, DEFAULT_ABOUT_IMAGE } from './siteContentStorage';
 import { computeImageRatio } from './imageRatioUtils';
 import { TurathImage } from "./TurathImage";
 import { Camera } from 'lucide-react';
+import { useSectionReveal } from './motionPresets';
 
 interface FounderSectionProps {
   content?: SiteContent;
@@ -26,6 +28,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
     position: activeContent.founderImagePosition || activeContent.aboutImagePosition || 'center',
   };
   const computedRatio = computeImageRatio(ratioConfig);
+  const founderReveal = useSectionReveal();
 
   const founderTitle = activeContent.founderTitle && activeContent.founderTitle !== 'From Graphic Design to Metal Craft'
     ? activeContent.founderTitle
@@ -46,7 +49,10 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
   return (
     <section id="founder-section" className="pt-10 sm:pt-14 lg:pt-16 pb-14 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 bg-[#000000] border-b border-[#d4c59d]/30">
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-14 lg:space-y-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <motion.div
+          {...founderReveal}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+        >
           {/* Text Column */}
           <div className="lg:col-span-7 space-y-5 sm:space-y-6">
             <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6] leading-tight">
@@ -120,7 +126,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
               </TurathImage>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

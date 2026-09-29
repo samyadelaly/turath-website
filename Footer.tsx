@@ -1,10 +1,11 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { TurathLogo } from './TurathLogo';
 import { 
   Phone, 
   Mail, 
   MapPin, 
-  PlusCircle, 
+  Sparkles, 
   MessageCircle, 
   ArrowUp,
   Lock,
@@ -21,6 +22,7 @@ import {
 import { ProductCategoryInfo } from './types';
 import { getStoredCategories } from './categoryStorage';
 import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
+import { useSectionReveal } from './motionPresets';
 
 interface FooterProps {
   onNavigate: (view: string, categoryId?: string | null) => void;
@@ -57,16 +59,18 @@ export const Footer: React.FC<FooterProps> = ({
   const whatsappDigits = (contact.whatsapp || activeContent.contactWhatsApp || '201016771010').replace(/[^0-9]/g, '');
   const phoneDigits = (contact.phone || activeContent.contactPhone || '00201016771010').replace(/\s+/g, '');
   const emailAddress = contact.email || activeContent.contactEmail || 'turath.egypt@gmail.com';
-  const displayAddress = contact.address || activeContent.contactAddress || 'Bab el nasr, Gamaliya Street, Kahla building, Historic Cairo, Egypt';
+  const displayAddress = contact.address || activeContent.contactAddress || 'Gamaliya Street, Historic Cairo, Egypt';
   const displayPhone = contact.phone || activeContent.contactPhone || '002 01016771010';
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const footerReveal = useSectionReveal();
+
   return (
     <footer className="bg-[#000000] border-t border-[#d4c59d]/30 text-[#d4c59d] pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <motion.div {...footerReveal} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Brand Info */}
@@ -208,7 +212,7 @@ export const Footer: React.FC<FooterProps> = ({
                     onClick={onOpenProductEditor}
                     className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center gap-1.5"
                   >
-                    <PlusCircle className="w-3.5 h-3.5" />
+                    <Sparkles className="w-3.5 h-3.5" />
                     <span>Open Product Catalog Editor</span>
                   </button>
 
@@ -277,7 +281,7 @@ export const Footer: React.FC<FooterProps> = ({
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 };
