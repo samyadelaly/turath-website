@@ -48,7 +48,8 @@ import {
   subscribeToCloudProjects,
   saveCloudProject,
   deleteCloudProject,
-  saveCloudProjectsOrder
+  saveCloudProjectsOrder,
+  subscribeToCloudSupabaseConfig
 } from './cloudDatabase';
 import { Navbar } from './Navbar';
 import { HeroSection } from './HeroSection';
@@ -203,6 +204,9 @@ export function App() {
       }
     });
 
+    // 7. Subscribe to Cloud Supabase configuration for instant cross-device syncing
+    const unsubSupabase = subscribeToCloudSupabaseConfig();
+
     const handleProjectsUpdate = (event?: Event) => {
       const customEv = event as CustomEvent;
       if (customEv?.detail?.projects && Array.isArray(customEv.detail.projects)) {
@@ -286,6 +290,7 @@ export function App() {
       unsubContent();
       unsubCategories();
       unsubProjects();
+      unsubSupabase();
       document.removeEventListener('contextmenu', handleMediaContextMenu, { capture: true });
       document.removeEventListener('dragstart', handleMediaDragStart, { capture: true });
       window.removeEventListener('turath-categories-updated', handleCategoriesUpdate);

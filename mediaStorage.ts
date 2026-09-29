@@ -513,3 +513,122 @@ export async function deleteCloudProductVideoChunks(productId: string): Promise<
     console.warn('Failed to delete product video chunks:', productId, err);
   }
 }
+
+// --- FIRESTORE VIDEO CHUNKING (PROJECTS) ---
+
+/**
+ * Saves a project's base64 video string across multiple subcollection documents in Firestore
+ * under projects/{projectId}/video_chunks
+ * so every user and device on the cloud can stream the project video.
+ */
+export async function saveCloudProjectVideoChunks(
+  projectId: string, 
+  videoDataUrl: string
+): Promise<number> {
+  if (!projectId || !videoDataUrl) return 0;
+
+  // Cache locally in IndexedDB first for instant playback
+  await saveLocalProjectVideo(projectId, videoDataUrl);
+
+  if (shouldSkipFirestoreChunking()) {
+    console.warn('[MediaStorage] Firestore write quota exhausted. Project video cached locally.');
+    return 0;
+  }
+
+  const totalLength = videoDataUrl.length;
+  const totalChunks = Math.ceil(totalLength / FIRESTORE_VIDEO_CHUNK_SIZE);
+  const chunksCollection = collection(db, 'projects', projectId, 'video_chunks');
+
+  try {
+    const writePromises: Promise<void>[] = [];
+    for (let i = 0; i < totalChunks; i++) {
+      const chunkData = videoDataUrl.slice(
+        i * FIRESTORE_VIDEO_CHUNK_SIZE, 
+        (i + 1) * FIRESTORE_VIDEO_CHUNK_SIZE
+      );
+      const chunkDocRef = doc(chunksCollection, `chunk_${String(i).padStart(4, '0')}`);
+      writePromises.push(
+        setDoc(chunkDocRef, {
+          index: i,
+          data: chunkData,
+          totalChunks,
+          projectId,
+          updatedAt: new Date().toISOString()
+        })
+      );
+    }
+    await Promise.all(writePromises);
+
+    // Clean up any extraneous older chunks if previous upload was larger
+    const existingSnap = await getDocs(chunksCollection);
+    const deletePromises: Promise<void>[] = [];
+    for (const snap of existingSnap.docs) {
+      const idx = Number(snap.data().index);
+      if (idx >= totalChunks) {
+        deletePromises.push(deleteDoc(snap.ref));
+      }
+    }
+    if (deletePromises.length > 0) {
+      await Promise.all(deletePromises);
+    }
+  } catch (err) {
+    console.warn('Could not clean old project video chunks:', err);
+  }
+
+  return totalChunks;
+}
+
+/**
+ * Loads chunked video documents from Firestore and reassembles the complete project video string.
+ */
+export async function loadCloudProjectVideoChunks(projectId: string): Promise<string | null> {
+  if (!projectId) return null;
+
+  // 1. Try local IndexedDB first for instant access
+  const cached = await getLocalProjectVideo(projectId);
+  if (cached) {
+    return cached;
+  }
+
+  // 2. Fetch all chunk documents from Firestore
+  try {
+    const chunksCollection = collection(db, 'projects', projectId, 'video_chunks');
+    const q = query(chunksCollection, orderBy('index', 'asc'));
+    const snap = await getDocs(q);
+
+    if (snap.empty) {
+      return null;
+    }
+
+    const docs = snap.docs.map(d => d.data() as { index: number; data: string });
+    docs.sort((a, b) => a.index - b.index);
+
+    const assembled = docs.map(d => d.data || '').join('');
+    if (assembled.length > 0) {
+      // Cache locally in IndexedDB for subsequent visits
+      await saveLocalProjectVideo(projectId, assembled);
+      return assembled;
+    }
+    return null;
+  } catch (err) {
+    console.warn('Failed to load video chunks for project:', projectId, err);
+    return null;
+  }
+}
+
+/**
+ * Deletes all video chunks for a project in Firestore and local IndexedDB.
+ */
+export async function deleteCloudProjectVideoChunks(projectId: string): Promise<void> {
+  if (!projectId) return;
+  await deleteLocalProjectVideo(projectId);
+
+  try {
+    const chunksCollection = collection(db, 'projects', projectId, 'video_chunks');
+    const snap = await getDocs(chunksCollection);
+    const deletePromises = snap.docs.map(d => deleteDoc(d.ref));
+    await Promise.all(deletePromises);
+  } catch (err) {
+    console.warn('Failed to delete project video chunks:', projectId, err);
+  }
+}

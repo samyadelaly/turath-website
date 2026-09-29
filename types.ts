@@ -259,6 +259,8 @@ export interface ProjectItem {
 
   // Project Video
   videoUrl?: string;
+  hasVideoChunks?: boolean;
+  videoChunksCount?: number;
   videoRatio?: 'Original' | '1:1' | '4:5' | '3:4' | '16:9' | '4:3' | '16:7' | 'Custom' | string;
   videoCustomRatioWidth?: number | string;
   videoCustomRatioHeight?: number | string;

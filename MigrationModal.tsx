@@ -3,6 +3,7 @@ import { Database, CheckCircle2, AlertCircle, Loader2, UploadCloud, X, Copy, Che
 import { isSupabaseConfigured, getSupabasePublishableKey, setSupabaseCredentials } from './supabase';
 import { migrateTurathToSupabase, MigrationProgress } from './supabaseMigration';
 import { testSupabaseFullSetup, SupabaseFullTestResult } from './supabaseDatabase';
+import { saveCloudSupabaseConfig } from './cloudDatabase';
 
 interface SupabaseMigrationModalProps {
   isOpen: boolean;
@@ -349,6 +350,8 @@ export const SupabaseMigrationModal: React.FC<SupabaseMigrationModalProps> = ({
     const ok = setSupabaseCredentials(keyInput.trim());
     setIsConfiguredState(ok);
     setKeySavedFeedback(true);
+    // Broadcast & persist to cloud for cross-browser synchronization
+    saveCloudSupabaseConfig(keyInput.trim()).catch(() => {});
     setTimeout(() => setKeySavedFeedback(false), 3000);
   };
 

@@ -13,10 +13,5 @@ try {
   setLogLevel('silent');
 } catch {}
 
-// Disable Firestore live network stream immediately to prevent "Quota limit exceeded"
-// and "Write stream exhausted maximum allowed queued writes" on project 883754661997
-// All dynamic persistence is handled by Supabase Free and local storage.
-disableNetwork(db).catch(() => {});
-
 export default app;
 

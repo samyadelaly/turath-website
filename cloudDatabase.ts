@@ -52,6 +52,9 @@ import {
   saveLocalProjectVideo,
   getLocalProjectVideo,
   deleteLocalProjectVideo,
+  saveCloudProjectVideoChunks,
+  loadCloudProjectVideoChunks,
+  deleteCloudProjectVideoChunks,
 } from './mediaStorage';
 import {
   saveSupabaseProduct,
@@ -69,7 +72,7 @@ import {
   deleteSupabaseProject,
   saveSupabaseProjectsOrder,
 } from './supabaseDatabase';
-import { isSupabaseConfigured } from './supabase';
+import { isSupabaseConfigured, setSupabaseCredentials } from './supabase';
 import { uploadToSupabaseStorage, deleteFromSupabaseStorage } from './supabaseStorage';
 
 const SETTINGS_DOC = 'general';
@@ -83,31 +86,32 @@ const PROJECTS_COLLECTION = 'projects';
 
 // --- CIRCUIT BREAKER FOR FIRESTORE QUOTA EXHAUSTION ---
 export const FIRESTORE_QUOTA_STORAGE_KEY = 'turath_firestore_write_quota_exhausted_v1';
-const QUOTA_COOLDOWN_MS = 12 * 60 * 60 * 1000; // 12 hours cooldown (respects daily free tier quotas)
+const QUOTA_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour cooldown if quota is genuinely reached
 
-// Default to true since project 883754661997 has exceeded free daily write units.
-// All writes are handled safely by Supabase Free and local storage.
-let isFirestoreWriteQuotaExhausted = true;
-let isNetworkDisabled = true;
+// Online cloud database is active and ready
+let isFirestoreWriteQuotaExhausted = false;
 
-export async function safelyDisableFirestoreNetwork() {
+// Check stored quota status from localStorage
+if (typeof window !== 'undefined') {
   try {
-    await disableNetwork(db);
-  } catch (e) {
-    // Ignore if already disabled or in offline environment
-  }
+    const stored = localStorage.getItem(FIRESTORE_QUOTA_STORAGE_KEY);
+    if (stored) {
+      if (Date.now() < Number(stored)) {
+        isFirestoreWriteQuotaExhausted = true;
+      } else {
+        localStorage.removeItem(FIRESTORE_QUOTA_STORAGE_KEY);
+        isFirestoreWriteQuotaExhausted = false;
+      }
+    }
+  } catch {}
 }
-
-// Ensure network is disabled immediately
-safelyDisableFirestoreNetwork();
 
 export function markWriteQuotaExhausted() {
   isFirestoreWriteQuotaExhausted = true;
   try {
     localStorage.setItem(FIRESTORE_QUOTA_STORAGE_KEY, String(Date.now() + QUOTA_COOLDOWN_MS));
   } catch {}
-  safelyDisableFirestoreNetwork();
-  console.warn('[Firestore] Online write quota limit reached. Saving locally & to Supabase.');
+  console.warn('[Firestore] Online write quota limit reached. Preserving locally & in Supabase.');
 }
 
 export function markQuotaExhausted() {
@@ -143,6 +147,38 @@ export function isResourceExhaustedError(err: any): boolean {
       err.message.includes('exhausted maximum allowed queued writes')
     ))
   );
+}
+
+// --- SUPABASE CONFIG MULTI-BROWSER SYNC ---
+
+export function subscribeToCloudSupabaseConfig(): Unsubscribe {
+  const docRef = doc(db, SETTINGS_COLLECTION, 'supabase_config');
+  return onSnapshot(docRef, (snap) => {
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data?.publishableKey && typeof data.publishableKey === 'string' && data.publishableKey.trim()) {
+        const currentKey = typeof window !== 'undefined' ? localStorage.getItem('turath_supabase_key') : null;
+        if (currentKey !== data.publishableKey.trim()) {
+          setSupabaseCredentials(data.publishableKey.trim(), data.url);
+          console.log('[Supabase] Automatically synced publishable key from cloud across browsers!');
+        }
+      }
+    }
+  }, () => {});
+}
+
+export async function saveCloudSupabaseConfig(key: string, url?: string): Promise<void> {
+  try {
+    const docRef = doc(db, SETTINGS_COLLECTION, 'supabase_config');
+    await setDoc(docRef, {
+      publishableKey: key.trim(),
+      url: url?.trim() || undefined,
+      updatedAt: new Date().toISOString(),
+    }, { merge: true });
+    console.log('[Supabase] Saved credentials to cloud for multi-browser sync.');
+  } catch (e) {
+    console.warn('Could not save Supabase config to cloud:', e);
+  }
 }
 
 // --- LOGO CLOUD SYNC ---
@@ -1592,8 +1628,17 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
   // 4. Firestore real-time listener
   const colRef = collection(db, PROJECTS_COLLECTION);
   return onSnapshot(colRef, async (snap) => {
-    if (snap.empty) return;
     const currentDeleted = getDeletedProjectIds();
+
+    // Cross-browser sync of document removals
+    snap.docChanges().forEach((change) => {
+      if (change.type === 'removed') {
+        markProjectDeleted(change.doc.id);
+        deleteProject(change.doc.id);
+      }
+    });
+
+    if (snap.empty) return;
     const loadedMap = new Map<string, ProjectItem>();
     
     snap.docs.forEach((d) => {
@@ -1618,16 +1663,28 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
           const resolved: ProjectItem = existing
             ? {
                 ...p,
-                videoUrl: p.videoUrl || existing.videoUrl,
+                videoUrl: (p.videoUrl && p.videoUrl !== FIRESTORE_CHUNK_INDICATOR) ? p.videoUrl : existing.videoUrl,
                 gallery: (Array.isArray(p.gallery) && p.gallery.length > 0) ? p.gallery : existing.gallery,
                 coverImage: p.coverImage || existing.coverImage,
               }
             : p;
 
-          if (!resolved.videoUrl) {
+          // Check if video needs to be loaded from local IDB or cloud chunks
+          if (!resolved.videoUrl || resolved.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
             try {
               const localVid = await getLocalProjectVideo(id);
-              if (localVid) resolved.videoUrl = localVid;
+              if (localVid) {
+                resolved.videoUrl = localVid;
+              } else if (p.hasVideoChunks || p.videoUrl === FIRESTORE_CHUNK_INDICATOR) {
+                loadCloudProjectVideoChunks(id).then((assembled) => {
+                  if (assembled) {
+                    const currentAll = getStoredProjects();
+                    const updatedAll = currentAll.map((item) => item.id === id ? { ...item, videoUrl: assembled } : item);
+                    saveStoredProjects(updatedAll);
+                    onProjectsChange(updatedAll);
+                  }
+                });
+              }
             } catch {}
           }
 
@@ -1765,10 +1822,21 @@ export async function saveCloudProject(project: ProjectItem): Promise<ProjectIte
     try {
       const docRef = doc(db, PROJECTS_COLLECTION, finalProject.id);
       
-      // Avoid saving huge raw base64 videos into Firestore document (1MB limit)
-      const firestorePayload = { ...finalProject };
-      if (firestorePayload.videoUrl && (firestorePayload.videoUrl.startsWith('data:video/') || firestorePayload.videoUrl.startsWith('blob:'))) {
-        delete (firestorePayload as any).videoUrl;
+      // If video is base64 and not yet on CDN, chunk it into Firestore
+      const firestorePayload: any = { ...finalProject };
+      if (finalProject.videoUrl && (finalProject.videoUrl.startsWith('data:video/') || finalProject.videoUrl.startsWith('blob:'))) {
+        try {
+          const chunkCount = await saveCloudProjectVideoChunks(finalProject.id, finalProject.videoUrl);
+          if (chunkCount > 0) {
+            firestorePayload.videoUrl = FIRESTORE_CHUNK_INDICATOR;
+            firestorePayload.hasVideoChunks = true;
+          } else {
+            delete firestorePayload.videoUrl;
+          }
+        } catch (chunkErr) {
+          console.warn('[Firestore] Error chunking project video:', chunkErr);
+          delete firestorePayload.videoUrl;
+        }
       }
 
       const sanitized = sanitizeForFirestore({
@@ -1793,16 +1861,9 @@ export async function deleteCloudProject(projectId: string): Promise<void> {
   markProjectDeleted(projectId);
   deleteProject(projectId);
   deleteLocalProjectVideo(projectId).catch(() => {});
+  deleteCloudProjectVideoChunks(projectId).catch(() => {});
 
-  if (isSupabaseConfigured()) {
-    try {
-      await deleteSupabaseProject(projectId);
-    } catch (supErr) {
-      console.warn('[Supabase] Failed to delete project row:', supErr);
-    }
-  }
-
-  // 2. Track deleted ID in cloud metadata so other browsers & devices sync the deletion
+  // 2. Track deleted ID in cloud metadata so other browsers & devices sync the deletion in real time
   if (!shouldSkipFirestoreWrite()) {
     try {
       const metaDocRef = doc(db, SETTINGS_COLLECTION, 'projects_metadata');
@@ -1822,7 +1883,7 @@ export async function deleteCloudProject(projectId: string): Promise<void> {
     }
   }
 
-  // 4. Delete from Firestore
+  // 4. Delete document from Firestore
   if (!shouldSkipFirestoreWrite()) {
     try {
       const docRef = doc(db, PROJECTS_COLLECTION, projectId);
