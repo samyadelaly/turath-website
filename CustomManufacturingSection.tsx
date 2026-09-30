@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { 
   FileText, 
   Ruler, 
@@ -8,7 +7,6 @@ import {
   ArrowRight, 
   MessageCircle 
 } from 'lucide-react';
-import { useSectionReveal, useStaggerContainer, useStaggerItem } from './motionPresets';
 
 interface CustomManufacturingSectionProps {
   onStartCustomProject: () => void;
@@ -17,10 +15,6 @@ interface CustomManufacturingSectionProps {
 export const CustomManufacturingSection: React.FC<CustomManufacturingSectionProps> = ({
   onStartCustomProject,
 }) => {
-  const introReveal = useSectionReveal();
-  const stepsContainer = useStaggerContainer();
-  const stepItem = useStaggerItem();
-
   const steps = [
     {
       step: '01',
@@ -51,10 +45,7 @@ export const CustomManufacturingSection: React.FC<CustomManufacturingSectionProp
   return (
     <section id="custom-section" className="pt-10 sm:pt-14 lg:pt-16 pb-14 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 bg-[#000000] border-b border-[#d4c59d]/30 relative overflow-hidden">
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-14 lg:space-y-16 relative z-10">
-        <motion.div
-          {...introReveal}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-7 space-y-5 sm:space-y-6">
             <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6] leading-tight">
               Custom Manufacturing
@@ -124,24 +115,20 @@ export const CustomManufacturingSection: React.FC<CustomManufacturingSectionProp
 
               <div className="p-4 rounded-xl bg-[#000000] border border-[#d4c59d]/40 text-xs">
                 <span className="text-[#f5f0e6] font-bold block mb-1">Direct Workshop Address:</span>
-                <span className="text-[#d4c59d]">Gamaliya Street, Historic Cairo, Egypt</span>
+                <span className="text-[#d4c59d]">Bab el nasr, Gamaliya Street, Kahla building, Historic Cairo, Egypt</span>
                 <span className="text-[#9e9174] block text-[11px] mt-1">Phone: 002 01016771010</span>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* 4 Steps */}
-        <motion.div
-          {...stepsContainer}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
           {steps.map((st) => {
             const Icon = st.icon;
             return (
-              <motion.div
+              <div
                 key={st.step}
-                variants={stepItem}
                 className="p-6 rounded-xl bg-[#000000] border border-[#d4c59d]/30 relative group hover:border-[#d4c59d] transition-colors"
               >
                 <div className="flex items-center justify-between mb-4">
@@ -159,10 +146,10 @@ export const CustomManufacturingSection: React.FC<CustomManufacturingSectionProp
                 <p className="text-xs text-[#9e9174] leading-relaxed">
                   {st.desc}
                 </p>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

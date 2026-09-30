@@ -321,29 +321,4 @@
       <image:caption>Monumental hand-engraved Egyptian brass floor vase with classical Islamic floral scrollwork.</image:caption>
     </image:image>
   </url>
-
-  <!-- Landmark Projects -->
-  <url>
-    <loc>https://turath-egypt.vercel.app/projects/nile-ritz-carlton-presidential-suites</loc>
-    <lastmod>2026-09-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&amp;fit=crop&amp;w=1400&amp;q=80</image:loc>
-      <image:title>The Nile Ritz-Carlton Presidential Suites Metalwork</image:title>
-      <image:caption>Custom pierced chandeliers and door hardware for royal suites overlooking the Nile.</image:caption>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://turath-egypt.vercel.app/projects/bab-al-qasr-royal-majlis</loc>
-    <lastmod>2026-09-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1400&amp;q=80</image:loc>
-      <image:title>Bab Al-Qasr Palace Private Majlis &amp; Dining Pavilion</image:title>
-      <image:caption>Monumental hand-hammered Siniya tables and architectural brass fit-out in Riyadh.</image:caption>
-    </image:image>
-  </url>
 </urlset>

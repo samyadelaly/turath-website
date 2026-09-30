@@ -1,21 +1,39 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ProductItem, InquiryFormData, ProductCategoryInfo } from './types';
+import { ProductItem, InquiryFormData, ProductCategoryInfo, ProjectItem, ClientPartnerItem } from './types';
 import { INITIAL_PRODUCTS, PRODUCT_CATEGORIES } from './initialCatalog';
-import { getStoredProducts, saveStoredProducts, resetStoredProducts, loadProductsFromIndexedDB } from './storage';
+import { getStoredProducts, saveStoredProducts, resetStoredProducts, loadProductsFromIndexedDB, deleteSingleStoredProduct } from './storage';
+import { isSupabaseConfigured } from './supabase';
+import { 
+  getStoredProjects, 
+  saveStoredProjects, 
+  saveProject, 
+  deleteProject, 
+  saveProjectsOrder 
+} from './projectStorage';
+import { 
+  getStoredClientsPartners, 
+  saveStoredClientsPartners, 
+  saveClientPartner, 
+  deleteClientPartner, 
+  saveClientsPartnersOrder 
+} from './clientsPartnersStorage';
 import { 
   getStoredCategories, 
   saveCategoryCover, 
   resetSingleCategoryCover, 
   resetCategoryCovers,
   saveCategory,
-  deleteCategory
+  deleteCategory,
+  saveCategoriesOrder
 } from './categoryStorage';
 import { 
   getStoredSiteContent, 
   saveStoredSiteContent, 
   resetStoredSiteContent, 
-  SiteContent 
+  SiteContent,
+  MenuItemId,
+  DEFAULT_MENU_ITEMS_ORDER
 } from './siteContentStorage';
 import { isAdminLoggedIn, setAdminLoggedIn, checkAdminSession, logoutAdmin } from './adminAuth';
 import { 
@@ -32,7 +50,17 @@ import {
   resetCloudSiteContent,
   subscribeToCloudCategories,
   saveCloudCategory,
-  deleteCloudCategory
+  deleteCloudCategory,
+  saveCloudCategoriesOrder,
+  subscribeToCloudProjects,
+  saveCloudProject,
+  deleteCloudProject,
+  saveCloudProjectsOrder,
+  subscribeToCloudClientsPartners,
+  saveCloudClientPartner,
+  deleteCloudClientPartner,
+  saveCloudClientsPartnersOrder,
+  subscribeToCloudSupabaseConfig
 } from './cloudDatabase';
 import { Navbar } from './Navbar';
 import { HeroSection } from './HeroSection';
@@ -47,12 +75,19 @@ import { AllProductsView } from './AllProductsView';
 import { ProductDetailPage } from './ProductDetailPage';
 import { ProductDetailModal } from './ProductDetailModal';
 import { ProductEditorModal } from './ProductEditorModal';
+import { ProjectsView } from './ProjectsView';
+import { ProjectDetailPage } from './ProjectDetailPage';
+import { ProjectEditorModal } from './ProjectEditorModal';
+import { ProjectManagerModal } from './ProjectManagerModal';
+import { ClientsPartnersView } from './ClientsPartnersView';
+import { ClientsPartnersManagerModal } from './ClientsPartnersManagerModal';
 import { ChangeLogoModal } from './ChangeLogoModal';
 import { EditCategoryCoverModal } from './EditCategoryCoverModal';
 import { EditAboutPhotoModal } from './EditAboutPhotoModal';
 import { SiteContentEditorModal } from './SiteContentEditorModal';
 import { DEFAULT_ABOUT_IMAGE } from './siteContentStorage';
 import { CategoryManagerModal } from './CategoryManagerModal';
+import { MenuSortModal } from './MenuSortModal';
 import { AdminLoginModal } from './AdminLoginModal';
 import { ChangePasswordModal } from './ChangePasswordModal';
 import { initMetaPixel, trackPageView } from './metaPixel';
@@ -65,8 +100,26 @@ import { computeCategoryCoverRatio, computeCategoryCoverMediaRatio } from './ima
 import { UnifiedResponsiveImage } from "./UnifiedResponsiveImage";
 import { TurathMedia } from "./TurathMedia";
 import { TurathCraftVideoModal } from "./TurathCraftVideoModal";
-import { useStaggerContainer, useStaggerItem } from './motionPresets';
-import { Sparkles, ArrowRight, PlusCircle, Plus, Edit3, Image as ImageIcon, Camera, Layers, FileText } from 'lucide-react';
+import { 
+  Sparkles, 
+  ArrowRight, 
+  PlusCircle, 
+  Plus, 
+  Edit3, 
+  Image as ImageIcon, 
+  Camera, 
+  Layers, 
+  FileText, 
+  ArrowUpDown, 
+  SlidersHorizontal,
+  Building2,
+  MapPin,
+  Calendar,
+  Eye,
+  EyeOff,
+  Trash2,
+  Handshake
+} from 'lucide-react';
 
 export function App() {
   const [products, setProducts] = useState<ProductItem[]>(() => getStoredProducts().filter((p) => p.categoryId !== 'wall-art'));
@@ -77,9 +130,24 @@ export function App() {
   const [isDownloadZipModalOpen, setIsDownloadZipModalOpen] = useState<boolean>(false);
   const [isCraftVideoModalOpen, setIsCraftVideoModalOpen] = useState<boolean>(false);
   const [isSiteContentEditorOpen, setIsSiteContentEditorOpen] = useState<boolean>(false);
+  const [isMenuSortModalOpen, setIsMenuSortModalOpen] = useState<boolean>(false);
+  const [homeCategorySort, setHomeCategorySort] = useState<'default' | 'name-asc' | 'name-desc' | 'count-desc'>('default');
+  const [homeProjectFilter, setHomeProjectFilter] = useState<string>('all');
+  const [homeProjectSort, setHomeProjectSort] = useState<'default' | 'name-asc' | 'year-desc'>('default');
   const [isCategoryManagerOpen, setIsCategoryManagerOpen] = useState<boolean>(false);
   const [categoryManagerInitialId, setCategoryManagerInitialId] = useState<string>('new');
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState<boolean>(false);
+
+  // Projects system states
+  const [projects, setProjects] = useState<ProjectItem[]>(() => getStoredProjects());
+  const [activeProjectPage, setActiveProjectPage] = useState<ProjectItem | null>(null);
+  const [isProjectEditorOpen, setIsProjectEditorOpen] = useState<boolean>(false);
+  const [editingProject, setEditingProject] = useState<ProjectItem | undefined>(undefined);
+  const [isProjectManagerOpen, setIsProjectManagerOpen] = useState<boolean>(false);
+
+  // Clients & Partners states
+  const [clientsPartners, setClientsPartners] = useState<ClientPartnerItem[]>(() => getStoredClientsPartners());
+  const [isClientsPartnersManagerOpen, setIsClientsPartnersManagerOpen] = useState<boolean>(false);
 
   const openCategoryManager = (initialId: string = 'new') => {
     setCategoryManagerInitialId(initialId);
@@ -121,14 +189,14 @@ export function App() {
 
     // 3. Subscribe to Cloud Products Catalog
     const unsubProducts = subscribeToCloudProducts((cloudProducts) => {
-      if (Array.isArray(cloudProducts) && cloudProducts.length > 0) {
+      if (Array.isArray(cloudProducts)) {
         setProducts(cloudProducts);
       }
     });
 
-    // Hydrate from IndexedDB on initial mount if available
+    // Hydrate from IndexedDB on initial mount if available (only if Supabase is not configured)
     loadProductsFromIndexedDB().then((idbProducts) => {
-      if (Array.isArray(idbProducts) && idbProducts.length > 0) {
+      if (Array.isArray(idbProducts) && idbProducts.length > 0 && !isSupabaseConfigured()) {
         setProducts(idbProducts);
       }
     });
@@ -146,6 +214,41 @@ export function App() {
         setCategories(cloudCats);
       }
     });
+
+    // 6. Subscribe to Cloud Projects (architectural installations & portfolio)
+    const unsubProjects = subscribeToCloudProjects((cloudProjects) => {
+      if (Array.isArray(cloudProjects) && cloudProjects.length > 0) {
+        setProjects(cloudProjects);
+      }
+    });
+
+    // 7. Subscribe to Cloud Clients & Partners (clients & architectural partners)
+    const unsubClientsPartners = subscribeToCloudClientsPartners((cloudItems) => {
+      if (Array.isArray(cloudItems)) {
+        setClientsPartners(cloudItems);
+      }
+    });
+
+    // 8. Subscribe to Cloud Supabase configuration for instant cross-device syncing
+    const unsubSupabase = subscribeToCloudSupabaseConfig();
+
+    const handleClientsPartnersUpdate = (event?: Event) => {
+      const customEv = event as CustomEvent;
+      if (customEv?.detail?.items && Array.isArray(customEv.detail.items)) {
+        setClientsPartners(customEv.detail.items);
+      } else {
+        setClientsPartners(getStoredClientsPartners());
+      }
+    };
+
+    const handleProjectsUpdate = (event?: Event) => {
+      const customEv = event as CustomEvent;
+      if (customEv?.detail?.projects && Array.isArray(customEv.detail.projects)) {
+        setProjects(customEv.detail.projects);
+      } else {
+        setProjects(getStoredProjects());
+      }
+    };
 
     const handleCategoriesUpdate = (event?: Event) => {
       const customEv = event as CustomEvent;
@@ -209,6 +312,8 @@ export function App() {
     document.addEventListener('dragstart', handleMediaDragStart, { capture: true });
 
     window.addEventListener('turath-categories-updated', handleCategoriesUpdate);
+    window.addEventListener('turath-projects-updated', handleProjectsUpdate);
+    window.addEventListener('turath-clients-partners-updated', handleClientsPartnersUpdate);
     window.addEventListener('turath-site-content-updated', handleSiteContentUpdate);
     window.addEventListener('turath-admin-auth-changed', handleAdminAuthChange);
     window.addEventListener('turath-admin-status-changed', handleAdminAuthChange);
@@ -219,9 +324,14 @@ export function App() {
       unsubProducts();
       unsubContent();
       unsubCategories();
+      unsubProjects();
+      unsubClientsPartners();
+      unsubSupabase();
       document.removeEventListener('contextmenu', handleMediaContextMenu, { capture: true });
       document.removeEventListener('dragstart', handleMediaDragStart, { capture: true });
       window.removeEventListener('turath-categories-updated', handleCategoriesUpdate);
+      window.removeEventListener('turath-projects-updated', handleProjectsUpdate);
+      window.removeEventListener('turath-clients-partners-updated', handleClientsPartnersUpdate);
       window.removeEventListener('turath-site-content-updated', handleSiteContentUpdate);
       window.removeEventListener('turath-admin-auth-changed', handleAdminAuthChange);
       window.removeEventListener('turath-admin-status-changed', handleAdminAuthChange);
@@ -270,6 +380,25 @@ export function App() {
     } catch (err) {
       console.warn('Could not sync category to cloud immediately:', err);
     }
+  };
+
+  const handleReorderCategories = async (orderedCategories: ProductCategoryInfo[]) => {
+    const updated = saveCategoriesOrder(orderedCategories);
+    setCategories(updated);
+    try {
+      await saveCloudCategoriesOrder(updated);
+    } catch (err) {
+      console.warn('Could not sync categories order to cloud immediately:', err);
+    }
+  };
+
+  const handleSaveMenuOrder = async (orderedItems: MenuItemId[], hiddenItems: MenuItemId[]) => {
+    const updated = {
+      ...siteContent,
+      menuItemsOrder: orderedItems,
+      hiddenMenuItems: hiddenItems,
+    };
+    await handleSaveSiteContent(updated);
   };
 
   const handleDeleteCategory = async (categoryId: string) => {
@@ -339,12 +468,15 @@ export function App() {
     selectedCategoryId,
     activeProductPage,
     activeProductDetail,
+    activeProjectPage,
     isEditorOpen,
     isEditCoverModalOpen,
     isLogoModalOpen,
     isAboutPhotoModalOpen,
     isSiteContentEditorOpen,
     isCategoryManagerOpen,
+    isProjectEditorOpen,
+    isProjectManagerOpen,
   ]);
 
   const handleOpenEditCoverModal = (categoryId?: string) => {
@@ -476,6 +608,13 @@ export function App() {
     saveStoredProducts(products);
   }, [products]);
 
+  // Sync projects safely to local storage and IndexedDB as cache
+  useEffect(() => {
+    if (Array.isArray(projects) && projects.length > 0) {
+      saveStoredProjects(projects);
+    }
+  }, [projects]);
+
   const handleSaveProduct = async (product: ProductItem) => {
     setProducts((prev) => {
       const exists = prev.some((p) => p.id === product.id);
@@ -497,6 +636,7 @@ export function App() {
   };
 
   const handleDeleteProduct = async (productId: string) => {
+    deleteSingleStoredProduct(productId);
     setProducts((prev) => prev.filter((p) => p.id !== productId));
     setActiveProductPage((current) => (current && current.id === productId ? null : current));
     setActiveProductDetail((current) => (current && current.id === productId ? null : current));
@@ -531,6 +671,117 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Projects system action handlers
+  const navigateToProject = (proj: ProjectItem) => {
+    setActiveProjectPage(proj);
+    setCurrentView('project-detail');
+    if (typeof window !== 'undefined' && window.history) {
+      window.history.pushState(
+        { projectId: proj.id },
+        '',
+        `/projects/${proj.slug || proj.id}`
+      );
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSaveProject = async (projectData: ProjectItem) => {
+    // 1. Immediately persist locally and broadcast update
+    const updatedList = saveProject(projectData);
+    setProjects(updatedList);
+    setActiveProjectPage((curr) => (curr && curr.id === projectData.id ? projectData : curr));
+
+    // 2. Sync to cloud and Supabase
+    try {
+      const synced = await saveCloudProject(projectData);
+      if (synced) {
+        const finalList = saveProject(synced);
+        setProjects(finalList);
+        setActiveProjectPage((curr) => (curr && curr.id === synced.id ? synced : curr));
+      }
+    } catch (err) {
+      console.warn('Failed to sync project to cloud immediately:', err);
+    }
+  };
+
+  const handleDeleteProject = async (projectId: string) => {
+    // 1. Immediately delete locally, mark deleted, and broadcast update
+    const updatedList = deleteProject(projectId);
+    setProjects(updatedList);
+    setActiveProjectPage((curr) => (curr && curr.id === projectId ? null : curr));
+    if (currentView === 'project-detail') {
+      navigateTo('projects');
+    }
+
+    // 2. Sync deletion to cloud and Supabase
+    try {
+      await deleteCloudProject(projectId);
+    } catch (err) {
+      console.warn('Failed to delete project from cloud immediately:', err);
+    }
+  };
+
+  const handleTogglePublishProject = async (proj: ProjectItem) => {
+    const updated: ProjectItem = {
+      ...proj,
+      published: !proj.published,
+      updatedAt: new Date().toISOString(),
+    };
+    await handleSaveProject(updated);
+  };
+
+  const handleReorderProjects = async (orderedProjects: ProjectItem[]) => {
+    setProjects(orderedProjects);
+    try {
+      await saveCloudProjectsOrder(orderedProjects);
+    } catch (err) {
+      console.warn('Failed to save projects order to cloud:', err);
+    }
+  };
+
+  // Clients & Partners Management Handlers
+  const handleSaveClientPartner = async (item: ClientPartnerItem) => {
+    const updated = saveClientPartner(item);
+    setClientsPartners(updated);
+    try {
+      const saved = await saveCloudClientPartner(item);
+      if (saved) {
+        const synced = saveClientPartner(saved);
+        setClientsPartners(synced);
+      }
+    } catch (err) {
+      console.warn('Failed to save client/partner to cloud:', err);
+    }
+  };
+
+  const handleDeleteClientPartner = async (id: string) => {
+    const updated = deleteClientPartner(id);
+    setClientsPartners(updated);
+    try {
+      await deleteCloudClientPartner(id);
+    } catch (err) {
+      console.warn('Failed to delete client/partner from cloud:', err);
+    }
+  };
+
+  const handleTogglePublishClientPartner = async (item: ClientPartnerItem) => {
+    const updated: ClientPartnerItem = {
+      ...item,
+      published: !item.published,
+      updatedAt: new Date().toISOString(),
+    };
+    await handleSaveClientPartner(updated);
+  };
+
+  const handleReorderClientsPartners = async (ordered: ClientPartnerItem[]) => {
+    setClientsPartners(ordered);
+    try {
+      await saveCloudClientsPartnersOrder(ordered);
+    } catch (err) {
+      console.warn('Failed to save clients/partners order:', err);
+    }
+  };
+
   // Browser URL Synchronization & Deep Linking
   useEffect(() => {
     const handleUrlChange = () => {
@@ -550,12 +801,41 @@ export function App() {
             return;
           }
         }
+
+        const queryProject = searchParams.get('project') || searchParams.get('proj');
+        if (queryProject) {
+          const matchedProj = projects.find(
+            (p) => p.id === queryProject || p.slug === queryProject
+          );
+          if (matchedProj) {
+            setActiveProjectPage(matchedProj);
+            setCurrentView('project-detail');
+            trackPageView();
+            return;
+          }
+        }
       }
 
       const path = window.location.pathname;
       const parts = path.split('/').filter(Boolean);
 
-      if (parts[0] === 'products') {
+      if (parts[0] === 'projects') {
+        if (parts.length >= 2) {
+          const projectSlug = parts[1];
+          const matchedProj = projects.find(
+            (p) => p.slug === projectSlug || p.id === projectSlug
+          );
+          if (matchedProj) {
+            setActiveProjectPage(matchedProj);
+            setCurrentView('project-detail');
+            trackPageView();
+            return;
+          }
+        }
+        setCurrentView('projects');
+        trackPageView();
+        return;
+      } else if (parts[0] === 'products') {
         if (parts.length >= 3) {
           const catId = parts[1];
           const slug = parts[2];
@@ -599,6 +879,10 @@ export function App() {
         setCurrentView('why-us');
         trackPageView();
         return;
+      } else if (parts[0] === 'clients-partners' || parts[0] === 'clients' || parts[0] === 'partners') {
+        setCurrentView('clients-partners');
+        trackPageView();
+        return;
       } else {
         trackPageView();
       }
@@ -607,7 +891,7 @@ export function App() {
     handleUrlChange();
     window.addEventListener('popstate', handleUrlChange);
     return () => window.removeEventListener('popstate', handleUrlChange);
-  }, [products]);
+  }, [products, projects, clientsPartners]);
 
   const navigateTo = (view: string, categoryId?: string | null) => {
     setCurrentView(view);
@@ -623,6 +907,14 @@ export function App() {
     } else if (view === 'products') {
       if (typeof window !== 'undefined' && window.history) {
         window.history.pushState(null, '', '/products');
+      }
+    } else if (view === 'projects') {
+      if (typeof window !== 'undefined' && window.history) {
+        window.history.pushState(null, '', '/projects');
+      }
+    } else if (view === 'clients-partners') {
+      if (typeof window !== 'undefined' && window.history) {
+        window.history.pushState(null, '', '/clients-partners');
       }
     } else {
       if (typeof window !== 'undefined' && window.history) {
@@ -654,10 +946,6 @@ export function App() {
 
   const activeCategory = categories.find((c) => c.id === selectedCategoryId) || categories[0];
 
-  // Phase 1: restrained staggered entrance for the home category grid only
-  const categoryGridContainer = useStaggerContainer();
-  const categoryCardItem = useStaggerItem();
-
   return (
     <div className="min-h-screen bg-[#000000] text-[#f5f0e6] flex flex-col font-sans selection:bg-[#d4c59d] selection:text-[#000000]">
       {/* Admin Quick Action Bar when logged in */}
@@ -665,6 +953,11 @@ export function App() {
         <AdminBar
           onOpenEditCategoryCovers={() => handleOpenEditCoverModal()}
           onOpenProductEditor={() => openEditor()}
+          onOpenProjectManager={() => setIsProjectManagerOpen(true)}
+          onOpenAddProject={() => {
+            setEditingProject(undefined);
+            setIsProjectEditorOpen(true);
+          }}
           onOpenChangeLogo={() => setIsLogoModalOpen(true)}
           onOpenChangeAboutPhoto={() => {
             setAboutPhotoTarget('about');
@@ -676,6 +969,8 @@ export function App() {
           onOpenAddCategory={() => openCategoryManager('new')}
           onOpenChangePassword={() => setIsChangePasswordModalOpen(true)}
           onOpenSupabaseMigration={() => setIsSupabaseMigrationOpen(true)}
+          onOpenMenuSortModal={() => setIsMenuSortModalOpen(true)}
+          onOpenClientsPartnersManager={() => setIsClientsPartnersManagerOpen(true)}
           onLogout={handleAdminLogout}
         />
       )}
@@ -690,6 +985,8 @@ export function App() {
         onOpenEditCategoryCovers={() => handleOpenEditCoverModal()}
         onOpenDownloadZip={() => setIsDownloadZipModalOpen(true)}
         onOpenCategoryManager={(initialId) => openCategoryManager(initialId || 'new')}
+        onOpenMenuSortModal={() => setIsMenuSortModalOpen(true)}
+        onOpenClientsPartnersManager={() => setIsClientsPartnersManagerOpen(true)}
         categories={categories}
         content={siteContent}
         isAdmin={isAdmin}
@@ -700,7 +997,71 @@ export function App() {
       {/* Main Content Area */}
       <main className="flex-grow">
         <AnimatePresence mode="wait">
-          {currentView === 'product-detail' && activeProductPage ? (
+          {currentView === 'project-detail' && activeProjectPage ? (
+            <motion.div
+              key={`project-${activeProjectPage.id}`}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <ProjectDetailPage
+                project={activeProjectPage}
+                products={products}
+                onNavigateBack={() => navigateTo('projects')}
+                onNavigateToProduct={(p) => navigateToProduct(p)}
+                isAdmin={isAdmin}
+                onEditProject={(p) => {
+                  setEditingProject(p);
+                  setIsProjectEditorOpen(true);
+                }}
+              />
+            </motion.div>
+          ) : currentView === 'projects' ? (
+            <motion.div
+              key="projects"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <ProjectsView
+                projects={projects}
+                onSelectProject={(p) => navigateToProject(p)}
+                isAdmin={isAdmin}
+                onOpenAddProject={() => {
+                  setEditingProject(undefined);
+                  setIsProjectEditorOpen(true);
+                }}
+                onEditProject={(p) => {
+                  setEditingProject(p);
+                  setIsProjectEditorOpen(true);
+                }}
+                onDeleteProject={(id) => handleDeleteProject(id)}
+                onTogglePublish={(p) => handleTogglePublishProject(p)}
+                onNavigateToCustomFabrication={() => navigateTo('custom')}
+              />
+            </motion.div>
+          ) : currentView === 'clients-partners' ? (
+            <motion.div
+              key="clients-partners"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <ClientsPartnersView
+                items={clientsPartners}
+                projects={projects}
+                isAdmin={isAdmin}
+                onOpenAddModal={() => setIsClientsPartnersManagerOpen(true)}
+                onOpenEditModal={() => setIsClientsPartnersManagerOpen(true)}
+                onDelete={handleDeleteClientPartner}
+                onTogglePublish={handleTogglePublishClientPartner}
+                onNavigateToProject={(p) => navigateToProject(p)}
+              />
+            </motion.div>
+          ) : currentView === 'product-detail' && activeProductPage ? (
             <motion.div
               key={`product-${activeProductPage.id}`}
               initial={{ opacity: 0, y: 15 }}
@@ -915,18 +1276,93 @@ export function App() {
                     </div>
                   </div>
 
+                  {/* Collection Sort & Organization Toolbar - Admin Only */}
+                  {isAdmin && (
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-[#101014] border border-[#d4c59d]/30">
+                      <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold">
+                        <ArrowUpDown className="w-4 h-4 text-[#d4c59d]" />
+                        <span>ترتيب المجموعات (Sort Collections):</span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => setHomeCategorySort('default')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeCategorySort === 'default'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          الافتراضي (Default)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeCategorySort('name-asc')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeCategorySort === 'name-asc'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          A → Z
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeCategorySort('name-desc')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeCategorySort === 'name-desc'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          Z → A
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeCategorySort('count-desc')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeCategorySort === 'count-desc'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          الأكثر منتجات
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => openCategoryManager()}
+                          className="px-3 py-1 rounded-full text-xs font-bold bg-[#1e1a14] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer flex items-center gap-1 font-arabic ml-auto sm:ml-2"
+                          title="ترتيب وتخصيص ترتيب الأقسام"
+                        >
+                          <SlidersHorizontal className="w-3.5 h-3.5" />
+                          <span>ترتيب يدوي للأقسام</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Categories Visual Grid */}
-                  <motion.div
-                    {...categoryGridContainer}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                  >
-                    {categories.map((cat) => {
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {[...categories].sort((a, b) => {
+                      if (homeCategorySort === 'name-asc') return a.name.localeCompare(b.name);
+                      if (homeCategorySort === 'name-desc') return b.name.localeCompare(a.name);
+                      if (homeCategorySort === 'count-desc') {
+                        const countA = products.filter((p) => p.categoryId === a.id).length;
+                        const countB = products.filter((p) => p.categoryId === b.id).length;
+                        return countB - countA;
+                      }
+                      const orderA = typeof a.order === 'number' ? a.order : 999;
+                      const orderB = typeof b.order === 'number' ? b.order : 999;
+                      return orderA - orderB;
+                    }).map((cat) => {
                       const count = products.filter((p) => p.categoryId === cat.id).length;
                       return (
-                        <motion.div key={cat.id} variants={categoryCardItem} className="h-full flex">
                         <TiltCard
+                          key={cat.id}
                           onClick={() => navigateTo('category', cat.id)}
-                          className="group bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg cursor-pointer flex flex-col justify-between flex-1"
+                          className="group bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg cursor-pointer flex flex-col justify-between"
                         >
                           {(() => {
                             const isVideo = cat.coverMediaType === 'video' && !!cat.coverVideoUrl;
@@ -1009,12 +1445,416 @@ export function App() {
                             </div>
                           </div>
                         </TiltCard>
-                        </motion.div>
                       );
                     })}
-                  </motion.div>
+                  </div>
                 </div>
               </section>
+
+              {/* Architectural Projects & Bespoke Installations (Projects Showcase) */}
+              <section className="py-14 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#070705] border-b border-[#d4c59d]/30 relative overflow-hidden">
+                <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
+                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div className="space-y-2">
+                      <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
+                        Our Landmark Projects
+                      </h2>
+
+                      <p className="font-arabic text-sm sm:text-base text-[#d4c59d]" dir="rtl">
+                        تحف معمارية وهندسية فاخرة صُنعت خصيصاً لأرقى الفنادق والقصور والمشاريع الكبرى
+                      </p>
+
+                      <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl font-sans">
+                        Monumental chandeliers, hand-hammered wall panels, and bespoke brass architectural installations executed for presidential suites, royal majlis, luxury hotels, and private estates.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      {isAdmin && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingProject(undefined);
+                              setIsProjectEditorOpen(true);
+                            }}
+                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow font-arabic cursor-pointer"
+                            title="إضافة مشروع معماري أو فندقي جديد"
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span>+ إضافة مشروع جديد</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setIsProjectManagerOpen(true)}
+                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
+                            title="إدارة وتعديل وترتيب المشاريع"
+                          >
+                            <Building2 className="w-4 h-4" />
+                            <span>إدارة المشاريع (Projects)</span>
+                          </button>
+                        </>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => navigateTo('projects')}
+                        className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
+                      >
+                        <span>View All {projects.filter((p) => isAdmin || p.published).length} Projects</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Project Names in Points Vertically */}
+                  <div className="p-4 rounded-xl bg-[#11100c] border border-[#d4c59d]/30 space-y-3">
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#d4c59d] flex-shrink-0" />
+                        <span>Explore by Project Name:</span>
+                        <span className="text-[11px] text-[#9e9174] font-mono font-normal">
+                          ({projects.filter((p) => isAdmin || p.published).length} Installations)
+                        </span>
+                      </div>
+                      <div className="text-xs text-[#9e9174] font-arabic pr-3.5">
+                        أسماء المشاريع المنفذة
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2 pt-1">
+                      {projects
+                        .filter((p) => isAdmin || p.published)
+                        .map((p) => (
+                          <button
+                            key={`point-${p.id}`}
+                            type="button"
+                            onClick={() => navigateToProject(p)}
+                            className="flex items-center gap-2.5 text-left py-1.5 px-2.5 rounded-lg hover:bg-[#1a1711] border border-transparent hover:border-[#d4c59d]/20 transition-all group cursor-pointer w-full"
+                            title={`View details of ${p.title}`}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#d4c59d] flex-shrink-0 group-hover:scale-125 transition-transform" />
+                            <span className="text-xs text-[#e6d8b5] group-hover:text-[#d4c59d] font-medium transition-colors line-clamp-1">
+                              {p.title}
+                            </span>
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+
+                  {/* Project Type Filter & Sort Toolbar - Admin Only */}
+                  {isAdmin && (
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-[#101014] border border-[#d4c59d]/30">
+                      <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold font-arabic">
+                        <ArrowUpDown className="w-4 h-4 text-[#d4c59d]" />
+                        <span>تصفية وترتيب المشاريع (Filter & Sort):</span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => setHomeProjectFilter('all')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeProjectFilter === 'all'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          الكل (All)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeProjectFilter('hotel')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeProjectFilter === 'hotel'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          فنادق (Hotels)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeProjectFilter('palace')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeProjectFilter === 'palace'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          قصور وفيلات (Palaces/Villas)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeProjectFilter('restaurant')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeProjectFilter === 'restaurant'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          مطاعم (Dining)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeProjectFilter('commercial')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeProjectFilter === 'commercial'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          تجارية ومعمارية
+                        </button>
+
+                        <div className="hidden sm:block h-4 w-px bg-[#d4c59d]/30 mx-1" />
+
+                        <button
+                          type="button"
+                          onClick={() => setHomeProjectSort('default')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeProjectSort === 'default'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          الافتراضي
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setHomeProjectSort('name-asc')}
+                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                            homeProjectSort === 'name-asc'
+                              ? 'bg-[#d4c59d] text-[#000000]'
+                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                          }`}
+                        >
+                          A → Z
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setIsProjectManagerOpen(true)}
+                          className="px-3 py-1 rounded-full text-xs font-bold bg-[#1e1a14] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer flex items-center gap-1 font-arabic ml-auto sm:ml-2"
+                          title="ترتيب وتخصيص المشاريع"
+                        >
+                          <SlidersHorizontal className="w-3.5 h-3.5" />
+                          <span>ترتيب المشاريع</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Projects Visual Grid (Cards matching Category Card format) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {projects
+                      .filter((p) => {
+                        if (!isAdmin && !p.published) return false;
+                        if (homeProjectFilter === 'all') return true;
+                        if (homeProjectFilter === 'hotel') return p.projectType.toLowerCase().includes('hotel');
+                        if (homeProjectFilter === 'palace') return p.projectType.toLowerCase().includes('palace') || p.projectType.toLowerCase().includes('villa') || p.projectType.toLowerCase().includes('residential');
+                        if (homeProjectFilter === 'restaurant') return p.projectType.toLowerCase().includes('restaurant');
+                        if (homeProjectFilter === 'commercial') return p.projectType.toLowerCase().includes('commercial') || p.projectType.toLowerCase().includes('architectural') || p.projectType.toLowerCase().includes('retail');
+                        return true;
+                      })
+                      .sort((a, b) => {
+                        if (homeProjectSort === 'name-asc') return a.title.localeCompare(b.title);
+                        if (homeProjectSort === 'year-desc') return (Number(b.year) || 0) - (Number(a.year) || 0);
+                        return (a.sortOrder || 0) - (b.sortOrder || 0);
+                      })
+                      .map((proj) => {
+                        const isVideo = proj.mediaType === 'video' && !!proj.videoUrl;
+                        return (
+                          <TiltCard
+                            key={proj.id}
+                            onClick={() => navigateToProject(proj)}
+                            className="group bg-[#0e0d0a] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg cursor-pointer flex flex-col justify-between"
+                          >
+                            <div className="relative overflow-hidden bg-black aspect-[16/10]">
+                              <TurathMedia
+                                type={isVideo ? 'video' : 'image'}
+                                src={proj.coverImage}
+                                videoUrl={proj.videoUrl}
+                                poster={proj.videoPoster || proj.coverImage}
+                                ratio={proj.coverRatio || 'Original'}
+                                customWidth={proj.coverCustomRatioWidth}
+                                customHeight={proj.coverCustomRatioHeight}
+                                fit={proj.coverFit || 'cover'}
+                                position={proj.coverPosition || 'center'}
+                                alt={proj.title}
+                                containerClassName="w-full h-full"
+                                mediaClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
+                                autoPlay={isVideo}
+                                muted={true}
+                                loop={true}
+                                playsInline={true}
+                                showVideoBadge={isVideo}
+                              />
+
+                              {/* Top-Right Arabic / Type Badge */}
+                              <span className="absolute top-2.5 right-2.5 text-[11px] font-arabic font-bold bg-[#d4c59d] text-[#000000] px-2 py-0.5 rounded shadow z-10 pointer-events-none">
+                                {proj.projectType}
+                              </span>
+
+                              {/* Draft watermark badge for admin */}
+                              {!proj.published && (
+                                <span className="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold bg-amber-500/90 text-black px-2 py-0.5 rounded shadow z-10 pointer-events-none flex items-center gap-1">
+                                  <EyeOff className="w-3 h-3" />
+                                  <span>Draft</span>
+                                </span>
+                              )}
+
+                              {/* Direct Edit & Manage Button on each card - Admin Only */}
+                              {isAdmin && (
+                                <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 z-20">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingProject(proj);
+                                      setIsProjectEditorOpen(true);
+                                    }}
+                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/60 text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-arabic"
+                                    title="تعديل هذا المشروع"
+                                  >
+                                    <Edit3 className="w-3 h-3" />
+                                    <span>تعديل</span>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleTogglePublishProject(proj);
+                                    }}
+                                    className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/85 text-[#d4c59d] hover:text-white border border-[#d4c59d]/60 text-[10px] font-bold transition-all shadow-lg cursor-pointer"
+                                    title={proj.published ? 'إلغاء النشر' : 'نشر'}
+                                  >
+                                    {proj.published ? <Eye className="w-3 h-3 text-emerald-400" /> : <EyeOff className="w-3 h-3 text-amber-400" />}
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="p-4 space-y-2 flex-grow flex flex-col justify-between">
+                              <div className="space-y-1">
+                                <div className="flex items-center justify-between gap-2">
+                                  <h3 className="font-serif-luxury text-base font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors line-clamp-1">
+                                    {proj.title}
+                                  </h3>
+                                  {proj.year && (
+                                    <span className="text-[10px] text-[#000000] font-bold bg-[#d4c59d] px-1.5 py-0.2 rounded font-mono flex-shrink-0">
+                                      {proj.year}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className="flex items-center gap-1.5 text-[11px] text-[#d4c59d]">
+                                  <MapPin className="w-3 h-3 text-[#d4c59d]" />
+                                  <span>{proj.location}</span>
+                                </div>
+                              </div>
+
+                              <div className="pt-3 border-t border-[#d4c59d]/15 flex items-center justify-between text-xs text-[#d4c59d] font-semibold group-hover:translate-x-1 transition-transform">
+                                <span className="font-arabic text-[11px]">عرض تفاصيل المشروع (Case Study)</span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </div>
+                            </div>
+                          </TiltCard>
+                        );
+                      })}
+                  </div>
+                </div>
+              </section>
+
+              {/* OUR CLIENTS & PARTNERS Section on Home (Only shown when published entries exist or in Admin mode) */}
+              {(isAdmin || clientsPartners.some((i) => i.published)) && (
+                <section className="py-14 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#0a0907] border-b border-[#d4c59d]/30 relative overflow-hidden">
+                  <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                      <div className="space-y-2">
+                        <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
+                          Our Clients <span className="text-[#d4c59d]">& Partners</span>
+                        </h2>
+                        <p className="font-arabic text-sm sm:text-base text-[#d4c59d]" dir="rtl">
+                          شركاء النجاح وكبار العملاء الذين يقدّرون الدقة وأصالة الحرفة النحاسية المصرية
+                        </p>
+                        <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl font-sans">
+                          Trusted by clients and partners who value Egyptian craftsmanship, precision, and distinctive metalwork.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        {isAdmin && (
+                          <button
+                            type="button"
+                            onClick={() => setIsClientsPartnersManagerOpen(true)}
+                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
+                            title="إدارة شركاء النجاح والعملاء والشعارات"
+                          >
+                            <span>إدارة الشركاء والعملاء</span>
+                          </button>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => navigateTo('clients-partners')}
+                          className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
+                        >
+                          <span>View All Clients & Partners</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Logo Showcase Grid */}
+                    {clientsPartners.filter((i) => isAdmin || i.published).length > 0 ? (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                        {clientsPartners
+                          .filter((i) => isAdmin || i.published)
+                          .map((item) => (
+                            <div
+                              key={`home-cp-${item.id}`}
+                              onClick={() => {
+                                if (item.websiteUrl) {
+                                  window.open(item.websiteUrl, '_blank', 'noopener,noreferrer');
+                                } else {
+                                  navigateTo('clients-partners');
+                                }
+                              }}
+                              className="group p-4 rounded-xl bg-[#11100c] border border-[#d4c59d]/15 hover:border-[#d4c59d]/60 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer shadow-sm hover:shadow-[0_8px_25px_rgba(0,0,0,0.8)]"
+                              title={item.websiteUrl ? `Visit ${item.name} (${item.websiteUrl})` : item.name}
+                            >
+                              <div className="w-full h-16 sm:h-20 flex items-center justify-center p-2 mb-2">
+                                {item.logo ? (
+                                  <img
+                                    src={item.logo}
+                                    alt={item.name}
+                                    className="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 opacity-75 group-hover:opacity-100 transition-all duration-300"
+                                    loading="lazy"
+                                  />
+                                ) : (
+                                  <span className="text-xs font-bold text-[#d4c59d]">{item.name}</span>
+                                )}
+                              </div>
+                              <span className="text-[11px] font-medium text-[#c4b58d] group-hover:text-[#f5f0e6] transition-colors truncate max-w-full">
+                                {item.name}
+                              </span>
+                              <span className="text-[9px] uppercase tracking-wider text-[#9e9174] mt-0.5">
+                                {item.type === 'partner' ? 'Partner' : 'Client'}
+                              </span>
+                            </div>
+                          ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-xs text-[#9e9174] bg-[#11100c] rounded-xl border border-[#d4c59d]/20 p-6">
+                        <p>No clients or partners registered yet.</p>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              )}
 
               {/* About Section */}
               <AboutSection 
@@ -1191,9 +2031,28 @@ export function App() {
           initialSelectedId={categoryManagerInitialId}
           onSaveCategory={handleSaveCategory}
           onDeleteCategory={handleDeleteCategory}
+          onReorderCategories={handleReorderCategories}
           onNavigateToCategory={(catId) => {
             setIsCategoryManagerOpen(false);
             navigateTo('category', catId);
+          }}
+        />
+      )}
+
+      {/* Menu Sort & Organization Modal */}
+      {isMenuSortModalOpen && (
+        <MenuSortModal
+          isOpen={isMenuSortModalOpen}
+          onClose={() => setIsMenuSortModalOpen(false)}
+          siteContent={siteContent}
+          onSaveMenuOrder={handleSaveMenuOrder}
+          onResetMenuOrder={async () => {
+            const updated = {
+              ...siteContent,
+              menuItemsOrder: [...DEFAULT_MENU_ITEMS_ORDER],
+              hiddenMenuItems: [],
+            };
+            await handleSaveSiteContent(updated);
           }}
         />
       )}
@@ -1220,6 +2079,7 @@ export function App() {
       <TurathCraftVideoModal
         isOpen={isCraftVideoModalOpen}
         onClose={() => setIsCraftVideoModalOpen(false)}
+        isAdmin={isAdmin}
       />
 
       {/* Download Website ZIP Modal */}
@@ -1233,6 +2093,54 @@ export function App() {
         isOpen={isSupabaseMigrationOpen}
         onClose={() => setIsSupabaseMigrationOpen(false)}
       />
+
+      {/* Project Editor Modal */}
+      {isProjectEditorOpen && (
+        <ProjectEditorModal
+          isOpen={isProjectEditorOpen}
+          onClose={() => {
+            setIsProjectEditorOpen(false);
+            setEditingProject(undefined);
+          }}
+          project={editingProject}
+          products={products}
+          onSave={handleSaveProject}
+          onDelete={handleDeleteProject}
+        />
+      )}
+
+      {/* Project Manager Modal */}
+      {isProjectManagerOpen && (
+        <ProjectManagerModal
+          isOpen={isProjectManagerOpen}
+          onClose={() => setIsProjectManagerOpen(false)}
+          projects={projects}
+          onOpenAddProject={() => {
+            setEditingProject(undefined);
+            setIsProjectEditorOpen(true);
+          }}
+          onOpenEditProject={(p) => {
+            setEditingProject(p);
+            setIsProjectEditorOpen(true);
+          }}
+          onDeleteProject={handleDeleteProject}
+          onTogglePublish={handleTogglePublishProject}
+          onReorderProjects={handleReorderProjects}
+        />
+      )}
+
+      {/* Clients & Partners Manager Modal */}
+      {isClientsPartnersManagerOpen && (
+        <ClientsPartnersManagerModal
+          isOpen={isClientsPartnersManagerOpen}
+          onClose={() => setIsClientsPartnersManagerOpen(false)}
+          items={clientsPartners}
+          projects={projects}
+          onSaveItem={handleSaveClientPartner}
+          onDeleteItem={handleDeleteClientPartner}
+          onReorderItems={handleReorderClientsPartners}
+        />
+      )}
     </div>
   );
 }

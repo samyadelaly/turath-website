@@ -1,9 +1,7 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { SiteContent, getStoredSiteContent, DEFAULT_ABOUT_IMAGE } from './siteContentStorage';
 import { computeImageRatio } from './imageRatioUtils';
 import { TurathImage } from "./TurathImage";
-import { useSectionReveal } from './motionPresets';
 import { 
   Target, 
   Eye, 
@@ -40,10 +38,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
     position: activeContent.aboutImagePosition || 'center',
   };
   const computedRatio = computeImageRatio(ratioConfig);
-
-  const storyReveal = useSectionReveal();
-  const missionVisionReveal = useSectionReveal();
-  const valuesReveal = useSectionReveal();
 
   const values = [
     {
@@ -82,10 +76,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
     <section id="about-section" className="pt-10 sm:pt-14 lg:pt-16 pb-14 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 bg-[#000000] border-b border-[#d4c59d]/30">
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-14 lg:space-y-16">
         {/* Main About Story with Luxury Framed Photo */}
-        <motion.div
-          {...storyReveal}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Text Column */}
           <div className="lg:col-span-7 space-y-5 sm:space-y-6">
             <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6] leading-tight">
@@ -176,15 +167,15 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               </TurathImage>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Mission & Vision Cards */}
-        <motion.div {...missionVisionReveal} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Mission */}
           <div className="p-8 rounded-2xl bg-[#000000] border border-[#d4c59d] shadow-xl relative overflow-hidden group hover:border-[#d4c59d] transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000]">
-                <Target className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-lg bg-[#d4c59d] text-[#000000] flex items-center justify-center flex-shrink-0">
+                <Target className="w-5 h-5" />
               </div>
               <h3 className="font-serif-luxury text-2xl font-bold text-[#f5f0e6]">
                 Our Mission
@@ -198,8 +189,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           {/* Vision */}
           <div className="p-8 rounded-2xl bg-[#000000] border border-[#d4c59d] shadow-xl relative overflow-hidden group hover:border-[#d4c59d] transition-colors">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000]">
-                <Eye className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-lg bg-[#d4c59d] text-[#000000] flex items-center justify-center flex-shrink-0">
+                <Eye className="w-5 h-5" />
               </div>
               <h3 className="font-serif-luxury text-2xl font-bold text-[#f5f0e6]">
                 Our Vision
@@ -209,10 +200,10 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               "{about.vision}"
             </p>
           </div>
-        </motion.div>
+        </div>
 
         {/* Our Values */}
-        <motion.div {...valuesReveal} className="space-y-8 pt-4">
+        <div className="space-y-8 pt-4">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <div className="text-xs uppercase tracking-widest text-[#d4c59d] font-bold">
               Guiding Principles
@@ -248,7 +239,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               );
             })}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

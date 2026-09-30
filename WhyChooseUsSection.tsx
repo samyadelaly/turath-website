@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT } from './siteContentStorage';
 import { 
   Hammer, 
@@ -11,7 +10,6 @@ import {
   HeadphonesIcon, 
   Building2 
 } from 'lucide-react';
-import { useSectionReveal, useStaggerContainer, useStaggerItem } from './motionPresets';
 
 interface WhyChooseUsSectionProps {
   content?: SiteContent;
@@ -20,9 +18,6 @@ interface WhyChooseUsSectionProps {
 export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content }) => {
   const activeContent = content ? ensureSiteContentSections(content) : getStoredSiteContent();
   const whyUs = activeContent.whyUs || DEFAULT_SITE_CONTENT.whyUs!;
-  const headerReveal = useSectionReveal();
-  const pillarsContainer = useStaggerContainer();
-  const pillarItem = useStaggerItem();
   const points = [
     {
       title: 'Handmade by skilled craftsmen',
@@ -69,7 +64,7 @@ export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content 
   return (
     <section id="why-us-section" className="pt-10 sm:pt-14 lg:pt-16 pb-14 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 bg-[#000000] border-b border-[#d4c59d]/30">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
-        <motion.div {...headerReveal} className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
+        <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
           <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
             {whyUs.title || 'Why Choose Turath?'}
           </h2>
@@ -77,16 +72,15 @@ export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content 
           <p className="text-sm sm:text-base text-[#d4c59d]">
             {whyUs.subtitle || 'Authentic Egyptian handcrafted brass, copper, and decorative metalwork.'}
           </p>
-        </motion.div>
+        </div>
 
         {/* 8 Distinct Pillars in solid black and gold */}
-        <motion.div {...pillarsContainer} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {points.map((pt) => {
             const Icon = pt.icon;
             return (
-              <motion.div
+              <div
                 key={pt.title}
-                variants={pillarItem}
                 className="p-5 sm:p-6 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-all duration-300 shadow-md group flex flex-col justify-between"
               >
                 <div>
@@ -103,10 +97,10 @@ export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content 
                     {pt.desc}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

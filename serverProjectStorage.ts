@@ -73,14 +73,7 @@ export function getAllServerProjects(): ProjectItem[] {
   const deleted = getServerDeletedProjectIds();
   const projectMap = new Map<string, ProjectItem>();
 
-  // Add initial default projects that are not deleted
-  INITIAL_PROJECTS.forEach((p) => {
-    if (!deleted.has(p.id)) {
-      projectMap.set(p.id, p);
-    }
-  });
-
-  // Overlay saved projects from server file storage
+  // Overlay saved projects from server file storage (real projects only)
   if (fs.existsSync(PROJECTS_FILE)) {
     try {
       const raw = fs.readFileSync(PROJECTS_FILE, 'utf-8');

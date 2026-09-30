@@ -283,3 +283,24 @@ export interface ProjectItem {
   updatedAt?: string;
 }
 
+export type ClientPartnerType = 'client' | 'partner';
+
+export interface ClientPartnerItem {
+  id: string;
+  name: string;
+  nameAR?: string;
+  type: ClientPartnerType;
+  logo: string;
+  industry?: string;
+  websiteUrl?: string;
+  location?: string;
+  description?: string;
+  descriptionAR?: string;
+  projectId?: string;
+  published: boolean;
+  sortOrder?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+

@@ -131,10 +131,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         }
       });
     }
-    return list.length > 0 ? list : ['https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80'];
+    return list;
   }, [product]);
 
-  const activeImage = validImages[activeImageIndex] || validImages[0];
+  const activeImage = validImages[activeImageIndex] || validImages[0] || '';
 
   // Related products from the same category
   const relatedProducts = React.useMemo(() => {
@@ -146,15 +146,21 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   // Update dynamic SEO, Open Graph social tags, Schema.org Product data, and Meta Pixel
   useEffect(() => {
     const originalTitle = document.title;
-    const titleText = product.seoTitle || `${product.nameEN || product.name} | TURATH Egypt Luxury Metalwork`;
+    const titleText = `${product.nameEN || product.name} | TURATH Egypt`;
     document.title = titleText;
 
-    const pageUrl = window.location.href;
-    const productDesc = product.metaDescription || product.shortDescEN || product.description;
+    const cleanBase = 'https://turath-egypt.vercel.app';
+    const categorySlug = product.categoryId || 'mirrors';
+    const productSlug = product.seoSlug || product.id;
+    const canonicalUrl = `${cleanBase}/products/${categorySlug}/${productSlug}`;
+    const rawDesc = product.metaDescription || product.shortDescEN || product.description || 'Authentic handcrafted Egyptian brass and luxury metalwork.';
+    const productDesc = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
     const rawImage = activeImage || (validImages && validImages[0]) || product.mainImage || '';
-    const absoluteImage = rawImage.startsWith('http') 
-      ? rawImage 
-      : `${window.location.origin}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`;
+    const defaultImage = `${cleanBase}/turath_logo.jpg`;
+    let absoluteImage = rawImage && rawImage.trim().length > 0 ? rawImage.trim() : defaultImage;
+    if (!absoluteImage.startsWith('http')) {
+      absoluteImage = `${cleanBase}${absoluteImage.startsWith('/') ? '' : '/'}${absoluteImage}`;
+    }
 
     // 1. Meta Pixel ViewContent event
     trackViewContent({
@@ -183,7 +189,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
       document.head.appendChild(canonical);
     }
     const prevCanonical = canonical.getAttribute('href') || '';
-    canonical.setAttribute('href', pageUrl);
+    canonical.setAttribute('href', canonicalUrl);
 
     // 4. Update dynamic Open Graph and Twitter Card tags
     const setMetaTag = (selector: string, attr: string, key: string, value: string) => {
@@ -199,14 +205,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     };
 
     const ogTags = [
-      setMetaTag('meta[property="og:title"]', 'property', 'og:title', `${product.nameEN || product.name} | TURATH`),
+      setMetaTag('meta[property="og:title"]', 'property', 'og:title', titleText),
       setMetaTag('meta[property="og:description"]', 'property', 'og:description', productDesc),
       setMetaTag('meta[property="og:image"]', 'property', 'og:image', absoluteImage),
-      setMetaTag('meta[property="og:url"]', 'property', 'og:url', pageUrl),
+      setMetaTag('meta[property="og:url"]', 'property', 'og:url', canonicalUrl),
       setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'product'),
-      setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'TURATH Egypt'),
+      setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'TURATH Egypt | تراث للصناعات النحاسية'),
       setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image'),
-      setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', `${product.nameEN || product.name} | TURATH`),
+      setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', titleText),
       setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', productDesc),
       setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', absoluteImage),
     ];
@@ -293,8 +299,12 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   }, [product, category, selectedFinish]);
 
   const handleShare = () => {
+    const cleanBase = 'https://turath-egypt.vercel.app';
+    const categorySlug = product.categoryId || 'mirrors';
+    const productSlug = product.seoSlug || product.id;
+    const shareUrl = `${cleanBase}/products/${categorySlug}/${productSlug}`;
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(shareUrl);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
     }
@@ -560,10 +570,11 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             })()}
 
             {/* Gallery Thumbnails List with Set as Main visual clarity */}
+            {(validImages.length > 0 || Boolean(product.videoUrl)) && (
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-[11px] text-[#9e9174] uppercase tracking-wider">
                 <span>Product Gallery ({product.imageRatio || 'Original'})</span>
-                <span>{activeImageIndex + 1} of {validImages.length}</span>
+                <span>{validImages.length > 0 ? `${activeImageIndex + 1} of ${validImages.length}` : 'Video'}</span>
               </div>
 
               <div className="flex items-center justify-center gap-2.5 overflow-x-auto pb-2 custom-scrollbar">
@@ -613,6 +624,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 )}
               </div>
             </div>
+            )}
           </div>
 
           {/* RIGHT: Product Information, Specs, Finishes & Inquiries */}
@@ -821,17 +833,19 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     <span>{isCopied ? 'Copied!' : 'Copy Link'}</span>
                   </button>
 
-                  <a
-                    href={activeImage}
-                    download={`${(product.seoSlug || product.id)}.jpg`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-2.5 py-2 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
-                    title="Save high-res product photo for Instagram or social media upload"
-                  >
-                    <Download className="w-3.5 h-3.5 text-[#d4c59d]" />
-                    <span>Save Photo</span>
-                  </a>
+                  {Boolean(activeImage) && (
+                    <a
+                      href={activeImage}
+                      download={`${(product.seoSlug || product.id)}.jpg`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2.5 py-2 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
+                      title="Save high-res product photo for Instagram or social media upload"
+                    >
+                      <Download className="w-3.5 h-3.5 text-[#d4c59d]" />
+                      <span>Save Photo</span>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

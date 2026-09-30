@@ -12,7 +12,7 @@ import {
   computeImageRatio,
 } from "./imageRatioUtils";
 import { getCleanEmbedUrl } from "./EmbeddedVideoPlayer";
-import { Film, Play, Pause, Volume2, VolumeX, RotateCcw, AlertCircle } from 'lucide-react';
+import { Film, Play, Pause, Volume2, VolumeX, RotateCcw, AlertCircle, Image as ImageIcon } from 'lucide-react';
 
 export interface TurathMediaProps {
   type?: MediaType;
@@ -61,19 +61,6 @@ export interface TurathMediaProps {
   children?: React.ReactNode;
 }
 
-const DEFAULT_FALLBACK_IMAGE =
-  'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80';
-
-/**
- * TURATH Global Media Component (<TurathMedia />)
- * 
- * Implements ONE centralized aspect-ratio system for BOTH images and videos:
- * 1. Admin selected ratio: Original, 1:1, 4:5, 3:4, 16:9, 4:3, 16:7, or Custom (width & height).
- * 2. Admin selected fit: Contain (default for complete product view) or Cover.
- * 3. Admin selected position: Center, Top, Bottom, Left, Right.
- * 4. CSS aspect-ratio is applied to the visual container.
- * 5. Original media files/URLs are strictly preserved without permanent alteration.
- */
 export const TurathMedia: React.FC<TurathMediaProps> = ({
   type,
   src,
@@ -92,7 +79,7 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
   className = '',
   containerClassName = '',
   mediaClassName = '',
-  fallbackSrc = DEFAULT_FALLBACK_IMAGE,
+  fallbackSrc = '',
   style = {},
   mediaStyle = {},
   autoPlay = false,
@@ -476,22 +463,29 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
         )
       ) : (
         // IMAGE RENDERING
-        <img
-          src={imageError || !src ? fallbackSrc : src}
-          alt={alt}
-          title={title}
-          draggable={false}
-          onContextMenu={(e) => e.preventDefault()}
-          loading={priority ? 'eager' : loading}
-          decoding={decoding}
-          onError={() => setImageError(true)}
-          className={`w-full h-full transition-transform duration-500 select-none pointer-events-auto ${mediaClassName}`}
-          style={{
-            objectFit: finalRatio.objectFit,
-            objectPosition: finalRatio.objectPosition,
-            ...mediaStyle,
-          }}
-        />
+        (!src && !fallbackSrc) || imageError ? (
+          <div className="w-full h-full min-h-[160px] flex flex-col items-center justify-center p-6 text-center bg-[#07070a] select-none">
+            <ImageIcon className="w-8 h-8 text-[#d4c59d]/30 mb-2" />
+            <p className="text-xs text-[#9e9174]">No image available</p>
+          </div>
+        ) : (
+          <img
+            src={src || fallbackSrc}
+            alt={alt}
+            title={title}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            loading={priority ? 'eager' : loading}
+            decoding={decoding}
+            onError={() => setImageError(true)}
+            className={`w-full h-full transition-transform duration-500 select-none pointer-events-auto ${mediaClassName}`}
+            style={{
+              objectFit: finalRatio.objectFit,
+              objectPosition: finalRatio.objectPosition,
+              ...mediaStyle,
+            }}
+          />
+        )
       )}
 
       {/* Children overlay slot (badges, interactive hover overlays, play buttons, etc.) */}

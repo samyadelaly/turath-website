@@ -11,9 +11,8 @@ import {
   Unsubscribe 
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { ProductItem, ProductCategoryInfo, ProjectItem } from './types';
-import { INITIAL_PRODUCTS, PRODUCT_CATEGORIES } from './initialCatalog';
-import { INITIAL_PROJECTS } from './initialProjects';
+import { ProductItem, ProductCategoryInfo, ProjectItem, ClientPartnerItem } from './types';
+import { PRODUCT_CATEGORIES } from './initialCatalog';
 import { DEFAULT_LOGO_URL } from './logoStorage';
 import { SiteContent, DEFAULT_SITE_CONTENT, ensureSiteContentSections } from './siteContentStorage';
 import { 
@@ -35,7 +34,7 @@ import {
   getDeletedCategoryIds,
   markCategoryDeleted
 } from './categoryStorage';
-import { normalizeProduct, saveStoredProducts, isDemoVideoUrl } from './storage';
+import { normalizeProduct, saveStoredProducts, isDemoVideoUrl, deleteSingleStoredProduct } from './storage';
 import { recompressBase64Image } from './imageCompressor';
 import { isAdminLoggedIn, getAuthHeaders } from './adminAuth';
 import {
@@ -48,6 +47,7 @@ import {
   loadCloudProductVideoChunks,
   deleteCloudProductVideoChunks,
   saveLocalProductVideo,
+  deleteLocalProductVideo,
   getLocalProductVideo,
   saveLocalProjectVideo,
   getLocalProjectVideo,
@@ -71,7 +71,20 @@ import {
   saveSupabaseProject,
   deleteSupabaseProject,
   saveSupabaseProjectsOrder,
+  fetchSupabaseClientsPartners,
+  saveSupabaseClientPartner,
+  deleteSupabaseClientPartner,
+  saveSupabaseClientsPartnersOrder,
 } from './supabaseDatabase';
+import {
+  getStoredClientsPartners,
+  saveStoredClientsPartners,
+  saveClientPartner,
+  deleteClientPartner,
+  saveClientsPartnersOrder,
+  getDeletedClientsPartnersIds,
+  markClientPartnerDeleted,
+} from './clientsPartnersStorage';
 import { isSupabaseConfigured, setSupabaseCredentials, supabase } from './supabase';
 import { uploadToSupabaseStorage, deleteFromSupabaseStorage } from './supabaseStorage';
 
@@ -586,8 +599,75 @@ export function sanitizeForFirestore<T>(val: T): T {
 export function subscribeToCloudProducts(
   onProductsChange: (products: ProductItem[]) => void
 ): Unsubscribe {
-  const colRef = collection(db, PRODUCTS_COLLECTION);
   let cloudDeletedIds = new Set<string>();
+
+  // Helper to load deleted IDs from local cache
+  const getDeletedIds = () => {
+    const deleted = new Set<string>(cloudDeletedIds);
+    try {
+      const stored = localStorage.getItem('turath_deleted_product_ids_v1');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          parsed.forEach((id: string) => deleted.add(id));
+        }
+      }
+    } catch {
+      // Ignore
+    }
+    return deleted;
+  };
+
+  // Sync strictly from Supabase as single source of truth
+  const syncFromSupabase = async () => {
+    if (!isSupabaseConfigured()) return;
+    try {
+      const supProds = await fetchSupabaseProducts();
+      if (Array.isArray(supProds)) {
+        const deletedIds = getDeletedIds();
+        const cleanedCatalog = supProds
+          .filter((p) => !deletedIds.has(p.id) && p.categoryId !== 'wall-art' && p.id !== 'turath-wallart-01')
+          .map((p) => normalizeProduct(p));
+        saveStoredProducts(cleanedCatalog);
+        onProductsChange(cleanedCatalog);
+      }
+    } catch (err) {
+      console.warn('[Supabase] Products sync notice:', err);
+    }
+  };
+
+  // 1. Initial sync immediately from Supabase if configured
+  if (isSupabaseConfigured()) {
+    syncFromSupabase();
+  }
+
+  // 2. Real-time Supabase subscription across all browsers and devices
+  let supabaseChannel: any = null;
+  if (supabase && isSupabaseConfigured()) {
+    try {
+      supabaseChannel = supabase
+        .channel('turath-products-realtime-sync')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
+          syncFromSupabase();
+        })
+        .subscribe();
+    } catch (chanErr) {
+      console.warn('[Supabase Realtime] Channel subscription warning:', chanErr);
+    }
+  }
+
+  // 3. Window focus listener for instant multi-tab & cross-device refresh
+  const handleFocus = () => {
+    if (isSupabaseConfigured()) {
+      syncFromSupabase();
+    }
+  };
+  if (typeof window !== 'undefined') {
+    window.addEventListener('focus', handleFocus);
+  }
+
+  // 4. Firestore real-time listener (fallback only when Supabase is not configured)
+  const colRef = collection(db, PRODUCTS_COLLECTION);
 
   // Real-time synchronization of deleted initial product IDs across all browsers and devices
   try {
@@ -609,31 +689,16 @@ export function subscribeToCloudProducts(
     // Ignore
   }
 
-  return onSnapshot(colRef, async (snapshot) => {
-    // Load set of deleted product IDs to prevent resurrection of deleted initial products
-    let deletedIds = new Set<string>(cloudDeletedIds);
-    try {
-      const storedDeleted = localStorage.getItem('turath_deleted_product_ids_v1');
-      if (storedDeleted) {
-        const parsed = JSON.parse(storedDeleted);
-        if (Array.isArray(parsed)) {
-          parsed.forEach((id: string) => deletedIds.add(id));
-        }
-      }
-    } catch {
-      // Ignore localStorage error
+  const firestoreUnsub = onSnapshot(colRef, async (snapshot) => {
+    // If Supabase is configured, Supabase is the strict single source of truth for products & media
+    if (isSupabaseConfigured()) {
+      return;
     }
 
+    const deletedIds = getDeletedIds();
     const loadedCloudMap = new Map<string, ProductItem>();
     const chunkedProductIds: string[] = [];
-
-    // Baseline catalog of INITIAL_PRODUCTS (excluding any user-deleted items)
     const mergedMap = new Map<string, ProductItem>();
-    for (const initProd of INITIAL_PRODUCTS) {
-      if (!deletedIds.has(initProd.id)) {
-        mergedMap.set(initProd.id, initProd);
-      }
-    }
 
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
@@ -651,24 +716,12 @@ export function subscribeToCloudProducts(
               }
             }
           }).catch(() => {});
-        } else if (!data.videoUrl) {
-          // Restore local device video if cloud document stripped base64 video to stay under 1MB
-          try {
-            const localVideo = localStorage.getItem(`turath_video_${data.id}`);
-            if (localVideo && !isDemoVideoUrl(localVideo)) {
-              data.videoUrl = localVideo;
-            }
-          } catch {
-            // Ignore localStorage error
-          }
         }
-        const defaultProduct = INITIAL_PRODUCTS.find((p) => p.id === data.id);
-        const normalized = normalizeProduct(data as Partial<ProductItem>, defaultProduct);
+        const normalized = normalizeProduct(data as Partial<ProductItem>);
         loadedCloudMap.set(normalized.id, normalized);
       }
     });
 
-    // Overlay any updated or custom products from the Cloud Database
     for (const [id, cloudProd] of loadedCloudMap.entries()) {
       if (!deletedIds.has(id)) {
         mergedMap.set(id, cloudProd);
@@ -679,31 +732,8 @@ export function subscribeToCloudProducts(
       (p) => p.categoryId !== 'wall-art' && p.id !== 'turath-wallart-01'
     );
 
-    if (completeCatalog.length > 0) {
-      saveStoredProducts(completeCatalog);
-      onProductsChange(completeCatalog);
-    }
-
-    // If Supabase is configured, overlay fresh Supabase data
-    if (isSupabaseConfigured()) {
-      fetchSupabaseProducts().then((supProds) => {
-        if (Array.isArray(supProds) && supProds.length > 0) {
-          const supMap = new Map<string, ProductItem>(mergedMap);
-          for (const sp of supProds) {
-            if (!deletedIds.has(sp.id)) {
-              supMap.set(sp.id, sp);
-            }
-          }
-          const finalCatalog = Array.from(supMap.values()).filter(
-            (p) => p.categoryId !== 'wall-art' && p.id !== 'turath-wallart-01'
-          );
-          saveStoredProducts(finalCatalog);
-          onProductsChange(finalCatalog);
-        }
-      }).catch((err) => {
-        console.warn('[Supabase] Initial products fetch notice:', err);
-      });
-    }
+    saveStoredProducts(completeCatalog);
+    onProductsChange(completeCatalog);
 
     // Hydrate any cloud-chunked product videos across devices
     if (chunkedProductIds.length > 0) {
@@ -731,33 +761,23 @@ export function subscribeToCloudProducts(
       console.warn('Error subscribing to cloud products:', error);
     }
   });
+
+  return () => {
+    firestoreUnsub();
+    if (supabaseChannel) {
+      try {
+        supabaseChannel.unsubscribe();
+      } catch {}
+    }
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('focus', handleFocus);
+    }
+  };
 }
 
 export async function seedInitialProducts(): Promise<void> {
-  if (shouldSkipFirestoreWrite()) return;
-  // Batch write initial products in chunks of 20 to respect Firestore limits safely
-  const chunkSize = 20;
-  for (let i = 0; i < INITIAL_PRODUCTS.length; i += chunkSize) {
-    const chunk = INITIAL_PRODUCTS.slice(i, i + chunkSize);
-    const batch = writeBatch(db);
-    for (const prod of chunk) {
-      const docRef = doc(db, PRODUCTS_COLLECTION, prod.id);
-      const sanitized = sanitizeForFirestore({
-        ...prod,
-        updatedAt: new Date().toISOString(),
-      });
-      batch.set(docRef, sanitized, { merge: true });
-    }
-    try {
-      await batch.commit();
-    } catch (batchErr) {
-      if (isResourceExhaustedError(batchErr)) {
-        markWriteQuotaExhausted();
-        return;
-      }
-      console.warn('Failed batch seeding chunk:', batchErr);
-    }
-  }
+  // Products must come ONLY from explicit Turath data in Supabase. Never auto-seed.
+  return;
 }
 
 export async function prepareProductForFirestore(product: ProductItem): Promise<Record<string, any>> {
@@ -954,8 +974,12 @@ export async function saveCloudProduct(product: ProductItem): Promise<void> {
         }
       }
     } else if (!product.videoUrl) {
-      // If user cleared or removed the video, clean up any previous video chunks
+      // If user cleared or removed the video, clean up any previous video chunks and local cached video
       deleteCloudProductVideoChunks(product.id).catch(() => {});
+      deleteLocalProductVideo(product.id).catch(() => {});
+      try {
+        localStorage.removeItem(`turath_video_${product.id}`);
+      } catch {}
     }
 
     // Save product document to Firestore with merge to guarantee document integrity across browsers
@@ -977,7 +1001,7 @@ export async function deleteCloudProduct(productId: string): Promise<void> {
     throw new Error('Unauthorized: Admin session required to delete product');
   }
 
-  // If Supabase is configured, delete from Supabase
+  // 1. If Supabase is configured, delete from Supabase
   if (isSupabaseConfigured()) {
     try {
       await deleteSupabaseProduct(productId);
@@ -987,7 +1011,14 @@ export async function deleteCloudProduct(productId: string): Promise<void> {
     }
   }
 
-  // Track in deleted list so initial products aren't re-added
+  // 2. Remove immediately from local storage, IndexedDB, and clean up any local cached video
+  deleteSingleStoredProduct(productId);
+  deleteLocalProductVideo(productId).catch(() => {});
+  try {
+    localStorage.removeItem(`turath_video_${productId}`);
+  } catch {}
+
+  // 3. Track in deleted list so initial products aren't re-added
   try {
     const deletedKey = 'turath_deleted_product_ids_v1';
     const existing = localStorage.getItem(deletedKey);
@@ -1057,9 +1088,6 @@ export async function resetCloudProducts(): Promise<void> {
       deleteBatch.delete(docSnap.ref);
     });
     await deleteBatch.commit();
-
-    // Re-seed initial products
-    await seedInitialProducts();
   } catch (err) {
     if (isResourceExhaustedError(err)) {
       markQuotaExhausted();
@@ -1688,8 +1716,7 @@ export function subscribeToCloudProjects(onProjectsChange: (projects: ProjectIte
       snap.docs.forEach((d) => {
         const data = d.data();
         if (data && data.id && !currentDeleted.has(data.id)) {
-          const fallback = INITIAL_PROJECTS.find((p) => p.id === data.id);
-          const normalized = normalizeProject(data as Partial<ProjectItem>, fallback);
+          const normalized = normalizeProject(data as Partial<ProjectItem>);
           loadedMap.set(normalized.id, normalized);
         }
       });
@@ -2004,5 +2031,133 @@ export async function saveCloudProjectsOrder(orderedProjects: ProjectItem[]): Pr
     }
   }
 }
+
+// -----------------------------------------------------------------------------
+// CLIENTS & PARTNERS REAL-TIME CLOUD & STORAGE SYNC
+// -----------------------------------------------------------------------------
+
+export function subscribeToCloudClientsPartners(onChange: (items: ClientPartnerItem[]) => void): Unsubscribe {
+  // 1. Initial hydration from local cache
+  const initialDeleted = getDeletedClientsPartnersIds();
+  const localItems = getStoredClientsPartners().filter((item) => !initialDeleted.has(item.id));
+  onChange(localItems);
+
+  const syncFromSupabase = async () => {
+    if (!isSupabaseConfigured()) return;
+    try {
+      const supItems = await fetchSupabaseClientsPartners();
+      if (Array.isArray(supItems)) {
+        const liveDeleted = getDeletedClientsPartnersIds();
+        const valid = supItems.filter((item) => !liveDeleted.has(item.id));
+        saveStoredClientsPartners(valid);
+        onChange(valid);
+      }
+    } catch (err) {
+      console.warn('[Supabase Database] Clients/partners sync notice:', err);
+    }
+  };
+
+  // 2. Initial fetch from Supabase
+  syncFromSupabase();
+
+  // 3. Real-time Supabase subscription
+  let supabaseChannel: any = null;
+  if (supabase && isSupabaseConfigured()) {
+    try {
+      supabaseChannel = supabase
+        .channel('turath-clients-partners-sync')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'site_content' }, (payload: any) => {
+          if (payload?.new && (payload.new.id === 'clients_partners_catalog' || payload.new.id === 'deleted_clients_partners_registry')) {
+            syncFromSupabase();
+          }
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'clients_partners' }, () => {
+          syncFromSupabase();
+        })
+        .subscribe();
+    } catch {}
+  }
+
+  // 4. Focus listener for cross-tab sync
+  const handleFocus = () => {
+    syncFromSupabase();
+  };
+  if (typeof window !== 'undefined') {
+    window.addEventListener('focus', handleFocus);
+  }
+
+  return () => {
+    if (supabaseChannel && supabase) {
+      try {
+        supabase.removeChannel(supabaseChannel);
+      } catch {}
+    }
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('focus', handleFocus);
+    }
+  };
+}
+
+export async function saveCloudClientPartner(item: ClientPartnerItem): Promise<ClientPartnerItem> {
+  const finalItem: ClientPartnerItem = {
+    ...item,
+    updatedAt: new Date().toISOString(),
+  };
+
+  // 1. Upload logo to Supabase Storage if it's base64 or blob
+  if (isSupabaseConfigured() && finalItem.logo && (finalItem.logo.startsWith('data:') || finalItem.logo.startsWith('blob:'))) {
+    try {
+      const publicUrl = await uploadToSupabaseStorage(
+        'site-media',
+        `clients-partners/${finalItem.id}_${Date.now()}`,
+        finalItem.logo
+      );
+      finalItem.logo = publicUrl;
+    } catch (err) {
+      console.warn('[Supabase Storage] Notice: Could not upload client/partner logo:', err);
+    }
+  }
+
+  // 2. Persist locally
+  saveClientPartner(finalItem);
+
+  // 3. Persist to Supabase
+  if (isSupabaseConfigured()) {
+    try {
+      await saveSupabaseClientPartner(finalItem);
+    } catch (err) {
+      console.warn('[Supabase Database] Error saving client/partner:', err);
+    }
+  }
+
+  return finalItem;
+}
+
+export async function deleteCloudClientPartner(id: string): Promise<void> {
+  // 1. Delete locally
+  markClientPartnerDeleted(id);
+  deleteClientPartner(id);
+
+  // 2. Delete from Supabase
+  if (isSupabaseConfigured()) {
+    try {
+      await deleteSupabaseClientPartner(id);
+    } catch (err) {
+      console.warn('[Supabase Database] Error deleting client/partner:', err);
+    }
+  }
+}
+
+export async function saveCloudClientsPartnersOrder(items: ClientPartnerItem[]): Promise<void> {
+  saveClientsPartnersOrder(items);
+  if (isSupabaseConfigured()) {
+    try {
+      await saveSupabaseClientsPartnersOrder(items);
+    } catch (err) {
+      console.warn('[Supabase Database] Error saving clients/partners order:', err);
+    }
+  }
+}
+
 
 

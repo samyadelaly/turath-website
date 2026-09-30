@@ -14,7 +14,8 @@ import {
   KeyRound,
   SlidersHorizontal,
   Building2,
-  Briefcase
+  Briefcase,
+  Handshake
 } from 'lucide-react';
 
 interface AdminBarProps {
@@ -25,6 +26,7 @@ interface AdminBarProps {
   onOpenProductEditor: () => void;
   onOpenProjectManager?: () => void;
   onOpenAddProject?: () => void;
+  onOpenClientsPartnersManager?: () => void;
   onOpenChangeLogo: () => void;
   onOpenChangeAboutPhoto?: () => void;
   onOpenDownloadZip?: () => void;
@@ -42,6 +44,7 @@ export const AdminBar: React.FC<AdminBarProps> = ({
   onOpenProductEditor,
   onOpenProjectManager,
   onOpenAddProject,
+  onOpenClientsPartnersManager,
   onOpenChangeLogo,
   onOpenChangeAboutPhoto,
   onOpenDownloadZip,
@@ -128,6 +131,17 @@ export const AdminBar: React.FC<AdminBarProps> = ({
             >
               <Plus className="w-3.5 h-3.5 text-amber-400" />
               <span>+ مشروع جديد</span>
+            </button>
+          )}
+
+          {/* Manage Clients & Partners */}
+          {onOpenClientsPartnersManager && (
+            <button
+              onClick={onOpenClientsPartnersManager}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1c1912] hover:bg-[#2a261c] text-[#d4c59d] border border-[#d4c59d]/40 text-xs transition-colors cursor-pointer"
+              title="إدارة شركاء النجاح وكبار العملاء والشعارات"
+            >
+              <span>الشركاء والعملاء</span>
             </button>
           )}
 

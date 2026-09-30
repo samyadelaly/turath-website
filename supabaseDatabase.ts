@@ -1,12 +1,23 @@
 import { supabase, isSupabaseConfigured } from './supabase';
-import { ProductItem, ProductCategoryInfo, ProjectItem } from './types';
+import { ProductItem, ProductCategoryInfo, ProjectItem, ClientPartnerItem } from './types';
 import { SiteContent } from './siteContentStorage';
+import { getStoredCategories } from './categoryStorage';
+import { PRODUCT_CATEGORIES } from './initialCatalog';
+import { isFakeOrDemoImage, isFakeOrDemoVideo } from './storage';
 
 // -----------------------------------------------------------------------------
 // PRODUCTS CRUD (SUPABASE)
 // -----------------------------------------------------------------------------
 
 export function mapProductToSupabaseRow(product: ProductItem): Record<string, any> {
+  const cleanMain = (product.mainImage && !isFakeOrDemoImage(product.mainImage)) ? product.mainImage.trim() : null;
+  const cleanImages = (Array.isArray(product.images) ? product.images : (cleanMain ? [cleanMain] : []))
+    .filter((img) => typeof img === 'string' && img.trim().length > 0 && !isFakeOrDemoImage(img));
+  const cleanGallery = (Array.isArray(product.galleryImages) ? product.galleryImages : cleanImages.slice(1))
+    .filter((img) => typeof img === 'string' && img.trim().length > 0 && !isFakeOrDemoImage(img));
+  const cleanVideo = (product.videoUrl && !isFakeOrDemoVideo(product.videoUrl)) ? product.videoUrl.trim() : null;
+  const cleanProductVideo = (product.productVideo && !isFakeOrDemoVideo(product.productVideo)) ? product.productVideo.trim() : null;
+
   return {
     id: product.id,
     sku: product.sku || product.id,
@@ -21,10 +32,10 @@ export function mapProductToSupabaseRow(product: ProductItem): Record<string, an
     full_description_en: product.fullDescriptionEN || product.description || null,
     full_description_ar: product.fullDescriptionAR || null,
     story: product.story || null,
-    main_image: product.mainImage,
-    images: product.images || [product.mainImage],
-    gallery_images: product.galleryImages || [],
-    media_type: product.mediaType || 'image',
+    main_image: cleanMain || (cleanImages[0] ? cleanImages[0] : null),
+    images: cleanImages,
+    gallery_images: cleanGallery,
+    media_type: (cleanVideo && product.mediaType === 'video') ? 'video' : 'image',
     image_ratio: product.imageRatio || 'Original',
     custom_ratio_width: Number(product.customRatioWidth) || 5,
     custom_ratio_height: Number(product.customRatioHeight) || 7,
@@ -33,8 +44,8 @@ export function mapProductToSupabaseRow(product: ProductItem): Record<string, an
     image_ratios: product.imageRatios || {},
     image_fits: product.imageFits || {},
     image_positions: product.imagePositions || {},
-    video_url: product.videoUrl || null,
-    product_video: product.productVideo || null,
+    video_url: cleanVideo,
+    product_video: cleanProductVideo,
     video_ratio: product.videoRatio || '16:9',
     video_custom_ratio_width: Number(product.videoCustomRatioWidth) || 16,
     video_custom_ratio_height: Number(product.videoCustomRatioHeight) || 9,
@@ -79,6 +90,20 @@ export function mapProductToSupabaseRow(product: ProductItem): Record<string, an
 }
 
 export function mapSupabaseRowToProduct(row: Record<string, any>): ProductItem {
+  const rawMainClean = (typeof row.main_image === 'string' && row.main_image.trim().length > 0 && !isFakeOrDemoImage(row.main_image)) ? row.main_image.trim() : '';
+
+  const cleanImages = (Array.isArray(row.images) ? row.images : (rawMainClean ? [rawMainClean] : []))
+    .filter((img: any) => typeof img === 'string' && img.trim().length > 0 && !isFakeOrDemoImage(img));
+
+  const mainImage = rawMainClean || cleanImages[0] || '';
+  const images = cleanImages.length > 0 ? cleanImages : (mainImage ? [mainImage] : []);
+  const galleryImages = (Array.isArray(row.gallery_images) ? row.gallery_images : cleanImages.slice(1))
+    .filter((img: any) => typeof img === 'string' && img.trim().length > 0 && !isFakeOrDemoImage(img));
+
+  const cleanVideoUrl = (typeof row.video_url === 'string' && row.video_url.trim().length > 0 && !isFakeOrDemoVideo(row.video_url)) ? row.video_url.trim() : undefined;
+  const cleanProductVideo = (typeof row.product_video === 'string' && row.product_video.trim().length > 0 && !isFakeOrDemoVideo(row.product_video)) ? row.product_video.trim() : undefined;
+  const resolvedMediaType: 'image' | 'video' = (cleanVideoUrl && row.media_type === 'video') ? 'video' : 'image';
+
   return {
     id: row.id,
     sku: row.sku || row.id,
@@ -93,10 +118,10 @@ export function mapSupabaseRowToProduct(row: Record<string, any>): ProductItem {
     fullDescriptionEN: row.full_description_en || undefined,
     fullDescriptionAR: row.full_description_ar || undefined,
     story: row.story || undefined,
-    mainImage: row.main_image,
-    images: Array.isArray(row.images) && row.images.length > 0 ? row.images : [row.main_image],
-    galleryImages: Array.isArray(row.gallery_images) ? row.gallery_images : [],
-    mediaType: row.media_type || 'image',
+    mainImage,
+    images,
+    galleryImages,
+    mediaType: resolvedMediaType,
     imageRatio: row.image_ratio || 'Original',
     customRatioWidth: row.custom_ratio_width || 5,
     customRatioHeight: row.custom_ratio_height || 7,
@@ -105,14 +130,14 @@ export function mapSupabaseRowToProduct(row: Record<string, any>): ProductItem {
     imageRatios: row.image_ratios || {},
     imageFits: row.image_fits || {},
     imagePositions: row.image_positions || {},
-    videoUrl: row.video_url || undefined,
-    productVideo: row.product_video || undefined,
+    videoUrl: cleanVideoUrl,
+    productVideo: cleanProductVideo,
     videoRatio: row.video_ratio || '16:9',
     videoCustomRatioWidth: row.video_custom_ratio_width || 16,
     videoCustomRatioHeight: row.video_custom_ratio_height || 9,
     videoFit: row.video_fit || 'cover',
     videoPosition: row.video_position || 'center',
-    videoPoster: row.video_poster || undefined,
+    videoPoster: (typeof row.video_poster === 'string' && !isFakeOrDemoImage(row.video_poster)) ? row.video_poster.trim() : undefined,
     material: row.material || 'Yellow Brass',
     materials: row.materials || 'Solid High-Grade Egyptian Yellow Brass',
     materialDetails: row.material_details || undefined,
@@ -362,14 +387,81 @@ export async function fetchSupabaseProducts(): Promise<ProductItem[] | null> {
   }
 }
 
+export async function ensureCategoryExistsInSupabase(categoryId: string): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured() || !categoryId) return false;
+
+  try {
+    const { data: existing } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('id', categoryId)
+      .maybeSingle();
+
+    if (existing && existing.id) {
+      return true;
+    }
+
+    // Category is missing from Supabase categories table. Let's find its metadata.
+    let catToInsert: ProductCategoryInfo | undefined;
+    try {
+      const stored = getStoredCategories();
+      catToInsert = stored.find((c) => c.id === categoryId);
+    } catch {}
+
+    if (!catToInsert) {
+      catToInsert = PRODUCT_CATEGORIES.find((c) => c.id === categoryId);
+    }
+
+    const row = catToInsert
+      ? mapCategoryToSupabaseRow(catToInsert)
+      : {
+          id: categoryId,
+          name: categoryId.replace(/[-_]/g, ' ').toUpperCase(),
+          short_desc: '',
+          description: '',
+          cover_image: '',
+          icon_name: 'Sparkles',
+        };
+
+    const { error: insertErr } = await supabase
+      .from('categories')
+      .upsert(row, { onConflict: 'id' });
+
+    if (insertErr) {
+      console.warn(`[Supabase Database] Notice creating parent category "${categoryId}":`, insertErr.message);
+      return false;
+    }
+
+    return true;
+  } catch (err: any) {
+    console.warn(`[Supabase Database] Exception ensuring category "${categoryId}":`, err?.message || err);
+    return false;
+  }
+}
+
 export async function saveSupabaseProduct(product: ProductItem): Promise<boolean> {
   if (!supabase || !isSupabaseConfigured()) return false;
 
   try {
+    // 1. Proactively ensure the foreign key category exists in Supabase
+    if (product.categoryId) {
+      await ensureCategoryExistsInSupabase(product.categoryId);
+    }
+
     const row = mapProductToSupabaseRow(product);
-    const { error } = await supabase
+    let { error } = await supabase
       .from('products')
       .upsert(row, { onConflict: 'id' });
+
+    // 2. Self-healing retry if foreign key violation still occurs
+    if (error && (error.code === '23503' || error.message?.includes('foreign key constraint') || error.details?.includes('categories'))) {
+      console.warn('[Supabase Database] Foreign key violation on products_category_id_fkey, auto-resolving category and retrying product save...');
+      await ensureCategoryExistsInSupabase(product.categoryId);
+      const retryRes = await supabase
+        .from('products')
+        .upsert(row, { onConflict: 'id' });
+      error = retryRes.error;
+    }
 
     if (error) {
       if (isMissingTableError(error)) {
@@ -991,4 +1083,262 @@ export async function saveSupabaseProjectsOrder(projects: ProjectItem[]): Promis
     return false;
   }
 }
+
+// -----------------------------------------------------------------------------
+// CLIENTS & PARTNERS CRUD (SUPABASE)
+// -----------------------------------------------------------------------------
+
+export function mapClientPartnerToSupabaseRow(item: ClientPartnerItem): Record<string, any> {
+  return {
+    id: item.id,
+    name: item.name,
+    name_ar: item.nameAR || null,
+    type: item.type === 'partner' ? 'partner' : 'client',
+    logo: item.logo,
+    industry: item.industry || null,
+    website_url: item.websiteUrl || null,
+    location: item.location || null,
+    description: item.description || null,
+    description_ar: item.descriptionAR || null,
+    project_id: item.projectId || null,
+    published: Boolean(item.published),
+    sort_order: Number(item.sortOrder) || 0,
+    created_at: item.createdAt || new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+}
+
+export function mapSupabaseRowToClientPartner(row: Record<string, any>): ClientPartnerItem {
+  return {
+    id: row.id,
+    name: row.name,
+    nameAR: row.name_ar || undefined,
+    type: row.type === 'partner' ? 'partner' : 'client',
+    logo: row.logo || '',
+    industry: row.industry || undefined,
+    websiteUrl: row.website_url || undefined,
+    location: row.location || undefined,
+    description: row.description || undefined,
+    descriptionAR: row.description_ar || undefined,
+    projectId: row.project_id || undefined,
+    published: row.published !== false,
+    sortOrder: Number(row.sort_order) || 0,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export async function fetchSupabaseClientsPartners(): Promise<ClientPartnerItem[] | null> {
+  if (!supabase || !isSupabaseConfigured()) return null;
+
+  const itemMap = new Map<string, ClientPartnerItem>();
+
+  // 1. Try reading from public.clients_partners table
+  try {
+    const { data, error } = await supabase
+      .from('clients_partners')
+      .select('*')
+      .order('sort_order', { ascending: true });
+
+    if (!error && Array.isArray(data) && data.length > 0) {
+      data.forEach((row) => {
+        const item = mapSupabaseRowToClientPartner(row);
+        itemMap.set(item.id, item);
+      });
+    }
+  } catch {}
+
+  // 2. Also check site_content clients_partners_catalog for universal fallback & cross-table sync
+  try {
+    const { data: catData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'clients_partners_catalog')
+      .maybeSingle();
+
+    if (catData?.content && Array.isArray(catData.content.items)) {
+      catData.content.items.forEach((item: ClientPartnerItem) => {
+        if (item && item.id && !itemMap.has(item.id)) {
+          itemMap.set(item.id, item);
+        }
+      });
+    }
+  } catch {}
+
+  // 3. Filter out any tracked deletions
+  try {
+    const { data: delData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'deleted_clients_partners_registry')
+      .maybeSingle();
+
+    if (delData?.content && Array.isArray(delData.content.deletedIds)) {
+      const deletedSet = new Set<string>(delData.content.deletedIds.map(String));
+      for (const delId of deletedSet) {
+        itemMap.delete(delId);
+      }
+    }
+  } catch {}
+
+  const result = Array.from(itemMap.values()).sort(
+    (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
+  );
+
+  return result;
+}
+
+export async function saveSupabaseClientPartner(item: ClientPartnerItem): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured()) return false;
+
+  let savedDirectTable = false;
+
+  // 1. Try public.clients_partners table
+  try {
+    const row = mapClientPartnerToSupabaseRow(item);
+    const { error } = await supabase
+      .from('clients_partners')
+      .upsert(row, { onConflict: 'id' });
+
+    if (!error) {
+      savedDirectTable = true;
+    }
+  } catch {}
+
+  // 2. ALWAYS persist to site_content clients_partners_catalog (100% resilient)
+  try {
+    const { data: catData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'clients_partners_catalog')
+      .maybeSingle();
+
+    const existing: ClientPartnerItem[] = Array.isArray(catData?.content?.items)
+      ? [...catData.content.items]
+      : [];
+
+    const idx = existing.findIndex((p) => p.id === item.id);
+    if (idx >= 0) {
+      existing[idx] = { ...existing[idx], ...item, updatedAt: new Date().toISOString() };
+    } else {
+      existing.push({ ...item, updatedAt: new Date().toISOString() });
+    }
+
+    const { error: catErr } = await supabase
+      .from('site_content')
+      .upsert({
+        id: 'clients_partners_catalog',
+        content: { items: existing, updatedAt: new Date().toISOString() },
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+
+    if (!catErr) {
+      // Unmark from deleted registry if present
+      try {
+        const { data: delData } = await supabase
+          .from('site_content')
+          .select('content')
+          .eq('id', 'deleted_clients_partners_registry')
+          .maybeSingle();
+
+        if (delData?.content && Array.isArray(delData.content.deletedIds) && delData.content.deletedIds.includes(item.id)) {
+          const updatedDeleted = delData.content.deletedIds.filter((id: string) => id !== item.id);
+          await supabase.from('site_content').upsert({
+            id: 'deleted_clients_partners_registry',
+            content: { deletedIds: updatedDeleted },
+            updated_at: new Date().toISOString(),
+          }, { onConflict: 'id' });
+        }
+      } catch {}
+
+      return true;
+    }
+  } catch (err) {
+    console.warn('[Supabase Database] Error saving client/partner to catalog:', err);
+  }
+
+  return savedDirectTable;
+}
+
+export async function deleteSupabaseClientPartner(id: string): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured()) return false;
+
+  // 1. Delete from public.clients_partners table
+  try {
+    await supabase.from('clients_partners').delete().eq('id', id);
+  } catch {}
+
+  // 2. Remove from site_content clients_partners_catalog
+  try {
+    const { data: catData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'clients_partners_catalog')
+      .maybeSingle();
+
+    if (catData?.content && Array.isArray(catData.content.items)) {
+      const updated = catData.content.items.filter((p: ClientPartnerItem) => p.id !== id);
+      await supabase.from('site_content').upsert({
+        id: 'clients_partners_catalog',
+        content: { items: updated, updatedAt: new Date().toISOString() },
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+    }
+  } catch {}
+
+  // 3. Track permanently deleted ID in registry
+  try {
+    const { data: delData } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'deleted_clients_partners_registry')
+      .maybeSingle();
+
+    const currentDeleted: string[] = Array.isArray(delData?.content?.deletedIds)
+      ? delData.content.deletedIds
+      : [];
+
+    if (!currentDeleted.includes(id)) {
+      currentDeleted.push(id);
+      await supabase.from('site_content').upsert({
+        id: 'deleted_clients_partners_registry',
+        content: { deletedIds: currentDeleted, updatedAt: new Date().toISOString() },
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+    }
+  } catch {}
+
+  return true;
+}
+
+export async function saveSupabaseClientsPartnersOrder(items: ClientPartnerItem[]): Promise<boolean> {
+  if (!supabase || !isSupabaseConfigured() || !items.length) return false;
+
+  // 1. Try updating table
+  try {
+    const rows = items.map((p, index) => ({
+      ...mapClientPartnerToSupabaseRow(p),
+      sort_order: index + 1,
+    }));
+    await supabase.from('clients_partners').upsert(rows, { onConflict: 'id' });
+  } catch {}
+
+  // 2. Update site_content clients_partners_catalog
+  try {
+    const ordered = items.map((p, index) => ({
+      ...p,
+      sortOrder: index + 1,
+    }));
+    await supabase.from('site_content').upsert({
+      id: 'clients_partners_catalog',
+      content: { items: ordered, updatedAt: new Date().toISOString() },
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'id' });
+    return true;
+  } catch (err) {
+    console.warn('[Supabase Database] saveClientsPartnersOrder exception:', err);
+    return false;
+  }
+}
+
 

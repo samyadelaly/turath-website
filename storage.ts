@@ -1,5 +1,4 @@
 import { ProductItem } from './types';
-import { INITIAL_PRODUCTS } from './initialCatalog';
 
 const STORAGE_KEY = 'turath_products_catalog_v3';
 const LEGACY_STORAGE_KEY_V2 = 'turath_products_catalog_v2';
@@ -66,16 +65,55 @@ function isStorageAvailable(): boolean {
   }
 }
 
-// Identify placeholder demo videos across the catalog
+// Identify fake/demo/placeholder images that must never be attached to products
+export function isFakeOrDemoImage(url?: string | null): boolean {
+  if (!url || typeof url !== 'string') return true;
+  const lower = url.toLowerCase().trim();
+  if (!lower) return true;
+  return (
+    lower.includes('images.unsplash.com') ||
+    lower.includes('unsplash.com') ||
+    lower.includes('pexels.com') ||
+    lower.includes('pixabay.com') ||
+    lower.includes('placeholder.com') ||
+    lower.includes('placehold.co') ||
+    lower.includes('via.placeholder.com') ||
+    lower.includes('picsum.photos') ||
+    lower.includes('dummyimage.com') ||
+    lower.includes('example.com') ||
+    lower.includes('sample_image') ||
+    lower.includes('mock_image') ||
+    lower.includes('demo_image') ||
+    lower.includes('fake_image')
+  );
+}
+
+// Identify placeholder demo videos, YouTube, Vimeo, and sample videos across the catalog
 export const DEMO_VIDEO_PATTERNS = [
-  'assets.mixkit.co/videos/preview/',
-  'example.com/demo.mp4',
+  'assets.mixkit.co',
+  'mixkit.co',
+  'example.com',
+  'youtube.com',
+  'youtu.be',
+  'youtube-nocookie.com',
+  'vimeo.com',
+  'player.vimeo.com',
+  'sample-videos.com',
+  'dailymotion.com',
+  'placeholder',
+  'demo.mp4',
+  'demo_video',
+  'demovideo',
 ];
 
 export function isDemoVideoUrl(url?: string | null): boolean {
-  if (!url || typeof url !== 'string') return false;
-  return DEMO_VIDEO_PATTERNS.some((pattern) => url.includes(pattern));
+  if (!url || typeof url !== 'string') return true;
+  const lower = url.toLowerCase().trim();
+  if (!lower) return true;
+  return DEMO_VIDEO_PATTERNS.some((pattern) => lower.includes(pattern));
 }
+
+export const isFakeOrDemoVideo = isDemoVideoUrl;
 
 // Normalize product fields ensuring backward compatibility and independence
 export function normalizeProduct(raw: Partial<ProductItem>, fallback?: ProductItem): ProductItem {
@@ -95,17 +133,25 @@ export function normalizeProduct(raw: Partial<ProductItem>, fallback?: ProductIt
   const fullDescriptionEN = raw.fullDescriptionEN || description;
   const fullDescriptionAR = raw.fullDescriptionAR || fallback?.fullDescriptionAR || '';
 
-  // Images guarantee: independent array, mainImage is images[0]
-  const rawImages = Array.isArray(raw.images) && raw.images.length > 0 
-    ? [...raw.images]
-    : Array.isArray(fallback?.images) && fallback!.images.length > 0
-    ? [...fallback!.images]
-    : [raw.mainImage || fallback?.mainImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80'];
-  
-  const mainImage = raw.mainImage || rawImages[0] || (fallback?.mainImage ?? rawImages[0]);
-  if (!rawImages.includes(mainImage)) {
-    rawImages.unshift(mainImage);
+  // Images guarantee: strictly real Turath media only, never inject fake/demo/placeholder images
+  // Never fallback to hardcoded or demo images if missing/deleted
+  const rawImages: string[] = [];
+  if (Array.isArray(raw.images)) {
+    raw.images.forEach((img) => {
+      if (typeof img === 'string' && img.trim().length > 0 && !isFakeOrDemoImage(img) && !rawImages.includes(img.trim())) {
+        rawImages.push(img.trim());
+      }
+    });
   }
+  if (raw.mainImage && typeof raw.mainImage === 'string' && raw.mainImage.trim().length > 0 && !isFakeOrDemoImage(raw.mainImage)) {
+    const trimmedMain = raw.mainImage.trim();
+    if (!rawImages.includes(trimmedMain)) {
+      rawImages.unshift(trimmedMain);
+    }
+  }
+
+  const rawMainClean = (typeof raw.mainImage === 'string' && !isFakeOrDemoImage(raw.mainImage)) ? raw.mainImage.trim() : '';
+  const mainImage = rawImages[0] || rawMainClean || '';
 
   const finishOptions = Array.isArray(raw.finishOptions) && raw.finishOptions.length > 0
     ? [...raw.finishOptions]
@@ -113,69 +159,80 @@ export function normalizeProduct(raw: Partial<ProductItem>, fallback?: ProductIt
 
   const seoSlug = raw.seoSlug || fallback?.seoSlug || (nameEN.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')) || id;
 
-    const rawVideo = isDemoVideoUrl(raw.videoUrl) ? '' : (raw.videoUrl || '');
-    const fallbackVideo = isDemoVideoUrl(fallback?.videoUrl) ? '' : (fallback?.videoUrl || '');
-    const cleanVideoUrl = rawVideo || fallbackVideo || '';
-    const resolvedMediaType: 'image' | 'video' = cleanVideoUrl ? (raw.mediaType || 'video') : 'image';
+  // Video guarantee: strictly real videos only. Never auto-attach YouTube/Vimeo/demo videos.
+  // Never fallback to demo video URLs if missing/deleted
+  const cleanVideoUrl = (typeof raw.videoUrl === 'string' && raw.videoUrl.trim().length > 0 && !isFakeOrDemoVideo(raw.videoUrl))
+    ? raw.videoUrl.trim()
+    : undefined;
+  const cleanProductVideo = (typeof raw.productVideo === 'string' && raw.productVideo.trim().length > 0 && !isFakeOrDemoVideo(raw.productVideo))
+    ? raw.productVideo.trim()
+    : undefined;
+  const cleanVideoPoster = (typeof raw.videoPoster === 'string' && raw.videoPoster.trim().length > 0 && !isFakeOrDemoImage(raw.videoPoster))
+    ? raw.videoPoster.trim()
+    : '';
 
-    return {
-      id,
-      sku: raw.sku || fallback?.sku || id,
-      categoryId,
-      name,
-      nameEN,
-      nameAR,
-      tagline,
-      shortDescEN,
-      shortDescAR,
-      description,
-      fullDescriptionEN,
-      fullDescriptionAR,
-      story: raw.story || fallback?.story || '',
-      mainImage,
-      images: rawImages,
-      galleryImages: raw.galleryImages ? [...raw.galleryImages] : rawImages.slice(1),
-      imageAltEN: raw.imageAltEN || fallback?.imageAltEN || nameEN,
-      imageAltAR: raw.imageAltAR || fallback?.imageAltAR || nameAR,
-      imageCaption: raw.imageCaption || fallback?.imageCaption || '',
-      imageRatio: raw.imageRatio || fallback?.imageRatio || '4:5',
-      customRatioWidth: raw.customRatioWidth ?? fallback?.customRatioWidth ?? 5,
-      customRatioHeight: raw.customRatioHeight ?? fallback?.customRatioHeight ?? 7,
-      imageFit: raw.imageFit || fallback?.imageFit || 'contain',
-      imagePosition: raw.imagePosition || fallback?.imagePosition || 'center',
-      imageRatios: raw.imageRatios ? { ...raw.imageRatios } : fallback?.imageRatios ? { ...fallback.imageRatios } : {},
-      imageFits: raw.imageFits ? { ...raw.imageFits } : fallback?.imageFits ? { ...fallback.imageFits } : {},
-      imagePositions: raw.imagePositions ? { ...raw.imagePositions } : fallback?.imagePositions ? { ...fallback.imagePositions } : {},
-      mediaType: resolvedMediaType,
-      videoRatio: raw.videoRatio || fallback?.videoRatio || '4:5',
-      videoCustomRatioWidth: raw.videoCustomRatioWidth ?? fallback?.videoCustomRatioWidth ?? 16,
-      videoCustomRatioHeight: raw.videoCustomRatioHeight ?? fallback?.videoCustomRatioHeight ?? 9,
-      videoFit: raw.videoFit || fallback?.videoFit || 'contain',
-      videoPosition: raw.videoPosition || fallback?.videoPosition || 'center',
-      videoPoster: raw.videoPoster || fallback?.videoPoster || '',
-      material: raw.material || fallback?.material || raw.materials || fallback?.materials || 'Solid High-Grade Egyptian Brass',
-      materials: raw.materials || raw.material || fallback?.materials || 'Solid High-Grade Egyptian Brass',
-      materialDetails: raw.materialDetails || fallback?.materialDetails || '',
-      finish: raw.finish || fallback?.finish || finishOptions[0] || 'Antique Brass',
-      finishOptions,
-      finishDetails: raw.finishDetails || fallback?.finishDetails || '',
-      craftTechnique: raw.craftTechnique || fallback?.craftTechnique || 'Hand-Chiseled & Hammered Repoussé',
-      techniqueDetails: raw.techniqueDetails || fallback?.techniqueDetails || '',
-      dimensions: raw.dimensions || fallback?.dimensions || 'Custom sizing available',
-      height: raw.height || fallback?.height || '',
-      width: raw.width || fallback?.width || '',
-      depth: raw.depth || fallback?.depth || '',
-      diameter: raw.diameter || fallback?.diameter || '',
-      weight: raw.weight || fallback?.weight || '',
-      customDimensions: raw.customDimensions || fallback?.customDimensions || 'Custom sizing and tailored dimensions available upon request.',
-      customSize: raw.customSize || fallback?.customSize || 'Available on request',
-      customDesign: raw.customDesign || fallback?.customDesign || 'Bespoke custom patterns & CAD tailoring supported',
-      customFinish: raw.customFinish || fallback?.customFinish || 'Custom patinas & electroplated accents',
-      customDetails: raw.customDetails || fallback?.customDetails || '',
-      availability: raw.availability || fallback?.availability || 'made_to_order',
-      leadTime: raw.leadTime || fallback?.leadTime || '10-14 business days',
-      videoUrl: cleanVideoUrl,
-      productVideo: isDemoVideoUrl(raw.productVideo) ? '' : (raw.productVideo || fallback?.productVideo || ''),
+  const resolvedMediaType: 'image' | 'video' = (cleanVideoUrl && raw.mediaType === 'video') ? 'video' : 'image';
+
+  return {
+    id,
+    sku: raw.sku || fallback?.sku || id,
+    categoryId,
+    name,
+    nameEN,
+    nameAR,
+    tagline,
+    shortDescEN,
+    shortDescAR,
+    description,
+    fullDescriptionEN,
+    fullDescriptionAR,
+    story: raw.story || fallback?.story || '',
+    mainImage,
+    images: rawImages,
+    galleryImages: Array.isArray(raw.galleryImages)
+      ? raw.galleryImages.filter((img) => typeof img === 'string' && img.trim().length > 0 && !isFakeOrDemoImage(img))
+      : rawImages.slice(1),
+    imageAltEN: raw.imageAltEN || fallback?.imageAltEN || nameEN,
+    imageAltAR: raw.imageAltAR || fallback?.imageAltAR || nameAR,
+    imageCaption: raw.imageCaption || fallback?.imageCaption || '',
+    imageRatio: raw.imageRatio || fallback?.imageRatio || '4:5',
+    customRatioWidth: raw.customRatioWidth ?? fallback?.customRatioWidth ?? 5,
+    customRatioHeight: raw.customRatioHeight ?? fallback?.customRatioHeight ?? 7,
+    imageFit: raw.imageFit || fallback?.imageFit || 'contain',
+    imagePosition: raw.imagePosition || fallback?.imagePosition || 'center',
+    imageRatios: raw.imageRatios ? { ...raw.imageRatios } : fallback?.imageRatios ? { ...fallback.imageRatios } : {},
+    imageFits: raw.imageFits ? { ...raw.imageFits } : fallback?.imageFits ? { ...fallback.imageFits } : {},
+    imagePositions: raw.imagePositions ? { ...raw.imagePositions } : fallback?.imagePositions ? { ...fallback.imagePositions } : {},
+    mediaType: resolvedMediaType,
+    videoRatio: raw.videoRatio || fallback?.videoRatio || '4:5',
+    videoCustomRatioWidth: raw.videoCustomRatioWidth ?? fallback?.videoCustomRatioWidth ?? 16,
+    videoCustomRatioHeight: raw.videoCustomRatioHeight ?? fallback?.videoCustomRatioHeight ?? 9,
+    videoFit: raw.videoFit || fallback?.videoFit || 'contain',
+    videoPosition: raw.videoPosition || fallback?.videoPosition || 'center',
+    videoPoster: cleanVideoPoster,
+    material: raw.material || fallback?.material || raw.materials || fallback?.materials || 'Solid High-Grade Egyptian Brass',
+    materials: raw.materials || raw.material || fallback?.materials || 'Solid High-Grade Egyptian Brass',
+    materialDetails: raw.materialDetails || fallback?.materialDetails || '',
+    finish: raw.finish || fallback?.finish || finishOptions[0] || 'Antique Brass',
+    finishOptions,
+    finishDetails: raw.finishDetails || fallback?.finishDetails || '',
+    craftTechnique: raw.craftTechnique || fallback?.craftTechnique || 'Hand-Chiseled & Hammered Repoussé',
+    techniqueDetails: raw.techniqueDetails || fallback?.techniqueDetails || '',
+    dimensions: raw.dimensions || fallback?.dimensions || 'Custom sizing available',
+    height: raw.height || fallback?.height || '',
+    width: raw.width || fallback?.width || '',
+    depth: raw.depth || fallback?.depth || '',
+    diameter: raw.diameter || fallback?.diameter || '',
+    weight: raw.weight || fallback?.weight || '',
+    customDimensions: raw.customDimensions || fallback?.customDimensions || 'Custom sizing and tailored dimensions available upon request.',
+    customSize: raw.customSize || fallback?.customSize || 'Available on request',
+    customDesign: raw.customDesign || fallback?.customDesign || 'Bespoke custom patterns & CAD tailoring supported',
+    customFinish: raw.customFinish || fallback?.customFinish || 'Custom patinas & electroplated accents',
+    customDetails: raw.customDetails || fallback?.customDetails || '',
+    availability: raw.availability || fallback?.availability || 'made_to_order',
+    leadTime: raw.leadTime || fallback?.leadTime || '10-14 business days',
+    videoUrl: cleanVideoUrl,
+    productVideo: cleanProductVideo,
     applications: Array.isArray(raw.applications) ? [...raw.applications] : fallback?.applications ? [...fallback.applications] : ['Villas', 'Palaces', 'Luxury Hotels', 'Interior Projects'],
     price: raw.price || fallback?.price || '',
     priceType: raw.priceType || fallback?.priceType || 'quote',
@@ -195,7 +252,7 @@ export function normalizeProduct(raw: Partial<ProductItem>, fallback?: ProductIt
 export function getStoredProducts(): ProductItem[] {
   try {
     if (!isStorageAvailable()) {
-      return INITIAL_PRODUCTS.map((p) => normalizeProduct(p));
+      return [];
     }
 
     const saved = window.localStorage.getItem(STORAGE_KEY) || 
@@ -204,22 +261,16 @@ export function getStoredProducts(): ProductItem[] {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        // Merge with initial catalog to ensure all fields are normalized and enriched
         return parsed
-          .map((item: Partial<ProductItem>) => {
-            const defaultProduct = INITIAL_PRODUCTS.find((p) => p.id === item.id || p.sku === item.id);
-            return normalizeProduct(item, defaultProduct);
-          })
+          .map((item: Partial<ProductItem>) => normalizeProduct(item))
           .filter((p) => p.categoryId !== 'wall-art' && p.id !== 'turath-wallart-01');
       }
     }
   } catch (err) {
-    console.warn('Could not read stored products from localStorage, using initial catalog:', err);
+    console.warn('Could not read stored products from localStorage:', err);
   }
 
-  return INITIAL_PRODUCTS.map((p) => normalizeProduct(p)).filter(
-    (p) => p.categoryId !== 'wall-art' && p.id !== 'turath-wallart-01'
-  );
+  return [];
 }
 
 // Save all products to local storage & IndexedDB
@@ -265,10 +316,7 @@ export function loadProductsFromIndexedDB(): Promise<ProductItem[] | null> {
           const res = req.result;
           if (Array.isArray(res) && res.length > 0) {
             const normalized = res
-              .map((item) => {
-                const defaultProd = INITIAL_PRODUCTS.find((p) => p.id === item.id || p.sku === item.id);
-                return normalizeProduct(item, defaultProd);
-              })
+              .map((item) => normalizeProduct(item))
               .filter((p) => p.categoryId !== 'wall-art' && p.id !== 'turath-wallart-01');
             resolve(normalized);
           } else {
@@ -340,7 +388,6 @@ export function resetStoredProducts(): ProductItem[] {
     } catch {}
   });
 
-  const normalized = INITIAL_PRODUCTS.map((p) => normalizeProduct(p));
-  saveStoredProducts(normalized);
-  return normalized;
+  saveStoredProducts([]);
+  return [];
 }

@@ -21,6 +21,7 @@ import {
   generateMetaProductFeedXml,
   updatePublicFeedFile,
   injectProductSocialMetadata,
+  injectProjectSocialMetadata,
 } from "./metaFeed";
 import {
   getAllServerProjects,
@@ -479,46 +480,73 @@ async function startServer() {
     console.error('Initial feed generation error:', err);
   }
 
-  // Social Crawler Intercept for Meta / Facebook / Instagram dynamic previews
+  // Social Crawler Intercept for Meta / Facebook / Instagram / WhatsApp / X dynamic previews
   app.use((req: Request, res: Response, next: NextFunction) => {
     const userAgent = (req.headers['user-agent'] || '').toLowerCase();
-    const isCrawler = /facebookexternalhit|facebot|instagram|whatsapp|twitterbot|pinterest|linkedinbot|slackbot|telegrambot/i.test(
+    const isCrawler = /facebookexternalhit|facebot|facebookcatalog|instagram|whatsapp|twitterbot|pinterest|linkedinbot|slackbot|telegrambot|discordbot|applebot/i.test(
       userAgent
     );
 
     if (!isCrawler) return next();
 
-    let targetSlug: string | undefined;
     const parts = req.path.split('/').filter(Boolean);
-    if (parts[0] === 'products' && parts.length >= 3) {
-      targetSlug = parts[2];
-    } else if (req.query.product && typeof req.query.product === 'string') {
-      targetSlug = req.query.product;
-    }
-
-    if (!targetSlug) return next();
-
-    const products = getAllServerProducts();
-    const matched = products.find(
-      (p) => p.seoSlug === targetSlug || p.id === targetSlug || p.sku === targetSlug
-    );
-
-    if (!matched) return next();
-
     const baseUrl = getBaseUrl(req);
     const indexHtmlPath =
       process.env.NODE_ENV === 'production'
         ? path.join(process.cwd(), 'dist', 'index.html')
         : path.join(process.cwd(), 'index.html');
 
-    if (fs.existsSync(indexHtmlPath)) {
-      try {
-        const templateHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
-        const enrichedHtml = injectProductSocialMetadata(templateHtml, matched, baseUrl, req.originalUrl);
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        return res.send(enrichedHtml);
-      } catch {
-        return next();
+    if (!fs.existsSync(indexHtmlPath)) return next();
+
+    // 1. Product routes
+    let targetProductSlug: string | undefined;
+    if (parts[0] === 'products' && parts.length >= 3) {
+      targetProductSlug = parts[2];
+    } else if (parts[0] === 'products' && parts.length === 2) {
+      targetProductSlug = parts[1];
+    } else if (req.query.product && typeof req.query.product === 'string') {
+      targetProductSlug = req.query.product;
+    }
+
+    if (targetProductSlug) {
+      const products = getAllServerProducts();
+      const matched = products.find(
+        (p) => p.seoSlug === targetProductSlug || p.id === targetProductSlug || p.sku === targetProductSlug
+      );
+      if (matched) {
+        try {
+          const templateHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+          const enrichedHtml = injectProductSocialMetadata(templateHtml, matched, baseUrl, req.originalUrl);
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          return res.send(enrichedHtml);
+        } catch {
+          return next();
+        }
+      }
+    }
+
+    // 2. Project routes
+    let targetProjectSlug: string | undefined;
+    if (parts[0] === 'projects' && parts.length >= 2) {
+      targetProjectSlug = parts[1];
+    } else if (req.query.project && typeof req.query.project === 'string') {
+      targetProjectSlug = req.query.project;
+    }
+
+    if (targetProjectSlug) {
+      const projects = getAllServerProjects();
+      const matchedProj = projects.find(
+        (p) => p.slug === targetProjectSlug || p.id === targetProjectSlug
+      );
+      if (matchedProj) {
+        try {
+          const templateHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+          const enrichedHtml = injectProjectSocialMetadata(templateHtml, matchedProj, baseUrl, req.originalUrl);
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          return res.send(enrichedHtml);
+        } catch {
+          return next();
+        }
       }
     }
 

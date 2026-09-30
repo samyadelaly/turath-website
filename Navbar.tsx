@@ -17,7 +17,8 @@ import {
   Facebook,
   Instagram,
   SlidersHorizontal,
-  ArrowUpDown
+  ArrowUpDown,
+  Handshake
 } from 'lucide-react';
 import { ProductCategoryInfo } from './types';
 import { getStoredCategories } from './categoryStorage';
@@ -42,6 +43,7 @@ interface NavbarProps {
   onOpenDownloadZip?: () => void;
   onOpenCategoryManager?: (initialCategoryId?: string | 'new') => void;
   onOpenMenuSortModal?: () => void;
+  onOpenClientsPartnersManager?: () => void;
   categories?: ProductCategoryInfo[];
   content?: SiteContent;
   isAdmin?: boolean;
@@ -59,6 +61,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenDownloadZip,
   onOpenCategoryManager,
   onOpenMenuSortModal,
+  onOpenClientsPartnersManager,
   categories,
   content,
   isAdmin = false,
@@ -284,6 +287,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             Projects
           </button>
         );
+      case 'clients-partners':
+        return (
+          <button
+            key="clients-partners"
+            onClick={() => handleNavClick('clients-partners')}
+            className={`px-3 py-2 text-sm font-bold tracking-wider uppercase transition-colors rounded-md ${
+              currentView === 'clients-partners'
+                ? 'text-[#000000] bg-[#d4c59d]'
+                : 'text-[#d4c59d] hover:text-[#f5f0e6] hover:bg-[#141414]'
+            }`}
+          >
+            Clients & Partners
+          </button>
+        );
       case 'custom':
         return (
           <button
@@ -426,6 +443,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             Projects
           </button>
         );
+      case 'clients-partners':
+        return (
+          <button
+            key="m-clients-partners"
+            onClick={() => handleNavClick('clients-partners')}
+            className={`w-full text-left px-3 py-2.5 rounded text-sm font-bold tracking-wider uppercase ${
+              currentView === 'clients-partners' ? 'bg-[#d4c59d] text-[#000000]' : 'text-[#d4c59d]'
+            }`}
+          >
+            Clients & Partners
+          </button>
+        );
       case 'custom':
         return (
           <button
@@ -539,6 +568,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                   >
                     <Camera className="w-3.5 h-3.5" />
                     <span>Replace Logo</span>
+                  </button>
+                )}
+
+                {/* Clients & Partners Manager Button */}
+                {onOpenClientsPartnersManager && (
+                  <button
+                    onClick={onOpenClientsPartnersManager}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d]/80 text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all cursor-pointer font-arabic"
+                    title="إدارة شركاء النجاح والعملاء (Manage Clients & Partners)"
+                  >
+                    <span>الشركاء والعملاء</span>
                   </button>
                 )}
 
@@ -685,6 +725,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                   >
                     <Camera className="w-4 h-4" />
                     <span>Replace Website Logo</span>
+                  </button>
+                )}
+                {onOpenClientsPartnersManager && (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenClientsPartnersManager();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-bold uppercase tracking-wider rounded bg-[#161616] border border-[#d4c59d] text-[#d4c59d] font-arabic"
+                  >
+                    <span>إدارة الشركاء والعملاء (Clients & Partners)</span>
                   </button>
                 )}
                 <button

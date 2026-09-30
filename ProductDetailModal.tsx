@@ -102,10 +102,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const validImages = (product.images || []).filter(
     (img): img is string => typeof img === 'string' && img.trim().length > 0
   );
+  if (validImages.length === 0 && product.mainImage && product.mainImage.trim()) {
+    validImages.push(product.mainImage.trim());
+  }
   const mainImageSrc =
     validImages[activeMediaIndex] ||
     validImages[0] ||
-    'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80';
+    '';
 
   const category = PRODUCT_CATEGORIES.find((c) => c.id === product.categoryId);
 
@@ -371,48 +374,50 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             })()}
 
             {/* Thumbnails Row */}
-            <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
-              {validImages.map((img, idx) => {
-                const thumbRatio = computeProductImageRatio(product, img);
-                return (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setShowVideo(false);
-                    setActiveMediaIndex(idx);
-                  }}
-                  style={{ aspectRatio: thumbRatio.isOriginal ? '1 / 1' : thumbRatio.aspectRatioCss }}
-                  className={`relative w-14 rounded-md overflow-hidden flex-shrink-0 transition-all ${
-                    !showVideo && activeMediaIndex === idx
-                      ? 'ring-2 ring-[#d4c59d] scale-95 shadow'
-                      : 'opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <TurathImage
-                    src={img}
-                    alt={`Thumb ${idx}`}
-                    computedRatio={thumbRatio}
-                    containerClassName="w-full h-full"
-                  />
-                </button>
-                );
-              })}
+            {(validImages.length > 0 || Boolean(product.videoUrl)) && (
+              <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+                {validImages.map((img, idx) => {
+                  const thumbRatio = computeProductImageRatio(product, img);
+                  return (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setShowVideo(false);
+                      setActiveMediaIndex(idx);
+                    }}
+                    style={{ aspectRatio: thumbRatio.isOriginal ? '1 / 1' : thumbRatio.aspectRatioCss }}
+                    className={`relative w-14 rounded-md overflow-hidden flex-shrink-0 transition-all ${
+                      !showVideo && activeMediaIndex === idx
+                        ? 'ring-2 ring-[#d4c59d] scale-95 shadow'
+                        : 'opacity-70 hover:opacity-100'
+                    }`}
+                  >
+                    <TurathImage
+                      src={img}
+                      alt={`Thumb ${idx}`}
+                      computedRatio={thumbRatio}
+                      containerClassName="w-full h-full"
+                    />
+                  </button>
+                  );
+                })}
 
-              {/* Video Thumbnail Button if Video Available */}
-              {product.videoUrl && (
-                <button
-                  onClick={() => setShowVideo(true)}
-                  className={`relative w-20 h-16 rounded-md overflow-hidden flex-shrink-0 transition-all bg-[#1a1a1a] flex flex-col items-center justify-center gap-1 ${
-                    showVideo
-                      ? 'ring-2 ring-[#d4c59d] bg-[#d4c59d] text-[#000000]'
-                      : 'text-[#d4c59d] hover:bg-[#222222]'
-                  }`}
-                >
-                  <Video className="w-5 h-5" />
-                  <span className="text-[9px] uppercase font-bold">Watch Video</span>
-                </button>
-              )}
-            </div>
+                {/* Video Thumbnail Button if Video Available */}
+                {product.videoUrl && (
+                  <button
+                    onClick={() => setShowVideo(true)}
+                    className={`relative w-20 h-16 rounded-md overflow-hidden flex-shrink-0 transition-all bg-[#1a1a1a] flex flex-col items-center justify-center gap-1 ${
+                      showVideo
+                        ? 'ring-2 ring-[#d4c59d] bg-[#d4c59d] text-[#000000]'
+                        : 'text-[#d4c59d] hover:bg-[#222222]'
+                    }`}
+                  >
+                    <Video className="w-5 h-5" />
+                    <span className="text-[9px] uppercase font-bold">Watch Video</span>
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {/* RIGHT: Product Specs & Inquiry */}
@@ -581,17 +586,19 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     <span>{isCopied ? 'Copied!' : 'Copy Link'}</span>
                   </button>
 
-                  <a
-                    href={mainImageSrc}
-                    download={`${(product.seoSlug || product.id)}.jpg`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
-                    title="Save high-res product photo for Instagram or social media upload"
-                  >
-                    <Download className="w-3.5 h-3.5 text-[#d4c59d]" />
-                    <span>Save Photo</span>
-                  </a>
+                  {Boolean(mainImageSrc) && (
+                    <a
+                      href={mainImageSrc}
+                      download={`${(product.seoSlug || product.id)}.jpg`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
+                      title="Save high-res product photo for Instagram or social media upload"
+                    >
+                      <Download className="w-3.5 h-3.5 text-[#d4c59d]" />
+                      <span>Save Photo</span>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

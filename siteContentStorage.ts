@@ -1,4 +1,4 @@
-export type MenuItemId = 'home' | 'about' | 'founder' | 'products' | 'projects' | 'custom' | 'why-us' | 'contact';
+export type MenuItemId = 'home' | 'about' | 'founder' | 'products' | 'projects' | 'clients-partners' | 'custom' | 'why-us' | 'contact';
 
 export interface MenuItemDefinition {
   id: MenuItemId;
@@ -13,12 +13,13 @@ export const DEFAULT_MENU_ITEMS: MenuItemDefinition[] = [
   { id: 'founder', labelEn: 'Founder', labelAr: 'المؤسس', defaultIndex: 2 },
   { id: 'products', labelEn: 'Products', labelAr: 'المنتجات والأقسام', defaultIndex: 3 },
   { id: 'projects', labelEn: 'Projects', labelAr: 'المشاريع', defaultIndex: 4 },
-  { id: 'custom', labelEn: 'Custom Fabrication', labelAr: 'تصنيع خاص', defaultIndex: 5 },
-  { id: 'why-us', labelEn: 'Why Turath', labelAr: 'لماذا تراث', defaultIndex: 6 },
-  { id: 'contact', labelEn: 'Contact Us', labelAr: 'تواصل معنا', defaultIndex: 7 },
+  { id: 'clients-partners', labelEn: 'Clients & Partners', labelAr: 'عملاؤنا وشركاؤنا', defaultIndex: 5 },
+  { id: 'custom', labelEn: 'Custom Fabrication', labelAr: 'تصنيع خاص', defaultIndex: 6 },
+  { id: 'why-us', labelEn: 'Why Turath', labelAr: 'لماذا تراث', defaultIndex: 7 },
+  { id: 'contact', labelEn: 'Contact Us', labelAr: 'تواصل معنا', defaultIndex: 8 },
 ];
 
-export const DEFAULT_MENU_ITEMS_ORDER: MenuItemId[] = ['home', 'about', 'founder', 'products', 'projects', 'custom', 'why-us', 'contact'];
+export const DEFAULT_MENU_ITEMS_ORDER: MenuItemId[] = ['home', 'about', 'founder', 'products', 'projects', 'clients-partners', 'custom', 'why-us', 'contact'];
 
 export interface SiteContent {
   // Navigation & Menu Order

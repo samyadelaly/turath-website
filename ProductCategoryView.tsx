@@ -30,7 +30,8 @@ import {
   MessageCircle, 
   Camera,
   Edit3,
-  ArrowUpDown
+  ArrowUpDown,
+  Image as ImageIcon
 } from 'lucide-react';
 
 interface ProductCategoryViewProps {
@@ -477,7 +478,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
             {filteredProducts.map((prod) => {
               const isProdVideo = Boolean(prod.mediaType === 'video' && prod.videoUrl);
               const prodRatio = computeProductImageRatio(prod);
-              const mainImg = (prod.images && prod.images.find((img) => typeof img === 'string' && img.trim().length > 0)) || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80';
+              const mainImg = (prod.images && prod.images.find((img) => typeof img === 'string' && img.trim().length > 0)) || (prod.mainImage && prod.mainImage.trim()) || '';
 
               return (
               <TiltCard
@@ -531,7 +532,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                       </span>
                     )}
                   </TurathMedia>
-                ) : (
+                ) : mainImg ? (
                   <TurathImage
                     src={mainImg}
                     alt={prod.name}
@@ -596,6 +597,27 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                       )}
                     </div>
                   </TurathImage>
+                ) : (
+                  <div
+                    onClick={() => onSelectProduct(prod, false)}
+                    className="cursor-pointer relative w-full aspect-[4/5] bg-[#07070a] flex flex-col items-center justify-center p-6 text-center border-b border-[#d4c59d]/10 group-hover:bg-[#0c0c10] transition-colors"
+                  >
+                    <ImageIcon className="w-10 h-10 text-[#d4c59d]/30 mb-2" />
+                    <span className="text-xs text-[#9e9174]">No image uploaded</span>
+                    {prod.videoUrl && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelectProduct(prod, true);
+                        }}
+                        className="mt-3 text-[10px] font-bold uppercase tracking-wider bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] px-2.5 py-1 rounded flex items-center gap-1.5 shadow transition-transform hover:scale-105"
+                      >
+                        <Video className="w-3.5 h-3.5 text-[#000000]" />
+                        <span>▶ Watch Video</span>
+                      </button>
+                    )}
+                  </div>
                 )}
 
                 {/* Card Info */}

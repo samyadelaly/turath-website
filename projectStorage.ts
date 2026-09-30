@@ -99,13 +99,13 @@ export function setProjectsCache(projects: ProjectItem[]): void {
 }
 
 export function getStoredProjects(): ProjectItem[] {
-  if (inMemoryProjectsCache && inMemoryProjectsCache.length > 0) {
-    const deleted = getDeletedProjectIds();
+  const deleted = getDeletedProjectIds();
+
+  if (inMemoryProjectsCache !== null) {
     return inMemoryProjectsCache.filter((p) => !deleted.has(p.id));
   }
 
-  if (typeof window === 'undefined') return INITIAL_PROJECTS;
-  const deleted = getDeletedProjectIds();
+  if (typeof window === 'undefined') return [];
 
   try {
     const raw = localStorage.getItem(PROJECTS_STORAGE_KEY);
@@ -115,15 +115,7 @@ export function getStoredProjects(): ProjectItem[] {
         const storedMap = new Map<string, ProjectItem>();
         parsed.forEach((item: any) => {
           if (item && item.id && !deleted.has(item.id)) {
-            const fallback = INITIAL_PROJECTS.find((p) => p.id === item.id);
-            storedMap.set(item.id, normalizeProject(item, fallback));
-          }
-        });
-
-        // Merge initial projects that are not deleted and not in storage
-        INITIAL_PROJECTS.forEach((init) => {
-          if (!deleted.has(init.id) && !storedMap.has(init.id)) {
-            storedMap.set(init.id, init);
+            storedMap.set(item.id, normalizeProject(item));
           }
         });
 
@@ -136,9 +128,8 @@ export function getStoredProjects(): ProjectItem[] {
     console.warn('[ProjectStorage] Error loading projects from localStorage:', err);
   }
 
-  const fallbackList = INITIAL_PROJECTS.filter((p) => !deleted.has(p.id));
-  inMemoryProjectsCache = fallbackList;
-  return fallbackList;
+  inMemoryProjectsCache = [];
+  return [];
 }
 
 /**

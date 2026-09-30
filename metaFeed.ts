@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { INITIAL_PRODUCTS, PRODUCT_CATEGORIES } from './initialCatalog';
-import { ProductItem } from './types';
+import { INITIAL_PROJECTS } from './initialProjects';
+import { ProductItem, ProjectItem } from './types';
 
 const DATA_DIR = path.join(process.cwd(), '.server_data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
@@ -308,6 +309,77 @@ export function injectProductSocialMetadata(
     `<meta property="og:url" content="${escapeXml(fullPageUrl)}" />`,
     `<meta property="og:type" content="product" />`,
     `<meta property="og:site_name" content="TURATH Egypt" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:title" content="${escapeXml(title)}" />`,
+    `<meta name="twitter:description" content="${escapeXml(description)}" />`,
+    `<meta name="twitter:image" content="${escapeXml(imageUrl)}" />`,
+  ].join('\n    ');
+
+  // Replace canonical
+  if (modifiedHtml.includes('rel="canonical"')) {
+    modifiedHtml = modifiedHtml.replace(
+      /<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i,
+      `<link rel="canonical" href="${escapeXml(fullPageUrl)}" />`
+    );
+  }
+
+  // Remove existing static og tags to avoid duplicates
+  modifiedHtml = modifiedHtml
+    .replace(/<meta\s+property=["']og:title["'][^>]*>/gi, '')
+    .replace(/<meta\s+property=["']og:description["'][^>]*>/gi, '')
+    .replace(/<meta\s+property=["']og:image["'][^>]*>/gi, '')
+    .replace(/<meta\s+property=["']og:url["'][^>]*>/gi, '')
+    .replace(/<meta\s+property=["']og:type["'][^>]*>/gi, '')
+    .replace(/<meta\s+name=["']twitter:card["'][^>]*>/gi, '')
+    .replace(/<meta\s+name=["']twitter:title["'][^>]*>/gi, '')
+    .replace(/<meta\s+name=["']twitter:description["'][^>]*>/gi, '')
+    .replace(/<meta\s+name=["']twitter:image["'][^>]*>/gi, '');
+
+  // Inject before </head>
+  return modifiedHtml.replace('</head>', `    ${ogTags}\n  </head>`);
+}
+
+/**
+ * Server-side HTML injection for Social Media Crawlers for Projects
+ * Injects dynamic Open Graph and Twitter Card tags directly into HTML
+ */
+export function injectProjectSocialMetadata(
+  html: string,
+  project: ProjectItem,
+  baseUrl: string,
+  reqUrl: string
+): string {
+  const cleanBase = baseUrl.replace(/\/+$/, '');
+  const title = `${project.title || 'Architectural Project'} | TURATH Egypt`;
+  const rawDesc =
+    project.metaDescription ||
+    project.shortDescription ||
+    project.description ||
+    'Authentic handcrafted Egyptian brass and luxury architectural metalwork.';
+  const description = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
+  const rawImage = project.coverImage || (Array.isArray(project.gallery) && project.gallery[0]) || '/turath_logo.jpg';
+  const imageUrl = formatAbsoluteUrl(rawImage, cleanBase);
+  const fullPageUrl = `${cleanBase}${reqUrl.startsWith('/') ? reqUrl : '/' + reqUrl}`;
+
+  // Replace or inject title
+  let modifiedHtml = html.replace(/<title>.*?<\/title>/i, `<title>${escapeXml(title)}</title>`);
+
+  // Replace or inject meta description
+  if (modifiedHtml.includes('name="description"')) {
+    modifiedHtml = modifiedHtml.replace(
+      /<meta\s+name=["']description["']\s+content=["'][^"']*["']\s*\/?>/i,
+      `<meta name="description" content="${escapeXml(description)}" />`
+    );
+  }
+
+  // Replace Open Graph meta tags
+  const ogTags = [
+    `<meta property="og:title" content="${escapeXml(title)}" />`,
+    `<meta property="og:description" content="${escapeXml(description)}" />`,
+    `<meta property="og:image" content="${escapeXml(imageUrl)}" />`,
+    `<meta property="og:url" content="${escapeXml(fullPageUrl)}" />`,
+    `<meta property="og:type" content="article" />`,
+    `<meta property="og:site_name" content="TURATH Egypt | تراث للصناعات النحاسية" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeXml(title)}" />`,
     `<meta name="twitter:description" content="${escapeXml(description)}" />`,

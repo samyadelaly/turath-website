@@ -24,6 +24,41 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/products/:category/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|facebot|facebookcatalog|twitterbot|linkedinbot|whatsapp|telegrambot|slackbot|pinterest|discordbot|applebot|googlebot|bingbot).*"
+        }
+      ],
+      "destination": "/api/share?type=product&category=:category&slug=:slug"
+    },
+    {
+      "source": "/products/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|facebot|facebookcatalog|twitterbot|linkedinbot|whatsapp|telegrambot|slackbot|pinterest|discordbot|applebot|googlebot|bingbot).*"
+        }
+      ],
+      "destination": "/api/share?type=product&slug=:slug"
+    },
+    {
+      "source": "/projects/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|facebot|facebookcatalog|twitterbot|linkedinbot|whatsapp|telegrambot|slackbot|pinterest|discordbot|applebot|googlebot|bingbot).*"
+        }
+      ],
+      "destination": "/api/share?type=project&slug=:slug"
+    },
+    { "source": "/share/product/:slug", "destination": "/api/share?type=product&slug=:slug" },
+    { "source": "/share/project/:slug", "destination": "/api/share?type=project&slug=:slug" },
     { "source": "/share/:slug", "destination": "/api/share?slug=:slug" },
     { "source": "/p/:slug", "destination": "/api/share?slug=:slug" },
     { "source": "/api/(.*)", "destination": "/api/$1" },

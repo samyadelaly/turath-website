@@ -225,7 +225,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       setFullDescEN('');
       setFullDescAR('');
       setStory('');
-      setMainImage('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80');
+      setMainImage('');
       setGalleryImages([]);
       setImageAltEN('');
       setImageAltAR('');
@@ -292,7 +292,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
     setStory(prod.story || '');
 
     const imagesList = Array.isArray(prod.images) && prod.images.length > 0 ? [...prod.images] : [];
-    const primary = prod.mainImage || imagesList[0] || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80';
+    const primary = prod.mainImage || imagesList[0] || '';
     setMainImage(primary);
     setGalleryImages(imagesList.filter((img) => img !== primary));
 
@@ -418,7 +418,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       }
 
       if (processed.length > 0) {
-        if (!mainImage || mainImage.includes('unsplash.com')) {
+        if (!mainImage) {
           setMainImage(processed[0]);
           setGalleryImages((prev) => [...prev, ...processed.slice(1)]);
         } else {
@@ -602,10 +602,6 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       }
     });
 
-    if (allImages.length === 0) {
-      allImages.push('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80');
-    }
-
     const finalId = selectedProductId === 'new' ? (sku.trim() || `TR-ITEM-${Date.now()}`) : selectedProductId;
     const finalSlug = seoSlug.trim() || (nameEN.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')) || finalId;
 
@@ -624,7 +620,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       fullDescriptionAR: fullDescAR.trim() || undefined,
       story: story.trim() || undefined,
       mediaType,
-      mainImage: allImages[0],
+      mainImage: allImages[0] || '',
       images: allImages,
       galleryImages: allImages.slice(1),
       imageRatio,

@@ -17,7 +17,8 @@ import {
   Phone,
   SlidersHorizontal,
   LayoutTemplate,
-  Building2
+  Building2,
+  Handshake
 } from 'lucide-react';
 import {
   MenuItemId,
@@ -41,6 +42,7 @@ const MENU_ICONS: Record<MenuItemId, React.ComponentType<{ className?: string }>
   founder: Crown,
   products: Sparkles,
   projects: Building2,
+  'clients-partners': Handshake,
   custom: Wrench,
   'why-us': ShieldCheck,
   contact: Phone,

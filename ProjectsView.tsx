@@ -241,19 +241,26 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           <div className="text-center py-20 bg-[#0e0d0a] border border-[#d4c59d]/20 rounded-2xl p-8 max-w-xl mx-auto">
             <Building2 className="w-12 h-12 text-[#d4c59d]/60 mx-auto mb-4" />
             <h3 className="font-serif-luxury text-xl font-bold text-[#f5f0e6]">
-              No Projects Found
+              {hasActiveFilters ? 'No Projects Found' : 'No Projects Published Yet'}
             </h3>
+            <p className="font-arabic text-sm text-[#d4c59d]/80 mt-1" dir="rtl">
+              {hasActiveFilters ? 'لا توجد مشاريع مطابقة لمعايير البحث' : 'لا توجد مشاريع منشورة حالياً في سجل الأعمال'}
+            </p>
             <p className="text-sm text-[#9e9174] mt-2 font-sans">
-              No architectural or custom installations match your current filter criteria.
+              {hasActiveFilters
+                ? 'No architectural or custom installations match your current filter criteria.'
+                : 'Custom architectural projects and landmark completed works will appear here once created and saved in the Admin panel.'}
             </p>
             <div className="mt-6 flex items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={clearFilters}
-                className="px-4 py-2 rounded-lg bg-[#d4c59d] text-black font-bold text-xs uppercase tracking-wider hover:bg-[#e6d8b5] transition-colors cursor-pointer"
-              >
-                Clear Filters
-              </button>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="px-4 py-2 rounded-lg bg-[#d4c59d] text-black font-bold text-xs uppercase tracking-wider hover:bg-[#e6d8b5] transition-colors cursor-pointer"
+                >
+                  Clear Filters
+                </button>
+              )}
               {isAdmin && onOpenAddProject && (
                 <button
                   type="button"

@@ -19,7 +19,8 @@ import {
   Edit3, 
   Maximize2,
   ExternalLink,
-  Camera
+  Camera,
+  Package
 } from 'lucide-react';
 
 interface ProjectDetailPageProps {
@@ -44,6 +45,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | undefined>(
     project.videoUrl && project.videoUrl !== '__IDB_VIDEO__' ? project.videoUrl : undefined
   );
+  const [isCopied, setIsCopied] = useState<boolean>(false);
 
   useEffect(() => {
     if (project.videoUrl && project.videoUrl !== '__IDB_VIDEO__') {
@@ -55,24 +57,97 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
     }
   }, [project.id, project.videoUrl]);
 
-  // Dynamic SEO Page Title & Meta tags
+  // Dynamic SEO Page Title, Meta tags, Canonical Link, and Open Graph / Twitter Card
   useEffect(() => {
     const originalTitle = document.title;
-    document.title = project.seoTitle || `${project.title} | TURATH Architectural Projects`;
+    const titleText = `${project.title} | TURATH Egypt`;
+    document.title = titleText;
 
-    let metaDesc = document.querySelector('meta[name="description"]');
-    const originalMetaDesc = metaDesc ? metaDesc.getAttribute('content') : '';
-    if (metaDesc) {
-      metaDesc.setAttribute('content', project.metaDescription || project.shortDescription || project.description.slice(0, 160));
+    const cleanBase = 'https://turath-egypt.vercel.app';
+    const projectSlug = project.slug || project.id;
+    const canonicalUrl = `${cleanBase}/projects/${projectSlug}`;
+    const rawDesc = project.metaDescription || project.shortDescription || project.description || 'Authentic handcrafted Egyptian brass and luxury architectural metalwork.';
+    const projectDesc = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
+
+    const rawImage = project.coverImage || (Array.isArray(project.gallery) && project.gallery[0]) || '';
+    const defaultImage = `${cleanBase}/turath_logo.jpg`;
+    let absoluteImage = rawImage && rawImage.trim().length > 0 ? rawImage.trim() : defaultImage;
+    if (!absoluteImage.startsWith('http')) {
+      absoluteImage = `${cleanBase}${absoluteImage.startsWith('/') ? '' : '/'}${absoluteImage}`;
     }
+
+    // 1. Update standard meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.setAttribute('name', 'description');
+      document.head.appendChild(metaDesc);
+    }
+    const prevDesc = metaDesc.getAttribute('content') || '';
+    metaDesc.setAttribute('content', projectDesc);
+
+    // 2. Update Canonical link
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    const prevCanonical = canonical.getAttribute('href') || '';
+    canonical.setAttribute('href', canonicalUrl);
+
+    // 3. Update dynamic Open Graph and Twitter Card tags
+    const setMetaTag = (selector: string, attr: string, key: string, value: string) => {
+      let el = document.querySelector(selector);
+      const prevVal = el ? el.getAttribute('content') : null;
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', value);
+      return { el, prevVal };
+    };
+
+    const ogTags = [
+      setMetaTag('meta[property="og:title"]', 'property', 'og:title', titleText),
+      setMetaTag('meta[property="og:description"]', 'property', 'og:description', projectDesc),
+      setMetaTag('meta[property="og:image"]', 'property', 'og:image', absoluteImage),
+      setMetaTag('meta[property="og:url"]', 'property', 'og:url', canonicalUrl),
+      setMetaTag('meta[property="og:type"]', 'property', 'og:type', 'article'),
+      setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', 'TURATH Egypt | تراث للصناعات النحاسية'),
+      setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary_large_image'),
+      setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', titleText),
+      setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', projectDesc),
+      setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', absoluteImage),
+    ];
 
     return () => {
       document.title = originalTitle;
-      if (metaDesc && originalMetaDesc) {
-        metaDesc.setAttribute('content', originalMetaDesc);
+      if (metaDesc && prevDesc) {
+        metaDesc.setAttribute('content', prevDesc);
       }
+      if (canonical && prevCanonical) {
+        canonical.setAttribute('href', prevCanonical);
+      }
+      ogTags.forEach(({ el, prevVal }) => {
+        if (prevVal !== null) {
+          el.setAttribute('content', prevVal);
+        }
+      });
     };
   }, [project]);
+
+  const handleShare = () => {
+    const cleanBase = 'https://turath-egypt.vercel.app';
+    const projectSlug = project.slug || project.id;
+    const shareUrl = `${cleanBase}/projects/${projectSlug}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareUrl);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    }
+  };
 
   // Find related products referenced by ID
   const linkedProducts = (project.relatedProductIds || [])
@@ -113,16 +188,28 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             <span className="text-[#f5f0e6] font-medium truncate max-w-[200px] sm:max-w-xs">{project.title}</span>
           </div>
 
-          {isAdmin && onEditProject && (
+          <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => onEditProject(project)}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#d4c59d] hover:bg-[#e6d8b5] text-black font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-sm"
+              onClick={handleShare}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider border border-[#d4c59d]/40 text-[#d4c59d] hover:bg-[#d4c59d]/10 transition-colors cursor-pointer"
+              title="Copy link to this project"
             >
-              <Edit3 className="w-3.5 h-3.5" />
-              <span>Edit Project (تعديل المشروع)</span>
+              {isCopied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> : <Share2 className="w-3.5 h-3.5" />}
+              <span>{isCopied ? 'Link Copied' : 'Share'}</span>
             </button>
-          )}
+
+            {isAdmin && onEditProject && (
+              <button
+                type="button"
+                onClick={() => onEditProject(project)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#d4c59d] hover:bg-[#e6d8b5] text-black font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-sm"
+              >
+                <Edit3 className="w-3.5 h-3.5" />
+                <span>Edit Project (تعديل المشروع)</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -421,11 +508,17 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                       onClick={() => onNavigateToProduct && onNavigateToProduct(prod)}
                       className="flex items-center gap-3 p-2 rounded-lg bg-[#141310] hover:bg-[#201d14] border border-[#d4c59d]/20 hover:border-[#d4c59d]/50 transition-all cursor-pointer group"
                     >
-                      <img
-                        src={prod.mainImage}
-                        alt={prod.name}
-                        className="w-12 h-12 rounded object-cover flex-shrink-0 border border-[#d4c59d]/30"
-                      />
+                      {prod.mainImage ? (
+                        <img
+                          src={prod.mainImage}
+                          alt={prod.name}
+                          className="w-12 h-12 rounded object-cover flex-shrink-0 border border-[#d4c59d]/30"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded bg-[#161512] flex items-center justify-center flex-shrink-0 border border-[#d4c59d]/20 text-[#d4c59d]/40">
+                          <Package className="w-5 h-5" />
+                        </div>
+                      )}
                       <div className="min-w-0 flex-grow">
                         <div className="text-xs font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] truncate transition-colors">
                           {prod.name}
