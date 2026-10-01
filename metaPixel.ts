@@ -23,7 +23,7 @@ export function initMetaPixel(): void {
   if (typeof window === 'undefined') return;
   if (isPixelInitialized) return;
 
-  const pixelId = import.meta.env.VITE_META_PIXEL_ID;
+  const pixelId = typeof import.meta !== 'undefined' ? import.meta.env?.VITE_META_PIXEL_ID : undefined;
   if (!pixelId || typeof pixelId !== 'string' || !pixelId.trim()) {
     // Pixel ID not configured yet; operate gracefully in dormant mode
     return;

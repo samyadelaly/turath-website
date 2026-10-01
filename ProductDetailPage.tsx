@@ -78,7 +78,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     () => product.mediaType === 'video' && Boolean(product.videoUrl)
   );
   const [selectedFinish, setSelectedFinish] = useState<string>(
-    product.finish || product.finishOptions[0] || 'Natural Antique Patina'
+    product.finish || (Array.isArray(product.finishOptions) && product.finishOptions[0]) || 'Natural Antique Patina'
   );
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isZoomOpen, setIsZoomOpen] = useState<boolean>(false);
@@ -296,9 +296,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     if (product.whatsappMessage && product.whatsappMessage.trim()) {
       return `https://wa.me/201016771010?text=${encodeURIComponent(product.whatsappMessage.trim())}`;
     }
-    const message = `Hello TURATH,\nI am interested in:\n${product.nameEN || product.name}\nProduct ID / SKU: ${product.sku || product.id}\nCategory: ${category.name}\nSelected Finish: ${selectedFinish}\n\nPlease provide technical specifications and pricing.`;
+    const message = `Hello TURATH,\nI am interested in:\n${product.nameEN || product.name}\nProduct ID / SKU: ${product.sku || product.id}\nCategory: ${currentCategory.name}\nSelected Finish: ${selectedFinish}\n\nPlease provide technical specifications and pricing.`;
     return `https://wa.me/201016771010?text=${encodeURIComponent(message)}`;
-  }, [product, category, selectedFinish]);
+  }, [product, currentCategory, selectedFinish]);
 
   const handleShare = () => {
     const cleanBase = 'https://turath-egypt.vercel.app';
@@ -327,10 +327,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             </button>
             <span className="text-[#9e9174]">/</span>
             <button
-              onClick={() => onSelectCategory(category.id)}
+              onClick={() => onSelectCategory && onSelectCategory(currentCategory.id)}
               className="text-[#d4c59d] hover:underline font-medium"
             >
-              {category.name}
+              {currentCategory.name}
             </button>
             <span className="text-[#9e9174]">/</span>
             <span className="text-[#f5f0e6] font-semibold truncate max-w-[200px] sm:max-w-xs">
@@ -635,7 +635,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             <div className="space-y-3 pb-4 border-b border-[#d4c59d]/20">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="px-2.5 py-1 rounded bg-[#d4c59d]/20 text-[#d4c59d] text-xs font-bold uppercase tracking-wider border border-[#d4c59d]/30">
-                  {category.name}
+                  {currentCategory.name}
                 </span>
                 <span className="px-2.5 py-1 rounded bg-[#141418] text-[#d4c59d] text-xs font-mono border border-[#d4c59d]/20">
                   {product.sku || product.id}
@@ -1067,14 +1067,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-serif-luxury text-2xl font-bold text-[#f5f0e6]">
-                    More from {category.name}
+                    More from {currentCategory.name}
                   </h3>
                   <p className="text-xs text-[#9e9174]">
                     Handcrafted Egyptian pieces that harmonize with this design
                   </p>
                 </div>
                 <button
-                  onClick={() => onSelectCategory(category.id)}
+                  onClick={() => onSelectCategory && onSelectCategory(currentCategory.id)}
                   className="text-xs font-bold uppercase text-[#d4c59d] hover:underline"
                 >
                   View All in Category →

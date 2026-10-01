@@ -4,19 +4,23 @@ const DEFAULT_SUPABASE_URL = 'https://rpyzvhetoviqpjvncqfy.supabase.co';
 const DEFAULT_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_xJpsJH--P7kPUwmrVNOwwQ_T12KVuWG';
 
 export function getSupabaseUrl(): string {
-  if (typeof window !== 'undefined') {
-    const local = localStorage.getItem('turath_supabase_url');
-    if (local && local.trim()) return local.trim();
-  }
-  return import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+  try {
+    if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+      const local = window.localStorage.getItem('turath_supabase_url');
+      if (local && local.trim()) return local.trim();
+    }
+  } catch {}
+  return (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || DEFAULT_SUPABASE_URL;
 }
 
 export function getSupabasePublishableKey(): string {
-  if (typeof window !== 'undefined') {
-    const local = localStorage.getItem('turath_supabase_key');
-    if (local && local.trim()) return local.trim();
-  }
-  return import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
+  try {
+    if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+      const local = window.localStorage.getItem('turath_supabase_key');
+      if (local && local.trim()) return local.trim();
+    }
+  } catch {}
+  return (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY) || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
 }
 
 function createSupabaseInstance(): SupabaseClient | null {
@@ -39,16 +43,18 @@ function createSupabaseInstance(): SupabaseClient | null {
 export let supabase: SupabaseClient | null = createSupabaseInstance();
 
 export function setSupabaseCredentials(key: string, url?: string): boolean {
-  if (typeof window !== 'undefined') {
-    if (key && key.trim()) {
-      localStorage.setItem('turath_supabase_key', key.trim());
-    } else {
-      localStorage.removeItem('turath_supabase_key');
+  try {
+    if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+      if (key && key.trim()) {
+        window.localStorage.setItem('turath_supabase_key', key.trim());
+      } else {
+        window.localStorage.removeItem('turath_supabase_key');
+      }
+      if (url && url.trim()) {
+        window.localStorage.setItem('turath_supabase_url', url.trim());
+      }
     }
-    if (url && url.trim()) {
-      localStorage.setItem('turath_supabase_url', url.trim());
-    }
-  }
+  } catch {}
   supabase = createSupabaseInstance();
   return Boolean(supabase);
 }
