@@ -1190,6 +1190,7 @@ export function App() {
             >
               <ProductDetailPage
                 product={activeProductPage}
+                category={categories.find((c) => c.id === activeProductPage.categoryId)}
                 allProducts={products}
                 categories={categories}
                 onSelectProduct={(p) => navigateToProduct(p)}
