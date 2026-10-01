@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ProductItem, InquiryFormData, ProductCategoryInfo, ProjectItem, ClientPartnerItem } from './types';
 import { INITIAL_PRODUCTS, PRODUCT_CATEGORIES } from './initialCatalog';
+import { INITIAL_PROJECTS } from './initialProjects';
 import { getStoredProducts, saveStoredProducts, resetStoredProducts, loadProductsFromIndexedDB, deleteSingleStoredProduct } from './storage';
 import { isSupabaseConfigured } from './supabase';
 import { 
@@ -118,7 +119,8 @@ import {
   Eye,
   EyeOff,
   Trash2,
-  Handshake
+  Handshake,
+  Compass
 } from 'lucide-react';
 
 export function App() {
@@ -819,16 +821,100 @@ export function App() {
       const path = window.location.pathname;
       const parts = path.split('/').filter(Boolean);
 
-      if (parts[0] === 'projects') {
-        if (parts.length >= 2) {
-          const projectSlug = parts[1];
-          const matchedProj = projects.find(
-            (p) => p.slug === projectSlug || p.id === projectSlug
-          );
+      if (parts[0] === 'share' || parts[0] === 'p') {
+        const isExplicitProduct = parts.length >= 3 && parts[1] === 'product';
+        const isExplicitProject = parts.length >= 3 && parts[1] === 'project';
+        const rawSlug = (isExplicitProduct || isExplicitProject) ? parts[2] : parts[1];
+        const targetSlug = decodeURIComponent(rawSlug || '').trim().toLowerCase();
+
+        if (!targetSlug) {
+          setCurrentView('not-found');
+          trackPageView();
+          return;
+        }
+
+        // 1. If not explicitly a project, search for matching Product
+        if (!isExplicitProject) {
+          const allProdsPool = products.length > 0 ? products : INITIAL_PRODUCTS;
+          const matchedProd =
+            allProdsPool.find(
+              (p) =>
+                (p.seoSlug && p.seoSlug.toLowerCase() === targetSlug) ||
+                (p.id && p.id.toLowerCase() === targetSlug) ||
+                (p.sku && p.sku.toLowerCase() === targetSlug)
+            ) ||
+            INITIAL_PRODUCTS.find(
+              (p) =>
+                (p.seoSlug && p.seoSlug.toLowerCase() === targetSlug) ||
+                (p.id && p.id.toLowerCase() === targetSlug) ||
+                (p.sku && p.sku.toLowerCase() === targetSlug)
+            );
+
+          if (matchedProd) {
+            setActiveProductPage(matchedProd);
+            setSelectedCategoryId(matchedProd.categoryId);
+            setCurrentView('product-detail');
+            trackPageView();
+            if (typeof document !== 'undefined') {
+              document.title = `${matchedProd.nameEN || matchedProd.name} | TURATH Egypt`;
+            }
+            return;
+          }
+        }
+
+        // 2. If not found as product or explicitly project, search for matching Project
+        if (!isExplicitProduct) {
+          const matchedProj =
+            projects.find(
+              (p) =>
+                (p.slug && p.slug.toLowerCase() === targetSlug) ||
+                (p.id && p.id.toLowerCase() === targetSlug)
+            ) ||
+            INITIAL_PROJECTS.find(
+              (p) =>
+                (p.slug && p.slug.toLowerCase() === targetSlug) ||
+                (p.id && p.id.toLowerCase() === targetSlug)
+            );
+
           if (matchedProj) {
             setActiveProjectPage(matchedProj);
             setCurrentView('project-detail');
             trackPageView();
+            if (typeof document !== 'undefined') {
+              document.title = `${matchedProj.title} | TURATH Egypt`;
+            }
+            return;
+          }
+        }
+
+        // 3. Neither a real product nor a real project matched
+        setCurrentView('not-found');
+        trackPageView();
+        if (typeof document !== 'undefined') {
+          document.title = `Piece Not Found | TURATH Egypt`;
+        }
+        return;
+      } else if (parts[0] === 'projects') {
+        if (parts.length >= 2) {
+          const projectSlug = decodeURIComponent(parts[1] || '').trim().toLowerCase();
+          const matchedProj =
+            projects.find(
+              (p) =>
+                (p.slug && p.slug.toLowerCase() === projectSlug) ||
+                (p.id && p.id.toLowerCase() === projectSlug)
+            ) ||
+            INITIAL_PROJECTS.find(
+              (p) =>
+                (p.slug && p.slug.toLowerCase() === projectSlug) ||
+                (p.id && p.id.toLowerCase() === projectSlug)
+            );
+          if (matchedProj) {
+            setActiveProjectPage(matchedProj);
+            setCurrentView('project-detail');
+            trackPageView();
+            if (typeof document !== 'undefined') {
+              document.title = `${matchedProj.title} | TURATH Egypt`;
+            }
             return;
           }
         }
@@ -837,24 +923,57 @@ export function App() {
         return;
       } else if (parts[0] === 'products') {
         if (parts.length >= 3) {
-          const catId = parts[1];
-          const slug = parts[2];
+          const catId = decodeURIComponent(parts[1] || '').trim().toLowerCase();
+          const slug = decodeURIComponent(parts[2] || '').trim().toLowerCase();
+          const allProdsPool = products.length > 0 ? products : INITIAL_PRODUCTS;
           const matched =
-            products.find(
+            allProdsPool.find(
               (p) =>
-                (p.seoSlug === slug || p.id === slug || p.sku === slug) &&
-                (p.categoryId === catId || !catId)
-            ) || products.find((p) => p.seoSlug === slug || p.id === slug || p.sku === slug);
+                ((p.seoSlug && p.seoSlug.toLowerCase() === slug) ||
+                 (p.id && p.id.toLowerCase() === slug) ||
+                 (p.sku && p.sku.toLowerCase() === slug)) &&
+                (!catId || (p.categoryId && p.categoryId.toLowerCase() === catId))
+            ) ||
+            allProdsPool.find(
+              (p) =>
+                (p.seoSlug && p.seoSlug.toLowerCase() === slug) ||
+                (p.id && p.id.toLowerCase() === slug) ||
+                (p.sku && p.sku.toLowerCase() === slug)
+            );
 
           if (matched) {
             setActiveProductPage(matched);
             setSelectedCategoryId(matched.categoryId);
             setCurrentView('product-detail');
             trackPageView();
+            if (typeof document !== 'undefined') {
+              document.title = `${matched.nameEN || matched.name} | TURATH Egypt`;
+            }
             return;
           }
         } else if (parts.length === 2) {
-          setSelectedCategoryId(parts[1]);
+          const catOrSlug = decodeURIComponent(parts[1] || '').trim().toLowerCase();
+          const allProdsPool = products.length > 0 ? products : INITIAL_PRODUCTS;
+          const matchedProd =
+            allProdsPool.find(
+              (p) =>
+                (p.seoSlug && p.seoSlug.toLowerCase() === catOrSlug) ||
+                (p.id && p.id.toLowerCase() === catOrSlug) ||
+                (p.sku && p.sku.toLowerCase() === catOrSlug)
+            );
+
+          if (matchedProd) {
+            setActiveProductPage(matchedProd);
+            setSelectedCategoryId(matchedProd.categoryId);
+            setCurrentView('product-detail');
+            trackPageView();
+            if (typeof document !== 'undefined') {
+              document.title = `${matchedProd.nameEN || matchedProd.name} | TURATH Egypt`;
+            }
+            return;
+          }
+
+          setSelectedCategoryId(catOrSlug);
           setCurrentView('category');
           trackPageView();
           return;
@@ -1191,6 +1310,43 @@ export function App() {
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
               <ContactSection initialData={inquiryPreFill} content={siteContent} />
+            </motion.div>
+          ) : currentView === 'not-found' ? (
+            <motion.div
+              key="not-found"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-20"
+            >
+              <div className="w-16 h-16 rounded-full bg-[#16161c] border border-[#d4c59d]/40 flex items-center justify-center text-[#d4c59d] mb-6">
+                <Compass className="w-8 h-8" />
+              </div>
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-[#d4c59d] mb-2">404 — Item Not Found</span>
+              <h1 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#f5f0e6] mb-3">
+                Piece Not Found
+              </h1>
+              <p className="font-arabic text-lg text-[#d4c59d] mb-4">
+                عذراً، هذه القطعة التراثية غير متوفرة أو تم تغيير الرابط
+              </p>
+              <p className="text-xs sm:text-sm text-[#9e9174] max-w-md mb-8">
+                The requested handcrafted piece or project could not be found in our collection. Please browse our handcrafted collections or contact our atelier directly.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <button
+                  onClick={() => navigateTo('products')}
+                  className="px-6 py-2.5 rounded-full bg-[#d4c59d] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e6d8b5] transition-all cursor-pointer shadow"
+                >
+                  Explore Catalog
+                </button>
+                <button
+                  onClick={() => navigateTo('home')}
+                  className="px-6 py-2.5 rounded-full bg-[#16161c] border border-[#d4c59d]/40 text-[#d4c59d] text-xs font-bold uppercase tracking-wider hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer"
+                >
+                  Return Home
+                </button>
+              </div>
             </motion.div>
           ) : (
             /* HOME VIEW */
