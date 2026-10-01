@@ -253,18 +253,20 @@ ${itemsXml.join('\n')}
 }
 
 /**
- * Sync and write static backup into public/meta-product-feed.xml
+ * Sync and write static backup into root and dist/meta-product-feed.xml
  */
 export function updatePublicFeedFile(products: ProductItem[], baseUrl: string): void {
   try {
-    const publicDir = path.join(process.cwd(), 'public');
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true });
-    }
     const xml = generateMetaProductFeedXml(products, baseUrl);
-    fs.writeFileSync(path.join(publicDir, 'meta-product-feed.xml'), xml, 'utf-8');
+    // Write directly to repository root
+    fs.writeFileSync(path.join(process.cwd(), 'meta-product-feed.xml'), xml, 'utf-8');
+    // Also write to dist/ if dist exists
+    const distDir = path.join(process.cwd(), 'dist');
+    if (fs.existsSync(distDir)) {
+      fs.writeFileSync(path.join(distDir, 'meta-product-feed.xml'), xml, 'utf-8');
+    }
   } catch (err) {
-    console.error('Failed to write public/meta-product-feed.xml:', err);
+    console.error('Failed to write meta-product-feed.xml:', err);
   }
 }
 

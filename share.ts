@@ -19,8 +19,18 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;');
 }
 
-function formatAbsoluteUrl(url: string, baseUrl: string): string {
-  if (!url) return `${baseUrl}/turath_logo.jpg`;
+function isSupabaseStorageUrl(url?: string): boolean {
+  if (!url) return false;
+  return url.includes('supabase.co/storage/v1/object/public/');
+}
+
+function isUnsplashUrl(url?: string): boolean {
+  if (!url) return false;
+  return url.includes('images.unsplash.com');
+}
+
+function formatAbsoluteUrl(url: string | undefined, baseUrl: string): string {
+  if (!url || !url.trim()) return `${baseUrl}/turath_logo.jpg`;
   const trimmed = url.trim();
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
     return trimmed;
@@ -33,13 +43,35 @@ function formatAbsoluteUrl(url: string, baseUrl: string): string {
 export default async function handler(req: Request, res: Response) {
   const query = req.query || {};
   const baseUrl = 'https://turath-egypt.vercel.app';
-  const slug = ((query.slug || query.id || query.product || query.project || query.p || '') as string).trim();
-  const cleanSlug = slug.toLowerCase();
-  const explicitType = ((query.type as string) || '').toLowerCase();
 
-  // Determine if target is a project or product
-  const isExplicitProject = explicitType === 'project' || req.path.includes('/projects/') || req.path.includes('/share/project');
-  const isExplicitProduct = explicitType === 'product' || req.path.includes('/products/') || req.path.includes('/share/product');
+  // Extract path parts if available
+  const rawPath = req.originalUrl || req.path || '';
+  const cleanPathOnly = rawPath.split('?')[0];
+  const pathParts = cleanPathOnly.split('/').filter(Boolean);
+
+  let category = ((query.category || query.cat || '') as string).trim();
+  let slug = ((query.slug || query.id || query.product || query.project || query.p || '') as string).trim();
+
+  // If path has route info and slug is empty
+  if (!slug && pathParts.length >= 2) {
+    if (pathParts[0] === 'products') {
+      if (pathParts.length >= 3) {
+        category = pathParts[1];
+        slug = pathParts[2];
+      } else {
+        slug = pathParts[1];
+      }
+    } else if (pathParts[0] === 'projects') {
+      slug = pathParts[1];
+    }
+  }
+
+  const explicitType = ((query.type as string) || '').toLowerCase();
+  const isExplicitProject = explicitType === 'project' || cleanPathOnly.startsWith('/projects') || cleanPathOnly.includes('/share/project');
+  const isExplicitProduct = explicitType === 'product' || cleanPathOnly.startsWith('/products') || cleanPathOnly.includes('/share/product');
+
+  const cleanSlug = slug.toLowerCase();
+  const cleanCat = category.toLowerCase();
 
   // Supabase client instance
   let supabase: any = null;
@@ -47,14 +79,65 @@ export default async function handler(req: Request, res: Response) {
     supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
   } catch {}
 
-  // --------------------------------------------------------------------------
+  // ==========================================================================
   // 1. PROJECT PREVIEW RESOLUTION
-  // --------------------------------------------------------------------------
-  if (isExplicitProject || (!isExplicitProduct && slug)) {
+  // ==========================================================================
+  if (isExplicitProject || (!isExplicitProduct && cleanSlug && (cleanSlug.startsWith('proj') || cleanPathOnly.includes('/projects/')))) {
     let matchedProject: ProjectItem | null = null;
 
-    // A. Query Supabase projects table
+    // A. Check site_content -> projects_catalog in Supabase
     if (supabase && cleanSlug) {
+      try {
+        const { data } = await supabase
+          .from('site_content')
+          .select('*')
+          .eq('id', 'projects_catalog')
+          .maybeSingle();
+
+        if (data && data.content) {
+          const list: any[] = Array.isArray(data.content) ? data.content : data.content.projects;
+          if (Array.isArray(list)) {
+            const found = list.find(
+              (p: any) =>
+                (p.slug && p.slug.toLowerCase() === cleanSlug) ||
+                (p.id && p.id.toLowerCase() === cleanSlug)
+            );
+            if (found) {
+              matchedProject = {
+                id: found.id,
+                title: found.title,
+                titleAR: found.titleAR || found.title_ar,
+                slug: found.slug || found.id,
+                location: found.location || 'Cairo, Egypt',
+                projectType: found.projectType || found.project_type || 'Custom Project',
+                year: found.year,
+                shortDescription: found.shortDescription || found.short_description,
+                description: found.description || '',
+                craftStory: found.craftStory || found.craft_story,
+                materials: found.materials || 'Solid Egyptian Yellow Brass',
+                finish: found.finish,
+                workDelivered: Array.isArray(found.workDelivered) ? found.workDelivered : [],
+                customManufacturing: found.customManufacturing || found.custom_manufacturing,
+                coverImage: found.coverImage || found.cover_image,
+                mediaType: found.mediaType || found.media_type || 'image',
+                coverRatio: found.coverRatio || found.cover_ratio || 'Original',
+                coverFit: found.coverFit || found.cover_fit || 'cover',
+                gallery: Array.isArray(found.gallery) ? found.gallery : [],
+                published: found.published !== false,
+                sortOrder: found.sortOrder || found.sort_order || 0,
+                seoTitle: found.seoTitle || found.seo_title,
+                metaDescription: found.metaDescription || found.meta_description,
+                createdAt: found.createdAt || found.created_at,
+                updatedAt: found.updatedAt || found.updated_at,
+              };
+            }
+          }
+        }
+      } catch {}
+    }
+
+    // B. Check Supabase projects table (if exists)
+    if (!matchedProject && supabase && cleanSlug) {
       try {
         const { data } = await supabase
           .from('projects')
@@ -94,25 +177,6 @@ export default async function handler(req: Request, res: Response) {
       } catch {}
     }
 
-    // B. Check site_content projects_catalog in Supabase if not found
-    if (!matchedProject && supabase && cleanSlug) {
-      try {
-        const { data } = await supabase
-          .from('site_content')
-          .select('content')
-          .eq('id', 'projects_catalog')
-          .maybeSingle();
-
-        if (data?.content && Array.isArray(data.content.projects)) {
-          matchedProject = data.content.projects.find(
-            (p: ProjectItem) =>
-              (p.slug && p.slug.toLowerCase() === cleanSlug) ||
-              (p.id && p.id.toLowerCase() === cleanSlug)
-          ) || null;
-        }
-      } catch {}
-    }
-
     // C. Fallback to server projects / INITIAL_PROJECTS
     if (!matchedProject) {
       let serverProjects: ProjectItem[] = [];
@@ -122,24 +186,33 @@ export default async function handler(req: Request, res: Response) {
       if (!serverProjects || serverProjects.length === 0) {
         serverProjects = INITIAL_PROJECTS;
       }
-      matchedProject = serverProjects.find(
-        (p) =>
-          (p.slug && p.slug.toLowerCase() === cleanSlug) ||
-          (p.id && p.id.toLowerCase() === cleanSlug)
-      ) || null;
+      if (cleanSlug) {
+        matchedProject =
+          serverProjects.find(
+            (p) =>
+              (p.slug && p.slug.toLowerCase() === cleanSlug) ||
+              (p.id && p.id.toLowerCase() === cleanSlug)
+          ) || null;
+      }
     }
 
-    // If explicit project requested OR matched a project, render project metadata
     if (matchedProject || isExplicitProject) {
       const proj = matchedProject || INITIAL_PROJECTS[0];
       const projectSlug = proj.slug || proj.id;
       const targetUrl = `${baseUrl}/projects/${projectSlug}`;
 
       const title = `${proj.title} | TURATH Egypt`;
-      const rawDesc = proj.metaDescription || proj.shortDescription || proj.description || 'Authentic handcrafted Egyptian brass and luxury architectural metalwork.';
+      const rawDesc =
+        proj.metaDescription ||
+        proj.shortDescription ||
+        proj.description ||
+        'Authentic handcrafted Egyptian brass and luxury architectural metalwork.';
       const description = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
 
-      const rawImg = proj.coverImage || (Array.isArray(proj.gallery) && proj.gallery[0]) || '/turath_logo.jpg';
+      const rawImg =
+        proj.coverImage ||
+        (Array.isArray(proj.gallery) && proj.gallery[0]) ||
+        '/turath_logo.jpg';
       const imageUrl = formatAbsoluteUrl(rawImg, baseUrl);
 
       const html = generateShareHtml({
@@ -147,6 +220,7 @@ export default async function handler(req: Request, res: Response) {
         description,
         imageUrl,
         targetUrl,
+        canonicalUrl: targetUrl,
         ogType: 'article',
         heading: proj.title,
         buttonText: 'View Project on TURATH &rarr;',
@@ -158,52 +232,78 @@ export default async function handler(req: Request, res: Response) {
     }
   }
 
-  // --------------------------------------------------------------------------
+  // ==========================================================================
   // 2. PRODUCT PREVIEW RESOLUTION
-  // --------------------------------------------------------------------------
+  // ==========================================================================
   let matchedProduct: ProductItem | null = null;
+  let matchedCategoryInfo: { id: string; name: string; description: string; coverImage: string } | null = null;
 
-  // A. Query Supabase products table
   if (supabase && cleanSlug) {
     try {
-      const { data } = await supabase
+      // 1) Direct product lookup by seo_slug, id, or sku
+      const { data: directMatch } = await supabase
         .from('products')
         .select('*')
-        .or(`seo_slug.ilike.${cleanSlug},id.eq.${cleanSlug},sku.ilike.${cleanSlug}`)
-        .maybeSingle();
+        .or(`seo_slug.ilike.${cleanSlug},id.eq.${cleanSlug},sku.ilike.${cleanSlug}`);
 
-      if (data) {
-        matchedProduct = {
-          id: data.id,
-          sku: data.sku || data.id,
-          categoryId: data.category_id || 'mirrors',
-          name: data.name_en || data.name || 'Untitled Piece',
-          nameEN: data.name_en || data.name || 'Untitled Piece',
-          nameAR: data.name_ar,
-          tagline: data.tagline || data.short_desc_en || '',
-          shortDescEN: data.short_desc_en,
-          shortDescAR: data.short_desc_ar,
-          description: data.description || '',
-          fullDescriptionEN: data.full_description_en || data.description,
-          mainImage: data.main_image || '',
-          images: Array.isArray(data.images) ? data.images : [],
-          galleryImages: Array.isArray(data.gallery_images) ? data.gallery_images : [],
-          mediaType: data.media_type || 'image',
-          materials: data.materials || 'Solid Egyptian Yellow Brass',
-          dimensions: data.dimensions || 'Custom Sizing',
-          price: data.price,
-          availability: data.availability,
-          seoSlug: data.seo_slug || data.id,
-          seoTitle: data.seo_title,
-          metaDescription: data.meta_description,
-          finishOptions: Array.isArray(data.finish_options) ? data.finish_options : [],
-        };
+      if (directMatch && directMatch.length > 0) {
+        let chosen = directMatch[0];
+        if (cleanCat) {
+          const catMatch = directMatch.find((p: any) => p.category_id && p.category_id.toLowerCase() === cleanCat);
+          if (catMatch) chosen = catMatch;
+        }
+        matchedProduct = mapSupabaseProduct(chosen);
       }
-    } catch {}
+
+      // 2) If not found, check if cleanSlug is a category_id in products table
+      if (!matchedProduct) {
+        const { data: catProducts } = await supabase
+          .from('products')
+          .select('*')
+          .eq('category_id', cleanSlug)
+          .order('featured', { ascending: false })
+          .order('created_at', { ascending: false });
+
+        if (catProducts && catProducts.length > 0) {
+          matchedProduct = mapSupabaseProduct(catProducts[0]);
+        }
+      }
+
+      // 3) Check categories table in Supabase
+      if (!matchedProduct) {
+        const { data: catRow } = await supabase
+          .from('categories')
+          .select('*')
+          .eq('id', cleanSlug)
+          .maybeSingle();
+
+        if (catRow) {
+          matchedCategoryInfo = {
+            id: catRow.id,
+            name: catRow.name || 'Brass and Copper Collection',
+            description: catRow.description || catRow.short_desc || 'Handcrafted Egyptian Brass Collection',
+            coverImage: catRow.cover_image || '',
+          };
+
+          const { data: catProds } = await supabase
+            .from('products')
+            .select('*')
+            .eq('category_id', catRow.id)
+            .order('featured', { ascending: false })
+            .order('created_at', { ascending: false });
+
+          if (catProds && catProds.length > 0) {
+            matchedProduct = mapSupabaseProduct(catProds[0]);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('[share.ts] Supabase query error:', e);
+    }
   }
 
-  // B. Fallback to server products or INITIAL_PRODUCTS
-  if (!matchedProduct) {
+  // Fallback to server products or INITIAL_PRODUCTS
+  if (!matchedProduct && !matchedCategoryInfo) {
     let serverProducts: ProductItem[] = [];
     try {
       serverProducts = getAllServerProducts();
@@ -213,12 +313,14 @@ export default async function handler(req: Request, res: Response) {
     }
 
     if (cleanSlug) {
-      matchedProduct = serverProducts.find(
-        (p) =>
-          (p.seoSlug && p.seoSlug.toLowerCase() === cleanSlug) ||
-          p.id.toLowerCase() === cleanSlug ||
-          (p.sku && p.sku.toLowerCase() === cleanSlug)
-      ) || null;
+      matchedProduct =
+        serverProducts.find(
+          (p) =>
+            (p.seoSlug && p.seoSlug.toLowerCase() === cleanSlug) ||
+            p.id.toLowerCase() === cleanSlug ||
+            (p.sku && p.sku.toLowerCase() === cleanSlug) ||
+            (p.categoryId && p.categoryId.toLowerCase() === cleanSlug)
+        ) || null;
     }
 
     if (!matchedProduct) {
@@ -226,24 +328,87 @@ export default async function handler(req: Request, res: Response) {
     }
   }
 
-  const category = (query.category as string) || matchedProduct.categoryId || 'mirrors';
-  const productSlug = matchedProduct.seoSlug || matchedProduct.id;
-  const targetUrl = `${baseUrl}/products/${category}/${productSlug}`;
+  // Build Social Metadata response
+  let title = '';
+  let description = '';
+  let imageUrl = '';
+  let targetUrl = '';
+  let canonicalUrl = '';
+  let heading = '';
 
-  const title = `${matchedProduct.nameEN || matchedProduct.name} | TURATH Egypt`;
-  const rawDesc = matchedProduct.metaDescription || matchedProduct.shortDescEN || matchedProduct.fullDescriptionEN || matchedProduct.description || 'Authentic handcrafted Egyptian brass and luxury metalwork.';
-  const description = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
+  if (matchedProduct) {
+    const prodCat = category || matchedProduct.categoryId || 'mirrors';
+    const prodSlug = matchedProduct.seoSlug || matchedProduct.id;
 
-  const rawImg = matchedProduct.mainImage || (matchedProduct.images && matchedProduct.images[0]) || '/turath_logo.jpg';
-  const imageUrl = formatAbsoluteUrl(rawImg, baseUrl);
+    if (cleanPathOnly.startsWith('/products/') && cleanPathOnly.includes(cleanSlug)) {
+      targetUrl = `${baseUrl}${cleanPathOnly}`;
+      canonicalUrl = `${baseUrl}${cleanPathOnly}`;
+    } else if (category && slug) {
+      targetUrl = `${baseUrl}/products/${prodCat}/${prodSlug}`;
+      canonicalUrl = `${baseUrl}/products/${prodCat}/${prodSlug}`;
+    } else {
+      targetUrl = `${baseUrl}/products/${slug || prodSlug}`;
+      canonicalUrl = `${baseUrl}/products/${slug || prodSlug}`;
+    }
+
+    heading = matchedProduct.nameEN || matchedProduct.name || 'Handcrafted Brass Piece';
+    title = `${heading} | TURATH Egypt`;
+
+    const rawDesc =
+      matchedProduct.metaDescription ||
+      matchedProduct.shortDescEN ||
+      matchedProduct.fullDescriptionEN ||
+      matchedProduct.description ||
+      'Masterfully handcrafted in Cairo, Egypt using authentic traditional techniques.';
+    description = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
+
+    // Resolve Image with priority on public Supabase product images
+    let rawImg = '';
+    const candidates = [
+      matchedProduct.mainImage,
+      ...(Array.isArray(matchedProduct.images) ? matchedProduct.images : []),
+      ...(Array.isArray(matchedProduct.galleryImages) ? matchedProduct.galleryImages : []),
+    ].filter(Boolean);
+
+    const supabaseCandidate = candidates.find((img) => isSupabaseStorageUrl(img));
+    if (supabaseCandidate) {
+      rawImg = supabaseCandidate;
+    } else {
+      const nonUnsplash = candidates.find((img) => !isUnsplashUrl(img));
+      if (nonUnsplash) {
+        rawImg = nonUnsplash;
+      } else if (matchedCategoryInfo && isSupabaseStorageUrl(matchedCategoryInfo.coverImage)) {
+        rawImg = matchedCategoryInfo.coverImage;
+      } else {
+        rawImg = candidates[0] || '/turath_logo.jpg';
+      }
+    }
+
+    imageUrl = formatAbsoluteUrl(rawImg, baseUrl);
+  } else if (matchedCategoryInfo) {
+    targetUrl = `${baseUrl}/products/${matchedCategoryInfo.id}`;
+    canonicalUrl = `${baseUrl}/products/${matchedCategoryInfo.id}`;
+    heading = matchedCategoryInfo.name;
+    title = `${heading} | TURATH Egypt`;
+    description = matchedCategoryInfo.description;
+    imageUrl = formatAbsoluteUrl(matchedCategoryInfo.coverImage, baseUrl);
+  } else {
+    targetUrl = `${baseUrl}/products`;
+    canonicalUrl = `${baseUrl}/products`;
+    heading = 'Egyptian Handcrafted Brass & Copper';
+    title = 'TURATH | Handcrafted Brass, Copper & Decorative Metals from Egypt';
+    description = 'Authentic handcrafted Egyptian brass and luxury architectural metalwork.';
+    imageUrl = `${baseUrl}/turath_logo.jpg`;
+  }
 
   const html = generateShareHtml({
     title,
     description,
     imageUrl,
     targetUrl,
+    canonicalUrl,
     ogType: 'product',
-    heading: matchedProduct.nameEN || matchedProduct.name,
+    heading,
     buttonText: 'View Piece on TURATH &rarr;',
   });
 
@@ -252,11 +417,40 @@ export default async function handler(req: Request, res: Response) {
   return res.send(html);
 }
 
+function mapSupabaseProduct(data: any): ProductItem {
+  return {
+    id: data.id,
+    sku: data.sku || data.id,
+    categoryId: data.category_id || 'mirrors',
+    name: data.name_en || data.name || 'Untitled Piece',
+    nameEN: data.name_en || data.name || 'Untitled Piece',
+    nameAR: data.name_ar,
+    tagline: data.tagline || data.short_desc_en || '',
+    shortDescEN: data.short_desc_en,
+    shortDescAR: data.short_desc_ar,
+    description: data.description || '',
+    fullDescriptionEN: data.full_description_en || data.description,
+    mainImage: data.main_image || '',
+    images: Array.isArray(data.images) ? data.images : [],
+    galleryImages: Array.isArray(data.gallery_images) ? data.gallery_images : [],
+    mediaType: data.media_type || 'image',
+    materials: data.materials || 'Solid Egyptian Yellow Brass',
+    dimensions: data.dimensions || 'Custom Sizing',
+    price: data.price,
+    availability: data.availability,
+    seoSlug: data.seo_slug || data.id,
+    seoTitle: data.seo_title,
+    metaDescription: data.meta_description,
+    finishOptions: Array.isArray(data.finish_options) ? data.finish_options : [],
+  };
+}
+
 function generateShareHtml({
   title,
   description,
   imageUrl,
   targetUrl,
+  canonicalUrl,
   ogType,
   heading,
   buttonText,
@@ -265,10 +459,11 @@ function generateShareHtml({
   description: string;
   imageUrl: string;
   targetUrl: string;
-  ogType: 'product' | 'article';
+  canonicalUrl: string;
+  ogType: string;
   heading: string;
   buttonText: string;
-}): string {
+}) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -276,7 +471,7 @@ function generateShareHtml({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
-  <link rel="canonical" href="${escapeHtml(targetUrl)}">
+  <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
 
   <!-- Open Graph / Facebook / WhatsApp / LinkedIn / Telegram -->
   <meta property="og:type" content="${escapeHtml(ogType)}">

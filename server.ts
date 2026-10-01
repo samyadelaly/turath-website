@@ -414,7 +414,33 @@ app.post('/api/admin/save-projects-order', requireAdminAuth, (req: Request, res:
   }
 });
 
-// Direct ZIP file serving endpoints
+// Direct Root Static Files Serving (robots.txt, sitemap.xml, feed, images, google verification)
+const ROOT_STATIC_FILES: Record<string, string> = {
+  '/robots.txt': 'text/plain; charset=utf-8',
+  '/sitemap.xml': 'application/xml; charset=utf-8',
+  '/meta-product-feed.xml': 'application/xml; charset=utf-8',
+  '/_redirects': 'text/plain; charset=utf-8',
+  '/_headers': 'text/plain; charset=utf-8',
+  '/turath_logo.jpg': 'image/jpeg',
+  '/turath_pattern_watermark.png': 'image/png',
+  '/googlespNP-SOf-Jc6UhFPynCcBtYrIkFXrZQ2dX28Tfb_qFs.html': 'text/html; charset=utf-8',
+  '/googlewb3AUcUJZuOC4ZfpeBVpjlwfSWhOqKaCmdUglKugcyY.html': 'text/html; charset=utf-8',
+};
+
+Object.entries(ROOT_STATIC_FILES).forEach(([routePath, contentType]) => {
+  app.get(routePath, (req: Request, res: Response, next: NextFunction) => {
+    const filename = routePath.startsWith('/') ? routePath.slice(1) : routePath;
+    const rootFilePath = path.join(process.cwd(), filename);
+    if (fs.existsSync(rootFilePath)) {
+      res.setHeader('Content-Type', contentType);
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      return res.sendFile(rootFilePath);
+    }
+    next();
+  });
+});
+
+// Direct ZIP file serving endpoints from repository root
 const ZIP_FILES = [
   'turath-website.zip',
   'turath_website.zip',
@@ -422,19 +448,22 @@ const ZIP_FILES = [
   'turath-flat.zip',
   'turath-latest.zip',
   'turath-folder.zip',
+  'turath-project.zip',
+  'turath-complete-project.zip',
+  'turath-flat-update.zip',
+  'turath-social-share-final.zip',
+  'turath-social-share-flat-final.zip',
+  'turath-website-complete-github-ready.zip',
 ];
 
 ZIP_FILES.forEach((zipName) => {
   app.get(`/${zipName}`, (req: Request, res: Response) => {
-    const pubPath = path.join(process.cwd(), 'public', zipName);
     const rootPath = path.join(process.cwd(), zipName);
-    const targetPath = fs.existsSync(pubPath) ? pubPath : rootPath;
-
-    if (fs.existsSync(targetPath)) {
+    if (fs.existsSync(rootPath)) {
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-Disposition', `attachment; filename="${zipName}"`);
       res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-      return res.sendFile(targetPath);
+      return res.sendFile(rootPath);
     }
     return res.status(404).send('ZIP file not found');
   });
@@ -442,15 +471,12 @@ ZIP_FILES.forEach((zipName) => {
 
 // Explicit API endpoints for downloading the flat ZIP archive
 app.get(['/api/download-flat-zip', '/api/download-zip'], (req: Request, res: Response) => {
-  const zipPath = path.join(process.cwd(), 'public', 'turath-website.zip');
-  const fallbackPath = path.join(process.cwd(), 'turath-website.zip');
-  const target = fs.existsSync(zipPath) ? zipPath : fallbackPath;
-
-  if (fs.existsSync(target)) {
+  const rootPath = path.join(process.cwd(), 'turath-website.zip');
+  if (fs.existsSync(rootPath)) {
     res.setHeader('Content-Type', 'application/zip');
     res.setHeader('Content-Disposition', 'attachment; filename="turath-website.zip"');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-    return res.sendFile(target);
+    return res.sendFile(rootPath);
   }
   return res.status(404).json({ success: false, error: 'ZIP file not found on server' });
 });
@@ -473,7 +499,7 @@ app.get('/api/health', (req: Request, res: Response) => {
 // --------------------------------------------------------------------------
 
 async function startServer() {
-  // Synchronize static public/meta-product-feed.xml on server start
+  // Synchronize static meta-product-feed.xml on server start
   try {
     updatePublicFeedFile(getAllServerProducts(), 'https://turath-egypt.vercel.app');
   } catch (err) {
@@ -489,65 +515,17 @@ async function startServer() {
 
     if (!isCrawler) return next();
 
-    const parts = req.path.split('/').filter(Boolean);
-    const baseUrl = getBaseUrl(req);
-    const indexHtmlPath =
-      process.env.NODE_ENV === 'production'
-        ? path.join(process.cwd(), 'dist', 'index.html')
-        : path.join(process.cwd(), 'index.html');
-
-    if (!fs.existsSync(indexHtmlPath)) return next();
-
-    // 1. Product routes
-    let targetProductSlug: string | undefined;
-    if (parts[0] === 'products' && parts.length >= 3) {
-      targetProductSlug = parts[2];
-    } else if (parts[0] === 'products' && parts.length === 2) {
-      targetProductSlug = parts[1];
-    } else if (req.query.product && typeof req.query.product === 'string') {
-      targetProductSlug = req.query.product;
-    }
-
-    if (targetProductSlug) {
-      const products = getAllServerProducts();
-      const matched = products.find(
-        (p) => p.seoSlug === targetProductSlug || p.id === targetProductSlug || p.sku === targetProductSlug
-      );
-      if (matched) {
-        try {
-          const templateHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
-          const enrichedHtml = injectProductSocialMetadata(templateHtml, matched, baseUrl, req.originalUrl);
-          res.setHeader('Content-Type', 'text/html; charset=utf-8');
-          return res.send(enrichedHtml);
-        } catch {
-          return next();
-        }
-      }
-    }
-
-    // 2. Project routes
-    let targetProjectSlug: string | undefined;
-    if (parts[0] === 'projects' && parts.length >= 2) {
-      targetProjectSlug = parts[1];
-    } else if (req.query.project && typeof req.query.project === 'string') {
-      targetProjectSlug = req.query.project;
-    }
-
-    if (targetProjectSlug) {
-      const projects = getAllServerProjects();
-      const matchedProj = projects.find(
-        (p) => p.slug === targetProjectSlug || p.id === targetProjectSlug
-      );
-      if (matchedProj) {
-        try {
-          const templateHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
-          const enrichedHtml = injectProjectSocialMetadata(templateHtml, matchedProj, baseUrl, req.originalUrl);
-          res.setHeader('Content-Type', 'text/html; charset=utf-8');
-          return res.send(enrichedHtml);
-        } catch {
-          return next();
-        }
-      }
+    const parts = (req.path || '').split('/').filter(Boolean);
+    if (
+      parts[0] === 'products' ||
+      parts[0] === 'projects' ||
+      parts[0] === 'share' ||
+      parts[0] === 'p' ||
+      req.query.product ||
+      req.query.project ||
+      req.query.slug
+    ) {
+      return shareHandler(req, res);
     }
 
     next();
