@@ -31,8 +31,10 @@ import {
   Camera,
   Edit3,
   ArrowUpDown,
+  Share2,
   Image as ImageIcon
 } from 'lucide-react';
+import { ProductSocialCardModal } from './ProductSocialCardModal';
 
 interface ProductCategoryViewProps {
   category: ProductCategoryInfo;
@@ -63,6 +65,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
   const [selectedFinishFilter, setSelectedFinishFilter] = useState<string>('all');
   const [onlyWithVideo, setOnlyWithVideo] = useState<boolean>(false);
   const [productSortBy, setProductSortBy] = useState<'default' | 'name-asc' | 'name-desc' | 'video-first'>('default');
+  const [socialCardProduct, setSocialCardProduct] = useState<ProductItem | null>(null);
 
   const categoryProducts = products.filter((p) => p.categoryId === category.id);
 
@@ -668,6 +671,16 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                       <span>Details</span>
                     </button>
 
+                    <button
+                      type="button"
+                      onClick={() => setSocialCardProduct(prod)}
+                      className="py-2.5 px-2.5 text-xs font-bold uppercase tracking-wider rounded bg-[#141416] border border-[#d4c59d]/40 text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                      title="Share Branded Social Media Card"
+                    >
+                      <Share2 className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Card</span>
+                    </button>
+
                     {prod.videoUrl && (
                       <button
                         type="button"
@@ -766,6 +779,14 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
           </div>
         )}
       </div>
+
+      {/* Social Media Product Card Modal */}
+      <ProductSocialCardModal
+        isOpen={Boolean(socialCardProduct)}
+        onClose={() => setSocialCardProduct(null)}
+        product={socialCardProduct}
+        category={category}
+      />
     </div>
   );
 };

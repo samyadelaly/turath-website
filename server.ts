@@ -482,11 +482,22 @@ app.get(['/api/download-flat-zip', '/api/download-zip'], (req: Request, res: Res
 });
 
 // Social Share / Open Graph rich preview endpoint
-app.get(['/api/share', '/share/:slug', '/p/:slug'], (req: Request, res: Response) => {
-  if (req.params.slug && !req.query.slug) {
-    req.query.slug = req.params.slug;
+app.get(['/api/share', '/share/:slug', '/p/:slug'], (req: Request, res: Response, next: NextFunction) => {
+  const userAgent = (req.headers['user-agent'] || '').toLowerCase();
+  const isCrawler = /facebookexternalhit|facebot|facebookcatalog|instagram|whatsapp|twitterbot|pinterest|linkedinbot|slackbot|telegrambot|discordbot|applebot/i.test(
+    userAgent
+  );
+
+  // If explicit API endpoint /api/share OR request is from a social crawler, return Open Graph HTML
+  if (req.path.startsWith('/api/share') || isCrawler) {
+    if (req.params.slug && !req.query.slug) {
+      req.query.slug = req.params.slug;
+    }
+    return shareHandler(req, res);
   }
-  return shareHandler(req, res);
+
+  // Otherwise, pass to SPA middleware (Vite/Express) so React renders the real Product or Project page
+  next();
 });
 
 // Health check endpoint

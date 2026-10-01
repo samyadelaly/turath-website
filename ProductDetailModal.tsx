@@ -18,8 +18,10 @@ import {
   Check,
   Download,
   Facebook,
+  Sparkles,
   Image as ImageIcon
 } from 'lucide-react';
+import { ProductSocialCardModal } from './ProductSocialCardModal';
 import { PRODUCT_CATEGORIES } from './initialCatalog';
 import { EmbeddedVideoPlayer } from './EmbeddedVideoPlayer';
 import { computeProductImageRatio, computeProductMediaRatio, MediaRatioPreset, MediaObjectFit, MediaObjectPosition, computeImageRatio } from './imageRatioUtils';
@@ -59,6 +61,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     product?.finishOptions[0] || 'Natural Antique Patina'
   );
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isSocialCardOpen, setIsSocialCardOpen] = useState<boolean>(false);
 
   // Dynamic Photo & Video Place Resizing and Ratio Controls
   const [activeMediaRatio, setActiveMediaRatio] = useState<MediaRatioPreset>(() => {
@@ -540,6 +543,16 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Social Media Post Share & Photo Export */}
               <div className="pt-3 border-t border-[#d4c59d]/25 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSocialCardOpen(true)}
+                  className="w-full py-2 px-3 rounded-lg bg-[#d4c59d] text-black hover:bg-[#e6d8b5] transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow cursor-pointer font-arabic"
+                  title="Generate luxury branded card for Instagram, Facebook, and WhatsApp"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-black" />
+                  <span>بطاقة السوشيال ميديا للمنتج (Social Media Card)</span>
+                </button>
+
                 <div className="flex items-center justify-between text-[11px] text-[#d4c59d]">
                   <span className="font-bold uppercase tracking-wider flex items-center gap-1.5">
                     <Share2 className="w-3.5 h-3.5 text-[#d4c59d]" />
@@ -605,6 +618,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
         </div>
       </motion.div>
+
+      {/* Social Media Product Card Modal */}
+      <ProductSocialCardModal
+        isOpen={isSocialCardOpen}
+        onClose={() => setIsSocialCardOpen(false)}
+        product={product}
+      />
     </motion.div>
   );
 };

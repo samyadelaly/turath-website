@@ -34,6 +34,7 @@ import {
   Compass,
   Layers
 } from 'lucide-react';
+import { ProductSocialCardModal } from './ProductSocialCardModal';
 
 interface ProductDetailPageProps {
   product: ProductItem;
@@ -81,6 +82,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   );
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isZoomOpen, setIsZoomOpen] = useState<boolean>(false);
+  const [isSocialCardOpen, setIsSocialCardOpen] = useState<boolean>(false);
 
   // Dynamic Photo & Video Place Resizing and Ratio Controls
   const [activeMediaRatio, setActiveMediaRatio] = useState<MediaRatioPreset>(() => {
@@ -338,12 +340,12 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
           <div className="flex items-center gap-2">
             <button
-              onClick={handleShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider border border-[#d4c59d]/40 text-[#d4c59d] hover:bg-[#d4c59d]/10 transition-colors"
-              title="Copy link to this product"
+              onClick={() => setIsSocialCardOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer shadow"
+              title="Generate branded social media card"
             >
-              {isCopied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Share2 className="w-3.5 h-3.5" />}
-              <span>{isCopied ? 'Link Copied' : 'Share'}</span>
+              <Share2 className="w-3.5 h-3.5" />
+              <span>Social Card</span>
             </button>
 
             {isAdmin && onEditProduct && (
@@ -787,6 +789,16 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
               {/* Social Media Post Share & Photo Export */}
               <div className="pt-4 border-t border-[#d4c59d]/25 space-y-2.5">
+                <button
+                  type="button"
+                  onClick={() => setIsSocialCardOpen(true)}
+                  className="w-full py-2.5 px-3 rounded-lg bg-[#d4c59d] text-black hover:bg-[#e6d8b5] transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow cursor-pointer font-arabic"
+                  title="Generate luxury branded card for Instagram, Facebook, and WhatsApp"
+                >
+                  <Sparkles className="w-4 h-4 text-black" />
+                  <span>بطاقة السوشيال ميديا للمنتج (Social Media Card to Share)</span>
+                </button>
+
                 <div className="flex items-center justify-between text-xs text-[#d4c59d]">
                   <span className="font-bold uppercase tracking-wider flex items-center gap-1.5">
                     <Share2 className="w-3.5 h-3.5 text-[#d4c59d]" />
@@ -1143,6 +1155,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Social Media Product Card Modal */}
+      <ProductSocialCardModal
+        isOpen={isSocialCardOpen}
+        onClose={() => setIsSocialCardOpen(false)}
+        product={product}
+        category={currentCategory}
+      />
     </div>
   );
 };

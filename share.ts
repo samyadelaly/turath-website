@@ -79,14 +79,12 @@ export default async function handler(req: Request, res: Response) {
     supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
   } catch {}
 
-  // ==========================================================================
-  // 1. PROJECT PREVIEW RESOLUTION
-  // ==========================================================================
-  if (isExplicitProject || (!isExplicitProduct && cleanSlug && (cleanSlug.startsWith('proj') || cleanPathOnly.includes('/projects/')))) {
-    let matchedProject: ProjectItem | null = null;
+  // Helper to resolve project from Supabase or memory
+  async function resolveProject(targetSlug: string): Promise<ProjectItem | null> {
+    if (!targetSlug) return null;
 
     // A. Check site_content -> projects_catalog in Supabase
-    if (supabase && cleanSlug) {
+    if (supabase) {
       try {
         const { data } = await supabase
           .from('site_content')
@@ -99,11 +97,11 @@ export default async function handler(req: Request, res: Response) {
           if (Array.isArray(list)) {
             const found = list.find(
               (p: any) =>
-                (p.slug && p.slug.toLowerCase() === cleanSlug) ||
-                (p.id && p.id.toLowerCase() === cleanSlug)
+                (p.slug && p.slug.toLowerCase() === targetSlug) ||
+                (p.id && p.id.toLowerCase() === targetSlug)
             );
             if (found) {
-              matchedProject = {
+              return {
                 id: found.id,
                 title: found.title,
                 titleAR: found.titleAR || found.title_ar,
@@ -137,16 +135,16 @@ export default async function handler(req: Request, res: Response) {
     }
 
     // B. Check Supabase projects table (if exists)
-    if (!matchedProject && supabase && cleanSlug) {
+    if (supabase) {
       try {
         const { data } = await supabase
           .from('projects')
           .select('*')
-          .or(`slug.ilike.${cleanSlug},id.eq.${cleanSlug}`)
+          .or(`slug.ilike.${targetSlug},id.eq.${targetSlug}`)
           .maybeSingle();
 
         if (data) {
-          matchedProject = {
+          return {
             id: data.id,
             title: data.title,
             titleAR: data.title_ar,
@@ -178,57 +176,63 @@ export default async function handler(req: Request, res: Response) {
     }
 
     // C. Fallback to server projects / INITIAL_PROJECTS
-    if (!matchedProject) {
-      let serverProjects: ProjectItem[] = [];
-      try {
-        serverProjects = getAllServerProjects();
-      } catch {}
-      if (!serverProjects || serverProjects.length === 0) {
-        serverProjects = INITIAL_PROJECTS;
-      }
-      if (cleanSlug) {
-        matchedProject =
-          serverProjects.find(
-            (p) =>
-              (p.slug && p.slug.toLowerCase() === cleanSlug) ||
-              (p.id && p.id.toLowerCase() === cleanSlug)
-          ) || null;
-      }
+    let serverProjects: ProjectItem[] = [];
+    try {
+      serverProjects = getAllServerProjects();
+    } catch {}
+    if (!serverProjects || serverProjects.length === 0) {
+      serverProjects = INITIAL_PROJECTS;
     }
+    return (
+      serverProjects.find(
+        (p) =>
+          (p.slug && p.slug.toLowerCase() === targetSlug) ||
+          (p.id && p.id.toLowerCase() === targetSlug)
+      ) || null
+    );
+  }
 
-    if (matchedProject || isExplicitProject) {
-      const proj = matchedProject || INITIAL_PROJECTS[0];
-      const projectSlug = proj.slug || proj.id;
-      const targetUrl = `${baseUrl}/projects/${projectSlug}`;
+  function sendProjectHtml(proj: ProjectItem) {
+    const projectSlug = proj.slug || proj.id;
+    const targetUrl = `${baseUrl}/projects/${projectSlug}`;
 
-      const title = `${proj.title} | TURATH Egypt`;
-      const rawDesc =
-        proj.metaDescription ||
-        proj.shortDescription ||
-        proj.description ||
-        'Authentic handcrafted Egyptian brass and luxury architectural metalwork.';
-      const description = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
+    const title = `${proj.title} | TURATH Egypt`;
+    const rawDesc =
+      proj.metaDescription ||
+      proj.shortDescription ||
+      proj.description ||
+      'Authentic handcrafted Egyptian brass and luxury architectural metalwork.';
+    const description = rawDesc.length > 200 ? rawDesc.slice(0, 197) + '...' : rawDesc;
 
-      const rawImg =
-        proj.coverImage ||
-        (Array.isArray(proj.gallery) && proj.gallery[0]) ||
-        '/turath_logo.jpg';
-      const imageUrl = formatAbsoluteUrl(rawImg, baseUrl);
+    const rawImg =
+      proj.coverImage ||
+      (Array.isArray(proj.gallery) && proj.gallery[0]) ||
+      '/turath_logo.jpg';
+    const imageUrl = formatAbsoluteUrl(rawImg, baseUrl);
 
-      const html = generateShareHtml({
-        title,
-        description,
-        imageUrl,
-        targetUrl,
-        canonicalUrl: targetUrl,
-        ogType: 'article',
-        heading: proj.title,
-        buttonText: 'View Project on TURATH &rarr;',
-      });
+    const html = generateShareHtml({
+      title,
+      description,
+      imageUrl,
+      targetUrl,
+      canonicalUrl: targetUrl,
+      ogType: 'article',
+      heading: proj.title,
+      buttonText: 'View Project on TURATH &rarr;',
+    });
 
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
-      return res.send(html);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
+    return res.send(html);
+  }
+
+  // ==========================================================================
+  // 1. EXPLICIT PROJECT PREVIEW RESOLUTION
+  // ==========================================================================
+  if (isExplicitProject) {
+    const matchedProject = await resolveProject(cleanSlug);
+    if (matchedProject) {
+      return sendProjectHtml(matchedProject);
     }
   }
 
@@ -322,9 +326,42 @@ export default async function handler(req: Request, res: Response) {
             (p.categoryId && p.categoryId.toLowerCase() === cleanSlug)
         ) || null;
     }
+  }
 
-    if (!matchedProduct) {
-      matchedProduct = serverProducts[0] || INITIAL_PRODUCTS[0];
+  // If no product or category matched, check if it matches a project
+  if (!matchedProduct && !matchedCategoryInfo && !isExplicitProduct && cleanSlug) {
+    const matchedProject = await resolveProject(cleanSlug);
+    if (matchedProject) {
+      return sendProjectHtml(matchedProject);
+    }
+  }
+
+  // If a slug was requested but no product, project, or category matched, return clean 404
+  if (!matchedProduct && !matchedCategoryInfo) {
+    if (cleanSlug) {
+      res.status(404).setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Piece Not Found | TURATH Egypt</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    body { background: #050505; color: #f5f0e6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; padding: 20px; }
+    .box { max-width: 480px; background: #0d0d10; border: 1px solid #d4c59d; border-radius: 16px; padding: 36px 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+    h1 { color: #d4c59d; margin: 0 0 12px 0; font-size: 1.5rem; }
+    p { color: #9e9174; line-height: 1.6; margin: 0 0 24px 0; font-size: 0.95rem; }
+    a { display: inline-block; background: #d4c59d; color: #000; font-weight: bold; text-decoration: none; padding: 12px 24px; border-radius: 8px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Piece Not Found</h1>
+    <p>The requested handcrafted piece or project could not be found in the TURATH collection.</p>
+    <a href="${baseUrl}/products">Explore Catalog &rarr;</a>
+  </div>
+</body>
+</html>`);
     }
   }
 
