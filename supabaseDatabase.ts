@@ -18,6 +18,14 @@ export function mapProductToSupabaseRow(product: ProductItem): Record<string, an
   const cleanVideo = (product.videoUrl && !isFakeOrDemoVideo(product.videoUrl)) ? product.videoUrl.trim() : null;
   const cleanProductVideo = (product.productVideo && !isFakeOrDemoVideo(product.productVideo)) ? product.productVideo.trim() : null;
 
+  // Guarantee that main_image is never null or empty to satisfy PostgreSQL NOT NULL constraint
+  const resolvedMainImage =
+    cleanMain ||
+    (cleanImages.length > 0 ? cleanImages[0] : null) ||
+    (typeof product.mainImage === 'string' && product.mainImage.trim().length > 0 ? product.mainImage.trim() : null) ||
+    '/turath_logo.jpg';
+  const finalImagesList = cleanImages.length > 0 ? cleanImages : [resolvedMainImage];
+
   return {
     id: product.id,
     sku: product.sku || product.id,
@@ -32,8 +40,8 @@ export function mapProductToSupabaseRow(product: ProductItem): Record<string, an
     full_description_en: product.fullDescriptionEN || product.description || null,
     full_description_ar: product.fullDescriptionAR || null,
     story: product.story || null,
-    main_image: cleanMain || (cleanImages[0] ? cleanImages[0] : null),
-    images: cleanImages,
+    main_image: resolvedMainImage,
+    images: finalImagesList,
     gallery_images: cleanGallery,
     media_type: (cleanVideo && product.mediaType === 'video') ? 'video' : 'image',
     image_ratio: product.imageRatio || 'Original',
