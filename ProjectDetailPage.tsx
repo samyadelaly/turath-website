@@ -40,6 +40,22 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   isAdmin = false,
   onEditProject,
 }) => {
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-[#070709] text-[#f5f0e6] flex flex-col items-center justify-center p-6 text-center">
+        <h2 className="text-xl font-serif text-[#d4c59d] mb-4">Project Not Found</h2>
+        {onNavigateBack && (
+          <button
+            onClick={onNavigateBack}
+            className="px-6 py-2 bg-[#d4c59d] text-black font-semibold rounded-full hover:bg-[#e5d4ab] transition-colors"
+          >
+            Return to Projects
+          </button>
+        )}
+      </div>
+    );
+  }
+
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
   const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | undefined>(

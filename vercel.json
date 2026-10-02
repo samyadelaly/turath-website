@@ -24,11 +24,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/share/(.*)", "destination": "/api/share?slug=$1" },
-    { "source": "/p/(.*)", "destination": "/api/share?slug=$1" },
-    { "source": "/products/(.*)", "destination": "/index.html" },
-    { "source": "/projects/(.*)", "destination": "/index.html" },
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
