@@ -70,8 +70,9 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
 
   // Handle URL Copy
   const handleCopyLink = () => {
+    const urlToCopy = shareCardUrl || directProductUrl;
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(directProductUrl);
+      navigator.clipboard.writeText(urlToCopy);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2500);
     }
@@ -311,7 +312,7 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
               await navigator.share({
                 title: `${displayNameEN} | TURATH Egypt`,
                 text: `${displayNameEN} (${displayNameAR}) - Handcrafted in Historic Cairo, Egypt.\nProduct ID: ${displaySku}`,
-                url: directProductUrl,
+                url: shareCardUrl || directProductUrl,
                 files: [file]
               });
               return;
@@ -320,7 +321,7 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
             await navigator.share({
               title: `${displayNameEN} | TURATH Egypt`,
               text: `${displayNameEN} - Handcrafted Egyptian Brass`,
-              url: directProductUrl,
+              url: shareCardUrl || directProductUrl,
             });
           });
         }
@@ -632,7 +633,7 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
                 <div className="grid grid-cols-4 gap-2">
                   {/* WhatsApp */}
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`${displayNameEN} | TURATH Handcrafted Egyptian Brass\nProduct ID: ${displaySku}\n\n${directProductUrl}`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(`${displayNameEN} | TURATH Handcrafted Egyptian Brass\nProduct ID: ${displaySku}\n\n${shareCardUrl || directProductUrl}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#25D366] hover:text-white transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1"
