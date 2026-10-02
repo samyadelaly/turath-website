@@ -4,6 +4,8 @@ import { ProductItem, ProjectItem } from './types';
 
 export const config = {
   matcher: [
+    '/',
+    '/share',
     '/share/:path*',
     '/p/:path*',
     '/products/:path*',
@@ -110,6 +112,71 @@ async function fetchSupabaseProject(slug: string): Promise<ProjectItem | null> {
   }
 }
 
+function generateHomepageShareResponse(): Response {
+  const title = 'TURATH | Handcrafted Brass, Copper & Decorative Metals from Egypt | تراث للصناعات النحاسية';
+  const desc = 'Egyptian manufacturer specializing in premium handcrafted brass, copper, and decorative metal products from Historic Cairo, Egypt.';
+  const logoUrl = `${BASE_URL}/turath_logo.jpg`;
+  const html = `<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(title)}</title>
+  <meta name="description" content="${escapeHtml(desc)}">
+
+  <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="fb:app_id" content="1817785808529324">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TURATH Egypt | تراث للصناعات النحاسية">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ar_EG">
+  <meta property="og:url" content="${BASE_URL}/">
+  <meta property="og:title" content="${escapeHtml(title)}">
+  <meta property="og:description" content="${escapeHtml(desc)}">
+  <meta property="og:image" content="${logoUrl}">
+  <meta property="og:image:secure_url" content="${logoUrl}">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="TURATH Authentic Egyptian Brass Logo">
+  <meta property="og:image:width" content="531">
+  <meta property="og:image:height" content="382">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="${BASE_URL}/">
+  <meta name="twitter:title" content="${escapeHtml(title)}">
+  <meta name="twitter:description" content="${escapeHtml(desc)}">
+  <meta name="twitter:image" content="${logoUrl}">
+
+  <link rel="canonical" href="${BASE_URL}/">
+
+  <script>
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/share')) {
+      window.location.replace('/');
+    }
+  </script>
+</head>
+<body style="margin:0; background:#070709; color:#f5f0e6; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px;">
+  <div style="max-width:540px; width:100%; background:#101014; border:1px solid rgba(212,197,157,0.4); border-radius:16px; padding:28px; text-align:center; box-shadow:0 25px 60px rgba(0,0,0,0.8);">
+    <div style="font-size:12px; letter-spacing:0.2em; text-transform:uppercase; color:#d4c59d; font-weight:700; margin-bottom:8px;">TURATH EGYPT • HISTORIC CAIRO</div>
+    <div style="border-radius:12px; overflow:hidden; border:1px solid rgba(212,197,157,0.3); margin:16px 0; background:#000;">
+      <img src="${logoUrl}" alt="TURATH Egypt" style="width:100%; height:auto; max-height:420px; object-fit:contain; display:block;" />
+    </div>
+    <h1 style="font-size:22px; color:#f5f0e6; margin:12px 0 6px 0;">TURATH Egypt</h1>
+    <div style="font-size:16px; color:#d4c59d; margin-bottom:12px;">مصنع تراث لصناعة المشغولات النحاسية والديكورية</div>
+    <p style="font-size:14px; color:#a89f88; line-height:1.5; margin:0 0 20px 0;">${escapeHtml(desc)}</p>
+    <a href="/" style="display:inline-block; background:#d4c59d; color:#000; padding:12px 28px; border-radius:30px; font-weight:700; text-decoration:none; font-size:14px; text-transform:uppercase; letter-spacing:0.05em;">Enter Catalog</a>
+  </div>
+</body>
+</html>`;
+
+  return new Response(html, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'cache-control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400',
+    },
+  });
+}
+
 export default async function middleware(request: Request) {
   const url = new URL(request.url);
   const pathname = url.pathname;
@@ -162,6 +229,9 @@ export default async function middleware(request: Request) {
 
   const cleanSlug = decodeURIComponent(slug || '').trim().toLowerCase();
   if (!cleanSlug) {
+    if (isCrawler || pathname === '/share' || pathname === '/share/' || pathname === '/') {
+      return generateHomepageShareResponse();
+    }
     return;
   }
 
@@ -207,8 +277,11 @@ export default async function middleware(request: Request) {
   <meta name="description" content="${escapeHtml(ogDesc)}">
 
   <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="fb:app_id" content="1817785808529324">
   <meta property="og:type" content="product">
   <meta property="og:site_name" content="TURATH Egypt | تراث للصناعات النحاسية">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ar_EG">
   <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
   <meta property="og:title" content="${escapeHtml(displayTitle)}">
   <meta property="og:description" content="${escapeHtml(ogDesc)}">
@@ -281,8 +354,11 @@ export default async function middleware(request: Request) {
   <title>${escapeHtml(projTitle)}</title>
   <meta name="description" content="${escapeHtml(projDesc)}">
 
+  <meta property="fb:app_id" content="1817785808529324">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="TURATH Egypt | تراث للصناعات النحاسية">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ar_EG">
   <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
   <meta property="og:title" content="${escapeHtml(projTitle)}">
   <meta property="og:description" content="${escapeHtml(projDesc)}">

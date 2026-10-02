@@ -28,12 +28,12 @@ export const TurathLogo: React.FC<TurathLogoProps> = ({
     return () => window.removeEventListener('turath-logo-updated', handleUpdate);
   }, []);
 
-  // Dimensions based on size - maintaining natural 1200:896 rectangular aspect ratio
+  // Dimensions based on size - maintaining natural rectangular aspect ratio of authentic TURATH logo
   const dimensions = {
-    sm: 'h-10 sm:h-11 aspect-[1200/896]',
-    md: 'h-12 sm:h-14 aspect-[1200/896]',
-    lg: 'h-16 sm:h-20 aspect-[1200/896]',
-    hero: 'h-32 sm:h-40 md:h-48 aspect-[1200/896] max-w-full',
+    sm: 'h-10 sm:h-11 aspect-[531/382]',
+    md: 'h-12 sm:h-14 aspect-[531/382]',
+    lg: 'h-16 sm:h-20 aspect-[531/382]',
+    hero: 'h-32 sm:h-40 md:h-48 aspect-[531/382] max-w-full',
   };
 
   return (

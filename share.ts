@@ -511,8 +511,11 @@ function generateShareHtml({
   <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
 
   <!-- Open Graph / Facebook / WhatsApp / LinkedIn / Telegram -->
+  <meta property="fb:app_id" content="1817785808529324">
   <meta property="og:type" content="${escapeHtml(ogType)}">
   <meta property="og:site_name" content="TURATH Egypt | تراث للصناعات النحاسية">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ar_EG">
   <meta property="og:url" content="${escapeHtml(targetUrl)}">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
