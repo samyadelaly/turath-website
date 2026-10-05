@@ -1,5 +1,5 @@
 import React from 'react';
-import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT, isElementVisible } from './siteContentStorage';
 import { 
   Hammer, 
   ShieldCheck, 
@@ -64,24 +64,38 @@ export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content 
   return (
     <section id="why-us-section" className="pt-10 sm:pt-14 lg:pt-16 pb-14 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 bg-[#000000] border-b border-[#d4c59d]/30">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
-        <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
-          <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
-            {whyUs.title || 'Why Choose Turath?'}
-          </h2>
+        {(isElementVisible(activeContent, 'whyUsBadge') || isElementVisible(activeContent, 'whyUsTitle') || isElementVisible(activeContent, 'whyUsSubtitle')) && (
+          <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
+            {isElementVisible(activeContent, 'whyUsBadge') && (
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d4c59d]/25 bg-[#0a0a08] text-[#d4c59d] text-[10px] sm:text-xs font-mono tracking-widest uppercase">
+                <span>✧</span>
+                <span>{activeContent.whyUsBadge || 'EXCELLENCE & HERITAGE • مَعَايِيرُ الْأَصَالَةِ'}</span>
+              </div>
+            )}
 
-          <p className="text-sm sm:text-base text-[#d4c59d]">
-            {whyUs.subtitle || 'Authentic Egyptian handcrafted brass, copper, and decorative metalwork.'}
-          </p>
-        </div>
+            {isElementVisible(activeContent, 'whyUsTitle') && (
+              <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
+                {whyUs.title || 'Why Choose Turath?'}
+              </h2>
+            )}
+
+            {isElementVisible(activeContent, 'whyUsSubtitle') && (
+              <p className="text-sm sm:text-base text-[#d4c59d]">
+                {whyUs.subtitle || 'Authentic Egyptian handcrafted brass, copper, and decorative metalwork.'}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* 8 Distinct Pillars in solid black and gold */}
+        {isElementVisible(activeContent, 'whyUsCards') && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {points.map((pt) => {
             const Icon = pt.icon;
             return (
               <div
                 key={pt.title}
-                className="p-5 sm:p-6 rounded-xl bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-all duration-300 shadow-md group flex flex-col justify-between"
+                className="turath-card p-5 sm:p-6 rounded-xl border hover:border-[#d4c59d] transition-all duration-300 shadow-md group flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center gap-2.5 mb-2.5">
@@ -101,6 +115,7 @@ export const WhyChooseUsSection: React.FC<WhyChooseUsSectionProps> = ({ content 
             );
           })}
         </div>
+        )}
       </div>
     </section>
   );

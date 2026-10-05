@@ -47,6 +47,7 @@ interface ProductDetailPageProps {
   onSelectForInquiry: (product: ProductItem, selectedFinish?: string) => void;
   onEditProduct?: (product: ProductItem) => void;
   isAdmin?: boolean;
+  initialShowVideo?: boolean;
 }
 
 export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
@@ -60,6 +61,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   onSelectForInquiry,
   onEditProduct,
   isAdmin = false,
+  initialShowVideo = false,
 }) => {
   const currentCategory =
     category ||
@@ -75,7 +77,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [showVideo, setShowVideo] = useState<boolean>(
-    () => product.mediaType === 'video' && Boolean(product.videoUrl)
+    () => (initialShowVideo && Boolean(product.videoUrl)) || (product.mediaType === 'video' && Boolean(product.videoUrl))
   );
   const [selectedFinish, setSelectedFinish] = useState<string>(
     product.finish || (Array.isArray(product.finishOptions) && product.finishOptions[0]) || 'Natural Antique Patina'
@@ -313,14 +315,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen pb-16 sm:pb-20 lg:pb-24 bg-[#000000] text-[#f5f0e6]">
+    <div className="turath-products-page min-h-screen pb-16 sm:pb-20 lg:pb-24 text-[#f5f0e6] transition-colors duration-300">
       {/* Breadcrumbs & Navigation Bar */}
       <div className="border-b border-[#d4c59d]/30 bg-[#0a0a0c] py-3 sm:py-3.5 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs sm:text-sm text-[#9e9174] flex-wrap">
             <button
               onClick={onBack}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#d4c59d] text-[#000000] font-bold uppercase tracking-wider hover:bg-[#e6d8b5] transition-colors"
+              className="turath-btn-primary inline-flex items-center gap-1.5 px-3 py-1.5 rounded font-bold uppercase tracking-wider transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back</span>
@@ -341,7 +343,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsSocialCardOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer shadow"
+              className="turath-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider border transition-all cursor-pointer shadow"
               title="Generate branded social media card"
             >
               <Share2 className="w-3.5 h-3.5" />
@@ -487,7 +489,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
               return (
                 <div 
-                  className="relative w-full mx-auto rounded-xl overflow-hidden bg-[#0c0c0f] border border-[#d4c59d]/40 flex items-center justify-center group shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300"
+                  className="turath-photo-container relative w-full mx-auto rounded-xl overflow-hidden flex items-center justify-center group shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300"
                   style={{ 
                     maxWidth: maxWidthStyle,
                     aspectRatio: activeAspect.isOriginal ? undefined : activeAspect.aspectRatioCss,
@@ -548,7 +550,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                               e.stopPropagation();
                               setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : validImages.length - 1));
                             }}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors shadow-lg z-10"
+                            className="turath-btn-primary absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full transition-colors shadow-lg z-10 cursor-pointer border"
                             aria-label="Previous Image"
                           >
                             <ChevronLeft className="w-5 h-5" />
@@ -558,7 +560,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                               e.stopPropagation();
                               setActiveImageIndex((prev) => (prev < validImages.length - 1 ? prev + 1 : 0));
                             }}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors shadow-lg z-10"
+                            className="turath-btn-primary absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full transition-colors shadow-lg z-10 cursor-pointer border"
                             aria-label="Next Image"
                           >
                             <ChevronRight className="w-5 h-5" />
@@ -641,7 +643,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   {product.sku || product.id}
                 </span>
                 {product.availability && (
-                  <span className="px-2.5 py-1 rounded bg-green-950/60 text-green-300 text-xs font-semibold uppercase tracking-wider border border-green-800/40">
+                  <span className="px-2.5 py-1 rounded bg-[#d4c59d]/15 text-[#d4c59d] text-xs font-bold uppercase tracking-wider border border-[#d4c59d]/40">
                     {product.availability === 'in_stock' ? 'In Stock' : product.availability === 'custom_only' ? 'Custom Fabrication' : 'Made to Order'}
                   </span>
                 )}
@@ -703,7 +705,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             )}
 
             {/* Quick Technical Specs Grid */}
-            <div className="bg-[#0c0c10] p-4 rounded-xl border border-[#d4c59d]/40 space-y-3 text-xs">
+            <div className="turath-textbox p-4 rounded-xl border border-[#d4c59d]/40 space-y-3 text-xs overflow-hidden">
               <div className="flex items-start gap-3">
                 <Ruler className="w-4 h-4 text-[#d4c59d] flex-shrink-0 mt-0.5" />
                 <div>
@@ -763,7 +765,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   });
                   onSelectForInquiry(product, selectedFinish);
                 }}
-                className="gold-shimmer-hover w-full py-4 px-6 text-sm font-bold uppercase tracking-wider rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] active:scale-[0.99] transition-all shadow-lg flex items-center justify-center gap-2.5 cursor-pointer"
+                className="gold-shimmer-hover turath-btn-primary w-full py-4 px-6 text-sm font-bold uppercase tracking-wider rounded-lg active:scale-[0.99] transition-all shadow-lg flex items-center justify-center gap-2.5 cursor-pointer border"
               >
                 <Send className="w-4 h-4" />
                 <span>Request a Quote for this Piece</span>
@@ -781,9 +783,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     category: category?.name || product.categoryId,
                   });
                 }}
-                className="gold-shimmer-hover w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg bg-[#141418] border border-[#d4c59d]/50 text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-colors flex items-center justify-center gap-2"
+                className="gold-shimmer-hover turath-btn-secondary w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center justify-center gap-2 border"
               >
-                <MessageCircle className="w-4 h-4 text-green-500" />
+                <MessageCircle className="w-4 h-4 text-[#d4c59d]" />
                 <span>Inquire on WhatsApp (+20 01016771010)</span>
               </a>
 
@@ -792,10 +794,10 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsSocialCardOpen(true)}
-                  className="w-full py-2.5 px-3 rounded-lg bg-[#d4c59d] text-black hover:bg-[#e6d8b5] transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow cursor-pointer font-arabic"
+                  className="turath-btn-primary w-full py-2.5 px-3 rounded-lg transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow cursor-pointer font-arabic border"
                   title="Generate luxury branded card for Instagram, Facebook, and WhatsApp"
                 >
-                  <Sparkles className="w-4 h-4 text-black" />
+                  <Sparkles className="w-4 h-4 text-current" />
                   <span>بطاقة السوشيال ميديا للمنتج (Social Media Card to Share)</span>
                 </button>
 
@@ -815,7 +817,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     className="px-2.5 py-2 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-xs font-semibold flex items-center justify-center gap-1.5"
                     title="Share with photo preview to WhatsApp"
                   >
-                    <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+                    <MessageCircle className="w-3.5 h-3.5 text-[#d4c59d]" />
                     <span>WhatsApp</span>
                   </a>
 
@@ -826,7 +828,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     className="px-2.5 py-2 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-xs font-semibold flex items-center justify-center gap-1.5"
                     title="Share to Facebook with photo preview"
                   >
-                    <Facebook className="w-3.5 h-3.5 text-[#1877F2]" />
+                    <Facebook className="w-3.5 h-3.5 text-[#d4c59d]" />
                     <span>Facebook</span>
                   </a>
 
@@ -841,7 +843,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     className="px-2.5 py-2 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
                     title="Copy direct share link with photo preview"
                   >
-                    {isCopied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-[#d4c59d]" />}
+                    {isCopied ? <Check className="w-3.5 h-3.5 text-[#d4c59d]" /> : <Copy className="w-3.5 h-3.5 text-[#d4c59d]" />}
                     <span>{isCopied ? 'Copied!' : 'Copy Link'}</span>
                   </button>
 
@@ -1162,6 +1164,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         onClose={() => setIsSocialCardOpen(false)}
         product={product}
         category={currentCategory}
+        activeImage={activeImage}
       />
     </div>
   );

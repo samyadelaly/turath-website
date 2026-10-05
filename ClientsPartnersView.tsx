@@ -57,7 +57,7 @@ export const ClientsPartnersView: React.FC<ClientsPartnersViewProps> = ({
     return (
       <div
         key={item.id}
-        className={`group relative rounded-2xl bg-[#0e0d0a] border border-[#d4c59d]/20 hover:border-[#d4c59d]/60 p-5 sm:p-6 transition-all duration-300 flex flex-col justify-between shadow-lg hover:shadow-[0_10px_35px_rgba(0,0,0,0.8)] ${
+        className={`turath-card group relative rounded-2xl border border-[#d4c59d]/20 hover:border-[#d4c59d]/60 p-5 sm:p-6 transition-all duration-300 flex flex-col justify-between shadow-lg hover:shadow-[0_10px_35px_rgba(0,0,0,0.8)] ${
           !item.published ? 'opacity-65 border-dashed border-yellow-500/40' : ''
         }`}
       >
@@ -107,7 +107,7 @@ export const ClientsPartnersView: React.FC<ClientsPartnersViewProps> = ({
         )}
 
         {/* Logo Container with preserved aspect ratio */}
-        <div className="w-full h-24 sm:h-28 flex items-center justify-center p-3 rounded-xl bg-[#141310] border border-[#d4c59d]/10 mb-4 overflow-hidden">
+        <div className="turath-photo-container w-full h-24 sm:h-28 flex items-center justify-center p-3 rounded-xl mb-4 overflow-hidden">
           {item.logo ? (
             <img
               src={item.logo}

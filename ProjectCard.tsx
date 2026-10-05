@@ -33,8 +33,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
 
   return (
-    <div className={`group relative bg-[#0e0d0a] border rounded-xl overflow-hidden transition-all duration-300 flex flex-col h-full hover:shadow-[0_12px_40px_rgba(212,197,157,0.15)] ${
-      project.published ? 'border-[#d4c59d]/30 hover:border-[#d4c59d]' : 'border-amber-600/40 bg-[#16120c]'
+    <div className={`turath-card group relative bg-[#070706] border rounded-xl overflow-hidden transition-all duration-500 flex flex-col h-full hover:shadow-[0_16px_50px_rgba(0,0,0,0.9)] ${
+      project.published ? 'border-[#d4c59d]/20 hover:border-[#d4c59d]/60' : 'border-amber-600/40 bg-[#120f0a]'
     }`}>
       {/* Delete Confirmation Overlay */}
       {showDeleteConfirm && (
@@ -70,10 +70,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
       )}
+
       {/* Draft watermark badge for admin */}
       {!project.published && (
-        <div className="absolute top-3 left-3 z-30 bg-amber-500/90 text-black text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider flex items-center gap-1 shadow-md">
-          <EyeOff className="w-3.5 h-3.5" />
+        <div className="absolute top-3 left-3 z-30 bg-amber-500/90 text-black text-[10px] font-mono font-bold px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1 shadow-md">
+          <EyeOff className="w-3 h-3" />
           <span>Draft / مسودة</span>
         </div>
       )}
@@ -132,7 +133,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Cover Media Container */}
       <div 
         onClick={() => onSelect(project)}
-        className="cursor-pointer relative overflow-hidden bg-black aspect-[16/10] sm:aspect-[16/9]"
+        className="cursor-pointer relative overflow-hidden bg-black aspect-[16/10]"
       >
         <TurathMedia
           type={project.mediaType === 'video' ? 'video' : 'image'}
@@ -145,29 +146,34 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           fit={project.coverFit || 'cover'}
           position={project.coverPosition || 'center'}
           alt={project.title}
-          containerClassName="w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
+          containerClassName="w-full h-full"
+          mediaClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
+          autoPlay={project.mediaType === 'video' && !!project.videoUrl}
+          muted={true}
+          loop={true}
+          playsInline={true}
         />
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent pointer-events-none" />
 
         {/* Top-Left Category Tag */}
         <div className="absolute top-3 left-3 z-10">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/75 backdrop-blur-md border border-[#d4c59d]/40 text-[#d4c59d] text-xs font-bold uppercase tracking-widest">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md border border-[#d4c59d]/30 text-[#d4c59d] text-[10px] font-mono uppercase tracking-widest">
             <Building2 className="w-3 h-3 text-[#d4c59d]" />
             {project.projectType}
           </span>
         </div>
 
         {/* Bottom Overlay Info on Media */}
-        <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-xs text-[#d4c59d]">
-          <div className="flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-[#d4c59d]/30">
-            <MapPin className="w-3.5 h-3.5 text-[#d4c59d]" />
-            <span className="text-[#f5f0e6] font-medium">{project.location}</span>
+        <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-1.5 bg-black/85 backdrop-blur-md px-2.5 py-1 rounded border border-[#d4c59d]/25">
+            <MapPin className="w-3 h-3 text-[#d4c59d]" />
+            <span className="text-[#f5f0e6] text-[11px] font-light">{project.location}</span>
           </div>
 
           {project.year && (
-            <div className="flex items-center gap-1 bg-black/80 backdrop-blur-md px-2 py-1 rounded-md border border-[#d4c59d]/30 text-[#f5f0e6] font-mono text-[11px]">
+            <div className="flex items-center gap-1 bg-black/85 backdrop-blur-md px-2 py-1 rounded border border-[#d4c59d]/25 text-[#d4c59d] font-mono text-[10px]">
               <Calendar className="w-3 h-3 text-[#d4c59d]" />
               <span>{project.year}</span>
             </div>
@@ -175,60 +181,54 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       </div>
 
-      {/* Card Content */}
-      <div className="p-5 flex flex-col flex-grow justify-between">
-        <div>
+      {/* Card Content - Gallery Catalog Format */}
+      <div className="p-5 flex flex-col flex-grow justify-between space-y-4">
+        <div className="space-y-2">
           {/* Project Title */}
           <h3 
             onClick={() => onSelect(project)}
-            className="font-serif-luxury text-lg sm:text-xl font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors cursor-pointer leading-snug"
+            className="font-serif-luxury text-base sm:text-lg font-light text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors cursor-pointer leading-snug"
           >
             {project.title}
           </h3>
 
           {/* Arabic Title if available */}
           {project.titleAR && (
-            <div className="font-arabic text-xs text-[#9e9174] mt-0.5" dir="rtl">
+            <div className="font-arabic text-xs text-[#9e9174]" dir="rtl">
               {project.titleAR}
             </div>
           )}
 
           {/* Short Description */}
-          <p className="text-xs text-[#9e9174] line-clamp-2 mt-2.5 leading-relaxed font-sans">
-            {project.shortDescription || project.description}
-          </p>
+          {(project.shortDescription || project.description) && (
+            <p className="text-xs text-[#9e9174] line-clamp-2 leading-relaxed font-light">
+              {project.shortDescription || project.description}
+            </p>
+          )}
 
           {/* Materials Tag */}
           {project.materials && (
-            <div className="mt-3.5 flex items-center gap-2 text-[11px] text-[#b3a480] bg-[#141310] border border-[#d4c59d]/20 px-2.5 py-1.5 rounded-lg">
+            <div className="pt-1 flex items-center gap-2 text-[10px] font-mono text-[#d4c59d]/90">
               <span className="w-1.5 h-1.5 rounded-full bg-[#d4c59d] flex-shrink-0" />
               <span className="truncate">{project.materials}</span>
-            </div>
-          )}
-
-          {/* Scope of Work Delivered count */}
-          {Array.isArray(project.workDelivered) && project.workDelivered.length > 0 && (
-            <div className="mt-2 text-[11px] text-[#9e9174] flex items-center gap-1.5">
-              <Layers className="w-3 h-3 text-[#d4c59d]" />
-              <span>{project.workDelivered.length} Custom manufactured elements</span>
             </div>
           )}
         </div>
 
         {/* Bottom CTA Link */}
-        <div className="pt-5 mt-4 border-t border-[#d4c59d]/20 flex items-center justify-between">
+        <div className="pt-3 border-t border-[#d4c59d]/15 flex items-center justify-between text-xs">
           <button
             type="button"
             onClick={() => onSelect(project)}
-            className="inline-flex items-center gap-2 text-xs font-bold text-[#d4c59d] group-hover:text-[#f5f0e6] transition-colors uppercase tracking-wider cursor-pointer"
+            className="inline-flex items-center gap-2 text-[11px] font-mono text-[#d4c59d] group-hover:text-[#f5f0e6] transition-colors uppercase tracking-wider cursor-pointer"
           >
-            <span>View Case Study</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <span>View Dossier</span>
+            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
           </button>
 
           {project.gallery && project.gallery.length > 0 && (
-            <span className="text-[11px] text-[#9e9174] font-mono">
-              {project.gallery.length} photos
+            <span className="text-[10px] text-[#9e9174] font-mono">
+              {project.gallery.length} Plates
             </span>
           )}
         </div>

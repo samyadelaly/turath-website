@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InquiryFormData } from './types';
-import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT, sanitizeFacebookUrl, sanitizeInstagramUrl } from './siteContentStorage';
+import { SiteContent, getStoredSiteContent, ensureSiteContentSections, DEFAULT_SITE_CONTENT, sanitizeFacebookUrl, sanitizeInstagramUrl, isElementVisible } from './siteContentStorage';
 import { trackContact } from './metaPixel';
 import { 
   Send, 
@@ -90,22 +90,36 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
   return (
     <section id="contact-section" className="pt-10 sm:pt-14 lg:pt-16 pb-16 lg:pb-24 px-4 sm:px-6 lg:px-8 bg-[#000000]">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
-        <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
-          <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
-            {contact.title || 'Request a Project Quotation'}
-          </h2>
+        {(isElementVisible(activeContent, 'contactBadge') || isElementVisible(activeContent, 'contactTitle') || isElementVisible(activeContent, 'contactSubtitle')) && (
+          <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
+            {isElementVisible(activeContent, 'contactBadge') && (
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d4c59d]/25 bg-[#0a0a08] text-[#d4c59d] text-[10px] sm:text-xs font-mono tracking-widest uppercase">
+                <span>✧</span>
+                <span>{activeContent.contactBadge || 'DIRECT CONCIERGE • تَوَاصُلٌ مُبَاشِرٌ'}</span>
+              </div>
+            )}
 
-          <p className="text-sm sm:text-base text-[#d4c59d]">
-            {contact.subtitle || 'Connect directly with our master craftsmen and engineering team in Cairo.'}
-          </p>
-        </div>
+            {isElementVisible(activeContent, 'contactTitle') && (
+              <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
+                {contact.title || 'Request a Project Quotation'}
+              </h2>
+            )}
+
+            {isElementVisible(activeContent, 'contactSubtitle') && (
+              <p className="text-sm sm:text-base text-[#d4c59d]">
+                {contact.subtitle || 'Connect directly with our master craftsmen and engineering team in Cairo.'}
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left Column: Direct Info Card */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#000000] border-2 border-[#d4c59d] rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
-              <div>
-                <span className="text-xs uppercase tracking-widest text-[#d4c59d] font-bold">
+          {isElementVisible(activeContent, 'contactInfo') && (
+            <div className={`${isElementVisible(activeContent, 'contactForm') ? 'lg:col-span-5' : 'lg:col-span-8 max-w-2xl mx-auto'} space-y-6`}>
+              <div className="turath-textbox border-2 border-[#d4c59d] rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+                <div>
+                  <span className="text-xs uppercase tracking-widest text-[#d4c59d] font-bold">
                   Egyptian Workshop & Showroom
                 </span>
                 <h3 className="font-serif-luxury text-xl font-bold text-[#f5f0e6] mb-1">
@@ -187,7 +201,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                   href={`https://wa.me/${cleanWhatsAppNumber}?text=Hello%20Turath%20Egypt%2C%20I%20would%20like%20to%20inquire%20about%20your%20brass%20products`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 px-4 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider shadow"
+                  className="turath-btn-primary w-full py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider shadow border cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Instant WhatsApp Chat ({contactDisplayWhatsApp})</span>
@@ -199,7 +213,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                     href={sanitizeFacebookUrl(contact.facebook || activeContent.contactFacebook)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2.5 px-3 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"
+                    className="turath-btn-secondary py-2.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow border cursor-pointer"
                     title="Facebook - Turath Egypt"
                   >
                     <Facebook className="w-4 h-4" />
@@ -209,7 +223,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                     href={sanitizeInstagramUrl(contact.instagram || activeContent.contactInstagram)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2.5 px-3 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow"
+                    className="turath-btn-secondary py-2.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider shadow border cursor-pointer"
                     title="Instagram - Turath Egypt"
                   >
                     <Instagram className="w-4 h-4" />
@@ -219,10 +233,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
               </div>
             </div>
           </div>
+          )}
 
           {/* Inquiry Form */}
-          <div className="lg:col-span-7">
-            <div className="bg-[#000000] border-2 border-[#d4c59d] rounded-2xl p-6 sm:p-8 shadow-xl">
+          {isElementVisible(activeContent, 'contactForm') && (
+            <div className={`${isElementVisible(activeContent, 'contactInfo') ? 'lg:col-span-7' : 'lg:col-span-8 max-w-2xl mx-auto'}`}>
+              <div className="turath-textbox border-2 border-[#d4c59d] rounded-2xl p-6 sm:p-8 shadow-xl">
               {submitted ? (
                 <div className="py-8 text-center space-y-6 animate-in fade-in duration-300">
                   <div className="w-16 h-16 rounded-full bg-[#d4c59d] text-[#000000] flex items-center justify-center mx-auto">
@@ -363,7 +379,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
                   {/* Solid Logo Gold Submit button with NO border frame */}
                   <button
                     type="submit"
-                    className="w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-widest rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] active:scale-[0.99] transition-all shadow flex items-center justify-center gap-2"
+                    className="turath-btn-primary w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-widest rounded-lg active:scale-[0.99] transition-all shadow flex items-center justify-center gap-2 cursor-pointer border"
                   >
                     <Send className="w-4 h-4" />
                     <span>Send Email to turath.egypt@gmail.com</span>
@@ -372,6 +388,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ initialData, con
               )}
             </div>
           </div>
+          )}
         </div>
       </div>
     </section>

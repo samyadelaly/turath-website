@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+:root {
+  /* Semantic Typography Tokens */
+  --color-heading: #f5f0e6;
+  --color-body: #f5f0e6;
+  --color-secondary: #e6d8b5;
+  --color-muted: #9e9174;
+  --color-caption: #9e9174;
+  --color-link: #d4c59d;
+  --color-link-hover: #e6d8b5;
+
+  /* Hero Specific Tokens */
+  --color-hero-heading: #f5f0e6;
+  --color-hero-body: #f5f0e6;
+  --color-hero-accent: #d4c59d;
+
+  /* Primary Button Tokens */
+  --color-btn-primary-bg: #d4c59d;
+  --color-btn-primary-text: #000000;
+  --color-btn-primary-border: #d4c59d;
+  --color-btn-primary-hover-bg: #e6d8b5;
+  --color-btn-primary-hover-text: #000000;
+  --color-btn-primary-hover-border: #e6d8b5;
+
+  /* Secondary Button Tokens */
+  --color-btn-secondary-bg: rgba(0, 0, 0, 0.8);
+  --color-btn-secondary-text: #d4c59d;
+  --color-btn-secondary-border: #d4c59d;
+  --color-btn-secondary-hover-bg: #d4c59d;
+  --color-btn-secondary-hover-text: #000000;
+  --color-btn-secondary-hover-border: #d4c59d;
+}
+
 @theme {
   --color-logo-gold: #d4c59d;
   --color-logo-gold-hover: #e6d8b5;
@@ -10,6 +42,269 @@
   --color-logo-card: #0f0f0f;
   --color-logo-border: rgba(212, 197, 157, 0.25);
   --color-logo-border-strong: #d4c59d;
+}
+
+/* Dynamic Configurable Typography */
+h1:not([role="dialog"] *):not([data-modal] *):not(.turath-hero-title):not(.turath-hero-accent):not(.turath-btn-primary):not(.turath-btn-secondary),
+h2:not([role="dialog"] *):not([data-modal] *):not(.turath-btn-primary):not(.turath-btn-secondary),
+h3:not([role="dialog"] *):not([data-modal] *):not(.turath-btn-primary):not(.turath-btn-secondary),
+h4:not([role="dialog"] *):not([data-modal] *):not(.turath-btn-primary):not(.turath-btn-secondary),
+h5:not([role="dialog"] *):not([data-modal] *):not(.turath-btn-primary):not(.turath-btn-secondary),
+h6:not([role="dialog"] *):not([data-modal] *):not(.turath-btn-primary):not(.turath-btn-secondary),
+.turath-heading {
+  color: var(--color-heading) !important;
+}
+
+/* Hero Section Specific Overrides */
+.turath-hero-title {
+  color: var(--color-hero-heading) !important;
+}
+.turath-hero-body {
+  color: var(--color-hero-body) !important;
+}
+.turath-hero-accent {
+  color: var(--color-hero-accent) !important;
+}
+
+/* Secondary Typography */
+.turath-text-secondary,
+.text-secondary {
+  color: var(--color-secondary) !important;
+}
+
+/* Muted Typography */
+.turath-text-muted,
+.text-muted {
+  color: var(--color-muted) !important;
+}
+
+/* Links */
+a.turath-link,
+a.hover\:underline:not([role="dialog"] *):not([data-modal] *) {
+  color: var(--color-link);
+}
+a.turath-link:hover,
+a.hover\:underline:not([role="dialog"] *):not([data-modal] *):hover {
+  color: var(--color-link-hover);
+}
+
+/* Dynamic Configurable Buttons */
+.turath-btn-primary,
+button.turath-btn-primary,
+a.turath-btn-primary {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-btn-primary-bg) !important;
+  color: var(--color-btn-primary-text) !important;
+  border-color: var(--color-btn-primary-border) !important;
+  transition: all 0.2s ease;
+}
+.turath-btn-primary:hover,
+button.turath-btn-primary:hover,
+a.turath-btn-primary:hover {
+  background-color: var(--color-btn-primary-hover-bg) !important;
+  color: var(--color-btn-primary-hover-text) !important;
+  border-color: var(--color-btn-primary-hover-border) !important;
+}
+
+.turath-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--btn-primary-pattern-url, url('/turath_pattern_watermark.png'));
+  background-size: cover;
+  background-position: center;
+  opacity: var(--btn-primary-pattern-opacity, 0);
+  display: var(--btn-primary-pattern-display, none);
+  -webkit-mask-image: var(--btn-primary-pattern-mask, linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  mask-image: var(--btn-primary-pattern-mask, linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  z-index: 0;
+  border-radius: inherit;
+}
+.turath-btn-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+.turath-btn-secondary,
+button.turath-btn-secondary,
+a.turath-btn-secondary {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-btn-secondary-bg) !important;
+  color: var(--color-btn-secondary-text) !important;
+  border-color: var(--color-btn-secondary-border) !important;
+  transition: all 0.2s ease;
+}
+.turath-btn-secondary:hover,
+button.turath-btn-secondary:hover,
+a.turath-btn-secondary:hover {
+  background-color: var(--color-btn-secondary-hover-bg) !important;
+  color: var(--color-btn-secondary-hover-text) !important;
+  border-color: var(--color-btn-secondary-hover-border) !important;
+}
+
+.turath-btn-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--btn-secondary-pattern-url, url('/turath_pattern_watermark.png'));
+  background-size: cover;
+  background-position: center;
+  opacity: var(--btn-secondary-pattern-opacity, 0);
+  display: var(--btn-secondary-pattern-display, none);
+  -webkit-mask-image: var(--btn-secondary-pattern-mask, linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  mask-image: var(--btn-secondary-pattern-mask, linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  z-index: 0;
+  border-radius: inherit;
+}
+.turath-btn-secondary > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dynamic Configurable Photo Containers, Cards & Text Boxes */
+.turath-photo-container {
+  position: relative;
+  background-color: var(--photo-container-bg, #0a0a0d) !important;
+  border-color: var(--photo-container-border, rgba(212, 197, 157, 0.25)) !important;
+  border-width: 1px;
+  border-style: solid;
+  backdrop-filter: var(--photo-container-backdrop, none) !important;
+  -webkit-backdrop-filter: var(--photo-container-backdrop, none) !important;
+}
+
+.turath-photo-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--photo-container-pattern-url, var(--container-pattern-url, url('/turath_pattern_watermark.png')));
+  background-size: cover;
+  background-position: center;
+  opacity: var(--photo-container-pattern-opacity, var(--container-pattern-opacity, 0));
+  display: var(--photo-container-pattern-display, var(--container-pattern-display, none));
+  -webkit-mask-image: var(--photo-container-pattern-mask, var(--container-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%)));
+  mask-image: var(--photo-container-pattern-mask, var(--container-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%)));
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.turath-photo-container img,
+.turath-photo-container video {
+  position: relative;
+  z-index: 2;
+  background-color: var(--photo-bg, transparent);
+  opacity: var(--photo-opacity, 1);
+}
+
+.turath-card {
+  position: relative;
+  background-color: var(--card-bg, #070706) !important;
+  border-color: var(--card-border, rgba(212, 197, 157, 0.2)) !important;
+  backdrop-filter: var(--card-backdrop, none) !important;
+  -webkit-backdrop-filter: var(--card-backdrop, none) !important;
+}
+
+.turath-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--card-pattern-url, var(--container-pattern-url, url('/turath_pattern_watermark.png')));
+  background-size: cover;
+  background-position: center;
+  opacity: var(--card-pattern-opacity, var(--container-pattern-opacity, 0));
+  display: var(--card-pattern-display, var(--container-pattern-display, none));
+  -webkit-mask-image: var(--card-pattern-mask, var(--container-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%)));
+  mask-image: var(--card-pattern-mask, var(--container-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%)));
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Hero Section Pattern Overlay */
+.turath-hero-pattern-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--hero-pattern-url, url('/turath_pattern_watermark.png'));
+  background-size: cover;
+  background-position: center;
+  opacity: var(--hero-pattern-opacity, 0);
+  display: var(--hero-pattern-display, none);
+  -webkit-mask-image: var(--hero-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  mask-image: var(--hero-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  z-index: 10;
+}
+
+/* Our Handcrafted Products Section & Page Control */
+.turath-products-section {
+  position: relative;
+  background-color: var(--products-section-bg, #000000) !important;
+  border-color: var(--products-section-border, rgba(212, 197, 157, 0.3)) !important;
+  backdrop-filter: var(--products-section-backdrop, none) !important;
+  -webkit-backdrop-filter: var(--products-section-backdrop, none) !important;
+}
+
+.turath-products-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--products-pattern-url, url('/turath_pattern_watermark.png'));
+  background-size: cover;
+  background-position: center;
+  opacity: var(--products-pattern-opacity, 0);
+  display: var(--products-pattern-display, none);
+  -webkit-mask-image: var(--products-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  mask-image: var(--products-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.turath-products-page {
+  background-color: var(--products-page-bg, #000000) !important;
+}
+
+.turath-textbox {
+  position: relative;
+  background-color: var(--textbox-bg, rgba(12, 11, 14, 0.95)) !important;
+  border-color: var(--textbox-border, rgba(212, 197, 157, 0.25)) !important;
+}
+
+.turath-textbox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--textbox-gradient-photo-url, url('/turath_pattern_watermark.png'));
+  background-size: cover;
+  background-position: center;
+  opacity: var(--textbox-gradient-opacity, 0.06);
+  display: var(--textbox-gradient-photo-display, block);
+  -webkit-mask-image: var(--textbox-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  mask-image: var(--textbox-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Global Website Page Background Pattern Overlay */
+.turath-global-pattern-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--page-pattern-url, url('/turath_pattern_watermark.png'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: var(--page-pattern-attachment, fixed);
+  opacity: var(--page-pattern-opacity, 0);
+  display: var(--page-pattern-display, none);
+  -webkit-mask-image: var(--page-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  mask-image: var(--page-pattern-mask, linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 65%, transparent 100%));
+  z-index: 0;
 }
 
 @layer utilities {

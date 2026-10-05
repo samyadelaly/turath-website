@@ -22,11 +22,13 @@ import {
 } from 'lucide-react';
 import { ProductItem, ProductCategoryInfo } from './types';
 
-interface ProductSocialCardModalProps {
+export interface ProductSocialCardModalProps {
   isOpen: boolean;
   onClose: () => void;
-  product: ProductItem | null;
-  category?: ProductCategoryInfo;
+  product?: ProductItem | null;
+  category?: ProductCategoryInfo | null;
+  isCatalogue?: boolean;
+  activeImage?: string;
 }
 
 type CardRatio = '1:1' | '9:16' | '1.91:1';
@@ -37,6 +39,8 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
   onClose,
   product,
   category,
+  isCatalogue = false,
+  activeImage,
 }) => {
   const [ratio, setRatio] = useState<CardRatio>('1:1');
   const [theme, setTheme] = useState<CardTheme>('obsidian-gold');
@@ -53,20 +57,44 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
   const cardPreviewRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  if (!isOpen || !product) return null;
+  if (!isOpen) return null;
+  if (!product && !category && !isCatalogue) return null;
 
-  const rawImage = (product.images && product.images.find(img => typeof img === 'string' && img.trim().length > 0)) || product.mainImage || '';
+  const isCatMode = Boolean(isCatalogue || (!product && category));
+  const rawImage = (activeImage && activeImage.trim()) || (product
+    ? ((product.images && product.images.find(img => typeof img === 'string' && img.trim().length > 0)) || product.mainImage || '')
+    : (category?.coverImage || '/turath_craftsmanship_relief.jpg'));
   const cleanImage = rawImage.trim() || 'https://turath-egypt.vercel.app/turath_logo.jpg';
   const siteUrl = 'https://turath-egypt.vercel.app';
-  const categorySlug = product.categoryId || (category ? category.id : 'products');
-  const productSlug = product.seoSlug || product.id;
-  const directProductUrl = `${siteUrl}/products/${categorySlug}/${productSlug}`;
-  const shareCardUrl = `${siteUrl}/share/${productSlug}`;
+  const categorySlug = product?.categoryId || (category ? category.id : 'products');
+  const productSlug = product ? (product.seoSlug || product.id) : '';
+  const directProductUrl = product 
+    ? `${siteUrl}/products/${categorySlug}/${productSlug}`
+    : category
+      ? `${siteUrl}/products/${category.id}`
+      : `${siteUrl}/products`;
+  const shareCardUrl = product ? `${siteUrl}/share/${productSlug}` : directProductUrl;
 
-  const displayNameEN = product.nameEN || product.name || 'TURATH Handcrafted Brass';
-  const displayNameAR = product.nameAR || product.name || 'تحفة نحاسية يدوية';
-  const displaySku = product.sku || product.id || 'TR-EGY';
-  const categoryName = category?.name || product.categoryId || 'Luxury Brass Collection';
+  const displayNameEN = product
+    ? (product.nameEN || product.name || 'TURATH Handcrafted Brass')
+    : category
+      ? `${category.name} Collection`
+      : 'Handcrafted Egyptian Brass Catalogue';
+  const displayNameAR = product
+    ? (product.nameAR || product.name || 'تحفة نحاسية يدوية')
+    : category
+      ? `مجموعة ${category.nameArabic || category.name}`
+      : 'كتالوج المشغولات والتحف النحاسية المصرية';
+  const displaySku = product
+    ? (product.sku || product.id || 'TR-EGY')
+    : category
+      ? `COLLECTION • ${category.id.toUpperCase()}`
+      : 'CATALOGUE 2026';
+  const categoryName = product
+    ? (category?.name || product.categoryId || 'Luxury Brass Collection')
+    : category
+      ? category.name
+      : 'ARCHITECTURAL MASTERWORKS';
 
   // Handle URL Copy
   const handleCopyLink = () => {
@@ -151,13 +179,15 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
 
     ctx.fillStyle = '#9e9174';
     ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('HISTORIC CAIRO HANDCRAFTED BRASS & COPPER', width / 2, 128);
+    ctx.fillText(isCatMode ? 'OFFICIAL ARCHITECTURAL CATALOGUE • CAIRO' : 'HISTORIC CAIRO HANDCRAFTED BRASS & COPPER', width / 2, 128);
 
     // Load Product Image
     try {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
-      await new Promise<void>((resolve, reject) => {
+      if (cleanImage.startsWith('http://') || cleanImage.startsWith('https://')) {
+        img.crossOrigin = 'anonymous';
+      }
+      await new Promise<void>((resolve) => {
         img.onload = () => resolve();
         img.onerror = () => resolve(); // continue even if cors fails
         img.src = cleanImage;
@@ -185,7 +215,11 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
         ctx.beginPath();
         ctx.rect(photoX, photoY, photoW, photoH);
         ctx.clip();
-        ctx.drawImage(img, 0, 0, img.width, img.height, photoX + centerShiftX, photoY + centerShiftY, img.width * coverRatio, img.height * coverRatio);
+        try {
+          ctx.drawImage(img, 0, 0, img.width, img.height, photoX + centerShiftX, photoY + centerShiftY, img.width * coverRatio, img.height * coverRatio);
+        } catch (drawErr) {
+          console.warn('Canvas draw image warning:', drawErr);
+        }
         ctx.restore();
 
         ctx.strokeStyle = '#d4c59d';
@@ -222,16 +256,23 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
     // Product SKU / Model Code
     ctx.fillStyle = '#d4c59d';
     ctx.font = 'bold 20px "Courier New", monospace';
-    ctx.fillText(`PRODUCT ID: ${displaySku}`, width / 2, nextOffset);
+    ctx.fillText(isCatMode ? displaySku : `PRODUCT ID: ${displaySku}`, width / 2, nextOffset);
     nextOffset += 45;
 
-    // Specs Line (Dimensions & Finish)
-    if (includeSpecs && product.dimensions) {
+    // Specs Line (Dimensions & Finish or Catalogue Overview)
+    if (includeSpecs) {
       ctx.fillStyle = '#9e9174';
       ctx.font = '18px "Plus Jakarta Sans", sans-serif';
-      const finishText = product.finishOptions && product.finishOptions[0] ? ` • Finish: ${product.finishOptions[0]}` : '';
-      ctx.fillText(`Dimensions: ${product.dimensions}${finishText}`, width / 2, nextOffset);
-      nextOffset += 45;
+      if (product && product.dimensions) {
+        const finishText = product.finishOptions && product.finishOptions[0] ? ` • Finish: ${product.finishOptions[0]}` : '';
+        ctx.fillText(`Dimensions: ${product.dimensions}${finishText}`, width / 2, nextOffset);
+        nextOffset += 45;
+      } else {
+        const infoText = category?.description || 'Authentic Solid Egyptian Yellow Brass & Red Copper Masterworks';
+        const displayInfo = infoText.length > 65 ? infoText.substring(0, 62) + '...' : infoText;
+        ctx.fillText(displayInfo, width / 2, nextOffset);
+        nextOffset += 45;
+      }
     }
 
     // Heritage Guarantee Badge
@@ -351,13 +392,13 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
               </div>
               <div>
                 <h3 className="font-serif-luxury text-base sm:text-lg font-bold text-[#f5f0e6] flex items-center gap-2">
-                  <span>Social Media Product Card</span>
+                  <span>{isCatMode ? 'Social Media Catalogue Card' : 'Social Media Product Card'}</span>
                   <span className="text-xs px-2 py-0.5 rounded bg-[#d4c59d]/20 text-[#d4c59d] font-sans font-semibold">
-                    بطاقة مشاركة
+                    {isCatMode ? 'بطاقة الكتالوج' : 'بطاقة مشاركة'}
                   </span>
                 </h3>
                 <p className="text-xs text-[#9e9174]">
-                  Generate and share a luxury branded card for Instagram, Facebook, WhatsApp, or Twitter
+                  {isCatMode ? 'Generate and share a luxury branded card for the Turath catalogue and collections' : 'Generate and share a luxury branded card for Instagram, Facebook, WhatsApp, or Twitter'}
                 </p>
               </div>
             </div>
@@ -433,9 +474,13 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
                     </div>
                   )}
 
-                  {includeSpecs && product.dimensions && (
+                  {includeSpecs && (
                     <div className="text-[10px] text-[#9e9174] font-medium">
-                      Dimensions: {product.dimensions}
+                      {product?.dimensions 
+                        ? `Dimensions: ${product.dimensions}`
+                        : category?.description 
+                          ? (category.description.length > 55 ? category.description.substring(0, 52) + '...' : category.description)
+                          : 'Solid Egyptian Brass & Copper Masterworks'}
                     </div>
                   )}
 
@@ -609,7 +654,7 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
                     onClick={handleCopyCardImage}
                     className="py-2.5 px-3 rounded-lg bg-[#16161c] border border-[#d4c59d]/40 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
                   >
-                    {copyImageSuccess ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-[#d4c59d]" />}
+                    {copyImageSuccess ? <Check className="w-4 h-4 text-[#d4c59d]" /> : <Copy className="w-4 h-4 text-[#d4c59d]" />}
                     <span>{copyImageSuccess ? 'Card Copied!' : 'Copy Card Image'}</span>
                   </button>
 
@@ -633,13 +678,13 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
                 <div className="grid grid-cols-4 gap-2">
                   {/* WhatsApp */}
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`${displayNameEN} | TURATH Handcrafted Egyptian Brass\nProduct ID: ${displaySku}\n\n${shareCardUrl || directProductUrl}`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(`${displayNameEN} | TURATH Handcrafted Egyptian Brass\n${isCatMode ? displaySku : `Product ID: ${displaySku}`}\n\n${shareCardUrl || directProductUrl}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#25D366] hover:text-white transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1"
+                    className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1"
                     title="Share to WhatsApp"
                   >
-                    <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                    <MessageCircle className="w-4 h-4 text-[#d4c59d]" />
                     <span>WhatsApp</span>
                   </a>
 
@@ -648,22 +693,22 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareCardUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#1877F2] hover:text-white transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1"
+                    className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1"
                     title="Share to Facebook"
                   >
-                    <Facebook className="w-4 h-4 text-[#1877F2]" />
+                    <Facebook className="w-4 h-4 text-[#d4c59d]" />
                     <span>Facebook</span>
                   </a>
 
                   {/* Twitter / X */}
                   <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${displayNameEN} — Handcrafted Egyptian Brass by TURATH Egypt\nProduct ID: ${displaySku}`)}&url=${encodeURIComponent(shareCardUrl)}&hashtags=TurathEgypt,EgyptianBrass,Handcrafted`}
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${displayNameEN} — Handcrafted Egyptian Brass by TURATH Egypt\n${isCatMode ? displaySku : `Product ID: ${displaySku}`}`)}&url=${encodeURIComponent(shareCardUrl)}&hashtags=TurathEgypt,EgyptianBrass,Handcrafted`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-white hover:text-black transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1"
+                    className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1"
                     title="Share to X / Twitter"
                   >
-                    <Twitter className="w-4 h-4 text-[#1DA1F2]" />
+                    <Twitter className="w-4 h-4 text-[#d4c59d]" />
                     <span>X / Twitter</span>
                   </a>
 
@@ -674,7 +719,7 @@ export const ProductSocialCardModal: React.FC<ProductSocialCardModalProps> = ({
                     className="py-2 px-1 rounded-lg bg-[#121216] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex flex-col items-center justify-center gap-1 cursor-pointer"
                     title="Copy direct share link"
                   >
-                    {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-[#d4c59d]" />}
+                    {isCopied ? <Check className="w-4 h-4 text-[#d4c59d]" /> : <Copy className="w-4 h-4 text-[#d4c59d]" />}
                     <span>{isCopied ? 'Copied' : 'Copy Link'}</span>
                   </button>
                 </div>

@@ -620,8 +620,8 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       fullDescriptionAR: fullDescAR.trim() || undefined,
       story: story.trim() || undefined,
       mediaType,
-      mainImage: allImages[0] || '/turath_logo.jpg',
-      images: allImages.length > 0 ? allImages : ['/turath_logo.jpg'],
+      mainImage: allImages[0] || '',
+      images: allImages,
       galleryImages: allImages.slice(1),
       imageRatio,
       customRatioWidth: Number(customRatioWidth) || 5,
@@ -774,7 +774,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-1 px-6 pt-3 bg-[#0e0e13] border-b border-[#d4c59d]/20 overflow-x-auto text-xs">
+        <div className="flex flex-wrap items-center gap-1.5 px-4 sm:px-6 py-2.5 bg-[#0e0e13] border-b border-[#d4c59d]/20 text-xs font-semibold">
           {[
             { id: 'info', label: '1. Basic Info & Names' },
             { id: 'images', label: '2. Media (Images & Videos)' },
@@ -788,10 +788,10 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id as any)}
-              className={`px-3.5 py-2 font-semibold uppercase tracking-wider whitespace-nowrap transition-colors border-b-2 ${
+              className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors cursor-pointer ${
                 activeTab === tab.id
-                  ? 'border-[#d4c59d] text-[#d4c59d] bg-[#1a1a24]/50'
-                  : 'border-transparent text-[#9e9174] hover:text-[#f5ebd7]'
+                  ? 'bg-[#d4c59d] text-black font-bold shadow'
+                  : 'bg-[#14141c] text-[#9e9174] hover:text-[#f5ebd7] hover:bg-[#1f1f2a] border border-white/5'
               }`}
             >
               {tab.label}
@@ -2140,7 +2140,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
               <div className="pt-4 border-t border-[#d4c59d]/20 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-[#d4c59d] uppercase tracking-wider block flex items-center gap-1.5">
-                    <MessageCircle className="w-4 h-4 text-green-500" />
+                    <MessageCircle className="w-4 h-4 text-[#d4c59d]" />
                     <span>Product-Specific WhatsApp Inquiry Message</span>
                   </span>
                   <button

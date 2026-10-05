@@ -1,3 +1,5 @@
+import { ThemeSettings, DEFAULT_THEME_SETTINGS } from './themeSettings';
+
 export type MenuItemId = 'home' | 'about' | 'founder' | 'products' | 'projects' | 'clients-partners' | 'custom' | 'why-us' | 'contact';
 
 export interface MenuItemDefinition {
@@ -40,6 +42,11 @@ export interface SiteContent {
   heroSubDescription: string;
   heroExploreButtonText: string;
   heroCustomButtonText: string;
+  heroVideoUrl?: string;
+  heroVideoFit?: 'cover' | 'contain';
+  heroVideoRatio?: 'Auto' | '16:9' | '4:3' | '3:4' | '1:1' | 'Custom' | string;
+  heroVideoCustomRatio?: string;
+  heroVideoOpacity?: number;
 
   // 4 Heritage Highlights (Cards under Hero)
   metric1Title: string;
@@ -105,13 +112,18 @@ export interface SiteContent {
 
   // Structured component helpers (derived or custom)
   hero?: {
-    badge: string;
-    headlinePart1: string;
-    headlineGold: string;
-    description: string;
-    subDescription: string;
-    phone: string;
-    whatsapp: string;
+    badge?: string;
+    headlinePart1?: string;
+    headlineGold?: string;
+    description?: string;
+    subDescription?: string;
+    phone?: string;
+    whatsapp?: string;
+    videoUrl?: string;
+    videoFit?: 'cover' | 'contain';
+    videoRatio?: 'Auto' | '16:9' | '4:3' | '3:4' | '1:1' | 'Custom' | string;
+    videoCustomRatio?: string;
+    videoOpacity?: number;
   };
   about?: {
     title: string;
@@ -137,6 +149,181 @@ export interface SiteContent {
     facebook?: string;
     instagram?: string;
   };
+
+  // Content Visibility and Control System
+  visibility?: ContentVisibility;
+
+  // Craft Story Section
+  craftSectionBadge?: string;
+  craftSectionTitleLine1?: string;
+  craftSectionTitleGold?: string;
+  craftSectionSubtitleAr?: string;
+  craftSectionVideoUrl?: string;
+  craftSectionQuote?: string;
+
+  // Material Story Section
+  materialsSectionBadge?: string;
+  materialsSectionTitle?: string;
+  materialsSectionSubtitle?: string;
+  materialsSectionSubtitleAr?: string;
+
+  // Products Section on Home
+  productsSectionTitle?: string;
+  productsSectionSubtitle?: string;
+  productsSectionButtonText?: string;
+
+  // Projects Section on Home
+  projectsSectionBadge?: string;
+  projectsSectionTitle?: string;
+  projectsSectionTitleGold?: string;
+  projectsSectionSubtitleAr?: string;
+  projectsSectionDesc?: string;
+  projectsSectionButtonText?: string;
+
+  // Clients & Partners Section on Home
+  clientsSectionTitle?: string;
+  clientsSectionSubtitleAr?: string;
+  clientsSectionSubtitleEn?: string;
+  clientsSectionButtonText?: string;
+
+  // Custom Manufacturing Section
+  customSectionTitle?: string;
+  customSectionDesc?: string;
+  customSectionButtonText?: string;
+
+  // Final Brand Statement Section
+  finalStatementTitle?: string;
+  finalStatementQuote?: string;
+
+  // Global Theme, Colors & Button Customization
+  theme?: import('./themeSettings').ThemeSettings;
+}
+
+export interface ContentVisibility {
+  sections?: Record<string, boolean>;
+  elements?: Record<string, boolean>;
+}
+
+export const DEFAULT_CONTENT_VISIBILITY: ContentVisibility = {
+  sections: {
+    hero: true,
+    craftStory: true,
+    materialStory: true,
+    products: true,
+    projects: false,
+    clientsPartners: true,
+    about: true,
+    founder: true,
+    customFabrication: true,
+    whyUs: true,
+    contact: true,
+    finalBrandStatement: false,
+  },
+  elements: {
+    // Hero Section: AI icons & small fluff titles removed by default, main title bold & prominent
+    heroLogo: true,
+    heroBadge: false,
+    heroAiIcons: false,
+    heroTitle: true,
+    heroDescription: true,
+    heroSubDescription: true,
+    heroExploreBtn: true,
+    heroCustomBtn: true,
+    heroVideo: true,
+    heroRunningHeader: true,
+    heroMetrics: true,
+
+    // Craft Story Section
+    craftBadge: false,
+    craftAiIcons: false,
+    craftTitle: true,
+    craftSubtitleAr: true,
+    craftVideo: true,
+    craftCaption: true,
+    craftPillars: true,
+
+    // Material Story Section
+    materialsBadge: false,
+    materialsTitle: true,
+    materialsSubtitle: true,
+    materialsCards: true,
+
+    // Products Overview Section
+    productsTitle: true,
+    productsSubtitle: true,
+    productsAllBtn: true,
+    productsGrid: true,
+
+    // Projects Overview Section
+    projectsBadge: false,
+    projectsAiIcons: false,
+    projectsTitle: true,
+    projectsSubtitleAr: true,
+    projectsDescription: true,
+    projectsAllBtn: true,
+    projectsPoints: true,
+    projectsGrid: true,
+
+    // Clients & Partners Section
+    clientsTitle: true,
+    clientsSubtitleAr: true,
+    clientsSubtitleEn: true,
+    clientsAllBtn: true,
+    clientsGrid: true,
+
+    // About Section
+    aboutBadge: false,
+    aboutTitle: true,
+    aboutParagraphs: true,
+    aboutImage: true,
+
+    // Founder Section
+    founderBadge: false,
+    founderName: true,
+    founderRole: true,
+    founderTitle: true,
+    founderParagraphs: true,
+    founderQuote: true,
+    founderImage: true,
+
+    // Custom Fabrication Section
+    customTitle: true,
+    customDescription: true,
+    customButton: true,
+
+    // Why Us Section
+    whyUsBadge: false,
+    whyUsTitle: true,
+    whyUsSubtitle: true,
+    whyUsCards: true,
+
+    // Contact Section
+    contactBadge: false,
+    contactTitle: true,
+    contactSubtitle: true,
+    contactInfo: true,
+    contactForm: true,
+
+    // Final Statement
+    finalStatementTitle: true,
+    finalStatementQuote: true,
+  },
+};
+
+export function isSectionVisible(content?: SiteContent, sectionKey?: string): boolean {
+  if (!sectionKey) return true;
+  if (!content?.visibility?.sections) return true;
+  return content.visibility.sections[sectionKey] !== false;
+}
+
+export function isElementVisible(content?: SiteContent, elementKey?: string): boolean {
+  if (!elementKey) return true;
+  if (content?.visibility?.elements && content.visibility.elements[elementKey] !== undefined) {
+    return content.visibility.elements[elementKey] !== false;
+  }
+  // Fallback to default visibility rules
+  const defaultVal = DEFAULT_CONTENT_VISIBILITY.elements?.[elementKey];
+  return defaultVal !== undefined ? defaultVal !== false : true;
 }
 
 export const DEFAULT_ABOUT_IMAGE = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80';
@@ -197,6 +384,11 @@ export const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'wh
     'صناعة وتصدير أفخر المشغولات النحاسية والديكورية (النحاس الأصفر والنحاس الأحمر) بأيدي أمهر الحرفيين في الجمالية، القاهرة بمواصفات معمارية عالمية.',
   heroExploreButtonText: 'Explore Handcrafted Collections',
   heroCustomButtonText: 'Custom Manufacturing',
+  heroVideoUrl: 'https://rpyzvhetoviqpjvncqfy.supabase.co/storage/v1/object/public/product-videos/categories/cat-brass-and-copper-wall-art-1539/video_1790641313966.mp4',
+  heroVideoFit: 'cover',
+  heroVideoRatio: 'Auto',
+  heroVideoCustomRatio: '',
+  heroVideoOpacity: 85,
 
   // 4 Cards
   metric1Title: 'Gamaliya Heritage',
@@ -261,6 +453,51 @@ export const DEFAULT_BASE_SITE_CONTENT: Omit<SiteContent, 'hero' | 'about' | 'wh
   contactHours: 'Saturday – Thursday: 9:00 AM – 7:00 PM (GMT+2)',
   contactFacebook: 'https://www.facebook.com/Egyptian.Turath',
   contactInstagram: 'https://www.instagram.com/turath_egypt',
+
+  // Craft Story Section
+  craftSectionBadge: 'THE CRAFT • صِيَاغَةٌ يَدَوِيَّةٌ • EST. CAIRO',
+  craftSectionTitleLine1: 'Born in Historic Cairo.',
+  craftSectionTitleGold: 'Forged by Generational Hands.',
+  craftSectionSubtitleAr: 'صناعة وتصدير أفخر المشغولات النحاسية والديكورية بأيدي أمهر الحرفيين في الجمالية بمواصفات معمارية عالمية',
+  craftSectionVideoUrl: 'https://rpyzvhetoviqpjvncqfy.supabase.co/storage/v1/object/public/product-videos/categories/cat-brass-and-copper-wall-art-1539/video_1790641313966.mp4',
+  craftSectionQuote: '“Every curve, cut, and hammered nuance honors our Fatimid and Mamluk heritage.”',
+
+  // Material Story Section
+  materialsSectionBadge: 'NOBLE MATERIALS • خاماتٌ أَصِيلَةٌ',
+  materialsSectionTitle: 'Yellow Brass & Red Copper',
+  materialsSectionSubtitle: 'Pure Egyptian Alloys',
+  materialsSectionSubtitleAr: 'الأصالة في أدق التفاصيل • خامات نقية ومعادن معمارية صلبة',
+
+  // Products Section on Home
+  productsSectionTitle: 'Our Handcrafted Products',
+  productsSectionSubtitle: 'Select any category below to browse photos, watch crafting videos, and request custom specifications.',
+  productsSectionButtonText: 'View All Categories',
+
+  // Projects Section on Home
+  projectsSectionBadge: 'ARCHITECTURAL COMMISSIONS • أَعْمَالٌ مِعْمَارِيَّةٌ • CASE STUDIES',
+  projectsSectionTitle: 'Monumental Works',
+  projectsSectionTitleGold: 'and Architectural Case Studies',
+  projectsSectionSubtitleAr: 'تحف معمارية وهندسية فاخرة صُنعت خصيصاً لأرقى الفنادق والقصور والمشاريع الكبرى',
+  projectsSectionDesc: 'Monumental chandeliers, hand-hammered wall panels, and bespoke brass architectural installations executed for presidential suites, royal majlis, luxury hotels, and private estates.',
+  projectsSectionButtonText: 'View All Projects',
+
+  // Clients & Partners Section on Home
+  clientsSectionTitle: 'Our Clients & Partners',
+  clientsSectionSubtitleAr: 'شركاء النجاح وكبار العملاء الذين يقدّرون الدقة وأصالة الحرفة النحاسية المصرية',
+  clientsSectionSubtitleEn: 'Trusted by clients and partners who value Egyptian craftsmanship, precision, and distinctive metalwork.',
+  clientsSectionButtonText: 'View All Clients & Partners',
+
+  // Custom Manufacturing Section
+  customSectionTitle: 'Custom Manufacturing',
+  customSectionDesc: 'Turath specializes in custom manufacturing. Simply share your drawing, inspiration, or dimensions, and our craftsmen will transform your vision into a beautiful handcrafted product.',
+  customSectionButtonText: 'Discuss Your Custom Project',
+
+  // Final Brand Statement Section
+  finalStatementTitle: 'Handcrafted in Egypt. Engineered for Eternity.',
+  finalStatementQuote: '“We do not simply shape metal; we breathe life, history, and light into every hand-pierced pattern.”',
+
+  // Content Visibility System
+  visibility: DEFAULT_CONTENT_VISIBILITY,
 };
 
 export function ensureSiteContentSections(data?: Partial<SiteContent> | null): SiteContent {
@@ -385,9 +622,15 @@ export function ensureSiteContentSections(data?: Partial<SiteContent> | null): S
     rawContact.address = CURRENT_OFFICIAL_ADDRESS;
   }
 
+  const resolvedVideoUrl = safeData.heroVideoUrl !== undefined 
+    ? safeData.heroVideoUrl 
+    : (safeData.hero?.videoUrl !== undefined ? safeData.hero.videoUrl : (merged.heroVideoUrl ?? ''));
+
   return {
     ...merged,
+    heroVideoUrl: resolvedVideoUrl,
     hero: {
+      ...(safeData.hero || {}),
       badge: merged.heroBadge || '',
       headlinePart1: merged.heroTitleLine1 || 'Handcrafted Brass & Copper Excellence',
       headlineGold: merged.heroTitleHighlight || 'from Egypt',
@@ -395,7 +638,11 @@ export function ensureSiteContentSections(data?: Partial<SiteContent> | null): S
       subDescription: merged.heroSubDescription || '',
       phone: merged.topPhone || '002 01016771010',
       whatsapp: merged.topWhatsApp || '+20 101 677 1010',
-      ...(safeData.hero || {}),
+      videoUrl: resolvedVideoUrl,
+      videoFit: safeData.heroVideoFit || safeData.hero?.videoFit || merged.heroVideoFit || 'cover',
+      videoRatio: safeData.heroVideoRatio || safeData.hero?.videoRatio || merged.heroVideoRatio || 'Auto',
+      videoCustomRatio: safeData.heroVideoCustomRatio ?? safeData.hero?.videoCustomRatio ?? merged.heroVideoCustomRatio ?? '',
+      videoOpacity: safeData.heroVideoOpacity !== undefined ? safeData.heroVideoOpacity : (safeData.hero?.videoOpacity !== undefined ? safeData.hero.videoOpacity : (merged.heroVideoOpacity ?? 85)),
     },
     about: {
       title: merged.aboutTitle || 'About Turath',
@@ -423,6 +670,26 @@ export function ensureSiteContentSections(data?: Partial<SiteContent> | null): S
       ...rawContact,
       facebook: resolvedFacebook,
       instagram: resolvedInstagram,
+    },
+    theme: {
+      primaryButton: { ...DEFAULT_THEME_SETTINGS.primaryButton, ...(safeData.theme?.primaryButton || {}) },
+      secondaryButton: { ...DEFAULT_THEME_SETTINGS.secondaryButton, ...(safeData.theme?.secondaryButton || {}) },
+      containers: { ...DEFAULT_THEME_SETTINGS.containers!, ...(safeData.theme?.containers || {}) },
+      textBoxes: { ...DEFAULT_THEME_SETTINGS.textBoxes!, ...(safeData.theme?.textBoxes || {}) },
+      productsPage: { ...DEFAULT_THEME_SETTINGS.productsPage!, ...(safeData.theme?.productsPage || {}) },
+      text: { ...DEFAULT_THEME_SETTINGS.text, ...(safeData.theme?.text || {}) },
+      hero: { ...DEFAULT_THEME_SETTINGS.hero, ...(safeData.theme?.hero || {}) },
+      updatedAt: safeData.theme?.updatedAt,
+    },
+    visibility: {
+      sections: {
+        ...DEFAULT_CONTENT_VISIBILITY.sections,
+        ...(safeData.visibility?.sections || {}),
+      },
+      elements: {
+        ...DEFAULT_CONTENT_VISIBILITY.elements,
+        ...(safeData.visibility?.elements || {}),
+      },
     },
   };
 }

@@ -563,7 +563,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {onOpenChangeLogo && (
                   <button
                     onClick={onOpenChangeLogo}
-                    className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                    className="turath-btn-primary inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-colors cursor-pointer border"
                     title="Replace website logo with your original file"
                   >
                     <Camera className="w-3.5 h-3.5" />
@@ -575,7 +575,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {onOpenClientsPartnersManager && (
                   <button
                     onClick={onOpenClientsPartnersManager}
-                    className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d]/80 text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all cursor-pointer font-arabic"
+                    className="turath-btn-secondary inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all cursor-pointer font-arabic border"
                     title="إدارة شركاء النجاح والعملاء (Manage Clients & Partners)"
                   >
                     <span>الشركاء والعملاء</span>
@@ -585,7 +585,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {/* Direct Add/Edit Product Photos & Videos Button */}
                 <button
                   onClick={() => onOpenProductEditor(selectedCategory || undefined)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all"
+                  className="turath-btn-primary inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all cursor-pointer border"
                   title="Add or edit product photos, videos, and specifications"
                 >
                   <PlusCircle className="w-3.5 h-3.5" />
@@ -596,7 +596,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {onOpenDownloadZip && (
                   <button
                     onClick={onOpenDownloadZip}
-                    className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d]/80 text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all cursor-pointer"
+                    className="turath-btn-secondary inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all cursor-pointer border"
                     title="تحميل كافة ملفات الموقع ZIP"
                   >
                     <Download className="w-3.5 h-3.5" />
@@ -624,7 +624,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 href={sanitizeFacebookUrl(contact.facebook || activeContent.contactFacebook)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors shadow-sm flex items-center justify-center"
+                className="turath-btn-primary p-2 rounded-md transition-colors shadow-sm flex items-center justify-center border"
                 title="Facebook - Turath"
                 aria-label="Facebook Turath"
               >
@@ -634,7 +634,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 href={sanitizeInstagramUrl(contact.instagram || activeContent.contactInstagram)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors shadow-sm flex items-center justify-center"
+                className="turath-btn-primary p-2 rounded-md transition-colors shadow-sm flex items-center justify-center border"
                 title="Instagram - Turath"
                 aria-label="Instagram Turath"
               >
@@ -645,7 +645,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Solid Logo Gold Request Quote button */}
             <button
               onClick={() => handleNavClick('contact')}
-              className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] active:scale-95 transition-all shadow"
+              className="turath-btn-primary px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md active:scale-95 transition-all shadow cursor-pointer border"
             >
               Request Quote
             </button>

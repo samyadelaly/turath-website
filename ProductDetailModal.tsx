@@ -314,7 +314,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               return (
                 <div 
-                  className="relative w-full mx-auto rounded-xl overflow-hidden bg-[#000000] border border-[#d4c59d]/40 flex items-center justify-center shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300"
+                  className="turath-photo-container relative w-full mx-auto rounded-xl overflow-hidden flex items-center justify-center shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300"
                   style={{ 
                     maxWidth: maxWidthStyle,
                     aspectRatio: activeAspect.isOriginal ? undefined : activeAspect.aspectRatioCss,
@@ -351,7 +351,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       customHeight={customRatioH}
                       fit={activeMediaFit}
                       position={activeMediaPosition}
-                      containerClassName="w-full h-full bg-[#000000]"
+                      containerClassName="w-full h-full"
                     />
                   )}
 
@@ -426,13 +426,33 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {/* RIGHT: Product Specs & Inquiry */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
+              <div className="flex items-center gap-2 flex-wrap mb-2">
+                <span className="px-2.5 py-1 rounded bg-[#d4c59d]/20 text-[#d4c59d] text-xs font-bold uppercase tracking-wider border border-[#d4c59d]/30">
+                  {category?.name || 'Handcrafted Brass'}
+                </span>
+                <span className="px-2.5 py-1 rounded bg-[#141418] text-[#d4c59d] text-xs font-mono border border-[#d4c59d]/20">
+                  {product.sku || product.id}
+                </span>
+                {product.availability && (
+                  <span className="px-2.5 py-1 rounded bg-[#d4c59d]/15 text-[#d4c59d] text-xs font-bold uppercase tracking-wider border border-[#d4c59d]/40">
+                    {product.availability === 'in_stock' ? 'In Stock' : product.availability === 'custom_only' ? 'Custom Fabrication' : 'Made to Order'}
+                  </span>
+                )}
+              </div>
               <div>
                 <h1 className="font-serif-luxury text-2xl sm:text-3xl font-bold text-[#f5f0e6] leading-tight">
                   {product.name}
                 </h1>
-                <p className="text-sm text-[#d4c59d] mt-1 font-medium italic">
-                  "{product.tagline}"
-                </p>
+                {product.nameAR && (
+                  <h2 className="font-arabic text-xl text-[#d4c59d] font-bold mt-1">
+                    {product.nameAR}
+                  </h2>
+                )}
+                {product.tagline && (
+                  <p className="text-sm text-[#d4c59d] mt-1 font-medium italic">
+                    "{product.tagline}"
+                  </p>
+                )}
               </div>
 
               {/* Description */}
@@ -464,8 +484,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </div>
               )}
 
-              {/* Technical Specifications Grid in solid black and gold */}
-              <div className="bg-[#000000] p-4 rounded-xl border border-[#d4c59d]/40 space-y-2.5 text-xs">
+              {/* Technical Specifications Grid */}
+              <div className="turath-textbox p-4 rounded-xl border border-[#d4c59d]/40 space-y-2.5 text-xs overflow-hidden">
                 <div className="flex items-start gap-2.5">
                   <Ruler className="w-4 h-4 text-[#d4c59d] flex-shrink-0 mt-0.5" />
                   <div>
@@ -517,9 +537,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   onSelectForInquiry(product);
                   onClose();
                 }}
-                className="gold-shimmer-hover w-full py-3.5 px-4 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] active:scale-[0.99] transition-all shadow flex items-center justify-center gap-2 cursor-pointer"
+                className="gold-shimmer-hover turath-btn-primary w-full py-3.5 px-4 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-md active:scale-[0.99] transition-all shadow flex items-center justify-center gap-2 cursor-pointer border"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4 text-current" />
                 <span>Request Quotation for this Piece</span>
               </button>
 
@@ -535,9 +555,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     category: category?.name || product.categoryId,
                   });
                 }}
-                className="gold-shimmer-hover w-full py-3 px-4 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2"
+                className="gold-shimmer-hover turath-btn-secondary w-full py-3 px-4 text-xs font-bold uppercase tracking-wider rounded-md transition-colors flex items-center justify-center gap-2 border"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4 text-current" />
                 <span>Inquire on WhatsApp (+20 01016771010)</span>
               </a>
 
@@ -546,10 +566,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsSocialCardOpen(true)}
-                  className="w-full py-2 px-3 rounded-lg bg-[#d4c59d] text-black hover:bg-[#e6d8b5] transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow cursor-pointer font-arabic"
+                  className="turath-btn-primary w-full py-2 px-3 rounded-lg transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow cursor-pointer font-arabic border"
                   title="Generate luxury branded card for Instagram, Facebook, and WhatsApp"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-black" />
+                  <Sparkles className="w-3.5 h-3.5 text-current" />
                   <span>بطاقة السوشيال ميديا للمنتج (Social Media Card)</span>
                 </button>
 
@@ -569,7 +589,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5"
                     title="Share with photo preview to WhatsApp"
                   >
-                    <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+                    <MessageCircle className="w-3.5 h-3.5 text-[#d4c59d]" />
                     <span>WhatsApp</span>
                   </a>
 
@@ -580,7 +600,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5"
                     title="Share to Facebook with photo preview"
                   >
-                    <Facebook className="w-3.5 h-3.5 text-[#1877F2]" />
+                    <Facebook className="w-3.5 h-3.5 text-[#d4c59d]" />
                     <span>Facebook</span>
                   </a>
 
@@ -595,7 +615,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     className="px-2 py-1.5 rounded-lg bg-[#11100c] border border-[#d4c59d]/30 text-[#f5f0e6] hover:bg-[#d4c59d] hover:text-black transition-all text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
                     title="Copy direct share link with photo preview"
                   >
-                    {isCopied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-[#d4c59d]" />}
+                    {isCopied ? <Check className="w-3.5 h-3.5 text-[#d4c59d]" /> : <Copy className="w-3.5 h-3.5 text-[#d4c59d]" />}
                     <span>{isCopied ? 'Copied!' : 'Copy Link'}</span>
                   </button>
 
@@ -624,6 +644,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         isOpen={isSocialCardOpen}
         onClose={() => setIsSocialCardOpen(false)}
         product={product}
+        activeImage={mainImageSrc}
       />
     </motion.div>
   );

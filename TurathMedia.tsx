@@ -371,7 +371,7 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`turath-media-container relative w-full overflow-hidden bg-[#0c0c10] flex items-center justify-center transition-all ${containerClassName} ${className}`}
+      className={`turath-media-container turath-photo-container relative w-full overflow-hidden flex items-center justify-center transition-all ${containerClassName} ${className}`}
       style={containerAspectStyle}
       onClick={onClick}
     >
@@ -392,7 +392,7 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
               </button>
             </div>
           ) : (
-            <div className="relative w-full h-full flex items-center justify-center bg-black group/turath-video">
+            <div className="relative w-full h-full flex items-center justify-center bg-transparent group/turath-video">
               {videoEmbed.type === 'html5' ? (
                 <video
                   ref={videoRef}
@@ -429,6 +429,8 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
                   style={{
                     objectFit: finalRatio.objectFit,
                     objectPosition: finalRatio.objectPosition,
+                    backgroundColor: 'var(--photo-bg, transparent)',
+                    opacity: 'var(--photo-opacity, 1)',
                     ...mediaStyle,
                   }}
                 />
@@ -456,7 +458,7 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
             </div>
           )
         ) : (
-          <div className="w-full h-full min-h-[200px] flex flex-col items-center justify-center p-6 text-center bg-[#0a0a0f]">
+          <div className="w-full h-full min-h-[200px] flex flex-col items-center justify-center p-6 text-center bg-transparent">
             <Film className="w-10 h-10 text-[#d4c59d]/40 mb-2" />
             <p className="text-xs text-[#9e9174]">No video available for this piece</p>
           </div>
@@ -464,7 +466,7 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
       ) : (
         // IMAGE RENDERING
         (!src && !fallbackSrc) || imageError ? (
-          <div className="w-full h-full min-h-[160px] flex flex-col items-center justify-center p-6 text-center bg-[#07070a] select-none">
+          <div className="w-full h-full min-h-[160px] flex flex-col items-center justify-center p-6 text-center bg-transparent select-none">
             <ImageIcon className="w-8 h-8 text-[#d4c59d]/30 mb-2" />
             <p className="text-xs text-[#9e9174]">No image available</p>
           </div>
@@ -482,6 +484,8 @@ export const TurathMedia: React.FC<TurathMediaProps> = ({
             style={{
               objectFit: finalRatio.objectFit,
               objectPosition: finalRatio.objectPosition,
+              backgroundColor: 'var(--photo-bg, transparent)',
+              opacity: 'var(--photo-opacity, 1)',
               ...mediaStyle,
             }}
           />

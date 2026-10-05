@@ -66,6 +66,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
   const [onlyWithVideo, setOnlyWithVideo] = useState<boolean>(false);
   const [productSortBy, setProductSortBy] = useState<'default' | 'name-asc' | 'name-desc' | 'video-first'>('default');
   const [socialCardProduct, setSocialCardProduct] = useState<ProductItem | null>(null);
+  const [isCategorySocialCardOpen, setIsCategorySocialCardOpen] = useState<boolean>(false);
 
   const categoryProducts = products.filter((p) => p.categoryId === category.id);
 
@@ -122,15 +123,15 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
   }, [category.id, category.coverMediaType]);
 
   return (
-    <div className="min-h-screen pb-16 sm:pb-20 lg:pb-24 bg-[#000000]">
+    <div className="turath-products-page min-h-screen pb-16 sm:pb-20 lg:pb-24 transition-colors duration-300">
       {/* Category Hero Banner in solid black and gold */}
-      <div className="relative pt-8 sm:pt-10 lg:pt-12 pb-8 sm:pb-10 lg:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#d4c59d]/30 bg-[#000000]">
+      <div className="turath-products-section relative pt-8 sm:pt-10 lg:pt-12 pb-8 sm:pb-10 lg:pb-12 px-4 sm:px-6 lg:px-8 border-b transition-colors duration-300">
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Breadcrumbs & Navigation */}
           <div className="flex items-center gap-2 text-xs text-[#9e9174] mb-3 sm:mb-4">
             <button 
               onClick={onNavigateHome}
-              className="px-2.5 py-1 rounded bg-[#d4c59d] text-[#000000] font-bold uppercase transition-colors flex items-center gap-1"
+              className="turath-btn-primary px-2.5 py-1 rounded font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer border"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Home</span>
@@ -152,40 +153,52 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
               </p>
             </div>
 
-            {/* Direct Add Product Photo/Video CTA & Edit Cover Button - Admin Only */}
-            {isAdmin && (
-              <div className="flex-shrink-0 flex items-center gap-2.5 flex-wrap">
-                {onOpenCategoryManager && (
-                  <button
-                    onClick={() => onOpenCategoryManager(category.id)}
-                    className="inline-flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
-                    title="تعديل تفاصيل هذا القسم وصوره وفيديوهاته"
-                  >
-                    <Edit3 className="w-4 h-4" />
-                    <span>تعديل هذا القسم</span>
-                  </button>
-                )}
+            {/* Action buttons (Share Collection Card + Admin actions) */}
+            <div className="flex-shrink-0 flex items-center gap-2.5 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setIsCategorySocialCardOpen(true)}
+                className="turath-btn-secondary inline-flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-md transition-all shadow font-arabic cursor-pointer border"
+                title="مشاركة بطاقة المجموعة / Share Collection Card"
+              >
+                <Share2 className="w-4 h-4 text-[#d4c59d]" />
+                <span>مشاركة بطاقة المجموعة</span>
+              </button>
 
-                {onOpenEditCover && (
-                  <button
-                    onClick={() => onOpenEditCover(category.id)}
-                    className="inline-flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d]/60 text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
-                    title="Change cover photo & framing of this category"
-                  >
-                    <Camera className="w-4 h-4" />
-                    <span>تعديل وتأطير الغلاف</span>
-                  </button>
-                )}
+              {isAdmin && (
+                <>
+                  {onOpenCategoryManager && (
+                    <button
+                      onClick={() => onOpenCategoryManager(category.id)}
+                      className="turath-btn-secondary inline-flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-md transition-all shadow font-arabic cursor-pointer border"
+                      title="تعديل تفاصيل هذا القسم وصوره وفيديوهاته"
+                    >
+                      <Edit3 className="w-4 h-4" />
+                      <span>تعديل هذا القسم</span>
+                    </button>
+                  )}
 
-                <button
-                  onClick={() => onOpenAddProduct(category.id)}
-                  className="inline-flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
-                >
-                  <PlusCircle className="w-4 h-4" />
-                  <span>Add Product to {category.name}</span>
-                </button>
-              </div>
-            )}
+                  {onOpenEditCover && (
+                    <button
+                      onClick={() => onOpenEditCover(category.id)}
+                      className="turath-btn-secondary inline-flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider rounded-md transition-all shadow font-arabic cursor-pointer border"
+                      title="Change cover photo & framing of this category"
+                    >
+                      <Camera className="w-4 h-4" />
+                      <span>تعديل وتأطير الغلاف</span>
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => onOpenAddProduct(category.id)}
+                    className="turath-btn-primary inline-flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-md transition-all shadow cursor-pointer border"
+                  >
+                    <PlusCircle className="w-4 h-4" />
+                    <span>Add Product to {category.name}</span>
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Section Cover Showcase with Preserved Ratio & Framing (Image or Video) */}
@@ -327,10 +340,10 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
               <button
                 key={cat.id}
                 onClick={() => onSelectCategory(cat.id)}
-                className={`px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all flex-shrink-0 font-bold uppercase tracking-wider ${
+                className={`px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-all flex-shrink-0 font-bold uppercase tracking-wider cursor-pointer border ${
                   cat.id === category.id
-                    ? 'bg-[#d4c59d] text-[#000000]'
-                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                    ? 'turath-btn-primary'
+                    : 'turath-btn-secondary'
                 }`}
               >
                 {cat.name}
@@ -405,10 +418,10 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
               <button
                 type="button"
                 onClick={() => setProductSortBy('default')}
-                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                   productSortBy === 'default'
-                    ? 'bg-[#d4c59d] text-[#000000]'
-                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                    ? 'turath-btn-primary'
+                    : 'turath-btn-secondary'
                 }`}
               >
                 الافتراضي (Featured)
@@ -416,10 +429,10 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
               <button
                 type="button"
                 onClick={() => setProductSortBy('name-asc')}
-                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                   productSortBy === 'name-asc'
-                    ? 'bg-[#d4c59d] text-[#000000]'
-                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                    ? 'turath-btn-primary'
+                    : 'turath-btn-secondary'
                 }`}
               >
                 الاسم A → Z
@@ -427,10 +440,10 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
               <button
                 type="button"
                 onClick={() => setProductSortBy('name-desc')}
-                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                   productSortBy === 'name-desc'
-                    ? 'bg-[#d4c59d] text-[#000000]'
-                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                    ? 'turath-btn-primary'
+                    : 'turath-btn-secondary'
                 }`}
               >
                 الاسم Z → A
@@ -438,10 +451,10 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
               <button
                 type="button"
                 onClick={() => setProductSortBy('video-first')}
-                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                   productSortBy === 'video-first'
-                    ? 'bg-[#d4c59d] text-[#000000]'
-                    : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                    ? 'turath-btn-primary'
+                    : 'turath-btn-secondary'
                 }`}
               >
                 بالفيديو أولاً (With Video)
@@ -464,7 +477,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                 </p>
                 <button
                   onClick={() => onOpenAddProduct(category.id)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5]"
+                  className="turath-btn-primary inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded border cursor-pointer"
                 >
                   <PlusCircle className="w-4 h-4" />
                   <span>Add First Product</span>
@@ -486,7 +499,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
               return (
               <TiltCard
                 key={prod.id}
-                className="group bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg transition-all duration-300 flex flex-col justify-between"
+                className="group border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Media Container with Dynamic Aspect Ratio & Fit Mode */}
                 {isProdVideo ? (
@@ -496,7 +509,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                     videoUrl={prod.videoUrl}
                     poster={prod.videoPoster || mainImg}
                     computedRatio={prodRatio}
-                    containerClassName="cursor-pointer bg-[#0a0a0d] max-h-[480px]"
+                    containerClassName="cursor-pointer max-h-[480px]"
                     mediaClassName="group-hover:scale-105 transition-transform duration-500"
                     autoPlay={true}
                     muted={true}
@@ -520,10 +533,10 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                           e.stopPropagation();
                           onSelectProduct(prod, true);
                         }}
-                        className="text-[10px] font-bold uppercase tracking-wider bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] px-2.5 py-1 rounded flex items-center gap-1.5 shadow transition-transform hover:scale-105 cursor-pointer"
+                        className="turath-btn-primary text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded flex items-center gap-1.5 shadow transition-transform hover:scale-105 cursor-pointer border"
                         title="Watch embedded video inside website"
                       >
-                        <Video className="w-3.5 h-3.5 text-[#000000]" />
+                        <Video className="w-3.5 h-3.5" />
                         <span>▶ Watch Video</span>
                       </button>
                     </div>
@@ -540,7 +553,7 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                     src={mainImg}
                     alt={prod.name}
                     computedRatio={prodRatio}
-                    containerClassName="cursor-pointer bg-[#0a0a0d]"
+                    containerClassName="cursor-pointer"
                     imageClassName="group-hover:scale-105 transition-transform duration-500"
                     onClick={() => onSelectProduct(prod, false)}
                   >
@@ -750,13 +763,13 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
                 return (
                   <div
                     key={idx}
-                    className="rounded-xl overflow-hidden border border-[#d4c59d]/30 hover:border-[#d4c59d] bg-[#000000] transition-all duration-300 shadow-xl group flex flex-col justify-between"
+                    className="turath-card rounded-xl overflow-hidden border border-[#d4c59d]/30 hover:border-[#d4c59d] transition-all duration-300 shadow-xl group flex flex-col justify-between"
                   >
                     <UnifiedResponsiveImage
                       src={imgUrl}
                       alt={`${category.name} Gallery Showcase ${idx + 1}`}
                       computedRatio={computed}
-                      containerClassName="bg-[#0a0a0f] max-h-[500px]"
+                      containerClassName="max-h-[500px]"
                       imageClassName="group-hover:scale-105 transition-transform duration-500"
                     >
                       <div className="absolute top-2.5 right-2.5 bg-black/80 border border-[#d4c59d]/40 text-[#d4c59d] px-2 py-0.5 rounded text-[10px] font-mono font-bold z-10">
@@ -780,12 +793,16 @@ export const ProductCategoryView: React.FC<ProductCategoryViewProps> = ({
         )}
       </div>
 
-      {/* Social Media Product Card Modal */}
+      {/* Social Media Product & Category Card Modal */}
       <ProductSocialCardModal
-        isOpen={Boolean(socialCardProduct)}
-        onClose={() => setSocialCardProduct(null)}
+        isOpen={Boolean(socialCardProduct) || isCategorySocialCardOpen}
+        onClose={() => {
+          setSocialCardProduct(null);
+          setIsCategorySocialCardOpen(false);
+        }}
         product={socialCardProduct}
         category={category}
+        isCatalogue={!socialCardProduct}
       />
     </div>
   );

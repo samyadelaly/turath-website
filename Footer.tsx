@@ -81,7 +81,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href={sanitizeFacebookUrl(contact.facebook || activeContent.contactFacebook)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                className="turath-btn-primary p-2.5 rounded-lg transition-colors border flex items-center justify-center cursor-pointer"
                 title="Facebook - Turath"
                 aria-label="Facebook Turath"
               >
@@ -91,7 +91,7 @@ export const Footer: React.FC<FooterProps> = ({
                 href={sanitizeInstagramUrl(contact.instagram || activeContent.contactInstagram)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                className="turath-btn-primary p-2.5 rounded-lg transition-colors border flex items-center justify-center cursor-pointer"
                 title="Instagram - Turath"
                 aria-label="Instagram Turath"
               >
@@ -101,21 +101,21 @@ export const Footer: React.FC<FooterProps> = ({
                 href={`https://wa.me/${whatsappDigits}?text=Hello%20Turath%20Egypt`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                className="turath-btn-primary p-2.5 rounded-lg transition-colors border flex items-center justify-center cursor-pointer"
                 title="WhatsApp"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
               <a
                 href={`mailto:${emailAddress}`}
-                className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                className="turath-btn-primary p-2.5 rounded-lg transition-colors border flex items-center justify-center cursor-pointer"
                 title="Email"
               >
                 <Mail className="w-4 h-4" />
               </a>
               <a
                 href={`tel:${phoneDigits}`}
-                className="p-2.5 rounded-lg bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors"
+                className="turath-btn-primary p-2.5 rounded-lg transition-colors border flex items-center justify-center cursor-pointer"
                 title="Call"
               >
                 <Phone className="w-4 h-4" />
@@ -177,7 +177,7 @@ export const Footer: React.FC<FooterProps> = ({
                   {onOpenSiteContentEditor && (
                     <button
                       onClick={onOpenSiteContentEditor}
-                      className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center gap-1.5 font-arabic"
+                      className="turath-btn-primary w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 font-arabic cursor-pointer border"
                     >
                       <FileText className="w-3.5 h-3.5" />
                       <span>تعديل نصوص وعناوين الموقع (Edit Texts)</span>
@@ -187,7 +187,7 @@ export const Footer: React.FC<FooterProps> = ({
                   {onOpenCategoryManager && (
                     <button
                       onClick={onOpenCategoryManager}
-                      className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-colors flex items-center gap-1.5 font-arabic"
+                      className="turath-btn-secondary w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 font-arabic cursor-pointer border"
                     >
                       <Layers className="w-3.5 h-3.5" />
                       <span>إدارة أقسام المنتجات (Manage Categories)</span>
@@ -197,7 +197,7 @@ export const Footer: React.FC<FooterProps> = ({
                   {onOpenEditCategoryCovers && (
                     <button
                       onClick={onOpenEditCategoryCovers}
-                      className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-colors flex items-center gap-1.5"
+                      className="turath-btn-secondary w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer border"
                     >
                       <ImageIcon className="w-3.5 h-3.5" />
                       <span>تعديل صور الأقسام (Edit Covers)</span>
@@ -206,7 +206,7 @@ export const Footer: React.FC<FooterProps> = ({
 
                   <button
                     onClick={onOpenProductEditor}
-                    className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center gap-1.5"
+                    className="turath-btn-primary w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer border"
                   >
                     <PlusCircle className="w-3.5 h-3.5" />
                     <span>Open Product Catalog Editor</span>
@@ -215,7 +215,7 @@ export const Footer: React.FC<FooterProps> = ({
                   {onOpenChangeLogo && (
                     <button
                       onClick={onOpenChangeLogo}
-                      className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center gap-1.5"
+                      className="turath-btn-primary w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer border"
                     >
                       <Camera className="w-3.5 h-3.5" />
                       <span>Change Website Logo</span>
@@ -225,7 +225,7 @@ export const Footer: React.FC<FooterProps> = ({
                   {onAdminLogout && (
                     <button
                       onClick={onAdminLogout}
-                      className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-red-950/70 border border-red-500/40 text-red-300 hover:bg-red-900 transition-colors flex items-center justify-center gap-1.5 font-arabic"
+                      className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-red-950/70 border border-red-500/40 text-red-300 hover:bg-red-900 transition-colors flex items-center justify-center gap-1.5 font-arabic cursor-pointer"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       <span>تسجيل خروج من الإدارة</span>
@@ -235,7 +235,7 @@ export const Footer: React.FC<FooterProps> = ({
                   {onOpenDownloadZip && (
                     <button
                       onClick={onOpenDownloadZip}
-                      className="w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="turath-btn-secondary w-full px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer border"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>تحميل الموقع ZIP (Download Files)</span>

@@ -7,14 +7,22 @@ import {
   ArrowRight, 
   MessageCircle 
 } from 'lucide-react';
+import { SiteContent, getStoredSiteContent, isElementVisible } from './siteContentStorage';
 
 interface CustomManufacturingSectionProps {
   onStartCustomProject: () => void;
+  content?: SiteContent;
 }
 
 export const CustomManufacturingSection: React.FC<CustomManufacturingSectionProps> = ({
   onStartCustomProject,
+  content,
 }) => {
+  const activeContent = content || getStoredSiteContent();
+  const customTitle = activeContent.customSectionTitle || 'Custom Manufacturing';
+  const customDesc = activeContent.customSectionDesc || 'Turath specializes in custom manufacturing. Simply share your drawing, inspiration, or dimensions, and our craftsmen will transform your vision into a beautiful handcrafted product.';
+  const customBtnText = activeContent.customSectionButtonText || 'Discuss Your Custom Project';
+
   const steps = [
     {
       step: '01',
@@ -47,42 +55,48 @@ export const CustomManufacturingSection: React.FC<CustomManufacturingSectionProp
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-14 lg:space-y-16 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-            <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6] leading-tight">
-              Custom Manufacturing
-            </h2>
+            {isElementVisible(activeContent, 'customTitle') && (
+              <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6] leading-tight">
+                {customTitle}
+              </h2>
+            )}
 
-            <div className="space-y-4 text-base sm:text-lg text-[#d4c59d] leading-relaxed">
-              <p className="font-serif-luxury text-xl sm:text-2xl text-[#d4c59d] font-semibold">
-                Have a unique idea?
-              </p>
-              <p>
-                Turath specializes in custom manufacturing. Simply share your drawing, inspiration, or dimensions, and our craftsmen will transform your vision into a beautiful handcrafted product.
-              </p>
-              <p className="text-sm text-[#9e9174]">
-                From grand palace chandeliers spanning 4 meters to custom brass and copper feature doors, hotel balustrades, and bespoke dining tables, no architectural challenge is beyond our Gamaliya craftsmen.
-              </p>
-            </div>
+            {isElementVisible(activeContent, 'customDescription') && (
+              <div className="space-y-4 text-base sm:text-lg text-[#d4c59d] leading-relaxed">
+                <p className="font-serif-luxury text-xl sm:text-2xl text-[#d4c59d] font-semibold">
+                  Have a unique idea?
+                </p>
+                <p>
+                  {customDesc}
+                </p>
+                <p className="text-sm text-[#9e9174]">
+                  From grand palace chandeliers spanning 4 meters to custom brass and copper feature doors, hotel balustrades, and bespoke dining tables, no architectural challenge is beyond our Gamaliya craftsmen.
+                </p>
+              </div>
+            )}
 
             {/* Solid color action buttons with NO border frames */}
-            <div className="pt-2 flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={onStartCustomProject}
-                className="px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] active:scale-95 transition-all shadow flex items-center justify-center gap-2"
-              >
-                <span>Discuss Your Custom Project</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+            {isElementVisible(activeContent, 'customButton') && (
+              <div className="pt-2 flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={onStartCustomProject}
+                  className="px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] active:scale-95 transition-all shadow flex items-center justify-center gap-2"
+                >
+                  <span>{customBtnText}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
 
-              <a
-                href="https://wa.me/201016771010?text=Hello%20Turath%2C%20I%20have%20a%20custom%20brass%20and%20copper%20manufacturing%20inquiry"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>WhatsApp Drawing Directly</span>
-              </a>
-            </div>
+                <a
+                  href="https://wa.me/201016771010?text=Hello%20Turath%2C%20I%20have%20a%20custom%20brass%20and%20copper%20manufacturing%20inquiry"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-colors flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>WhatsApp Drawing Directly</span>
+                </a>
+              </div>
+            )}
           </div>
 
           <div className="lg:col-span-5">

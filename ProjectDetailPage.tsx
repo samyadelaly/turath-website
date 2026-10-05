@@ -40,22 +40,6 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   isAdmin = false,
   onEditProject,
 }) => {
-  if (!project) {
-    return (
-      <div className="min-h-screen bg-[#070709] text-[#f5f0e6] flex flex-col items-center justify-center p-6 text-center">
-        <h2 className="text-xl font-serif text-[#d4c59d] mb-4">Project Not Found</h2>
-        {onNavigateBack && (
-          <button
-            onClick={onNavigateBack}
-            className="px-6 py-2 bg-[#d4c59d] text-black font-semibold rounded-full hover:bg-[#e5d4ab] transition-colors"
-          >
-            Return to Projects
-          </button>
-        )}
-      </div>
-    );
-  }
-
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
   const [resolvedVideoUrl, setResolvedVideoUrl] = useState<string | undefined>(
@@ -211,7 +195,7 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold uppercase tracking-wider border border-[#d4c59d]/40 text-[#d4c59d] hover:bg-[#d4c59d]/10 transition-colors cursor-pointer"
               title="Copy link to this project"
             >
-              {isCopied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> : <Share2 className="w-3.5 h-3.5" />}
+              {isCopied ? <CheckCircle2 className="w-3.5 h-3.5 text-[#d4c59d]" /> : <Share2 className="w-3.5 h-3.5" />}
               <span>{isCopied ? 'Link Copied' : 'Share'}</span>
             </button>
 
@@ -453,12 +437,12 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         {/* Right Column (4 cols): Sticky Specs, Materials, Connected Products, WhatsApp Inquiry */}
         <div className="lg:col-span-4 space-y-6">
           {/* Quick Specifications Card */}
-          <div className="bg-[#0e0d0a] border border-[#d4c59d]/30 rounded-2xl p-6 sticky top-20 shadow-xl space-y-6">
-            <h3 className="font-serif-luxury text-lg font-bold text-[#d4c59d] uppercase tracking-wider pb-3 border-b border-[#d4c59d]/20">
+          <div className="turath-textbox p-6 rounded-2xl border sticky top-20 shadow-xl space-y-6 overflow-hidden">
+            <h3 className="font-serif-luxury text-lg font-bold text-[#d4c59d] uppercase tracking-wider pb-3 border-b border-[#d4c59d]/20 relative z-10">
               Project Specifications
             </h3>
 
-            <div className="space-y-4 text-xs">
+            <div className="space-y-4 text-xs relative z-10">
               <div>
                 <span className="text-[#9e9174] uppercase tracking-wider block text-[10px]">Location</span>
                 <span className="text-[#f5f0e6] font-semibold text-sm mt-0.5 block">{project.location}</span>
@@ -490,20 +474,20 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
             </div>
 
             {/* Direct Inquiry CTA Button */}
-            <div className="pt-4 border-t border-[#d4c59d]/20 space-y-2.5">
+            <div className="pt-4 border-t border-[#d4c59d]/20 space-y-2.5 relative z-10">
               <a
                 href={`https://wa.me/201016771010?text=${whatsappMessage}`}
                 target="_blank"
                 rel="noreferrer"
-                className="gold-shimmer-hover w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#d4c59d] hover:bg-[#e6d8b5] text-[#000000] font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
+                className="gold-shimmer-hover turath-btn-primary w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer border"
               >
-                <MessageCircle className="w-4 h-4 text-black" />
+                <MessageCircle className="w-4 h-4 text-current" />
                 <span>Inquire About Similar Project</span>
               </a>
 
               <a
                 href="tel:00201016771010"
-                className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#16140e] hover:bg-[#201d14] text-[#d4c59d] border border-[#d4c59d]/40 text-xs font-bold transition-all"
+                className="turath-btn-secondary w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold transition-all border"
               >
                 <span>Call TURATH Concierge</span>
               </a>

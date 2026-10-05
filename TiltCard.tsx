@@ -16,7 +16,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`relative overflow-hidden ${className}`}
+      className={`turath-card relative overflow-hidden ${className}`}
     >
       {children}
     </div>
