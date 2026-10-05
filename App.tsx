@@ -34,7 +34,9 @@ import {
   resetStoredSiteContent, 
   SiteContent,
   MenuItemId,
-  DEFAULT_MENU_ITEMS_ORDER
+  DEFAULT_MENU_ITEMS_ORDER,
+  isSectionVisible,
+  isElementVisible
 } from './siteContentStorage';
 import { isAdminLoggedIn, setAdminLoggedIn, checkAdminSession, logoutAdmin } from './adminAuth';
 import { 
@@ -65,11 +67,13 @@ import {
 } from './cloudDatabase';
 import { Navbar } from './Navbar';
 import { HeroSection } from './HeroSection';
+import { CinematicCraftStory } from './CinematicCraftStory';
 import { AboutSection } from './AboutSection';
 import { FounderSection } from './FounderSection';
 import { CustomManufacturingSection } from './CustomManufacturingSection';
 import { WhyChooseUsSection } from './WhyChooseUsSection';
 import { ContactSection } from './ContactSection';
+import { FinalBrandStatement } from './FinalBrandStatement';
 import { Footer } from './Footer';
 import { ProductCategoryView } from './ProductCategoryView';
 import { AllProductsView } from './AllProductsView';
@@ -94,6 +98,9 @@ import { ChangePasswordModal } from './ChangePasswordModal';
 import { initMetaPixel, trackPageView } from './metaPixel';
 import { DownloadZipModal } from './DownloadZipModal';
 import { AdminBar } from './AdminBar';
+import { ThemeEditorModal } from './ThemeEditorModal';
+import { EditHeroVideoModal, HeroVideoOptions } from './EditHeroVideoModal';
+import { applyThemeCssVariables, ThemeSettings, DEFAULT_THEME_SETTINGS } from './themeSettings';
 import { SupabaseMigrationModal } from './MigrationModal';
 import { pauseAndMuteAllVideos } from './videoManager';
 import { TiltCard } from './TiltCard';
@@ -132,6 +139,8 @@ export function App() {
   const [isDownloadZipModalOpen, setIsDownloadZipModalOpen] = useState<boolean>(false);
   const [isCraftVideoModalOpen, setIsCraftVideoModalOpen] = useState<boolean>(false);
   const [isSiteContentEditorOpen, setIsSiteContentEditorOpen] = useState<boolean>(false);
+  const [isThemeEditorOpen, setIsThemeEditorOpen] = useState<boolean>(false);
+  const [isHeroVideoModalOpen, setIsHeroVideoModalOpen] = useState<boolean>(false);
   const [isMenuSortModalOpen, setIsMenuSortModalOpen] = useState<boolean>(false);
   const [homeCategorySort, setHomeCategorySort] = useState<'default' | 'name-asc' | 'name-desc' | 'count-desc'>('default');
   const [homeProjectFilter, setHomeProjectFilter] = useState<string>('all');
@@ -351,8 +360,15 @@ export function App() {
     setIsEditCoverModalOpen(false);
     setIsLogoModalOpen(false);
     setIsSiteContentEditorOpen(false);
+    setIsThemeEditorOpen(false);
+    setIsHeroVideoModalOpen(false);
     setIsCategoryManagerOpen(false);
   };
+
+  // Apply global theme tokens to document :root dynamically
+  useEffect(() => {
+    applyThemeCssVariables(siteContent?.theme || DEFAULT_THEME_SETTINGS);
+  }, [siteContent?.theme]);
 
   const handleSaveSiteContent = async (newContent: SiteContent) => {
     saveStoredSiteContent(newContent);
@@ -362,6 +378,51 @@ export function App() {
     } catch (err) {
       console.warn('Could not sync site content to cloud immediately:', err);
     }
+  };
+
+  const handleSaveTheme = async (updatedTheme: ThemeSettings) => {
+    const updated: SiteContent = {
+      ...siteContent,
+      theme: updatedTheme,
+    };
+    applyThemeCssVariables(updatedTheme);
+    await handleSaveSiteContent(updated);
+  };
+
+  const handleResetTheme = async () => {
+    const updated: SiteContent = {
+      ...siteContent,
+      theme: DEFAULT_THEME_SETTINGS,
+    };
+    applyThemeCssVariables(DEFAULT_THEME_SETTINGS);
+    await handleSaveSiteContent(updated);
+  };
+
+  const handleSaveHeroVideo = async (newVideoUrl: string, options: HeroVideoOptions) => {
+    const updatedContent: SiteContent = {
+      ...siteContent,
+      heroVideoUrl: newVideoUrl,
+      heroVideoFit: options.fit,
+      heroVideoRatio: options.ratio,
+      heroVideoCustomRatio: options.customRatio || '',
+      heroVideoOpacity: options.opacity,
+      hero: {
+        ...(siteContent.hero || {}),
+        badge: siteContent.hero?.badge || siteContent.heroBadge || '',
+        headlinePart1: siteContent.hero?.headlinePart1 || siteContent.heroTitleLine1,
+        headlineGold: siteContent.hero?.headlineGold || siteContent.heroTitleHighlight,
+        description: siteContent.hero?.description || siteContent.heroDescription,
+        subDescription: siteContent.hero?.subDescription || siteContent.heroSubDescription,
+        phone: siteContent.hero?.phone || siteContent.topPhone,
+        whatsapp: siteContent.hero?.whatsapp || siteContent.topWhatsApp,
+        videoUrl: newVideoUrl,
+        videoFit: options.fit,
+        videoRatio: options.ratio,
+        videoCustomRatio: options.customRatio || '',
+        videoOpacity: options.opacity,
+      },
+    };
+    await handleSaveSiteContent(updatedContent);
   };
 
   const handleResetSiteContent = async () => {
@@ -512,8 +573,7 @@ export function App() {
   };
 
   const handleOpenProductDetail = (prod: ProductItem, openWithVideo: boolean = false) => {
-    setActiveProductDetail(prod);
-    setProductDetailInitialShowVideo(openWithVideo);
+    navigateToProduct(prod, openWithVideo);
   };
 
   const handleSaveAboutPhoto = async (newPhotoUrl: string, options?: any) => {
@@ -659,9 +719,10 @@ export function App() {
     }
   };
 
-  const navigateToProduct = (product: ProductItem) => {
+  const navigateToProduct = (product: ProductItem, openWithVideo: boolean = false) => {
     setActiveProductPage(product);
     setSelectedCategoryId(product.categoryId);
+    setProductDetailInitialShowVideo(openWithVideo);
     setCurrentView('product-detail');
     if (typeof window !== 'undefined' && window.history) {
       window.history.pushState(
@@ -1066,7 +1127,10 @@ export function App() {
   const activeCategory = categories.find((c) => c.id === selectedCategoryId) || categories[0];
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#f5f0e6] flex flex-col font-sans selection:bg-[#d4c59d] selection:text-[#000000]">
+    <div className="min-h-screen bg-[#000000] text-[#f5f0e6] flex flex-col font-sans selection:bg-[#d4c59d] selection:text-[#000000] relative">
+      {/* Global Configurable Page Background Pattern Overlay */}
+      <div id="turath-page-pattern-overlay" className="turath-global-pattern-overlay" aria-hidden="true" />
+
       {/* Admin Quick Action Bar when logged in */}
       {isAdmin && (
         <AdminBar
@@ -1084,6 +1148,8 @@ export function App() {
           }}
           onOpenDownloadZip={() => setIsDownloadZipModalOpen(true)}
           onOpenSiteContentEditor={() => setIsSiteContentEditorOpen(true)}
+          onOpenHeroVideoModal={() => setIsHeroVideoModalOpen(true)}
+          onOpenThemeEditor={() => setIsThemeEditorOpen(true)}
           onOpenCategoryManager={() => openCategoryManager()}
           onOpenAddCategory={() => openCategoryManager('new')}
           onOpenChangePassword={() => setIsChangePasswordModalOpen(true)}
@@ -1193,8 +1259,15 @@ export function App() {
                 category={categories.find((c) => c.id === activeProductPage.categoryId)}
                 allProducts={products}
                 categories={categories}
+                initialShowVideo={productDetailInitialShowVideo}
                 onSelectProduct={(p) => navigateToProduct(p)}
-                onBack={() => navigateTo('category', activeProductPage.categoryId)}
+                onBack={() => {
+                  if (typeof window !== 'undefined' && window.history && window.history.length > 1) {
+                    window.history.back();
+                  } else {
+                    navigateTo('category', activeProductPage.categoryId);
+                  }
+                }}
                 onSelectCategory={(catId) => navigateTo('category', catId)}
                 onSelectForInquiry={handleSelectProductForInquiry}
                 onEditProduct={(p) => openEditor(p.categoryId, p)}
@@ -1362,584 +1435,646 @@ export function App() {
               <HeroSection
                 onExploreProducts={() => navigateTo('products')}
                 onCustomQuote={() => navigateTo('custom')}
-                onOpenVideoModal={() => setIsCraftVideoModalOpen(true)}
                 onOpenChangeLogo={() => setIsLogoModalOpen(true)}
+                onOpenHeroVideoModal={() => setIsHeroVideoModalOpen(true)}
                 content={siteContent}
                 isAdmin={isAdmin}
               />
 
+              {/* Phase 3: Cinematic Craft Story, Material Story, Products Showcase & Category Intro */}
+              <CinematicCraftStory
+                products={products}
+                categories={categories}
+                onSelectProduct={(prod) => handleOpenProductDetail(prod)}
+                onSelectCategory={(catId) => navigateTo('category', catId)}
+                onExploreAllProducts={() => navigateTo('products')}
+                onCustomFabrication={() => navigateTo('custom')}
+                content={siteContent}
+              />
+
               {/* Featured Product Collections (Categories Overview) */}
-              <section className="py-14 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#000000] border-b border-[#d4c59d]/30">
-                <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div className="space-y-2">
-                      <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
-                        Our Handcrafted Products
-                      </h2>
+              {isSectionVisible(siteContent, 'products') && (
+                <section className="turath-products-section relative z-30 -mt-[100vh] sm:-mt-[100svh] pt-8 sm:pt-10 pb-14 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 border-t border-b shadow-[0_-20px_50px_rgba(0,0,0,0.95)] transition-colors duration-300">
+                  <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                      <div className="space-y-2">
+                        {isElementVisible(siteContent, 'productsTitle') && (
+                          <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
+                            {siteContent?.productsSectionTitle || 'Our Handcrafted Products'}
+                          </h2>
+                        )}
 
-                      <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl">
-                        Select any category below to browse photos, watch crafting videos, and request custom specifications.
-                      </p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3">
-                      {/* Admin-only direct cover & product editing CTA */}
-                      {isAdmin && (
-                        <>
-                          <button
-                            onClick={() => openCategoryManager('new')}
-                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow font-arabic cursor-pointer"
-                            title="إضافة وتزويد قسم جديد للموقع"
-                          >
-                            <Plus className="w-4 h-4" />
-                            <span>+ إضافة قسم جديد</span>
-                          </button>
-
-                          <button
-                            onClick={() => openCategoryManager()}
-                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
-                            title="إدارة وتعديل وحذف أقسام المنتجات"
-                          >
-                            <Layers className="w-4 h-4" />
-                            <span>إدارة الأقسام (Categories)</span>
-                          </button>
-
-                          <button
-                            onClick={() => handleOpenEditCoverModal()}
-                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow cursor-pointer"
-                            title="Change cover photos of the handcrafted categories"
-                          >
-                            <ImageIcon className="w-4 h-4" />
-                            <span>تعديل صور الأقسام (Edit Covers)</span>
-                          </button>
-
-                          <button
-                            onClick={() => openEditor()}
-                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow cursor-pointer"
-                          >
-                            <PlusCircle className="w-4 h-4" />
-                            <span>Add / Edit Products</span>
-                          </button>
-                        </>
-                      )}
-
-                      <button
-                        onClick={() => navigateTo('products')}
-                        className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
-                      >
-                        <span>View All {categories.length} Categories</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Collection Sort & Organization Toolbar - Admin Only */}
-                  {isAdmin && (
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-[#101014] border border-[#d4c59d]/30">
-                      <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold">
-                        <ArrowUpDown className="w-4 h-4 text-[#d4c59d]" />
-                        <span>ترتيب المجموعات (Sort Collections):</span>
+                        {isElementVisible(siteContent, 'productsSubtitle') && (
+                          <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl">
+                            {siteContent?.productsSectionSubtitle || 'Select any category below to browse photos, watch crafting videos, and request custom specifications.'}
+                          </p>
+                        )}
                       </div>
 
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <button
-                          type="button"
-                          onClick={() => setHomeCategorySort('default')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeCategorySort === 'default'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          الافتراضي (Default)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeCategorySort('name-asc')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeCategorySort === 'name-asc'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          A → Z
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeCategorySort('name-desc')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeCategorySort === 'name-desc'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          Z → A
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeCategorySort('count-desc')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeCategorySort === 'count-desc'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          الأكثر منتجات
-                        </button>
+                      <div className="flex flex-wrap items-center gap-3">
+                        {/* Admin-only direct cover & product editing CTA */}
+                        {isAdmin && (
+                          <>
+                            <button
+                              onClick={() => openCategoryManager('new')}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow font-arabic cursor-pointer"
+                              title="إضافة وتزويد قسم جديد للموقع"
+                            >
+                              <Plus className="w-4 h-4" />
+                              <span>+ إضافة قسم جديد</span>
+                            </button>
 
-                        <button
-                          type="button"
-                          onClick={() => openCategoryManager()}
-                          className="px-3 py-1 rounded-full text-xs font-bold bg-[#1e1a14] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer flex items-center gap-1 font-arabic ml-auto sm:ml-2"
-                          title="ترتيب وتخصيص ترتيب الأقسام"
-                        >
-                          <SlidersHorizontal className="w-3.5 h-3.5" />
-                          <span>ترتيب يدوي للأقسام</span>
-                        </button>
+                            <button
+                              onClick={() => openCategoryManager()}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
+                              title="إدارة وتعديل وحذف أقسام المنتجات"
+                            >
+                              <Layers className="w-4 h-4" />
+                              <span>إدارة الأقسام (Categories)</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleOpenEditCoverModal()}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow cursor-pointer"
+                              title="Change cover photos of the handcrafted categories"
+                            >
+                              <ImageIcon className="w-4 h-4" />
+                              <span>تعديل صور الأقسام (Edit Covers)</span>
+                            </button>
+
+                            <button
+                              onClick={() => openEditor()}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow cursor-pointer"
+                            >
+                              <PlusCircle className="w-4 h-4" />
+                              <span>Add / Edit Products</span>
+                            </button>
+                          </>
+                        )}
+
+                        {isElementVisible(siteContent, 'productsAllBtn') && (
+                          <button
+                            onClick={() => navigateTo('products')}
+                            className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
+                          >
+                            <span>{siteContent?.productsSectionButtonText || `View All ${categories.length} Categories`}</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </div>
                     </div>
-                  )}
 
-                  {/* Categories Visual Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {[...categories].sort((a, b) => {
-                      if (homeCategorySort === 'name-asc') return a.name.localeCompare(b.name);
-                      if (homeCategorySort === 'name-desc') return b.name.localeCompare(a.name);
-                      if (homeCategorySort === 'count-desc') {
-                        const countA = products.filter((p) => p.categoryId === a.id).length;
-                        const countB = products.filter((p) => p.categoryId === b.id).length;
-                        return countB - countA;
-                      }
-                      const orderA = typeof a.order === 'number' ? a.order : 999;
-                      const orderB = typeof b.order === 'number' ? b.order : 999;
-                      return orderA - orderB;
-                    }).map((cat) => {
-                      const count = products.filter((p) => p.categoryId === cat.id).length;
-                      return (
-                        <TiltCard
-                          key={cat.id}
-                          onClick={() => navigateTo('category', cat.id)}
-                          className="group bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg cursor-pointer flex flex-col justify-between"
-                        >
-                          {(() => {
-                            const isVideo = cat.coverMediaType === 'video' && !!cat.coverVideoUrl;
-                            const catRatio = computeCategoryCoverMediaRatio(cat);
-                            return (
-                              <TurathMedia
-                                type={isVideo ? 'video' : 'image'}
-                                src={cat.coverImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80'}
-                                videoUrl={cat.coverVideoUrl}
-                                computedRatio={catRatio}
-                                containerClassName="bg-[#000000] overflow-hidden max-h-[480px]"
-                                mediaClassName="group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-100"
-                                autoPlay={true}
-                                muted={true}
-                                loop={true}
-                                playsInline={true}
-                                controls={false}
-                                showSoundToggle={isVideo}
-                                showVideoBadge={isVideo}
-                              >
-                                <span className="absolute top-2.5 right-2.5 text-[11px] font-arabic font-bold bg-[#d4c59d] text-[#000000] px-2 py-0.5 rounded shadow z-10 pointer-events-none">
-                                  {cat.nameArabic}
-                                </span>
+                    {/* Collection Sort & Organization Toolbar - Admin Only */}
+                    {isAdmin && (
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-[#101014] border border-[#d4c59d]/30">
+                        <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold">
+                          <ArrowUpDown className="w-4 h-4 text-[#d4c59d]" />
+                          <span>ترتيب المجموعات (Sort Collections):</span>
+                        </div>
 
-                                {!isVideo && cat.coverImageRatio && cat.coverImageRatio !== 'Original' && (
-                                  <span className="absolute top-2.5 left-2.5 text-[9px] font-mono font-bold bg-black/80 text-[#d4c59d] border border-[#d4c59d]/40 px-1.5 py-0.5 rounded shadow z-10 pointer-events-none">
-                                    {cat.coverImageRatio === 'Custom' ? `${cat.customRatioWidth || 5}:${cat.customRatioHeight || 7}` : cat.coverImageRatio}
-                                  </span>
-                                )}
-
-                                {/* Direct Change Cover & Edit Category Button on each card - Admin Only */}
-                                {isAdmin && (
-                                  <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 z-20">
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        openCategoryManager(cat.id);
-                                      }}
-                                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/60 text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-arabic"
-                                      title="تعديل هذا القسم بكامل تفاصيله وخياراته"
-                                    >
-                                      <Edit3 className="w-3 h-3" />
-                                      <span>تعديل القسم</span>
-                                    </button>
-
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleOpenEditCoverModal(cat.id);
-                                      }}
-                                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/60 text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-arabic"
-                                      title="Edit this category cover photo & ratio"
-                                    >
-                                      <Camera className="w-3 h-3" />
-                                      <span>الغلاف</span>
-                                    </button>
-                                  </div>
-                                )}
-                              </TurathMedia>
-                            );
-                          })()}
-
-                          <div className="p-4 space-y-2">
-                            <div className="flex items-center justify-between">
-                              <h3 className="font-serif-luxury text-base font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors">
-                                {cat.name}
-                              </h3>
-                              <span className="text-[10px] text-[#000000] font-bold bg-[#d4c59d] px-2 py-0.5 rounded">
-                                {count} items
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-[#9e9174] line-clamp-2">
-                              {cat.shortDesc}
-                            </p>
-                            <div className="pt-2 flex items-center justify-between text-xs text-[#d4c59d] font-semibold group-hover:translate-x-1 transition-transform">
-                              <span>Browse category</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </div>
-                          </div>
-                        </TiltCard>
-                      );
-                    })}
-                  </div>
-                </div>
-              </section>
-
-              {/* Architectural Projects & Bespoke Installations (Projects Showcase) */}
-              <section className="py-14 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#070705] border-b border-[#d4c59d]/30 relative overflow-hidden">
-                <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div className="space-y-2">
-                      <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
-                        Our Landmark Projects
-                      </h2>
-
-                      <p className="font-arabic text-sm sm:text-base text-[#d4c59d]" dir="rtl">
-                        تحف معمارية وهندسية فاخرة صُنعت خصيصاً لأرقى الفنادق والقصور والمشاريع الكبرى
-                      </p>
-
-                      <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl font-sans">
-                        Monumental chandeliers, hand-hammered wall panels, and bespoke brass architectural installations executed for presidential suites, royal majlis, luxury hotels, and private estates.
-                      </p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3">
-                      {isAdmin && (
-                        <>
+                        <div className="flex items-center gap-1.5 flex-wrap">
                           <button
                             type="button"
-                            onClick={() => {
-                              setEditingProject(undefined);
-                              setIsProjectEditorOpen(true);
-                            }}
-                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow font-arabic cursor-pointer"
-                            title="إضافة مشروع معماري أو فندقي جديد"
+                            onClick={() => setHomeCategorySort('default')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeCategorySort === 'default'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
                           >
-                            <Plus className="w-4 h-4" />
-                            <span>+ إضافة مشروع جديد</span>
+                            الافتراضي (Default)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeCategorySort('name-asc')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeCategorySort === 'name-asc'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            A → Z
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeCategorySort('name-desc')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeCategorySort === 'name-desc'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            Z → A
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeCategorySort('count-desc')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeCategorySort === 'count-desc'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            الأكثر منتجات
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => openCategoryManager()}
+                            className="px-3 py-1 rounded-full text-xs font-bold bg-[#1e1a14] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer flex items-center gap-1 font-arabic ml-auto sm:ml-2"
+                            title="ترتيب وتخصيص ترتيب الأقسام"
+                          >
+                            <SlidersHorizontal className="w-3.5 h-3.5" />
+                            <span>ترتيب يدوي للأقسام</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Categories Visual Grid */}
+                    {isElementVisible(siteContent, 'productsGrid') && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {[...categories].sort((a, b) => {
+                          if (homeCategorySort === 'name-asc') return a.name.localeCompare(b.name);
+                          if (homeCategorySort === 'name-desc') return b.name.localeCompare(a.name);
+                          if (homeCategorySort === 'count-desc') {
+                            const countA = products.filter((p) => p.categoryId === a.id).length;
+                            const countB = products.filter((p) => p.categoryId === b.id).length;
+                            return countB - countA;
+                          }
+                          const orderA = typeof a.order === 'number' ? a.order : 999;
+                          const orderB = typeof b.order === 'number' ? b.order : 999;
+                          return orderA - orderB;
+                        }).map((cat) => {
+                          const count = products.filter((p) => p.categoryId === cat.id).length;
+                          return (
+                            <TiltCard
+                              key={cat.id}
+                              onClick={() => navigateTo('category', cat.id)}
+                              className="group bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg cursor-pointer flex flex-col justify-between"
+                            >
+                              {(() => {
+                                const isVideo = cat.coverMediaType === 'video' && !!cat.coverVideoUrl;
+                                const catRatio = computeCategoryCoverMediaRatio(cat);
+                                return (
+                                  <TurathMedia
+                                    type={isVideo ? 'video' : 'image'}
+                                    src={cat.coverImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80'}
+                                    videoUrl={cat.coverVideoUrl}
+                                    computedRatio={catRatio}
+                                    containerClassName="bg-[#000000] overflow-hidden max-h-[480px]"
+                                    mediaClassName="group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-100"
+                                    autoPlay={true}
+                                    muted={true}
+                                    loop={true}
+                                    playsInline={true}
+                                    controls={false}
+                                    showSoundToggle={isVideo}
+                                    showVideoBadge={isVideo}
+                                  >
+                                    <span className="absolute top-2.5 right-2.5 text-[11px] font-arabic font-bold bg-[#d4c59d] text-[#000000] px-2 py-0.5 rounded shadow z-10 pointer-events-none">
+                                      {cat.nameArabic}
+                                    </span>
+
+                                    {!isVideo && cat.coverImageRatio && cat.coverImageRatio !== 'Original' && (
+                                      <span className="absolute top-2.5 left-2.5 text-[9px] font-mono font-bold bg-black/80 text-[#d4c59d] border border-[#d4c59d]/40 px-1.5 py-0.5 rounded shadow z-10 pointer-events-none">
+                                        {cat.coverImageRatio === 'Custom' ? `${cat.customRatioWidth || 5}:${cat.customRatioHeight || 7}` : cat.coverImageRatio}
+                                      </span>
+                                    )}
+
+                                    {/* Direct Change Cover & Edit Category Button on each card - Admin Only */}
+                                    {isAdmin && (
+                                      <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 z-20">
+                                        <button
+                                          type="button"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            openCategoryManager(cat.id);
+                                          }}
+                                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/60 text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-arabic"
+                                          title="تعديل هذا القسم بكامل تفاصيله وخياراته"
+                                        >
+                                          <Edit3 className="w-3 h-3" />
+                                          <span>تعديل القسم</span>
+                                        </button>
+
+                                        <button
+                                          type="button"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleOpenEditCoverModal(cat.id);
+                                          }}
+                                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/60 text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-arabic"
+                                          title="Edit this category cover photo & ratio"
+                                        >
+                                          <Camera className="w-3 h-3" />
+                                          <span>الغلاف</span>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </TurathMedia>
+                                );
+                              })()}
+
+                              <div className="p-4 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <h3 className="font-serif-luxury text-base font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors">
+                                    {cat.name}
+                                  </h3>
+                                  <span className="text-[10px] text-[#000000] font-bold bg-[#d4c59d] px-2 py-0.5 rounded">
+                                    {count} items
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-[#9e9174] line-clamp-2">
+                                  {cat.shortDesc}
+                                </p>
+                                <div className="pt-2 flex items-center justify-between text-xs text-[#d4c59d] font-semibold group-hover:translate-x-1 transition-transform">
+                                  <span>Browse category</span>
+                                  <ArrowRight className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                            </TiltCard>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {/* Architectural Projects & Bespoke Installations (Projects Showcase) - Removed from Home as requested */}
+              {false && isSectionVisible(siteContent, 'projects') && (
+                <section id="projects-section" className="py-20 sm:py-24 lg:py-32 px-6 sm:px-12 bg-[#040404] border-b border-[#d4c59d]/20 relative overflow-hidden">
+                  <div className="max-w-7xl mx-auto space-y-10 sm:space-y-14 lg:space-y-16">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#d4c59d]/15 pb-8">
+                      <div className="space-y-3">
+                        {isElementVisible(siteContent, 'projectsBadge') && (
+                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d4c59d]/25 bg-[#0a0a08] text-[#d4c59d] text-[10px] sm:text-xs font-mono tracking-widest uppercase">
+                            {isElementVisible(siteContent, 'projectsAiIcons') && <span>✦</span>}
+                            <span>{siteContent?.projectsSectionBadge || 'ARCHITECTURAL COMMISSIONS • أَعْمَالٌ مِعْمَارِيَّةٌ • CASE STUDIES'}</span>
+                          </div>
+                        )}
+
+                        {isElementVisible(siteContent, 'projectsTitle') && (
+                          <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-[#f5f0e6] tracking-tight leading-[1.1]">
+                            {siteContent?.projectsSectionTitle || 'Monumental Works'}
+                            <span className="block italic text-[#d4c59d] font-normal text-2xl sm:text-3xl lg:text-4xl mt-1">
+                              {siteContent?.projectsSectionTitleGold || 'and Architectural Case Studies'}
+                            </span>
+                          </h2>
+                        )}
+
+                        {isElementVisible(siteContent, 'projectsSubtitleAr') && (
+                          <p className="font-arabic text-sm sm:text-base text-[#d4c59d]/90 font-light" dir="rtl">
+                            {siteContent?.projectsSectionSubtitleAr || 'تحف معمارية وهندسية فاخرة صُنعت خصيصاً لأرقى الفنادق والقصور والمشاريع الكبرى'}
+                          </p>
+                        )}
+
+                        {isElementVisible(siteContent, 'projectsDescription') && (
+                          <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl font-light leading-relaxed">
+                            {siteContent?.projectsSectionDesc || 'Monumental chandeliers, hand-hammered wall panels, and bespoke brass architectural installations executed for presidential suites, royal majlis, luxury hotels, and private estates.'}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3">
+                        {isAdmin && (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setEditingProject(undefined);
+                                setIsProjectEditorOpen(true);
+                              }}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow font-arabic cursor-pointer"
+                              title="إضافة مشروع معماري أو فندقي جديد"
+                            >
+                              <Plus className="w-4 h-4" />
+                              <span>+ إضافة مشروع جديد</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setIsProjectManagerOpen(true)}
+                              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
+                              title="إدارة وتعديل وترتيب المشاريع"
+                            >
+                              <Building2 className="w-4 h-4" />
+                              <span>إدارة المشاريع (Projects)</span>
+                            </button>
+                          </>
+                        )}
+
+                        {isElementVisible(siteContent, 'projectsAllBtn') && (
+                          <button
+                            type="button"
+                            onClick={() => navigateTo('projects')}
+                            className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
+                          >
+                            <span>{siteContent?.projectsSectionButtonText || `View All ${projects.filter((p) => isAdmin || p.published).length} Projects`}</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Project Names in Points Vertically */}
+                    {isElementVisible(siteContent, 'projectsPoints') && (
+                      <div className="p-4 rounded-xl bg-[#11100c] border border-[#d4c59d]/30 space-y-3">
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#d4c59d] flex-shrink-0" />
+                            <span>Explore by Project Name:</span>
+                            <span className="text-[11px] text-[#9e9174] font-mono font-normal">
+                              ({projects.filter((p) => isAdmin || p.published).length} Installations)
+                            </span>
+                          </div>
+                          <div className="text-xs text-[#9e9174] font-arabic pr-3.5">
+                            أسماء المشاريع المنفذة
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2 pt-1">
+                          {projects
+                            .filter((p) => isAdmin || p.published)
+                            .map((p) => (
+                              <button
+                                key={`point-${p.id}`}
+                                type="button"
+                                onClick={() => navigateToProject(p)}
+                                className="flex items-center gap-2.5 text-left py-1.5 px-2.5 rounded-lg hover:bg-[#1a1711] border border-transparent hover:border-[#d4c59d]/20 transition-all group cursor-pointer w-full"
+                                title={`View details of ${p.title}`}
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#d4c59d] flex-shrink-0 group-hover:scale-125 transition-transform" />
+                                <span className="text-xs text-[#e6d8b5] group-hover:text-[#d4c59d] font-medium transition-colors line-clamp-1">
+                                  {p.title}
+                                </span>
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Project Type Filter & Sort Toolbar - Admin Only */}
+                    {isAdmin && (
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-[#101014] border border-[#d4c59d]/30">
+                        <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold font-arabic">
+                          <ArrowUpDown className="w-4 h-4 text-[#d4c59d]" />
+                          <span>تصفية وترتيب المشاريع (Filter & Sort):</span>
+                        </div>
+
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <button
+                            type="button"
+                            onClick={() => setHomeProjectFilter('all')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeProjectFilter === 'all'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            الكل (All)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeProjectFilter('hotel')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeProjectFilter === 'hotel'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            فنادق (Hotels)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeProjectFilter('palace')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeProjectFilter === 'palace'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            قصور وفيلات (Palaces/Villas)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeProjectFilter('restaurant')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeProjectFilter === 'restaurant'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            مطاعم (Dining)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeProjectFilter('commercial')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeProjectFilter === 'commercial'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            تجارية ومعمارية
+                          </button>
+
+                          <div className="hidden sm:block h-4 w-px bg-[#d4c59d]/30 mx-1" />
+
+                          <button
+                            type="button"
+                            onClick={() => setHomeProjectSort('default')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeProjectSort === 'default'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            الافتراضي
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHomeProjectSort('name-asc')}
+                            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              homeProjectSort === 'name-asc'
+                                ? 'bg-[#d4c59d] text-[#000000]'
+                                : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
+                            }`}
+                          >
+                            A → Z
                           </button>
 
                           <button
                             type="button"
                             onClick={() => setIsProjectManagerOpen(true)}
-                            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
-                            title="إدارة وتعديل وترتيب المشاريع"
+                            className="px-3 py-1 rounded-full text-xs font-bold bg-[#1e1a14] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer flex items-center gap-1 font-arabic ml-auto sm:ml-2"
+                            title="ترتيب وتخصيص المشاريع"
                           >
-                            <Building2 className="w-4 h-4" />
-                            <span>إدارة المشاريع (Projects)</span>
+                            <SlidersHorizontal className="w-3.5 h-3.5" />
+                            <span>ترتيب المشاريع</span>
                           </button>
-                        </>
-                      )}
-
-                      <button
-                        type="button"
-                        onClick={() => navigateTo('projects')}
-                        className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
-                      >
-                        <span>View All {projects.filter((p) => isAdmin || p.published).length} Projects</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Project Names in Points Vertically */}
-                  <div className="p-4 rounded-xl bg-[#11100c] border border-[#d4c59d]/30 space-y-3">
-                    <div className="space-y-0.5">
-                      <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#d4c59d] flex-shrink-0" />
-                        <span>Explore by Project Name:</span>
-                        <span className="text-[11px] text-[#9e9174] font-mono font-normal">
-                          ({projects.filter((p) => isAdmin || p.published).length} Installations)
-                        </span>
+                        </div>
                       </div>
-                      <div className="text-xs text-[#9e9174] font-arabic pr-3.5">
-                        أسماء المشاريع المنفذة
-                      </div>
-                    </div>
+                    )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2 pt-1">
-                      {projects
-                        .filter((p) => isAdmin || p.published)
-                        .map((p) => (
-                          <button
-                            key={`point-${p.id}`}
-                            type="button"
-                            onClick={() => navigateToProject(p)}
-                            className="flex items-center gap-2.5 text-left py-1.5 px-2.5 rounded-lg hover:bg-[#1a1711] border border-transparent hover:border-[#d4c59d]/20 transition-all group cursor-pointer w-full"
-                            title={`View details of ${p.title}`}
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#d4c59d] flex-shrink-0 group-hover:scale-125 transition-transform" />
-                            <span className="text-xs text-[#e6d8b5] group-hover:text-[#d4c59d] font-medium transition-colors line-clamp-1">
-                              {p.title}
-                            </span>
-                          </button>
-                        ))}
-                    </div>
-                  </div>
+                    {/* Projects Visual Grid (Cards matching Category Card format) */}
+                    {isElementVisible(siteContent, 'projectsGrid') && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {projects
+                          .filter((p) => {
+                            if (!isAdmin && !p.published) return false;
+                            if (homeProjectFilter === 'all') return true;
+                            if (homeProjectFilter === 'hotel') return p.projectType.toLowerCase().includes('hotel');
+                            if (homeProjectFilter === 'palace') return p.projectType.toLowerCase().includes('palace') || p.projectType.toLowerCase().includes('villa') || p.projectType.toLowerCase().includes('residential');
+                            if (homeProjectFilter === 'restaurant') return p.projectType.toLowerCase().includes('restaurant');
+                            if (homeProjectFilter === 'commercial') return p.projectType.toLowerCase().includes('commercial') || p.projectType.toLowerCase().includes('architectural') || p.projectType.toLowerCase().includes('retail');
+                            return true;
+                          })
+                          .sort((a, b) => {
+                            if (homeProjectSort === 'name-asc') return a.title.localeCompare(b.title);
+                            if (homeProjectSort === 'year-desc') return (Number(b.year) || 0) - (Number(a.year) || 0);
+                            return (a.sortOrder || 0) - (b.sortOrder || 0);
+                          })
+                          .map((proj, projIdx) => {
+                            const isVideo = proj.mediaType === 'video' && !!proj.videoUrl;
+                            return (
+                              <TiltCard
+                                key={proj.id}
+                                onClick={() => navigateToProject(proj)}
+                                className="group bg-[#070706] border border-[#d4c59d]/20 hover:border-[#d4c59d]/60 rounded-xl overflow-hidden shadow-lg cursor-pointer flex flex-col justify-between transition-all duration-500 hover:shadow-[0_16px_50px_rgba(0,0,0,0.9)]"
+                              >
+                                <div className="relative overflow-hidden bg-black aspect-[16/10]">
+                                  <TurathMedia
+                                    type={isVideo ? 'video' : 'image'}
+                                    src={proj.coverImage}
+                                    videoUrl={proj.videoUrl}
+                                    poster={proj.videoPoster || proj.coverImage}
+                                    ratio={proj.coverRatio || 'Original'}
+                                    customWidth={proj.coverCustomRatioWidth}
+                                    customHeight={proj.coverCustomRatioHeight}
+                                    fit={proj.coverFit || 'cover'}
+                                    position={proj.coverPosition || 'center'}
+                                    alt={proj.title}
+                                    containerClassName="w-full h-full"
+                                    mediaClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
+                                    autoPlay={isVideo}
+                                    muted={true}
+                                    loop={true}
+                                    playsInline={true}
+                                    showVideoBadge={isVideo}
+                                  />
 
-                  {/* Project Type Filter & Sort Toolbar - Admin Only */}
-                  {isAdmin && (
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-[#101014] border border-[#d4c59d]/30">
-                      <div className="flex items-center gap-2 text-xs text-[#d4c59d] font-bold font-arabic">
-                        <ArrowUpDown className="w-4 h-4 text-[#d4c59d]" />
-                        <span>تصفية وترتيب المشاريع (Filter & Sort):</span>
-                      </div>
+                                  {/* Top-Right Arabic / Type Badge */}
+                                  <span className="absolute top-2.5 right-2.5 text-[10px] font-mono uppercase tracking-widest bg-black/85 text-[#d4c59d] border border-[#d4c59d]/30 px-2 py-0.5 rounded shadow z-10 pointer-events-none">
+                                    {proj.projectType}
+                                  </span>
 
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <button
-                          type="button"
-                          onClick={() => setHomeProjectFilter('all')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeProjectFilter === 'all'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          الكل (All)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeProjectFilter('hotel')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeProjectFilter === 'hotel'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          فنادق (Hotels)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeProjectFilter('palace')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeProjectFilter === 'palace'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          قصور وفيلات (Palaces/Villas)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeProjectFilter('restaurant')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeProjectFilter === 'restaurant'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          مطاعم (Dining)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeProjectFilter('commercial')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeProjectFilter === 'commercial'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          تجارية ومعمارية
-                        </button>
+                                  {/* Top-Left Dossier Number */}
+                                  <span className="absolute top-2.5 left-2.5 text-[10px] font-mono text-[#f5f0e6] bg-black/85 border border-[#d4c59d]/30 px-2 py-0.5 rounded shadow z-10 pointer-events-none">
+                                    DOSSIER {String(projIdx + 1).padStart(2, '0')}
+                                  </span>
 
-                        <div className="hidden sm:block h-4 w-px bg-[#d4c59d]/30 mx-1" />
-
-                        <button
-                          type="button"
-                          onClick={() => setHomeProjectSort('default')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeProjectSort === 'default'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          الافتراضي
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setHomeProjectSort('name-asc')}
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                            homeProjectSort === 'name-asc'
-                              ? 'bg-[#d4c59d] text-[#000000]'
-                              : 'bg-[#1a1a1a] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000]'
-                          }`}
-                        >
-                          A → Z
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => setIsProjectManagerOpen(true)}
-                          className="px-3 py-1 rounded-full text-xs font-bold bg-[#1e1a14] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-black transition-all cursor-pointer flex items-center gap-1 font-arabic ml-auto sm:ml-2"
-                          title="ترتيب وتخصيص المشاريع"
-                        >
-                          <SlidersHorizontal className="w-3.5 h-3.5" />
-                          <span>ترتيب المشاريع</span>
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Projects Visual Grid (Cards matching Category Card format) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {projects
-                      .filter((p) => {
-                        if (!isAdmin && !p.published) return false;
-                        if (homeProjectFilter === 'all') return true;
-                        if (homeProjectFilter === 'hotel') return p.projectType.toLowerCase().includes('hotel');
-                        if (homeProjectFilter === 'palace') return p.projectType.toLowerCase().includes('palace') || p.projectType.toLowerCase().includes('villa') || p.projectType.toLowerCase().includes('residential');
-                        if (homeProjectFilter === 'restaurant') return p.projectType.toLowerCase().includes('restaurant');
-                        if (homeProjectFilter === 'commercial') return p.projectType.toLowerCase().includes('commercial') || p.projectType.toLowerCase().includes('architectural') || p.projectType.toLowerCase().includes('retail');
-                        return true;
-                      })
-                      .sort((a, b) => {
-                        if (homeProjectSort === 'name-asc') return a.title.localeCompare(b.title);
-                        if (homeProjectSort === 'year-desc') return (Number(b.year) || 0) - (Number(a.year) || 0);
-                        return (a.sortOrder || 0) - (b.sortOrder || 0);
-                      })
-                      .map((proj) => {
-                        const isVideo = proj.mediaType === 'video' && !!proj.videoUrl;
-                        return (
-                          <TiltCard
-                            key={proj.id}
-                            onClick={() => navigateToProject(proj)}
-                            className="group bg-[#0e0d0a] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-xl overflow-hidden shadow-lg cursor-pointer flex flex-col justify-between"
-                          >
-                            <div className="relative overflow-hidden bg-black aspect-[16/10]">
-                              <TurathMedia
-                                type={isVideo ? 'video' : 'image'}
-                                src={proj.coverImage}
-                                videoUrl={proj.videoUrl}
-                                poster={proj.videoPoster || proj.coverImage}
-                                ratio={proj.coverRatio || 'Original'}
-                                customWidth={proj.coverCustomRatioWidth}
-                                customHeight={proj.coverCustomRatioHeight}
-                                fit={proj.coverFit || 'cover'}
-                                position={proj.coverPosition || 'center'}
-                                alt={proj.title}
-                                containerClassName="w-full h-full"
-                                mediaClassName="group-hover:scale-105 transition-transform duration-700 ease-out"
-                                autoPlay={isVideo}
-                                muted={true}
-                                loop={true}
-                                playsInline={true}
-                                showVideoBadge={isVideo}
-                              />
-
-                              {/* Top-Right Arabic / Type Badge */}
-                              <span className="absolute top-2.5 right-2.5 text-[11px] font-arabic font-bold bg-[#d4c59d] text-[#000000] px-2 py-0.5 rounded shadow z-10 pointer-events-none">
-                                {proj.projectType}
-                              </span>
-
-                              {/* Draft watermark badge for admin */}
-                              {!proj.published && (
-                                <span className="absolute top-2.5 left-2.5 text-[10px] font-mono font-bold bg-amber-500/90 text-black px-2 py-0.5 rounded shadow z-10 pointer-events-none flex items-center gap-1">
-                                  <EyeOff className="w-3 h-3" />
-                                  <span>Draft</span>
-                                </span>
-                              )}
-
-                              {/* Direct Edit & Manage Button on each card - Admin Only */}
-                              {isAdmin && (
-                                <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 z-20">
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditingProject(proj);
-                                      setIsProjectEditorOpen(true);
-                                    }}
-                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/60 text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-arabic"
-                                    title="تعديل هذا المشروع"
-                                  >
-                                    <Edit3 className="w-3 h-3" />
-                                    <span>تعديل</span>
-                                  </button>
-
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleTogglePublishProject(proj);
-                                    }}
-                                    className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/85 text-[#d4c59d] hover:text-white border border-[#d4c59d]/60 text-[10px] font-bold transition-all shadow-lg cursor-pointer"
-                                    title={proj.published ? 'إلغاء النشر' : 'نشر'}
-                                  >
-                                    {proj.published ? <Eye className="w-3 h-3 text-emerald-400" /> : <EyeOff className="w-3 h-3 text-amber-400" />}
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="p-4 space-y-2 flex-grow flex flex-col justify-between">
-                              <div className="space-y-1">
-                                <div className="flex items-center justify-between gap-2">
-                                  <h3 className="font-serif-luxury text-base font-bold text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors line-clamp-1">
-                                    {proj.title}
-                                  </h3>
-                                  {proj.year && (
-                                    <span className="text-[10px] text-[#000000] font-bold bg-[#d4c59d] px-1.5 py-0.2 rounded font-mono flex-shrink-0">
-                                      {proj.year}
+                                  {/* Draft watermark badge for admin */}
+                                  {!proj.published && (
+                                    <span className="absolute top-10 left-2.5 text-[10px] font-mono font-bold bg-amber-500/90 text-black px-2 py-0.5 rounded shadow z-10 pointer-events-none flex items-center gap-1">
+                                      <EyeOff className="w-3 h-3" />
+                                      <span>Draft</span>
                                     </span>
+                                  )}
+
+                                  {/* Direct Edit & Manage Button on each card - Admin Only */}
+                                  {isAdmin && (
+                                    <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 z-20">
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setEditingProject(proj);
+                                          setIsProjectEditorOpen(true);
+                                        }}
+                                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 hover:bg-[#d4c59d] text-[#d4c59d] hover:text-[#000000] border border-[#d4c59d]/60 text-[10px] font-bold uppercase tracking-wider transition-all shadow-lg cursor-pointer font-arabic"
+                                        title="تعديل هذا المشروع"
+                                      >
+                                        <Edit3 className="w-3 h-3" />
+                                        <span>تعديل</span>
+                                      </button>
+
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleTogglePublishProject(proj);
+                                        }}
+                                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/85 text-[#d4c59d] hover:text-white border border-[#d4c59d]/60 text-[10px] font-bold transition-all shadow-lg cursor-pointer"
+                                        title={proj.published ? 'إلغاء النشر' : 'نشر'}
+                                      >
+                                        {proj.published ? <Eye className="w-3 h-3 text-emerald-400" /> : <EyeOff className="w-3 h-3 text-amber-400" />}
+                                      </button>
+                                    </div>
                                   )}
                                 </div>
 
-                                <div className="flex items-center gap-1.5 text-[11px] text-[#d4c59d]">
-                                  <MapPin className="w-3 h-3 text-[#d4c59d]" />
-                                  <span>{proj.location}</span>
-                                </div>
-                              </div>
+                                <div className="p-4 space-y-3 flex-grow flex flex-col justify-between">
+                                  <div className="space-y-1.5">
+                                    <div className="flex items-center justify-between gap-2">
+                                      <h3 className="font-serif-luxury text-base font-light text-[#f5f0e6] group-hover:text-[#d4c59d] transition-colors line-clamp-1">
+                                        {proj.title}
+                                      </h3>
+                                      {proj.year && (
+                                        <span className="text-[10px] text-[#d4c59d] border border-[#d4c59d]/30 bg-black/60 px-1.5 py-0.5 rounded font-mono flex-shrink-0">
+                                          {proj.year}
+                                        </span>
+                                      )}
+                                    </div>
 
-                              <div className="pt-3 border-t border-[#d4c59d]/15 flex items-center justify-between text-xs text-[#d4c59d] font-semibold group-hover:translate-x-1 transition-transform">
-                                <span className="font-arabic text-[11px]">عرض تفاصيل المشروع (Case Study)</span>
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </div>
-                            </div>
-                          </TiltCard>
-                        );
-                      })}
+                                    <div className="flex items-center gap-1.5 text-[11px] text-[#9e9174]">
+                                      <MapPin className="w-3 h-3 text-[#d4c59d]" />
+                                      <span>{proj.location}</span>
+                                    </div>
+
+                                    {proj.materials && (
+                                      <div className="text-[10px] font-mono text-[#d4c59d]/80 truncate">
+                                        ✦ {proj.materials}
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="pt-3 border-t border-[#d4c59d]/15 flex items-center justify-between text-xs text-[#d4c59d] font-mono group-hover:translate-x-1 transition-transform">
+                                    <span className="text-[10px] uppercase tracking-wider">View Case Study</span>
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                  </div>
+                                </div>
+                              </TiltCard>
+                            );
+                          })}
+                      </div>
+                    )}
                   </div>
-                </div>
-              </section>
+                </section>
+              )}
 
               {/* OUR CLIENTS & PARTNERS Section on Home (Only shown when published entries exist or in Admin mode) */}
-              {(isAdmin || clientsPartners.some((i) => i.published)) && (
+              {isSectionVisible(siteContent, 'clientsPartners') && (isAdmin || clientsPartners.some((i) => i.published)) && (
                 <section className="py-14 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#0a0907] border-b border-[#d4c59d]/30 relative overflow-hidden">
                   <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                       <div className="space-y-2">
-                        <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
-                          Our Clients <span className="text-[#d4c59d]">& Partners</span>
-                        </h2>
-                        <p className="font-arabic text-sm sm:text-base text-[#d4c59d]" dir="rtl">
-                          شركاء النجاح وكبار العملاء الذين يقدّرون الدقة وأصالة الحرفة النحاسية المصرية
-                        </p>
-                        <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl font-sans">
-                          Trusted by clients and partners who value Egyptian craftsmanship, precision, and distinctive metalwork.
-                        </p>
+                        {isElementVisible(siteContent, 'clientsTitle') && (
+                          <h2 className="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5f0e6]">
+                            {siteContent?.clientsSectionTitle || 'Our Clients'} <span className="text-[#d4c59d]">& Partners</span>
+                          </h2>
+                        )}
+                        {isElementVisible(siteContent, 'clientsSubtitleAr') && (
+                          <p className="font-arabic text-sm sm:text-base text-[#d4c59d]" dir="rtl">
+                            {siteContent?.clientsSectionSubtitleAr || 'شركاء النجاح وكبار العملاء الذين يقدّرون الدقة وأصالة الحرفة النحاسية المصرية'}
+                          </p>
+                        )}
+                        {isElementVisible(siteContent, 'clientsSubtitleEn') && (
+                          <p className="text-xs sm:text-sm text-[#9e9174] max-w-2xl font-sans">
+                            {siteContent?.clientsSectionSubtitleEn || 'Trusted by clients and partners who value Egyptian craftsmanship, precision, and distinctive metalwork.'}
+                          </p>
+                        )}
                       </div>
 
                       <div className="flex flex-wrap items-center gap-3">
@@ -1954,102 +2089,122 @@ export function App() {
                           </button>
                         )}
 
-                        <button
-                          type="button"
-                          onClick={() => navigateTo('clients-partners')}
-                          className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
-                        >
-                          <span>View All Clients & Partners</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
+                        {isElementVisible(siteContent, 'clientsAllBtn') && (
+                          <button
+                            type="button"
+                            onClick={() => navigateTo('clients-partners')}
+                            className="gold-shimmer-hover inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md bg-[#d4c59d] text-[#000000] hover:bg-[#e6d8b5] transition-all shadow cursor-pointer"
+                          >
+                            <span>{siteContent?.clientsSectionButtonText || 'View All Clients & Partners'}</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </div>
                     </div>
 
                     {/* Logo Showcase Grid */}
-                    {clientsPartners.filter((i) => isAdmin || i.published).length > 0 ? (
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
-                        {clientsPartners
-                          .filter((i) => isAdmin || i.published)
-                          .map((item) => (
-                            <div
-                              key={`home-cp-${item.id}`}
-                              onClick={() => {
-                                if (item.websiteUrl) {
-                                  window.open(item.websiteUrl, '_blank', 'noopener,noreferrer');
-                                } else {
-                                  navigateTo('clients-partners');
-                                }
-                              }}
-                              className="group p-4 rounded-xl bg-[#11100c] border border-[#d4c59d]/15 hover:border-[#d4c59d]/60 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer shadow-sm hover:shadow-[0_8px_25px_rgba(0,0,0,0.8)]"
-                              title={item.websiteUrl ? `Visit ${item.name} (${item.websiteUrl})` : item.name}
-                            >
-                              <div className="w-full h-16 sm:h-20 flex items-center justify-center p-2 mb-2">
-                                {item.logo ? (
-                                  <img
-                                    src={item.logo}
-                                    alt={item.name}
-                                    className="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 opacity-75 group-hover:opacity-100 transition-all duration-300"
-                                    loading="lazy"
-                                  />
-                                ) : (
-                                  <span className="text-xs font-bold text-[#d4c59d]">{item.name}</span>
-                                )}
+                    {isElementVisible(siteContent, 'clientsGrid') && (
+                      clientsPartners.filter((i) => isAdmin || i.published).length > 0 ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                          {clientsPartners
+                            .filter((i) => isAdmin || i.published)
+                            .map((item) => (
+                              <div
+                                key={`home-cp-${item.id}`}
+                                onClick={() => {
+                                  if (item.websiteUrl) {
+                                    window.open(item.websiteUrl, '_blank', 'noopener,noreferrer');
+                                  } else {
+                                    navigateTo('clients-partners');
+                                  }
+                                }}
+                                className="group p-4 rounded-xl bg-[#11100c] border border-[#d4c59d]/15 hover:border-[#d4c59d]/60 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer shadow-sm hover:shadow-[0_8px_25px_rgba(0,0,0,0.8)]"
+                                title={item.websiteUrl ? `Visit ${item.name} (${item.websiteUrl})` : item.name}
+                              >
+                                <div className="w-full h-16 sm:h-20 flex items-center justify-center p-2 mb-2">
+                                  {item.logo ? (
+                                    <img
+                                      src={item.logo}
+                                      alt={item.name}
+                                      className="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 opacity-75 group-hover:opacity-100 transition-all duration-300"
+                                      loading="lazy"
+                                    />
+                                  ) : (
+                                    <span className="text-xs font-bold text-[#d4c59d]">{item.name}</span>
+                                  )}
+                                </div>
+                                <span className="text-[11px] font-medium text-[#c4b58d] group-hover:text-[#f5f0e6] transition-colors truncate max-w-full">
+                                  {item.name}
+                                </span>
+                                <span className="text-[9px] uppercase tracking-wider text-[#9e9174] mt-0.5">
+                                  {item.type === 'partner' ? 'Partner' : 'Client'}
+                                </span>
                               </div>
-                              <span className="text-[11px] font-medium text-[#c4b58d] group-hover:text-[#f5f0e6] transition-colors truncate max-w-full">
-                                {item.name}
-                              </span>
-                              <span className="text-[9px] uppercase tracking-wider text-[#9e9174] mt-0.5">
-                                {item.type === 'partner' ? 'Partner' : 'Client'}
-                              </span>
-                            </div>
-                          ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 text-xs text-[#9e9174] bg-[#11100c] rounded-xl border border-[#d4c59d]/20 p-6">
-                        <p>No clients or partners registered yet.</p>
-                      </div>
+                            ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8 text-xs text-[#9e9174] bg-[#11100c] rounded-xl border border-[#d4c59d]/20 p-6">
+                          <p>No clients or partners registered yet.</p>
+                        </div>
+                      )
                     )}
                   </div>
                 </section>
               )}
 
               {/* About Section */}
-              <AboutSection 
-                content={siteContent} 
-                isAdmin={isAdmin}
-                onOpenChangePhoto={() => {
-                  setAboutPhotoTarget('about');
-                  setIsAboutPhotoModalOpen(true);
-                }}
-              />
+              {isSectionVisible(siteContent, 'about') && (
+                <AboutSection 
+                  content={siteContent} 
+                  isAdmin={isAdmin}
+                  onOpenChangePhoto={() => {
+                    setAboutPhotoTarget('about');
+                    setIsAboutPhotoModalOpen(true);
+                  }}
+                />
+              )}
 
               {/* Founder Section */}
-              <FounderSection 
-                content={siteContent} 
-                isAdmin={isAdmin}
-                onOpenChangePhoto={() => {
-                  setAboutPhotoTarget('founder');
-                  setIsAboutPhotoModalOpen(true);
-                }}
-              />
+              {isSectionVisible(siteContent, 'founder') && (
+                <FounderSection 
+                  content={siteContent} 
+                  isAdmin={isAdmin}
+                  onOpenChangePhoto={() => {
+                    setAboutPhotoTarget('founder');
+                    setIsAboutPhotoModalOpen(true);
+                  }}
+                />
+              )}
 
-            {/* Custom Manufacturing */}
-            <CustomManufacturingSection
-              onStartCustomProject={() => {
-                setInquiryPreFill({
-                  notes: 'Custom Manufacturing Request: I have a custom design idea/dimensions for fabrication.',
-                });
-                navigateTo('contact');
-              }}
-            />
+              {/* Custom Manufacturing */}
+              {isSectionVisible(siteContent, 'customFabrication') && (
+                <CustomManufacturingSection
+                  content={siteContent}
+                  onStartCustomProject={() => {
+                    setInquiryPreFill({
+                      notes: 'Custom Manufacturing Request: I have a custom design idea/dimensions for fabrication.',
+                    });
+                    navigateTo('contact');
+                  }}
+                />
+              )}
 
-            {/* Why Choose Turath */}
-            <WhyChooseUsSection content={siteContent} />
+              {/* Why Choose Turath */}
+              {isSectionVisible(siteContent, 'whyUs') && (
+                <WhyChooseUsSection content={siteContent} />
+              )}
 
-            {/* Contact Section & Form */}
-            <ContactSection initialData={inquiryPreFill} content={siteContent} />
-          </motion.div>
-        )}
+              {/* Contact Section & Form */}
+              {isSectionVisible(siteContent, 'contact') && (
+                <ContactSection initialData={inquiryPreFill} content={siteContent} />
+              )}
+
+              {/* Final Brand Statement - Removed as requested */}
+              {false && (
+                <FinalBrandStatement content={siteContent} />
+              )}
+            </motion.div>
+          )}
         </AnimatePresence>
       </main>
 
@@ -2128,6 +2283,38 @@ export function App() {
           currentContent={siteContent}
           onSaveContent={handleSaveSiteContent}
           onResetContent={handleResetSiteContent}
+          onOpenThemeEditor={() => setIsThemeEditorOpen(true)}
+          onOpenHeroVideoModal={() => setIsHeroVideoModalOpen(true)}
+          onOpenAboutPhotoModal={(target) => {
+            setIsSiteContentEditorOpen(false);
+            setAboutPhotoTarget(target);
+            setIsAboutPhotoModalOpen(true);
+          }}
+        />
+      )}
+
+      {/* Theme & Appearance Editor Modal */}
+      {isThemeEditorOpen && (
+        <ThemeEditorModal
+          isOpen={isThemeEditorOpen}
+          onClose={() => setIsThemeEditorOpen(false)}
+          currentTheme={siteContent?.theme}
+          onSaveTheme={handleSaveTheme}
+          onResetTheme={handleResetTheme}
+        />
+      )}
+
+      {/* Hero Video Management Modal */}
+      {isHeroVideoModalOpen && (
+        <EditHeroVideoModal
+          isOpen={isHeroVideoModalOpen}
+          onClose={() => setIsHeroVideoModalOpen(false)}
+          currentVideoUrl={siteContent.heroVideoUrl || siteContent.hero?.videoUrl}
+          initialFit={siteContent.heroVideoFit || siteContent.hero?.videoFit || 'cover'}
+          initialRatio={siteContent.heroVideoRatio || siteContent.hero?.videoRatio || 'Auto'}
+          initialCustomRatio={siteContent.heroVideoCustomRatio || siteContent.hero?.videoCustomRatio || ''}
+          initialOpacity={siteContent.heroVideoOpacity !== undefined ? siteContent.heroVideoOpacity : (siteContent.hero?.videoOpacity !== undefined ? siteContent.hero.videoOpacity : 85)}
+          onSaveVideo={handleSaveHeroVideo}
         />
       )}
 

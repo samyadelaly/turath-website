@@ -14,8 +14,10 @@ import {
   Camera, 
   Edit3,
   ArrowUpDown,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Share2
 } from 'lucide-react';
+import { ProductSocialCardModal } from './ProductSocialCardModal';
 
 interface AllProductsViewProps {
   products: ProductItem[];
@@ -39,6 +41,7 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [categorySortBy, setCategorySortBy] = useState<'default' | 'name-asc' | 'name-desc' | 'count-desc'>('default');
+  const [isCatalogueCardOpen, setIsCatalogueCardOpen] = useState(false);
 
   // Pause and mute videos when searching or when component unmounts
   useEffect(() => {
@@ -77,7 +80,7 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
   });
 
   return (
-    <div className="min-h-screen pt-10 sm:pt-14 lg:pt-16 pb-16 lg:pb-24 px-4 sm:px-6 lg:px-8 bg-[#000000]">
+    <div className="turath-products-page min-h-screen pt-10 sm:pt-14 lg:pt-16 pb-16 lg:pb-24 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10 lg:space-y-12">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
@@ -102,6 +105,17 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
                 className="w-full bg-[#000000] border border-[#d4c59d]/50 rounded-full pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#f5f0e6] focus:outline-none focus:border-[#d4c59d] placeholder-[#777]"
               />
             </div>
+
+            {/* Share Catalogue Card Button */}
+            <button
+              type="button"
+              onClick={() => setIsCatalogueCardOpen(true)}
+              className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-wider rounded-full bg-[#161616] border border-[#d4c59d] text-[#d4c59d] hover:bg-[#d4c59d] hover:text-[#000000] transition-all shadow font-arabic cursor-pointer"
+              title="مشاركة بطاقة الكتالوج الشاملة / Share Catalogue Card"
+            >
+              <Share2 className="w-3.5 h-3.5 text-[#d4c59d]" />
+              <span>مشاركة الكتالوج</span>
+            </button>
 
             {isAdmin && (
               <>
@@ -214,7 +228,7 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
             return (
               <TiltCard
                 key={category.id}
-                className="group relative bg-[#000000] border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between"
+                className="group relative border border-[#d4c59d]/30 hover:border-[#d4c59d] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Category Media Cover (Image or Video) - Governed by Global Ratio System */}
                 <TurathMedia
@@ -222,7 +236,7 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
                   src={category.coverImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80'}
                   videoUrl={category.coverVideoUrl}
                   computedRatio={coverRatio}
-                  containerClassName="cursor-pointer bg-[#000000]"
+                  containerClassName="cursor-pointer"
                   mediaClassName="group-hover:scale-105 transition-transform duration-700 brightness-90 group-hover:brightness-100"
                   autoPlay={true}
                   muted={true}
@@ -319,6 +333,13 @@ export const AllProductsView: React.FC<AllProductsViewProps> = ({
           })}
         </div>
       </div>
+
+      {/* Catalogue-wide Social Media Sharing Card */}
+      <ProductSocialCardModal
+        isOpen={isCatalogueCardOpen}
+        onClose={() => setIsCatalogueCardOpen(false)}
+        isCatalogue={true}
+      />
     </div>
   );
 };
