@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import { getAllServerProducts } from './metaFeed';
 import { getAllServerProjects } from './serverProjectStorage';
-import { INITIAL_PRODUCTS } from './initialCatalog';
+import { INITIAL_PRODUCTS, PRODUCT_CATEGORIES } from './initialCatalog';
 import { INITIAL_PROJECTS } from './initialProjects';
 import { ProductItem, ProjectItem } from './types';
 
@@ -63,6 +63,19 @@ export default async function handler(req: Request, res: Response) {
       }
     } else if (pathParts[0] === 'projects') {
       slug = pathParts[1];
+    } else if (pathParts[0] === 'share' || pathParts[0] === 'p') {
+      slug = pathParts[1];
+    }
+  }
+
+  // Handle slashes inside slug parameter (e.g. from Vercel rewrite /products/$1 where $1 is "mirrors/raw-brass-mirror")
+  if (slug.includes('/')) {
+    const parts = slug.split('/').filter(Boolean);
+    if (parts.length >= 2) {
+      if (!category) category = parts[0];
+      slug = parts[parts.length - 1];
+    } else if (parts.length === 1) {
+      slug = parts[0];
     }
   }
 
@@ -72,6 +85,38 @@ export default async function handler(req: Request, res: Response) {
 
   const cleanSlug = slug.toLowerCase();
   const cleanCat = category.toLowerCase();
+
+  // 0. CATALOGUE / CATALOGUE-WIDE OVERVIEW
+  const isCatalogueShare =
+    !slug ||
+    slug === 'catalogue' ||
+    slug === 'catalog' ||
+    slug === 'all-products' ||
+    (slug === 'products' && !category);
+
+  if (isCatalogueShare && !cleanCat) {
+    const targetUrl = `${baseUrl}/products`;
+    const canonicalUrl = `${baseUrl}/products`;
+    const heading = 'TURATH Egypt Official Catalogue | كتالوج تراث للصناعات النحاسية';
+    const title = 'TURATH | Handcrafted Egyptian Brass & Copper Catalogue';
+    const description = 'Official luxury architectural catalogue featuring authentic Egyptian solid brass chandeliers, handcrafted mirrors, engraved tables, and bespoke metalwork from Historic Cairo.';
+    const imageUrl = `${baseUrl}/turath_logo.jpg`;
+
+    const html = generateShareHtml({
+      title,
+      description,
+      imageUrl,
+      targetUrl,
+      canonicalUrl,
+      ogType: 'website',
+      heading,
+      buttonText: 'Explore Handcrafted Brass Catalogue &rarr;',
+    });
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
+    return res.send(html);
+  }
 
   // Supabase client instance
   let supabase: any = null;
@@ -336,6 +381,36 @@ export default async function handler(req: Request, res: Response) {
     }
   }
 
+  // Check local PRODUCT_CATEGORIES
+  if (!matchedProduct && !matchedCategoryInfo && cleanSlug) {
+    const localCat = PRODUCT_CATEGORIES.find(
+      (c) => c.id.toLowerCase() === cleanSlug
+    );
+    if (localCat) {
+      const targetUrl = `${baseUrl}/products/${localCat.id}`;
+      const canonicalUrl = `${baseUrl}/products/${localCat.id}`;
+      const heading = `${localCat.name} Collection (${localCat.nameArabic || ''}) | TURATH`;
+      const title = `${localCat.name} Collection | TURATH Egypt`;
+      const description = localCat.description || localCat.shortDesc || 'Authentic Handcrafted Egyptian Brass Collection';
+      const imageUrl = formatAbsoluteUrl(localCat.coverImage, baseUrl);
+
+      const html = generateShareHtml({
+        title,
+        description,
+        imageUrl,
+        targetUrl,
+        canonicalUrl,
+        ogType: 'website',
+        heading,
+        buttonText: `Explore ${localCat.name} Collection &rarr;`,
+      });
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
+      return res.send(html);
+    }
+  }
+
   // If a slug was requested but no product, project, or category matched, return clean 404
   if (!matchedProduct && !matchedCategoryInfo) {
     if (cleanSlug) {
@@ -405,16 +480,29 @@ export default async function handler(req: Request, res: Response) {
       matchedProduct.mainImage,
       ...(Array.isArray(matchedProduct.images) ? matchedProduct.images : []),
       ...(Array.isArray(matchedProduct.galleryImages) ? matchedProduct.galleryImages : []),
-    ].filter(Boolean);
+    ].filter(Boolean) as string[];
+
+    // If product only has placeholder logo, look up compiled photo from INITIAL_PRODUCTS
+    const initialItem = INITIAL_PRODUCTS.find(
+      (p) => p.id === matchedProduct!.id || p.sku === matchedProduct!.sku || p.seoSlug === matchedProduct!.seoSlug
+    );
+    if (initialItem && initialItem.mainImage && !initialItem.mainImage.includes('turath_logo')) {
+      candidates.unshift(initialItem.mainImage);
+      if (Array.isArray(initialItem.images)) {
+        candidates.push(...initialItem.images);
+      }
+    }
 
     const supabaseCandidate = candidates.find((img) => isSupabaseStorageUrl(img));
     if (supabaseCandidate) {
       rawImg = supabaseCandidate;
     } else {
-      const nonUnsplash = candidates.find((img) => !isUnsplashUrl(img));
-      if (nonUnsplash) {
-        rawImg = nonUnsplash;
+      const nonLogoCandidate = candidates.find((img) => img && !img.includes('turath_logo'));
+      if (nonLogoCandidate) {
+        rawImg = nonLogoCandidate;
       } else if (matchedCategoryInfo && isSupabaseStorageUrl(matchedCategoryInfo.coverImage)) {
+        rawImg = matchedCategoryInfo.coverImage;
+      } else if (matchedCategoryInfo && matchedCategoryInfo.coverImage && !matchedCategoryInfo.coverImage.includes('turath_logo')) {
         rawImg = matchedCategoryInfo.coverImage;
       } else {
         rawImg = candidates[0] || '/turath_logo.jpg';

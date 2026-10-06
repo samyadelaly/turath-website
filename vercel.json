@@ -24,11 +24,33 @@
     }
   ],
   "rewrites": [
-    { "source": "/share/(.*)", "destination": "/index.html" },
-    { "source": "/p/(.*)", "destination": "/index.html" },
+    {
+      "source": "/products/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(.*(facebookexternalhit|Facebot|facebookcatalog|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|Applebot).*)"
+        }
+      ],
+      "destination": "/api/share?slug=$1"
+    },
+    {
+      "source": "/projects/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(.*(facebookexternalhit|Facebot|facebookcatalog|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|Applebot).*)"
+        }
+      ],
+      "destination": "/api/share?type=project&slug=$1"
+    },
+    { "source": "/share/(.*)", "destination": "/api/share?slug=$1" },
+    { "source": "/p/(.*)", "destination": "/api/share?slug=$1" },
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/products/(.*)", "destination": "/index.html" },
     { "source": "/projects/(.*)", "destination": "/index.html" },
-    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
