@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>TURATH — Class A Spatial Architecture</title>
+  <meta name="description" content="Bespoke monumental chandeliers, hand-hammered wall panels, sculptural mirrors, and luxury architectural brass & copper fixtures from Cairo, Egypt.">
+
+  <!-- Mobile & Social Media Rich Link Preview (Open Graph & Twitter Cards) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TURATH">
+  <meta property="og:title" content="TURATH — Egyptian Handcrafted Architectural Metalwork">
+  <meta property="og:description" content="Bespoke monumental chandeliers, hand-hammered wall panels, sculptural mirrors, and luxury architectural brass & copper fixtures from Cairo, Egypt.">
+  <meta property="og:image" content="/assets/images/craft-metalwork.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TURATH — Egyptian Handcrafted Architectural Metalwork">
+  <meta name="twitter:description" content="Bespoke monumental chandeliers, hand-hammered wall panels, sculptural mirrors, and luxury architectural brass & copper fixtures from Cairo, Egypt.">
+  <meta name="twitter:image" content="/assets/images/craft-metalwork.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       MINIMAL DYNAMIC HEADER (Auto Theme Contrast Switching)
+       ======================================================================== -->
+  <header id="site-header" class="header site-header main-header theme-dark in-hero">
+    <!-- Top-Left Architectural Menu Trigger (2-line minimal icon) -->
+    <button id="menu-trigger" class="header-menu-trigger" type="button" aria-label="Open Navigation Menu" aria-expanded="false" aria-controls="nav-drawer">
+      <span class="menu-trigger-icon" aria-hidden="true">
+        <span class="menu-line line-1"></span>
+        <span class="menu-line line-2"></span>
+      </span>
+    </button>
+
+    <!-- Center Brand Logo Slot (Animated Scramble & FLIP Interpolator) -->
+    <div class="header-brand">
+      <a href="#hero" class="header-logo-slot" id="header-logo-slot" aria-label="TURATH Home">
+        <div class="turath-interpolator turath-logo logo-text" id="turath-logo" data-brand-logo>
+          <span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="U">U</span><span class="scramble-char" data-char="R">R</span><span class="scramble-char" data-char="A">A</span><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="H">H</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Top-Right Turath Brand Identity Logo -->
+    <a href="#hero" class="header-logo-right" aria-label="Turath Home">
+      <img src="./turath-brand-logo.jpg" alt="Turath" class="header-brand-img" />
+    </a>
+  </header>
+
+  <!-- ========================================================================
+       NAVIGATION MENU (Curtain-Drop Motion, 60% Backdrop, Gold Palette, Logo)
+       ======================================================================== -->
+  <aside id="nav-drawer" class="menu-overlay nav-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+    <!-- Brand Header with Medium Turath Logo (Left-Aligned with Typography) -->
+    <div class="menu-brand-header">
+      <img src="/assets/images/logo.png" alt="TURATH" class="menu-turath-logo" />
+    </div>
+
+    <!-- Links Container: Left-Aligned With Logo -->
+    <div class="menu-links-container">
+      <nav class="nav-drawer-list" aria-label="Main Navigation">
+        <ul class="nav-menu-items">
+          <li class="nav-menu-item">
+            <a href="#hero" class="nav-menu-link">Home</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#collections" class="nav-menu-link">COLLECTIONS</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#about-us" class="nav-menu-link">ABOUT US</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#location" class="nav-menu-link">FEATURED PRODUCTS</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#accessibility" class="nav-menu-link">PROJECTS</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#surroundings" class="nav-menu-link">FOUNDER</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#materials-finishes" class="nav-menu-link">MATERIALS &amp; FINISHES</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#bespoke-manufacturing" class="nav-menu-link">BESPOKE MANUFACTURING</a>
+          </li>
+          <li class="nav-menu-item">
+            <a href="#project-inquiry" class="nav-menu-link">PROJECT INQUIRY</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Internal smooth scroll container that handles all page content -->
+  <div id="app" class="app-viewport">
+
+    <main id="main-content">
+
+    <!-- ========================================================================
+         01 — INTRO / HERO (270svh Track / 100svh Sticky Viewport / Base Layer)
+         ======================================================================== -->
+    <section id="hero" class="hero-track" data-theme="dark">
+      <div class="hero-sticky">
+        
+        <!-- Layer 1: Ambient Sky / Atmosphere Background -->
+        <div class="hero-bg-layer" id="hero-bg"></div>
+
+        <!-- Layer 2: Architectural / Building Visual -->
+        <div class="hero-building-layer" id="hero-building">
+          <div class="hero-visual-container" id="hero-visual">
+            <div class="hero-plate-day" id="hero-day-container">
+              <img src="/assets/images/hero-turath-1.jpg?v=2" alt="Turath Architectural Art Piece - Base" class="scene-photo-cover" />
+            </div>
+            <div class="hero-plate-night" id="hero-night-container">
+              <img src="/assets/images/hero-turath-2.jpg?v=2" alt="Turath Architectural Art Piece - Reveal" class="scene-photo-cover" />
+            </div>
+          </div>
+          <!-- Hero Brand Description Overlay -->
+          <div class="hero-brand-description container">
+            <h2 style="color: #ffffff; font-size: 1.35rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem; text-shadow: 0 2px 8px rgba(0,0,0,0.6);">
+              Handcrafted Brass &amp; Copper Excellence from Egypt
+            </h2>
+            <p style="color: rgba(255, 255, 255, 0.85); font-size: 0.88rem; line-height: 1.5; margin: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.6);">
+              Premium handcrafted brass, copper and decorative metal products, made in Cairo, Egypt for luxury homes, hotels, restaurants, palaces and commercial projects worldwide.<br>
+              Gamaliya Street, Historic Cairo, Egypt.
+            </p>
+          </div>
+        </div>
+
+        <!-- Layer 3: Foreground Architectural Sheet with 90° Stepped Notch at Bottom Edge -->
+        <div class="hero-foreground-sheet" id="hero-sheet">
+          <!-- 1px Architectural Hairline Tracing Bottom Stepped Notch -->
+          <svg class="hero-sheet-hairline" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M 0,59.5 L 780,59.5 L 780,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+            <circle cx="780" cy="59.5" r="2.5" class="notch-accent-dot" />
+          </svg>
+
+          <!-- Layer 4: Hero Content Inside the Physical Sheet -->
+          <div class="hero-sheet-inner container">
+            <div class="hero-content-stack">
+              <span class="scene-eyebrow hero-eyebrow">Scroll Turath website..</span>
+              
+              <h1 class="hero-heading">
+                <span class="hero-line hero-line-devoted" id="hero-line-devoted">DEVOTED</span>
+                <span class="hero-line hero-line-creativity" id="hero-line-creativity">
+                  <span class="hero-creativity-text" id="hero-creativity-text">TO CREATIVITY</span><span class="hero-creativity-dots"> ..</span>
+                </span>
+              </h1>
+
+              <!-- Bottom-Left Hero Turath Anchor (Resting proportionally above stepped sheet line) -->
+              <div class="hero-turath-anchor-wrap">
+                <div class="hero-turath-anchor" id="hero-turath-anchor">
+                  <div class="hero-turath-ghost" aria-hidden="true">
+                    <span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="U">U</span><span class="scramble-char" data-char="R">R</span><span class="scramble-char" data-char="A">A</span><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="H">H</span>
+                  </div>
+                </div>
+                <!-- Interactive Scroll Down Arrow Next to TURATH (Right Side) -->
+                <button type="button" class="hero-scroll-next-btn" id="hero-scroll-next-btn" aria-label="Scroll to Collections">
+                  <span class="hero-arrow-ring" aria-hidden="true"></span>
+                  <svg class="hero-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         02 — ABOUT / CONCEPT (260svh / LEFT-SIDE STEP NOTCH ASCENDS OVER HERO)
+         ======================================================================== -->
+    <section id="about" class="scene-track" data-theme="dark">
+      <div id="collections" class="section-scroll-target" style="position: absolute; top: 0; left: 0; width: 0; height: 0; pointer-events: none;" aria-hidden="true"></div>
+      <div class="about-sheet-wrapper">
+        <!-- 1px Subtle Architectural Stepped Hairline (unclipped) -->
+        <svg class="notch-hairline left-step" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M 0,59.5 L 200,59.5 L 200,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+          <circle cx="200" cy="0.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+
+        <div class="scene-sheet sheet-step-left">
+          <!-- Architectural Depth Plate Behind Notch Cutout -->
+          <div class="scene-depth-plate" id="about-depth-plate"></div>
+
+          <div class="sheet-inner container about-sheet-inner">
+            <!-- Editorial Header Block with Strict Rhythm -->
+            <div class="about-editorial-header">
+              <span class="scene-eyebrow about-eyebrow">02 / OUR COLLECTIONS</span>
+              <h2 class="heading-monumental scene-heading about-heading">
+                Our Handcrafted Products
+              </h2>
+              <p class="body-lead scene-paragraph about-lead">
+                Discover our handcrafted brass and copper collections, combining Egyptian craftsmanship with timeless and contemporary design. Explore product photos, watch crafting videos, and find distinctive pieces for residential, hospitality, and commercial interiors. Looking for a specific design, finish, or dimension? Contact TURATH to discuss custom specifications tailored to your project.
+              </p>
+            </div>
+
+            <!-- 02 Collections: 3-Column Editorial Portrait Grid (8 Collections) -->
+            <div class="about-gallery-grid">
+              <!-- 01 / Brass Mirrors -->
+              <div class="about-frame-item frame-item-1" id="trigger-brass-mirrors" role="button" tabindex="0" aria-label="Open 01 / Brass Mirrors subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-1"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">01</span>
+                    <h3 class="frame-overlay-title">Brass Mirrors</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 02 / Lighting -->
+              <div class="about-frame-item frame-item-2" id="trigger-lighting" role="button" tabindex="0" aria-label="Open 02 / Lighting subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-2"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">02</span>
+                    <h3 class="frame-overlay-title">Lighting</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 03 / Handles -->
+              <div class="about-frame-item frame-item-3" id="trigger-handles" role="button" tabindex="0" aria-label="Open 03 / Handles subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-3"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">03</span>
+                    <h3 class="frame-overlay-title">Handles</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 04 / Tables & Consoles -->
+              <div class="about-frame-item frame-item-4" id="trigger-tables-consoles" role="button" tabindex="0" aria-label="Open 04 / Tables & Consoles subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-4"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">04</span>
+                    <h3 class="frame-overlay-title">Tables &amp; Consoles</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 05 / Handrails -->
+              <div class="about-frame-item frame-item-5" id="trigger-handrails" role="button" tabindex="0" aria-label="Open 05 / Handrails subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-5"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">05</span>
+                    <h3 class="frame-overlay-title">Handrails</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 06 / Decorative Objects -->
+              <div class="about-frame-item frame-item-6" id="trigger-decorative-objects" role="button" tabindex="0" aria-label="Open 06 / Decorative Objects subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-6"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">06</span>
+                    <h3 class="frame-overlay-title">Decorative Objects</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 07 / Wall Art -->
+              <div class="about-frame-item frame-item-7" id="trigger-wall-art" role="button" tabindex="0" aria-label="Open 07 / Wall Art subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-7"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">07</span>
+                    <h3 class="frame-overlay-title">Wall Art</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 08 / Partitions & Bookcases -->
+              <div class="about-frame-item frame-item-8" id="trigger-partitions-bookcases" role="button" tabindex="0" aria-label="Open 08 / Partitions & Bookcases subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-8"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">08</span>
+                    <h3 class="frame-overlay-title">Partitions &amp; Bookcases</h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 09 / Tableware -->
+              <div class="about-frame-item frame-item-9" id="trigger-tableware" role="button" tabindex="0" aria-label="Open 09 / Tableware subpage">
+                <div class="frame-window" data-parallax-frame>
+                  <div class="frame-window-inner" id="about-frame-9"></div>
+                  <div class="frame-overlay-scrim"></div>
+                  <div class="frame-overlay-content">
+                    <span class="frame-overlay-num">09</span>
+                    <h3 class="frame-overlay-title">Tableware</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         03 — PINNED INFORMATION SCENE (250svh / RIGHT-SIDE STEP NOTCH)
+         ======================================================================== -->
+    <section id="information" class="scene-track sheet-step-right" data-theme="dark">
+      <div id="about-us" class="section-scroll-target" style="position: absolute; top: 0; left: 0; width: 0; height: 0; pointer-events: none;" aria-hidden="true"></div>
+      <div class="scene-sheet" id="scene03-sheet">
+        <!-- Architectural Depth Plate: Massing Grid Behind Cutout -->
+        <div class="scene-depth-plate" id="info-depth-plate"></div>
+
+        <!-- 1px Subtle Architectural Stepped Hairline -->
+        <svg class="notch-hairline right-step scene03-top-hairline" id="scene03-top-hairline" viewBox="0 0 1000 60" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene03-top-path" d="M 0,0.5 L 780,0.5 L 780,59.5 L 1000,59.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene03-top-dot" cx="780" cy="0.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+
+        <!-- SCENE 03 TURATH 3-STAGE PINNED STORY CONTAINER -->
+        <div class="scene03-pinned-viewport">
+          <!-- TOP SECTION (~52% height): Architectural Visual Frame with 3 Cross-Fading Plates -->
+          <div class="scene03-visual-frame">
+            <!-- Stage 1 Image Plate -->
+            <div class="stage-image-slide info-stage-img is-active" id="info-stage-img-1" data-stage="1"></div>
+            <!-- Stage 2 Image Plate -->
+            <div class="stage-image-slide info-stage-img" id="info-stage-img-2" data-stage="2"></div>
+            <!-- Stage 3 Image Plate -->
+            <div class="stage-image-slide info-stage-img" id="info-stage-img-3" data-stage="3"></div>
+
+            <!-- Subtle Gradient Scrim at bottom of visual frame for contrast -->
+            <div class="scene03-visual-scrim" aria-hidden="true"></div>
+
+            <!-- OVERLAPPING TITLE: Lower-Left Boundary of Visual Frame -->
+            <div class="scene03-overlap-header">
+              <span class="scene-eyebrow info-eyebrow">03 / ABOUT TURATH</span>
+              <div class="scene03-title-viewport">
+                <h2 class="scene03-headline is-active" id="stage-title-1" data-stage="1">Skilled Hands, Timeless Craft</h2>
+                <h2 class="scene03-headline" id="stage-title-2" data-stage="2">Where Craftsmanship Comes to Life</h2>
+                <h2 class="scene03-headline" id="stage-title-3" data-stage="3">Made by Hand, Built on Experience</h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- MORPHING 1px STEPPED NOTCH SEAM HAIRLINE -->
+          <svg class="scene03-seam-hairline" id="scene03-seam-hairline" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true">
+            <path id="scene03-seam-path" d="M 0,35.5 L 280,35.5 L 280,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+            <circle id="scene03-seam-dot" cx="280" cy="35.5" r="2.5" class="notch-accent-dot" />
+          </svg>
+
+          <!-- BOTTOM SECTION (~48% height): Dark Solid Container -->
+          <div class="scene03-bottom-module">
+            <!-- Centered Architectural Line-Art Icon & Swappable Description -->
+            <div class="scene03-content-deck">
+              <!-- Stage 1 Content -->
+              <div class="scene03-stage-pane is-active" data-stage="1" id="stage-pane-1">
+                <p class="scene03-copy">
+                  TURATH is a premier Egyptian manufacturer specializing in authentic, high-end handcrafted brass, copper, and decorative metal products.
+                </p>
+              </div>
+
+              <!-- Stage 2 Content -->
+              <div class="scene03-stage-pane" data-stage="2" id="stage-pane-2">
+                <p class="scene03-copy">
+                  Our collections bring together traditional craftsmanship and contemporary design, offering distinctive pieces crafted with attention to detail, material quality, and finish.
+                </p>
+              </div>
+
+              <!-- Stage 3 Content -->
+              <div class="scene03-stage-pane" data-stage="3" id="stage-pane-3">
+                <p class="scene03-copy">
+                  At TURATH, every piece reflects our commitment to Egyptian craftsmanship, creative expression, and the enduring beauty of handmade metalwork.
+                </p>
+              </div>
+            </div>
+
+            <!-- Fixed Bottom Indicator Bar -->
+            <div class="scene03-indicator-bar">
+              <div class="scene03-counter-row">
+                <span class="scene03-counter-current" id="volumetric-counter-current">1</span>
+                <span class="scene03-counter-total">/ 3</span>
+              </div>
+              <div class="scene03-progress-track">
+                <div class="scene03-progress-fill" id="volumetric-counter-fill" style="width: 33.33%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         04 — STRATEGIC POSITION / VIDEO (200svh / FULL-BLEED HIGHWAY COMMUTE VIDEO)
+         ======================================================================== -->
+    <section id="location" class="scene-track scene04-video-track" data-theme="dark">
+      <div class="scene-sheet scene04-video-container" id="scene04-sheet">
+                <!-- Cinematic Full-Bleed Highway / Commute Video -->
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          poster="/assets/images/commute-poster.jpg"
+          class="scene04-video-bg"
+          id="scene04-video"
+        >
+          <source src="/video/commute.mp4" type="video/mp4" />
+          <source src="/video/commute.webm" type="video/webm" />
+        </video>
+
+        <!-- Subtle Cinematic Bottom Scrim for crisp typography -->
+        <div class="scene04-video-scrim scene04-scrim scene04-overlay"></div>
+
+        <!-- Floating Editorial Caption Overlay with Parallax Inertia -->
+        <div class="scene04-caption-overlay container" id="scene04-caption-overlay">
+          <div class="scene04-caption-inner" id="scene04-caption-inner">
+            <div class="scene04-header-block">
+              <span class="scene-eyebrow scene04-eyebrow">04 / FEATURED PRODUCTS</span>
+              <h2 class="scene04-headline">
+                Featured Handcrafted Masterpieces
+              </h2>
+              <p class="scene04-desc">
+                Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
+              </p>
+            </div>
+
+            <!-- Featured Handcrafted Masterpieces Categories -->
+            <div class="scene04-products-grid scene04-buttons-grid scene04-pills-container">
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Brass &amp; Copper Mirrors</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Chandeliers &amp; Lighting</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Tables &amp; Consoles</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Decorative Objects</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Door Handles &amp; Hardware</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Handrails &amp; Architectural Metalwork</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Wall Art</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Partitions &amp; Bookcases</span>
+              </div>
+              <div class="scene04-product-chip">
+                <span class="chip-accent-dot"></span>
+                <span class="chip-label">Tableware</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Exit Seam) -->
+        <svg class="scene04-bottom-hairline" id="scene04-bottom-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene04-bottom-hairline-path" d="M 0,47.5 L 740,47.5 L 740,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene04-bottom-hairline-dot" cx="740" cy="47.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         05 — TURATH PROJECTS (CLONED ARCHITECTURE FROM 04 / ZERO STROKE)
+         ======================================================================== -->
+    <section id="scene05" class="scene-track scene05-track" data-theme="dark">
+      <!-- Anchor aliases for #accessibility & #projects navigation links -->
+      <div id="accessibility" style="position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden;"></div>
+      <div id="projects" style="position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden;"></div>
+      <div class="scene-sheet scene05-sheet" id="scene05-sheet">
+        <!-- TOP MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Entry Seam) -->
+        <svg class="scene05-top-hairline" id="scene05-top-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene05-top-hairline-path" d="M 0,47.5 L 240,47.5 L 240,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene05-top-hairline-dot" cx="240" cy="47.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+
+        <!-- Background Media: Full-Bleed Project Photo -->
+        <img
+          src="/assets/images/turath-projects-05.jpg?v=3"
+          alt="Turath Projects - Handcrafted Brass and Copper Relief Masterpiece"
+          class="scene05-bg-img"
+          id="scene05-pinned-img"
+        />
+
+        <!-- Scrim Overlay for typographic contrast -->
+        <div class="scene05-scrim scene05-overlay"></div>
+
+        <!-- Floating Caption Overlay mirroring Section 04 -->
+        <div class="scene05-caption-overlay container" id="scene05-caption-overlay">
+          <div class="scene05-caption-inner scene05-inner-deck" id="scene05-caption-inner">
+            <div class="scene05-header-block">
+              <span class="scene-eyebrow scene05-eyebrow">05 / TURATH PROJECTS</span>
+              <h2 class="scene05-headline">
+                Crafted for Exceptional Spaces
+              </h2>
+              <p class="scene05-desc">
+                Explore our curated portfolio of bespoke monumental chandeliers, hand-hammered wall panels, sculptural mirrors, and architectural metal fixtures created for luxury hospitality, royal palaces, and private estates across Egypt and the Middle East.
+              </p>
+            </div>
+
+            <!-- Featured Landmark Projects Grid -->
+            <div class="scene05-cards-grid scene05-buttons-grid">
+              <div class="scene05-card scene05-client-btn scene05-btn" data-client="1" tabindex="0" role="button" aria-label="Landmark Client 01: National Bank of Egypt Club">
+                <div class="scene05-card-content">
+                  <span class="scene05-card-metric">LANDMARK CLIENT // 01</span>
+                  <span class="scene05-card-title">National Bank of Egypt Club</span>
+                  <p class="scene05-card-desc">Bespoke architectural metalwork, custom brass fixtures &amp; decorative handrails.</p>
+                </div>
+              </div>
+
+              <div class="scene05-card scene05-client-btn scene05-btn" data-client="2" tabindex="0" role="button" aria-label="Landmark Client 02: Mövenpick Cairo Media City">
+                <div class="scene05-card-content">
+                  <span class="scene05-card-metric">LANDMARK CLIENT // 02</span>
+                  <span class="scene05-card-title">Mövenpick Cairo Media City</span>
+                  <p class="scene05-card-desc">Monumental chandeliers, hand-hammered wall installations &amp; luxury hospitality interiors.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Exit Seam) -->
+        <svg class="scene05-bottom-hairline" id="scene05-bottom-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene05-bottom-hairline-path" d="M 0,47.5 L 740,47.5 L 740,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene05-bottom-hairline-dot" cx="740" cy="47.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         06 — FOUNDER (190svh / DUAL-EDGE MORPHING / NOCTURNE SLATE DARK)
+         ======================================================================== -->
+    <section id="scene06" data-scene="06" class="scene-track scene06-track" data-theme="dark">
+      <!-- Anchor alias for #surroundings compatibility -->
+      <div id="surroundings" style="position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden;"></div>
+      <div class="scene-sheet scene06-sheet" id="scene06-sheet">
+        <!-- TOP MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Entry Seam) -->
+        <svg class="scene06-top-hairline" id="scene06-top-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene06-top-hairline-path" d="M 0,47.5 L 240,47.5 L 240,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene06-top-hairline-dot" cx="240" cy="47.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+
+        <div class="env-bg-media scene06-bg-media" id="env-bg-media">
+          <!-- Plate 1: Dark / Unlit Ambient Lamp (Base Layer) -->
+          <div class="scene06-plate scene06-plate-dark" id="scene06-plate-dark">
+            <img src="/assets/images/founder-dark.jpg?v=4" alt="Samy Adel Abdallah - Founder of Turath (Ambient Unlit)" class="scene-photo-cover" />
+          </div>
+          <!-- Plate 2: Lit / Illuminated Brass Lamp (Cross-fades in with scroll) -->
+          <div class="scene06-plate scene06-plate-lit" id="scene06-plate-lit">
+            <img src="/assets/images/founder-lit.jpg?v=5" alt="Samy Adel Abdallah - Founder of Turath (Illuminated Brass Fixture)" class="scene-photo-cover" />
+          </div>
+          <div class="photo-scrim-dark"></div>
+        </div>
+
+        <div class="sheet-inner container scene06-inner-deck" id="scene06-inner-deck">
+          <div class="scene06-founder-layout" id="scene06-founder-layout">
+            <!-- EDITORIAL CARD: PLACED IN THE UPPER AREA OVER THE CORD -->
+            <div class="scene06-text-col">
+              <span class="scene-eyebrow scene06-founder-tag">06 / FOUNDER</span>
+              <h2 class="scene06-founder-name">
+                SAMY ADEL ABDALLAH
+              </h2>
+              <h3 class="scene06-founder-subhead">
+                FROM GRAPHIC DESIGN &amp; MARKETING TO BRASS &amp; COPPER CRAFTSMANSHIP
+              </h3>
+
+              <div class="scene06-founder-bio">
+                <p class="founder-bio-intro">Samy Adel Abdallah, founder of Turath, graduated in Computer Science in 2000 and began his career in marketing.</p>
+                <p class="founder-bio-mindset">His creative mindset and passion for design shaped his approach to brass and copper, combining craftsmanship with artistic vision.</p>
+                <p class="founder-bio-milestone">In 2016, he founded Turath, turning an idea into a journey of creativity, craftsmanship, and Egyptian design.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Exit Seam) -->
+        <svg class="scene06-bottom-hairline" id="scene06-bottom-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene06-bottom-hairline-path" d="M 0,47.5 L 740,47.5 L 740,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene06-bottom-hairline-dot" cx="740" cy="47.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         07 — MATERIALS & FINISHES (250svh / INVERTED DUAL-EDGE MORPHING / DARK THEME)
+         ======================================================================== -->
+    <section id="materials-finishes" data-scene="07" class="scene-track scene07-track materials-finishes-track" data-theme="dark">
+      <!-- Anchor alias for #scene07 compatibility -->
+      <div id="scene07" style="position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden;"></div>
+      <div class="scene-sheet scene07-sheet materials-finishes-sheet" id="scene07-sheet">
+        <!-- TOP INVERTED MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Entry Seam: Right-to-Left Trajectory) -->
+        <svg class="scene07-top-hairline" id="scene07-top-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene07-top-hairline-path" d="M 0,47.5 L 760,47.5 L 760,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene07-top-hairline-dot" cx="760" cy="47.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+
+        <!-- SINGLE IMMERSIVE IMAGE PLATE WITH GRADIENT MASK -->
+        <div class="scene07-bg-media" id="scene07-bg-media">
+          <div class="scene07-plate-base" id="scene07-plate-base">
+            <img
+              src="/assets/images/turath-materials-radial-07.jpg?v=5"
+              alt="TURATH Bespoke Architectural Door with Sculptural Brass Branch Handles"
+              class="scene-photo-cover"
+              id="scene07-pinned-img"
+            />
+          </div>
+          <div class="scene07-scrim-gradient" aria-hidden="true"></div>
+        </div>
+
+        <!-- Stationary Architectural Content Deck (Zero Text Animation) -->
+        <div class="sheet-inner container scene07-inner-deck" id="scene07-inner-deck">
+          <div class="scene07-header-block">
+            <span class="mono-tag scene07-pinned-tag">07 / MATERIALS &amp; FINISHES</span>
+            <h2 class="heading-monumental scene07-pinned-title">
+              Crafted in Brass &amp; Copper, Finished by Hand
+            </h2>
+            <p class="body-lead scene07-pinned-desc">
+              Explore our curated portfolio of bespoke monumental chandeliers, hand-hammered wall panels, sculptural mirrors, and architectural metal fixtures created for luxury hospitality, royal palaces, and private estates across Egypt and the Middle East and Europe.
+            </p>
+          </div>
+
+          <!-- Material Specifications Stack (Interactive Cards with Swatches) -->
+          <div class="scene07-cards-grid materials-stack" id="materials-stack">
+            <div class="material-card scene07-card" data-finish="polished-brass" style="--card-index: 0;">
+              <div class="material-card-content">
+                <h4 class="material-name">Polished Brass</h4>
+                <p class="material-desc">High-gloss mirror finish buffed to golden radiance with clear protective sealing.</p>
+              </div>
+              <div class="material-card-visual">
+                <div class="swatch-preview swatch-polished-brass" title="Polished Brass Finish"></div>
+              </div>
+            </div>
+
+            <div class="material-card scene07-card" data-finish="brushed-brass" style="--card-index: 1;">
+              <div class="material-card-content">
+                <h4 class="material-name">Brushed Brass</h4>
+                <p class="material-desc">Directional fine grain texture with soft metallic sheen and micro-wax preservation.</p>
+              </div>
+              <div class="material-card-visual">
+                <div class="swatch-preview swatch-brushed-brass" title="Brushed Brass Finish">
+                  <img src="/assets/images/finish-sample-02.jpg?v=3" alt="Brushed Brass Finish" class="swatch-img" />
+                </div>
+              </div>
+            </div>
+
+            <div class="material-card scene07-card" data-finish="satin-brass" style="--card-index: 2;">
+              <div class="material-card-content">
+                <h4 class="material-name">Satin Brass</h4>
+                <p class="material-desc">Silky non-directional matte luster providing subtle warmth and minimal glare.</p>
+              </div>
+              <div class="material-card-visual">
+                <div class="swatch-preview swatch-satin-brass" title="Satin Brass Finish"></div>
+              </div>
+            </div>
+
+            <div class="material-card scene07-card" data-finish="antique-brass" style="--card-index: 3;">
+              <div class="material-card-content">
+                <h4 class="material-name">Antique Brass</h4>
+                <p class="material-desc">Artisan chemical aging with darkened recessed details and hand-relieved highlights.</p>
+              </div>
+              <div class="material-card-visual">
+                <div class="swatch-preview swatch-antique-brass" title="Antique Brass Finish"></div>
+              </div>
+            </div>
+
+            <div class="material-card scene07-card" data-finish="aged-brass" style="--card-index: 4;">
+              <div class="material-card-content">
+                <h4 class="material-name">Aged Brass</h4>
+                <p class="material-desc">Naturally darkened warm amber tones featuring lived-in character and soft patination.</p>
+              </div>
+              <div class="material-card-visual">
+                <div class="swatch-preview swatch-aged-brass" title="Aged Brass Finish"></div>
+              </div>
+            </div>
+
+            <div class="material-card scene07-card" data-finish="oxidized-brass" style="--card-index: 5;">
+              <div class="material-card-content">
+                <h4 class="material-name">Oxidized Brass</h4>
+                <p class="material-desc">Deep atmospheric dark surface treatment delivering dramatic contrast and earthy depth.</p>
+              </div>
+              <div class="material-card-visual">
+                <div class="swatch-preview swatch-oxidized-brass" title="Oxidized Brass Finish"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Exit Seam) -->
+        <svg class="scene07-bottom-hairline" id="scene07-bottom-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+          <path id="scene07-bottom-hairline-path" d="M 0,0.5 L 240,0.5 L 240,47.5 L 1000,47.5" vector-effect="non-scaling-stroke" />
+          <circle id="scene07-bottom-hairline-dot" cx="240" cy="47.5" r="2.5" class="notch-accent-dot" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         08 — BESPOKE MANUFACTURING (220svh / DUAL-SPLIT ARCHITECTURAL RISE)
+         ======================================================================== -->
+    <section id="bespoke-manufacturing" data-scene="08" class="scene-track scene08-track" data-theme="dark">
+      <div id="scene08" style="position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden;"></div>
+      <div id="section-08" style="position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;visibility:hidden;"></div>
+      <div class="scene-sheet scene08-sheet" id="scene08-sheet">
+        <!-- IMMERSIVE BACKGROUND MEDIA (LANTERN ANCHORED RIGHT) -->
+        <div class="scene08-bg-media" id="scene08-bg-media">
+          <img
+            src="/assets/images/bespoke-manufacturing-08.jpg?v=5"
+            alt="TURATH Bespoke Manufacturing - Handcrafted Brass Lantern Masterpiece"
+            class="scene08-bg-img"
+            id="scene08-pinned-img"
+          />
+          <div class="scene08-scrim" aria-hidden="true"></div>
+        </div>
+
+        <!-- EDITORIAL CONTENT CONTOURED ON LEFT UP TO PRODUCT BOUNDARY -->
+        <div class="sheet-inner container scene08-inner-deck" id="scene08-inner-deck">
+          <div class="scene08-content-contour">
+            <div class="scene08-header-block">
+              <span class="scene-eyebrow scene08-eyebrow">08 / BESPOKE MANUFACTURING</span>
+              <h2 class="heading-monumental scene08-headline">
+                Crafted by Hand.
+              </h2>
+              <p class="scene08-desc">
+                TURATH transforms brass and copper into bespoke architectural elements through traditional craftsmanship, precision fabrication, and refined finishes.
+              </p>
+            </div>
+
+            <!-- 4 BESPOKE CAPABILITY PILLARS -->
+            <div class="scene08-pillars-grid">
+              <div class="scene08-pillar-card" style="--pillar-idx: 0;">
+                <div class="pillar-num">01</div>
+                <div class="pillar-body">
+                  <h3 class="pillar-title">Forming &amp; Casting</h3>
+                  <p class="pillar-desc">Hand-hammering, casting, cutting, and shaping.</p>
+                </div>
+              </div>
+
+              <div class="scene08-pillar-card" style="--pillar-idx: 1;">
+                <div class="pillar-num">02</div>
+                <div class="pillar-body">
+                  <h3 class="pillar-title">Fabrication &amp; Assembly</h3>
+                  <p class="pillar-desc">Custom metalworking, welding, brazing, and assembly.</p>
+                </div>
+              </div>
+
+              <div class="scene08-pillar-card" style="--pillar-idx: 2;">
+                <div class="pillar-num">03</div>
+                <div class="pillar-body">
+                  <h3 class="pillar-title">Patina &amp; Finishing</h3>
+                  <p class="pillar-desc">Polishing, chemical oxidation, and bespoke surface finishes.</p>
+                </div>
+              </div>
+
+              <div class="scene08-pillar-card" style="--pillar-idx: 3;">
+                <div class="pillar-num">04</div>
+                <div class="pillar-body">
+                  <h3 class="pillar-title">Specialized Production</h3>
+                  <p class="pillar-desc">Collaboration with specialist workshops for complex requirements.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         09 — PROJECT INQUIRY (100svh Sticky Viewport / Reversed Dual-Split Rise)
+         ======================================================================== -->
+    <section id="project-inquiry" data-scene="09" class="scene-track scene09-track" data-theme="dark">
+      <div class="scene-sheet scene09-sheet" id="scene09-sheet">
+        <!-- IMMERSIVE BACKGROUND MEDIA -->
+        <div class="scene09-bg-media" id="scene09-bg-media">
+          <img
+            src="/assets/images/project-inquiry-09.jpg?v=1"
+            alt="TURATH Project Inquiry - Handcrafted Brass & Copper Solutions"
+            class="scene09-bg-img"
+            id="scene09-pinned-img"
+          />
+          <div class="scene09-scrim" aria-hidden="true"></div>
+        </div>
+
+        <!-- EDITORIAL CONTENT & FROSTED GLASS INQUIRY FORM -->
+        <div class="sheet-inner container scene09-inner-deck" id="scene09-inner-deck">
+          <div class="scene09-content-wrapper">
+            <div class="scene09-header-block">
+              <span class="scene-eyebrow scene09-eyebrow">09 / PROJECT INQUIRY</span>
+              <h2 class="heading-monumental scene09-headline">
+                LET’S CREATE SOMETHING DISTINCTIVE
+              </h2>
+              <p class="scene09-desc">
+                Have a project in mind? Tell us about it. We’ll work with you to explore the right brass and copper solutions for your space.
+              </p>
+            </div>
+
+            <!-- FROSTED GLASS FORM CONTAINER (Turath Gold, Zero Stroke, Zero Shadow) -->
+            <div class="scene09-form-card" id="scene09-form-card">
+              <form id="project-inquiry-form" class="scene09-inquiry-form" novalidate>
+                <div class="scene09-form-grid">
+                  <!-- Full Name (Required) -->
+                  <div class="scene09-field-group">
+                    <label for="inquiry-name" class="scene09-label">Full Name</label>
+                    <input type="text" id="inquiry-name" name="fullName" class="scene09-input" placeholder="Your full name" required />
+                  </div>
+
+                  <!-- Company / Organization (Optional) -->
+                  <div class="scene09-field-group">
+                    <label for="inquiry-company" class="scene09-label">Company / Organization <span class="optional-tag">(Optional)</span></label>
+                    <input type="text" id="inquiry-company" name="company" class="scene09-input" placeholder="Studio, firm, or company" />
+                  </div>
+
+                  <!-- Email Address (Required) -->
+                  <div class="scene09-field-group">
+                    <label for="inquiry-email" class="scene09-label">Email Address</label>
+                    <input type="email" id="inquiry-email" name="email" class="scene09-input" placeholder="name@domain.com" required />
+                  </div>
+
+                  <!-- Phone / WhatsApp (Required) -->
+                  <div class="scene09-field-group">
+                    <label for="inquiry-phone" class="scene09-label">Phone / WhatsApp</label>
+                    <input type="tel" id="inquiry-phone" name="phone" class="scene09-input" placeholder="+20 1..." required />
+                  </div>
+
+                  <!-- Project Details (Required multiline text field) -->
+                  <div class="scene09-field-group scene09-field-full">
+                    <label for="inquiry-details" class="scene09-label">Project Details</label>
+                    <textarea id="inquiry-details" name="projectDetails" class="scene09-textarea" rows="3" placeholder="Tell us about the space, concept, required dimensions or finishes..." required></textarea>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="scene09-form-actions">
+                  <button type="submit" class="scene09-submit-btn" id="scene09-submit-btn">
+                    <span>SEND INQUIRY</span>
+                  </button>
+                </div>
+              </form>
+
+              <!-- Confirmation Message -->
+              <div class="scene09-confirmation" id="scene09-confirmation" aria-live="polite" hidden>
+                <div class="confirmation-icon">✓</div>
+                <h3 class="confirmation-title">Thank you for your inquiry.</h3>
+                <p class="confirmation-desc">Your message has been sent to <strong>turath.egypt@gmail.com</strong>. We look forward to hearing about your project.</p>
+                <button type="button" class="confirmation-reset-btn" id="scene09-reset-btn">Send Another Message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+  </main>
+  </div> <!-- /#app -->
+
+  <!-- ========================================================================
+       STANDALONE EDITORIAL SUB-PAGE: 01 / BRASS MIRRORS (DAVID THULSTRUP ARCHITECTURE)
+       Full screen carousel without menu, fixed top Brass Mirrors with product name centered underneath,
+       description down at bottom in its original place, pure unmasked product imagery,
+       scrollable from ANY part of the page (wheel, touch up/down/left/right, drag, click, keys).
+       ======================================================================== -->
+  <div id="subpage-brass-mirrors" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Brass Mirrors">
+    <!-- 1. Fixed Top Header: Back Arrow on left, Brass Mirrors centered, Product Name centered underneath -->
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-back-btn" aria-label="Back to Collections">
+        ←
+      </button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Brass Mirrors</h1>
+        <h2 class="subpage-active-title" id="subpage-active-title">Organic Foliate Brass Mirror</h2>
+      </div>
+    </header>
+
+    <!-- Full-Screen Carousel Viewport -->
+    <div class="subpage-carousel-viewport" id="subpage-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-carousel-track">
+        <!-- Slide 1 -->
+        <article class="subpage-slide" data-index="0" id="mirror-product-1">
+          <img
+            src="/assets/images/brass-mirror-01.jpg"
+            alt="Organic Foliate Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </article>
+
+        <!-- Slide 2 -->
+        <article class="subpage-slide" data-index="1" id="mirror-product-2">
+          <img
+            src="/assets/images/brass-mirror-02.jpg"
+            alt="Radiating Branch Bronze Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 3 -->
+        <article class="subpage-slide" data-index="2" id="mirror-product-3">
+          <img
+            src="/assets/images/brass-mirror-03.jpg?v=2"
+            alt="Sunburst Disc Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 4 -->
+        <article class="subpage-slide" data-index="3" id="mirror-product-4">
+          <img
+            src="/assets/images/brass-mirror-04.jpg"
+            alt="Filigree Petal Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 5 -->
+        <article class="subpage-slide" data-index="4" id="mirror-product-5">
+          <img
+            src="/assets/images/brass-mirror-05.jpg"
+            alt="Pierced Arabesque Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 6 -->
+        <article class="subpage-slide" data-index="5" id="mirror-product-6">
+          <img
+            src="/assets/images/brass-mirror-06.jpg"
+            alt="Monstera Brass Leaf Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 7 -->
+        <article class="subpage-slide" data-index="6" id="mirror-product-7">
+          <img
+            src="/assets/images/brass-mirror-07.jpg"
+            alt="Engraved Nubian Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 8 -->
+        <article class="subpage-slide" data-index="7" id="mirror-product-8">
+          <img
+            src="/assets/images/brass-mirror-08.jpg"
+            alt="Scalloped Brass Scale Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 9 -->
+        <article class="subpage-slide" data-index="8" id="mirror-product-9">
+          <img
+            src="/assets/images/brass-mirror-09.jpg"
+            alt="Arabesque Brass Medallion Set"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 10 -->
+        <article class="subpage-slide" data-index="9" id="mirror-product-10">
+          <img
+            src="/assets/images/brass-mirror-10.jpg"
+            alt="Fluted Petal Brass Blossom Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 11 -->
+        <article class="subpage-slide" data-index="10" id="mirror-product-11">
+          <img
+            src="/assets/images/brass-mirror-11.jpg"
+            alt="Mashrabiya Star Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 12 -->
+        <article class="subpage-slide" data-index="11" id="mirror-product-12">
+          <img
+            src="/assets/images/brass-mirror-12.jpg"
+            alt="Fluid Amoeba Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 13 -->
+        <article class="subpage-slide" data-index="12" id="mirror-product-13">
+          <img
+            src="/assets/images/brass-mirror-13.jpg"
+            alt="Laurel Branch Bronze Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 14 -->
+        <article class="subpage-slide" data-index="13" id="mirror-product-14">
+          <img
+            src="/assets/images/brass-mirror-14.jpg"
+            alt="Concentric Capsule Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 15 -->
+        <article class="subpage-slide" data-index="14" id="mirror-product-15">
+          <img
+            src="/assets/images/brass-mirror-15.jpg"
+            alt="Constellation Brass Ring Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 16 -->
+        <article class="subpage-slide" data-index="15" id="mirror-product-16">
+          <img
+            src="/assets/images/brass-mirror-16.jpg"
+            alt="Gilded Leaf Crest Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+
+        <!-- Slide 17 -->
+        <article class="subpage-slide" data-index="16" id="mirror-product-17">
+          <img
+            src="/assets/images/brass-mirror-17.jpg"
+            alt="Palatial Arabesque Brass Mirror"
+            class="subpage-slide-img"
+            loading="eager"
+          />
+        </article>
+      </div>
+    </div>
+
+    <!-- Navigation Hitboxes (Left/Right Tap or Click) -->
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-hitbox-prev" aria-label="Previous Mirror"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-hitbox-next" aria-label="Next Mirror"></button>
+
+    <!-- 2. Bottom Zone: Description in Original Place + Segmented Dash Indicators + Brand -->
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-active-desc">Hand-sculpted organic brass branch latticework over circular reflective glass</p>
+      <div class="subpage-dash-indicators" id="subpage-dash-indicators" role="tablist" aria-label="Mirrors Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Mirror 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Mirror 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Mirror 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Mirror 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Mirror 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Mirror 6"></button>
+        <button type="button" class="subpage-dash-item" data-index="6" aria-label="Mirror 7"></button>
+        <button type="button" class="subpage-dash-item" data-index="7" aria-label="Mirror 8"></button>
+        <button type="button" class="subpage-dash-item" data-index="8" aria-label="Mirror 9"></button>
+        <button type="button" class="subpage-dash-item" data-index="9" aria-label="Mirror 10"></button>
+        <button type="button" class="subpage-dash-item" data-index="10" aria-label="Mirror 11"></button>
+        <button type="button" class="subpage-dash-item" data-index="11" aria-label="Mirror 12"></button>
+        <button type="button" class="subpage-dash-item" data-index="12" aria-label="Mirror 13"></button>
+        <button type="button" class="subpage-dash-item" data-index="13" aria-label="Mirror 14"></button>
+        <button type="button" class="subpage-dash-item" data-index="14" aria-label="Mirror 15"></button>
+        <button type="button" class="subpage-dash-item" data-index="15" aria-label="Mirror 16"></button>
+        <button type="button" class="subpage-dash-item" data-index="16" aria-label="Mirror 17"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       02 / LIGHTING EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-lighting" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Lighting">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-lighting-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Lighting</h1>
+        <h2 class="subpage-active-title" id="subpage-lighting-active-title">Architectural Mobile Brass Chandelier</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-lighting-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-lighting-carousel-track">
+        <!-- Slide 1 -->
+        <article class="subpage-slide" data-index="0" id="lighting-product-1">
+          <img src="/assets/images/lighting-sub-01.jpg" alt="Architectural Mobile Brass Chandelier" class="subpage-slide-img" loading="eager" fetchpriority="high" />
+        </article>
+        <!-- Slide 2 -->
+        <article class="subpage-slide" data-index="1" id="lighting-product-2">
+          <img src="/assets/images/lighting-sub-02.jpg" alt="Radiant Perforated Brass Wall Sconce" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 3 -->
+        <article class="subpage-slide" data-index="2" id="lighting-product-3">
+          <img src="/assets/images/lighting-sub-03.jpg" alt="Bidirectional Cylindrical Brass Sconce" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 4 -->
+        <article class="subpage-slide" data-index="3" id="lighting-product-4">
+          <img src="/assets/images/lighting-sub-04.jpg" alt="Triad Branching Brass Floor Lamp" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 5 -->
+        <article class="subpage-slide" data-index="4" id="lighting-product-5">
+          <img src="/assets/images/lighting-sub-05.jpg" alt="Dome Brass Tripod Floor Lamp" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 6 -->
+        <article class="subpage-slide" data-index="5" id="lighting-product-6">
+          <img src="/assets/images/lighting-sub-06.jpg" alt="Ovoid Pierced Brass Table Lantern" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 7 -->
+        <article class="subpage-slide" data-index="6" id="lighting-product-7">
+          <img src="/assets/images/lighting-sub-07.jpg" alt="Filigree Spherical Brass Pendant" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 8 -->
+        <article class="subpage-slide" data-index="7" id="lighting-product-8">
+          <img src="/assets/images/lighting-sub-08.jpg" alt="Imperial Crown Brass Ring Chandelier" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 9 -->
+        <article class="subpage-slide" data-index="8" id="lighting-product-9">
+          <img src="/assets/images/lighting-sub-09.jpg" alt="Orthogonal Geometric Brass Chandelier" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 10 -->
+        <article class="subpage-slide" data-index="9" id="lighting-product-10">
+          <img src="/assets/images/lighting-sub-10.jpg" alt="Columnar Filigree Brass Pendant" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 11 -->
+        <article class="subpage-slide" data-index="10" id="lighting-product-11">
+          <img src="/assets/images/lighting-sub-11.jpg" alt="Pipe Organ Fluted Brass Sconce" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 12 -->
+        <article class="subpage-slide" data-index="11" id="lighting-product-12">
+          <img src="/assets/images/lighting-sub-12.jpg" alt="Equilibrium Cantilever Brass Floor Lamp" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 13 -->
+        <article class="subpage-slide" data-index="12" id="lighting-product-13">
+          <img src="/assets/images/lighting-sub-13.jpg" alt="Patinated Brass Disc Triptych Sconces" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 14 -->
+        <article class="subpage-slide" data-index="13" id="lighting-product-14">
+          <img src="/assets/images/lighting-sub-14.jpg" alt="Hammered Geometric Brass Half-Cylinder Sconce" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 15 -->
+        <article class="subpage-slide" data-index="14" id="lighting-product-15">
+          <img src="/assets/images/lighting-sub-15.jpg" alt="Teardrop Spun Brass Pendant" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 16 -->
+        <article class="subpage-slide" data-index="15" id="lighting-product-16">
+          <img src="/assets/images/lighting-sub-16.jpg" alt="Trio Cluster Arabesque Brass Pendants" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 17 -->
+        <article class="subpage-slide" data-index="16" id="lighting-product-17">
+          <img src="/assets/images/lighting-sub-17.jpg" alt="Dome Finial Pierced Brass Table Lantern" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 18 -->
+        <article class="subpage-slide" data-index="17" id="lighting-product-18">
+          <img src="/assets/images/lighting-sub-18.jpg" alt="Mandala Teardrop Filigree Brass Pendant" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 19 -->
+        <article class="subpage-slide" data-index="18" id="lighting-product-19">
+          <img src="/assets/images/lighting-sub-19.jpg" alt="Celestial Disc & Fluted Glass Chandelier" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 20 -->
+        <article class="subpage-slide" data-index="19" id="lighting-product-20">
+          <img src="/assets/images/lighting-sub-20.jpg" alt="Interlocking Brass Ribbon Drum Chandelier" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 21 -->
+        <article class="subpage-slide" data-index="20" id="lighting-product-21">
+          <img src="/assets/images/lighting-sub-21.jpg" alt="Imperial Urn Pierced Brass Hanging Lantern" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 22 -->
+        <article class="subpage-slide" data-index="21" id="lighting-product-22">
+          <img src="/assets/images/lighting-sub-22.jpg" alt="Vintage Chimney Pierced Brass Table Lamp" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 23 -->
+        <article class="subpage-slide" data-index="22" id="lighting-product-23">
+          <img src="/assets/images/lighting-sub-23.jpg" alt="Onion Dome Filigree Brass Pendant" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 24 -->
+        <article class="subpage-slide" data-index="23" id="lighting-product-24">
+          <img src="/assets/images/lighting-sub-24.jpg" alt="Mashrabiya Star Brass Cylinder Wall Sconce" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 25 -->
+        <article class="subpage-slide" data-index="24" id="lighting-product-25">
+          <img src="/assets/images/lighting-sub-25.jpg" alt="Fluted Brass Drum Chandelier with Sunburst Glass" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 26 -->
+        <article class="subpage-slide" data-index="25" id="lighting-product-26">
+          <img src="/assets/images/lighting-sub-26.jpg" alt="Verdigris & Burnished Brass Eclipse Sconce" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 27 -->
+        <article class="subpage-slide" data-index="26" id="lighting-product-27">
+          <img src="/assets/images/lighting-sub-27.jpg" alt="Hammered Brass Scroll Wall Sconce" class="subpage-slide-img" loading="eager" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-lighting-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-lighting-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-lighting-active-desc">Balanced geometric brass chandelier with multi-directional articulated arms and warm exposed globe illumination</p>
+      <div class="subpage-dash-indicators" id="subpage-lighting-dash-indicators" role="tablist" aria-label="Lighting Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Lighting 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Lighting 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Lighting 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Lighting 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Lighting 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Lighting 6"></button>
+        <button type="button" class="subpage-dash-item" data-index="6" aria-label="Lighting 7"></button>
+        <button type="button" class="subpage-dash-item" data-index="7" aria-label="Lighting 8"></button>
+        <button type="button" class="subpage-dash-item" data-index="8" aria-label="Lighting 9"></button>
+        <button type="button" class="subpage-dash-item" data-index="9" aria-label="Lighting 10"></button>
+        <button type="button" class="subpage-dash-item" data-index="10" aria-label="Lighting 11"></button>
+        <button type="button" class="subpage-dash-item" data-index="11" aria-label="Lighting 12"></button>
+        <button type="button" class="subpage-dash-item" data-index="12" aria-label="Lighting 13"></button>
+        <button type="button" class="subpage-dash-item" data-index="13" aria-label="Lighting 14"></button>
+        <button type="button" class="subpage-dash-item" data-index="14" aria-label="Lighting 15"></button>
+        <button type="button" class="subpage-dash-item" data-index="15" aria-label="Lighting 16"></button>
+        <button type="button" class="subpage-dash-item" data-index="16" aria-label="Lighting 17"></button>
+        <button type="button" class="subpage-dash-item" data-index="17" aria-label="Lighting 18"></button>
+        <button type="button" class="subpage-dash-item" data-index="18" aria-label="Lighting 19"></button>
+        <button type="button" class="subpage-dash-item" data-index="19" aria-label="Lighting 20"></button>
+        <button type="button" class="subpage-dash-item" data-index="20" aria-label="Lighting 21"></button>
+        <button type="button" class="subpage-dash-item" data-index="21" aria-label="Lighting 22"></button>
+        <button type="button" class="subpage-dash-item" data-index="22" aria-label="Lighting 23"></button>
+        <button type="button" class="subpage-dash-item" data-index="23" aria-label="Lighting 24"></button>
+        <button type="button" class="subpage-dash-item" data-index="24" aria-label="Lighting 25"></button>
+        <button type="button" class="subpage-dash-item" data-index="25" aria-label="Lighting 26"></button>
+        <button type="button" class="subpage-dash-item" data-index="26" aria-label="Lighting 27"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       03 / HANDLES EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-handles" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Handles">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-handles-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Handles</h1>
+        <h2 class="subpage-active-title" id="subpage-handles-active-title">Sinuous Bough Cast Bronze Handle</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-handles-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-handles-carousel-track">
+        <!-- Slide 1 -->
+        <article class="subpage-slide" data-index="0" id="handles-product-1">
+          <img src="/assets/images/handles-sub-01.jpg" alt="Sinuous Bough Cast Bronze Handle" class="subpage-slide-img" loading="eager" fetchpriority="high" />
+        </article>
+        <!-- Slide 2 -->
+        <article class="subpage-slide" data-index="1" id="handles-product-2">
+          <img src="/assets/images/handles-sub-02.jpg" alt="Molten Ripple Cast Brass Bar Pull" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 3 -->
+        <article class="subpage-slide" data-index="2" id="handles-product-3">
+          <img src="/assets/images/handles-sub-03.jpg" alt="Botanical Branch Walnut Door Handle Suite" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 4 -->
+        <article class="subpage-slide" data-index="3" id="handles-product-4">
+          <img src="/assets/images/handles-sub-04.jpg" alt="Half-Moon Sculpted Brass Pull Pair" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 5 -->
+        <article class="subpage-slide" data-index="4" id="handles-product-5">
+          <img src="/assets/images/handles-sub-05.jpg" alt="Mirrored Twig Cast Bronze Pull Pair" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 6 -->
+        <article class="subpage-slide" data-index="5" id="handles-product-6">
+          <img src="/assets/images/handles-sub-06.jpg" alt="Polished Brass T-Bar Escutcheon Knob" class="subpage-slide-img" loading="eager" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-handles-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-handles-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-handles-active-desc">Sinuous hand-sculpted organic branch door pull cast in solid bronze with rich hand-buffed antique patina</p>
+      <div class="subpage-dash-indicators" id="subpage-handles-dash-indicators" role="tablist" aria-label="Handles Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Handles 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Handles 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Handles 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Handles 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Handles 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Handles 6"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       04 / TABLES & CONSOLES EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-tables-consoles" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Tables and Consoles">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-tables-consoles-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Tables &amp; Consoles</h1>
+        <h2 class="subpage-active-title" id="subpage-tables-consoles-active-title">Classical Brass Tripod Marble Accent Table</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-tables-consoles-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-tables-consoles-carousel-track">
+        <!-- Slide 1 -->
+        <article class="subpage-slide" data-index="0" id="tables-consoles-product-1">
+          <img src="/assets/images/tables-consoles-sub-01.jpg" alt="Classical Brass Tripod Marble Accent Table" class="subpage-slide-img" loading="eager" fetchpriority="high" />
+        </article>
+        <!-- Slide 2 -->
+        <article class="subpage-slide" data-index="1" id="tables-consoles-product-2">
+          <img src="/assets/images/tables-consoles-sub-02.jpg" alt="Arboreal Cast Brass Branch Console Table" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 3 -->
+        <article class="subpage-slide" data-index="2" id="tables-consoles-product-3">
+          <img src="/assets/images/tables-consoles-sub-03.jpg" alt="Brutalist Geometric Brass Tile Coffee Table" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 4 -->
+        <article class="subpage-slide" data-index="3" id="tables-consoles-product-4">
+          <img src="/assets/images/tables-consoles-sub-04.jpg" alt="Brutalist Geometric Brass Tile Side Table" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 5 -->
+        <article class="subpage-slide" data-index="4" id="tables-consoles-product-5">
+          <img src="/assets/images/tables-consoles-sub-05.jpg" alt="Sculpted Botanical Bough Brass Console Frame" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 6 -->
+        <article class="subpage-slide" data-index="5" id="tables-consoles-product-6">
+          <img src="/assets/images/tables-consoles-sub-06.jpg" alt="Linear Fluted Brass & Nero Marquina Console" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 7 -->
+        <article class="subpage-slide" data-index="6" id="tables-consoles-product-7">
+          <img src="/assets/images/tables-consoles-sub-07.jpg" alt="Geometric Grid Brass Nesting Side Tables" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 8 -->
+        <article class="subpage-slide" data-index="7" id="tables-consoles-product-8">
+          <img src="/assets/images/tables-consoles-sub-08.jpg" alt="Concentric Brass Rod Nesting Coffee Tables" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 9 -->
+        <article class="subpage-slide" data-index="8" id="tables-consoles-product-9">
+          <img src="/assets/images/tables-consoles-sub-09.jpg" alt="Sculpted Brass Arboretum Marble Console" class="subpage-slide-img" loading="eager" />
+        </article>
+        <!-- Slide 10 -->
+        <article class="subpage-slide" data-index="9" id="tables-consoles-product-10">
+          <img src="/assets/images/tables-consoles-sub-10.jpg" alt="Tufted Velvet Brass X-Frame Bench" class="subpage-slide-img" loading="eager" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-tables-consoles-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-tables-consoles-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-tables-consoles-active-desc">Refined three-legged solid brass gueridon table with fluted columns, tri-podal stretcher, and inset veined white marble top</p>
+      <div class="subpage-dash-indicators" id="subpage-tables-consoles-dash-indicators" role="tablist" aria-label="Tables &amp; Consoles Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Tables 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Tables 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Tables 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Tables 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Tables 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Tables 6"></button>
+        <button type="button" class="subpage-dash-item" data-index="6" aria-label="Tables 7"></button>
+        <button type="button" class="subpage-dash-item" data-index="7" aria-label="Tables 8"></button>
+        <button type="button" class="subpage-dash-item" data-index="8" aria-label="Tables 9"></button>
+        <button type="button" class="subpage-dash-item" data-index="9" aria-label="Tables 10"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       05 / HANDRAILS EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-handrails" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Handrails">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-handrails-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Handrails</h1>
+        <h2 class="subpage-active-title" id="subpage-handrails-active-title">Architectural Grille Balustrade</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-handrails-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-handrails-carousel-track">
+        <article class="subpage-slide" data-index="0" id="handrails-product-1">
+          <img src="/assets/images/handrails-sub-01.jpg" alt="Architectural Grille Balustrade" class="subpage-slide-img" loading="eager" />
+        </article>
+        <article class="subpage-slide" data-index="1" id="handrails-product-2">
+          <img src="/assets/images/handrails-sub-02.jpg" alt="Sculptural Foliate Brass Architectural Screen & Balustrade" class="subpage-slide-img" loading="lazy" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-handrails-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-handrails-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-handrails-active-desc">Solid red marble architectural surround enclosing pierced hand-chiseled foliate brass panels</p>
+      <div class="subpage-dash-indicators" id="subpage-handrails-dash-indicators" role="tablist" aria-label="Handrails Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Slide 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Slide 2"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       06 / DECORATIVE OBJECTS EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-decorative-objects" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Decorative Objects">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-decorative-objects-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Decorative Objects</h1>
+        <h2 class="subpage-active-title" id="subpage-decorative-objects-active-title">Hand-Hammered Brass Fluted Vessel</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-decorative-objects-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-decorative-objects-carousel-track">
+        <article class="subpage-slide" data-index="0" id="decorative-objects-product-1">
+          <img src="/assets/images/decorative-objects-sub-01.jpg" alt="Hand-Hammered Brass Fluted Vessel" class="subpage-slide-img" loading="eager" />
+        </article>
+        <article class="subpage-slide" data-index="1" id="decorative-objects-product-2">
+          <img src="/assets/images/decorative-objects-sub-02.jpg" alt="Pierced Brass Foliage Wall Sculpture" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="2" id="decorative-objects-product-3">
+          <img src="/assets/images/decorative-objects-sub-03.jpg" alt="Geometric Orbital Brass Medallion Relief" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="3" id="decorative-objects-product-4">
+          <img src="/assets/images/decorative-objects-sub-04.jpg" alt="Sculpted Asymmetric Brass Vessel Duo" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="4" id="decorative-objects-product-5">
+          <img src="/assets/images/decorative-objects-sub-05.jpg" alt="Domed Imperial Arabesque Brass Casket" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="5" id="decorative-objects-product-6">
+          <img src="/assets/images/decorative-objects-sub-06.jpg" alt="Radial Hammered Brass Charger Platter" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="6" id="decorative-objects-product-7">
+          <img src="/assets/images/decorative-objects-sub-07.jpg" alt="Organic Leaf Multi-Compartment Brass Platter" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="7" id="decorative-objects-product-8">
+          <img src="/assets/images/decorative-objects-sub-08.jpg" alt="Arabesque Cutout Brass Wall Bracket Shelf" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="8" id="decorative-objects-product-9">
+          <img src="/assets/images/decorative-objects-sub-09.jpg" alt="Filigree Arabesque Architectural Wall Console" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="9" id="decorative-objects-product-10">
+          <img src="/assets/images/decorative-objects-sub-10.jpg" alt="Monumental Hand-Hammered Brass Fluted Basin" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="10" id="decorative-objects-product-11">
+          <img src="/assets/images/decorative-objects-sub-11.jpg" alt="Radial Pleated Brass Solar Medallion" class="subpage-slide-img" loading="lazy" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-decorative-objects-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-decorative-objects-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-decorative-objects-active-desc">Artisan deep-drawn solid brass decorative centerpiece bowl with hand-stippled dimpled texture</p>
+      <div class="subpage-dash-indicators" id="subpage-decorative-objects-dash-indicators" role="tablist" aria-label="Decorative Objects Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Slide 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Slide 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Slide 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Slide 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Slide 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Slide 6"></button>
+        <button type="button" class="subpage-dash-item" data-index="6" aria-label="Slide 7"></button>
+        <button type="button" class="subpage-dash-item" data-index="7" aria-label="Slide 8"></button>
+        <button type="button" class="subpage-dash-item" data-index="8" aria-label="Slide 9"></button>
+        <button type="button" class="subpage-dash-item" data-index="9" aria-label="Slide 10"></button>
+        <button type="button" class="subpage-dash-item" data-index="10" aria-label="Slide 11"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       07 / WALL ART EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-wall-art" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Wall Art">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-wall-art-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Wall Art</h1>
+        <h2 class="subpage-active-title" id="subpage-wall-art-active-title">Imperial Arabesque Brass Relief</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-wall-art-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-wall-art-carousel-track">
+        <article class="subpage-slide" data-index="0" id="wall-art-product-1">
+          <img src="/assets/images/wall-art-sub-01.jpg" alt="Imperial Arabesque Brass Relief" class="subpage-slide-img" loading="eager" />
+        </article>
+        <article class="subpage-slide" data-index="1" id="wall-art-product-2">
+          <img src="/assets/images/wall-art-sub-02.jpg" alt="Botanical Bough High-Relief Brass Panel" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="2" id="wall-art-product-3">
+          <img src="/assets/images/wall-art-sub-03.jpg" alt="Portoro Marble &amp; Repoussé Brass Fireplace Mantel" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="3" id="wall-art-product-4">
+          <img src="/assets/images/wall-art-sub-04.jpg" alt="Mythological Nile Narrative Copper &amp; Brass Bas-Relief" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="4" id="wall-art-product-5">
+          <img src="/assets/images/wall-art-sub-05.jpg" alt="Gilded Pierced Leaf Wall Sculpture Quartet" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="5" id="wall-art-product-6">
+          <img src="/assets/images/wall-art-sub-06.jpg" alt="Illuminated Calligraphic Brass Medallion" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="6" id="wall-art-product-7">
+          <img src="/assets/images/wall-art-sub-07.jpg" alt="Antiqued Hammered Bronze Solar Charger" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="7" id="wall-art-product-8">
+          <img src="/assets/images/wall-art-sub-08.jpg" alt="Gilded Marble &amp; Brass Portal Triptych" class="subpage-slide-img" loading="lazy" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-wall-art-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-wall-art-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-wall-art-active-desc">Architectural vertical brass plaque adorned with high-relief repoussé rosettes and spiral motifs</p>
+      <div class="subpage-dash-indicators" id="subpage-wall-art-dash-indicators" role="tablist" aria-label="Wall Art Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Slide 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Slide 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Slide 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Slide 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Slide 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Slide 6"></button>
+        <button type="button" class="subpage-dash-item" data-index="6" aria-label="Slide 7"></button>
+        <button type="button" class="subpage-dash-item" data-index="7" aria-label="Slide 8"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       08 / PARTITIONS & BOOKCASES EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-partitions-bookcases" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Partitions and Bookcases">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-partitions-bookcases-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Partitions &amp; Bookcases</h1>
+        <h2 class="subpage-active-title" id="subpage-partitions-bookcases-active-title">Geometric Labyrinth Brass Screen</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-partitions-bookcases-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-partitions-bookcases-carousel-track">
+        <article class="subpage-slide" data-index="0" id="partitions-bookcases-product-1">
+          <img src="/assets/images/partitions-bookcases-sub-01.jpg" alt="Geometric Labyrinth Brass Screen" class="subpage-slide-img" loading="eager" />
+        </article>
+        <article class="subpage-slide" data-index="1" id="partitions-bookcases-product-2">
+          <img src="/assets/images/partitions-bookcases-sub-02.jpg" alt="Rhythmic Linear Staggered Brass Screen" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="2" id="partitions-bookcases-product-3">
+          <img src="/assets/images/partitions-bookcases-sub-03.jpg" alt="Monumental Architectural Brass &amp; Glass Bookcase" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="3" id="partitions-bookcases-product-4">
+          <img src="/assets/images/partitions-bookcases-sub-04.jpg" alt="Art Deco Geometric Brass Freestanding Screen" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="4" id="partitions-bookcases-product-5">
+          <img src="/assets/images/partitions-bookcases-sub-05.jpg" alt="Stepped Zigzag Brass &amp; Glass Étagère" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="5" id="partitions-bookcases-product-6">
+          <img src="/assets/images/partitions-bookcases-sub-06.jpg" alt="Geometric Diamond Motif Brass &amp; Glass Bookcase" class="subpage-slide-img" loading="lazy" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-partitions-bookcases-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-partitions-bookcases-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-partitions-bookcases-active-desc">Floor-to-ceiling architectural space divider with precision laser-cut rectilinear maze fretwork</p>
+      <div class="subpage-dash-indicators" id="subpage-partitions-bookcases-dash-indicators" role="tablist" aria-label="Partitions &amp; Bookcases Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Slide 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Slide 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Slide 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Slide 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Slide 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Slide 6"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       09 / TABLEWARE EDITORIAL SUB-PAGE
+       ======================================================================== -->
+  <div id="subpage-tableware" class="subpage-view" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Tableware">
+    <header class="subpage-fixed-header">
+      <button type="button" class="subpage-back-arrow" id="subpage-tableware-back-btn" aria-label="Back to Collections">←</button>
+      <div class="subpage-header-lockup">
+        <h1 class="subpage-page-title">Tableware</h1>
+        <h2 class="subpage-active-title" id="subpage-tableware-active-title">Royal Filigree Brass Tea Service</h2>
+      </div>
+    </header>
+    <div class="subpage-carousel-viewport" id="subpage-tableware-carousel-viewport">
+      <div class="subpage-carousel-track" id="subpage-tableware-carousel-track">
+        <article class="subpage-slide" data-index="0" id="tableware-product-1">
+          <img src="/assets/images/tableware-sub-01.jpg" alt="Royal Filigree Brass Tea Service" class="subpage-slide-img" loading="eager" />
+        </article>
+        <article class="subpage-slide" data-index="1" id="tableware-product-2">
+          <img src="/assets/images/tableware-sub-02.jpg" alt="Imperial Calligraphic Tabletop Brass Brazier" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="2" id="tableware-product-3">
+          <img src="/assets/images/tableware-sub-03.jpg" alt="Botanical Four-Tier Brass Mezze Platter" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="3" id="tableware-product-4">
+          <img src="/assets/images/tableware-sub-04.jpg" alt="Hand-Spun Solid Copper Beaded Tumbler" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="4" id="tableware-product-5">
+          <img src="/assets/images/tableware-sub-05.jpg" alt="Hand-Hammered Copper Culinary Serving Pan" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="5" id="tableware-product-6">
+          <img src="/assets/images/tableware-sub-06.jpg" alt="Grand Calligraphic Brass Banquet Brazier" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="6" id="tableware-product-7">
+          <img src="/assets/images/tableware-sub-07.jpg" alt="Arabesque Pierced Copper Tabletop Brazier" class="subpage-slide-img" loading="lazy" />
+        </article>
+        <article class="subpage-slide" data-index="7" id="tableware-product-8">
+          <img src="/assets/images/tableware-sub-08.jpg" alt="Sculptural Cast Brass Dining Vessel Duo" class="subpage-slide-img" loading="lazy" />
+        </article>
+      </div>
+    </div>
+    <button type="button" class="subpage-hitbox subpage-hitbox-prev" id="subpage-tableware-hitbox-prev" aria-label="Previous"></button>
+    <button type="button" class="subpage-hitbox subpage-hitbox-next" id="subpage-tableware-hitbox-next" aria-label="Next"></button>
+    <div class="subpage-bottom-nav">
+      <p class="subpage-active-desc" id="subpage-tableware-active-desc">Hand-engraved antique brass teapot and filigree-clad tea glasses on a hand-chiseled serving tray</p>
+      <div class="subpage-dash-indicators" id="subpage-tableware-dash-indicators" role="tablist" aria-label="Tableware Carousel Indicators">
+        <button type="button" class="subpage-dash-item is-active" data-index="0" aria-label="Slide 1"></button>
+        <button type="button" class="subpage-dash-item" data-index="1" aria-label="Slide 2"></button>
+        <button type="button" class="subpage-dash-item" data-index="2" aria-label="Slide 3"></button>
+        <button type="button" class="subpage-dash-item" data-index="3" aria-label="Slide 4"></button>
+        <button type="button" class="subpage-dash-item" data-index="4" aria-label="Slide 5"></button>
+        <button type="button" class="subpage-dash-item" data-index="5" aria-label="Slide 6"></button>
+        <button type="button" class="subpage-dash-item" data-index="6" aria-label="Slide 7"></button>
+        <button type="button" class="subpage-dash-item" data-index="7" aria-label="Slide 8"></button>
+      </div>
+      <div class="subpage-copyright">© 2026 TURATH</div>
+    </div>
+  </div>
+
+  
+
+    
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

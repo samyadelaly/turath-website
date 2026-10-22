@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Production build
+dist/
+
+# Local backups & logs
+*.bak
+*.log
+cloudflared.exe
+persist_tunnel.js
+run_tunnel.js
+tunnel_info.json
+live_mobile_url.txt
+.edge-cache/
+scratch/
+
+# Debug root screenshots
+/*.png
+
+# Editor & System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Agent brain & scratch artifacts
+.gemini/
