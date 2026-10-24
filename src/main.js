@@ -447,16 +447,19 @@ function setupHeroLogoAnimation() {
       const curScale = 1.0 + (startScale - 1.0) * (1 - p);
 
       // 2. LOCKSTEP NOTCH ASCENT: Moves UP by the exact same pixels as Turath (identical physical speed!)
-      const turathPixelsAscended = startY - curY;
+      const notchAscent = (startY - curY) * 0.12;
+      const turathPixelsAscended = notchAscent;
       const heroSheetEl = document.getElementById('hero-sheet');
       if (heroSheetEl) {
-        heroSheetEl.style.setProperty('transform', `translate3d(0, -${turathPixelsAscended.toFixed(2)}px, 0)`, 'important');
+        heroSheetEl.style.setProperty('transform', `translate3d(0, -${notchAscent.toFixed(2)}px, 0)`, 'important');
       }
-      document.documentElement.style.setProperty('--hero-sheet-y', `${turathPixelsAscended.toFixed(2)}px`);
+      document.documentElement.style.setProperty('--hero-sheet-y', `${notchAscent.toFixed(2)}px`);
 
       turathLogo.style.opacity = '1'; // Never fades out
 
+      const siteHeaderEl = document.getElementById('site-header');
       if (p >= 0.95) {
+        if (siteHeaderEl) siteHeaderEl.classList.remove('in-hero');
         turathLogo.classList.add('is-docked');
         turathLogo.classList.remove('hero-resting');
         turathLogo.style.transform = 'none';
@@ -468,6 +471,7 @@ function setupHeroLogoAnimation() {
           }
         });
       } else {
+        if (siteHeaderEl) siteHeaderEl.classList.add('in-hero');
         turathLogo.classList.remove('is-docked');
         turathLogo.style.transform = `translate3d(${curX.toFixed(2)}px, ${curY.toFixed(2)}px, 0) scale(${curScale.toFixed(4)})`;
         turathLogo.classList.add('hero-resting');
@@ -531,11 +535,9 @@ function setupTransitions() {
       opacity: 1,
       ease: 'none',
       scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-        pinSpacing: false
+        start: 0,
+        end: () => Math.max(160, window.innerHeight * 0.20),
+        scrub: 0.15
       }
     });
   }
@@ -593,7 +595,7 @@ function setupTransitions() {
           aboutSheet.style.webkitClipPath = 'none';
         } else {
           const stepX = (24 + (1 - p) * 12).toFixed(1);
-          const stepY = (48 * p).toFixed(1);
+          const stepY = (54 * (1 - p * 0.4)).toFixed(1);
           aboutSheet.style.clipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
           aboutSheet.style.webkitClipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
         }

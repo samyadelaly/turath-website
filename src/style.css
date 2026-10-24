@@ -102,6 +102,15 @@ main,
 /* ==========================================================================
    2. 58PX FROSTED GLASS HEADER & CURTAIN NAV DRAWER
    ========================================================================== */
+#site-header.in-hero {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
 header,
 #site-header {
   position: fixed !important;
@@ -110,9 +119,17 @@ header,
   width: 100% !important;
   height: var(--header-height, 58px) !important;
   background: linear-gradient(165deg, #A89574 0%, #9D8C6C 50%, #918162 100%) !important;
-  backdrop-filter: blur(14px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
-  border-bottom: 1px solid rgba(26, 24, 20, 0.25) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: translate3d(0, 0, 0) !important;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  transition: background 0.3s ease !important;
   /* box-shadow removed per user request */
   z-index: 9999 !important;
   display: flex !important;
@@ -381,7 +398,9 @@ section,
   overflow: visible !important;
   padding-bottom: 3rem !important;
   z-index: 20 !important;
-  box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.7) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
 #about .scene-sheet {
@@ -391,7 +410,8 @@ section,
   min-height: 100svh !important;
   max-height: none !important;
   overflow: visible !important;
-  /* filter removed - conflicts with clip-path morphing animation */
+  background-color: #0A0A0A !important;
+  box-shadow: none !important;
   will-change: clip-path, transform !important;
 }
 
@@ -522,14 +542,16 @@ section,
   flex-direction: column !important;
   justify-content: flex-start !important;
   background: linear-gradient(165deg, #A89574 0%, #9D8C6C 50%, #918162 100%) !important;
-  backdrop-filter: blur(12px) saturate(130%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 78% calc(100% - 40px), 78% 100%, 0 100%) !important;
   -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 78% calc(100% - 40px), 78% 100%, 0 100%) !important;
   transform: translate3d(0, calc(var(--hero-sheet-y, 0px) * -1), 0) !important;
   will-change: transform !important;
   will-change: transform !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
 }
 
 .hero-sheet-hairline {
