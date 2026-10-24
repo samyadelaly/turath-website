@@ -37,6 +37,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+window.gsap = gsap;
+window.ScrollTrigger = ScrollTrigger;
 
 // CRITICAL BLUEPRINT RULE: Enforce pinSpacing: false globally across all ScrollTriggers
 ScrollTrigger.defaults({
@@ -326,6 +328,18 @@ const FONT_PALETTE = [
   "'Inter', sans-serif"
 ];
 
+const GEOMETRIC_FONTS = [
+  "'Space Grotesk', sans-serif",
+  "'Syne', sans-serif",
+  "'Inter', sans-serif"
+];
+
+const EXPERIMENTAL_FONTS = [
+  "'Cinzel', serif",
+  "'Playfair Display', serif",
+  "'Space Mono', monospace"
+];
+
 const BASE_FONT = "'Syne', sans-serif";
 const DOCKED_FONT = "'Cinzel', serif";
 const CHAR_CADENCES = [3, 4, 2, 5, 3, 4];
@@ -421,29 +435,32 @@ function setupHeroLogoAnimation() {
 
   ScrollTrigger.create({
     id: 'hero-logo-trigger',
-    trigger: '#hero',
-    start: 'top top',
-    end: '35% top',
+    start: 0,
+    end: () => Math.max(260, window.innerHeight * 0.35),
     scrub: true,
-    pinSpacing: false,
     onUpdate: (self) => {
       const p = self.progress;
-      const curScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-      // 1. Position & Scale Interpolation: Synchronized 1:1 with notch sheet ascent
-      // Notch lifts linearly with p, turath moves up synchronously without drifting
+      // 1. TURATH INTERPOLATION: Exact ascent toward navbar slot
       const curX = startX * (1 - p);
       const curY = Math.max(0, startY * (1 - p));
       const curScale = 1.0 + (startScale - 1.0) * (1 - p);
 
-      turathLogo.style.opacity = '1'; // Never fades out! Always remains visible
+      // 2. LOCKSTEP NOTCH ASCENT: Moves UP by the exact same pixels as Turath (identical physical speed!)
+      const turathPixelsAscended = startY - curY;
+      const heroSheetEl = document.getElementById('hero-sheet');
+      if (heroSheetEl) {
+        heroSheetEl.style.setProperty('transform', `translate3d(0, -${turathPixelsAscended.toFixed(2)}px, 0)`, 'important');
+      }
+      document.documentElement.style.setProperty('--hero-sheet-y', `${turathPixelsAscended.toFixed(2)}px`);
+
+      turathLogo.style.opacity = '1'; // Never fades out
 
       if (p >= 0.95) {
         turathLogo.classList.add('is-docked');
         turathLogo.classList.remove('hero-resting');
         turathLogo.style.transform = 'none';
         turathLogo.style.setProperty('color', '#0A0A0A', 'important');
-        // Lock docked font
         scrambleChars.forEach(ch => {
           ch.style.fontFamily = DOCKED_FONT;
           if (ch.dataset.char && ch.textContent !== ch.dataset.char) {
@@ -457,7 +474,7 @@ function setupHeroLogoAnimation() {
         turathLogo.style.setProperty('color', '#0A0A0A', 'important');
         turathLogo.style.transformOrigin = 'left center';
 
-        // 2. Dual-speed Font Scramble Motion
+        // Dual-speed Font Scramble Motion
         if (p < 0.05) {
           scrambleChars.forEach(ch => {
             ch.style.fontFamily = BASE_FONT;
@@ -466,16 +483,16 @@ function setupHeroLogoAnimation() {
             }
           });
         } else {
+          const curScrollY = window.pageYOffset || document.documentElement.scrollTop;
           const deltaY = Math.abs(curScrollY - lastScrambleY);
           if (deltaY >= 4) {
             scrambleTick++;
             lastScrambleY = curScrollY;
-
             scrambleChars.forEach((ch, idx) => {
               const cadence = CHAR_CADENCES[idx % CHAR_CADENCES.length] || 3;
               if ((scrambleTick + idx * 2) % cadence === 0) {
-                const randIdx = Math.floor(Math.random() * FONT_PALETTE.length);
-                ch.style.fontFamily = FONT_PALETTE[randIdx];
+                const pool = (idx % 2 === 0) ? GEOMETRIC_FONTS : EXPERIMENTAL_FONTS;
+                ch.style.fontFamily = pool[Math.floor(Math.random() * pool.length)];
               }
             });
           }
@@ -484,17 +501,7 @@ function setupHeroLogoAnimation() {
     }
   });
 
-  // Hero Sheet ascent on scroll
-  ScrollTrigger.create({
-    trigger: '#hero',
-    start: 'top top',
-    end: '35% top',
-    scrub: true,
-    pinSpacing: false,
-    onUpdate: (self) => {
-      document.documentElement.style.setProperty('--hero-sheet-progress', self.progress.toFixed(3));
-    }
-  });
+  // Notch ascent is synchronized 1:1 with Turath in hero-logo-trigger above
 
   // Hero Arrow Button Click
   const heroArrowBtn = document.getElementById('hero-scroll-next-btn');
@@ -514,7 +521,9 @@ function setupHeroLogoAnimation() {
 function setupTransitions() {
   // --------------------------------------------------------------------------
   // TRANSITION 1: SECTION 01 (#hero) -> SECTION 02 (#about)
+  // Section 2 Layered Scrolling Morphing Ascent Over Hero
   // --------------------------------------------------------------------------
+
   // 1a. Hero Day/Night Crossfade
   const heroNight = document.getElementById('hero-night-container');
   if (heroNight) {
@@ -531,24 +540,36 @@ function setupTransitions() {
     });
   }
 
-  // 1b. Hero Brand Description & Button Fade-out
-  const heroTextEls = document.querySelectorAll('.hero-brand-description, #hero-scroll-next-btn, .scene-eyebrow, .hero-heading');
+  // 1b. Hero Brand Description, DEVOTED & TO CREATIVITY fade-out on scroll
+  const heroTextEls = document.querySelectorAll('.hero-brand-description, .scene-eyebrow, .hero-heading');
   if (heroTextEls.length > 0) {
     gsap.to(heroTextEls, {
       opacity: 0,
       y: -25,
       ease: 'none',
       scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: '30% top',
-        scrub: true,
-        pinSpacing: false
+        start: 0,
+        end: () => Math.max(220, window.innerHeight * 0.28),
+        scrub: true
       }
     });
   }
 
-  // 1c. Section 02 Ascent over Hero: Layered Scrolling Morphing Animation
+  // Arrow button fades out in-place (no y shift) so it stays 100% locked with Turath shelf
+  const arrowBtnEl = document.getElementById('hero-scroll-next-btn');
+  if (arrowBtnEl) {
+    gsap.to(arrowBtnEl, {
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        start: 0,
+        end: () => Math.max(240, window.innerHeight * 0.32),
+        scrub: true
+      }
+    });
+  }
+
+  // 1c. Section 02 Layered Scrolling Morphing Animation over Hero
   const aboutSection = document.getElementById('about');
   const aboutSheet = document.querySelector('#about .scene-sheet');
   const aboutDepthPlate = document.getElementById('about-depth-plate');
@@ -557,6 +578,7 @@ function setupTransitions() {
 
   if (aboutSection && aboutSheet) {
     ScrollTrigger.create({
+      id: 'sec2-morph-trigger',
       trigger: '#about',
       start: 'top bottom',
       end: 'top top',
@@ -566,10 +588,15 @@ function setupTransitions() {
 
         // 1. Morphing Stepped-Notch ClipPath as Section 2 ascends over Hero:
         // Left-side step formula (24% ratio, 48px depth) morphing smoothly
-        const stepX = (24 + (1 - p) * 12).toFixed(1);
-        const stepY = (48 * p).toFixed(1);
-        aboutSheet.style.clipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
-        aboutSheet.style.webkitClipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+        if (p >= 0.98) {
+          aboutSheet.style.clipPath = 'none';
+          aboutSheet.style.webkitClipPath = 'none';
+        } else {
+          const stepX = (24 + (1 - p) * 12).toFixed(1);
+          const stepY = (48 * p).toFixed(1);
+          aboutSheet.style.clipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+          aboutSheet.style.webkitClipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+        }
 
         // 2. Layered Parallax for Background Depth Plate
         if (aboutDepthPlate) {
@@ -579,7 +606,7 @@ function setupTransitions() {
       }
     });
 
-    // 3. Staggered Row-by-Row Card Entrance as Section 2 settles
+    // 3. Staggered Row-by-Row Card Entrance as Section 2 ascends
     if (aboutCards.length > 0) {
       gsap.fromTo(aboutCards,
         { y: 35, opacity: 0.2 },
@@ -618,7 +645,6 @@ function setupTransitions() {
     }
   }
 
-  // --------------------------------------------------------------------------
   // TRANSITION 2: SECTION 02 (#about) -> SECTION 03 (#information)
   // --------------------------------------------------------------------------
   // 2a. Section 03 Stepped Notch Right Entry
