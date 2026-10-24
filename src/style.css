@@ -535,7 +535,7 @@ section,
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: clamp(280px, 33.5svh, 345px) !important;
+  height: clamp(340px, 40svh, 410px) !important;
   z-index: 5 !important;
   pointer-events: none !important;
   display: flex !important;

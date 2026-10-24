@@ -447,13 +447,12 @@ function setupHeroLogoAnimation() {
       const curScale = 1.0 + (startScale - 1.0) * (1 - p);
 
       // 2. LOCKSTEP NOTCH ASCENT: Moves UP by the exact same pixels as Turath (identical physical speed!)
-      const notchAscent = (startY - curY) * 0.12;
-      const turathPixelsAscended = notchAscent;
+      const turathPixelsAscended = startY - curY;
       const heroSheetEl = document.getElementById('hero-sheet');
       if (heroSheetEl) {
-        heroSheetEl.style.setProperty('transform', `translate3d(0, -${notchAscent.toFixed(2)}px, 0)`, 'important');
+        heroSheetEl.style.setProperty('transform', `translate3d(0, -${turathPixelsAscended.toFixed(2)}px, 0)`, 'important');
       }
-      document.documentElement.style.setProperty('--hero-sheet-y', `${notchAscent.toFixed(2)}px`);
+      document.documentElement.style.setProperty('--hero-sheet-y', `${turathPixelsAscended.toFixed(2)}px`);
 
       turathLogo.style.opacity = '1'; // Never fades out
 
