@@ -375,10 +375,8 @@ function setupHeroLogoAnimation() {
 
   const aRect = heroAnchor ? heroAnchor.getBoundingClientRect() : null;
   const sRect = headerSlot.getBoundingClientRect();
-
-  // Measure delta from left-docked header slot beside burger menu to hero anchor
-  const startX = aRect ? aRect.left - sRect.left : 0;
-  const startY = aRect ? aRect.top - sRect.top : Math.max(140, window.innerHeight * 0.38);
+  const arrowBtn = document.getElementById('hero-scroll-next-btn');
+  const bRect = arrowBtn ? arrowBtn.getBoundingClientRect() : null;
 
   // SCALE: Match hero ghost size accurately
   turathLogo.style.transform = 'none';
@@ -395,10 +393,18 @@ function setupHeroLogoAnimation() {
     heroAnchor.style.setProperty('max-width', `${renderedTurathWidth.toFixed(1)}px`, 'important');
   }
 
+  // ALIGN TURATH VERTICALLY WITH ARROW (اطلع بتراث فوق جمب السهم)
+  // Mathematical 0.00px vertical center alignment with arrow button:
+  // Since transformOrigin is 'left center', newCenterY = naturalCenterY + startY.
+  // Setting startY = arrowCenterY - naturalCenterY guarantees exact 1:1 center alignment!
+  const naturalCenterY = naturalTRect.top + naturalTRect.height / 2;
+  const arrowCenterY = bRect ? (bRect.top + bRect.height / 2) : (aRect ? aRect.top + 15 : 270);
+  const startY = arrowCenterY - naturalCenterY;
+  const startX = aRect ? (aRect.left - naturalTRect.left) : 0;
+
   // CRITICAL: Set initial resting position in the hero sheet immediately on load!
   const curScrollY0 = window.pageYOffset || document.documentElement.scrollTop;
   if (curScrollY0 < 10) {
-    if (siteHeader) siteHeader.classList.remove('header-scrolled');
     turathLogo.classList.add('hero-resting');
     turathLogo.classList.remove('is-docked');
     turathLogo.style.transform = `translate3d(${startX.toFixed(2)}px, ${startY.toFixed(2)}px, 0) scale(${startScale.toFixed(4)})`;
@@ -424,20 +430,11 @@ function setupHeroLogoAnimation() {
       const p = self.progress;
       const curScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-      // Header activation: shows frosted glass and burger menu when scrolling begins
-      if (siteHeader) {
-        if (curScrollY > 15) {
-          siteHeader.classList.add('header-scrolled');
-        } else {
-          siteHeader.classList.remove('header-scrolled');
-        }
-      }
-
-      // 1. Position & Scale Interpolation from hero anchor up to navbar slot
-      const easeP = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-      const curX = startX * (1 - easeP);
-      const curY = Math.max(0, startY * (1 - easeP));
-      const curScale = 1.0 + (startScale - 1.0) * (1 - easeP);
+      // 1. Position & Scale Interpolation: Synchronized 1:1 with notch sheet ascent
+      // Notch lifts linearly with p, turath moves up synchronously without drifting
+      const curX = startX * (1 - p);
+      const curY = Math.max(0, startY * (1 - p));
+      const curScale = 1.0 + (startScale - 1.0) * (1 - p);
 
       turathLogo.style.opacity = '1'; // Never fades out! Always remains visible
 
@@ -445,7 +442,7 @@ function setupHeroLogoAnimation() {
         turathLogo.classList.add('is-docked');
         turathLogo.classList.remove('hero-resting');
         turathLogo.style.transform = 'none';
-        turathLogo.style.setProperty('color', '#D7C797', 'important');
+        turathLogo.style.setProperty('color', '#0A0A0A', 'important');
         // Lock docked font
         scrambleChars.forEach(ch => {
           ch.style.fontFamily = DOCKED_FONT;
@@ -456,18 +453,8 @@ function setupHeroLogoAnimation() {
       } else {
         turathLogo.classList.remove('is-docked');
         turathLogo.style.transform = `translate3d(${curX.toFixed(2)}px, ${curY.toFixed(2)}px, 0) scale(${curScale.toFixed(4)})`;
-        // Color transition from #0A0A0A (hero) to #D7C797 (docked)
-        if (p < 0.2) {
-          turathLogo.classList.add('hero-resting');
-          turathLogo.style.setProperty('color', '#0A0A0A', 'important');
-        } else {
-          turathLogo.classList.remove('hero-resting');
-          if (p > 0.8) {
-            turathLogo.style.setProperty('color', '#D7C797', 'important');
-          } else {
-            turathLogo.style.setProperty('color', '#7A6B4E', 'important');
-          }
-        }
+        turathLogo.classList.add('hero-resting');
+        turathLogo.style.setProperty('color', '#0A0A0A', 'important');
         turathLogo.style.transformOrigin = 'left center';
 
         // 2. Dual-speed Font Scramble Motion
@@ -561,9 +548,14 @@ function setupTransitions() {
     });
   }
 
-  // 1c. Section 02 Ascent Sheet Shadow & Clean Edge
+  // 1c. Section 02 Ascent over Hero: Layered Scrolling Morphing Animation
+  const aboutSection = document.getElementById('about');
   const aboutSheet = document.querySelector('#about .scene-sheet');
-  if (aboutSheet) {
+  const aboutDepthPlate = document.getElementById('about-depth-plate');
+  const aboutCards = document.querySelectorAll('.about-frame-item');
+  const aboutHeader = document.querySelector('.about-editorial-header');
+
+  if (aboutSection && aboutSheet) {
     ScrollTrigger.create({
       trigger: '#about',
       start: 'top bottom',
@@ -571,9 +563,59 @@ function setupTransitions() {
       scrub: true,
       onUpdate: (self) => {
         const p = self.progress;
-        // Smooth architectural ascent over Section 1
+
+        // 1. Morphing Stepped-Notch ClipPath as Section 2 ascends over Hero:
+        // Left-side step formula (24% ratio, 48px depth) morphing smoothly
+        const stepX = (24 + (1 - p) * 12).toFixed(1);
+        const stepY = (48 * p).toFixed(1);
+        aboutSheet.style.clipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+        aboutSheet.style.webkitClipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+
+        // 2. Layered Parallax for Background Depth Plate
+        if (aboutDepthPlate) {
+          const depthY = ((1 - p) * 50).toFixed(1);
+          aboutDepthPlate.style.transform = `translate3d(0, ${depthY}px, 0) scale(${1.06 - p * 0.06})`;
+        }
       }
     });
+
+    // 3. Staggered Row-by-Row Card Entrance as Section 2 settles
+    if (aboutCards.length > 0) {
+      gsap.fromTo(aboutCards,
+        { y: 35, opacity: 0.2 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.04,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '#about',
+            start: 'top 85%',
+            end: 'top 20%',
+            scrub: true,
+            pinSpacing: false
+          }
+        }
+      );
+    }
+
+    if (aboutHeader) {
+      gsap.fromTo(aboutHeader,
+        { y: 25, opacity: 0.3 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '#about',
+            start: 'top 90%',
+            end: 'top 35%',
+            scrub: true,
+            pinSpacing: false
+          }
+        }
+      );
+    }
   }
 
   // --------------------------------------------------------------------------

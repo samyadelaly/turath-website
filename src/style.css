@@ -109,10 +109,11 @@ header,
   left: 0 !important;
   width: 100% !important;
   height: var(--header-height, 58px) !important;
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-bottom: none !important;
+  background: linear-gradient(165deg, #A89574 0%, #9D8C6C 50%, #918162 100%) !important;
+  backdrop-filter: blur(14px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+  border-bottom: 1px solid rgba(26, 24, 20, 0.25) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
   z-index: 9999 !important;
   display: flex !important;
   align-items: center !important;
@@ -120,19 +121,8 @@ header,
   padding: 0 clamp(1.25rem, 4vw, 4rem) !important;
   direction: ltr !important;
   overflow: visible !important;
-  transition: background-color 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
 }
 
-header.header-scrolled,
-#site-header.header-scrolled,
-body.nav-drawer-open #site-header {
-  background: rgba(10, 10, 10, 0.45) !important;
-  backdrop-filter: blur(14px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
-  border-bottom: 1px solid rgba(215, 199, 151, 0.15) !important;
-}
-
-/* Top-Left Header Menu Trigger (RTL Left / Start) */
 .header-menu-trigger {
   position: absolute !important;
   left: clamp(1rem, 2.5vw, 2.5rem) !important;
@@ -144,16 +134,8 @@ body.nav-drawer-open #site-header {
   align-items: center !important;
   justify-content: center !important;
   z-index: 1001 !important;
-  color: var(--brand-copper) !important;
+  color: #0A0A0A !important;
   cursor: pointer !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transition: opacity 0.3s ease !important;
-}
-
-header.header-scrolled .header-menu-trigger,
-#site-header.header-scrolled .header-menu-trigger,
-body.nav-drawer-open .header-menu-trigger {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
@@ -166,12 +148,12 @@ body.nav-drawer-open .header-menu-trigger {
 }
 
 .menu-line {
-  display: block;
-  height: 2px;
-  width: 100%;
-  background: var(--brand-copper) !important;
-  border-radius: 1px;
-  transition: transform 0.3s ease, background 0.3s ease;
+  display: block !important;
+  height: 2.2px !important;
+  width: 100% !important;
+  background: #0A0A0A !important;
+  border-radius: 1px !important;
+  transition: transform 0.3s ease, background 0.3s ease !important;
 }
 
 /* Header Brand Logo Slot Docked Beside Burger Menu on the LEFT */
@@ -222,7 +204,7 @@ body.nav-drawer-open .header-menu-trigger {
 }
 
 #turath-logo.is-docked {
-  color: var(--brand-copper, #D7C797) !important;
+  color: #0A0A0A !important;
 }
 
 /* Header Emblem (RTL Right) */
@@ -379,59 +361,26 @@ section,
 #about,
 .scene-track#about {
   position: relative !important;
-  min-height: 200svh !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-
-#information,
-.scene-track#information {
-  position: relative !important;
-  min-height: 220svh !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-
-#information .scene03-pinned-viewport {
-  position: sticky !important;
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: 100svh !important;
-  max-height: 100svh !important;
-  overflow: hidden !important;
-}
-
-#about,
-.scene-track#about {
-  position: relative !important;
-  min-height: 200svh !important;
   height: auto !important;
+  min-height: 100svh !important;
   max-height: none !important;
   overflow: visible !important;
-}
-
-/* Physical Inner Sheet Framework */
-.scene-sheet {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  background-color: var(--bg-dark);
-  box-sizing: border-box;
-  overflow: hidden;
-  filter: drop-shadow(0 -16px 28px rgba(0, 0, 0, 0.48));
+  padding-bottom: 3rem !important;
+  z-index: 20 !important;
 }
 
 #about .scene-sheet {
-  min-height: 200svh;
-  height: auto;
-  overflow: visible;
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 100svh !important;
+  max-height: none !important;
+  overflow: visible !important;
+  filter: drop-shadow(0 -20px 30px rgba(0, 0, 0, 0.65)) !important;
+  will-change: clip-path, transform !important;
 }
 
 /* Mandatory Subtle Dark Overlay / Mask on all media */
@@ -650,7 +599,7 @@ section,
   display: inline-flex !important;
   align-items: center !important;
   gap: clamp(14px, 2.4vw, 20px) !important;
-  margin-top: clamp(12px, 1.8vh, 22px) !important;
+  margin-top: clamp(6px, 1.0vh, 12px) !important;
   pointer-events: auto !important;
 }
 
@@ -696,7 +645,7 @@ section,
 /* Floating Brand Description: Pure Typography, Zero Plate, Zero Stroke */
 .hero-brand-description {
   position: absolute !important;
-  bottom: clamp(55px, 11.5svh, 110px) !important;
+  bottom: clamp(65px, 12vh, 105px) !important;
   left: clamp(1.25rem, 5.2vw, 2.5rem) !important;
   right: clamp(1.25rem, 5.2vw, 2.5rem) !important;
   z-index: 10 !important;
@@ -712,6 +661,27 @@ section,
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+.hero-brand-description h2 {
+  color: #FFFFFF !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: clamp(1.2rem, 3.4vw, 1.55rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  margin-bottom: 0.65rem !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
+  letter-spacing: -0.01em !important;
+}
+
+.hero-brand-description p {
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: clamp(0.78rem, 2.1vw, 0.92rem) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
+  letter-spacing: 0.01em !important;
 }
 
 .hero-brand-description h2 {
@@ -1484,7 +1454,7 @@ section,
 }
 
 
-/* Section 2 Background Media Mask: Exactly 70% */
+/* Section 2 Background Media Mask: Rich Graded Black */
 #about-depth-plate .photo-scrim-dark,
 #about .scene-depth-plate .photo-scrim-dark,
 #about .photo-scrim-dark {
@@ -1492,7 +1462,7 @@ section,
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  background-color: rgba(10, 10, 10, 0.70) !important; /* 70% Dark Mask */
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.40) 0%, rgba(10, 10, 10, 0.72) 40%, rgba(10, 10, 10, 0.92) 75%, #0A0A0A 100%) !important;
   z-index: 1 !important;
   pointer-events: none !important;
 }
