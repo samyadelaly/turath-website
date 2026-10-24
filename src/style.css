@@ -113,7 +113,7 @@ header,
   backdrop-filter: blur(14px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
   border-bottom: 1px solid rgba(26, 24, 20, 0.25) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+  /* box-shadow removed per user request */
   z-index: 9999 !important;
   display: flex !important;
   align-items: center !important;
@@ -391,7 +391,7 @@ section,
   min-height: 100svh !important;
   max-height: none !important;
   overflow: visible !important;
-  filter: drop-shadow(0 -20px 30px rgba(0, 0, 0, 0.65)) !important;
+  /* filter removed - conflicts with clip-path morphing animation */
   will-change: clip-path, transform !important;
 }
 
@@ -680,7 +680,7 @@ section,
 .hero-brand-description h2 {
   color: #FFFFFF !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-  font-size: clamp(1.2rem, 3.4vw, 1.55rem) !important;
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem) !important;
   font-weight: 700 !important;
   line-height: 1.25 !important;
   margin-bottom: 0.65rem !important;
@@ -701,7 +701,7 @@ section,
 .hero-brand-description h2 {
   max-width: 480px !important;
   font-family: var(--font-heading, sans-serif) !important;
-  font-size: clamp(1rem, 2vw, 1.25rem) !important;
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem) !important;
   font-weight: 700 !important;
   line-height: 1.3 !important;
   margin: 0 0 0.45rem 0 !important;
