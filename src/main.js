@@ -378,16 +378,12 @@ function setupHeroLogoAnimation() {
   const heroAnchor = document.getElementById('hero-turath-anchor');
   const headerSlot = document.getElementById('header-logo-slot');
   const scrambleChars = document.querySelectorAll('#turath-logo .scramble-char');
+  const devotedEl = document.getElementById('hero-line-devoted');
 
   if (!turathLogo || !headerSlot) return;
 
   // Align the 3 hero lines to exact same length
   alignHeroLines();
-  if (document.fonts) {
-    document.fonts.ready.then(() => {
-      alignHeroLines();
-    });
-  }
 
   // Kill existing hero triggers
   ScrollTrigger.getAll().forEach(st => {
@@ -397,17 +393,28 @@ function setupHeroLogoAnimation() {
   const aRect = heroAnchor ? heroAnchor.getBoundingClientRect() : null;
   const sRect = headerSlot.getBoundingClientRect();
 
-  // Measure delta from left-docked header slot beside burger menu to hero anchor
+  // Measure delta from left-docked header slot beside burger menu to hero anchor inside the red rectangle
   const startX = aRect ? aRect.left - sRect.left : 0;
-  const startY = aRect ? aRect.top - sRect.top : Math.max(120, window.innerHeight * 0.35);
-  // Compact, smaller starting scale
-  const startScale = 1.0;
+  const startY = aRect ? aRect.top - sRect.top : Math.max(140, window.innerHeight * 0.42);
 
-  // CRITICAL: Set initial resting position in the notch immediately on load!
+  // DYNAMIC SCALE: EXACTLY EQUAL TO DEVOTED SIZE
+  turathLogo.style.transform = 'none';
+  const naturalTWidth = turathLogo.getBoundingClientRect().width || 120;
+  const dRect = devotedEl ? devotedEl.getBoundingClientRect() : { width: 185 };
+  const startScale = naturalTWidth > 0 ? (dRect.width / naturalTWidth) : 2.0;
+
+  // Set anchor width to match DEVOTED width so arrow button is positioned with clean gap
+  if (heroAnchor && dRect.width > 0) {
+    heroAnchor.style.width = `${dRect.width.toFixed(1)}px`;
+    heroAnchor.style.minWidth = `${dRect.width.toFixed(1)}px`;
+  }
+
+  // CRITICAL: Set initial resting position in the red rectangle immediately on load!
   const curScrollY0 = window.pageYOffset || document.documentElement.scrollTop;
   if (curScrollY0 < 10) {
     turathLogo.style.transform = `translate3d(${startX.toFixed(2)}px, ${startY.toFixed(2)}px, 0) scale(${startScale.toFixed(4)})`;
     turathLogo.style.transformOrigin = 'left center';
+    turathLogo.style.opacity = '1';
     scrambleChars.forEach(ch => {
       ch.style.fontFamily = BASE_FONT;
       if (ch.dataset.char && ch.textContent !== ch.dataset.char) {
@@ -427,11 +434,13 @@ function setupHeroLogoAnimation() {
       const p = self.progress;
       const curScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-      // 1. Position & Scale Interpolation
+      // 1. Position & Scale Interpolation from red rectangle up to header
       const easeP = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
       const curX = startX * (1 - easeP);
       const curY = Math.max(0, startY * (1 - easeP));
       const curScale = 1.0 + (startScale - 1.0) * (1 - easeP);
+
+      turathLogo.style.opacity = '1'; // Never fades out! Always remains visible
 
       if (p >= 0.95) {
         turathLogo.style.transform = 'none';
@@ -473,7 +482,7 @@ function setupHeroLogoAnimation() {
     }
   });
 
-  // Hero Sheet ascent by 10% on scroll
+  // Hero Sheet ascent on scroll
   ScrollTrigger.create({
     trigger: '#hero',
     start: 'top top',

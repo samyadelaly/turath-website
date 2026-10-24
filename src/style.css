@@ -185,8 +185,8 @@ header,
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transform-origin: center center !important;
-  -webkit-transform-origin: center center !important;
+  transform-origin: left center !important;
+  -webkit-transform-origin: left center !important;
   font-family: var(--font-sans) !important;
   font-size: clamp(0.95rem, 1.4vw, 1.25rem) !important;
   font-weight: 800 !important;
@@ -505,7 +505,7 @@ section,
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: clamp(310px, 38svh, 380px) !important; /* Stepped notch lifted by 10% */
+  height: clamp(380px, 48svh, 500px) !important; /* Fully encloses the lower notch rectangle */
   z-index: 5 !important;
   pointer-events: none !important;
   display: flex !important;
@@ -582,8 +582,8 @@ section,
 .hero-turath-anchor-wrap {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 16px !important;
-  margin-top: clamp(8px, 1.5vh, 16px) !important;
+  gap: clamp(14px, 2.5vw, 24px) !important;
+  margin-top: clamp(38px, 6.5vh, 70px) !important; /* Settles down into the red rectangle area */
   pointer-events: auto !important;
 }
 
@@ -596,10 +596,11 @@ section,
 .hero-turath-ghost {
   display: inline-flex !important;
   align-items: center !important;
-  font-family: var(--font-sans) !important;
-  font-size: clamp(1.15rem, 2.0vw, 1.6rem) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.12em !important;
+  font-family: var(--font-heading, 'Syne', sans-serif) !important;
+  font-size: clamp(2rem, 4.6vw, 4.2rem) !important; /* Exact same size as DEVOTED */
+  font-weight: 300 !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
   color: var(--brand-copper) !important;
   opacity: 0 !important;
@@ -608,8 +609,8 @@ section,
 }
 
 .hero-scroll-next-btn {
-  width: 26px !important; /* Compact triangle button */
-  height: 26px !important;
+  width: clamp(32px, 3.8vw, 42px) !important;
+  height: clamp(32px, 3.8vw, 42px) !important;
   border-radius: 50% !important;
   border: 1px solid var(--brand-copper) !important;
   display: inline-flex !important;
@@ -622,8 +623,8 @@ section,
 }
 
 .hero-arrow-icon {
-  width: 11px !important;
-  height: 11px !important;
+  width: clamp(13px, 1.6vw, 17px) !important;
+  height: clamp(13px, 1.6vw, 17px) !important;
 }
 
 /* Floating Brand Description: Pure Typography, Zero Plate, Zero Stroke */
@@ -671,38 +672,33 @@ section,
 /* ==========================================================================
    5. SECTIONS 2 TO 7: STEPPED-NOTCH MASKS & FOUNDER PAGE
    ========================================================================== */
-.notch-hairline {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  pointer-events: none;
-  z-index: 40;
-  overflow: visible;
-  display: block;
-}
-
-.notch-hairline path {
-  fill: none !important;
-  stroke: var(--brand-copper) !important;
-  stroke-width: 1.5px !important;
-}
-
-.notch-accent-dot {
-  fill: var(--brand-copper) !important;
+/* Zero Stroke on Any Notch across the entire website */
+.notch-hairline,
+.notch-hairline path,
+.notch-hairline svg,
+.hero-sheet-hairline,
+.notch-accent-dot,
+[class*="notch-hairline"],
+.scene-sheet-hairline {
+  display: none !important;
   stroke: none !important;
+  stroke-width: 0 !important;
+  border: none !important;
+  outline: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /* Section 2: Heritage / Collections Grid (Strictly 3 per row, 9:16 aspect ratio) */
 .about-gallery-grid {
   display: grid !important;
   grid-template-columns: repeat(3, 1fr) !important;
-  gap: clamp(14px, 2.2vw, 32px) !important;
+  gap: clamp(8px, 1.8vw, 28px) !important;
   width: 100% !important;
   max-width: 1320px !important;
   margin: 2rem auto !important;
-  padding: 0 clamp(1rem, 2.5vw, 2rem) !important;
+  padding: 0 clamp(0.6rem, 2vw, 2rem) !important;
   box-sizing: border-box !important;
 }
 
@@ -1314,8 +1310,9 @@ section,
   }
 
   .about-gallery-grid {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: clamp(6px, 1.6vw, 10px) !important;
+    padding: 0 0.5rem !important;
   }
 
   .scene06-founder-layout,
