@@ -1,1464 +1,1496 @@
-/**
- * TURATH (تراث) — Egyptian Architectural Metalwork
- * Pure, Optimized, High-Performance CSS Architecture
- * Built strictly according to the Master Blueprint:
- * 1. Global Reset & Zero Gaps
- * 2. 58px Frosted Glass Header
- * 3. Stacking Sticky Scroll (Sec 1-9: 100svh, Sec 2: min-height 200svh)
- * 4. Hero Logo Zero Drift (transform-origin: center center, x: 0)
- * 5. Stepped-Notch Masks (#0A0A0A base, #D7C797 borders, no white flashes)
- * 6. 4-Slats Morphing Right to Left & 5 Staggered Videos
- * 7. Subpages & Copper Scrubbable Timeline (no roman numerals, no external strokes)
- * 8. GSAP pinSpacing: false
- */
-
-/* ==========================================================================
-   1. GLOBAL ARCHITECTURE & CLEAN RESET (Zero Gaps)
-   ========================================================================== */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(215, 199, 151, 0.35);
-}
-
-:root {
-  --header-height: 58px;
-  --bg-dark: #0A0A0A;
-  --bg-dark-card: #121316;
-  --bg-dark-plate: #0d0e12;
-  --text-light: #F3F1ED;
-  --text-muted: #A1A1AA;
-  --brand-copper: #D7C797;
-  --brand-copper-dim: rgba(215, 199, 151, 0.45);
-  --brand-copper-glow: rgba(215, 199, 151, 0.2);
-
-  --font-serif: 'Playfair Display', 'Cinzel', Georgia, serif;
-  --font-sans: 'Syne', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'Space Mono', monospace;
-
-  --step-depth-right: 52px;
-  --step-depth-left: 48px;
-  --step-ratio-right: 78%;
-  --step-ratio-left: 24%;
-}
-
-html, body {
-  width: 100%;
-  min-height: 100%;
-  background: #0A0A0A;
-  color: #F3F1ED;
-  overflow-x: hidden;
-  direction: ltr;
-  text-align: left;
-  font-family: var(--font-sans);
-  scroll-behavior: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body.in-subpage {
-  overflow: hidden !important;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  color: inherit;
-}
-
-img, video {
-  max-width: 100%;
-  display: block;
-}
-
-/* Force zero dead spaces across all wrappers */
-main,
-#main-content,
-#app,
-.app-viewport,
-.sections-container {
-  display: block !important;
-  gap: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  background-color: var(--bg-dark) !important;
-}
-
-.pin-spacer {
-  padding: 0 !important;
-  margin: 0 !important;
-  background-color: var(--bg-dark) !important;
-}
-
-/* ==========================================================================
-   2. 58PX FROSTED GLASS HEADER & CURTAIN NAV DRAWER
-   ========================================================================== */
-header,
-#site-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: var(--header-height, 58px) !important;
-  background: rgba(10, 10, 10, 0.4) !important;
-  backdrop-filter: blur(14px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
-  border-bottom: 1px solid rgba(215, 199, 151, 0.15) !important;
-  z-index: 9999 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  padding: 0 clamp(1.25rem, 4vw, 4rem) !important;
-  direction: ltr !important;
-  overflow: visible !important;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Top-Left Header Menu Trigger (RTL Left / Start) */
-.header-menu-trigger {
-  position: absolute !important;
-  left: clamp(1rem, 2.5vw, 2.5rem) !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: 44px !important;
-  height: 44px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 1001 !important;
-  color: var(--brand-copper) !important;
-  cursor: pointer !important;
-}
-
-.menu-trigger-icon {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 24px;
-}
-
-.menu-line {
-  display: block;
-  height: 2px;
-  width: 100%;
-  background: var(--brand-copper) !important;
-  border-radius: 1px;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-/* Header Brand Logo Slot Docked Beside Burger Menu on the LEFT */
-.header-brand {
-  position: absolute !important;
-  left: calc(clamp(1rem, 2.5vw, 2.5rem) + 48px) !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  height: var(--header-height, 58px) !important;
-  z-index: 1000 !important;
-  pointer-events: auto !important;
-}
-
-.header-logo-slot {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-decoration: none !important;
-  height: 100% !important;
-}
-
-.hero-logo,
-#turath-logo,
-.turath-interpolator,
-.turath-logo {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transform-origin: left center !important;
-  -webkit-transform-origin: left center !important;
-  font-family: var(--font-sans) !important;
-  font-size: clamp(0.95rem, 1.4vw, 1.25rem) !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.14em !important;
-  color: #0A0A0A;
-  text-transform: uppercase !important;
-  will-change: transform, scale !important;
-  white-space: nowrap !important;
-}
-
-#turath-logo.hero-resting,
-#turath-logo:not(.is-docked) {
-  color: #0A0A0A !important;
-}
-
-#turath-logo.is-docked {
-  color: var(--brand-copper, #D7C797) !important;
-}
-
-/* Header Emblem (RTL Right) */
-.header-logo-right {
-  position: absolute !important;
-  right: clamp(1rem, 2.5vw, 2.5rem) !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 1001 !important;
-}
-
-.header-brand-img {
-  height: clamp(28px, 3.5vw, 34px);
-  width: auto;
-  border-radius: 2px;
-  border: 1px solid rgba(215, 199, 151, 0.35);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-}
-
-/* Fixed Curtain Navigation Drawer */
-.menu-overlay,
-.nav-drawer,
-#nav-drawer {
-  position: fixed !important;
-  inset: 0 !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  z-index: 99999 !important;
-  background-color: rgba(10, 10, 10, 0.96) !important;
-  backdrop-filter: blur(24px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
-  transform: translateY(-100%) !important;
-  -webkit-transform: translateY(-100%) !important;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  overflow-y: auto !important;
-  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem) !important;
-  direction: ltr !important;
-}
-
-.menu-overlay.is-open,
-.nav-drawer.is-open,
-body.nav-drawer-open #nav-drawer {
-  transform: translateY(0) !important;
-  -webkit-transform: translateY(0) !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-.menu-brand-header {
-  display: flex !important;
-  justify-content: flex-end !important;
-  align-items: center !important;
-  margin-bottom: 2rem !important;
-}
-
-.menu-turath-logo {
-  display: none !important;
-}
-
-.menu-close-btn {
-  background: transparent !important;
-  border: 1.5px solid rgba(215, 199, 151, 0.45) !important;
-  border-radius: 50% !important;
-  width: 38px !important;
-  height: 38px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: var(--brand-copper, #D7C797) !important;
-  font-size: 1.5rem !important;
-  line-height: 1 !important;
-  cursor: pointer !important;
-  transition: all 0.25s ease !important;
-  padding: 0 !important;
-}
-
-.menu-close-btn:hover {
-  background: rgba(215, 199, 151, 0.15) !important;
-  border-color: var(--brand-copper, #D7C797) !important;
-  transform: scale(1.05) !important;
-}
-
-.nav-menu-items {
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 1.25rem !important;
-}
-
-.nav-menu-link {
-  color: var(--brand-copper) !important;
-  text-decoration: none !important;
-  font-size: clamp(1rem, 2.2vw, 1.35rem) !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  transition: opacity 0.25s ease, color 0.25s ease !important;
-  display: inline-block !important;
-}
-
-.nav-menu-link:hover {
-  opacity: 0.75 !important;
-}
-
-.nav-menu-highlight {
-  border-bottom: 1px solid var(--brand-copper) !important;
-  padding-bottom: 4px !important;
-  font-weight: 700 !important;
-}
-
-/* ==========================================================================
-   3. STACKING SCROLL ENGINE (SECTIONS 1 TO 9)
-   - Sections 1, 3, 4, 5, 6, 7, 8, 9: Exactly 100svh & overflow: hidden
-   - Section 2 (Heritage): min-height 200svh & relative scrolling
-   ========================================================================== */
-section,
-.scene-track {
-  width: 100% !important;
-  position: sticky !important;
-  top: 0 !important;
-  left: 0 !important;
-  height: 100svh !important;
-  max-height: 100svh !important;
-  overflow: hidden !important;
-  background-color: var(--bg-dark) !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  will-change: transform !important;
-}
-
-/* Exact Stacking z-index Sequence */
-#hero { z-index: 10 !important; }
-#about { z-index: 20 !important; }
-#information { z-index: 30 !important; }
-#location { z-index: 40 !important; }
-#scene05 { z-index: 50 !important; }
-#scene06 { z-index: 60 !important; }
-#materials-finishes { z-index: 70 !important; }
-#bespoke-manufacturing { z-index: 80 !important; }
-#project-inquiry { z-index: 90 !important; }
-
-/* SECTION 2 & 3: TALLER SECTIONS FOR NATIVE BROWSING & 3-STAGE SEQUENCER */
-#about,
-.scene-track#about {
-  position: relative !important;
-  min-height: 200svh !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-
-#information,
-.scene-track#information {
-  position: relative !important;
-  min-height: 220svh !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-
-#information .scene03-pinned-viewport {
-  position: sticky !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100svh !important;
-  max-height: 100svh !important;
-  overflow: hidden !important;
-}
-
-#about,
-.scene-track#about {
-  position: relative !important;
-  min-height: 200svh !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-
-/* Physical Inner Sheet Framework */
-.scene-sheet {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  background-color: var(--bg-dark);
-  box-sizing: border-box;
-  overflow: hidden;
-  filter: drop-shadow(0 -16px 28px rgba(0, 0, 0, 0.48));
-}
-
-#about .scene-sheet {
-  min-height: 200svh;
-  height: auto;
-  overflow: visible;
-}
-
-/* Mandatory Subtle Dark Overlay / Mask on all media */
-.hero-bg-layer,
-.scene-depth-plate,
-.scene08-bg-media,
-.scene09-bg-media {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.scene-photo-cover,
-.scene04-video-bg,
-.scene08-bg-img,
-.scene09-bg-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.photo-scrim-dark,
-.scene04-scrim,
-.scene05-scrim,
-.scene08-scrim,
-.scene09-scrim {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background-color: rgba(10, 10, 10, 0.6) !important;
-  z-index: 1 !important;
-  pointer-events: none !important;
-}
-
-/* Standard Section Container & Content Padding */
-.container,
-.sheet-inner {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: calc(var(--header-height, 58px) + 1.25rem) clamp(1.25rem, 4vw, 3.5rem) 1.5rem clamp(1.25rem, 4vw, 3.5rem);
-  box-sizing: border-box;
-}
-
-/* Fluid Typography Clamp Rules */
-.scene-eyebrow {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: clamp(0.68rem, 0.85vw, 0.82rem);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--brand-copper);
-  margin-bottom: clamp(6px, 1.2vh, 12px);
-}
-
-.heading-monumental,
-.scene-heading {
-  font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3.4vw, 3rem);
-  font-weight: 600;
-  line-height: 1.15;
-  color: var(--text-light);
-  margin-bottom: clamp(10px, 1.8vh, 18px);
-}
-
-.body-lead,
-.scene-paragraph {
-  font-family: var(--font-sans);
-  font-size: clamp(0.82rem, 1.2vw, 1.05rem);
-  line-height: 1.65;
-  color: var(--text-muted);
-  max-width: 65ch;
-  margin-bottom: 1.25rem;
-}
-
-/* ==========================================================================
-   4. SECTION 1: HERO & LOGO ZERO DRIFT
-   ========================================================================== */
-.hero-sticky {
-  position: relative !important;
-  width: 100% !important;
-  height: 100% !important;
-  overflow: hidden !important;
-}
-
-.hero-building-layer {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.hero-visual-container {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.hero-plate-day,
-.hero-plate-night {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* Stepped Notch Architectural Foreground Sheet */
-.hero-foreground-sheet {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: clamp(350px, 40svh, 430px) !important;
-  z-index: 5 !important;
-  pointer-events: none !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  background: linear-gradient(165deg, #A89574 0%, #9D8C6C 50%, #918162 100%) !important;
-  backdrop-filter: blur(12px) saturate(130%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), 78% calc(100% - 50px), 78% 100%, 0 100%) !important;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), 78% calc(100% - 50px), 78% 100%, 0 100%) !important;
-  transform: translate3d(0, calc(var(--hero-sheet-progress, 0) * -110%), 0) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45) !important;
-}
-
-.hero-sheet-hairline {
-  display: none !important; /* Zero stroke */
-}
-
-.hero-sheet-inner {
-  position: relative !important;
-  width: 100% !important;
-  padding-top: clamp(4.2rem, 7.5vh, 6.0rem) !important;
-  padding-bottom: 0.8rem !important;
-  pointer-events: none !important;
-}
-
-.hero-content-stack {
-  display: inline-flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  text-align: left !important;
-  width: max-content !important;
-  max-width: 100% !important;
-  pointer-events: auto !important;
-}
-
-.hero-heading {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  margin: 0 0 clamp(4px, 1.2vh, 10px) 0 !important;
-  line-height: 1 !important;
-  width: 100% !important;
-}
-
-.hero-line-devoted {
-  display: block !important;
-  font-family: var(--font-heading, 'Syne', sans-serif) !important;
-  font-size: clamp(2rem, 4.6vw, 4.2rem) !important;
-  font-weight: 300 !important;
-  line-height: 1.05 !important;
-  color: #111111 !important;
-  white-space: nowrap !important;
-  width: max-content !important;
-}
-
-.hero-line-creativity {
-  display: block !important;
-  font-family: var(--font-heading, 'Syne', sans-serif) !important;
-  font-size: clamp(1.15rem, 2.6vw, 1.95rem) !important;
-  font-weight: 400 !important;
-  line-height: 1.05 !important;
-  color: #242018 !important;
-  white-space: nowrap !important;
-  width: max-content !important;
-}
-
-.hero-eyebrow,
-.hero-heading {
-  opacity: calc(1 - var(--hero-text-fade, 0)) !important;
-  transform: translateY(calc(var(--hero-text-fade, 0) * -16px)) !important;
-  transition: opacity 0.1s linear !important;
-}
-
-.hero-turath-anchor-wrap {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: clamp(12px, 2.2vw, 20px) !important;
-  margin-top: clamp(20px, 3.5vh, 36px) !important;
-  pointer-events: auto !important;
-}
-
-.hero-turath-anchor {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
-}
-
-.hero-turath-ghost {
-  display: inline-flex !important;
-  align-items: center !important;
-  font-family: var(--font-heading, 'Syne', sans-serif) !important;
-  font-size: clamp(2rem, 4.6vw, 4.2rem) !important;
-  font-weight: 800 !important;
-  line-height: 1.05 !important;
-  letter-spacing: 0.04em !important;
-  text-transform: uppercase !important;
-  color: #0A0A0A !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  white-space: nowrap !important;
-}
-
-.hero-scroll-next-btn {
-  width: clamp(28px, 3.5vw, 36px) !important;
-  height: clamp(28px, 3.5vw, 36px) !important;
-  border-radius: 50% !important;
-  border: 1.5px solid #2A241A !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: #1A1A1A !important;
-  cursor: pointer !important;
-  background: rgba(20, 18, 14, 0.15) !important;
-  transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease !important;
-}
-
-.hero-arrow-icon {
-  width: clamp(12px, 1.5vw, 15px) !important;
-  height: clamp(12px, 1.5vw, 15px) !important;
-  stroke: #141414 !important;
-}
-
-/* Floating Brand Description: Pure Typography, Zero Plate, Zero Stroke */
-.hero-brand-description {
-  position: absolute !important;
-  bottom: clamp(1.75rem, 4.2svh, 3rem) !important;
-  left: clamp(1.25rem, 4vw, 3.5rem) !important;
-  right: auto !important;
-  z-index: 10 !important;
-  pointer-events: auto !important;
-  width: auto !important;
-  max-width: min(92vw, 540px) !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.hero-brand-description h2 {
-  max-width: 480px !important;
-  font-family: var(--font-heading, sans-serif) !important;
-  font-size: clamp(1rem, 2vw, 1.25rem) !important;
-  font-weight: 700 !important;
-  line-height: 1.3 !important;
-  margin: 0 0 0.45rem 0 !important;
-  color: var(--text-light) !important;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9) !important;
-}
-
-.hero-brand-description p {
-  max-width: 470px !important;
-  font-family: var(--font-body, sans-serif) !important;
-  font-size: clamp(0.75rem, 1.25vw, 0.85rem) !important;
-  line-height: 1.55 !important;
-  margin: 0 !important;
-  color: rgba(243, 241, 237, 0.88) !important;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9) !important;
-}
-
-/* ==========================================================================
-   5. SECTIONS 2 TO 7: STEPPED-NOTCH MASKS & FOUNDER PAGE
-   ========================================================================== */
-/* Zero Stroke on Any Notch across the entire website */
-.notch-hairline,
-.notch-hairline path,
-.notch-hairline svg,
-.hero-sheet-hairline,
-.notch-accent-dot,
-[class*="notch-hairline"],
-.scene-sheet-hairline {
-  display: none !important;
-  stroke: none !important;
-  stroke-width: 0 !important;
-  border: none !important;
-  outline: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
-/* Section 2: Heritage / Collections Grid (Strictly 3 per row, 9:16 aspect ratio) */
-.about-gallery-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: clamp(8px, 1.8vw, 28px) !important;
-  width: 100% !important;
-  max-width: 1320px !important;
-  margin: 2rem auto !important;
-  padding: 0 clamp(0.6rem, 2vw, 2rem) !important;
-  box-sizing: border-box !important;
-}
-
-.about-frame-item,
-.collection-card {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  cursor: pointer !important;
-  transition: transform 0.35s ease, box-shadow 0.35s ease !important;
-}
-
-.about-frame-item:hover {
-  transform: translateY(-8px) scale(1.02) !important;
-}
-
-.about-frame-item .frame-window,
-.about-frame-item .frame-window-inner,
-.collection-card .frame-window {
-  width: 100% !important;
-  aspect-ratio: 9 / 16 !important;
-  border-radius: 4px !important;
-  overflow: hidden !important;
-  position: relative !important;
-  background-color: #0c0d12 !important;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45) !important;
-  border: 1px solid rgba(215, 199, 151, 0.2) !important;
-}
-
-.about-frame-item .frame-window img,
-.about-frame-item .frame-window-inner img,
-.collection-card img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  aspect-ratio: 9 / 16 !important;
-  display: block !important;
-}
-
-
-/* Section 3: About Turath / Information (Refined text & proportioned layout) */
-#information,
-.scene-track#information {
-  position: relative !important;
-  min-height: 220svh !important;
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-
-#information .scene03-pinned-viewport {
-  position: sticky !important;
-  top: var(--header-height, 58px) !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: calc(100svh - var(--header-height, 58px)) !important;
-  max-height: calc(100svh - var(--header-height, 58px)) !important;
-  overflow: hidden !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.scene03-visual-frame {
-  position: relative !important;
-  width: 100% !important;
-  height: 52% !important;
-  overflow: hidden !important;
-  background-color: #080808 !important;
-}
-
-.stage-image-slide {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  opacity: 0 !important;
-  transition: opacity 0.5s ease !important;
-}
-
-.stage-image-slide.is-active {
-  opacity: 1 !important;
-}
-
-.stage-image-slide img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-.scene03-bottom-module {
-  position: relative !important;
-  width: 100% !important;
-  height: 48% !important;
-  background-color: #0A0A0A !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  padding: clamp(1.25rem, 2.5vh, 2.2rem) clamp(1.5rem, 4vw, 4rem) !important;
-  box-sizing: border-box !important;
-}
-
-.scene03-overlap-header {
-  position: absolute !important;
-  bottom: 1.25rem !important;
-  left: clamp(1.5rem, 4vw, 4rem) !important;
-  z-index: 10 !important;
-}
-
-.scene-eyebrow.info-eyebrow {
-  font-family: var(--font-mono) !important;
-  font-size: 0.82rem !important;
-  letter-spacing: 0.15em !important;
-  color: var(--brand-copper) !important;
-  text-transform: uppercase !important;
-  display: block !important;
-  margin-bottom: 0.35rem !important;
-}
-
-.scene03-headline {
-  display: none !important;
-  opacity: 0 !important;
-  transition: opacity 0.4s ease !important;
-  font-family: var(--font-serif) !important;
-  font-size: clamp(1.4rem, 2.6vw, 2.2rem) !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
-  line-height: 1.25 !important;
-  margin: 0 !important;
-}
-
-.scene03-headline.is-active {
-  display: block !important;
-  opacity: 1 !important;
-}
-
-.scene03-stage-pane {
-  display: none !important;
-  opacity: 0 !important;
-  transition: opacity 0.4s ease !important;
-}
-
-.scene03-stage-pane.is-active {
-  display: block !important;
-  opacity: 1 !important;
-}
-
-.scene03-copy {
-  font-family: var(--font-sans) !important;
-  font-size: clamp(0.95rem, 1.2vw, 1.15rem) !important;
-  line-height: 1.7 !important;
-  color: #F3F1ED !important;
-  max-width: 850px !important;
-  margin: 0 !important;
-}
-
-.scene03-indicator-bar {
-  display: flex !important;
-  align-items: center !important;
-  gap: 1.5rem !important;
-  margin-top: 1rem !important;
-}
-
-.scene03-counter-row {
-  font-family: var(--font-mono) !important;
-  color: var(--brand-copper) !important;
-  font-weight: 700 !important;
-  font-size: 0.95rem !important;
-}
-
-.scene03-progress-track {
-  width: clamp(120px, 20vw, 220px) !important;
-  height: 2px !important;
-  background: rgba(255, 255, 255, 0.15) !important;
-  border-radius: 1px !important;
-}
-
-.scene03-progress-fill {
-  height: 100% !important;
-  background: var(--brand-copper) !important;
-  transition: width 0.3s ease !important;
-}
-
-
-/* Section 6: Founder Split-Screen Grid (Fits 100svh strictly without internal scroll) */
-.scene06-founder-layout,
-.scene06-split-grid {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: clamp(1.5rem, 3.5vw, 3.5rem) !important;
-  height: calc(100svh - var(--header-height, 58px) - 2rem) !important;
-  max-height: 100% !important;
-  overflow: hidden !important;
-  align-items: center !important;
-  box-sizing: border-box !important;
-}
-
-.scene06-image-col {
-  position: relative !important;
-  height: 100% !important;
-  max-height: 580px !important;
-  border-radius: 4px !important;
-  overflow: hidden !important;
-  border: 1px solid rgba(215, 199, 151, 0.3) !important;
-}
-
-.scene06-plate,
-.scene06-plate-dark,
-.scene06-plate-lit {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.scene06-text-col {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  text-align: left !important;
-}
-
-.scene06-founder-bio {
-  font-size: clamp(0.82rem, 1.2vw, 0.98rem) !important;
-  line-height: 1.65 !important;
-  color: var(--text-muted) !important;
-}
-
-/* ==========================================================================
-   6. SECTIONS 8 & 9: 4-SLATS MORPHING & 5 STAGGERED VIDEOS
-   ========================================================================== */
-.scene09-sheet {
-  transition: clip-path 0.05s linear;
-  will-change: clip-path;
-}
-
-.craft-slats-container {
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  margin-bottom: 1.5rem !important;
-}
-
-.video-slats-grid {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: clamp(8px, 1.5vw, 16px) !important;
-  width: 100% !important;
-  max-width: 1200px !important;
-  margin: 0.5rem auto 1rem auto !important;
-}
-
-.video-slat-item {
-  flex: 1 !important;
-  max-width: 190px !important;
-  aspect-ratio: 9 / 16 !important;
-  border-radius: 4px !important;
-  overflow: hidden !important;
-  border: 1px solid rgba(215, 199, 151, 0.35) !important;
-  position: relative !important;
-  cursor: pointer !important;
-  background-color: #0A0A0A !important;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-.video-slat-item:hover {
-  transform: translateY(-6px) scale(1.02) !important;
-  border-color: var(--brand-copper) !important;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.8) !important;
-}
-
-.slat-media-box {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.slat-video {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-.slat-video-scrim {
-  position: absolute !important;
-  inset: 0 !important;
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.2) 60%, transparent 100%) !important;
-}
-
-.slat-caption-badge {
-  position: absolute !important;
-  bottom: 0.75rem !important;
-  right: 0.75rem !important;
-  left: 0.75rem !important;
-  text-align: left !important;
-  z-index: 2 !important;
-}
-
-.slat-badge-num {
-  font-family: var(--font-mono, monospace) !important;
-  font-size: 0.72rem !important;
-  color: var(--brand-copper) !important;
-  font-weight: 700 !important;
-}
-
-.slat-badge-title {
-  font-size: clamp(0.7rem, 0.95vw, 0.82rem) !important;
-  color: var(--text-light) !important;
-  margin: 2px 0 0 0 !important;
-  line-height: 1.2 !important;
-  font-weight: 600 !important;
-}
-
-/* Frosted Glass Inquiry Form */
-.scene09-form-card {
-  width: 100% !important;
-  max-width: 760px !important;
-  margin: 0 auto !important;
-  background: rgba(18, 19, 22, 0.75) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(215, 199, 151, 0.25) !important;
-  border-radius: 6px !important;
-  padding: clamp(1rem, 2.5vw, 2rem) !important;
-  box-sizing: border-box !important;
-}
-
-.scene09-form-grid {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 1rem !important;
-  text-align: left !important;
-}
-
-.scene09-field-full {
-  grid-column: 1 / -1 !important;
-}
-
-.scene09-label {
-  display: block !important;
-  font-size: 0.76rem !important;
-  font-family: var(--font-mono) !important;
-  color: var(--brand-copper) !important;
-  margin-bottom: 0.35rem !important;
-}
-
-.scene09-input,
-.scene09-textarea {
-  width: 100% !important;
-  background: rgba(10, 10, 10, 0.8) !important;
-  border: 1px solid rgba(215, 199, 151, 0.3) !important;
-  border-radius: 3px !important;
-  padding: 0.65rem 0.85rem !important;
-  color: var(--text-light) !important;
-  font-family: inherit !important;
-  font-size: 0.85rem !important;
-  box-sizing: border-box !important;
-  transition: border-color 0.25s ease !important;
-}
-
-.scene09-input:focus,
-.scene09-textarea:focus {
-  outline: none !important;
-  border-color: var(--brand-copper) !important;
-}
-
-.scene09-submit-btn {
-  width: 100% !important;
-  margin-top: 1rem !important;
-  padding: 0.75rem 1.5rem !important;
-  background-color: var(--brand-copper) !important;
-  color: #0A0A0A !important;
-  font-family: var(--font-mono) !important;
-  font-weight: 700 !important;
-  font-size: 0.85rem !important;
-  letter-spacing: 0.1em !important;
-  border-radius: 3px !important;
-  cursor: pointer !important;
-  transition: background-color 0.25s ease, transform 0.2s ease !important;
-}
-
-.scene09-submit-btn:hover {
-  background-color: #e5d7ad !important;
-  transform: translateY(-2px) !important;
-}
-
-/* ==========================================================================
-   7. SUBPAGES & COPPER SCRUBBABLE TIMELINE
-   ========================================================================== */
-.subpage-view {
-  position: fixed !important;
-  inset: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  z-index: 999999 !important;
-  background-color: rgba(10, 10, 10, 0.98) !important;
-  backdrop-filter: blur(28px) !important;
-  -webkit-backdrop-filter: blur(28px) !important;
-  display: none !important;
-  opacity: 0 !important;
-  transition: opacity 0.35s ease !important;
-  overflow-y: auto !important;
-  direction: ltr !important;
-}
-
-.subpage-view.is-open {
-  display: flex !important;
-  flex-direction: column !important;
-  opacity: 1 !important;
-}
-
-.subpage-cinema-container,
-.subpage-editorial-container {
-  display: flex !important;
-  flex-direction: column !important;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-  padding: 1.5rem clamp(1rem, 3vw, 2.5rem) !important;
-  box-sizing: border-box !important;
-}
-
-.subpage-cinema-header,
-.subpage-editorial-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  margin-bottom: 1.25rem !important;
-}
-
-.subpage-back-arrow,
-.subpage-back-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  font-family: var(--font-mono) !important;
-  font-size: 0.85rem !important;
-  color: var(--brand-copper) !important;
-  cursor: pointer !important;
-}
-
-.arrow-glyph {
-  font-size: 1.4rem !important;
-  line-height: 1 !important;
-}
-
-.subpage-page-title {
-  font-family: var(--font-serif) !important;
-  font-size: clamp(1.2rem, 2.4vw, 1.8rem) !important;
-  color: var(--text-light) !important;
-}
-
-/* 9:16 Cinema Aspect Ratio Frame */
-.subpage-cinema-stage {
-  flex: 1 !important;
-  position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 0 !important;
-}
-
-.cinema-aspect-frame {
-  height: 68vh !important;
-  max-height: 600px !important;
-  aspect-ratio: 9 / 16 !important;
-  position: relative !important;
-  border-radius: 6px !important;
-  overflow: hidden !important;
-  border: 1px solid rgba(215, 199, 151, 0.4) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9) !important;
-  background-color: #000 !important;
-}
-
-.cinema-carousel-viewport {
-  position: absolute !important;
-  inset: 0 !important;
-  overflow: hidden !important;
-}
-
-.cinema-carousel-track {
-  display: flex !important;
-  width: 100% !important;
-  height: 100% !important;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.cinema-slide {
-  flex: 0 0 100% !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.cinema-video-element {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-/* Copper Timeline: Scrubbable, Zero Roman Numerals, Zero External Strokes */
-.copper-timeline-panel {
-  position: absolute !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  padding: 0.85rem !important;
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.95) 0%, transparent 100%) !important;
-  z-index: 10 !important;
-  direction: ltr !important;
-}
-
-.timeline-controls-bar {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  margin-bottom: 0.5rem !important;
-}
-
-.timeline-ctrl-btn {
-  color: var(--brand-copper) !important;
-  font-size: 1.1rem !important;
-}
-
-.cinema-time-display {
-  font-family: var(--font-mono) !important;
-  font-size: 0.72rem !important;
-  color: var(--brand-copper) !important;
-}
-
-.copper-timeline-rail {
-  width: 100% !important;
-  height: 4px !important;
-  background: rgba(215, 199, 151, 0.25) !important;
-  border-radius: 2px !important;
-  position: relative !important;
-  cursor: pointer !important;
-}
-
-.copper-timeline-progress {
-  height: 100% !important;
-  background-color: var(--brand-copper) !important;
-  border-radius: 2px !important;
-  width: 0%;
-}
-
-.copper-timeline-handle {
-  width: 12px !important;
-  height: 12px !important;
-  border-radius: 50% !important;
-  background-color: var(--brand-copper) !important;
-  position: absolute !important;
-  top: 50% !important;
-  transform: translateY(-50%) translateX(50%) !important;
-  box-shadow: 0 0 8px rgba(215, 199, 151, 0.8) !important;
-}
-
-/* Subpage Dash Indicators */
-.subpage-dash-indicators {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  margin-top: 1rem !important;
-}
-
-.subpage-dash-item {
-  width: 24px !important;
-  height: 3px !important;
-  background-color: rgba(215, 199, 151, 0.3) !important;
-  border-radius: 2px !important;
-  transition: width 0.3s ease, background-color 0.3s ease !important;
-}
-
-.subpage-dash-item.is-active {
-  width: 44px !important;
-  background-color: var(--brand-copper) !important;
-}
-
-/* Hitboxes for Next/Prev Slide */
-.cinema-hitbox,
-.subpage-hitbox {
-  position: absolute !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  width: 20% !important;
-  z-index: 5 !important;
-  cursor: pointer !important;
-}
-
-.hitbox-prev { right: 0 !important; }
-.hitbox-next { left: 0 !important; }
-
-/* ==========================================================================
-   8. MOBILE RESPONSIVENESS & ZERO HORIZONTAL SCROLL
-   ========================================================================== */
-@media (max-width: 768px) {
-  html, body {
-    direction: ltr !important;
-    overflow-x: hidden !important;
-  }
-
-  .header {
-    padding: 0 1rem !important;
-  }
-
-  .about-gallery-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: clamp(6px, 1.6vw, 10px) !important;
-    padding: 0 0.5rem !important;
-  }
-
-  .scene06-founder-layout,
-  .scene06-split-grid {
-    grid-template-columns: 1fr !important;
-    height: auto !important;
-    max-height: calc(100svh - var(--header-height, 58px) - 1.5rem) !important;
-  }
-
-  .scene06-image-col {
-    max-height: 220px !important;
-  }
-
-  .video-slats-grid {
-    gap: 6px !important;
-  }
-
-  .video-slat-item {
-    max-width: 68px !important;
-  }
-
-  .slat-caption-badge {
-    bottom: 0.35rem !important;
-    right: 0.35rem !important;
-    left: 0.35rem !important;
-  }
-
-  .slat-badge-title {
-    display: none !important; /* Hide long titles on tiny mobile slat cards */
-  }
-
-  .cinema-aspect-frame {
-    height: 58vh !important;
-  }
-
-  .scene09-form-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* Hero Day/Night Crossfade Layer */
-#hero-night-container {
-  opacity: 0;
-  will-change: opacity;
-  transition: opacity 0.1s linear;
-}
-
-/* Remove 5 video cards as requested */
-.craft-slats-container,
-.video-slats-grid,
-.video-slat-item,
-#craft-slats-container {
-  display: none !important;
-}
-
-/* Section 7: Materials & Finishes (Removed Golden Square) */
-#materials-finishes .swatch-preview,
-#materials-finishes .material-card-visual,
-#materials-finishes .swatch-img,
-#materials-finishes .scene07-pinned-tag,
-.swatch-preview,
-.material-card-visual {
-  display: none !important;
-}
-
-.materials-stack,
-.scene07-cards-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: clamp(12px, 1.8vw, 20px) !important;
-  width: 100% !important;
-  max-width: 1200px !important;
-  margin-top: 1.5rem !important;
-}
-
-.material-card {
-  background: rgba(14, 18, 24, 0.75) !important;
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(215, 199, 151, 0.22) !important;
-  border-radius: 4px !important;
-  padding: 1.25rem 1.5rem !important;
-  transition: transform 0.3s ease, border-color 0.3s ease !important;
-}
-
-.material-card:hover {
-  transform: translateY(-4px) !important;
-  border-color: var(--brand-copper) !important;
-}
-
-.material-name {
-  font-family: var(--font-sans) !important;
-  font-size: 1.1rem !important;
-  font-weight: 700 !important;
-  color: var(--brand-copper) !important;
-  margin-bottom: 0.4rem !important;
-}
-
-.material-desc {
-  font-family: var(--font-sans) !important;
-  font-size: 0.88rem !important;
-  line-height: 1.55 !important;
-  color: rgba(243, 241, 237, 0.8) !important;
-}
-
-
-/* Section 2 Background Media Mask: Exactly 70% */
-#about-depth-plate .photo-scrim-dark,
-#about .scene-depth-plate .photo-scrim-dark,
-#about .photo-scrim-dark {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background-color: rgba(10, 10, 10, 0.70) !important; /* 70% Dark Mask */
-  z-index: 1 !important;
-  pointer-events: none !important;
-}
+/**
+ * TURATH (تراث) — Egyptian Architectural Metalwork
+ * Pure, Optimized, High-Performance CSS Architecture
+ * Built strictly according to the Master Blueprint:
+ * 1. Global Reset & Zero Gaps
+ * 2. 58px Frosted Glass Header
+ * 3. Stacking Sticky Scroll (Sec 1-9: 100svh, Sec 2: min-height 200svh)
+ * 4. Hero Logo Zero Drift (transform-origin: center center, x: 0)
+ * 5. Stepped-Notch Masks (#0A0A0A base, #D7C797 borders, no white flashes)
+ * 6. 4-Slats Morphing Right to Left & 5 Staggered Videos
+ * 7. Subpages & Copper Scrubbable Timeline (no roman numerals, no external strokes)
+ * 8. GSAP pinSpacing: false
+ */
+
+/* ==========================================================================
+   1. GLOBAL ARCHITECTURE & CLEAN RESET (Zero Gaps)
+   ========================================================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(215, 199, 151, 0.35);
+}
+
+:root {
+  --header-height: 58px;
+  --bg-dark: #0A0A0A;
+  --bg-dark-card: #121316;
+  --bg-dark-plate: #0d0e12;
+  --text-light: #F3F1ED;
+  --text-muted: #A1A1AA;
+  --brand-copper: #D7C797;
+  --brand-copper-dim: rgba(215, 199, 151, 0.45);
+  --brand-copper-glow: rgba(215, 199, 151, 0.2);
+
+  --font-serif: 'Playfair Display', 'Cinzel', Georgia, serif;
+  --font-sans: 'Syne', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  --step-depth-right: 52px;
+  --step-depth-left: 48px;
+  --step-ratio-right: 78%;
+  --step-ratio-left: 24%;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background: #0A0A0A;
+  color: #F3F1ED;
+  overflow-x: hidden;
+  direction: ltr;
+  text-align: left;
+  font-family: var(--font-sans);
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.in-subpage {
+  overflow: hidden !important;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+/* Force zero dead spaces across all wrappers */
+main,
+#main-content,
+#app,
+.app-viewport,
+.sections-container {
+  display: block !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  background-color: var(--bg-dark) !important;
+}
+
+.pin-spacer {
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: var(--bg-dark) !important;
+}
+
+/* ==========================================================================
+   2. 58PX FROSTED GLASS HEADER & CURTAIN NAV DRAWER
+   ========================================================================== */
+header,
+#site-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: var(--header-height, 58px) !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 clamp(1.25rem, 4vw, 4rem) !important;
+  direction: ltr !important;
+  overflow: visible !important;
+  transition: background-color 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+}
+
+header.header-scrolled,
+#site-header.header-scrolled,
+body.nav-drawer-open #site-header {
+  background: rgba(10, 10, 10, 0.45) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border-bottom: 1px solid rgba(215, 199, 151, 0.15) !important;
+}
+
+/* Top-Left Header Menu Trigger (RTL Left / Start) */
+.header-menu-trigger {
+  position: absolute !important;
+  left: clamp(1rem, 2.5vw, 2.5rem) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1001 !important;
+  color: var(--brand-copper) !important;
+  cursor: pointer !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease !important;
+}
+
+header.header-scrolled .header-menu-trigger,
+#site-header.header-scrolled .header-menu-trigger,
+body.nav-drawer-open .header-menu-trigger {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.menu-trigger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 24px;
+}
+
+.menu-line {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--brand-copper) !important;
+  border-radius: 1px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* Header Brand Logo Slot Docked Beside Burger Menu on the LEFT */
+.header-brand {
+  position: absolute !important;
+  left: calc(clamp(1rem, 2.5vw, 2.5rem) + 48px) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  height: var(--header-height, 58px) !important;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+}
+
+.header-logo-slot {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  height: 100% !important;
+}
+
+.hero-logo,
+#turath-logo,
+.turath-interpolator,
+.turath-logo {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transform-origin: left center !important;
+  -webkit-transform-origin: left center !important;
+  font-family: var(--font-heading, 'Syne', sans-serif) !important;
+  font-size: clamp(0.95rem, 1.4vw, 1.25rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  color: #0A0A0A;
+  text-transform: uppercase !important;
+  will-change: transform, scale !important;
+  white-space: nowrap !important;
+}
+
+#turath-logo.hero-resting,
+#turath-logo:not(.is-docked) {
+  color: #0A0A0A !important;
+}
+
+#turath-logo.is-docked {
+  color: var(--brand-copper, #D7C797) !important;
+}
+
+/* Header Emblem (RTL Right) */
+.header-logo-right {
+  position: absolute !important;
+  right: clamp(1rem, 2.5vw, 2.5rem) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1001 !important;
+}
+
+.header-brand-img {
+  height: clamp(28px, 3.5vw, 34px);
+  width: auto;
+  border-radius: 2px;
+  border: 1px solid rgba(215, 199, 151, 0.35);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Fixed Curtain Navigation Drawer */
+.menu-overlay,
+.nav-drawer,
+#nav-drawer {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 99999 !important;
+  background-color: rgba(10, 10, 10, 0.96) !important;
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+  transform: translateY(-100%) !important;
+  -webkit-transform: translateY(-100%) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow-y: auto !important;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem) !important;
+  direction: ltr !important;
+}
+
+.menu-overlay.is-open,
+.nav-drawer.is-open,
+body.nav-drawer-open #nav-drawer {
+  transform: translateY(0) !important;
+  -webkit-transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.menu-brand-header {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+}
+
+.menu-turath-logo {
+  display: none !important;
+}
+
+.menu-close-btn {
+  background: transparent !important;
+  border: 1.5px solid rgba(215, 199, 151, 0.45) !important;
+  border-radius: 50% !important;
+  width: 38px !important;
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--brand-copper, #D7C797) !important;
+  font-size: 1.5rem !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+  padding: 0 !important;
+}
+
+.menu-close-btn:hover {
+  background: rgba(215, 199, 151, 0.15) !important;
+  border-color: var(--brand-copper, #D7C797) !important;
+  transform: scale(1.05) !important;
+}
+
+.nav-menu-items {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.25rem !important;
+}
+
+.nav-menu-link {
+  color: var(--brand-copper) !important;
+  text-decoration: none !important;
+  font-size: clamp(1rem, 2.2vw, 1.35rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  transition: opacity 0.25s ease, color 0.25s ease !important;
+  display: inline-block !important;
+}
+
+.nav-menu-link:hover {
+  opacity: 0.75 !important;
+}
+
+.nav-menu-highlight {
+  border-bottom: 1px solid var(--brand-copper) !important;
+  padding-bottom: 4px !important;
+  font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   3. STACKING SCROLL ENGINE (SECTIONS 1 TO 9)
+   - Sections 1, 3, 4, 5, 6, 7, 8, 9: Exactly 100svh & overflow: hidden
+   - Section 2 (Heritage): min-height 200svh & relative scrolling
+   ========================================================================== */
+section,
+.scene-track {
+  width: 100% !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100svh !important;
+  max-height: 100svh !important;
+  overflow: hidden !important;
+  background-color: var(--bg-dark) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  will-change: transform !important;
+}
+
+/* Exact Stacking z-index Sequence */
+#hero { z-index: 10 !important; }
+#about { z-index: 20 !important; }
+#information { z-index: 30 !important; }
+#location { z-index: 40 !important; }
+#scene05 { z-index: 50 !important; }
+#scene06 { z-index: 60 !important; }
+#materials-finishes { z-index: 70 !important; }
+#bespoke-manufacturing { z-index: 80 !important; }
+#project-inquiry { z-index: 90 !important; }
+
+/* SECTION 2 & 3: TALLER SECTIONS FOR NATIVE BROWSING & 3-STAGE SEQUENCER */
+#about,
+.scene-track#about {
+  position: relative !important;
+  min-height: 200svh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+#information,
+.scene-track#information {
+  position: relative !important;
+  min-height: 220svh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+#information .scene03-pinned-viewport {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100svh !important;
+  max-height: 100svh !important;
+  overflow: hidden !important;
+}
+
+#about,
+.scene-track#about {
+  position: relative !important;
+  min-height: 200svh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Physical Inner Sheet Framework */
+.scene-sheet {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: var(--bg-dark);
+  box-sizing: border-box;
+  overflow: hidden;
+  filter: drop-shadow(0 -16px 28px rgba(0, 0, 0, 0.48));
+}
+
+#about .scene-sheet {
+  min-height: 200svh;
+  height: auto;
+  overflow: visible;
+}
+
+/* Mandatory Subtle Dark Overlay / Mask on all media */
+.hero-bg-layer,
+.scene-depth-plate,
+.scene08-bg-media,
+.scene09-bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.scene-photo-cover,
+.scene04-video-bg,
+.scene08-bg-img,
+.scene09-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+.photo-scrim-dark,
+.scene04-scrim,
+.scene05-scrim,
+.scene08-scrim,
+.scene09-scrim {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(10, 10, 10, 0.6) !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+/* Standard Section Container & Content Padding */
+.container,
+.sheet-inner {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: calc(var(--header-height, 58px) + 1.25rem) clamp(1.25rem, 4vw, 3.5rem) 1.5rem clamp(1.25rem, 4vw, 3.5rem);
+  box-sizing: border-box;
+}
+
+/* Fluid Typography Clamp Rules */
+.scene-eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(0.68rem, 0.85vw, 0.82rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-copper);
+  margin-bottom: clamp(6px, 1.2vh, 12px);
+}
+
+.heading-monumental,
+.scene-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text-light);
+  margin-bottom: clamp(10px, 1.8vh, 18px);
+}
+
+.body-lead,
+.scene-paragraph {
+  font-family: var(--font-sans);
+  font-size: clamp(0.82rem, 1.2vw, 1.05rem);
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 65ch;
+  margin-bottom: 1.25rem;
+}
+
+/* ==========================================================================
+   4. SECTION 1: HERO & LOGO ZERO DRIFT
+   ========================================================================== */
+.hero-sticky {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.hero-building-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero-visual-container {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero-plate-day,
+.hero-plate-night {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Stepped Notch Architectural Foreground Sheet */
+.hero-foreground-sheet {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: clamp(340px, 37svh, 410px) !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  background: linear-gradient(165deg, #A89574 0%, #9D8C6C 50%, #918162 100%) !important;
+  backdrop-filter: blur(12px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 78% calc(100% - 40px), 78% 100%, 0 100%) !important;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 78% calc(100% - 40px), 78% 100%, 0 100%) !important;
+  transform: translate3d(0, calc(var(--hero-sheet-progress, 0) * -110%), 0) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+}
+
+.hero-sheet-hairline {
+  display: none !important; /* Zero stroke */
+}
+
+.hero-sheet-inner {
+  position: relative !important;
+  width: 100% !important;
+  padding-top: clamp(4.2rem, 7.5vh, 6.0rem) !important;
+  padding-bottom: 0.8rem !important;
+  pointer-events: none !important;
+}
+
+.hero-content-stack {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  pointer-events: auto !important;
+}
+
+.hero-heading {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  margin: 0 0 clamp(4px, 1.2vh, 10px) 0 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+}
+
+.hero-eyebrow {
+  display: block !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: clamp(0.68rem, 1.6vw, 0.8rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: #1F1D1A !important;
+  margin-bottom: clamp(12px, 1.8vh, 18px) !important;
+}
+
+.hero-line-devoted {
+  display: block !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: clamp(2.2rem, 5.8vw, 3.8rem) !important;
+  font-weight: 300 !important;
+  line-height: 1.05 !important;
+  color: #111111 !important;
+  white-space: nowrap !important;
+  width: max-content !important;
+  letter-spacing: 0.04em !important;
+  margin-bottom: clamp(4px, 0.6vh, 8px) !important;
+}
+
+.hero-line-creativity {
+  display: block !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: clamp(1.2rem, 3.2vw, 2.0rem) !important;
+  font-weight: 300 !important;
+  line-height: 1.05 !important;
+  color: #242018 !important;
+  white-space: nowrap !important;
+  width: max-content !important;
+  letter-spacing: 0.04em !important;
+  margin-bottom: 0 !important;
+}
+
+.hero-eyebrow,
+.hero-heading {
+  opacity: calc(1 - var(--hero-text-fade, 0)) !important;
+  transform: translateY(calc(var(--hero-text-fade, 0) * -16px)) !important;
+  transition: opacity 0.1s linear !important;
+}
+
+.hero-turath-anchor-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: clamp(14px, 2.4vw, 20px) !important;
+  margin-top: clamp(16px, 2.4vh, 26px) !important;
+  pointer-events: auto !important;
+}
+
+.hero-turath-anchor {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.hero-turath-ghost {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-family: 'Syne', sans-serif !important;
+  font-size: clamp(2rem, 5.2vw, 3.4rem) !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+}
+
+.hero-scroll-next-btn {
+  width: clamp(30px, 3.8vw, 36px) !important;
+  height: clamp(30px, 3.8vw, 36px) !important;
+  border-radius: 50% !important;
+  border: 1.5px solid rgba(215, 199, 151, 0.5) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  background: #0E0E0E !important;
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease !important;
+}
+
+.hero-arrow-icon {
+  width: clamp(13px, 1.6vw, 16px) !important;
+  height: clamp(13px, 1.6vw, 16px) !important;
+  stroke: #FFFFFF !important;
+}
+
+/* Floating Brand Description: Pure Typography, Zero Plate, Zero Stroke */
+.hero-brand-description {
+  position: absolute !important;
+  bottom: clamp(1.75rem, 4.2svh, 3rem) !important;
+  left: clamp(1.25rem, 4vw, 3.5rem) !important;
+  right: auto !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  width: auto !important;
+  max-width: min(92vw, 540px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.hero-brand-description h2 {
+  max-width: 480px !important;
+  font-family: var(--font-heading, sans-serif) !important;
+  font-size: clamp(1rem, 2vw, 1.25rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  margin: 0 0 0.45rem 0 !important;
+  color: var(--text-light) !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9) !important;
+}
+
+.hero-brand-description p {
+  max-width: 470px !important;
+  font-family: var(--font-body, sans-serif) !important;
+  font-size: clamp(0.75rem, 1.25vw, 0.85rem) !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+  color: rgba(243, 241, 237, 0.88) !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* ==========================================================================
+   5. SECTIONS 2 TO 7: STEPPED-NOTCH MASKS & FOUNDER PAGE
+   ========================================================================== */
+/* Zero Stroke on Any Notch across the entire website */
+.notch-hairline,
+.notch-hairline path,
+.notch-hairline svg,
+.hero-sheet-hairline,
+.notch-accent-dot,
+[class*="notch-hairline"],
+.scene-sheet-hairline {
+  display: none !important;
+  stroke: none !important;
+  stroke-width: 0 !important;
+  border: none !important;
+  outline: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Section 2: Heritage / Collections Grid (Strictly 3 per row, 9:16 aspect ratio) */
+.about-gallery-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: clamp(8px, 1.8vw, 28px) !important;
+  width: 100% !important;
+  max-width: 1320px !important;
+  margin: 2rem auto !important;
+  padding: 0 clamp(0.6rem, 2vw, 2rem) !important;
+  box-sizing: border-box !important;
+}
+
+.about-frame-item,
+.collection-card {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  cursor: pointer !important;
+  transition: transform 0.35s ease, box-shadow 0.35s ease !important;
+}
+
+.about-frame-item:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+}
+
+.about-frame-item .frame-window,
+.about-frame-item .frame-window-inner,
+.collection-card .frame-window {
+  width: 100% !important;
+  aspect-ratio: 9 / 16 !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background-color: #0c0d12 !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45) !important;
+  border: 1px solid rgba(215, 199, 151, 0.2) !important;
+}
+
+.about-frame-item .frame-window img,
+.about-frame-item .frame-window-inner img,
+.collection-card img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  aspect-ratio: 9 / 16 !important;
+  display: block !important;
+}
+
+
+/* Section 3: About Turath / Information (Refined text & proportioned layout) */
+#information,
+.scene-track#information {
+  position: relative !important;
+  min-height: 220svh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+#information .scene03-pinned-viewport {
+  position: sticky !important;
+  top: var(--header-height, 58px) !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: calc(100svh - var(--header-height, 58px)) !important;
+  max-height: calc(100svh - var(--header-height, 58px)) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.scene03-visual-frame {
+  position: relative !important;
+  width: 100% !important;
+  height: 52% !important;
+  overflow: hidden !important;
+  background-color: #080808 !important;
+}
+
+.stage-image-slide {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  transition: opacity 0.5s ease !important;
+}
+
+.stage-image-slide.is-active {
+  opacity: 1 !important;
+}
+
+.stage-image-slide img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.scene03-bottom-module {
+  position: relative !important;
+  width: 100% !important;
+  height: 48% !important;
+  background-color: #0A0A0A !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: clamp(1.25rem, 2.5vh, 2.2rem) clamp(1.5rem, 4vw, 4rem) !important;
+  box-sizing: border-box !important;
+}
+
+.scene03-overlap-header {
+  position: absolute !important;
+  bottom: 1.25rem !important;
+  left: clamp(1.5rem, 4vw, 4rem) !important;
+  z-index: 10 !important;
+}
+
+.scene-eyebrow.info-eyebrow {
+  font-family: var(--font-mono) !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.15em !important;
+  color: var(--brand-copper) !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.scene03-headline {
+  display: none !important;
+  opacity: 0 !important;
+  transition: opacity 0.4s ease !important;
+  font-family: var(--font-serif) !important;
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem) !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+}
+
+.scene03-headline.is-active {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.scene03-stage-pane {
+  display: none !important;
+  opacity: 0 !important;
+  transition: opacity 0.4s ease !important;
+}
+
+.scene03-stage-pane.is-active {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.scene03-copy {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem) !important;
+  line-height: 1.7 !important;
+  color: #F3F1ED !important;
+  max-width: 850px !important;
+  margin: 0 !important;
+}
+
+.scene03-indicator-bar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.5rem !important;
+  margin-top: 1rem !important;
+}
+
+.scene03-counter-row {
+  font-family: var(--font-mono) !important;
+  color: var(--brand-copper) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+}
+
+.scene03-progress-track {
+  width: clamp(120px, 20vw, 220px) !important;
+  height: 2px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-radius: 1px !important;
+}
+
+.scene03-progress-fill {
+  height: 100% !important;
+  background: var(--brand-copper) !important;
+  transition: width 0.3s ease !important;
+}
+
+
+/* Section 6: Founder Split-Screen Grid (Fits 100svh strictly without internal scroll) */
+.scene06-founder-layout,
+.scene06-split-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: clamp(1.5rem, 3.5vw, 3.5rem) !important;
+  height: calc(100svh - var(--header-height, 58px) - 2rem) !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.scene06-image-col {
+  position: relative !important;
+  height: 100% !important;
+  max-height: 580px !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(215, 199, 151, 0.3) !important;
+}
+
+.scene06-plate,
+.scene06-plate-dark,
+.scene06-plate-lit {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.scene06-text-col {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  text-align: left !important;
+}
+
+.scene06-founder-bio {
+  font-size: clamp(0.82rem, 1.2vw, 0.98rem) !important;
+  line-height: 1.65 !important;
+  color: var(--text-muted) !important;
+}
+
+/* ==========================================================================
+   6. SECTIONS 8 & 9: 4-SLATS MORPHING & 5 STAGGERED VIDEOS
+   ========================================================================== */
+.scene09-sheet {
+  transition: clip-path 0.05s linear;
+  will-change: clip-path;
+}
+
+.craft-slats-container {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.video-slats-grid {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: clamp(8px, 1.5vw, 16px) !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0.5rem auto 1rem auto !important;
+}
+
+.video-slat-item {
+  flex: 1 !important;
+  max-width: 190px !important;
+  aspect-ratio: 9 / 16 !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(215, 199, 151, 0.35) !important;
+  position: relative !important;
+  cursor: pointer !important;
+  background-color: #0A0A0A !important;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.video-slat-item:hover {
+  transform: translateY(-6px) scale(1.02) !important;
+  border-color: var(--brand-copper) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.8) !important;
+}
+
+.slat-media-box {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.slat-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.slat-video-scrim {
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.2) 60%, transparent 100%) !important;
+}
+
+.slat-caption-badge {
+  position: absolute !important;
+  bottom: 0.75rem !important;
+  right: 0.75rem !important;
+  left: 0.75rem !important;
+  text-align: left !important;
+  z-index: 2 !important;
+}
+
+.slat-badge-num {
+  font-family: var(--font-mono, monospace) !important;
+  font-size: 0.72rem !important;
+  color: var(--brand-copper) !important;
+  font-weight: 700 !important;
+}
+
+.slat-badge-title {
+  font-size: clamp(0.7rem, 0.95vw, 0.82rem) !important;
+  color: var(--text-light) !important;
+  margin: 2px 0 0 0 !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+}
+
+/* Frosted Glass Inquiry Form */
+.scene09-form-card {
+  width: 100% !important;
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  background: rgba(18, 19, 22, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(215, 199, 151, 0.25) !important;
+  border-radius: 6px !important;
+  padding: clamp(1rem, 2.5vw, 2rem) !important;
+  box-sizing: border-box !important;
+}
+
+.scene09-form-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 1rem !important;
+  text-align: left !important;
+}
+
+.scene09-field-full {
+  grid-column: 1 / -1 !important;
+}
+
+.scene09-label {
+  display: block !important;
+  font-size: 0.76rem !important;
+  font-family: var(--font-mono) !important;
+  color: var(--brand-copper) !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.scene09-input,
+.scene09-textarea {
+  width: 100% !important;
+  background: rgba(10, 10, 10, 0.8) !important;
+  border: 1px solid rgba(215, 199, 151, 0.3) !important;
+  border-radius: 3px !important;
+  padding: 0.65rem 0.85rem !important;
+  color: var(--text-light) !important;
+  font-family: inherit !important;
+  font-size: 0.85rem !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.25s ease !important;
+}
+
+.scene09-input:focus,
+.scene09-textarea:focus {
+  outline: none !important;
+  border-color: var(--brand-copper) !important;
+}
+
+.scene09-submit-btn {
+  width: 100% !important;
+  margin-top: 1rem !important;
+  padding: 0.75rem 1.5rem !important;
+  background-color: var(--brand-copper) !important;
+  color: #0A0A0A !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.1em !important;
+  border-radius: 3px !important;
+  cursor: pointer !important;
+  transition: background-color 0.25s ease, transform 0.2s ease !important;
+}
+
+.scene09-submit-btn:hover {
+  background-color: #e5d7ad !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ==========================================================================
+   7. SUBPAGES & COPPER SCRUBBABLE TIMELINE
+   ========================================================================== */
+.subpage-view {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  z-index: 999999 !important;
+  background-color: rgba(10, 10, 10, 0.98) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  display: none !important;
+  opacity: 0 !important;
+  transition: opacity 0.35s ease !important;
+  overflow-y: auto !important;
+  direction: ltr !important;
+}
+
+.subpage-view.is-open {
+  display: flex !important;
+  flex-direction: column !important;
+  opacity: 1 !important;
+}
+
+.subpage-cinema-container,
+.subpage-editorial-container {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 1.5rem clamp(1rem, 3vw, 2.5rem) !important;
+  box-sizing: border-box !important;
+}
+
+.subpage-cinema-header,
+.subpage-editorial-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.subpage-back-arrow,
+.subpage-back-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.85rem !important;
+  color: var(--brand-copper) !important;
+  cursor: pointer !important;
+}
+
+.arrow-glyph {
+  font-size: 1.4rem !important;
+  line-height: 1 !important;
+}
+
+.subpage-page-title {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem) !important;
+  color: var(--text-light) !important;
+}
+
+/* 9:16 Cinema Aspect Ratio Frame */
+.subpage-cinema-stage {
+  flex: 1 !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+}
+
+.cinema-aspect-frame {
+  height: 68vh !important;
+  max-height: 600px !important;
+  aspect-ratio: 9 / 16 !important;
+  position: relative !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(215, 199, 151, 0.4) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9) !important;
+  background-color: #000 !important;
+}
+
+.cinema-carousel-viewport {
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+}
+
+.cinema-carousel-track {
+  display: flex !important;
+  width: 100% !important;
+  height: 100% !important;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.cinema-slide {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.cinema-video-element {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Copper Timeline: Scrubbable, Zero Roman Numerals, Zero External Strokes */
+.copper-timeline-panel {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding: 0.85rem !important;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.95) 0%, transparent 100%) !important;
+  z-index: 10 !important;
+  direction: ltr !important;
+}
+
+.timeline-controls-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.timeline-ctrl-btn {
+  color: var(--brand-copper) !important;
+  font-size: 1.1rem !important;
+}
+
+.cinema-time-display {
+  font-family: var(--font-mono) !important;
+  font-size: 0.72rem !important;
+  color: var(--brand-copper) !important;
+}
+
+.copper-timeline-rail {
+  width: 100% !important;
+  height: 4px !important;
+  background: rgba(215, 199, 151, 0.25) !important;
+  border-radius: 2px !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+
+.copper-timeline-progress {
+  height: 100% !important;
+  background-color: var(--brand-copper) !important;
+  border-radius: 2px !important;
+  width: 0%;
+}
+
+.copper-timeline-handle {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background-color: var(--brand-copper) !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) translateX(50%) !important;
+  box-shadow: 0 0 8px rgba(215, 199, 151, 0.8) !important;
+}
+
+/* Subpage Dash Indicators */
+.subpage-dash-indicators {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  margin-top: 1rem !important;
+}
+
+.subpage-dash-item {
+  width: 24px !important;
+  height: 3px !important;
+  background-color: rgba(215, 199, 151, 0.3) !important;
+  border-radius: 2px !important;
+  transition: width 0.3s ease, background-color 0.3s ease !important;
+}
+
+.subpage-dash-item.is-active {
+  width: 44px !important;
+  background-color: var(--brand-copper) !important;
+}
+
+/* Hitboxes for Next/Prev Slide */
+.cinema-hitbox,
+.subpage-hitbox {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 20% !important;
+  z-index: 5 !important;
+  cursor: pointer !important;
+}
+
+.hitbox-prev { right: 0 !important; }
+.hitbox-next { left: 0 !important; }
+
+/* ==========================================================================
+   8. MOBILE RESPONSIVENESS & ZERO HORIZONTAL SCROLL
+   ========================================================================== */
+@media (max-width: 768px) {
+  html, body {
+    direction: ltr !important;
+    overflow-x: hidden !important;
+  }
+
+  .header {
+    padding: 0 1rem !important;
+  }
+
+  .about-gallery-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: clamp(6px, 1.6vw, 10px) !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .scene06-founder-layout,
+  .scene06-split-grid {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    max-height: calc(100svh - var(--header-height, 58px) - 1.5rem) !important;
+  }
+
+  .scene06-image-col {
+    max-height: 220px !important;
+  }
+
+  .video-slats-grid {
+    gap: 6px !important;
+  }
+
+  .video-slat-item {
+    max-width: 68px !important;
+  }
+
+  .slat-caption-badge {
+    bottom: 0.35rem !important;
+    right: 0.35rem !important;
+    left: 0.35rem !important;
+  }
+
+  .slat-badge-title {
+    display: none !important; /* Hide long titles on tiny mobile slat cards */
+  }
+
+  .cinema-aspect-frame {
+    height: 58vh !important;
+  }
+
+  .scene09-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Hero Day/Night Crossfade Layer */
+#hero-night-container {
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 0.1s linear;
+}
+
+/* Remove 5 video cards as requested */
+.craft-slats-container,
+.video-slats-grid,
+.video-slat-item,
+#craft-slats-container {
+  display: none !important;
+}
+
+/* Section 7: Materials & Finishes (Removed Golden Square) */
+#materials-finishes .swatch-preview,
+#materials-finishes .material-card-visual,
+#materials-finishes .swatch-img,
+#materials-finishes .scene07-pinned-tag,
+.swatch-preview,
+.material-card-visual {
+  display: none !important;
+}
+
+.materials-stack,
+.scene07-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: clamp(12px, 1.8vw, 20px) !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin-top: 1.5rem !important;
+}
+
+.material-card {
+  background: rgba(14, 18, 24, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(215, 199, 151, 0.22) !important;
+  border-radius: 4px !important;
+  padding: 1.25rem 1.5rem !important;
+  transition: transform 0.3s ease, border-color 0.3s ease !important;
+}
+
+.material-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: var(--brand-copper) !important;
+}
+
+.material-name {
+  font-family: var(--font-sans) !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  color: var(--brand-copper) !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.material-desc {
+  font-family: var(--font-sans) !important;
+  font-size: 0.88rem !important;
+  line-height: 1.55 !important;
+  color: rgba(243, 241, 237, 0.8) !important;
+}
+
+
+/* Section 2 Background Media Mask: Exactly 70% */
+#about-depth-plate .photo-scrim-dark,
+#about .scene-depth-plate .photo-scrim-dark,
+#about .photo-scrim-dark {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(10, 10, 10, 0.70) !important; /* 70% Dark Mask */
+  z-index: 1 !important;
+  pointer-events: none !important;
+}

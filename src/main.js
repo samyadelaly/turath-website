@@ -340,29 +340,18 @@ function alignHeroLines() {
   const eyebrow = document.querySelector('.hero-eyebrow');
   if (!lineCreativity || !lineDevoted) return;
 
-  lineDevoted.style.letterSpacing = '0.02em';
-  lineCreativity.style.letterSpacing = '0px';
-  if (eyebrow) eyebrow.style.letterSpacing = '0px';
+  lineDevoted.style.letterSpacing = '0.04em';
+  lineCreativity.style.letterSpacing = '0.04em';
 
-  const dWidth0 = lineDevoted.getBoundingClientRect().width;
-  const cWidth0 = lineCreativity.getBoundingClientRect().width;
-  const eWidth0 = eyebrow ? eyebrow.getBoundingClientRect().width : 0;
+  const dWidth = lineDevoted.getBoundingClientRect().width;
+  const cWidth = lineCreativity.getBoundingClientRect().width;
 
-  const targetWidth = Math.max(dWidth0, cWidth0, eWidth0);
-
-  if (targetWidth > dWidth0) {
-    const sD = (targetWidth - dWidth0) / 6;
-    lineDevoted.style.letterSpacing = `calc(0.02em + ${sD.toFixed(3)}px)`;
-  }
-
-  if (lineCreativity && targetWidth > cWidth0) {
-    const s = (targetWidth - cWidth0) / 16;
-    lineCreativity.style.letterSpacing = `${s.toFixed(3)}px`;
-  }
-
-  if (eyebrow && targetWidth > eWidth0) {
-    const s = (targetWidth - eWidth0) / 22;
-    eyebrow.style.letterSpacing = `${s.toFixed(3)}px`;
+  if (cWidth > dWidth && dWidth > 0) {
+    const s = (cWidth - dWidth) / 6;
+    lineDevoted.style.letterSpacing = `calc(0.04em + ${s.toFixed(3)}px)`;
+  } else if (dWidth > cWidth && cWidth > 0) {
+    const s = (dWidth - cWidth) / 14;
+    lineCreativity.style.letterSpacing = `calc(0.04em + ${s.toFixed(3)}px)`;
   }
 }
 
@@ -370,12 +359,13 @@ function setupHeroLogoAnimation() {
   const turathLogo = document.getElementById('turath-logo');
   const heroAnchor = document.getElementById('hero-turath-anchor');
   const headerSlot = document.getElementById('header-logo-slot');
+  const siteHeader = document.getElementById('site-header');
   const scrambleChars = document.querySelectorAll('#turath-logo .scramble-char');
-  const devotedEl = document.getElementById('hero-line-devoted');
+  const ghostEl = document.querySelector('.hero-turath-ghost');
 
   if (!turathLogo || !headerSlot) return;
 
-  // Align the 3 hero lines to exact same length
+  // Align DEVOTED and TO CREATIVITY
   alignHeroLines();
 
   // Kill existing hero triggers
@@ -386,26 +376,29 @@ function setupHeroLogoAnimation() {
   const aRect = heroAnchor ? heroAnchor.getBoundingClientRect() : null;
   const sRect = headerSlot.getBoundingClientRect();
 
-  // Measure delta from left-docked header slot beside burger menu to hero anchor inside the red rectangle
+  // Measure delta from left-docked header slot beside burger menu to hero anchor
   const startX = aRect ? aRect.left - sRect.left : 0;
-  const startY = aRect ? aRect.top - sRect.top : Math.max(140, window.innerHeight * 0.42);
+  const startY = aRect ? aRect.top - sRect.top : Math.max(140, window.innerHeight * 0.38);
 
-  // DYNAMIC SCALE: EXACTLY EQUAL TO DEVOTED SIZE
+  // SCALE: Match hero ghost size accurately
   turathLogo.style.transform = 'none';
-  const naturalTWidth = turathLogo.getBoundingClientRect().width || 120;
-  const dRect = devotedEl ? devotedEl.getBoundingClientRect() : { width: 185 };
-  const startScale = naturalTWidth > 0 ? (dRect.width / naturalTWidth) : 2.0;
+  const naturalTRect = turathLogo.getBoundingClientRect();
+  const ghostRect = ghostEl ? ghostEl.getBoundingClientRect() : { width: 190, height: 30 };
+  const scaleByW = ghostRect.width > 0 && naturalTRect.width > 0 ? (ghostRect.width / naturalTRect.width) : 1.9;
+  const scaleByH = ghostRect.height > 0 && naturalTRect.height > 0 ? (ghostRect.height / naturalTRect.height) : 1.9;
+  const startScale = Math.min(scaleByW, scaleByH * 1.05);
 
-  // Set anchor width to match DEVOTED width so arrow button is positioned with clean gap
-  if (heroAnchor && dRect.width > 0) {
-    heroAnchor.style.setProperty('width', `${dRect.width.toFixed(1)}px`, 'important');
-    heroAnchor.style.setProperty('min-width', `${dRect.width.toFixed(1)}px`, 'important');
-    heroAnchor.style.setProperty('max-width', `${dRect.width.toFixed(1)}px`, 'important');
+  const renderedTurathWidth = naturalTRect.width * startScale;
+  if (heroAnchor && renderedTurathWidth > 0) {
+    heroAnchor.style.setProperty('width', `${renderedTurathWidth.toFixed(1)}px`, 'important');
+    heroAnchor.style.setProperty('min-width', `${renderedTurathWidth.toFixed(1)}px`, 'important');
+    heroAnchor.style.setProperty('max-width', `${renderedTurathWidth.toFixed(1)}px`, 'important');
   }
 
-  // CRITICAL: Set initial resting position in the red rectangle immediately on load!
+  // CRITICAL: Set initial resting position in the hero sheet immediately on load!
   const curScrollY0 = window.pageYOffset || document.documentElement.scrollTop;
   if (curScrollY0 < 10) {
+    if (siteHeader) siteHeader.classList.remove('header-scrolled');
     turathLogo.classList.add('hero-resting');
     turathLogo.classList.remove('is-docked');
     turathLogo.style.transform = `translate3d(${startX.toFixed(2)}px, ${startY.toFixed(2)}px, 0) scale(${startScale.toFixed(4)})`;
@@ -431,7 +424,16 @@ function setupHeroLogoAnimation() {
       const p = self.progress;
       const curScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-      // 1. Position & Scale Interpolation from red rectangle up to header
+      // Header activation: shows frosted glass and burger menu when scrolling begins
+      if (siteHeader) {
+        if (curScrollY > 15) {
+          siteHeader.classList.add('header-scrolled');
+        } else {
+          siteHeader.classList.remove('header-scrolled');
+        }
+      }
+
+      // 1. Position & Scale Interpolation from hero anchor up to navbar slot
       const easeP = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
       const curX = startX * (1 - easeP);
       const curY = Math.max(0, startY * (1 - easeP));
@@ -481,8 +483,9 @@ function setupHeroLogoAnimation() {
           if (deltaY >= 4) {
             scrambleTick++;
             lastScrambleY = curScrollY;
+
             scrambleChars.forEach((ch, idx) => {
-              const cadence = CHAR_CADENCES[idx] || 3;
+              const cadence = CHAR_CADENCES[idx % CHAR_CADENCES.length] || 3;
               if ((scrambleTick + idx * 2) % cadence === 0) {
                 const randIdx = Math.floor(Math.random() * FONT_PALETTE.length);
                 ch.style.fontFamily = FONT_PALETTE[randIdx];
