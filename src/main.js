@@ -332,6 +332,47 @@ const CHAR_CADENCES = [3, 4, 2, 5, 3, 4];
 let scrambleTick = 0;
 let lastScrambleY = 0;
 
+
+// Helper: Align all 3 Hero lines to have the exact same right edge down to subpixel
+function alignHeroLines() {
+  const lineDevoted = document.getElementById('hero-line-devoted');
+  const lineCreativity = document.getElementById('hero-line-creativity');
+  const eyebrow = document.querySelector('.hero-eyebrow');
+  if (!lineCreativity || !lineDevoted) return;
+
+  lineDevoted.style.letterSpacing = '0.02em';
+  lineCreativity.style.letterSpacing = '0px';
+  if (eyebrow) eyebrow.style.letterSpacing = '0px';
+
+  const dWidth = lineDevoted.getBoundingClientRect().width;
+  const cWidth0 = lineCreativity.getBoundingClientRect().width;
+  const eWidth0 = eyebrow ? eyebrow.getBoundingClientRect().width : 0;
+
+  const targetWidth = Math.max(dWidth, cWidth0, eWidth0);
+
+  if (lineCreativity && targetWidth > cWidth0) {
+    const s = (targetWidth - cWidth0) / 16;
+    lineCreativity.style.letterSpacing = `${s.toFixed(3)}px`;
+  }
+
+  if (eyebrow && targetWidth > eWidth0) {
+    const s = (targetWidth - eWidth0) / 23;
+    eyebrow.style.letterSpacing = `${s.toFixed(3)}px`;
+  }
+
+  // Micro calibration pass
+  const cFinal = lineCreativity.getBoundingClientRect().width;
+  const eFinal = eyebrow ? eyebrow.getBoundingClientRect().width : targetWidth;
+  if (Math.abs(targetWidth - cFinal) > 0.4) {
+    const cur = parseFloat(lineCreativity.style.letterSpacing) || 0;
+    lineCreativity.style.letterSpacing = `${(cur + (targetWidth - cFinal) / 16).toFixed(3)}px`;
+  }
+  if (eyebrow && Math.abs(targetWidth - eFinal) > 0.4) {
+    const cur = parseFloat(eyebrow.style.letterSpacing) || 0;
+    eyebrow.style.letterSpacing = `${(cur + (targetWidth - eFinal) / 23).toFixed(3)}px`;
+  }
+}
+
 function setupHeroLogoAnimation() {
   const turathLogo = document.getElementById('turath-logo');
   const heroAnchor = document.getElementById('hero-turath-anchor');
@@ -339,6 +380,14 @@ function setupHeroLogoAnimation() {
   const scrambleChars = document.querySelectorAll('#turath-logo .scramble-char');
 
   if (!turathLogo || !headerSlot) return;
+
+  // Align the 3 hero lines to exact same length
+  alignHeroLines();
+  if (document.fonts) {
+    document.fonts.ready.then(() => {
+      alignHeroLines();
+    });
+  }
 
   // Kill existing hero triggers
   ScrollTrigger.getAll().forEach(st => {
@@ -350,8 +399,22 @@ function setupHeroLogoAnimation() {
 
   // Measure delta from left-docked header slot beside burger menu to hero anchor
   const startX = aRect ? aRect.left - sRect.left : 0;
-  const startY = aRect ? aRect.top - sRect.top : Math.max(120, window.innerHeight * 0.45);
-  const startScale = window.innerWidth <= 768 ? 2.4 : 3.2;
+  const startY = aRect ? aRect.top - sRect.top : Math.max(120, window.innerHeight * 0.35);
+  // Compact, smaller starting scale
+  const startScale = 1.0;
+
+  // CRITICAL: Set initial resting position in the notch immediately on load!
+  const curScrollY0 = window.pageYOffset || document.documentElement.scrollTop;
+  if (curScrollY0 < 10) {
+    turathLogo.style.transform = `translate3d(${startX.toFixed(2)}px, ${startY.toFixed(2)}px, 0) scale(${startScale.toFixed(4)})`;
+    turathLogo.style.transformOrigin = 'left center';
+    scrambleChars.forEach(ch => {
+      ch.style.fontFamily = BASE_FONT;
+      if (ch.dataset.char && ch.textContent !== ch.dataset.char) {
+        ch.textContent = ch.dataset.char;
+      }
+    });
+  }
 
   ScrollTrigger.create({
     id: 'hero-logo-trigger',
@@ -407,6 +470,18 @@ function setupHeroLogoAnimation() {
           }
         }
       }
+    }
+  });
+
+  // Hero Sheet ascent by 10% on scroll
+  ScrollTrigger.create({
+    trigger: '#hero',
+    start: 'top top',
+    end: '35% top',
+    scrub: true,
+    pinSpacing: false,
+    onUpdate: (self) => {
+      document.documentElement.style.setProperty('--hero-sheet-progress', self.progress.toFixed(3));
     }
   });
 
@@ -1303,7 +1378,19 @@ function init() {
 
   console.log('Turath Core Engine Initialized cleanly.');
   ScrollTrigger.refresh();
+
+  if (document.fonts) {
+    document.fonts.ready.then(() => {
+      alignHeroLines();
+      ScrollTrigger.refresh();
+    });
+  }
 }
+
+window.addEventListener('load', () => {
+  alignHeroLines();
+  ScrollTrigger.refresh();
+});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
