@@ -344,11 +344,16 @@ function alignHeroLines() {
   lineCreativity.style.letterSpacing = '0px';
   if (eyebrow) eyebrow.style.letterSpacing = '0px';
 
-  const dWidth = lineDevoted.getBoundingClientRect().width;
+  const dWidth0 = lineDevoted.getBoundingClientRect().width;
   const cWidth0 = lineCreativity.getBoundingClientRect().width;
   const eWidth0 = eyebrow ? eyebrow.getBoundingClientRect().width : 0;
 
-  const targetWidth = Math.max(dWidth, cWidth0, eWidth0);
+  const targetWidth = Math.max(dWidth0, cWidth0, eWidth0);
+
+  if (targetWidth > dWidth0) {
+    const sD = (targetWidth - dWidth0) / 6;
+    lineDevoted.style.letterSpacing = `calc(0.02em + ${sD.toFixed(3)}px)`;
+  }
 
   if (lineCreativity && targetWidth > cWidth0) {
     const s = (targetWidth - cWidth0) / 16;
@@ -356,20 +361,8 @@ function alignHeroLines() {
   }
 
   if (eyebrow && targetWidth > eWidth0) {
-    const s = (targetWidth - eWidth0) / 23;
+    const s = (targetWidth - eWidth0) / 22;
     eyebrow.style.letterSpacing = `${s.toFixed(3)}px`;
-  }
-
-  // Micro calibration pass
-  const cFinal = lineCreativity.getBoundingClientRect().width;
-  const eFinal = eyebrow ? eyebrow.getBoundingClientRect().width : targetWidth;
-  if (Math.abs(targetWidth - cFinal) > 0.4) {
-    const cur = parseFloat(lineCreativity.style.letterSpacing) || 0;
-    lineCreativity.style.letterSpacing = `${(cur + (targetWidth - cFinal) / 16).toFixed(3)}px`;
-  }
-  if (eyebrow && Math.abs(targetWidth - eFinal) > 0.4) {
-    const cur = parseFloat(eyebrow.style.letterSpacing) || 0;
-    eyebrow.style.letterSpacing = `${(cur + (targetWidth - eFinal) / 23).toFixed(3)}px`;
   }
 }
 
@@ -405,15 +398,19 @@ function setupHeroLogoAnimation() {
 
   // Set anchor width to match DEVOTED width so arrow button is positioned with clean gap
   if (heroAnchor && dRect.width > 0) {
-    heroAnchor.style.width = `${dRect.width.toFixed(1)}px`;
-    heroAnchor.style.minWidth = `${dRect.width.toFixed(1)}px`;
+    heroAnchor.style.setProperty('width', `${dRect.width.toFixed(1)}px`, 'important');
+    heroAnchor.style.setProperty('min-width', `${dRect.width.toFixed(1)}px`, 'important');
+    heroAnchor.style.setProperty('max-width', `${dRect.width.toFixed(1)}px`, 'important');
   }
 
   // CRITICAL: Set initial resting position in the red rectangle immediately on load!
   const curScrollY0 = window.pageYOffset || document.documentElement.scrollTop;
   if (curScrollY0 < 10) {
+    turathLogo.classList.add('hero-resting');
+    turathLogo.classList.remove('is-docked');
     turathLogo.style.transform = `translate3d(${startX.toFixed(2)}px, ${startY.toFixed(2)}px, 0) scale(${startScale.toFixed(4)})`;
     turathLogo.style.transformOrigin = 'left center';
+    turathLogo.style.setProperty('color', '#0A0A0A', 'important');
     turathLogo.style.opacity = '1';
     scrambleChars.forEach(ch => {
       ch.style.fontFamily = BASE_FONT;
@@ -443,8 +440,10 @@ function setupHeroLogoAnimation() {
       turathLogo.style.opacity = '1'; // Never fades out! Always remains visible
 
       if (p >= 0.95) {
+        turathLogo.classList.add('is-docked');
+        turathLogo.classList.remove('hero-resting');
         turathLogo.style.transform = 'none';
-        turathLogo.style.color = '#D7C797';
+        turathLogo.style.setProperty('color', '#D7C797', 'important');
         // Lock docked font
         scrambleChars.forEach(ch => {
           ch.style.fontFamily = DOCKED_FONT;
@@ -453,7 +452,20 @@ function setupHeroLogoAnimation() {
           }
         });
       } else {
+        turathLogo.classList.remove('is-docked');
         turathLogo.style.transform = `translate3d(${curX.toFixed(2)}px, ${curY.toFixed(2)}px, 0) scale(${curScale.toFixed(4)})`;
+        // Color transition from #0A0A0A (hero) to #D7C797 (docked)
+        if (p < 0.2) {
+          turathLogo.classList.add('hero-resting');
+          turathLogo.style.setProperty('color', '#0A0A0A', 'important');
+        } else {
+          turathLogo.classList.remove('hero-resting');
+          if (p > 0.8) {
+            turathLogo.style.setProperty('color', '#D7C797', 'important');
+          } else {
+            turathLogo.style.setProperty('color', '#7A6B4E', 'important');
+          }
+        }
         turathLogo.style.transformOrigin = 'left center';
 
         // 2. Dual-speed Font Scramble Motion
@@ -1391,6 +1403,7 @@ function init() {
   if (document.fonts) {
     document.fonts.ready.then(() => {
       alignHeroLines();
+      setupHeroLogoAnimation();
       ScrollTrigger.refresh();
     });
   }
@@ -1398,6 +1411,7 @@ function init() {
 
 window.addEventListener('load', () => {
   alignHeroLines();
+  setupHeroLogoAnimation();
   ScrollTrigger.refresh();
 });
 
