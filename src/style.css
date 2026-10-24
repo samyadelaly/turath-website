@@ -228,9 +228,9 @@ body.nav-drawer-open .header-menu-trigger {
 /* Header Emblem (RTL Right) */
 .header-logo-right {
   position: absolute !important;
-  right: clamp(1rem, 2.5vw, 2.5rem) !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
+  right: clamp(1.25rem, 5.2vw, 2.5rem) !important;
+  top: clamp(20px, 3.2vh, 32px) !important;
+  transform: none !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -554,7 +554,7 @@ section,
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: clamp(340px, 37svh, 410px) !important;
+  height: clamp(280px, 33.5svh, 345px) !important;
   z-index: 5 !important;
   pointer-events: none !important;
   display: flex !important;
@@ -576,7 +576,9 @@ section,
 .hero-sheet-inner {
   position: relative !important;
   width: 100% !important;
-  padding-top: clamp(4.2rem, 7.5vh, 6.0rem) !important;
+  padding-top: clamp(75px, 15.2vh, 145px) !important;
+  padding-left: clamp(1.25rem, 5.2vw, 2.5rem) !important;
+  padding-right: clamp(1.25rem, 5.2vw, 2.5rem) !important;
   padding-bottom: 0.8rem !important;
   pointer-events: none !important;
 }
@@ -648,7 +650,7 @@ section,
   display: inline-flex !important;
   align-items: center !important;
   gap: clamp(14px, 2.4vw, 20px) !important;
-  margin-top: clamp(16px, 2.4vh, 26px) !important;
+  margin-top: clamp(12px, 1.8vh, 22px) !important;
   pointer-events: auto !important;
 }
 
@@ -694,9 +696,9 @@ section,
 /* Floating Brand Description: Pure Typography, Zero Plate, Zero Stroke */
 .hero-brand-description {
   position: absolute !important;
-  bottom: clamp(1.75rem, 4.2svh, 3rem) !important;
-  left: clamp(1.25rem, 4vw, 3.5rem) !important;
-  right: auto !important;
+  bottom: clamp(55px, 11.5svh, 110px) !important;
+  left: clamp(1.25rem, 5.2vw, 2.5rem) !important;
+  right: clamp(1.25rem, 5.2vw, 2.5rem) !important;
   z-index: 10 !important;
   pointer-events: auto !important;
   width: auto !important;
