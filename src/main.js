@@ -458,7 +458,6 @@ function setupHeroLogoAnimation() {
 
       const siteHeaderEl = document.getElementById('site-header');
       if (p >= 0.95) {
-        if (siteHeaderEl) siteHeaderEl.classList.remove('in-hero');
         turathLogo.classList.add('is-docked');
         turathLogo.classList.remove('hero-resting');
         turathLogo.style.transform = 'none';
@@ -470,7 +469,6 @@ function setupHeroLogoAnimation() {
           }
         });
       } else {
-        if (siteHeaderEl) siteHeaderEl.classList.add('in-hero');
         turathLogo.classList.remove('is-docked');
         turathLogo.style.transform = `translate3d(${curX.toFixed(2)}px, ${curY.toFixed(2)}px, 0) scale(${curScale.toFixed(4)})`;
         turathLogo.classList.add('hero-resting');

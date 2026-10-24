@@ -55,6 +55,9 @@ html, body {
   scroll-behavior: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+  -webkit-overscroll-behavior: none !important;
 }
 
 body.in-subpage {
@@ -102,15 +105,6 @@ main,
 /* ==========================================================================
    2. 58PX FROSTED GLASS HEADER & CURTAIN NAV DRAWER
    ========================================================================== */
-#site-header.in-hero {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border: none !important;
-  border-bottom: none !important;
-  box-shadow: none !important;
-}
-
 header,
 #site-header {
   position: fixed !important;
