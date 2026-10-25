@@ -197,7 +197,7 @@ img, video {
   font-size: clamp(1.3rem, 3.4vw, 1.9rem);
   font-weight: 300;
   line-height: 1.05;
-  margin-bottom: clamp(14px, 2.0vh, 22px);
+  margin-bottom: clamp(6px, 0.9vh, 10px);
   color: #1A1815;
   letter-spacing: 0.02em;
 }
@@ -208,6 +208,8 @@ img, video {
   align-items: center;
   gap: clamp(12px, 3vw, 18px);
   width: auto;
+  transform-origin: left center;
+  will-change: transform;
 }
 
 .hero-wordmark {
