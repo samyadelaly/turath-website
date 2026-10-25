@@ -777,3 +777,127 @@ body.menu-open .menu-line.line-2 {
   font-weight: 400;
   color: #F3F1ED;
 }
+
+/* ==========================================================================
+   4. SCENE 03 - OUR COLLECTIONS (HORIZONTAL SCROLL GALLERY)
+   ========================================================================== */
+#collections {
+  position: relative;
+  width: 100%;
+  background-color: #000000;
+  color: #F3F1ED;
+  overflow: hidden;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  z-index: 20;
+}
+
+.collections-title {
+  font-family: var(--font-heading, 'Syne', sans-serif);
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  margin-bottom: 4rem;
+  padding-left: clamp(1.5rem, 5.5vw, 3rem);
+  padding-right: clamp(1.5rem, 5.5vw, 3rem);
+  color: #F3F1ED;
+}
+
+.collections-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+}
+
+.collections-track {
+  display: flex;
+  gap: clamp(1.5rem, 2.5vw, 2rem);
+  padding-left: clamp(1.5rem, 5.5vw, 3rem);
+  padding-right: clamp(1.5rem, 5.5vw, 3rem);
+  width: max-content;
+  height: 100%;
+  will-change: transform;
+}
+
+.collection-card {
+  position: relative;
+  width: 80vw;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  flex-shrink: 0;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+@media (min-width: 768px) {
+  .collection-card {
+    width: 30vw;
+  }
+}
+
+.collection-card:hover {
+  border-color: rgba(215, 199, 151, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.collection-card-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.collection-card:hover .collection-card-img {
+  transform: scale(1.1);
+}
+
+.collection-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.1) 70%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.collection-card-content {
+  position: absolute;
+  bottom: clamp(1.5rem, 2.5vw, 2rem);
+  left: clamp(1.5rem, 2.5vw, 2rem);
+  right: clamp(1.5rem, 2.5vw, 2rem);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.collection-card-title {
+  font-family: var(--font-heading, 'Syne', sans-serif);
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.collection-card-cta {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: #D7C797;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.collection-card:hover .collection-card-cta {
+  color: #F3F1ED;
+  transform: translateX(4px);
+}

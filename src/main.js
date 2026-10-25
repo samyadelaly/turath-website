@@ -433,8 +433,35 @@ function initAboutPinnedTimeline() {
   aboutTl.to({}, { duration: 0.4 }); // Final hold
 }
 
+// 5. Scene 03: Our Collections Horizontal Scroll Gallery
+function initCollectionsHorizontalScroll() {
+  const collectionsTrack = document.querySelector('.collections-track');
+  const collectionsWrapper = document.querySelector('.collections-wrapper');
+
+  if (collectionsTrack && collectionsWrapper) {
+    function getScrollAmount() {
+      let trackWidth = collectionsTrack.scrollWidth;
+      return -(trackWidth - window.innerWidth + 80);
+    }
+
+    gsap.to(collectionsTrack, {
+      x: getScrollAmount,
+      ease: "none",
+      scrollTrigger: {
+        trigger: collectionsWrapper,
+        start: "top 15%",
+        end: () => `+=${collectionsTrack.scrollWidth}`,
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true
+      }
+    });
+  }
+}
+
 // Initialize on DOM ready
 initNavDrawer();
 initHeroAnimations();
 initScrollBtn();
 initAboutPinnedTimeline();
+initCollectionsHorizontalScroll();
