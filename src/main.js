@@ -249,7 +249,89 @@ function initScrollBtn() {
   }
 }
 
+// 4. Scene 02 — About Turath Pinned Sequence (Gold Glass & 3-Slice Image Morphing)
+function initAboutPinnedTimeline() {
+  const aboutSection = document.getElementById('about');
+  if (!aboutSection) return;
+
+  const text1 = document.getElementById('about-text-1');
+  const text2 = document.getElementById('about-text-2');
+  const text3 = document.getElementById('about-text-3');
+
+  const slices2 = document.querySelectorAll('#about-slice-layer-2 .about-slice');
+  const slices3 = document.querySelectorAll('#about-slice-layer-3 .about-slice');
+
+  if (!text1 || !text2 || !text3) return;
+
+  // Set initial states
+  gsap.set(text1, { opacity: 1, y: 0, pointerEvents: 'auto' });
+  gsap.set([text2, text3], { opacity: 0, y: 25, pointerEvents: 'none' });
+  gsap.set([slices2, slices3], { clipPath: 'inset(0% 0% 100% 0%)' });
+
+  const aboutTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#about',
+      pin: true,
+      scrub: 1,
+      start: 'center center',
+      end: () => '+=' + (window.innerHeight * 2.5),
+      invalidateOnRefresh: true,
+    }
+  });
+
+  // --- TRANSITION 1 (Part 01 -> Part 02) ---
+  // Reveal Image 2 slices from bottom to top with stagger 0.15
+  aboutTl
+    .to(text1, {
+      opacity: 0,
+      y: -25,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      onComplete: () => { gsap.set(text1, { pointerEvents: 'none' }); }
+    }, 'trans1')
+    .to(text2, {
+      opacity: 1,
+      y: 0,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      onStart: () => { gsap.set(text2, { pointerEvents: 'auto' }); }
+    }, 'trans1+=0.2')
+    .to(slices2, {
+      clipPath: 'inset(0% 0% 0% 0%)',
+      duration: 0.7,
+      stagger: 0.15,
+      ease: 'power2.inOut'
+    }, 'trans1')
+    .to({}, { duration: 0.4 }); // Hold reading pause
+
+  // --- TRANSITION 2 (Part 02 -> Part 03) ---
+  // Reveal Image 3 slices from bottom to top with stagger 0.15
+  aboutTl
+    .to(text2, {
+      opacity: 0,
+      y: -25,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      onComplete: () => { gsap.set(text2, { pointerEvents: 'none' }); }
+    }, 'trans2')
+    .to(text3, {
+      opacity: 1,
+      y: 0,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      onStart: () => { gsap.set(text3, { pointerEvents: 'auto' }); }
+    }, 'trans2+=0.2')
+    .to(slices3, {
+      clipPath: 'inset(0% 0% 0% 0%)',
+      duration: 0.7,
+      stagger: 0.15,
+      ease: 'power2.inOut'
+    }, 'trans2')
+    .to({}, { duration: 0.4 }); // Final hold
+}
+
 // Initialize on DOM ready
 initNavDrawer();
 initHeroAnimations();
 initScrollBtn();
+initAboutPinnedTimeline();

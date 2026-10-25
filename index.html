@@ -107,14 +107,80 @@
     </div>
   </section>
 
-  <!-- STEP 3: SCENE 02 - SKELETON (For Scroll Testing) -->
-  <section id="about">
-    <div class="about-container">
-      <span class="about-eyebrow">02 / SCENE 02</span>
-      <h2 class="about-title">Layered Scroll Verification</h2>
-      <p class="about-desc">
-        This section is physically positioned relative with z-index: 20 to prove that it smoothly ascends and layers over the sticky Hero section as you scroll down.
-      </p>
+  <!-- STEP 3: SCENE 02 — ABOUT TURATH (PINNED SEQUENCE) -->
+  <section id="about" class="bg-[#000000] min-h-screen relative flex items-center pt-24 pb-12 z-20">
+    <div class="about-grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 px-6 md:px-12 items-center">
+      
+      <!-- LEFT COLUMN: Gold Frosted Glass Panel with 3 Crossfading Text Blocks -->
+      <div class="about-glass-panel">
+        <!-- Block 1 -->
+        <div class="about-text-block about-text-1" id="about-text-1">
+          <h4 class="text-sm tracking-widest mb-4">PART 01 — ABOUT TURATH</h4>
+          <p class="text-2xl leading-relaxed">TURATH is an Egyptian manufacturer specializing in handcrafted brass, copper, and bespoke decorative metalwork.</p>
+        </div>
+
+        <!-- Block 2 -->
+        <div class="about-text-block about-text-2" id="about-text-2">
+          <h4 class="text-sm tracking-widest mb-4">PART 02 — OUR CRAFT</h4>
+          <p class="text-2xl leading-relaxed">We combine traditional Egyptian craftsmanship with contemporary design to create distinctive pieces for luxury interiors and architectural projects.</p>
+        </div>
+
+        <!-- Block 3 -->
+        <div class="about-text-block about-text-3" id="about-text-3">
+          <h4 class="text-sm tracking-widest mb-4">PART 03 — OUR VISION</h4>
+          <p class="text-2xl leading-relaxed mb-6">Preserving the art of handmade metalwork through creativity, precision, and timeless design.</p>
+          <p class="text-sm tracking-widest font-bold">TURATH — Handcrafted in Egypt.</p>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: 3-Slice Image Morphing (9:16 Aspect Ratio) -->
+      <div class="about-stage-wrapper">
+        <div class="about-stage" id="about-stage">
+          <!-- Image 1 (Base) -->
+          <div class="about-stage-base" id="about-stage-base">
+            <img src="/assets/images/about-slice-1.jpg" alt="About Turath - Part 01 Craftsmanship" class="about-stage-img" />
+          </div>
+
+          <!-- Image 2 (3-Slice Reveal) -->
+          <div class="about-slice-layer about-slice-layer-2" id="about-slice-layer-2">
+            <div class="about-slice slice-1" data-slice="1">
+              <div class="slice-inner" style="transform: translateX(0%);">
+                <img src="/assets/images/about-slice-2.jpg" alt="About Turath - Part 02 Precision" class="about-slice-img" />
+              </div>
+            </div>
+            <div class="about-slice slice-2" data-slice="2">
+              <div class="slice-inner" style="transform: translateX(-100%);">
+                <img src="/assets/images/about-slice-2.jpg" alt="About Turath - Part 02 Precision" class="about-slice-img" />
+              </div>
+            </div>
+            <div class="about-slice slice-3" data-slice="3">
+              <div class="slice-inner" style="transform: translateX(-200%);">
+                <img src="/assets/images/about-slice-2.jpg" alt="About Turath - Part 02 Precision" class="about-slice-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Image 3 (3-Slice Reveal) -->
+          <div class="about-slice-layer about-slice-layer-3" id="about-slice-layer-3">
+            <div class="about-slice slice-1" data-slice="1">
+              <div class="slice-inner" style="transform: translateX(0%);">
+                <img src="/assets/images/about-slice-3.jpg" alt="About Turath - Part 03 Vision" class="about-slice-img" />
+              </div>
+            </div>
+            <div class="about-slice slice-2" data-slice="2">
+              <div class="slice-inner" style="transform: translateX(-100%);">
+                <img src="/assets/images/about-slice-3.jpg" alt="About Turath - Part 03 Vision" class="about-slice-img" />
+              </div>
+            </div>
+            <div class="about-slice slice-3" data-slice="3">
+              <div class="slice-inner" style="transform: translateX(-200%);">
+                <img src="/assets/images/about-slice-3.jpg" alt="About Turath - Part 03 Vision" class="about-slice-img" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
