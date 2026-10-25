@@ -172,7 +172,7 @@ function initHeroAnimations() {
       trigger: '#hero',
       start: 'top top',
       end: 'bottom top',
-      scrub: true,
+      scrub: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         if (scrambleEngine) {
@@ -235,7 +235,8 @@ function initHeroAnimations() {
       x: 0,
       y: 0,
       scale: () => getDockingDeltas().dockedScale,
-      ease: 'none'
+      ease: 'power2.inOut',
+      duration: 0.85
     }, 0);
   }
 

@@ -165,9 +165,26 @@ body.menu-open .menu-line.line-2 {
   pointer-events: auto;
 }
 
-/* Top-Right Ornamental Logo */
+/* Top-Right Brand Logo */
 .header-logo-right {
-  display: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.site-header.is-scrolled .header-logo-right {
+  opacity: 1;
+}
+
+.header-brand-img {
+  height: clamp(26px, 3.4vw, 32px);
+  width: auto;
+  object-fit: contain;
+  border-radius: 3px;
+  border: 1px solid rgba(215, 199, 151, 0.25);
 }
 
 .nav-drawer-logo {
@@ -436,8 +453,8 @@ body.menu-open .menu-line.line-2 {
 }
 
 .hero-scroll-btn {
-  width: clamp(34px, 4.5vw, 38px);
-  height: clamp(34px, 4.5vw, 38px);
+  width: clamp(26px, 3.2vw, 30px);
+  height: clamp(26px, 3.2vw, 30px);
   background-color: #000;
   border-radius: 50%;
   display: flex;
@@ -456,8 +473,8 @@ body.menu-open .menu-line.line-2 {
 }
 
 .hero-chevron-icon {
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   stroke: #FFFFFF;
 }
 
@@ -506,13 +523,17 @@ body.menu-open .menu-line.line-2 {
   height: 100svh;
   overflow: hidden;
   z-index: 20;
+  background: transparent !important;
   background-color: transparent !important;
   padding: 0 !important;
   margin: 0 !important;
 }
 
 /* FULL-BLEED BACKGROUND LAYERS (100vw x 100vh) */
-.about-fullscreen-layer {
+.about-fullscreen-layer,
+.about-layer-1,
+.about-layer-2,
+.about-layer-3 {
   position: absolute;
   top: 0 !important;
   left: 0 !important;
@@ -525,6 +546,8 @@ body.menu-open .menu-line.line-2 {
   overflow: hidden;
   margin: 0 !important;
   padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 .about-layer-1 {
@@ -549,6 +572,8 @@ body.menu-open .menu-line.line-2 {
   clip-path: inset(100% 0 0 0);
   -webkit-clip-path: inset(100% 0 0 0);
   will-change: clip-path;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* Inner slice images: width 100vw, height 100vh, object-fit cover */
@@ -563,6 +588,8 @@ body.menu-open .menu-line.line-2 {
   object-fit: cover;
   object-position: center center;
   display: block;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* Vignette gradient for cinematic contrast */
