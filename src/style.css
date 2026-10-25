@@ -78,11 +78,12 @@ img, video {
   padding: 0 5.5vw;
   z-index: 100;
   pointer-events: none;
-  background: rgba(0, 0, 0, 0.15) !important;
-  backdrop-filter: blur(24px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-  transition: background 0.3s ease, border-color 0.3s ease;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, border-color 0.3s ease;
 }
 
 .site-header.is-scrolled {
@@ -90,6 +91,7 @@ img, video {
   backdrop-filter: blur(24px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .header-left {

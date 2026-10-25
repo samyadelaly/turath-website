@@ -130,13 +130,6 @@ function initHeroAnimations() {
       scrub: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
-        if (siteHeader) {
-          if (self.progress >= 0.7) {
-            siteHeader.classList.add('is-scrolled');
-          } else {
-            siteHeader.classList.remove('is-scrolled');
-          }
-        }
         if (scrambleEngine) {
           scrambleEngine.onScrollProgress(self.progress, window.pageYOffset || document.documentElement.scrollTop);
         }
@@ -210,6 +203,21 @@ function initHeroAnimations() {
       duration: 0.5
     }, 0.35);
   }
+
+  // Menu trigger lines transition to crisp white as dark hero background appears
+  heroTl.to('.menu-line', {
+    backgroundColor: '#F3F1ED',
+    ease: 'power1.inOut',
+    duration: 0.4
+  }, 0.35);
+
+  // 7. Scrolled Dynamic Glass Navbar: triggers once user scrolls past the Hero section (Scene 02 begins)
+  ScrollTrigger.create({
+    trigger: '#about',
+    start: 'top 60px',
+    onEnter: () => siteHeader && siteHeader.classList.add('is-scrolled'),
+    onLeaveBack: () => siteHeader && siteHeader.classList.remove('is-scrolled'),
+  });
 
   // Recalculate docking targets on resize
   window.addEventListener('resize', () => {
