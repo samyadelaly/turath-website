@@ -8,6 +8,7 @@
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { initTurathScrambleAnimation } from './artwork.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -100,6 +101,7 @@ function initHeroAnimations() {
   }
 
   const initialDeltas = getDockingDeltas();
+  const scrambleEngine = initTurathScrambleAnimation();
 
   // Set resting position at scroll 0 so wordmark sits in the hero shelf
   if (wordmarkWrap) {
@@ -109,6 +111,15 @@ function initHeroAnimations() {
       scale: initialDeltas.startScale,
       color: '#0A0A0A'
     });
+
+    if (scrambleEngine) {
+      wordmarkWrap.addEventListener('mouseenter', () => {
+        const curScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (curScroll < 50) {
+          scrambleEngine.triggerScramble();
+        }
+      });
+    }
   }
 
   const heroTl = gsap.timeline({
@@ -125,6 +136,9 @@ function initHeroAnimations() {
           } else {
             siteHeader.classList.remove('is-scrolled');
           }
+        }
+        if (scrambleEngine) {
+          scrambleEngine.onScrollProgress(self.progress, window.pageYOffset || document.documentElement.scrollTop);
         }
       }
     }

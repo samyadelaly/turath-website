@@ -423,6 +423,15 @@ body.menu-open .nav-drawer {
   padding: 0;
 }
 
+.scramble-char {
+  display: inline-block;
+  white-space: pre;
+  letter-spacing: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  transition: color 0.2s ease;
+}
+
 .hero-scroll-btn {
   width: clamp(34px, 4.5vw, 38px);
   height: clamp(34px, 4.5vw, 38px);
