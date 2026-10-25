@@ -107,80 +107,70 @@
     </div>
   </section>
 
-  <!-- STEP 3: SCENE 02 — ABOUT TURATH (PINNED SEQUENCE) -->
-  <section id="about" class="bg-[#000000] min-h-screen relative flex items-center pt-24 pb-12 z-20">
-    <div class="about-grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 px-6 md:px-12 items-center">
-      
-      <!-- LEFT COLUMN: Gold Frosted Glass Panel with 3 Crossfading Text Blocks -->
-      <div class="about-glass-panel">
-        <!-- Block 1 -->
-        <div class="about-text-block about-text-1" id="about-text-1">
-          <h4 class="text-sm tracking-widest mb-4">PART 01 — ABOUT TURATH</h4>
-          <p class="text-2xl leading-relaxed">TURATH is an Egyptian manufacturer specializing in handcrafted brass, copper, and bespoke decorative metalwork.</p>
-        </div>
+  <!-- STEP 3: SCENE 02 — ABOUT TURATH (FULL-SCREEN CINEMATIC EXPERIENCE) -->
+  <section id="about" class="relative w-full h-screen overflow-hidden z-20 bg-black">
+    <!-- FULL-BLEED BACKGROUND LAYERS (100vw x 100vh) -->
+    
+    <!-- Layer 1 (Base): Full-width/height Image 1 -->
+    <div class="about-fullscreen-layer about-layer-1" id="about-layer-1">
+      <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Base" class="about-fullscreen-img" />
+    </div>
 
-        <!-- Block 2 -->
-        <div class="about-text-block about-text-2" id="about-text-2">
-          <h4 class="text-sm tracking-widest mb-4">PART 02 — OUR CRAFT</h4>
-          <p class="text-2xl leading-relaxed">We combine traditional Egyptian craftsmanship with contemporary design to create distinctive pieces for luxury interiors and architectural projects.</p>
-        </div>
+    <!-- Layer 2 (3-Slice Reveal): Full wrapper with 3 vertical slice divs -->
+    <div class="about-fullscreen-layer about-layer-2" id="about-layer-2">
+      <!-- Slice 1 (left: 0) -->
+      <div class="about-vertical-slice slice-1" style="left: 0;">
+        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(0);" />
+      </div>
+      <!-- Slice 2 (left: 33.333%) -->
+      <div class="about-vertical-slice slice-2" style="left: 33.3333%;">
+        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" />
+      </div>
+      <!-- Slice 3 (left: 66.666%) -->
+      <div class="about-vertical-slice slice-3" style="left: 66.6666%;">
+        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" />
+      </div>
+    </div>
 
-        <!-- Block 3 -->
-        <div class="about-text-block about-text-3" id="about-text-3">
-          <h4 class="text-sm tracking-widest mb-4">PART 03 — OUR VISION</h4>
-          <p class="text-2xl leading-relaxed mb-6">Preserving the art of handmade metalwork through creativity, precision, and timeless design.</p>
-          <p class="text-sm tracking-widest font-bold">TURATH — Handcrafted in Egypt.</p>
-        </div>
+    <!-- Layer 3 (3-Slice Reveal): Full wrapper with 3 vertical slice divs -->
+    <div class="about-fullscreen-layer about-layer-3" id="about-layer-3">
+      <!-- Slice 1 (left: 0) -->
+      <div class="about-vertical-slice slice-1" style="left: 0;">
+        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(0);" />
+      </div>
+      <!-- Slice 2 (left: 33.333%) -->
+      <div class="about-vertical-slice slice-2" style="left: 33.3333%;">
+        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" />
+      </div>
+      <!-- Slice 3 (left: 66.666%) -->
+      <div class="about-vertical-slice slice-3" style="left: 66.6666%;">
+        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" />
+      </div>
+    </div>
+
+    <!-- Dark subtle vignette/gradient for atmospheric cinematic depth -->
+    <div class="about-fullscreen-vignette" aria-hidden="true"></div>
+
+    <!-- FLOATING TEXT BOX (GOLD FROSTED GLASS) -->
+    <div class="about-floating-glass-box absolute bottom-8 md:bottom-12 left-6 md:left-12 max-w-xl z-30">
+      <!-- Block 1 -->
+      <div class="about-text-block about-text-1" id="about-text-1">
+        <h4 class="text-sm tracking-widest mb-4">PART 01 — ABOUT TURATH</h4>
+        <p class="text-2xl leading-relaxed">TURATH is an Egyptian manufacturer specializing in handcrafted brass, copper, and bespoke decorative metalwork.</p>
       </div>
 
-      <!-- RIGHT COLUMN: 3-Slice Image Morphing (9:16 Aspect Ratio) -->
-      <div class="about-stage-wrapper">
-        <div class="about-stage" id="about-stage">
-          <!-- Image 1 (Base) -->
-          <div class="about-stage-base" id="about-stage-base">
-            <img src="/assets/images/about-slice-1.jpg" alt="About Turath - Part 01 Craftsmanship" class="about-stage-img" />
-          </div>
-
-          <!-- Image 2 (3-Slice Reveal) -->
-          <div class="about-slice-layer about-slice-layer-2" id="about-slice-layer-2">
-            <div class="about-slice slice-1" data-slice="1">
-              <div class="slice-inner" style="transform: translateX(0%);">
-                <img src="/assets/images/about-slice-2.jpg" alt="About Turath - Part 02 Precision" class="about-slice-img" />
-              </div>
-            </div>
-            <div class="about-slice slice-2" data-slice="2">
-              <div class="slice-inner" style="transform: translateX(-100%);">
-                <img src="/assets/images/about-slice-2.jpg" alt="About Turath - Part 02 Precision" class="about-slice-img" />
-              </div>
-            </div>
-            <div class="about-slice slice-3" data-slice="3">
-              <div class="slice-inner" style="transform: translateX(-200%);">
-                <img src="/assets/images/about-slice-2.jpg" alt="About Turath - Part 02 Precision" class="about-slice-img" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 3 (3-Slice Reveal) -->
-          <div class="about-slice-layer about-slice-layer-3" id="about-slice-layer-3">
-            <div class="about-slice slice-1" data-slice="1">
-              <div class="slice-inner" style="transform: translateX(0%);">
-                <img src="/assets/images/about-slice-3.jpg" alt="About Turath - Part 03 Vision" class="about-slice-img" />
-              </div>
-            </div>
-            <div class="about-slice slice-2" data-slice="2">
-              <div class="slice-inner" style="transform: translateX(-100%);">
-                <img src="/assets/images/about-slice-3.jpg" alt="About Turath - Part 03 Vision" class="about-slice-img" />
-              </div>
-            </div>
-            <div class="about-slice slice-3" data-slice="3">
-              <div class="slice-inner" style="transform: translateX(-200%);">
-                <img src="/assets/images/about-slice-3.jpg" alt="About Turath - Part 03 Vision" class="about-slice-img" />
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Block 2 -->
+      <div class="about-text-block about-text-2" id="about-text-2">
+        <h4 class="text-sm tracking-widest mb-4">PART 02 — OUR CRAFT</h4>
+        <p class="text-2xl leading-relaxed">We combine traditional Egyptian craftsmanship with contemporary design to create distinctive pieces for luxury interiors and architectural projects.</p>
       </div>
 
+      <!-- Block 3 -->
+      <div class="about-text-block about-text-3" id="about-text-3">
+        <h4 class="text-sm tracking-widest mb-4">PART 03 — OUR VISION</h4>
+        <p class="text-2xl leading-relaxed mb-6">Preserving the art of handmade metalwork through creativity, precision, and timeless design.</p>
+        <p class="text-sm tracking-widest font-bold">TURATH — Handcrafted in Egypt.</p>
+      </div>
     </div>
   </section>
 

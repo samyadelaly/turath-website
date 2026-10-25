@@ -258,33 +258,33 @@ function initAboutPinnedTimeline() {
   const text2 = document.getElementById('about-text-2');
   const text3 = document.getElementById('about-text-3');
 
-  const slices2 = document.querySelectorAll('#about-slice-layer-2 .about-slice');
-  const slices3 = document.querySelectorAll('#about-slice-layer-3 .about-slice');
+  const slices2 = document.querySelectorAll('#about-layer-2 .about-vertical-slice');
+  const slices3 = document.querySelectorAll('#about-layer-3 .about-vertical-slice');
 
   if (!text1 || !text2 || !text3) return;
 
   // Set initial states
   gsap.set(text1, { opacity: 1, y: 0, pointerEvents: 'auto' });
   gsap.set([text2, text3], { opacity: 0, y: 25, pointerEvents: 'none' });
-  gsap.set([slices2, slices3], { clipPath: 'inset(0% 0% 100% 0%)' });
+  gsap.set([slices2, slices3], { clipPath: 'inset(100% 0% 0% 0%)' });
 
   const aboutTl = gsap.timeline({
     scrollTrigger: {
       trigger: '#about',
       pin: true,
       scrub: 1,
-      start: 'center center',
+      start: 'top top',
       end: () => '+=' + (window.innerHeight * 2.5),
       invalidateOnRefresh: true,
     }
   });
 
   // --- TRANSITION 1 (Part 01 -> Part 02) ---
-  // Reveal Image 2 slices from bottom to top with stagger 0.15
+  // Reveal Layer 2 slices (clip-path: inset(0% 0 0 0)) with stagger 0.15 (bottom to top)
   aboutTl
     .to(text1, {
       opacity: 0,
-      y: -25,
+      y: -20,
       duration: 0.35,
       ease: 'power2.inOut',
       onComplete: () => { gsap.set(text1, { pointerEvents: 'none' }); }
@@ -295,21 +295,21 @@ function initAboutPinnedTimeline() {
       duration: 0.35,
       ease: 'power2.inOut',
       onStart: () => { gsap.set(text2, { pointerEvents: 'auto' }); }
-    }, 'trans1+=0.2')
+    }, 'trans1+=0.15')
     .to(slices2, {
       clipPath: 'inset(0% 0% 0% 0%)',
-      duration: 0.7,
+      duration: 0.75,
       stagger: 0.15,
       ease: 'power2.inOut'
     }, 'trans1')
     .to({}, { duration: 0.4 }); // Hold reading pause
 
   // --- TRANSITION 2 (Part 02 -> Part 03) ---
-  // Reveal Image 3 slices from bottom to top with stagger 0.15
+  // Reveal Layer 3 slices (clip-path: inset(0% 0 0 0)) with stagger 0.15 (bottom to top)
   aboutTl
     .to(text2, {
       opacity: 0,
-      y: -25,
+      y: -20,
       duration: 0.35,
       ease: 'power2.inOut',
       onComplete: () => { gsap.set(text2, { pointerEvents: 'none' }); }
@@ -320,10 +320,10 @@ function initAboutPinnedTimeline() {
       duration: 0.35,
       ease: 'power2.inOut',
       onStart: () => { gsap.set(text3, { pointerEvents: 'auto' }); }
-    }, 'trans2+=0.2')
+    }, 'trans2+=0.15')
     .to(slices3, {
       clipPath: 'inset(0% 0% 0% 0%)',
-      duration: 0.7,
+      duration: 0.75,
       stagger: 0.15,
       ease: 'power2.inOut'
     }, 'trans2')

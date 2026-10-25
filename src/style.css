@@ -510,63 +510,109 @@ body.menu-open .nav-drawer {
 }
 
 /* ==========================================================================
-   4. SCENE 02 — ABOUT TURATH (PINNED SEQUENCE)
+   4. SCENE 02 — ABOUT TURATH (FULL-SCREEN CINEMATIC EXPERIENCE)
    ========================================================================== */
 #about {
   position: relative;
-  z-index: 20;
-  min-height: 100vh;
-  min-height: 100svh;
-  background-color: #000000 !important;
-  color: #F3F1ED;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: clamp(4rem, 8vh, 6rem);
-  padding-bottom: clamp(2rem, 5vh, 3.5rem);
-  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.8);
   width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  z-index: 20;
+  background-color: #000000 !important;
+}
+
+/* FULL-BLEED BACKGROUND LAYERS (100vw x 100vh) */
+.about-fullscreen-layer {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
   overflow: hidden;
 }
 
-.about-grid {
+.about-layer-1 {
+  z-index: 1;
+}
+
+.about-layer-2 {
+  z-index: 2;
+}
+
+.about-layer-3 {
+  z-index: 3;
+}
+
+.about-fullscreen-img {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(1.5rem, 3vw, 3.5rem);
-  padding: 0 clamp(1.25rem, 4vw, 3rem);
-  align-items: center;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
 }
 
-@media (min-width: 768px) {
-  .about-grid {
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: clamp(2rem, 4vw, 4rem);
-  }
+/* Vertical Slices: width 33.333%, height 100%, position absolute, top 0 */
+.about-vertical-slice {
+  width: 33.3334%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  clip-path: inset(100% 0 0 0);
+  -webkit-clip-path: inset(100% 0 0 0);
+  will-change: clip-path;
 }
 
-/* LEFT COLUMN: Gold Frosted Glass Panel */
-.about-glass-panel {
+/* Inner slice images: width 100vw, height 100vh, object-fit cover */
+.about-slice-fullscreen-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+/* Vignette gradient for cinematic contrast */
+.about-fullscreen-vignette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.45) 100%),
+              linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 45%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* FLOATING TEXT BOX (GOLD FROSTED GLASS) */
+.about-floating-glass-box {
+  position: absolute;
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  left: clamp(1.25rem, 4vw, 3rem);
+  width: calc(100% - clamp(2.5rem, 8vw, 6rem));
+  max-width: 580px;
+  min-height: clamp(230px, 30vh, 290px);
+  z-index: 30;
   background: rgba(215, 199, 151, 0.70) !important;
   backdrop-filter: blur(16px) saturate(120%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
   border-radius: 8px;
-  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
-  position: relative;
-  min-height: clamp(320px, 45vh, 420px);
-  display: flex;
-  align-items: center;
-  color: #0A0A0A;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   overflow: hidden;
 }
 
 .about-text-block {
   position: absolute;
-  inset: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+  inset: clamp(1.5rem, 3.5vw, 2.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -585,116 +631,34 @@ body.menu-open .nav-drawer {
   pointer-events: none;
 }
 
-.about-glass-panel h4,
 .about-text-block h4 {
   font-family: var(--font-heading, 'Syne', sans-serif);
-  font-size: clamp(0.75rem, 1.4vw, 0.875rem);
+  font-size: clamp(0.72rem, 1.3vw, 0.85rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
   color: rgba(10, 10, 10, 0.8);
   font-weight: 700;
 }
 
-.about-glass-panel p,
 .about-text-block p {
   font-family: var(--font-heading, 'Syne', sans-serif);
-  font-size: clamp(1.15rem, 2.2vw, 1.55rem);
-  line-height: 1.5;
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
+  line-height: 1.45;
   color: #0A0A0A;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
 
 .about-text-block p.mb-6 {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.15rem;
 }
 
 .about-text-block p.font-bold {
-  font-size: clamp(0.75rem, 1.4vw, 0.875rem);
+  font-size: clamp(0.72rem, 1.3vw, 0.85rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #0A0A0A;
   font-weight: 800;
-  margin-top: 0.5rem;
-}
-
-/* RIGHT COLUMN: 3-Slice Image Morphing (9:16) */
-.about-stage-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.about-stage {
-  position: relative;
-  aspect-ratio: 9 / 16;
-  width: 100%;
-  max-width: clamp(240px, 32vw, 360px);
-  overflow: hidden;
-  border-radius: 4px;
-  background-color: #000000;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8);
-}
-
-.about-stage-base {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.about-stage-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.about-slice-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  pointer-events: none;
-}
-
-.about-slice-layer-2 {
-  z-index: 2;
-}
-
-.about-slice-layer-3 {
-  z-index: 3;
-}
-
-.about-slice {
-  position: relative;
-  width: 33.333334%;
-  height: 100%;
-  overflow: hidden;
-  clip-path: inset(0 0 100% 0);
-  -webkit-clip-path: inset(0 0 100% 0);
-  will-change: clip-path;
-}
-
-.slice-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.about-slice-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 300%;
-  max-width: none;
-  object-fit: cover;
-  display: block;
+  margin-top: 0.4rem;
 }
