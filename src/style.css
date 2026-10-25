@@ -64,7 +64,187 @@ img, video {
 }
 
 /* ==========================================================================
-   2. SCENE 01 — HERO ARCHITECTURE
+   2. TOP LUXURY NAVBAR & NAVIGATION MENU
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(52px, 6.5vh, 60px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5.5vw;
+  z-index: 1000;
+  pointer-events: none;
+  background-color: transparent;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.site-header.is-scrolled {
+  background-color: rgba(10, 10, 10, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+}
+
+/* 2-line minimal menu trigger on extreme LEFT */
+.header-menu-trigger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 1002;
+}
+
+.menu-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #0A0A0A;
+  border-radius: 1px;
+  transition: transform 0.25s ease, background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.site-header.is-scrolled .menu-line,
+body.menu-open .menu-line {
+  background-color: #F3F1ED;
+}
+
+body.menu-open .menu-line.line-1 {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+body.menu-open .menu-line.line-2 {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+/* Docking slot immediately next to menu icon on the LEFT */
+.navbar-dock-slot {
+  position: relative;
+  width: auto;
+  min-width: 80px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+
+/* Top-Right Ornamental Logo */
+.header-logo-right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.site-header.is-scrolled .header-logo-right {
+  opacity: 1;
+}
+
+.header-brand-img {
+  height: clamp(26px, 3.4vw, 32px);
+  width: auto;
+  object-fit: contain;
+  border-radius: 3px;
+  border: 1px solid rgba(215, 199, 151, 0.25);
+}
+
+/* Navigation Menu Overlay (Background: exact #0A0A0A matching navbar) */
+.nav-drawer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100svh;
+  background-color: #0A0A0A;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 4vh, 32px) 5.5vw;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+body.menu-open .nav-drawer {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.nav-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-drawer-title {
+  font-family: var(--font-heading, 'Syne', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #D7C797;
+}
+
+.nav-drawer-close {
+  font-size: 2rem;
+  line-height: 1;
+  color: #F3F1ED;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.nav-drawer-nav {
+  margin-top: 2rem;
+}
+
+.nav-menu-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.nav-menu-link {
+  font-family: var(--font-heading, 'Syne', sans-serif);
+  font-size: clamp(1.4rem, 4vw, 2.0rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(243, 241, 237, 0.7);
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.nav-menu-link:hover,
+.nav-menu-link.active {
+  color: #D7C797;
+  transform: translateX(6px);
+}
+
+/* ==========================================================================
+   3. SCENE 01 — HERO ARCHITECTURE
    ========================================================================== */
 #hero {
   position: sticky;
@@ -202,14 +382,29 @@ img, video {
   letter-spacing: 0.02em;
 }
 
-/* TURATH Wordmark & Button Row (Millimeter Precision) */
-.hero-wordmark-wrap {
+/* TURATH Wordmark Placeholder (Layout Anchor in Hero Deep Shelf) */
+.hero-wordmark-placeholder {
   display: flex;
+  align-items: center;
+  gap: clamp(12px, 3vw, 18px);
+  height: clamp(34px, 4.5vw, 38px);
+  width: clamp(170px, 32vw, 240px);
+  pointer-events: none;
+  visibility: hidden;
+  margin-top: 0;
+}
+
+/* TURATH Wordmark & Button Row (Docking Engine) */
+.hero-wordmark-wrap {
+  display: inline-flex;
   align-items: center;
   gap: clamp(12px, 3vw, 18px);
   width: auto;
   transform-origin: left center;
   will-change: transform;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1005;
 }
 
 .hero-wordmark {

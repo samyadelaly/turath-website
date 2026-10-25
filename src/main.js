@@ -1,10 +1,9 @@
 /**
  * TURATH (تراث) — Master Engine
- * Step 2: GSAP & ScrollTrigger Animations
- * - Scrub crossfade for Day/Night Hero Images
- * - Seamless text fade-out & translation (y: -40px)
- * - TURATH wordmark docking animation to top-right navbar slot
- * - Interactive smooth scroll button to Section 02
+ * - Luxury Navigation & Menu Overlay Interactions
+ * - GSAP ScrollTrigger Synchronized Gold Sheet Rise & Fade-Out
+ * - TURATH Wordmark Docking to Top Navbar on the LEFT next to Menu Icon
+ * - Day / Night Hero Crossfade
  */
 
 import { gsap } from 'gsap';
@@ -12,12 +11,65 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// 1. Navigation Menu Overlay Interactions
+function initNavDrawer() {
+  const menuTrigger = document.getElementById('menu-trigger');
+  const navDrawer = document.getElementById('nav-drawer');
+  const closeBtn = document.getElementById('nav-close-btn');
+  const navLinks = document.querySelectorAll('.nav-menu-link');
+
+  function openMenu() {
+    document.body.classList.add('menu-open');
+    if (menuTrigger) menuTrigger.setAttribute('aria-expanded', 'true');
+    if (navDrawer) navDrawer.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    if (menuTrigger) menuTrigger.setAttribute('aria-expanded', 'false');
+    if (navDrawer) navDrawer.setAttribute('aria-hidden', 'true');
+  }
+
+  if (menuTrigger) {
+    menuTrigger.addEventListener('click', () => {
+      if (document.body.classList.contains('menu-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeMenu);
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeMenu();
+    });
+  });
+
+  // Close on Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+      closeMenu();
+    }
+  });
+}
+
+// 2. GSAP ScrollTrigger Synchronized Animations
 function initHeroAnimations() {
   const hero = document.getElementById('hero');
+  const heroSheet = document.getElementById('hero-sheet');
   const heroNight = document.getElementById('hero-night');
-  const wordmarkWrap = document.querySelector('.hero-wordmark-wrap');
+  const wordmarkWrap = document.getElementById('hero-wordmark-wrap');
+  const wordmark = document.querySelector('.hero-wordmark');
   const floatingLogo = document.querySelector('.hero-floating-logo');
   const scrollBtn = document.getElementById('hero-scroll-btn');
+  const siteHeader = document.getElementById('site-header');
+  const dockSlot = document.getElementById('navbar-dock-slot');
+  const placeholder = document.getElementById('hero-wordmark-placeholder');
 
   if (!hero) return;
 
@@ -26,30 +78,37 @@ function initHeroAnimations() {
     gsap.set(wordmarkWrap, { transformOrigin: 'left center' });
   }
 
-  // Calculate dynamic delta coordinates for docking into the top-right slot
-  function getDockingCoords() {
-    if (!wordmarkWrap || !floatingLogo) return { deltaX: 0, deltaY: 0, scale: 0.38 };
+  // Calculate dynamic docking deltas from hero placeholder to navbar dock slot
+  function getDockingDeltas() {
+    if (!placeholder || !dockSlot || !wordmarkWrap) {
+      return { startX: 0, startY: 0, startScale: 1, dockedScale: 0.5 };
+    }
 
-    // Temporarily clear inline transforms to measure natural DOM layout rects
     const prevTransform = wordmarkWrap.style.transform;
     wordmarkWrap.style.transform = 'none';
 
-    const wmRect = wordmarkWrap.getBoundingClientRect();
-    const logoRect = floatingLogo.getBoundingClientRect();
+    const pRect = placeholder.getBoundingClientRect();
+    const sRect = dockSlot.getBoundingClientRect();
 
     wordmarkWrap.style.transform = prevTransform;
 
-    const scale = 0.38;
-    // Align right edge of the scaled wordmark with the right edge of the logo slot
-    const targetX = logoRect.right - (wmRect.width * scale);
-    const deltaX = targetX - wmRect.left;
+    const startX = pRect.left - sRect.left;
+    const startY = (pRect.top + pRect.height / 2) - (sRect.top + sRect.height / 2);
+    const dockedScale = 0.5;
 
-    // Center vertically on the floating logo slot
-    const targetCenterY = logoRect.top + logoRect.height / 2;
-    const startCenterY = wmRect.top + wmRect.height / 2;
-    const deltaY = targetCenterY - startCenterY;
+    return { startX, startY, startScale: 1, dockedScale };
+  }
 
-    return { deltaX, deltaY, scale };
+  const initialDeltas = getDockingDeltas();
+
+  // Set resting position at scroll 0 so wordmark sits in the hero shelf
+  if (wordmarkWrap) {
+    gsap.set(wordmarkWrap, {
+      x: initialDeltas.startX,
+      y: initialDeltas.startY,
+      scale: initialDeltas.startScale,
+      color: '#0A0A0A'
+    });
   }
 
   const heroTl = gsap.timeline({
@@ -58,7 +117,16 @@ function initHeroAnimations() {
       start: 'top top',
       end: 'bottom top',
       scrub: 0.25,
-      invalidateOnRefresh: true
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        if (siteHeader) {
+          if (self.progress >= 0.7) {
+            siteHeader.classList.add('is-scrolled');
+          } else {
+            siteHeader.classList.remove('is-scrolled');
+          }
+        }
+      }
     }
   });
 
@@ -66,11 +134,28 @@ function initHeroAnimations() {
   if (heroNight) {
     heroTl.to(heroNight, {
       opacity: 1,
-      ease: 'none'
+      ease: 'none',
+      duration: 1
     }, 0);
   }
 
-  // 2. Text Fade-out: headlines & eyebrow translate up and fade out
+  // 2. Synchronized Gold Sheet Rise (1:1 with wordmark ascension)
+  if (heroSheet) {
+    heroTl.to(heroSheet, {
+      y: () => -getDockingDeltas().startY,
+      ease: 'power2.inOut',
+      duration: 0.85
+    }, 0);
+
+    // 3. Smooth Fade-Out at the very end of Hero scroll range so it dissolves under navbar
+    heroTl.to(heroSheet, {
+      opacity: 0,
+      ease: 'power2.inOut',
+      duration: 0.35
+    }, 0.65);
+  }
+
+  // 4. Text Fade-out: headlines & eyebrow translate up and fade out
   heroTl.to('.hero-eyebrow, .hero-headline-1, .hero-headline-2', {
     opacity: 0,
     y: -40,
@@ -79,34 +164,37 @@ function initHeroAnimations() {
     duration: 0.4
   }, 0);
 
-  // 3. Scroll button fades out early so only TURATH docks into the slot
-  if (scrollBtn) {
-    heroTl.to(scrollBtn, {
-      opacity: 0,
-      scale: 0.6,
-      ease: 'power1.out',
-      duration: 0.3
-    }, 0);
-  }
-
-  // 4. Floating Logo fades out as the docked wordmark arrives to replace it
+  // 5. Floating logo in top-right fades out early as scroll begins
   if (floatingLogo) {
     heroTl.to(floatingLogo, {
       opacity: 0,
-      ease: 'power1.inOut',
-      duration: 0.4
-    }, 0.2);
+      ease: 'power1.out',
+      duration: 0.25
+    }, 0);
   }
 
-  // 5. The TURATH Docking Animation: translates (x, y) and scales down to dock in the top-right slot
+  // 6. The TURATH Wordmark Docking to the LEFT (next to menu icon)
   if (wordmarkWrap) {
-    heroTl.to(wordmarkWrap, {
-      x: () => getDockingCoords().deltaX,
-      y: () => getDockingCoords().deltaY,
-      scale: () => getDockingCoords().scale,
+    heroTl.fromTo(wordmarkWrap, {
+      x: () => getDockingDeltas().startX,
+      y: () => getDockingDeltas().startY,
+      scale: () => getDockingDeltas().startScale
+    }, {
+      x: 0,
+      y: 0,
+      scale: () => getDockingDeltas().dockedScale,
       ease: 'power2.inOut',
-      duration: 0.8
+      duration: 0.85
     }, 0);
+  }
+
+  // Wordmark color transitions to light luxury white as it docks into dark navbar
+  if (wordmark) {
+    heroTl.to(wordmark, {
+      color: '#F3F1ED',
+      ease: 'power1.inOut',
+      duration: 0.5
+    }, 0.35);
   }
 
   // Recalculate docking targets on resize
@@ -115,15 +203,20 @@ function initHeroAnimations() {
   });
 }
 
-initHeroAnimations();
-
-// Interactive Scroll Button
-const scrollBtn = document.getElementById('hero-scroll-btn');
-if (scrollBtn) {
-  scrollBtn.addEventListener('click', () => {
-    const about = document.getElementById('about');
-    if (about) {
-      about.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
+// 3. Interactive Scroll Button
+function initScrollBtn() {
+  const scrollBtn = document.getElementById('hero-scroll-btn');
+  if (scrollBtn) {
+    scrollBtn.addEventListener('click', () => {
+      const about = document.getElementById('about');
+      if (about) {
+        about.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
 }
+
+// Initialize on DOM ready
+initNavDrawer();
+initHeroAnimations();
+initScrollBtn();

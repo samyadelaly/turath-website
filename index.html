@@ -16,6 +16,54 @@
 </head>
 <body>
 
+  <!-- TOP LUXURY NAVBAR -->
+  <header id="site-header" class="site-header">
+    <div class="header-left">
+      <!-- 2-line minimal menu trigger on extreme LEFT -->
+      <button id="menu-trigger" class="header-menu-trigger" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="nav-drawer">
+        <span class="menu-line line-1"></span>
+        <span class="menu-line line-2"></span>
+      </button>
+
+      <!-- Docking slot immediately next to menu icon on the LEFT -->
+      <div class="navbar-dock-slot" id="navbar-dock-slot">
+        <div class="hero-wordmark-wrap" id="hero-wordmark-wrap">
+          <span class="hero-wordmark">TURATH</span>
+          <button type="button" class="hero-scroll-btn" id="hero-scroll-btn" aria-label="Scroll to Section 02">
+            <svg class="hero-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top-Right Ornamental Logo -->
+    <a href="#hero" class="header-logo-right" aria-label="Turath Home">
+      <img src="/turath-brand-logo.jpg" alt="Turath Logo" class="header-brand-img" />
+    </a>
+  </header>
+
+  <!-- NAVIGATION MENU OVERLAY (Background matching navbar #0A0A0A) -->
+  <aside id="nav-drawer" class="nav-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+    <div class="nav-drawer-inner">
+      <div class="nav-drawer-header">
+        <span class="nav-drawer-title">TURATH</span>
+        <button type="button" class="nav-drawer-close" id="nav-close-btn" aria-label="Close Menu">&times;</button>
+      </div>
+      <nav class="nav-drawer-nav" aria-label="Main Navigation">
+        <ul class="nav-menu-list">
+          <li class="nav-menu-item"><a href="#hero" class="nav-menu-link active">Home</a></li>
+          <li class="nav-menu-item"><a href="#about" class="nav-menu-link">About Us</a></li>
+          <li class="nav-menu-item"><a href="#collections" class="nav-menu-link">Collections</a></li>
+          <li class="nav-menu-item"><a href="#products" class="nav-menu-link">Featured Products</a></li>
+          <li class="nav-menu-item"><a href="#craftsmanship" class="nav-menu-link">Craftsmanship</a></li>
+          <li class="nav-menu-item"><a href="#contact" class="nav-menu-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
   <!-- STEP 2: SCENE 01 - HERO ARCHITECTURE -->
   <section id="hero">
     <!-- Day Base Image -->
@@ -37,22 +85,15 @@
       <a href="#hero" class="hero-floating-logo" aria-label="Turath Home">
         <img src="/turath-brand-logo.jpg" alt="Turath Logo" class="hero-brand-logo-img" />
       </a>
+    </div>
 
-      <!-- Gold Sheet Content: Left-aligned in the deep left shelf -->
-      <div class="hero-sheet-content">
-        <span class="hero-eyebrow">SCROLL TURATH WEBSITE..</span>
-        <h1 class="hero-headline-1">DEVOTED</h1>
-        <h2 class="hero-headline-2">TO CREATIVITY ..</h2>
-        
-        <div class="hero-wordmark-wrap">
-          <span class="hero-wordmark">TURATH</span>
-          <button type="button" class="hero-scroll-btn" id="hero-scroll-btn" aria-label="Scroll to Section 02">
-            <svg class="hero-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-        </div>
-      </div>
+    <!-- Gold Sheet Content: Left-aligned in the deep left shelf -->
+    <div class="hero-sheet-content">
+      <span class="hero-eyebrow">SCROLL TURATH WEBSITE..</span>
+      <h1 class="hero-headline-1">DEVOTED</h1>
+      <h2 class="hero-headline-2">TO CREATIVITY ..</h2>
+      
+      <div class="hero-wordmark-placeholder" id="hero-wordmark-placeholder" aria-hidden="true"></div>
     </div>
 
     <!-- Bottom Content: Left-aligned over the dark image gradient -->
