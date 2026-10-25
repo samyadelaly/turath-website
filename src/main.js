@@ -249,7 +249,7 @@ function initScrollBtn() {
   }
 }
 
-// 4. Scene 02 — About Turath Pinned Sequence (Gold Glass & 3-Slice Image Morphing)
+// 4. Scene 02 — Full-Screen About Turath (2-Step Geometric Entrance & 3-Slice Morphing)
 function initAboutPinnedTimeline() {
   const aboutSection = document.getElementById('about');
   if (!aboutSection) return;
@@ -268,6 +268,36 @@ function initAboutPinnedTimeline() {
   gsap.set([text2, text3], { opacity: 0, y: 25, pointerEvents: 'none' });
   gsap.set([slices2, slices3], { clipPath: 'inset(100% 0% 0% 0%)' });
 
+  // 1. 2-Step Geometric Entrance Animation (Stair Morph over Hero)
+  gsap.set(aboutSection, {
+    clipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)'
+  });
+
+  const entranceTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#about',
+      start: 'top bottom',
+      end: 'top top',
+      scrub: true,
+      invalidateOnRefresh: true,
+    }
+  });
+
+  // Step 1 (The Stair Step): Morph from flat bottom to 50% stair
+  entranceTl.to(aboutSection, {
+    clipPath: 'polygon(0% 0%, 50% 0%, 50% 50%, 100% 50%, 100% 100%, 0% 100%)',
+    ease: 'none',
+    duration: 0.5
+  });
+
+  // Step 2 (Full Reveal): Morph from stair to full rectangle
+  entranceTl.to(aboutSection, {
+    clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)',
+    ease: 'none',
+    duration: 0.5
+  });
+
+  // 2. Pinned 3-Vertical-Slice Morphing Sequence
   const aboutTl = gsap.timeline({
     scrollTrigger: {
       trigger: '#about',
@@ -284,7 +314,7 @@ function initAboutPinnedTimeline() {
   aboutTl
     .to(text1, {
       opacity: 0,
-      y: -20,
+      y: -25,
       duration: 0.35,
       ease: 'power2.inOut',
       onComplete: () => { gsap.set(text1, { pointerEvents: 'none' }); }
@@ -309,7 +339,7 @@ function initAboutPinnedTimeline() {
   aboutTl
     .to(text2, {
       opacity: 0,
-      y: -20,
+      y: -25,
       duration: 0.35,
       ease: 'power2.inOut',
       onComplete: () => { gsap.set(text2, { pointerEvents: 'none' }); }
