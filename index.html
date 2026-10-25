@@ -28,7 +28,7 @@
       <!-- Docking slot immediately next to menu icon on the LEFT -->
       <div class="navbar-dock-slot" id="navbar-dock-slot">
         <div class="hero-wordmark-wrap" id="hero-wordmark-wrap">
-          <img src="/turath-brand-logo.jpg" alt="Turath Brand Logo" class="hero-docked-logo" id="hero-docked-logo" />
+          <span class="hero-wordmark turath-interpolator" id="hero-wordmark"><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="U">U</span><span class="scramble-char" data-char="R">R</span><span class="scramble-char" data-char="A">A</span><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="H">H</span></span>
           <button type="button" class="hero-scroll-btn" id="hero-scroll-btn" aria-label="Scroll to Section 02">
             <svg class="hero-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -37,18 +37,13 @@
         </div>
       </div>
     </div>
-
-    <!-- Top-Right Ornamental Logo -->
-    <a href="#hero" class="header-logo-right" aria-label="Turath Home">
-      <img src="/turath-brand-logo.jpg" alt="Turath Logo" class="header-brand-img" />
-    </a>
   </header>
 
   <!-- NAVIGATION MENU OVERLAY (Background matching navbar #0A0A0A) -->
   <aside id="nav-drawer" class="nav-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
     <div class="nav-drawer-inner">
       <div class="nav-drawer-header">
-        <span class="nav-drawer-title">TURATH</span>
+        <img src="/turath-brand-logo.jpg" alt="Turath Brand Logo" class="nav-drawer-logo" />
         <button type="button" class="nav-drawer-close" id="nav-close-btn" aria-label="Close Menu">&times;</button>
       </div>
       <nav class="nav-drawer-nav" aria-label="Main Navigation">
@@ -108,7 +103,7 @@
   </section>
 
   <!-- STEP 3: SCENE 02 — ABOUT TURATH (FULL-SCREEN CINEMATIC EXPERIENCE) -->
-  <section id="about" class="relative w-full h-screen overflow-hidden z-20 bg-black">
+  <section id="about" class="relative w-full h-screen overflow-hidden z-20">
     <!-- FULL-BLEED BACKGROUND LAYERS (100vw x 100vh) -->
     
     <!-- Layer 1 (3-Slice Entrance Stagger Reveal): Full wrapper with 3 vertical slice divs -->
@@ -162,24 +157,24 @@
     <!-- Dark subtle vignette/gradient for atmospheric cinematic depth -->
     <div class="about-fullscreen-vignette" aria-hidden="true"></div>
 
-    <!-- MIDNIGHT BLUE FROSTED GLASS TEXT CONTAINER -->
-    <div class="about-glass-panel" id="about-glass-panel">
+    <!-- FLOATING TEXT CONTAINER (MATCHING HERO BOTTOM CONTENT TYPOGRAPHY - NO BOX) -->
+    <div class="about-floating-text" id="about-floating-text">
       <!-- Block 1 -->
       <div class="about-text-block about-text-1" id="about-text-1">
-        <h3 class="about-glass-title">ABOUT TURATH</h3>
-        <p class="about-glass-desc">TURATH is an Egyptian manufacturer specializing in handcrafted brass, copper, and bespoke decorative metalwork.</p>
+        <h3 class="hero-bottom-title about-title">ABOUT TURATH</h3>
+        <p class="hero-bottom-desc about-desc">TURATH is an Egyptian manufacturer specializing in handcrafted brass, copper, and bespoke decorative metalwork.</p>
       </div>
 
       <!-- Block 2 -->
       <div class="about-text-block about-text-2" id="about-text-2">
-        <h3 class="about-glass-title">OUR CRAFT</h3>
-        <p class="about-glass-desc">We combine traditional Egyptian craftsmanship with contemporary design to create distinctive pieces for luxury interiors and architectural projects.</p>
+        <h3 class="hero-bottom-title about-title">OUR CRAFT</h3>
+        <p class="hero-bottom-desc about-desc">We combine traditional Egyptian craftsmanship with contemporary design to create distinctive pieces for luxury interiors and architectural projects.</p>
       </div>
 
       <!-- Block 3 -->
       <div class="about-text-block about-text-3" id="about-text-3">
-        <h3 class="about-glass-title">OUR VISION</h3>
-        <p class="about-glass-desc mb-3">Preserving the art of handmade metalwork through creativity, precision, and timeless design.</p>
+        <h3 class="hero-bottom-title about-title">OUR VISION</h3>
+        <p class="hero-bottom-desc about-desc mb-4">Preserving the art of handmade metalwork through creativity, precision, and timeless design.</p>
         <p class="about-brand-tag text-xs tracking-widest font-bold uppercase text-[#D7C797]">TURATH — Handcrafted in Egypt.</p>
       </div>
     </div>

@@ -8,6 +8,7 @@
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { initTurathScrambleAnimation } from './artwork.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -126,7 +127,7 @@ function initHeroAnimations() {
   // Calculate dynamic docking deltas from hero placeholder to navbar dock slot
   function getDockingDeltas() {
     if (!placeholder || !dockSlot || !wordmarkWrap) {
-      return { startX: 0, startY: 0, startScale: 1.25, dockedScale: 1 };
+      return { startX: 0, startY: 0, startScale: 1, dockedScale: 0.55 };
     }
 
     const prevTransform = wordmarkWrap.style.transform;
@@ -139,21 +140,31 @@ function initHeroAnimations() {
 
     const startX = pRect.left - sRect.left;
     const startY = (pRect.top + pRect.height / 2) - (sRect.top + sRect.height / 2);
-    const startScale = 1.25;
-    const dockedScale = 1;
+    const dockedScale = 0.55;
 
-    return { startX, startY, startScale, dockedScale };
+    return { startX, startY, startScale: 1, dockedScale };
   }
 
   const initialDeltas = getDockingDeltas();
+  const scrambleEngine = initTurathScrambleAnimation();
 
-  // Set resting position at scroll 0 so brand logo sits in the hero shelf
+  // Set resting position at scroll 0 so wordmark sits in the hero shelf
   if (wordmarkWrap) {
     gsap.set(wordmarkWrap, {
       x: initialDeltas.startX,
       y: initialDeltas.startY,
       scale: initialDeltas.startScale,
+      color: '#0A0A0A'
     });
+
+    if (scrambleEngine) {
+      wordmarkWrap.addEventListener('mouseenter', () => {
+        const curScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (curScroll < 50) {
+          scrambleEngine.triggerScramble();
+        }
+      });
+    }
   }
 
   const heroTl = gsap.timeline({
@@ -163,6 +174,11 @@ function initHeroAnimations() {
       end: 'bottom top',
       scrub: true,
       invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        if (scrambleEngine) {
+          scrambleEngine.onScrollProgress(self.progress, window.pageYOffset || document.documentElement.scrollTop);
+        }
+      }
     }
   });
 
@@ -175,7 +191,7 @@ function initHeroAnimations() {
     }, 0);
   }
 
-  // 2. Synchronized Gold Sheet Rise (1:1 with logo ascension)
+  // 2. Synchronized Gold Sheet Rise (1:1 with wordmark ascension)
   if (heroSheet) {
     heroTl.to(heroSheet, {
       y: () => -getDockingDeltas().startY,
@@ -209,7 +225,7 @@ function initHeroAnimations() {
     }, 0);
   }
 
-  // 6. The Brand Logo Docking to the LEFT (next to menu icon)
+  // 6. The TURATH Wordmark Docking to the LEFT (next to menu icon)
   if (wordmarkWrap) {
     heroTl.fromTo(wordmarkWrap, {
       x: () => getDockingDeltas().startX,
@@ -219,12 +235,11 @@ function initHeroAnimations() {
       x: 0,
       y: 0,
       scale: () => getDockingDeltas().dockedScale,
-      ease: 'power2.inOut',
-      duration: 0.85
+      ease: 'none'
     }, 0);
   }
 
-  // Fade out the scroll button/arrow smoothly as docking begins, leaving ONLY the logo to dock
+  // Fade out the scroll button/arrow smoothly as docking begins, leaving ONLY "TURATH" text to dock
   if (scrollBtn) {
     heroTl.to(scrollBtn, {
       opacity: 0,
@@ -233,6 +248,15 @@ function initHeroAnimations() {
       duration: 0.35,
       pointerEvents: 'none'
     }, 0);
+  }
+
+  // Wordmark color transitions to Turath Gold (#D7C797) as it docks into navbar
+  if (wordmark) {
+    heroTl.to(wordmark, {
+      color: '#D7C797',
+      ease: 'power1.inOut',
+      duration: 0.5
+    }, 0.35);
   }
 
   // Menu trigger lines transition to Turath Gold (#D7C797)
@@ -281,7 +305,7 @@ function initAboutPinnedTimeline() {
   const slices1 = document.querySelectorAll('#about-layer-1 .about-vertical-slice');
   const slices2 = document.querySelectorAll('#about-layer-2 .about-vertical-slice');
   const slices3 = document.querySelectorAll('#about-layer-3 .about-vertical-slice');
-  const glassPanel = document.getElementById('about-glass-panel');
+  const floatingText = document.getElementById('about-floating-text');
   const counterInner = document.getElementById('about-counter-numbers');
   const pagination = document.querySelector('.about-pagination');
 
@@ -314,9 +338,9 @@ function initAboutPinnedTimeline() {
     duration: 0.85
   }, 0);
 
-  // Midnight Blue Frosted Glass panel & Pagination counter rise and fade in
-  if (glassPanel) {
-    entranceTl.fromTo([glassPanel, pagination].filter(Boolean), {
+  // Floating text & Pagination counter rise and fade in
+  if (floatingText) {
+    entranceTl.fromTo([floatingText, pagination].filter(Boolean), {
       opacity: 0,
       y: 35
     }, {
