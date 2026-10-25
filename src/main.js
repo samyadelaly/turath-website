@@ -8,7 +8,6 @@
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { initTurathScrambleAnimation } from './artwork.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,16 +18,61 @@ function initNavDrawer() {
   const closeBtn = document.getElementById('nav-close-btn');
   const navLinks = document.querySelectorAll('.nav-menu-link');
 
+  if (navDrawer) {
+    gsap.set(navDrawer, { yPercent: 100, y: 0, visibility: 'hidden', pointerEvents: 'none' });
+  }
+
+  let menuTl = null;
+
   function openMenu() {
     document.body.classList.add('menu-open');
     if (menuTrigger) menuTrigger.setAttribute('aria-expanded', 'true');
     if (navDrawer) navDrawer.setAttribute('aria-hidden', 'false');
+
+    if (menuTl) menuTl.kill();
+    menuTl = gsap.timeline();
+
+    gsap.set(navDrawer, { visibility: 'visible', pointerEvents: 'auto' });
+    menuTl.fromTo(navDrawer, {
+      yPercent: 100,
+      y: 0
+    }, {
+      yPercent: 0,
+      y: 0,
+      duration: 0.75,
+      ease: 'power4.out'
+    });
+
+    menuTl.fromTo(navLinks, {
+      y: 24,
+      opacity: 0
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 0.45,
+      stagger: 0.05,
+      ease: 'power3.out'
+    }, '-=0.4');
   }
 
   function closeMenu() {
     document.body.classList.remove('menu-open');
     if (menuTrigger) menuTrigger.setAttribute('aria-expanded', 'false');
     if (navDrawer) navDrawer.setAttribute('aria-hidden', 'true');
+
+    if (menuTl) menuTl.kill();
+    menuTl = gsap.timeline({
+      onComplete: () => {
+        gsap.set(navDrawer, { visibility: 'hidden', pointerEvents: 'none' });
+      }
+    });
+
+    menuTl.to(navDrawer, {
+      yPercent: 100,
+      y: 0,
+      duration: 0.5,
+      ease: 'power4.in'
+    });
   }
 
   if (menuTrigger) {
@@ -82,7 +126,7 @@ function initHeroAnimations() {
   // Calculate dynamic docking deltas from hero placeholder to navbar dock slot
   function getDockingDeltas() {
     if (!placeholder || !dockSlot || !wordmarkWrap) {
-      return { startX: 0, startY: 0, startScale: 1, dockedScale: 0.55 };
+      return { startX: 0, startY: 0, startScale: 1.25, dockedScale: 1 };
     }
 
     const prevTransform = wordmarkWrap.style.transform;
@@ -95,31 +139,21 @@ function initHeroAnimations() {
 
     const startX = pRect.left - sRect.left;
     const startY = (pRect.top + pRect.height / 2) - (sRect.top + sRect.height / 2);
-    const dockedScale = 0.55;
+    const startScale = 1.25;
+    const dockedScale = 1;
 
-    return { startX, startY, startScale: 1, dockedScale };
+    return { startX, startY, startScale, dockedScale };
   }
 
   const initialDeltas = getDockingDeltas();
-  const scrambleEngine = initTurathScrambleAnimation();
 
-  // Set resting position at scroll 0 so wordmark sits in the hero shelf
+  // Set resting position at scroll 0 so brand logo sits in the hero shelf
   if (wordmarkWrap) {
     gsap.set(wordmarkWrap, {
       x: initialDeltas.startX,
       y: initialDeltas.startY,
       scale: initialDeltas.startScale,
-      color: '#0A0A0A'
     });
-
-    if (scrambleEngine) {
-      wordmarkWrap.addEventListener('mouseenter', () => {
-        const curScroll = window.pageYOffset || document.documentElement.scrollTop;
-        if (curScroll < 50) {
-          scrambleEngine.triggerScramble();
-        }
-      });
-    }
   }
 
   const heroTl = gsap.timeline({
@@ -129,11 +163,6 @@ function initHeroAnimations() {
       end: 'bottom top',
       scrub: true,
       invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        if (scrambleEngine) {
-          scrambleEngine.onScrollProgress(self.progress, window.pageYOffset || document.documentElement.scrollTop);
-        }
-      }
     }
   });
 
@@ -146,7 +175,7 @@ function initHeroAnimations() {
     }, 0);
   }
 
-  // 2. Synchronized Gold Sheet Rise (1:1 with wordmark ascension)
+  // 2. Synchronized Gold Sheet Rise (1:1 with logo ascension)
   if (heroSheet) {
     heroTl.to(heroSheet, {
       y: () => -getDockingDeltas().startY,
@@ -180,7 +209,7 @@ function initHeroAnimations() {
     }, 0);
   }
 
-  // 6. The TURATH Wordmark Docking to the LEFT (next to menu icon)
+  // 6. The Brand Logo Docking to the LEFT (next to menu icon)
   if (wordmarkWrap) {
     heroTl.fromTo(wordmarkWrap, {
       x: () => getDockingDeltas().startX,
@@ -195,7 +224,7 @@ function initHeroAnimations() {
     }, 0);
   }
 
-  // Fade out the scroll button/arrow smoothly as docking begins, leaving ONLY "TURATH" text to dock
+  // Fade out the scroll button/arrow smoothly as docking begins, leaving ONLY the logo to dock
   if (scrollBtn) {
     heroTl.to(scrollBtn, {
       opacity: 0,
@@ -204,15 +233,6 @@ function initHeroAnimations() {
       duration: 0.35,
       pointerEvents: 'none'
     }, 0);
-  }
-
-  // Wordmark color transitions to Turath Gold (#D7C797) as it docks into navbar
-  if (wordmark) {
-    heroTl.to(wordmark, {
-      color: '#D7C797',
-      ease: 'power1.inOut',
-      duration: 0.5
-    }, 0.35);
   }
 
   // Menu trigger lines transition to Turath Gold (#D7C797)
@@ -249,7 +269,7 @@ function initScrollBtn() {
   }
 }
 
-// 4. Scene 02 — Full-Screen About Turath (2-Step Geometric Entrance & 3-Slice Morphing)
+// 4. Scene 02 — Full-Screen About Turath (3-Slice Stagger Entrance & 3-Slice Morphing)
 function initAboutPinnedTimeline() {
   const aboutSection = document.getElementById('about');
   if (!aboutSection) return;
@@ -258,25 +278,24 @@ function initAboutPinnedTimeline() {
   const text2 = document.getElementById('about-text-2');
   const text3 = document.getElementById('about-text-3');
 
+  const slices1 = document.querySelectorAll('#about-layer-1 .about-vertical-slice');
   const slices2 = document.querySelectorAll('#about-layer-2 .about-vertical-slice');
   const slices3 = document.querySelectorAll('#about-layer-3 .about-vertical-slice');
+  const glassPanel = document.getElementById('about-glass-panel');
   const counterInner = document.getElementById('about-counter-numbers');
+  const pagination = document.querySelector('.about-pagination');
 
   if (!text1 || !text2 || !text3) return;
 
   // Set initial states
   gsap.set(text1, { opacity: 1, y: 0, pointerEvents: 'auto' });
   gsap.set([text2, text3], { opacity: 0, y: 25, pointerEvents: 'none' });
-  gsap.set([slices2, slices3], { clipPath: 'inset(100% 0% 0% 0%)' });
+  gsap.set([slices1, slices2, slices3], { clipPath: 'inset(100% 0% 0% 0%)' });
   if (counterInner) {
     gsap.set(counterInner, { yPercent: 0 });
   }
 
-  // 1. Single Sharp 90-Degree Corner Entrance Animation over Hero
-  gsap.set(aboutSection, {
-    clipPath: 'inset(100% 100% 0% 0%)'
-  });
-
+  // 1. Scene 02 Entrance: 3 Vertical Slices Staggering Upwards Over Hero
   const entranceTl = gsap.timeline({
     scrollTrigger: {
       trigger: '#about',
@@ -287,12 +306,26 @@ function initAboutPinnedTimeline() {
     }
   });
 
-  // Single sharp 90-degree right angle corner reveal expanding to full screen
-  entranceTl.to(aboutSection, {
+  // Layer 1's 3 vertical slices enter from the bottom staggering upwards
+  entranceTl.to(slices1, {
     clipPath: 'inset(0% 0% 0% 0%)',
-    ease: 'none',
-    duration: 1
-  });
+    stagger: 0.15,
+    ease: 'power2.inOut',
+    duration: 0.85
+  }, 0);
+
+  // Midnight Blue Frosted Glass panel & Pagination counter rise and fade in
+  if (glassPanel) {
+    entranceTl.fromTo([glassPanel, pagination].filter(Boolean), {
+      opacity: 0,
+      y: 35
+    }, {
+      opacity: 1,
+      y: 0,
+      ease: 'power2.out',
+      duration: 0.4
+    }, 0.45);
+  }
 
   // 2. Pinned 3-Vertical-Slice Morphing Sequence
   const aboutTl = gsap.timeline({
