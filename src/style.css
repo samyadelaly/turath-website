@@ -599,11 +599,18 @@ body.menu-open .nav-drawer {
   position: absolute;
   bottom: clamp(40px, 9.5vh, 75px);
   left: 5.5vw;
-  width: min(88vw, 540px);
-  max-width: min(88vw, 540px);
+  width: min(calc(100vw - 11vw - 80px), 540px);
+  max-width: min(calc(100vw - 11vw - 80px), 540px);
   z-index: 30;
   pointer-events: none;
   min-height: clamp(140px, 18vh, 180px);
+}
+
+@media (min-width: 768px) {
+  .about-floating-text {
+    width: min(88vw, 540px);
+    max-width: min(88vw, 540px);
+  }
 }
 
 .about-text-block {
@@ -676,4 +683,59 @@ body.menu-open .nav-drawer {
   font-weight: 700;
   margin-top: 0.5rem;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+/* PAGINATION COUNTER (01 / 03 — CINEMATIC VERTICAL ODOMETER) */
+.about-pagination {
+  position: absolute;
+  bottom: clamp(40px, 9.5vh, 75px);
+  right: clamp(1.5rem, 5.5vw, 3rem);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading, 'Syne', sans-serif);
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  letter-spacing: 0.15em;
+  font-weight: 400;
+  color: #F3F1ED;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+  user-select: none;
+}
+
+.active-number-wrapper {
+  position: relative;
+  height: 1.25rem;
+  width: 1.5rem;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.active-numbers-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.active-numbers-inner span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.about-pagination-sep,
+.about-pagination-total {
+  opacity: 0.5;
+  font-weight: 400;
+  color: #F3F1ED;
 }

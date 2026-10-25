@@ -260,6 +260,7 @@ function initAboutPinnedTimeline() {
 
   const slices2 = document.querySelectorAll('#about-layer-2 .about-vertical-slice');
   const slices3 = document.querySelectorAll('#about-layer-3 .about-vertical-slice');
+  const counterInner = document.getElementById('about-counter-numbers');
 
   if (!text1 || !text2 || !text3) return;
 
@@ -267,6 +268,9 @@ function initAboutPinnedTimeline() {
   gsap.set(text1, { opacity: 1, y: 0, pointerEvents: 'auto' });
   gsap.set([text2, text3], { opacity: 0, y: 25, pointerEvents: 'none' });
   gsap.set([slices2, slices3], { clipPath: 'inset(100% 0% 0% 0%)' });
+  if (counterInner) {
+    gsap.set(counterInner, { yPercent: 0 });
+  }
 
   // 1. 2-Step Geometric Entrance Animation (Stair Morph over Hero)
   gsap.set(aboutSection, {
@@ -331,8 +335,17 @@ function initAboutPinnedTimeline() {
       duration: 0.75,
       stagger: 0.15,
       ease: 'power2.inOut'
-    }, 'trans1')
-    .to({}, { duration: 0.4 }); // Hold reading pause
+    }, 'trans1');
+
+  if (counterInner) {
+    aboutTl.to(counterInner, {
+      yPercent: -33.3333,
+      duration: 0.6,
+      ease: 'power2.inOut'
+    }, 'trans1+=0.1');
+  }
+
+  aboutTl.to({}, { duration: 0.4 }); // Hold reading pause
 
   // --- TRANSITION 2 (Part 02 -> Part 03) ---
   // Reveal Layer 3 slices (clip-path: inset(0% 0 0 0)) with stagger 0.15 (bottom to top)
@@ -356,8 +369,17 @@ function initAboutPinnedTimeline() {
       duration: 0.75,
       stagger: 0.15,
       ease: 'power2.inOut'
-    }, 'trans2')
-    .to({}, { duration: 0.4 }); // Final hold
+    }, 'trans2');
+
+  if (counterInner) {
+    aboutTl.to(counterInner, {
+      yPercent: -66.6667,
+      duration: 0.6,
+      ease: 'power2.inOut'
+    }, 'trans2+=0.1');
+  }
+
+  aboutTl.to({}, { duration: 0.4 }); // Final hold
 }
 
 // Initialize on DOM ready
