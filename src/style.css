@@ -278,8 +278,9 @@ body.menu-open .nav-drawer {
 }
 
 .hero-night {
-  opacity: 0; /* Faded in via GSAP ScrollTrigger scrub */
+  opacity: 0; /* Faded in rapidly via GSAP ScrollTrigger scrub */
   z-index: 1;
+  will-change: opacity;
 }
 
 .hero-day {

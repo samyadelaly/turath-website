@@ -144,12 +144,12 @@ function initHeroAnimations() {
     }
   });
 
-  // 1. Day / Night Crossfade on Hero Scroll
+  // 1. Fast Day / Night Crossfade on Hero Scroll (Completes within first 25% of scroll)
   if (heroNight) {
     heroTl.to(heroNight, {
       opacity: 1,
-      ease: 'none',
-      duration: 1
+      ease: 'power1.inOut',
+      duration: 0.25
     }, 0);
   }
 
