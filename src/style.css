@@ -114,20 +114,33 @@ img, video {
   border: none;
   padding: 0;
   z-index: 1002;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.site-header.is-scrolled .header-menu-trigger,
+body.menu-open .header-menu-trigger {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .menu-line {
   display: block;
   width: 22px;
   height: 2px;
-  background-color: #0A0A0A;
+  background-color: #D7C797;
   border-radius: 1px;
   transition: transform 0.25s ease, background-color 0.25s ease, opacity 0.25s ease;
 }
 
 .site-header.is-scrolled .menu-line,
 body.menu-open .menu-line {
-  background-color: #F3F1ED;
+  background-color: #D7C797 !important;
+}
+
+.site-header.is-scrolled .hero-wordmark {
+  color: #D7C797 !important;
 }
 
 body.menu-open .menu-line.line-1 {

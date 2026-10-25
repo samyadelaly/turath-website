@@ -195,18 +195,18 @@ function initHeroAnimations() {
     }, 0);
   }
 
-  // Wordmark color transitions to light luxury white as it docks into dark navbar
+  // Wordmark color transitions to Turath Gold (#D7C797) as it docks into navbar
   if (wordmark) {
     heroTl.to(wordmark, {
-      color: '#F3F1ED',
+      color: '#D7C797',
       ease: 'power1.inOut',
       duration: 0.5
     }, 0.35);
   }
 
-  // Menu trigger lines transition to crisp white as dark hero background appears
+  // Menu trigger lines transition to Turath Gold (#D7C797)
   heroTl.to('.menu-line', {
-    backgroundColor: '#F3F1ED',
+    backgroundColor: '#D7C797',
     ease: 'power1.inOut',
     duration: 0.4
   }, 0.35);
