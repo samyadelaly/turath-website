@@ -594,16 +594,16 @@ body.menu-open .nav-drawer {
   pointer-events: none;
 }
 
-/* FLOATING TEXT CONTAINER (NO GLASS BOX — MASSIVE WHITE LUXURY TYPOGRAPHY) */
+/* FLOATING TEXT CONTAINER (MATCHING HERO BOTTOM CONTENT POSITION & PROPORTIONS) */
 .about-floating-text {
   position: absolute;
-  bottom: clamp(2rem, 5vh, 3.5rem);
-  left: clamp(1.25rem, 4vw, 3rem);
-  right: clamp(1.25rem, 4vw, 3rem);
-  max-width: 900px;
+  bottom: clamp(40px, 9.5vh, 75px);
+  left: 5.5vw;
+  width: min(88vw, 540px);
+  max-width: min(88vw, 540px);
   z-index: 30;
   pointer-events: none;
-  min-height: clamp(200px, 28vh, 280px);
+  min-height: clamp(140px, 18vh, 180px);
 }
 
 .about-text-block {
@@ -613,8 +613,10 @@ body.menu-open .nav-drawer {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
   justify-content: flex-end;
-  color: #F3F1ED;
+  color: #FFFFFF;
   pointer-events: none;
 }
 
@@ -629,41 +631,49 @@ body.menu-open .nav-drawer {
   pointer-events: none;
 }
 
-/* MASSIVE TITLES */
+/* HEADINGS EXACTLY MATCH HERO BOTTOM TITLE */
+.about-title,
+.about-text-block h3,
 .about-text-block h4 {
-  font-family: var(--font-heading, 'Syne', sans-serif);
-  font-size: clamp(2.4rem, 6.2vw, 4.8rem);
-  font-weight: 800;
-  letter-spacing: 0.10em;
+  color: #FFFFFF;
+  font-size: clamp(1.4rem, 3.6vw, 2.0rem);
+  font-weight: 700;
+  margin-bottom: clamp(10px, 1.4vh, 16px);
+  line-height: 1.25;
+  max-width: min(84vw, 420px);
+  width: 100%;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+  letter-spacing: -0.01em;
   text-transform: uppercase;
-  margin-bottom: clamp(0.75rem, 1.8vh, 1.5rem);
-  color: #F3F1ED;
-  line-height: 1.05;
-  text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.85), 0px 2px 6px rgba(0, 0, 0, 0.7);
 }
 
-/* ELEGANT LARGE DESCRIPTION */
-.about-text-block p {
+/* DESCRIPTIONS EXACTLY MATCH HERO BOTTOM DESC */
+.about-desc,
+.about-text-block p:not(.about-brand-tag):not(.font-bold) {
   font-family: var(--font-sans, sans-serif);
-  font-size: clamp(1.15rem, 2.2vw, 1.55rem);
-  font-weight: 300;
+  font-size: clamp(0.85rem, 2.0vw, 0.95rem);
   line-height: 1.6;
-  color: #F3F1ED;
-  max-width: 760px;
-  text-shadow: 0px 3px 18px rgba(0, 0, 0, 0.85), 0px 1px 4px rgba(0, 0, 0, 0.7);
+  opacity: 0.92;
+  font-weight: 400;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+  max-width: min(88vw, 500px);
+  width: 100%;
 }
 
-.about-text-block p.mb-6 {
-  margin-bottom: 1.25rem;
+.about-text-block p.mb-4 {
+  margin-bottom: 0.75rem;
 }
 
+.about-brand-tag,
 .about-text-block p.font-bold {
   font-family: var(--font-heading, 'Syne', sans-serif);
-  font-size: clamp(0.8rem, 1.4vw, 0.95rem);
-  letter-spacing: 0.18em;
+  font-size: clamp(0.75rem, 1.3vw, 0.85rem);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #D7C797;
-  font-weight: 800;
+  font-weight: 700;
   margin-top: 0.5rem;
-  text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
 }
