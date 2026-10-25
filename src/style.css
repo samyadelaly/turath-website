@@ -76,17 +76,20 @@ img, video {
   align-items: center;
   justify-content: space-between;
   padding: 0 5.5vw;
-  z-index: 1000;
+  z-index: 100;
   pointer-events: none;
-  background-color: transparent;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  background: rgba(12, 15, 18, 0.55);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .site-header.is-scrolled {
   background: rgba(12, 15, 18, 0.65);
   backdrop-filter: blur(20px) saturate(120%);
   -webkit-backdrop-filter: blur(20px) saturate(120%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .header-left {
@@ -115,7 +118,7 @@ img, video {
   display: block;
   width: 22px;
   height: 2px;
-  background-color: #0A0A0A;
+  background-color: #F3F1ED;
   border-radius: 1px;
   transition: transform 0.25s ease, background-color 0.25s ease, opacity 0.25s ease;
 }
@@ -137,8 +140,8 @@ body.menu-open .menu-line.line-2 {
 .navbar-dock-slot {
   position: relative;
   width: auto;
-  min-width: 80px;
-  height: 28px;
+  min-width: 90px;
+  height: 32px;
   display: flex;
   align-items: center;
   pointer-events: auto;
@@ -150,7 +153,7 @@ body.menu-open .menu-line.line-2 {
   align-items: center;
   justify-content: center;
   pointer-events: auto;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 
@@ -321,16 +324,9 @@ body.menu-open .nav-drawer {
   pointer-events: none;
 }
 
-/* Floating Ornamental Logo (Top Right in shallow shelf) */
+/* Floating Ornamental Logo (Merged into permanent fixed navbar header-logo-right) */
 .hero-floating-logo {
-  position: absolute;
-  top: clamp(10px, 1.4vh, 16px);
-  right: 5vw;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
+  display: none;
 }
 
 .hero-brand-logo-img {

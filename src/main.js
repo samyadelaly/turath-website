@@ -82,7 +82,7 @@ function initHeroAnimations() {
   // Calculate dynamic docking deltas from hero placeholder to navbar dock slot
   function getDockingDeltas() {
     if (!placeholder || !dockSlot || !wordmarkWrap) {
-      return { startX: 0, startY: 0, startScale: 1, dockedScale: 0.5 };
+      return { startX: 0, startY: 0, startScale: 1, dockedScale: 0.55 };
     }
 
     const prevTransform = wordmarkWrap.style.transform;
@@ -95,7 +95,7 @@ function initHeroAnimations() {
 
     const startX = pRect.left - sRect.left;
     const startY = (pRect.top + pRect.height / 2) - (sRect.top + sRect.height / 2);
-    const dockedScale = 0.5;
+    const dockedScale = 0.55;
 
     return { startX, startY, startScale: 1, dockedScale };
   }
@@ -127,7 +127,7 @@ function initHeroAnimations() {
       trigger: '#hero',
       start: 'top top',
       end: 'bottom top',
-      scrub: 0.25,
+      scrub: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         if (siteHeader) {
