@@ -272,9 +272,9 @@ function initAboutPinnedTimeline() {
     gsap.set(counterInner, { yPercent: 0 });
   }
 
-  // 1. 2-Step Geometric Entrance Animation (Stair Morph over Hero)
+  // 1. Single Sharp 90-Degree Corner Entrance Animation over Hero
   gsap.set(aboutSection, {
-    clipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)'
+    clipPath: 'inset(100% 100% 0% 0%)'
   });
 
   const entranceTl = gsap.timeline({
@@ -287,18 +287,11 @@ function initAboutPinnedTimeline() {
     }
   });
 
-  // Step 1 (The Stair Step): Morph from flat bottom to 50% stair
+  // Single sharp 90-degree right angle corner reveal expanding to full screen
   entranceTl.to(aboutSection, {
-    clipPath: 'polygon(0% 0%, 50% 0%, 50% 50%, 100% 50%, 100% 100%, 0% 100%)',
+    clipPath: 'inset(0% 0% 0% 0%)',
     ease: 'none',
-    duration: 0.5
-  });
-
-  // Step 2 (Full Reveal): Morph from stair to full rectangle
-  entranceTl.to(aboutSection, {
-    clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)',
-    ease: 'none',
-    duration: 0.5
+    duration: 1
   });
 
   // 2. Pinned 3-Vertical-Slice Morphing Sequence
