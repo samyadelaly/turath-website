@@ -195,6 +195,17 @@ function initHeroAnimations() {
     }, 0);
   }
 
+  // Fade out the scroll button/arrow smoothly as docking begins, leaving ONLY "TURATH" text to dock
+  if (scrollBtn) {
+    heroTl.to(scrollBtn, {
+      opacity: 0,
+      scale: 0.7,
+      ease: 'power1.out',
+      duration: 0.35,
+      pointerEvents: 'none'
+    }, 0);
+  }
+
   // Wordmark color transitions to Turath Gold (#D7C797) as it docks into navbar
   if (wordmark) {
     heroTl.to(wordmark, {
