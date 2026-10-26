@@ -276,6 +276,11 @@ function initHeroAnimations() {
     start: 'top 60px',
     onEnter: () => siteHeader && siteHeader.classList.add('is-scrolled'),
     onLeaveBack: () => siteHeader && siteHeader.classList.remove('is-scrolled'),
+    onRefresh: (self) => {
+      if (self.progress > 0 && siteHeader) {
+        siteHeader.classList.add('is-scrolled');
+      }
+    }
   });
 
   // Recalculate docking targets on resize
