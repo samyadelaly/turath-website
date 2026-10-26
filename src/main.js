@@ -208,8 +208,8 @@ function initHeroAnimations() {
     }, 0.65);
   }
 
-  // 4. Text Fade-out: headlines & eyebrow translate up and fade out
-  heroTl.to('.hero-eyebrow, .hero-headline-1, .hero-headline-2', {
+  // 4. Text Fade-out: headlines, eyebrow & bottom content translate up and fade out
+  heroTl.to('.hero-eyebrow, .hero-headline-1, .hero-headline-2, .hero-bottom-content', {
     opacity: 0,
     y: -40,
     ease: 'power1.out',
@@ -445,6 +445,40 @@ function initCollectionsHorizontalScroll() {
   const dashes = document.querySelectorAll('#collections .dash-indicator');
 
   if (collectionsTrack && collectionsSection) {
+    // 1. Initial State: Staggered two-slice geometric vertical reveal
+    gsap.set(collectionsSection, {
+      clipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)',
+      webkitClipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)'
+    });
+
+    // 2. Entrance reveal: Two vertical geometric slices rising at different speeds over Scene 02
+    const revealTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: collectionsSection,
+        start: 'top bottom',
+        end: 'top top',
+        scrub: true,
+        invalidateOnRefresh: true
+      }
+    });
+
+    revealTl
+      .fromTo(collectionsSection, {
+        clipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)',
+        webkitClipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)'
+      }, {
+        clipPath: 'polygon(0% 0%, 50% 0%, 50% 35%, 100% 35%, 100% 100%, 0% 100%)',
+        webkitClipPath: 'polygon(0% 0%, 50% 0%, 50% 35%, 100% 35%, 100% 100%, 0% 100%)',
+        duration: 0.6,
+        ease: 'power2.out'
+      })
+      .to(collectionsSection, {
+        clipPath: 'polygon(0% 0%, 50% 0%, 50% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        webkitClipPath: 'polygon(0% 0%, 50% 0%, 50% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        duration: 0.4,
+        ease: 'power2.inOut'
+      });
+
     function getScrollAmount() {
       let trackWidth = collectionsTrack.scrollWidth;
       return -(trackWidth - window.innerWidth + 80);
