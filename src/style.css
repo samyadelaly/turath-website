@@ -279,15 +279,27 @@ body.menu-open .menu-line.line-2 {
    3. SCENE 01 — HERO ARCHITECTURE
    ========================================================================== */
 #hero {
-  position: sticky;
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+  position: relative !important;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100svh;
-  overflow: hidden;
   z-index: 10 !important;
   margin-top: 0;
   background-color: var(--bg-dark);
+}
+
+/* Background Images & Scrim: 15% extra height overshoot cushion for address bar retracting */
+#hero > img.absolute, #hero > video.absolute, #hero .bg-layer,
+.hero-bg-image,
+.hero-bg-image img,
+.hero-scrim {
+  height: 115vh !important;
+  height: 115dvh !important; /* 15% extra height for overshoot cushion */
+  top: 0 !important;
+  transform: translateZ(0); /* Hardware acceleration */
 }
 
 /* Background Images: Must be position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; */
@@ -295,7 +307,6 @@ body.menu-open .menu-line.line-2 {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
   overflow: hidden;
 }
 
@@ -303,7 +314,6 @@ body.menu-open .menu-line.line-2 {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
   object-fit: cover;
   object-position: center center;
   display: block;
