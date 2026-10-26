@@ -29,17 +29,22 @@
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black">
       
-      <!-- Top Navbar -->
-      <div class="absolute top-0 left-0 w-full p-6 md:p-10 flex items-center justify-between z-50 bg-gradient-to-b from-black/80 to-transparent">
-        <a href="/#collections" class="text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer">&larr;</a>
-        <span class="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-white/70">LIGHTING</span>
-      </div>
-
-      <!-- Specific Product Title (Centered Upper Middle) -->
-      <div class="absolute top-[20%] left-0 w-full flex justify-center z-40 px-4 pointer-events-none">
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-light tracking-[0.15em] text-white uppercase text-center drop-shadow-lg">
+      <!-- Top Navbar & Title Container -->
+      <div class="absolute top-0 left-0 w-full p-6 md:p-10 flex flex-col items-start gap-4 z-50 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
+        <div class="w-full flex items-center justify-between">
+          <a href="/#collections" class="text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none">&larr;</a>
+          <span class="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-white/70">LIGHTING</span>
+        </div>
+        <!-- Repositioned Title: Smaller, Bold, Left-aligned -->
+        <h1 class="text-lg md:text-xl font-bold tracking-[0.2em] text-white uppercase drop-shadow-md">
           Solid Brass Applique
         </h1>
+      </div>
+
+      <!-- Center Navigation Arrows -->
+      <div class="absolute top-1/2 left-0 w-full -translate-y-1/2 flex justify-between items-center px-4 md:px-6 z-40 pointer-events-none">
+        <button class="text-white/60 hover:text-white text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Previous Image">&larr;</button>
+        <button class="text-white/60 hover:text-white text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Next Image">&rarr;</button>
       </div>
 
       <!-- Main Product Image -->
@@ -47,11 +52,9 @@
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
-        <!-- AI Description -->
         <p class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed">
           A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.
         </p>
-        <!-- Dashes -->
         <div class="flex justify-center items-center gap-3">
           <span class="w-8 h-[2px] bg-white rounded-full"></span>
           <span class="w-8 h-[2px] bg-white/30 rounded-full"></span>
