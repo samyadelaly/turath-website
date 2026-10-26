@@ -723,63 +723,57 @@ body.menu-open .menu-line.line-2 {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
 }
 
-/* PAGINATION COUNTER (01 / 03 — CINEMATIC VERTICAL ODOMETER) */
-.about-pagination {
+/* ==========================================================================
+   UNIFIED DASH PAGINATION (SCENE 02 & SCENE 03)
+   ========================================================================== */
+.about-pagination,
+.collections-pagination {
   position: absolute;
-  bottom: clamp(40px, 9.5vh, 75px);
-  right: clamp(1.5rem, 5.5vw, 3rem);
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-heading, 'Syne', sans-serif);
-  font-size: clamp(0.85rem, 1.8vw, 1rem);
-  letter-spacing: 0.15em;
-  font-weight: 400;
-  color: #F3F1ED;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
-  pointer-events: none;
-  user-select: none;
-}
-
-.active-number-wrapper {
-  position: relative;
-  height: 1.25rem;
-  width: 1.5rem;
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.active-numbers-inner {
-  position: absolute;
-  top: 0;
+  bottom: clamp(1.5rem, 3.5vh, 2.25rem);
   left: 0;
   width: 100%;
   display: flex;
-  flex-direction: column;
-  will-change: transform;
-}
-
-.active-numbers-inner span {
-  display: flex;
-  align-items: center;
   justify-content: center;
-  height: 1.25rem;
-  line-height: 1.25rem;
-  font-weight: 700;
-  color: #FFFFFF;
+  align-items: center;
+  gap: clamp(0.5rem, 1vw, 0.75rem);
+  z-index: 50;
+  pointer-events: auto;
 }
 
-.about-pagination-sep,
-.about-pagination-total {
-  opacity: 0.5;
-  font-weight: 400;
-  color: #F3F1ED;
+.dash-indicator {
+  position: relative;
+  width: clamp(2rem, 3.5vw, 3rem);
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease, height 0.3s ease, transform 0.3s ease;
+}
+
+.dash-indicator::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.dash-indicator:hover {
+  background-color: rgba(215, 199, 151, 0.6);
+}
+
+.dash-indicator.active {
+  background-color: #D7C797 !important;
+  height: 3px;
+  box-shadow: 0 0 10px rgba(215, 199, 151, 0.5);
 }
 
 /* ==========================================================================
-   4. SCENE 03 - OUR COLLECTIONS (HORIZONTAL SCROLL GALLERY)
+   4. SCENE 03 - COLLECTIONS (HORIZONTAL SCROLL GALLERY)
    ========================================================================== */
 #collections {
   position: relative;
@@ -789,8 +783,8 @@ body.menu-open .menu-line.line-2 {
   background-color: #000000;
   color: #F3F1ED;
   overflow: hidden;
-  padding-top: clamp(4.5rem, 9.5vh, 6.5rem);
-  padding-bottom: clamp(1.5rem, 3.5vh, 2.75rem);
+  padding-top: clamp(4.5rem, 8.5vh, 6rem);
+  padding-bottom: clamp(4.5rem, 8vh, 6rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -814,13 +808,13 @@ body.menu-open .menu-line.line-2 {
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  opacity: 0.45;
+  opacity: 0.70 !important;
 }
 
 .collections-bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.85) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.40) 50%, rgba(0,0,0,0.65) 100%);
   pointer-events: none;
 }
 
@@ -828,11 +822,11 @@ body.menu-open .menu-line.line-2 {
   position: relative;
   z-index: 25;
   font-family: var(--font-heading, 'Syne', sans-serif);
-  font-size: clamp(1.4rem, 2.8vw, 2.25rem);
+  font-size: clamp(1.15rem, 2.2vw, 1.85rem);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   font-weight: 700;
-  margin-bottom: clamp(0.75rem, 2vh, 1.75rem);
+  margin-bottom: clamp(0.5rem, 1.5vh, 1.25rem);
   padding-left: clamp(1.5rem, 5.5vw, 3rem);
   padding-right: clamp(1.5rem, 5.5vw, 3rem);
   color: #FFFFFF !important;
@@ -844,7 +838,7 @@ body.menu-open .menu-line.line-2 {
   position: relative;
   z-index: 10;
   width: 100%;
-  height: clamp(380px, 64vh, 70vh);
+  height: clamp(340px, 58vh, 60vh);
   overflow: hidden;
   flex-grow: 1;
 }
@@ -860,14 +854,14 @@ body.menu-open .menu-line.line-2 {
 }
 
 /* ==========================================================================
-   IDLE FLOATING & BREATHING ANIMATION (SCENE 03 CARDS)
+   IDLE FLOATING ANIMATION (SCENE 03 CARDS)
    ========================================================================== */
-@keyframes cardFloating {
+@keyframes luxuryFloat {
   0%, 100% {
-    transform: translateY(0px) scale(1);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-8px) scale(1.006);
+    transform: translate3d(0, -12px, 0);
   }
 }
 
@@ -881,24 +875,18 @@ body.menu-open .menu-line.line-2 {
   border-radius: 2px;
   flex-shrink: 0;
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
-  animation: cardFloating 6s ease-in-out infinite;
+  animation: luxuryFloat 6s ease-in-out infinite;
   will-change: transform;
 }
 
-/* Stagger floating cycle across cards for subtle organic wave movement */
-.collection-card:nth-child(2n) {
-  animation-duration: 7.2s;
-  animation-delay: -2.4s;
+.collection-card:nth-child(even) {
+  animation-delay: -3s;
+  animation-duration: 7s;
 }
 
 .collection-card:nth-child(3n) {
+  animation-delay: -1.5s;
   animation-duration: 8s;
-  animation-delay: -4.8s;
-}
-
-.collection-card:nth-child(4n) {
-  animation-duration: 6.6s;
-  animation-delay: -1.2s;
 }
 
 /* Pause breathing animation during active scroll for buttery 60fps scrub */
@@ -950,10 +938,10 @@ body.menu-open .menu-line.line-2 {
 
 .collection-card-title {
   font-family: var(--font-heading, 'Syne', sans-serif);
-  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   font-weight: 700;
   color: #FFFFFF;
 }

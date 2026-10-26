@@ -8,9 +8,10 @@
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { initTurathScrambleAnimation } from './artwork.js';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 // 1. Navigation Menu Overlay Interactions
 function initNavDrawer() {
@@ -307,7 +308,7 @@ function initAboutPinnedTimeline() {
   const slices2 = document.querySelectorAll('#about-layer-2 .about-vertical-slice');
   const slices3 = document.querySelectorAll('#about-layer-3 .about-vertical-slice');
   const floatingText = document.getElementById('about-floating-text');
-  const counterInner = document.getElementById('about-counter-numbers');
+  const aboutDashes = document.querySelectorAll('#about .dash-indicator');
   const pagination = document.querySelector('.about-pagination');
 
   if (!text1 || !text2 || !text3) return;
@@ -316,9 +317,6 @@ function initAboutPinnedTimeline() {
   gsap.set(text1, { opacity: 1, y: 0, pointerEvents: 'auto' });
   gsap.set([text2, text3], { opacity: 0, y: 25, pointerEvents: 'none' });
   gsap.set([slices1, slices2, slices3], { clipPath: 'inset(100% 0% 0% 0%)' });
-  if (counterInner) {
-    gsap.set(counterInner, { yPercent: 0 });
-  }
 
   // 1. Scene 02 Entrance: 3 Vertical Slices Staggering Upwards Over Hero
   const entranceTl = gsap.timeline({
@@ -339,7 +337,7 @@ function initAboutPinnedTimeline() {
     duration: 0.85
   }, 0);
 
-  // Floating text & Pagination counter rise and fade in
+  // Floating text & Pagination dash bar rise and fade in
   if (floatingText) {
     entranceTl.fromTo([floatingText, pagination].filter(Boolean), {
       opacity: 0,
@@ -361,7 +359,29 @@ function initAboutPinnedTimeline() {
       start: 'top top',
       end: () => '+=' + (window.innerHeight * 2.5),
       invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        if (!aboutDashes.length) return;
+        const activeIndex = Math.min(2, Math.floor(self.progress * 3));
+        aboutDashes.forEach((dash, i) => {
+          dash.classList.toggle('active', i === activeIndex);
+        });
+      }
     }
+  });
+
+  // Dash click navigation for Scene 02
+  aboutDashes.forEach((dash, i) => {
+    dash.addEventListener('click', () => {
+      const st = aboutTl.scrollTrigger;
+      if (st) {
+        const scrollPos = st.start + ((st.end - st.start) * (i / 2));
+        gsap.to(window, {
+          scrollTo: { y: scrollPos, autoKill: false },
+          duration: 1,
+          ease: 'power2.inOut'
+        });
+      }
+    });
   });
 
   // --- TRANSITION 1 (Part 01 -> Part 02) ---
@@ -387,14 +407,6 @@ function initAboutPinnedTimeline() {
       stagger: 0.15,
       ease: 'power2.inOut'
     }, 'trans1');
-
-  if (counterInner) {
-    aboutTl.to(counterInner, {
-      yPercent: -33.3333,
-      duration: 0.6,
-      ease: 'power2.inOut'
-    }, 'trans1+=0.1');
-  }
 
   aboutTl.to({}, { duration: 0.4 }); // Hold reading pause
 
@@ -422,14 +434,6 @@ function initAboutPinnedTimeline() {
       ease: 'power2.inOut'
     }, 'trans2');
 
-  if (counterInner) {
-    aboutTl.to(counterInner, {
-      yPercent: -66.6667,
-      duration: 0.6,
-      ease: 'power2.inOut'
-    }, 'trans2+=0.1');
-  }
-
   aboutTl.to({}, { duration: 0.4 }); // Final hold
 }
 
@@ -438,6 +442,7 @@ function initCollectionsHorizontalScroll() {
   const collectionsSection = document.querySelector('#collections');
   const collectionsTrack = document.querySelector('.collections-track');
   const collectionsWrapper = document.querySelector('.collections-wrapper');
+  const dashes = document.querySelectorAll('#collections .dash-indicator');
 
   if (collectionsTrack && collectionsSection) {
     function getScrollAmount() {
@@ -446,7 +451,7 @@ function initCollectionsHorizontalScroll() {
     }
 
     // Pinned Horizontal Gallery: Pinned to top of viewport
-    gsap.to(collectionsTrack, {
+    const scrollTween = gsap.to(collectionsTrack, {
       x: getScrollAmount,
       ease: "none",
       scrollTrigger: {
@@ -455,8 +460,30 @@ function initCollectionsHorizontalScroll() {
         end: () => `+=${collectionsTrack.scrollWidth}`,
         pin: true,
         scrub: 1,
-        invalidateOnRefresh: true
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (!dashes.length) return;
+          const activeIndex = Math.min(dashes.length - 1, Math.floor(self.progress * dashes.length));
+          dashes.forEach((dash, i) => {
+            dash.classList.toggle('active', i === activeIndex);
+          });
+        }
       }
+    });
+
+    // Dash click navigation for Scene 03 (9 cards)
+    dashes.forEach((dash, i) => {
+      dash.addEventListener('click', () => {
+        const st = scrollTween.scrollTrigger;
+        if (st) {
+          const scrollPos = st.start + ((st.end - st.start) * (i / (dashes.length - 1)));
+          gsap.to(window, {
+            scrollTo: { y: scrollPos, autoKill: false },
+            duration: 1,
+            ease: 'power2.inOut'
+          });
+        }
+      });
     });
 
     // Detect active scrolling to pause idle card floating for ultra-smooth 60fps scrubbing
