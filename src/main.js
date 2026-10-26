@@ -414,7 +414,7 @@ function initAboutPinnedTimeline() {
       ease: 'power2.inOut'
     }, 'trans1');
 
-  aboutTl.to({}, { duration: 0.4 }); // Hold reading pause
+  aboutTl.to({}, { duration: 0.2 }); // Hold reading pause
 
   // --- TRANSITION 2 (Part 02 -> Part 03) ---
   // Reveal Layer 3 slices (clip-path: inset(0% 0 0 0)) with stagger 0.15 (bottom to top)
@@ -440,8 +440,8 @@ function initAboutPinnedTimeline() {
       ease: 'power2.inOut'
     }, 'trans2');
 
-  aboutTl.to({}, { duration: 0.4 }); // Final hold
-  aboutTl.to({}, { duration: 1.0 }); // Freeze pinned while #collections scrolls over it
+  aboutTl.to({}, { duration: 0.2 }); // Final hold
+  aboutTl.to({}, { duration: 0.25 }); // Seamless handoff to Scene 03
 }
 
 // 5. Scene 03: Our Collections Horizontal Scroll Gallery
@@ -500,14 +500,14 @@ function initCollectionsHorizontalScroll() {
       return -(trackWidth - window.innerWidth + 80);
     }
 
-    // Pinned Horizontal Gallery: Pinned to top of viewport
+    // Pinned Horizontal Gallery: Pinned to top of viewport (distance reduced by 45% for responsive speed)
     const scrollTween = gsap.to(collectionsTrack, {
       x: getScrollAmount,
       ease: "none",
       scrollTrigger: {
         trigger: collectionsSection, // CRITICAL: Pin the whole section, not just the wrapper
         start: "top top", // Start pinning when the section hits the top of the viewport
-        end: () => `+=${collectionsTrack.scrollWidth}`,
+        end: () => `+=${Math.round(collectionsTrack.scrollWidth * 0.55)}`,
         pin: true,
         scrub: 1,
         invalidateOnRefresh: true,
@@ -529,7 +529,7 @@ function initCollectionsHorizontalScroll() {
           const scrollPos = st.start + ((st.end - st.start) * (i / (dashes.length - 1)));
           gsap.to(window, {
             scrollTo: { y: scrollPos, autoKill: false },
-            duration: 1,
+            duration: 0.7,
             ease: 'power2.inOut'
           });
         }
@@ -541,7 +541,7 @@ function initCollectionsHorizontalScroll() {
     ScrollTrigger.create({
       trigger: collectionsSection,
       start: "top top",
-      end: () => `+=${collectionsTrack.scrollWidth}`,
+      end: () => `+=${Math.round(collectionsTrack.scrollWidth * 0.55)}`,
       onUpdate: () => {
         collectionsTrack.classList.add('is-scrolling');
         clearTimeout(scrollTimeout);
