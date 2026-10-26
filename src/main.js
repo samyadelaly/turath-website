@@ -175,6 +175,8 @@ function initHeroAnimations() {
       trigger: '#hero',
       start: 'top top',
       end: 'bottom top',
+      pin: true,
+      pinSpacing: false,
       scrub: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {

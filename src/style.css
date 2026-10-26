@@ -279,10 +279,9 @@ body.menu-open .menu-line.line-2 {
    3. SCENE 01 — HERO ARCHITECTURE
    ========================================================================== */
 #hero {
-  height: 100vh !important;
-  height: 100dvh !important;
-  overflow: hidden !important;
-  position: relative !important;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   top: 0;
   left: 0;
   width: 100%;
