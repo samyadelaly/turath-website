@@ -802,7 +802,7 @@ body.menu-open .menu-line.line-2 {
   justify-content: flex-start;
   gap: clamp(0.75rem, 1.8vh, 1.5rem);
   box-sizing: border-box;
-  z-index: 20;
+  z-index: 30;
   transition: none !important;
   will-change: clip-path;
 }

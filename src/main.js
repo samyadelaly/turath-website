@@ -12,6 +12,8 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { initTurathScrambleAnimation } from './artwork.js';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+window.ScrollTrigger = ScrollTrigger;
+window.gsap = gsap;
 
 // 1. Navigation Menu Overlay Interactions
 function initNavDrawer() {
@@ -350,14 +352,13 @@ function initAboutPinnedTimeline() {
     }, 0.45);
   }
 
-  // 2. Pinned 3-Vertical-Slice Morphing Sequence
+  // 2. 3-Vertical-Slice Morphing Sequence scrubbed over #about-spacer
   const aboutTl = gsap.timeline({
     scrollTrigger: {
-      trigger: '#about',
-      pin: true,
+      trigger: '#about-spacer',
+      start: 'top bottom',
+      end: 'bottom bottom',
       scrub: 1,
-      start: 'top top',
-      end: () => '+=' + (window.innerHeight * 2.5),
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         if (!aboutDashes.length) return;
@@ -435,6 +436,7 @@ function initAboutPinnedTimeline() {
     }, 'trans2');
 
   aboutTl.to({}, { duration: 0.4 }); // Final hold
+  aboutTl.to({}, { duration: 1.0 }); // Freeze pinned while #collections scrolls over it
 }
 
 // 5. Scene 03: Our Collections Horizontal Scroll Gallery
@@ -445,6 +447,15 @@ function initCollectionsHorizontalScroll() {
   const dashes = document.querySelectorAll('#collections .dash-indicator');
 
   if (collectionsTrack && collectionsSection) {
+    ScrollTrigger.create({
+      trigger: "#about",
+      start: "top top",
+      endTrigger: "#collections",
+      end: "top top",
+      pin: true,
+      pinSpacing: false
+    });
+
     // 1. Initial State: Staggered two-slice geometric vertical reveal
     gsap.set(collectionsSection, {
       clipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)',
