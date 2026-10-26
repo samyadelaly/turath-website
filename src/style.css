@@ -491,7 +491,7 @@ body.menu-open .menu-line.line-2 {
   bottom: clamp(40px, 9.5vh, 75px);
   left: 5.5vw;
   max-width: min(88vw, 540px);
-  z-index: 20;
+  z-index: 10;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -533,7 +533,6 @@ body.menu-open .menu-line.line-2 {
   content: none !important;
 }
 
-#about,
 .about-fullscreen-layer,
 .about-layer-1,
 .about-layer-2,
@@ -548,12 +547,13 @@ body.menu-open .menu-line.line-2 {
 }
 
 #about {
-  position: relative !important;
+  background-color: #000000;
+  position: relative;
   width: 100%;
-  height: 100vh !important;
-  height: 100svh !important;
-  height: 100dvh !important;
-  overflow: hidden !important;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  overflow: hidden;
   z-index: 20;
   padding: 0 !important;
   margin: 0 !important;
@@ -776,24 +776,24 @@ body.menu-open .menu-line.line-2 {
    4. SCENE 03 - COLLECTIONS (HORIZONTAL SCROLL GALLERY)
    ========================================================================== */
 #about, #collections {
-  height: 100vh !important;
-  position: relative !important;
-  overflow: hidden !important;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 #collections {
-  position: relative !important;
+  position: relative;
   width: 100%;
-  height: 100vh !important;
-  height: 100svh !important;
-  height: 100dvh !important;
-  min-height: 100vh !important;
-  min-height: 100dvh !important;
-  max-height: 100vh !important;
-  max-height: 100dvh !important;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   background-color: #000000;
   color: #F3F1ED;
-  overflow: hidden !important;
+  overflow: hidden;
   padding-top: clamp(3.5rem, 6vh, 5rem);
   padding-bottom: 0;
   display: flex;
