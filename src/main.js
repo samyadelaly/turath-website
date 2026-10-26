@@ -435,25 +435,42 @@ function initAboutPinnedTimeline() {
 
 // 5. Scene 03: Our Collections Horizontal Scroll Gallery
 function initCollectionsHorizontalScroll() {
+  const collectionsSection = document.querySelector('#collections');
   const collectionsTrack = document.querySelector('.collections-track');
   const collectionsWrapper = document.querySelector('.collections-wrapper');
 
-  if (collectionsTrack && collectionsWrapper) {
+  if (collectionsTrack && collectionsSection) {
     function getScrollAmount() {
       let trackWidth = collectionsTrack.scrollWidth;
       return -(trackWidth - window.innerWidth + 80);
     }
 
+    // Pinned Horizontal Gallery: Pinned to top of viewport
     gsap.to(collectionsTrack, {
       x: getScrollAmount,
       ease: "none",
       scrollTrigger: {
-        trigger: collectionsWrapper,
-        start: "top 15%",
+        trigger: collectionsSection, // CRITICAL: Pin the whole section, not just the wrapper
+        start: "top top", // Start pinning when the section hits the top of the viewport
         end: () => `+=${collectionsTrack.scrollWidth}`,
         pin: true,
         scrub: 1,
         invalidateOnRefresh: true
+      }
+    });
+
+    // Detect active scrolling to pause idle card floating for ultra-smooth 60fps scrubbing
+    let scrollTimeout;
+    ScrollTrigger.create({
+      trigger: collectionsSection,
+      start: "top top",
+      end: () => `+=${collectionsTrack.scrollWidth}`,
+      onUpdate: () => {
+        collectionsTrack.classList.add('is-scrolling');
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          collectionsTrack.classList.remove('is-scrolling');
+        }, 150);
       }
     });
   }
