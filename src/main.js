@@ -300,10 +300,11 @@ function initHeroAnimations() {
 function initScrollBtn() {
   const scrollBtn = document.getElementById('hero-scroll-btn');
   if (scrollBtn) {
-    scrollBtn.addEventListener('click', () => {
-      const about = document.getElementById('about');
-      if (about) {
-        about.scrollIntoView({ behavior: 'smooth' });
+    scrollBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const scene02 = document.getElementById('scene-02') || document.getElementById('about');
+      if (scene02) {
+        scene02.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }
@@ -559,6 +560,11 @@ function initCollectionsHorizontalScroll() {
         }
       });
     });
+
+    // Fade-in / fade-out effect for Collections Title on scroll
+    if (document.getElementById('collections-title')) {
+      gsap.fromTo("#collections-title", { opacity: 0 }, { opacity: 1, duration: 1, scrollTrigger: { trigger: "#scene-03", start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse" } });
+    }
   }
 }
 
