@@ -6,7 +6,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        lighting: resolve(__dirname, 'lighting.html')
+        lighting: resolve(__dirname, 'lighting.html'),
+        mirrors: resolve(__dirname, 'mirrors.html')
       }
     }
   },
