@@ -460,18 +460,10 @@ function initCollectionsHorizontalScroll() {
   const dashes = document.querySelectorAll('#scene-03 .dash-indicator');
 
   if (collectionsTrack && collectionsSection) {
-    // Architectural Layered Scrolling (Scene 03 slides OVER Scene 02)
-    ScrollTrigger.create({
-      trigger: "#scene-02",
-      start: "top top",
-      endTrigger: "#scene-03",
-      end: "top top",
-      pin: true,
-      pinSpacing: false
-    });
+    // Architectural Layered Scrolling (Scene 03 slides OVER Scene 02 smoothly without jumping)
     gsap.to("#scene-02", {
       scale: 0.95,
-      opacity: 0.4,
+      opacity: 0.35,
       ease: "none",
       scrollTrigger: {
         trigger: "#scene-03",
@@ -546,7 +538,40 @@ function initCollectionsHorizontalScroll() {
   }
 }
 
-// 6. Bespoke Manufacturing Inquiry Form
+// 6. Scene 03 -> Scene 04: 3-Slice Geometric Architectural Transition
+function initBespokeTransition() {
+  const bespokeSection = document.getElementById('bespoke');
+  const bespokeSlices = document.querySelectorAll('.bespoke-slice');
+  const bespokeContent = document.getElementById('bespoke-content');
+  const spacer = document.getElementById('scene-03-spacer');
+
+  if (bespokeSection && bespokeSlices.length && spacer) {
+    // Initial state: slices positioned offscreen to the right
+    gsap.set(bespokeSlices, { xPercent: 100 });
+    if (bespokeContent) gsap.set(bespokeContent, { opacity: 0, x: 45 });
+
+    const bespokeTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#scene-03-spacer',
+        start: 'top bottom',
+        end: 'bottom bottom',
+        scrub: 1,
+        onUpdate: (self) => {
+          bespokeSection.style.pointerEvents = self.progress > 0.8 ? 'auto' : 'none';
+        }
+      }
+    });
+
+    // 3 horizontal slices slide in from right to left with architectural stagger
+    bespokeTl
+      .to('.bespoke-slice-1', { xPercent: 0, duration: 0.8, ease: 'power2.inOut' }, 0)
+      .to('.bespoke-slice-2', { xPercent: 0, duration: 0.8, ease: 'power2.inOut' }, 0.15)
+      .to('.bespoke-slice-3', { xPercent: 0, duration: 0.8, ease: 'power2.inOut' }, 0.3)
+      .to(bespokeContent, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, 0.45);
+  }
+}
+
+// 7. Bespoke Manufacturing Inquiry Form
 function initBespokeForm() {
   const form = document.getElementById('bespoke-form');
   const successMsg = document.getElementById('form-success');
@@ -567,4 +592,5 @@ initHeroAnimations();
 initScrollBtn();
 initAboutPinnedTimeline();
 initCollectionsHorizontalScroll();
+initBespokeTransition();
 initBespokeForm();
