@@ -10,7 +10,8 @@ export default defineConfig({
         mirrors: resolve(__dirname, 'mirrors.html'),
         tables: resolve(__dirname, 'tables.html'),
         handles: resolve(__dirname, 'handles.html'),
-        handrails: resolve(__dirname, 'handrails.html')
+        handrails: resolve(__dirname, 'handrails.html'),
+        decor: resolve(__dirname, 'decor.html')
       }
     }
   },
