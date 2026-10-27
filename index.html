@@ -75,8 +75,8 @@
         <ul class="nav-menu-list">
           <li class="nav-menu-item"><a href="#hero" class="nav-menu-link active" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Home</a></li>
           <li class="nav-menu-item"><a href="#scene-02" class="nav-menu-link" onclick="document.getElementById('scene-02').scrollIntoView({behavior: 'smooth'});">About Us</a></li>
+          <li class="nav-menu-item"><a href="#scene-03" class="nav-menu-link" onclick="document.getElementById('scene-03').scrollIntoView({behavior: 'smooth'});">Collections</a></li>
           <li class="nav-menu-item nav-item overflow-hidden"><a href="#bespoke" class="nav-menu-link" onclick="document.getElementById('bespoke').scrollIntoView({behavior: 'smooth'});">BESPOKE MANUFACTURING</a></li>
-          <li class="nav-menu-item"><a href="#collections" class="nav-menu-link" onclick="document.getElementById('scene-03').scrollIntoView({behavior: 'smooth'});">Collections</a></li>
           <li class="nav-menu-item"><a href="#products" class="nav-menu-link">Featured Products</a></li>
           <li class="nav-menu-item"><a href="#craftsmanship" class="nav-menu-link">Craftsmanship</a></li>
           <li class="nav-menu-item"><a href="#contact" class="nav-menu-link">Contact</a></li>
@@ -131,7 +131,6 @@
 
   <!-- STEP 3: SCENE 02 — ABOUT TURATH (FULL-SCREEN CINEMATIC EXPERIENCE) -->
   <section id="scene-02" class="relative w-full h-screen overflow-hidden z-10 bg-black">
-    <div id="about" class="absolute top-0 left-0 w-full h-0 pointer-events-none" aria-hidden="true"></div>
     <!-- FULL-BLEED BACKGROUND LAYERS (100vw x 100vh) -->
     
     <!-- Layer 1 (3-Slice Entrance Stagger Reveal): Full wrapper with 3 vertical slice divs -->
@@ -217,7 +216,6 @@
 
   <!-- SCENE 03: COLLECTIONS (HORIZONTAL SCROLL GALLERY) -->
   <section id="scene-03" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-20 bg-black flex flex-col justify-between pb-24">
-    <div id="collections" class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
     <!-- Background Image with Dark Luxury Texture -->
     <div class="collections-bg-wrapper absolute inset-0 w-full h-full z-0 pointer-events-none">
       <img src="/assets/images/dark-luxury-bg.jpg" alt="Background Texture" class="collections-bg-img w-full h-full object-cover opacity-70">

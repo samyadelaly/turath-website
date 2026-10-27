@@ -948,7 +948,9 @@ body.menu-open .menu-line.line-2 {
   flex-shrink: 0;
 }
 
-#collections > p {
+#collections > p,
+#scene-03 > p,
+#scene-03 p {
   position: relative;
   z-index: 25;
   text-align: left;

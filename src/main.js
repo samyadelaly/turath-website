@@ -279,7 +279,7 @@ function initHeroAnimations() {
 
   // 7. Scrolled Dynamic Glass Navbar: triggers once user scrolls past the Hero section (Scene 02 begins)
   ScrollTrigger.create({
-    trigger: '#about',
+    trigger: '#scene-02',
     start: 'top 60px',
     onEnter: () => siteHeader && siteHeader.classList.add('is-scrolled'),
     onLeaveBack: () => siteHeader && siteHeader.classList.remove('is-scrolled'),
@@ -302,7 +302,7 @@ function initScrollBtn() {
   if (scrollBtn) {
     scrollBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const scene02 = document.getElementById('scene-02') || document.getElementById('about');
+      const scene02 = document.getElementById('scene-02');
       if (scene02) {
         scene02.scrollIntoView({ behavior: 'smooth' });
       }
@@ -312,7 +312,7 @@ function initScrollBtn() {
 
 // 4. Scene 02 — Full-Screen About Turath (3-Slice Stagger Entrance & 3-Slice Morphing)
 function initAboutPinnedTimeline() {
-  const aboutSection = document.getElementById('about');
+  const aboutSection = document.getElementById('scene-02');
   if (!aboutSection) return;
 
   const text1 = document.getElementById('about-text-1');
@@ -323,7 +323,7 @@ function initAboutPinnedTimeline() {
   const slices2 = document.querySelectorAll('#about-layer-2 .about-vertical-slice');
   const slices3 = document.querySelectorAll('#about-layer-3 .about-vertical-slice');
   const floatingText = document.getElementById('about-floating-text');
-  const aboutDashes = document.querySelectorAll('#about .dash-indicator');
+  const aboutDashes = document.querySelectorAll('#scene-02 .dash-indicator');
   const pagination = document.querySelector('.about-pagination');
 
   if (!text1 || !text2 || !text3) return;
@@ -336,7 +336,7 @@ function initAboutPinnedTimeline() {
   // 1. Scene 02 Entrance: 3 Vertical Slices Staggering Upwards Over Hero
   const entranceTl = gsap.timeline({
     scrollTrigger: {
-      trigger: '#about',
+      trigger: '#scene-02',
       start: 'top bottom',
       end: 'top top',
       scrub: true,
@@ -454,10 +454,10 @@ function initAboutPinnedTimeline() {
 
 // 5. Scene 03: Our Collections Horizontal Scroll Gallery
 function initCollectionsHorizontalScroll() {
-  const collectionsSection = document.querySelector('#collections');
+  const collectionsSection = document.getElementById('scene-03');
   const collectionsTrack = document.querySelector('.collections-track');
   const collectionsWrapper = document.querySelector('.collections-wrapper');
-  const dashes = document.querySelectorAll('#collections .dash-indicator');
+  const dashes = document.querySelectorAll('#scene-03 .dash-indicator');
 
   if (collectionsTrack && collectionsSection) {
     // Architectural Layered Scrolling (Scene 03 slides OVER Scene 02)
