@@ -460,48 +460,26 @@ function initCollectionsHorizontalScroll() {
   const dashes = document.querySelectorAll('#collections .dash-indicator');
 
   if (collectionsTrack && collectionsSection) {
+    // Architectural Layered Scrolling (Scene 03 slides OVER Scene 02)
     ScrollTrigger.create({
-      trigger: "#about",
+      trigger: "#scene-02",
       start: "top top",
-      endTrigger: "#collections",
+      endTrigger: "#scene-03",
       end: "top top",
       pin: true,
       pinSpacing: false
     });
-
-    // 1. Initial State: Staggered two-slice geometric vertical reveal
-    gsap.set(collectionsSection, {
-      clipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)',
-      webkitClipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)'
-    });
-
-    // 2. Entrance reveal: Two vertical geometric slices rising at different speeds over Scene 02
-    const revealTl = gsap.timeline({
+    gsap.to("#scene-02", {
+      scale: 0.95,
+      opacity: 0.4,
+      ease: "none",
       scrollTrigger: {
-        trigger: collectionsSection,
-        start: 'top bottom',
-        end: 'top top',
-        scrub: true,
-        invalidateOnRefresh: true
+        trigger: "#scene-03",
+        start: "top bottom",
+        end: "top top",
+        scrub: true
       }
     });
-
-    revealTl
-      .fromTo(collectionsSection, {
-        clipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)',
-        webkitClipPath: 'polygon(0% 100%, 50% 100%, 50% 100%, 100% 100%, 100% 100%, 0% 100%)'
-      }, {
-        clipPath: 'polygon(0% 0%, 50% 0%, 50% 35%, 100% 35%, 100% 100%, 0% 100%)',
-        webkitClipPath: 'polygon(0% 0%, 50% 0%, 50% 35%, 100% 35%, 100% 100%, 0% 100%)',
-        duration: 0.6,
-        ease: 'power2.out'
-      })
-      .to(collectionsSection, {
-        clipPath: 'polygon(0% 0%, 50% 0%, 50% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        webkitClipPath: 'polygon(0% 0%, 50% 0%, 50% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        duration: 0.4,
-        ease: 'power2.inOut'
-      });
 
     /*
      * GSAP ScrollTrigger code for scene-03 that pinned and scrubbed the collections horizontally
@@ -561,10 +539,25 @@ function initCollectionsHorizontalScroll() {
       });
     });
 
-    // Fade-in / fade-out effect for Collections Title on scroll
+    // Smooth collections title fade-in
     if (document.getElementById('collections-title')) {
-      gsap.fromTo("#collections-title", { opacity: 0 }, { opacity: 1, duration: 1, scrollTrigger: { trigger: "#scene-03", start: "top 75%", end: "bottom 25%", toggleActions: "play reverse play reverse" } });
+      gsap.fromTo("#collections-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", scrollTrigger: { trigger: "#scene-03", start: "top 75%", toggleActions: "play reverse play reverse" } });
     }
+  }
+}
+
+// 6. Bespoke Manufacturing Inquiry Form
+function initBespokeForm() {
+  const form = document.getElementById('bespoke-form');
+  const successMsg = document.getElementById('form-success');
+  if (form && successMsg) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.classList.add('hidden');
+      form.style.display = 'none';
+      successMsg.classList.remove('hidden');
+      successMsg.style.display = 'block';
+    });
   }
 }
 
@@ -574,3 +567,4 @@ initHeroAnimations();
 initScrollBtn();
 initAboutPinnedTimeline();
 initCollectionsHorizontalScroll();
+initBespokeForm();

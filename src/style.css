@@ -611,7 +611,8 @@ body.menu-open .menu-line.line-2 {
   -webkit-filter: none !important;
 }
 
-#about {
+#about,
+#scene-02 {
   background: transparent !important;
   position: relative;
   width: 100%;
@@ -619,7 +620,7 @@ body.menu-open .menu-line.line-2 {
   height: 100svh;
   height: 100dvh;
   overflow: hidden !important;
-  z-index: 20 !important;
+  z-index: 10 !important;
   padding: 0 !important;
   margin: 0 !important;
 }
@@ -853,13 +854,14 @@ body.menu-open .menu-line.line-2 {
 /* ==========================================================================
    4. SCENE 03 - COLLECTIONS (HORIZONTAL SCROLL GALLERY)
    ========================================================================== */
-#about, #collections {
+#about, #scene-02, #collections, #scene-03 {
   height: 100vh;
   height: 100dvh;
   overflow: hidden !important;
 }
 
-#collections {
+#collections,
+#scene-03 {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -879,16 +881,16 @@ body.menu-open .menu-line.line-2 {
   justify-content: flex-start;
   gap: clamp(0.75rem, 1.8vh, 1.5rem);
   box-sizing: border-box;
-  z-index: 30 !important;
+  z-index: 20 !important;
   transition: none !important;
-  will-change: clip-path;
+  will-change: transform;
 }
 
 /* ==========================================================================
    IMAGE OVERSHOOT CUSHION (ELIMINATES SUBPIXEL / MOBILE SCROLL GAPS)
    ========================================================================== */
-#about .bg-layer, #collections .bg-layer, 
-#about > img.absolute, #collections > img.absolute,
+#about .bg-layer, #scene-02 .bg-layer, #collections .bg-layer, #scene-03 .bg-layer, 
+#about > img.absolute, #scene-02 > img.absolute, #collections > img.absolute, #scene-03 > img.absolute,
 .about-fullscreen-layer,
 .about-vertical-slice,
 .collections-bg-wrapper {

@@ -74,8 +74,9 @@
       <nav class="nav-drawer-nav" aria-label="Main Navigation">
         <ul class="nav-menu-list">
           <li class="nav-menu-item"><a href="#hero" class="nav-menu-link active" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Home</a></li>
-          <li class="nav-menu-item"><a href="#about" class="nav-menu-link">About Us</a></li>
-          <li class="nav-menu-item"><a href="#collections" class="nav-menu-link">Collections</a></li>
+          <li class="nav-menu-item"><a href="#scene-02" class="nav-menu-link" onclick="document.getElementById('scene-02').scrollIntoView({behavior: 'smooth'});">About Us</a></li>
+          <li class="nav-menu-item nav-item overflow-hidden"><a href="#bespoke" class="nav-menu-link" onclick="document.getElementById('bespoke').scrollIntoView({behavior: 'smooth'});">BESPOKE MANUFACTURING</a></li>
+          <li class="nav-menu-item"><a href="#collections" class="nav-menu-link" onclick="document.getElementById('scene-03').scrollIntoView({behavior: 'smooth'});">Collections</a></li>
           <li class="nav-menu-item"><a href="#products" class="nav-menu-link">Featured Products</a></li>
           <li class="nav-menu-item"><a href="#craftsmanship" class="nav-menu-link">Craftsmanship</a></li>
           <li class="nav-menu-item"><a href="#contact" class="nav-menu-link">Contact</a></li>
@@ -129,8 +130,8 @@
   </section>
 
   <!-- STEP 3: SCENE 02 — ABOUT TURATH (FULL-SCREEN CINEMATIC EXPERIENCE) -->
-  <section id="about" class="relative w-full h-screen overflow-hidden z-20">
-    <div id="scene-02" class="absolute top-0 left-0 w-full h-0 pointer-events-none" aria-hidden="true"></div>
+  <section id="scene-02" class="relative w-full h-screen overflow-hidden z-10 bg-black">
+    <div id="about" class="absolute top-0 left-0 w-full h-0 pointer-events-none" aria-hidden="true"></div>
     <!-- FULL-BLEED BACKGROUND LAYERS (100vw x 100vh) -->
     
     <!-- Layer 1 (3-Slice Entrance Stagger Reveal): Full wrapper with 3 vertical slice divs -->
@@ -215,8 +216,8 @@
   <div id="about-spacer" style="height: 120vh; pointer-events: none;" aria-hidden="true"></div>
 
   <!-- SCENE 03: COLLECTIONS (HORIZONTAL SCROLL GALLERY) -->
-  <section id="collections" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-30 flex flex-col justify-between pb-24">
-    <div id="scene-03" class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+  <section id="scene-03" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-20 bg-black flex flex-col justify-between pb-24">
+    <div id="collections" class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
     <!-- Background Image with Dark Luxury Texture -->
     <div class="collections-bg-wrapper absolute inset-0 w-full h-full z-0 pointer-events-none">
       <img src="/assets/images/dark-luxury-bg.jpg" alt="Background Texture" class="collections-bg-img w-full h-full object-cover opacity-70">
@@ -367,6 +368,67 @@
       <button class="dash-indicator w-8 md:w-12 h-[2px] bg-white/30 transition-colors duration-300" aria-label="Slide 7"></button>
       <button class="dash-indicator w-8 md:w-12 h-[2px] bg-white/30 transition-colors duration-300" aria-label="Slide 8"></button>
       <button class="dash-indicator w-8 md:w-12 h-[2px] bg-white/30 transition-colors duration-300" aria-label="Slide 9"></button>
+    </div>
+  </section>
+
+  <!-- SCENE 04: BESPOKE MANUFACTURING -->
+  <section id="bespoke" class="relative w-full min-h-screen flex flex-col justify-center items-center px-4 py-24 z-30">
+    <!-- Background image with luxury dark overlay and blur -->
+    <div class="absolute inset-0 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover bg-center"></div>
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+    <div class="relative z-10 flex flex-col items-center text-center w-full max-w-4xl px-4">
+      <h2 class="text-3xl md:text-5xl uppercase tracking-widest font-bold text-white mb-4">BESPOKE MANUFACTURING</h2>
+      <p class="text-[#D7C797] tracking-wider text-sm md:text-base uppercase mb-2">Traditional Craft. Architectural Precision.</p>
+      <p class="text-white/80 text-sm md:text-base max-w-xl">Tell us about your custom brass or copper manufacturing requirements.</p>
+
+      <form id="bespoke-form" class="max-w-3xl w-full text-left space-y-8 mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="flex flex-col gap-2">
+            <label for="fullName" class="text-xs uppercase tracking-widest text-white/70">Full Name *</label>
+            <input type="text" id="fullName" name="fullName" required placeholder="Your full name" class="border-b border-white/30 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors placeholder:text-white/30" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="company" class="text-xs uppercase tracking-widest text-white/70">Company (Optional)</label>
+            <input type="text" id="company" name="company" placeholder="Studio, hotel, firm" class="border-b border-white/30 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors placeholder:text-white/30" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="flex flex-col gap-2">
+            <label for="email" class="text-xs uppercase tracking-widest text-white/70">Email *</label>
+            <input type="email" id="email" name="email" required placeholder="architect@studio.com" class="border-b border-white/30 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors placeholder:text-white/30" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="phone" class="text-xs uppercase tracking-widest text-white/70">Phone / WhatsApp *</label>
+            <input type="tel" id="phone" name="phone" required placeholder="+20 123 456 7890" class="border-b border-white/30 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors placeholder:text-white/30" />
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="material" class="text-xs uppercase tracking-widest text-white/70">Material *</label>
+          <select id="material" name="material" required class="border-b border-white/30 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors cursor-pointer">
+            <option value="" disabled selected class="bg-black text-white/50">Select primary metal</option>
+            <option value="Brass" class="bg-black text-white">Solid Brass</option>
+            <option value="Copper" class="bg-black text-white">Solid Copper</option>
+            <option value="Both" class="bg-black text-white">Brass &amp; Copper Hybrid</option>
+            <option value="Other" class="bg-black text-white">Other Custom Alloy</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="message" class="text-xs uppercase tracking-widest text-white/70">Project Details &amp; Specifications *</label>
+          <textarea id="message" name="message" rows="4" required placeholder="Describe dimensions, finishes, quantity, and design intent..." class="border-b border-white/30 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors resize-none placeholder:text-white/30"></textarea>
+        </div>
+
+        <button type="submit" class="border border-[#D7C797] text-[#D7C797] px-8 py-3 tracking-widest hover:bg-[#D7C797] hover:text-black transition-all duration-300 w-full mt-4 cursor-pointer uppercase font-medium">
+          SUBMIT INQUIRY
+        </button>
+      </form>
+
+      <div id="form-success" class="hidden mt-8 text-[#D7C797] text-center tracking-widest text-lg p-6 border border-[#D7C797]/30 bg-black/50 backdrop-blur-md rounded-sm">
+        Thank you for your inquiry. Our team will review your request and get back to you soon.
+      </div>
     </div>
   </section>
 
