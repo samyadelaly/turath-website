@@ -8,7 +8,8 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         lighting: resolve(__dirname, 'lighting.html'),
         mirrors: resolve(__dirname, 'mirrors.html'),
-        tables: resolve(__dirname, 'tables.html')
+        tables: resolve(__dirname, 'tables.html'),
+        handles: resolve(__dirname, 'handles.html')
       }
     }
   },
