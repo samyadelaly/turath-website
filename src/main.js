@@ -94,8 +94,13 @@ function initNavDrawer() {
   }
 
   navLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
       closeMenu();
+      const href = link.getAttribute('href');
+      if (href === '#hero' || href === '#scene-01') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   });
 
@@ -497,60 +502,62 @@ function initCollectionsHorizontalScroll() {
         ease: 'power2.inOut'
       });
 
-    function getScrollAmount() {
-      let trackWidth = collectionsTrack.scrollWidth;
-      return -(trackWidth - window.innerWidth + 80);
+    /*
+     * GSAP ScrollTrigger code for scene-03 that pinned and scrubbed the collections horizontally
+     * has been removed to restore standard vertical page scrolling.
+     * The collections gallery now operates as a native horizontal scroller with CSS snap-points.
+     */
+
+    // Minimalist Arrow Buttons navigation (David Thulstrup style)
+    const prevArrow = document.getElementById('collections-prev-arrow');
+    const nextArrow = document.getElementById('collections-next-arrow');
+    const trackPrevBtn = document.getElementById('track-prev-btn');
+    const trackNextBtn = document.getElementById('track-next-btn');
+
+    function scrollCollections(direction) {
+      const card = collectionsTrack.querySelector('.collection-card');
+      const scrollStep = card ? (card.offsetWidth + 16) : (collectionsTrack.clientWidth * 0.8);
+      collectionsTrack.scrollBy({
+        left: direction * scrollStep,
+        behavior: 'smooth'
+      });
     }
 
-    // Pinned Horizontal Gallery: Pinned to top of viewport (distance reduced by 45% for responsive speed)
-    const scrollTween = gsap.to(collectionsTrack, {
-      x: getScrollAmount,
-      ease: "none",
-      scrollTrigger: {
-        trigger: collectionsSection, // CRITICAL: Pin the whole section, not just the wrapper
-        start: "top top", // Start pinning when the section hits the top of the viewport
-        end: () => `+=${Math.round(collectionsTrack.scrollWidth * 0.55)}`,
-        pin: true,
-        scrub: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          if (!dashes.length) return;
-          const activeIndex = Math.min(dashes.length - 1, Math.floor(self.progress * dashes.length));
-          dashes.forEach((dash, i) => {
-            dash.classList.toggle('active', i === activeIndex);
-          });
+    if (prevArrow) prevArrow.addEventListener('click', () => scrollCollections(-1));
+    if (nextArrow) nextArrow.addEventListener('click', () => scrollCollections(1));
+    if (trackPrevBtn) trackPrevBtn.addEventListener('click', () => scrollCollections(-1));
+    if (trackNextBtn) trackNextBtn.addEventListener('click', () => scrollCollections(1));
+
+    // Native scroll update for dashes
+    collectionsTrack.addEventListener('scroll', () => {
+      if (!dashes.length) return;
+      const cards = collectionsTrack.querySelectorAll('.collection-card');
+      const trackCenter = collectionsTrack.scrollLeft + collectionsTrack.clientWidth / 2;
+      let activeIndex = 0;
+      let minDistance = Infinity;
+
+      cards.forEach((card, idx) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const dist = Math.abs(trackCenter - cardCenter);
+        if (dist < minDistance) {
+          minDistance = dist;
+          activeIndex = idx;
         }
-      }
-    });
+      });
+
+      dashes.forEach((dash, i) => {
+        dash.classList.toggle('active', i === activeIndex);
+      });
+    }, { passive: true });
 
     // Dash click navigation for Scene 03 (9 cards)
     dashes.forEach((dash, i) => {
       dash.addEventListener('click', () => {
-        const st = scrollTween.scrollTrigger;
-        if (st) {
-          const scrollPos = st.start + ((st.end - st.start) * (i / (dashes.length - 1)));
-          gsap.to(window, {
-            scrollTo: { y: scrollPos, autoKill: false },
-            duration: 0.7,
-            ease: 'power2.inOut'
-          });
+        const cards = collectionsTrack.querySelectorAll('.collection-card');
+        if (cards[i]) {
+          cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
       });
-    });
-
-    // Detect active scrolling to pause idle card floating for ultra-smooth 60fps scrubbing
-    let scrollTimeout;
-    ScrollTrigger.create({
-      trigger: collectionsSection,
-      start: "top top",
-      end: () => `+=${Math.round(collectionsTrack.scrollWidth * 0.55)}`,
-      onUpdate: () => {
-        collectionsTrack.classList.add('is-scrolling');
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          collectionsTrack.classList.remove('is-scrolling');
-        }, 150);
-      }
     });
   }
 }

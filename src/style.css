@@ -96,13 +96,12 @@ img, video {
   left: 0 !important;
   width: 100% !important;
   z-index: 9999 !important;
-  background: rgba(0, 0, 0, 0.15) !important;
+  background: rgba(0, 0, 0, 0.20) !important;
   backdrop-filter: blur(24px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
-  border-bottom: none !important;
-  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
   transform: none !important;
-  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease;
 }
 
 .header-left {
@@ -210,9 +209,10 @@ body.menu-open .menu-line.line-2 {
   inset: 0;
   width: 100%;
   height: 100svh;
-  background: rgba(8, 12, 20, 0.90);
+  background: rgba(10, 10, 10, 0.75);
   backdrop-filter: blur(28px) saturate(140%);
   -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
   z-index: 10000 !important;
   display: flex;
   flex-direction: column;
@@ -220,6 +220,58 @@ body.menu-open .menu-line.line-2 {
   visibility: hidden;
   pointer-events: none;
   will-change: transform;
+}
+
+/* Hide scrollbar cleanly across browsers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Minimalist David Thulstrup Arrow Navigation Controls */
+#collections-prev-arrow,
+#collections-next-arrow,
+#track-prev-btn,
+#track-next-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FFFFFF;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100 !important;
+  pointer-events: auto !important;
+}
+
+#collections-prev-arrow:hover,
+#collections-next-arrow:hover,
+#track-prev-btn:hover,
+#track-next-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  border-color: rgba(215, 199, 151, 0.6);
+  color: #D7C797;
+  transform: scale(1.06);
+}
+
+#collections-prev-arrow svg,
+#collections-next-arrow svg,
+#track-prev-btn svg,
+#track-next-btn svg {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
 }
 
 .nav-drawer-header {
@@ -935,12 +987,8 @@ body.menu-open .menu-line.line-2 {
 
 .collections-track {
   display: flex;
-  gap: clamp(1.5rem, 2.5vw, 2rem);
-  padding-left: clamp(1.5rem, 5.5vw, 3rem);
-  padding-right: clamp(1.5rem, 5.5vw, 3rem);
-  width: max-content;
   height: 100%;
-  will-change: transform;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ==========================================================================
@@ -959,8 +1007,7 @@ body.menu-open .menu-line.line-2 {
   position: relative;
   height: 55vh !important;
   aspect-ratio: 9 / 16 !important;
-  width: auto !important;
-  max-width: none !important;
+  scroll-snap-align: center;
   flex-shrink: 0 !important;
   overflow: hidden;
   cursor: pointer;
