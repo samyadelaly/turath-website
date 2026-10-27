@@ -11,7 +11,8 @@ export default defineConfig({
         tables: resolve(__dirname, 'tables.html'),
         handles: resolve(__dirname, 'handles.html'),
         handrails: resolve(__dirname, 'handrails.html'),
-        decor: resolve(__dirname, 'decor.html')
+        decor: resolve(__dirname, 'decor.html'),
+        wallArt: resolve(__dirname, 'wall-art.html')
       }
     }
   },
