@@ -889,7 +889,12 @@ body.menu-open .menu-line.line-2 {
   position: relative;
   z-index: 30;
   overflow: hidden;
-  background-color: #000000;
+}
+
+.b-slice {
+  background-size: 300% 100% !important;
+  background-repeat: no-repeat !important;
+  will-change: clip-path;
 }
 
 .bespoke-fullscreen-layer,
