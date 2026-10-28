@@ -77,7 +77,7 @@
           <li class="nav-menu-item"><a href="#scene-02" class="nav-menu-link" onclick="document.getElementById('scene-02').scrollIntoView({behavior: 'smooth'});">About Us</a></li>
           <li class="nav-menu-item"><a href="#scene-03" class="nav-menu-link" onclick="document.getElementById('scene-03').scrollIntoView({behavior: 'smooth'});">Collections</a></li>
           <li class="nav-menu-item nav-item overflow-hidden"><a href="#bespoke" class="nav-menu-link" onclick="document.getElementById('bespoke').scrollIntoView({behavior: 'smooth'});">BESPOKE MANUFACTURING</a></li>
-          <li class="nav-menu-item"><a href="#products" class="nav-menu-link">Featured Products</a></li>
+          <li class="nav-menu-item"><a href="#location" class="nav-menu-link" onclick="document.getElementById('location').scrollIntoView({behavior: 'smooth'});">Featured Products</a></li>
           <li class="nav-menu-item"><a href="#craftsmanship" class="nav-menu-link">Craftsmanship</a></li>
           <li class="nav-menu-item"><a href="#contact" class="nav-menu-link">Contact</a></li>
         </ul>
@@ -423,6 +423,90 @@
       <div id="form-success" class="hidden mt-8 text-[#D7C797] text-center tracking-widest text-lg p-6 border border-[#D7C797]/30 bg-black/80 backdrop-blur-md rounded-sm shadow-2xl">
         Thank you for your inquiry. Our team will review your request and get back to you soon.
       </div>
+    </div>
+  </section>
+
+  <!-- SCENE 05: FEATURED PRODUCTS (HISTORICAL SCENE 04 ARCHITECTURE) -->
+  <section id="location" class="scene-track scene04-video-track relative w-full min-h-screen z-40 overflow-hidden bg-black flex flex-col justify-center items-center" data-theme="dark">
+    <div class="scene-sheet scene04-video-container relative w-full min-h-screen flex flex-col justify-center items-center" id="scene04-sheet">
+      <!-- Cinematic Full-Bleed Highway / Commute Video -->
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        poster="/assets/images/commute-poster.jpg"
+        class="scene04-video-bg"
+        id="scene04-video"
+      >
+        <source src="/video/commute.mp4" type="video/mp4" />
+        <source src="/video/commute.webm" type="video/webm" />
+      </video>
+
+      <!-- Subtle Cinematic Bottom Scrim for crisp typography -->
+      <div class="scene04-video-scrim scene04-scrim scene04-overlay"></div>
+
+      <!-- Floating Editorial Caption Overlay with Parallax Inertia -->
+      <div class="scene04-caption-overlay container" id="scene04-caption-overlay">
+        <div class="scene04-caption-inner" id="scene04-caption-inner">
+          <div class="scene04-header-block">
+            <span class="scene-eyebrow scene04-eyebrow">05 / FEATURED PRODUCTS</span>
+            <h2 class="scene04-headline">
+              Featured Handcrafted Masterpieces
+            </h2>
+            <p class="scene04-desc">
+              Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
+            </p>
+          </div>
+
+          <!-- Featured Handcrafted Masterpieces Categories -->
+          <div class="scene04-products-grid scene04-buttons-grid scene04-pills-container">
+            <a href="mirrors.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Brass &amp; Copper Mirrors</span>
+            </a>
+            <a href="lighting.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Chandeliers &amp; Lighting</span>
+            </a>
+            <a href="tables.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Tables &amp; Consoles</span>
+            </a>
+            <a href="decor.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Decorative Objects</span>
+            </a>
+            <a href="handles.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Door Handles &amp; Hardware</span>
+            </a>
+            <a href="handrails.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Handrails &amp; Architectural Metalwork</span>
+            </a>
+            <a href="wall-art.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Wall Art</span>
+            </a>
+            <a href="partitions.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Partitions &amp; Bookcases</span>
+            </a>
+            <a href="tableware.html" class="scene04-product-chip">
+              <span class="chip-accent-dot"></span>
+              <span class="chip-label">Tableware</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM MORPHING 1px STEPPED NOTCH SEAM HAIRLINE (Exit Seam) -->
+      <svg class="scene04-bottom-hairline" id="scene04-bottom-hairline" viewBox="0 0 1000 48" preserveAspectRatio="none" aria-hidden="true">
+        <path id="scene04-bottom-hairline-path" d="M 0,47.5 L 740,47.5 L 740,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" />
+        <circle id="scene04-bottom-hairline-dot" cx="740" cy="47.5" r="2.5" class="notch-accent-dot" />
+      </svg>
     </div>
   </section>
 

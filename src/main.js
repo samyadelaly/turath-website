@@ -646,6 +646,112 @@ function initBespokeForm() {
   }
 }
 
+
+// 8. SECTION 05: FEATURED PRODUCTS (Historical Scene 04 Architecture)
+function initFeaturedProducts() {
+  const locationSection = document.getElementById('location');
+  const s04Sheet = document.getElementById('scene04-sheet');
+  const s04Video = document.getElementById('scene04-video');
+  const s04Header = document.querySelector('.scene04-header-block');
+  const s04Chips = document.querySelectorAll('.scene04-product-chip');
+
+  if (!locationSection) return;
+
+  // Video Autoplay & Robust Interaction Fallback
+  if (s04Video) {
+    s04Video.muted = true;
+    s04Video.playsInline = true;
+    s04Video.play().catch(() => {
+      const playOnInteract = () => {
+        s04Video.play();
+        window.removeEventListener('scroll', playOnInteract);
+        window.removeEventListener('click', playOnInteract);
+        window.removeEventListener('touchstart', playOnInteract);
+      };
+      window.addEventListener('scroll', playOnInteract, { passive: true, once: true });
+      window.addEventListener('click', playOnInteract, { passive: true, once: true });
+      window.addEventListener('touchstart', playOnInteract, { passive: true, once: true });
+    });
+  }
+
+  // Stepped Notch Scroll Entrance Transition (Asymmetric notch revealing video)
+  if (s04Sheet) {
+    ScrollTrigger.create({
+      trigger: '#location',
+      start: 'top bottom',
+      end: 'top top',
+      scrub: 1.2,
+      onUpdate: (self) => {
+        const p = self.progress;
+        if (p >= 0.98) {
+          s04Sheet.style.clipPath = 'none';
+        } else {
+          // Asymmetric Stepped Notch on the Left
+          const stepX = (24 + (1 - p) * 10).toFixed(1);
+          const stepY = (48 * p).toFixed(1);
+          s04Sheet.style.clipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+        }
+      }
+    });
+  }
+
+  // Subtle Video Parallax / Zoom
+  if (s04Video) {
+    gsap.fromTo(s04Video,
+      { scale: 1.08, opacity: 0.85 },
+      {
+        scale: 1.0,
+        opacity: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#location',
+          start: 'top bottom',
+          end: 'top top',
+          scrub: true,
+          pinSpacing: false
+        }
+      }
+    );
+  }
+
+  // Header Block Scroll Entrance
+  if (s04Header) {
+    gsap.fromTo(s04Header,
+      { y: 35, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#location',
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
+  }
+
+  // Staggered Upward Emergence of 9 Product Chips
+  if (s04Chips.length > 0) {
+    gsap.fromTo(s04Chips,
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.08,
+        duration: 1.0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#location',
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
+  }
+}
+
 // Initialize on DOM ready
 initNavDrawer();
 initHeroAnimations();
@@ -654,3 +760,4 @@ initAboutPinnedTimeline();
 initCollectionsHorizontalScroll();
 initBespokeTransition();
 initBespokeForm();
+initFeaturedProducts();

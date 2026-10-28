@@ -1192,3 +1192,234 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.05) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+
+/* ==========================================================================
+   SECTION 05: FEATURED PRODUCTS (HISTORICAL SCENE 04 ARCHITECTURE)
+   ========================================================================== */
+#location,
+#featured-products,
+.scene04-video-track {
+  position: relative;
+  z-index: 40;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background-color: #000000;
+  box-sizing: border-box;
+}
+
+.scene04-video-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  will-change: clip-path;
+}
+
+/* Background Highway / Commute Video */
+.scene04-video-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 42% !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  will-change: transform, opacity;
+}
+
+/* Universal Dark Luxury Scrim */
+.scene04-video-scrim,
+.scene04-scrim {
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0.88) 100%) !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+}
+
+/* Floating Editorial Caption Overlay */
+.scene04-caption-overlay {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1300px;
+  padding: clamp(2.5rem, 6vh, 4.5rem) 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.scene04-caption-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.scene04-header-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+  max-width: 820px;
+  will-change: transform, opacity;
+}
+
+.scene04-eyebrow {
+  font-family: var(--font-heading, 'Syne', sans-serif);
+  font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+  letter-spacing: 0.18em;
+  color: var(--brand-copper, #D7C797);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.scene04-headline {
+  font-family: var(--font-heading, 'Syne', sans-serif);
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-light, #F3F1ED);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.scene04-desc {
+  font-family: var(--font-sans, sans-serif);
+  font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+  line-height: 1.7;
+  color: var(--text-muted, #A1A1AA);
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* Category Chips Grid */
+.scene04-products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.85rem;
+  max-width: 960px;
+  margin: 0 auto;
+  will-change: transform, opacity;
+}
+
+.scene04-product-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.4rem;
+  background: rgba(18, 19, 22, 0.75);
+  border: 1px solid rgba(215, 199, 151, 0.3);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-light, #F3F1ED);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  will-change: transform, opacity;
+}
+
+.scene04-product-chip:hover {
+  background: rgba(215, 199, 151, 0.18);
+  border-color: var(--brand-copper, #D7C797);
+  color: #FFFFFF;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(215, 199, 151, 0.2);
+}
+
+.chip-accent-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--brand-copper, #D7C797);
+  box-shadow: 0 0 6px rgba(215, 199, 151, 0.6);
+  flex-shrink: 0;
+}
+
+.chip-label {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* Exit Hairline */
+.scene04-bottom-hairline {
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 48px !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+}
+
+.scene04-bottom-hairline path {
+  fill: none !important;
+  stroke: rgba(215, 199, 151, 0.45) !important;
+  stroke-width: 1px !important;
+  vector-effect: non-scaling-stroke !important;
+}
+
+.scene04-bottom-hairline .notch-accent-dot {
+  fill: #D7C797 !important;
+  stroke: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scene04-caption-overlay {
+    padding: 3rem 1rem;
+  }
+  .scene04-header-block {
+    margin-bottom: 1.5rem;
+  }
+  .scene04-headline {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+  }
+  .scene04-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .scene04-products-grid {
+    gap: 0.5rem;
+  }
+  .scene04-product-chip {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.78rem;
+  }
+  .chip-label {
+    font-size: 0.78rem;
+  }
+}
