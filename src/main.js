@@ -613,17 +613,17 @@ function initBespokeTransition() {
     }
   }
 
-  // Bespoke sequential fade in/out
+  // Bespoke sequential fade in/out (SLOWER)
   gsap.fromTo(".bespoke-text-anim", 
     { opacity: 0, y: 20 },
     { 
       opacity: 1, 
       y: 0, 
-      stagger: 0.2, 
-      duration: 1,
-      ease: "power2.out",
+      stagger: 0.5, // Slower sequence between title and subtitle
+      duration: 2.5,  // Much slower fade in
+      ease: "power1.out", // Softer easing for a luxurious feel
       scrollTrigger: {
-        trigger: ".bespoke-text-anim", // triggers when the text reaches viewport
+        trigger: ".bespoke-text-anim", 
         start: "top 85%",
         toggleActions: "play reverse play reverse"
       }
