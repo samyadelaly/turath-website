@@ -127,6 +127,15 @@
         Premium handcrafted brass, copper and decorative metal products, made in Cairo, Egypt for luxury homes, hotels, restaurants, palaces and commercial projects worldwide. Gamaliya Street, Historic Cairo, Egypt.
       </p>
     </div>
+
+    <!-- Explicit highly clickable Hero down-arrow button -->
+    <div id="hero-arrow-container" class="absolute bottom-10 left-1/2 -translate-x-1/2 z-[9999] cursor-pointer" onclick="document.getElementById('scene-02').scrollIntoView({behavior: 'smooth'})">
+      <button type="button" class="cursor-pointer p-3 rounded-full border border-white/40 bg-black/50 text-white hover:bg-black/80 hover:border-white/80 transition-all flex items-center justify-center animate-bounce shadow-2xl backdrop-blur-md" aria-label="Scroll to Section 02">
+        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </div>
   </section>
 
   <!-- STEP 3: SCENE 02 — ABOUT TURATH (FULL-SCREEN CINEMATIC EXPERIENCE) -->
@@ -369,34 +378,31 @@
     </div>
   </section>
 
-  <!-- SCENE 03 to 04 TRANSITION SPACER -->
-  <div id="scene-03-spacer" style="height: 120vh; pointer-events: none;" aria-hidden="true"></div>
-
   <!-- SCENE 04: BESPOKE MANUFACTURING -->
   <section id="bespoke" class="relative w-full h-screen min-h-screen flex flex-col justify-center items-center px-4 py-16 z-30 overflow-hidden">
-    <!-- 3 ARCHITECTURAL SLICES FROM THE RIGHT SIDE -->
-    <div class="bespoke-slices-container absolute inset-0 w-full h-full pointer-events-none z-0">
-      <!-- Slice 1 (Top 1/3) -->
-      <div class="bespoke-slice bespoke-slice-1 absolute left-0 w-full overflow-hidden" style="top: 0; height: 33.334%;">
-        <div class="absolute inset-0 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover bg-center" style="top: 0; height: 100vh;"></div>
+    <!-- 3 ARCHITECTURAL VERTICAL SLICES (REVEALING FROM RIGHT) -->
+    <div class="bespoke-slices-container absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+      <!-- Slice 1 (left: 0, width: 33.334%) -->
+      <div class="bespoke-slice bespoke-slice-1 absolute top-0 overflow-hidden h-full" style="left: 0; width: 33.334%;">
+        <div class="absolute inset-0 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover bg-center" style="left: 0; width: 100vw; height: 100%;"></div>
         <div class="absolute inset-0 bg-black/5"></div>
-        <div class="absolute bottom-0 left-0 w-full h-[1px] bg-[#D7C797]/25"></div>
+        <div class="absolute top-0 right-0 w-[1px] h-full bg-[#D7C797]/25"></div>
       </div>
-      <!-- Slice 2 (Middle 1/3) -->
-      <div class="bespoke-slice bespoke-slice-2 absolute left-0 w-full overflow-hidden" style="top: 33.333%; height: 33.334%;">
-        <div class="absolute inset-0 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover bg-center" style="top: -33.333vh; height: 100vh;"></div>
+      <!-- Slice 2 (left: 33.333%, width: 33.334%) -->
+      <div class="bespoke-slice bespoke-slice-2 absolute top-0 overflow-hidden h-full" style="left: 33.3333%; width: 33.334%;">
+        <div class="absolute inset-0 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover bg-center" style="left: -33.3333vw; width: 100vw; height: 100%;"></div>
         <div class="absolute inset-0 bg-black/5"></div>
-        <div class="absolute bottom-0 left-0 w-full h-[1px] bg-[#D7C797]/25"></div>
+        <div class="absolute top-0 right-0 w-[1px] h-full bg-[#D7C797]/25"></div>
       </div>
-      <!-- Slice 3 (Bottom 1/3) -->
-      <div class="bespoke-slice bespoke-slice-3 absolute left-0 w-full overflow-hidden" style="top: 66.666%; height: 33.334%;">
-        <div class="absolute inset-0 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover bg-center" style="top: -66.666vh; height: 100vh;"></div>
+      <!-- Slice 3 (left: 66.666%, width: 33.334%) -->
+      <div class="bespoke-slice bespoke-slice-3 absolute top-0 overflow-hidden h-full" style="left: 66.6666%; width: 33.334%;">
+        <div class="absolute inset-0 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover bg-center" style="left: -66.6666vw; width: 100vw; height: 100%;"></div>
         <div class="absolute inset-0 bg-black/5"></div>
       </div>
     </div>
 
     <div id="bespoke-content" class="relative z-10 flex flex-col items-center text-center w-full max-w-4xl px-4">
-      <h2 class="text-3xl md:text-5xl uppercase tracking-widest font-bold text-white mb-4 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">BESPOKE MANUFACTURING</h2>
+      <h2 class="text-2xl md:text-4xl tracking-[0.2em] uppercase font-bold text-white mb-4 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">BESPOKE MANUFACTURING</h2>
       <p class="text-white text-sm md:text-base max-w-xl font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Tell us about your custom brass or copper manufacturing requirements.</p>
 
       <form id="bespoke-form" class="max-w-3xl w-full text-left space-y-6 mt-10 bg-black/45 backdrop-blur-md p-6 md:p-10 rounded border border-white/10 shadow-2xl">

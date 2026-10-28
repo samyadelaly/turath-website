@@ -218,7 +218,7 @@ function initHeroAnimations() {
   }
 
   // 4. Text Fade-out: headlines, eyebrow & bottom content translate up and fade out
-  heroTl.to('.hero-eyebrow, .hero-headline-1, .hero-headline-2, .hero-bottom-content', {
+  heroTl.to('.hero-eyebrow, .hero-headline-1, .hero-headline-2, .hero-bottom-content, #hero-arrow-container', {
     opacity: 0,
     y: -40,
     ease: 'power1.out',
@@ -461,10 +461,17 @@ function initCollectionsHorizontalScroll() {
 
   if (collectionsTrack && collectionsSection) {
     // Architectural Layered Scrolling (Scene 03 slides OVER Scene 02 smoothly without jumping)
+    ScrollTrigger.create({
+      trigger: "#scene-02",
+      start: "top top",
+      endTrigger: "#scene-03",
+      end: "top top",
+      pin: true,
+      pinSpacing: false
+    });
     gsap.to("#scene-02", {
       scale: 0.95,
-      opacity: 0.35,
-      ease: "none",
+      opacity: 0.3,
       scrollTrigger: {
         trigger: "#scene-03",
         start: "top bottom",
@@ -543,31 +550,58 @@ function initBespokeTransition() {
   const bespokeSection = document.getElementById('bespoke');
   const bespokeSlices = document.querySelectorAll('.bespoke-slice');
   const bespokeContent = document.getElementById('bespoke-content');
-  const spacer = document.getElementById('scene-03-spacer');
 
-  if (bespokeSection && bespokeSlices.length && spacer) {
-    // Initial state: slices positioned offscreen to the right
-    gsap.set(bespokeSlices, { xPercent: 100 });
-    if (bespokeContent) gsap.set(bespokeContent, { opacity: 0, x: 45 });
-
-    const bespokeTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#scene-03-spacer',
-        start: 'top bottom',
-        end: 'bottom bottom',
-        scrub: 1,
-        onUpdate: (self) => {
-          bespokeSection.style.pointerEvents = self.progress > 0.8 ? 'auto' : 'none';
+  if (bespokeSection) {
+    // 1. Geometric architectural clip-path curtain reveal from right
+    gsap.fromTo("#bespoke", 
+      { clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)" }, 
+      { 
+        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: "#bespoke",
+          start: "top bottom",
+          end: "top top",
+          scrub: true
         }
       }
-    });
+    );
 
-    // 3 horizontal slices slide in from right to left with architectural stagger
-    bespokeTl
-      .to('.bespoke-slice-1', { xPercent: 0, duration: 0.8, ease: 'power2.inOut' }, 0)
-      .to('.bespoke-slice-2', { xPercent: 0, duration: 0.8, ease: 'power2.inOut' }, 0.15)
-      .to('.bespoke-slice-3', { xPercent: 0, duration: 0.8, ease: 'power2.inOut' }, 0.3)
-      .to(bespokeContent, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, 0.45);
+    // 2. 3 vertical slices sliding in with architectural stagger from right
+    if (bespokeSlices.length) {
+      gsap.fromTo(bespokeSlices,
+        { xPercent: 100 },
+        {
+          xPercent: 0,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#bespoke",
+            start: "top bottom",
+            end: "top top",
+            scrub: true
+          }
+        }
+      );
+    }
+
+    // 3. Content fade-in as section settles
+    if (bespokeContent) {
+      gsap.fromTo(bespokeContent,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#bespoke",
+            start: "top 60%",
+            toggleActions: "play reverse play reverse"
+          }
+        }
+      );
+    }
   }
 }
 
