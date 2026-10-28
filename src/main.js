@@ -594,7 +594,7 @@ function initBespokeTransition() {
         trigger: '#bespoke',
         start: 'top bottom',
         end: 'top top',
-        scrub: 2.5, // Significantly smoother, slower response to scroll gestures
+        scrub: 3.2, // Ultra-slow, silky cinematic damping
         invalidateOnRefresh: true,
       }
     });
@@ -613,8 +613,8 @@ function initBespokeTransition() {
         opacity: 1,
         y: 0,
         ease: 'sine.inOut', // Very gentle, slow gradual curve without abrupt jumps
-        duration: 1.05
-      }, 0.1);
+        duration: 1.15
+      }, 0.35); // Delayed start so slices reveal first, then text slowly blooms
     }
 
     // 3. Subtitle ("Tell us about your custom request") - Slower staggered fade across scroll
@@ -623,8 +623,8 @@ function initBespokeTransition() {
         opacity: 1,
         y: 0,
         ease: 'sine.inOut', // Very gentle, slow gradual curve
-        duration: 0.95
-      }, 0.25);
+        duration: 1.05
+      }, 0.55); // Further delayed for a deeply luxurious sequential entrance
     }
 
     // 4. Bespoke form rises and fades in smoothly as slices settle
@@ -633,8 +633,8 @@ function initBespokeTransition() {
         opacity: 1,
         y: 0,
         ease: 'power1.inOut',
-        duration: 0.65
-      }, 0.5);
+        duration: 0.8
+      }, 0.75);
     }
   }
 }
