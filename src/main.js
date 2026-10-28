@@ -542,54 +542,71 @@ function initCollectionsHorizontalScroll() {
   }
 }
 
-// 6. Scene 03 -> Scene 04: Smooth Pin & Fade Scene 03, Vertical 3-Slice Entrance for Bespoke
+// 6. Scene 03 -> Scene 04: Pin & Fade Scene 03, Exact Scene 02 3-Slice Entrance for Bespoke
 function initBespokeTransition() {
   const bespokeSection = document.getElementById('bespoke');
-  const bSlices = document.querySelectorAll('.b-slice');
+  const bespokeSlices = document.querySelectorAll('#bespoke-layer-1 .bespoke-vertical-slice');
   const bespokeContent = document.getElementById('bespoke-content');
 
-  if (bespokeSection) {
-    // Smooth fade out for Scene 03 (Fixing Jitter)
-    gsap.to("#scene-03", {
-      opacity: 0,
-      ease: "none",
-      scrollTrigger: { 
-        trigger: "#bespoke", 
-        start: "top bottom", 
-        end: "top top", 
-        scrub: 1.5 // Smoothed scrub
+  if (!bespokeSection) return;
+
+  // 1. Smooth fade out for Scene 03 (Fixing Jitter)
+  gsap.to("#scene-03", {
+    opacity: 0,
+    ease: "none",
+    scrollTrigger: { 
+      trigger: "#bespoke", 
+      start: "top bottom", 
+      end: "top top", 
+      scrub: 1.5 // Smoothed scrub
+    }
+  });
+
+  // 2. Pin Scene 03 safely with anticipatePin, ending exactly at bespoke top top
+  ScrollTrigger.create({
+    trigger: "#scene-03",
+    start: "top top",
+    endTrigger: "#bespoke",
+    end: "top top",
+    pin: true,
+    pinSpacing: false,
+    anticipatePin: 1 // Prevents jitter on pin entry
+  });
+
+  // 3. Exact replication of Scene 02 Entrance: 3 Vertical Slices Staggering Upwards
+  if (bespokeSlices.length) {
+    gsap.set(bespokeSlices, { clipPath: 'inset(100% 0% 0% 0%)' });
+
+    const bespokeEntranceTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#bespoke',
+        start: 'top bottom',
+        end: 'top top',
+        scrub: 1.5,
+        invalidateOnRefresh: true,
       }
     });
-    
-    // Pin Scene 03 safely with anticipatePin
-    ScrollTrigger.create({
-      trigger: "#scene-03",
-      start: "top top",
-      endTrigger: "#bespoke",
-      end: "bottom top",
-      pin: true,
-      pinSpacing: false,
-      anticipatePin: 1 // Prevents jitter on pin entry
-    });
 
-    // Vertical 3-Slice entrance (from Bottom to Top)
-    gsap.fromTo(".b-slice", 
-      { y: "100%" }, // Changed from x to y for vertical ascent
-      { y: "0%", stagger: 0.15, ease: "power2.out",
-        scrollTrigger: { 
-          trigger: "#bespoke", 
-          start: "top 80%", 
-          end: "top top", 
-          scrub: 1.5 // Smoothed scrub
-        }
-      }
-    );
+    // 3 vertical slices enter with staggered clipPath inset (identical to Scene 02)
+    bespokeEntranceTl.to(bespokeSlices, {
+      clipPath: 'inset(0% 0% 0% 0%)',
+      stagger: 0.15,
+      ease: 'power2.inOut',
+      duration: 0.85
+    }, 0);
 
-    // Content fade-in
-    gsap.to("#bespoke-content", {
-      opacity: 1, y: 0, duration: 1, ease: "power2.out",
-      scrollTrigger: { trigger: "#bespoke", start: "top 60%", toggleActions: "play none none reverse" }
-    });
+    // Bespoke content rises and fades in smoothly (identical to Scene 02 floating text)
+    if (bespokeContent) {
+      bespokeEntranceTl.fromTo(bespokeContent, {
+        opacity: 0,
+        y: 35
+      }, {
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+        duration: 0.4
+      }, 0.45);
+    }
   }
 }
 
