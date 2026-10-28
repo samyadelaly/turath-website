@@ -542,9 +542,44 @@ function initCollectionsHorizontalScroll() {
   }
 }
 
-// 6. Scene 04: Bespoke Manufacturing (Clean & Static - Animation Cancelled)
+// 6. Scene 03 -> Scene 04: Pin & Fade Scene 03, 3-Slice Staggered Entrance for Bespoke
 function initBespokeTransition() {
-  // Entrance animations cancelled for smooth, unhindered page flow
+  const bespokeSection = document.getElementById('bespoke');
+  const bSlices = document.querySelectorAll('.b-slice');
+  const bespokeContent = document.getElementById('bespoke-content');
+
+  if (bespokeSection) {
+    // 1. Fade out Scene 03 smoothly (no scaling)
+    gsap.to("#scene-03", {
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: { trigger: "#bespoke", start: "top bottom", end: "top top", scrub: true }
+    });
+    
+    // 2. Pin Scene 03
+    ScrollTrigger.create({
+      trigger: "#scene-03",
+      start: "top top",
+      endTrigger: "#bespoke",
+      end: "bottom top",
+      pin: true,
+      pinSpacing: false
+    });
+
+    // 3. 3-Slice staircase entrance from the right
+    gsap.fromTo(".b-slice", 
+      { x: "100%" }, 
+      { x: "0%", stagger: 0.15, ease: "power2.out",
+        scrollTrigger: { trigger: "#bespoke", start: "top 80%", end: "top top", scrub: 1 }
+      }
+    );
+
+    // 4. Content fade-in after slices
+    gsap.to("#bespoke-content", {
+      opacity: 1, y: 0, duration: 1, ease: "power2.out",
+      scrollTrigger: { trigger: "#bespoke", start: "top 60%", toggleActions: "play none none reverse" }
+    });
+  }
 }
 
 // 7. Bespoke Manufacturing Inquiry Form
