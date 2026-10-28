@@ -50,7 +50,7 @@
         <div class="hero-wordmark-wrap relative z-[90] pointer-events-auto cursor-pointer" id="hero-wordmark-wrap">
           <span class="hero-wordmark turath-interpolator" id="hero-wordmark"><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="U">U</span><span class="scramble-char" data-char="R">R</span><span class="scramble-char" data-char="A">A</span><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="H">H</span></span>
           <button type="button" class="hero-scroll-btn cursor-pointer relative z-[90] pointer-events-auto" id="hero-scroll-btn" aria-label="Scroll to Section 02" onclick="document.getElementById('scene-02').scrollIntoView({behavior: 'smooth'})">
-            <svg class="hero-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg class="hero-chevron-icon pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
@@ -126,15 +126,6 @@
       <p class="hero-bottom-desc">
         Premium handcrafted brass, copper and decorative metal products, made in Cairo, Egypt for luxury homes, hotels, restaurants, palaces and commercial projects worldwide. Gamaliya Street, Historic Cairo, Egypt.
       </p>
-    </div>
-
-    <!-- Explicit highly clickable Hero down-arrow button -->
-    <div id="hero-arrow-container" class="absolute bottom-10 left-1/2 -translate-x-1/2 z-[9999] cursor-pointer" onclick="document.getElementById('scene-02').scrollIntoView({behavior: 'smooth'})">
-      <button type="button" class="cursor-pointer p-3 rounded-full border border-white/40 bg-black/50 text-white hover:bg-black/80 hover:border-white/80 transition-all flex items-center justify-center animate-bounce shadow-2xl backdrop-blur-md" aria-label="Scroll to Section 02">
-        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </button>
     </div>
   </section>
 
@@ -403,18 +394,12 @@
 
     <div id="bespoke-content" class="relative z-10 flex flex-col items-center text-center w-full max-w-4xl px-4">
       <h2 class="text-2xl md:text-4xl tracking-[0.2em] uppercase font-bold text-white mb-4 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">BESPOKE MANUFACTURING</h2>
-      <p class="text-white text-sm md:text-base max-w-xl font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Tell us about your custom brass or copper manufacturing requirements.</p>
+      <p class="text-white text-sm md:text-base max-w-xl font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Tell us about your custom request</p>
 
       <form id="bespoke-form" class="max-w-3xl w-full text-left space-y-6 mt-10 bg-black/45 backdrop-blur-md p-6 md:p-10 rounded border border-white/10 shadow-2xl">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="flex flex-col gap-2">
-            <label for="fullName" class="text-xs uppercase tracking-widest text-white/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] font-medium">Full Name *</label>
-            <input type="text" id="fullName" name="fullName" required placeholder="Your full name" class="border-b border-white/40 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors placeholder:text-white/40" />
-          </div>
-          <div class="flex flex-col gap-2">
-            <label for="company" class="text-xs uppercase tracking-widest text-white/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] font-medium">Company (Optional)</label>
-            <input type="text" id="company" name="company" placeholder="Studio, hotel, firm" class="border-b border-white/40 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors placeholder:text-white/40" />
-          </div>
+        <div class="flex flex-col gap-2">
+          <label for="fullName" class="text-xs uppercase tracking-widest text-white/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] font-medium">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" required placeholder="Your full name" class="border-b border-white/40 bg-transparent text-white focus:outline-none focus:border-[#D7C797] pb-2 w-full transition-colors placeholder:text-white/40" />
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

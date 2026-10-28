@@ -218,7 +218,7 @@ function initHeroAnimations() {
   }
 
   // 4. Text Fade-out: headlines, eyebrow & bottom content translate up and fade out
-  heroTl.to('.hero-eyebrow, .hero-headline-1, .hero-headline-2, .hero-bottom-content, #hero-arrow-container', {
+  heroTl.to('.hero-eyebrow, .hero-headline-1, .hero-headline-2, .hero-bottom-content', {
     opacity: 0,
     y: -40,
     ease: 'power1.out',
@@ -252,12 +252,12 @@ function initHeroAnimations() {
 
   // Fade out the scroll button/arrow smoothly as docking begins, leaving ONLY "TURATH" text to dock
   if (scrollBtn) {
+    gsap.set(scrollBtn, { pointerEvents: 'auto', cursor: 'pointer' });
     heroTl.to(scrollBtn, {
-      opacity: 0,
+      autoAlpha: 0,
       scale: 0.7,
       ease: 'power1.out',
-      duration: 0.35,
-      pointerEvents: 'none'
+      duration: 0.35
     }, 0);
   }
 
