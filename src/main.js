@@ -538,71 +538,13 @@ function initCollectionsHorizontalScroll() {
       });
     });
 
-    // Smooth collections title fade-in
-    if (document.getElementById('collections-title')) {
-      gsap.fromTo("#collections-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", scrollTrigger: { trigger: "#scene-03", start: "top 75%", toggleActions: "play reverse play reverse" } });
-    }
+    // Collections title is fully visible by default (no animation)
   }
 }
 
-// 6. Scene 03 -> Scene 04: 3-Slice Geometric Architectural Transition
+// 6. Scene 04: Bespoke Manufacturing (Clean & Static - Animation Cancelled)
 function initBespokeTransition() {
-  const bespokeSection = document.getElementById('bespoke');
-  const bespokeSlices = document.querySelectorAll('.bespoke-slice');
-  const bespokeContent = document.getElementById('bespoke-content');
-
-  if (bespokeSection) {
-    // 1. Geometric architectural clip-path curtain reveal from right
-    gsap.fromTo("#bespoke", 
-      { clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)" }, 
-      { 
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-        ease: "power2.inOut",
-        scrollTrigger: {
-          trigger: "#bespoke",
-          start: "top bottom",
-          end: "top top",
-          scrub: true
-        }
-      }
-    );
-
-    // 2. 3 vertical slices sliding in with architectural stagger from right
-    if (bespokeSlices.length) {
-      gsap.fromTo(bespokeSlices,
-        { xPercent: 100 },
-        {
-          xPercent: 0,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "#bespoke",
-            start: "top bottom",
-            end: "top top",
-            scrub: true
-          }
-        }
-      );
-    }
-
-    // 3. Content fade-in as section settles
-    if (bespokeContent) {
-      gsap.fromTo(bespokeContent,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "#bespoke",
-            start: "top 60%",
-            toggleActions: "play reverse play reverse"
-          }
-        }
-      );
-    }
-  }
+  // Entrance animations cancelled for smooth, unhindered page flow
 }
 
 // 7. Bespoke Manufacturing Inquiry Form

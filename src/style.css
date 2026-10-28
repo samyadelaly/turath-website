@@ -889,15 +889,6 @@ body.menu-open .menu-line.line-2 {
   position: relative;
   z-index: 30;
   overflow: hidden;
-  will-change: clip-path;
-}
-
-.bespoke-slice {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  overflow: hidden;
-  will-change: transform;
 }
 
 /* ==========================================================================
