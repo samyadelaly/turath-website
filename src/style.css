@@ -1239,12 +1239,13 @@ select:-webkit-autofill:focus {
   will-change: transform, opacity;
 }
 
-/* Universal Dark Luxury Scrim */
+/* Universal Dark Luxury Scrim (10% Opacity) */
 .scene04-video-scrim,
 .scene04-scrim {
   position: absolute !important;
   inset: 0 !important;
-  background: linear-gradient(180deg, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0.88) 100%) !important;
+  background: #000000 !important;
+  opacity: 0.10 !important;
   z-index: 2 !important;
   pointer-events: none !important;
 }
@@ -1303,6 +1304,7 @@ select:-webkit-autofill:focus {
   margin-bottom: 1rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
 }
 
 .scene04-desc {
@@ -1312,6 +1314,7 @@ select:-webkit-autofill:focus {
   color: var(--text-muted, #A1A1AA);
   max-width: 780px;
   margin: 0 auto;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
 }
 
 /* Category Chips Grid */
@@ -1333,7 +1336,7 @@ select:-webkit-autofill:focus {
   padding: 0.75rem 1.4rem;
   background: rgba(18, 19, 22, 0.75);
   border: 1px solid rgba(215, 199, 151, 0.3);
-  border-radius: 50px;
+  border-radius: 2px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--text-light, #F3F1ED);
