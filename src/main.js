@@ -594,12 +594,12 @@ function initBespokeTransition() {
       }
     });
 
-    // 1. 3 vertical slices enter with staggered clipPath inset
+    // 1. 3 vertical slices enter with staggered clipPath inset (fully level before text starts)
     bespokeEntranceTl.to(bespokeSlices, {
       clipPath: 'inset(0% 0% 0% 0%)',
-      stagger: 0.15,
+      stagger: 0.12,
       ease: 'power2.inOut',
-      duration: 0.85
+      duration: 0.70
     }, 0);
 
     // 2. Bespoke form rises and fades in smoothly as slices enter
@@ -613,7 +613,7 @@ function initBespokeTransition() {
     }
   }
 
-  // Ultra-slow cinematic fade in for Bespoke texts
+  // Ultra-slow cinematic fade in for Bespoke texts - starts ONLY after slices are fully risen and level
   gsap.fromTo(".bespoke-text-anim", 
     { opacity: 0, y: 30 },
     { 
@@ -623,8 +623,8 @@ function initBespokeTransition() {
       duration: 5,  // 5 FULL SECONDS to fade in! Extremely slow and luxurious.
       ease: "power1.inOut", // Softest easing for a breathing effect
       scrollTrigger: {
-        trigger: "#bespoke-content", 
-        start: "top 75%", // Starts fading when the content area is well into the viewport
+        trigger: "#bespoke", 
+        start: "top 25px", // Starts ONLY after all 3 slices have completely risen and reached the exact same level
         toggleActions: "play none none reverse" // Plays fully once triggered, reverses gracefully if scrolled all the way back up
       }
     }
