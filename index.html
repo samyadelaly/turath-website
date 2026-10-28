@@ -34,7 +34,8 @@
 
   <link rel="stylesheet" href="./src/style.css">
 </head>
-<body>
+<body class="bg-black">
+  <div class="fixed inset-0 bg-black z-[-1] pointer-events-none"></div>
 
   <!-- TOP LUXURY NAVBAR (PERMANENTLY FIXED AT TOP) -->
   <header id="site-header" class="site-header fixed top-0 left-0 w-full z-[9999] bg-black/20 backdrop-blur-md">
@@ -378,7 +379,7 @@
       <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
     </div>
 
-    <div id="bespoke-content" class="relative z-10 flex flex-col items-center w-full opacity-0">
+    <div id="bespoke-content" class="relative z-10 flex flex-col items-center w-full opacity-0 mt-20">
       <h2 class="text-xl md:text-2xl tracking-[0.2em] font-bold text-white mb-2 uppercase drop-shadow-md">BESPOKE MANUFACTURING</h2>
       <p class="text-white text-sm md:text-base max-w-xl font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Tell us about your custom request</p>
 

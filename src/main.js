@@ -542,39 +542,50 @@ function initCollectionsHorizontalScroll() {
   }
 }
 
-// 6. Scene 03 -> Scene 04: Pin & Fade Scene 03, 3-Slice Staggered Entrance for Bespoke
+// 6. Scene 03 -> Scene 04: Smooth Pin & Fade Scene 03, Vertical 3-Slice Entrance for Bespoke
 function initBespokeTransition() {
   const bespokeSection = document.getElementById('bespoke');
   const bSlices = document.querySelectorAll('.b-slice');
   const bespokeContent = document.getElementById('bespoke-content');
 
   if (bespokeSection) {
-    // 1. Fade out Scene 03 smoothly (no scaling)
+    // Smooth fade out for Scene 03 (Fixing Jitter)
     gsap.to("#scene-03", {
       opacity: 0,
       ease: "none",
-      scrollTrigger: { trigger: "#bespoke", start: "top bottom", end: "top top", scrub: true }
+      scrollTrigger: { 
+        trigger: "#bespoke", 
+        start: "top bottom", 
+        end: "top top", 
+        scrub: 1.5 // Smoothed scrub
+      }
     });
     
-    // 2. Pin Scene 03
+    // Pin Scene 03 safely with anticipatePin
     ScrollTrigger.create({
       trigger: "#scene-03",
       start: "top top",
       endTrigger: "#bespoke",
       end: "bottom top",
       pin: true,
-      pinSpacing: false
+      pinSpacing: false,
+      anticipatePin: 1 // Prevents jitter on pin entry
     });
 
-    // 3. 3-Slice staircase entrance from the right
+    // Vertical 3-Slice entrance (from Bottom to Top)
     gsap.fromTo(".b-slice", 
-      { x: "100%" }, 
-      { x: "0%", stagger: 0.15, ease: "power2.out",
-        scrollTrigger: { trigger: "#bespoke", start: "top 80%", end: "top top", scrub: 1 }
+      { y: "100%" }, // Changed from x to y for vertical ascent
+      { y: "0%", stagger: 0.15, ease: "power2.out",
+        scrollTrigger: { 
+          trigger: "#bespoke", 
+          start: "top 80%", 
+          end: "top top", 
+          scrub: 1.5 // Smoothed scrub
+        }
       }
     );
 
-    // 4. Content fade-in after slices
+    // Content fade-in
     gsap.to("#bespoke-content", {
       opacity: 1, y: 0, duration: 1, ease: "power2.out",
       scrollTrigger: { trigger: "#bespoke", start: "top 60%", toggleActions: "play none none reverse" }
