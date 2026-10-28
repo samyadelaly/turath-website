@@ -538,7 +538,7 @@ function initCollectionsHorizontalScroll() {
       });
     });
 
-    // Collections sequential fade in/out
+    // Collections sequential fade in only
     gsap.fromTo(".collections-text-anim", 
       { opacity: 0, y: 20 },
       { 
@@ -550,7 +550,7 @@ function initCollectionsHorizontalScroll() {
         scrollTrigger: {
           trigger: ".collections-text-anim", // triggers when the text reaches viewport
           start: "top 85%",
-          toggleActions: "play reverse play reverse"
+          once: true // Fades in only once and stays permanently visible
         }
       }
     );
