@@ -594,7 +594,7 @@ function initBespokeTransition() {
         trigger: '#bespoke',
         start: 'top bottom',
         end: 'top top',
-        scrub: 1.5,
+        scrub: 2.5, // Significantly smoother, slower response to scroll gestures
         invalidateOnRefresh: true,
       }
     });
@@ -607,33 +607,33 @@ function initBespokeTransition() {
       duration: 0.85
     }, 0);
 
-    // 2. Title ("BESPOKE MANUFACTURING") fades in and out directly WITH scrolling
+    // 2. Title ("BESPOKE MANUFACTURING") - Slower, ultra-gradual fade across full scroll runway
     if (bespokeTitle) {
       bespokeEntranceTl.to(bespokeTitle, {
         opacity: 1,
         y: 0,
-        ease: 'power2.out',
-        duration: 0.5
-      }, 0.2);
+        ease: 'sine.inOut', // Very gentle, slow gradual curve without abrupt jumps
+        duration: 1.05
+      }, 0.1);
     }
 
-    // 3. Subtitle ("Tell us about your custom request") fades in and out directly WITH scrolling
+    // 3. Subtitle ("Tell us about your custom request") - Slower staggered fade across scroll
     if (bespokeSubtitle) {
       bespokeEntranceTl.to(bespokeSubtitle, {
         opacity: 1,
         y: 0,
-        ease: 'power2.out',
-        duration: 0.5
-      }, 0.35);
+        ease: 'sine.inOut', // Very gentle, slow gradual curve
+        duration: 0.95
+      }, 0.25);
     }
 
-    // 4. Bespoke form rises and fades in smoothly as slices enter
+    // 4. Bespoke form rises and fades in smoothly as slices settle
     if (bespokeForm) {
       bespokeEntranceTl.to(bespokeForm, {
         opacity: 1,
         y: 0,
-        ease: 'power2.out',
-        duration: 0.45
+        ease: 'power1.inOut',
+        duration: 0.65
       }, 0.5);
     }
   }
