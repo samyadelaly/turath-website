@@ -557,11 +557,14 @@ function initCollectionsHorizontalScroll() {
   }
 }
 
-// 6. Scene 03 -> Scene 04: Pin Scene 03 (No Fade), 3-Slice Entrance for Bespoke
+// 6. Scene 03 -> Scene 04: Pin Scene 03 (No Fade), 3-Slice Entrance & Scroll-Linked Text Fade
 function initBespokeTransition() {
   const bespokeSection = document.getElementById('bespoke');
   const bespokeSlices = document.querySelectorAll('#bespoke .b-slice');
   const bespokeContent = document.getElementById('bespoke-content');
+  const bespokeTitle = document.querySelector('#bespoke-content h2');
+  const bespokeSubtitle = document.querySelector('#bespoke-content p');
+  const bespokeForm = document.getElementById('bespoke-form');
 
   if (!bespokeSection) return;
 
@@ -576,9 +579,15 @@ function initBespokeTransition() {
     anticipatePin: 1 // Prevents jitter on pin entry
   });
 
-  // 3 Vertical Slices Entrance: Staggering Upwards
+  // Master Bespoke Scroll-Linked Timeline (Scrubbed fade in and out with scrolling)
   if (bespokeSlices.length) {
     gsap.set(bespokeSlices, { clipPath: 'inset(100% 0% 0% 0%)' });
+    if (bespokeTitle && bespokeSubtitle) {
+      gsap.set([bespokeTitle, bespokeSubtitle], { opacity: 0, y: 25 });
+    }
+    if (bespokeForm) {
+      gsap.set(bespokeForm, { opacity: 0, y: 35 });
+    }
 
     const bespokeEntranceTl = gsap.timeline({
       scrollTrigger: {
@@ -590,7 +599,7 @@ function initBespokeTransition() {
       }
     });
 
-    // 3 vertical slices enter with staggered clipPath inset
+    // 1. 3 vertical slices enter with staggered clipPath inset
     bespokeEntranceTl.to(bespokeSlices, {
       clipPath: 'inset(0% 0% 0% 0%)',
       stagger: 0.15,
@@ -598,37 +607,36 @@ function initBespokeTransition() {
       duration: 0.85
     }, 0);
 
-    // Bespoke form rises and fades in smoothly as slices enter
-    const bespokeForm = document.getElementById('bespoke-form');
-    if (bespokeForm) {
-      bespokeEntranceTl.fromTo(bespokeForm, {
-        opacity: 0,
-        y: 35
-      }, {
+    // 2. Title ("BESPOKE MANUFACTURING") fades in and out directly WITH scrolling
+    if (bespokeTitle) {
+      bespokeEntranceTl.to(bespokeTitle, {
         opacity: 1,
         y: 0,
         ease: 'power2.out',
-        duration: 0.4
-      }, 0.45);
+        duration: 0.5
+      }, 0.2);
+    }
+
+    // 3. Subtitle ("Tell us about your custom request") fades in and out directly WITH scrolling
+    if (bespokeSubtitle) {
+      bespokeEntranceTl.to(bespokeSubtitle, {
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+        duration: 0.5
+      }, 0.35);
+    }
+
+    // 4. Bespoke form rises and fades in smoothly as slices enter
+    if (bespokeForm) {
+      bespokeEntranceTl.to(bespokeForm, {
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+        duration: 0.45
+      }, 0.5);
     }
   }
-
-  // Bespoke sequential fade in/out (SLOWER)
-  gsap.fromTo(".bespoke-text-anim", 
-    { opacity: 0, y: 20 },
-    { 
-      opacity: 1, 
-      y: 0, 
-      stagger: 0.5, // Slower sequence between title and subtitle
-      duration: 2.5,  // Much slower fade in
-      ease: "power1.out", // Softer easing for a luxurious feel
-      scrollTrigger: {
-        trigger: ".bespoke-text-anim", 
-        start: "top 85%",
-        toggleActions: "play reverse play reverse"
-      }
-    }
-  );
 }
 
 // 7. Bespoke Manufacturing Inquiry Form
