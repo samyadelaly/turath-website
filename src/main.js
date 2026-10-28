@@ -613,15 +613,15 @@ function initBespokeTransition() {
     }
   }
 
-  // Ultra-slow cinematic fade in for Bespoke texts - starts ONLY after slices are fully risen and level
+  // Balanced & elegant fade in for Bespoke texts - starts after slices are fully risen and level
   gsap.fromTo(".bespoke-text-anim", 
-    { opacity: 0, y: 30 },
+    { opacity: 0, y: 25 },
     { 
       opacity: 1, 
       y: 0, 
-      stagger: 2, // 2 full seconds of delay before the subtitle even begins to appear
-      duration: 5,  // 5 FULL SECONDS to fade in! Extremely slow and luxurious.
-      ease: "power1.inOut", // Softest easing for a breathing effect
+      stagger: 0.5, // 0.5s delay before subtitle begins
+      duration: 2.0,  // 2.0s smooth & elegant fade
+      ease: "power2.out", // Smooth luxury deceleration
       scrollTrigger: {
         trigger: "#bespoke", 
         start: "top 25px", // Starts ONLY after all 3 slices have completely risen and reached the exact same level
