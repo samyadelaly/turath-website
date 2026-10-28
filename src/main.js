@@ -538,7 +538,22 @@ function initCollectionsHorizontalScroll() {
       });
     });
 
-    // Collections title is fully visible by default (no animation)
+    // Collections sequential fade in/out
+    gsap.fromTo(".collections-text-anim", 
+      { opacity: 0, y: 20 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        stagger: 0.2, 
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".collections-text-anim", // triggers when the text reaches viewport
+          start: "top 85%",
+          toggleActions: "play reverse play reverse"
+        }
+      }
+    );
   }
 }
 
@@ -583,9 +598,10 @@ function initBespokeTransition() {
       duration: 0.85
     }, 0);
 
-    // Bespoke content rises and fades in smoothly
-    if (bespokeContent) {
-      bespokeEntranceTl.fromTo(bespokeContent, {
+    // Bespoke form rises and fades in smoothly as slices enter
+    const bespokeForm = document.getElementById('bespoke-form');
+    if (bespokeForm) {
+      bespokeEntranceTl.fromTo(bespokeForm, {
         opacity: 0,
         y: 35
       }, {
@@ -596,6 +612,23 @@ function initBespokeTransition() {
       }, 0.45);
     }
   }
+
+  // Bespoke sequential fade in/out
+  gsap.fromTo(".bespoke-text-anim", 
+    { opacity: 0, y: 20 },
+    { 
+      opacity: 1, 
+      y: 0, 
+      stagger: 0.2, 
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".bespoke-text-anim", // triggers when the text reaches viewport
+        start: "top 85%",
+        toggleActions: "play reverse play reverse"
+      }
+    }
+  );
 }
 
 // 7. Bespoke Manufacturing Inquiry Form
