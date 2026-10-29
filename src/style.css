@@ -1227,9 +1227,10 @@ select:-webkit-autofill:focus {
               linear-gradient(135deg, rgba(65, 45, 22, 0.58) 0%, rgba(28, 18, 10, 0.72) 100%);
   backdrop-filter: blur(20px) saturate(140%);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid rgba(215, 199, 151, 0.32) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   border-radius: 8px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 235, 190, 0.25);
   box-sizing: border-box;
   text-align: left;
 }
