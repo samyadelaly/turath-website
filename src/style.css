@@ -1197,7 +1197,7 @@ select:-webkit-autofill:focus {
 
 
 /* ==========================================================================
-   SECTION 05: EXACT REFERENCE MATCH (WARM GLASS & 6 PRODUCT BUTTONS)
+   SECTION 05: BOTTOM QUARTER TEXT & ZERO BUTTONS (MATCHING REFERENCE AESTHETIC)
    ========================================================================== */
 #scene-05 {
   position: relative !important;
@@ -1218,23 +1218,11 @@ select:-webkit-autofill:focus {
   z-index: 0 !important;
 }
 
-/* Editorial Wrapper */
-.scene05-editorial-wrapper {
-  position: relative;
-  z-index: 20;
+/* Translucent Warm Golden Glass Card Positioned in Bottom Quarter */
+.scene05-bottom-card {
   width: 100%;
-  max-width: 540px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-/* Top Translucent Warm Golden Glass Card (Matching Screenshot) */
-.scene05-text-card {
-  width: 100%;
-  padding: clamp(1.4rem, 4vw, 2.2rem) clamp(1.2rem, 3.5vw, 1.8rem);
+  max-width: 560px;
+  padding: clamp(1.25rem, 3.5vw, 1.85rem) clamp(1.15rem, 3vw, 1.75rem);
   background: radial-gradient(circle at 92% 14%, rgba(215, 175, 90, 0.45) 0%, rgba(160, 115, 45, 0.18) 45%, transparent 70%),
               linear-gradient(135deg, rgba(65, 45, 22, 0.58) 0%, rgba(28, 18, 10, 0.72) 100%);
   backdrop-filter: blur(20px) saturate(140%);
@@ -1250,25 +1238,25 @@ select:-webkit-autofill:focus {
 .scene05-eyebrow {
   display: block;
   font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: clamp(0.72rem, 1vw, 0.78rem);
+  font-size: clamp(0.70rem, 0.95vw, 0.76rem);
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #D7C797 !important;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.65rem;
   text-align: left;
 }
 
-/* Headline: FEATURED HANDCRAFTED MASTERPIECES (Clean, Regular/Light Inter Sans) */
+/* Headline: FEATURED HANDCRAFTED MASTERPIECES */
 .scene05-headline {
   font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: clamp(1.35rem, 3.5vw, 1.95rem);
+  font-size: clamp(1.25rem, 3.2vw, 1.85rem);
   font-weight: 400 !important;
   line-height: 1.15;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: #FFFFFF !important;
-  margin-bottom: 0.95rem;
+  margin-bottom: 0.80rem;
   text-align: left;
   text-shadow: none !important;
 }
@@ -1276,89 +1264,23 @@ select:-webkit-autofill:focus {
 /* Description paragraph */
 .scene05-description {
   font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: clamp(0.82rem, 1.2vw, 0.90rem);
-  line-height: 1.6;
+  font-size: clamp(0.80rem, 1.15vw, 0.88rem);
+  line-height: 1.55;
   color: rgba(240, 235, 225, 0.88) !important;
   margin-bottom: 0 !important;
   text-align: left;
 }
 
-/* 2-Column Buttons Grid (Sitting directly on background below card) */
-.scene05-buttons-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.55rem;
-  width: 100%;
-}
-
-/* Individual Product Chip / Button */
-.scene05-chip {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.65rem 0.85rem;
-  background: linear-gradient(135deg, rgba(85, 62, 30, 0.48) 0%, rgba(32, 22, 12, 0.68) 100%);
-  backdrop-filter: blur(14px) saturate(130%);
-  -webkit-backdrop-filter: blur(14px) saturate(130%);
-  border: 1px solid rgba(215, 199, 151, 0.32) !important;
-  border-radius: 6px;
-  color: #FFFFFF !important;
-  text-decoration: none !important;
-  font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: clamp(0.74rem, 1vw, 0.84rem);
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  line-height: 1.25;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  box-sizing: border-box;
-}
-
-.scene05-chip:hover {
-  background: linear-gradient(135deg, rgba(120, 90, 45, 0.65) 0%, rgba(55, 38, 20, 0.85) 100%);
-  border-color: rgba(235, 215, 165, 0.65) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 12px rgba(215, 199, 151, 0.25);
-  color: #FFFFFF !important;
-}
-
-/* Golden Glowing Dot */
-.scene05-chip-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #D7C797;
-  box-shadow: 0 0 6px rgba(215, 199, 151, 0.8);
-  flex-shrink: 0;
-}
-
-.scene05-chip-text {
-  flex: 1;
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 @media (max-width: 480px) {
-  .scene05-editorial-wrapper {
-    gap: 0.5rem;
-  }
-  .scene05-text-card {
-    padding: 1.25rem 1rem;
-  }
-  .scene05-buttons-grid {
-    gap: 0.45rem;
-  }
-  .scene05-chip {
-    padding: 0.55rem 0.65rem;
-    font-size: 0.74rem;
-    gap: 0.4rem;
+  .scene05-bottom-card {
+    padding: 1.15rem 1rem;
   }
   .scene05-headline {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
   }
   .scene05-description {
-    font-size: 0.80rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
   }
 }
 

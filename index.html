@@ -85,8 +85,7 @@
 
   <!-- STEP 2: SCENE 01 - HERO ARCHITECTURE -->
   <section id="scene-01" class="relative"><a id="hero"></a>
-    <div id="scene-01" class="absolute top-0 left-0 w-full h-0 pointer-events-none" aria-hidden="true"></div>
-    <!-- Day Base Image -->
+        <!-- Day Base Image -->
     <div class="hero-bg-image hero-day" id="hero-day">
       <img src="/assets/images/hero-turath-1.jpg?v=2" alt="Turath Architectural Metalwork - Day" />
     </div>
@@ -425,7 +424,7 @@
   </section>
 
   <!-- SCENE 05: FEATURED PRODUCTS (HISTORICAL SCENE 04 ARCHITECTURE) -->
-  <section id="scene-05" class="relative w-full h-screen overflow-hidden z-50 flex items-center justify-center p-4 md:p-6" data-theme="dark">
+  <section id="scene-05" class="relative w-full h-screen overflow-hidden z-50 flex flex-col justify-end items-center sm:items-start p-4 sm:p-6 md:p-12 pb-8 sm:pb-10 md:pb-14" data-theme="dark">
     <a id="location" class="sr-only"></a>
     
     <!-- Background Wall Lamp Visual Trapped Inside Section 5 -->
@@ -446,48 +445,15 @@
     <!-- Warm Atmospheric Scrim (15% opacity to let background lamps glow) -->
     <div class="absolute inset-0 bg-black/15 z-10 pointer-events-none"></div>
 
-    <!-- Editorial Wrapper (Card + 2-Column Buttons Grid - Exact Reference) -->
-    <div class="relative z-20 w-full max-w-[540px] scene05-editorial-wrapper" id="scene05-content-card">
-      
-      <!-- Top Frosted Amber Glass Text Card -->
-      <div class="scene05-text-card">
-        <span class="scene05-eyebrow">04 / FEATURED PRODUCTS</span>
-        <h2 class="scene05-headline">
-          FEATURED HANDCRAFTED<br />MASTERPIECES
-        </h2>
-        <p class="scene05-description">
-          Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
-        </p>
-      </div>
-
-      <!-- 6 Featured Products Buttons in 2-Column Grid (Directly Below Card) -->
-      <div class="scene05-buttons-grid">
-        <a href="mirrors.html" class="scene05-chip">
-          <span class="scene05-chip-dot"></span>
-          <span class="scene05-chip-text">Brass &amp; Copper Mirrors</span>
-        </a>
-        <a href="lighting.html" class="scene05-chip">
-          <span class="scene05-chip-dot"></span>
-          <span class="scene05-chip-text">Chandeliers &amp; Lighting</span>
-        </a>
-        <a href="tables.html" class="scene05-chip">
-          <span class="scene05-chip-dot"></span>
-          <span class="scene05-chip-text">Tables &amp; Consoles</span>
-        </a>
-        <a href="decor.html" class="scene05-chip">
-          <span class="scene05-chip-dot"></span>
-          <span class="scene05-chip-text">Decorative Objects</span>
-        </a>
-        <a href="handles.html" class="scene05-chip">
-          <span class="scene05-chip-dot"></span>
-          <span class="scene05-chip-text">Door Handles &amp; Hardware</span>
-        </a>
-        <a href="handrails.html" class="scene05-chip">
-          <span class="scene05-chip-dot"></span>
-          <span class="scene05-chip-text">Handrails &amp; Architectural Metalwork</span>
-        </a>
-      </div>
-
+    <!-- Text positioned in the bottom quarter of the image (Zero buttons) -->
+    <div class="relative z-20 w-full max-w-[560px] scene05-bottom-card" id="scene05-content-card">
+      <span class="scene05-eyebrow">04 / FEATURED PRODUCTS</span>
+      <h2 class="scene05-headline">
+        FEATURED HANDCRAFTED<br />MASTERPIECES
+      </h2>
+      <p class="scene05-description">
+        Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
+      </p>
     </div>
   </section>
 
