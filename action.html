@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <title>Turath in Action — Craftsmanship in Motion</title>
+  <meta name="description" content="Watch authentic Egyptian brass and copper craftsmanship in motion inside our historic Cairo workshops.">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://turath-egypt.com/action.html">
+  <meta property="og:title" content="Turath in Action — Craftsmanship in Motion">
+  <meta property="og:description" content="Authentic handcrafted Egyptian brass and copper metalworking films. Historic Cairo workshops.">
+  <meta property="og:image" content="/assets/images/commute-poster.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
+
+  <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
+    <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black">
+      
+      <!-- Top Navbar -->
+      <div class="absolute top-0 left-0 w-full p-6 md:p-8 flex items-center justify-between z-50 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
+        <a href="index.html#scene-06" class="text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Scene 06">&larr;</a>
+        <div class="flex items-center gap-3 sm:gap-4">
+          <span class="text-xs md:text-sm font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase text-white/70">TURATH IN ACTION</span>
+          <button id="sound-toggle-btn" class="bg-black/60 backdrop-blur-md border border-white/20 hover:border-[#D7C797] text-white/90 hover:text-white p-2 rounded-full transition-all cursor-pointer shadow-lg" aria-label="Toggle Sound" title="Toggle Sound">
+            <svg id="sound-icon-muted" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>
+            <svg id="sound-icon-unmuted" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Centered Film Title -->
+      <div class="absolute top-[14%] md:top-[18%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
+        <h1 id="slider-title" class="text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-[0.16em] text-white uppercase text-center drop-shadow-md">
+          THE ART OF REPOUSSÉ &amp; HAND-CHISELING
+        </h1>
+      </div>
+
+      <!-- Center Navigation Arrows -->
+      <div class="absolute top-1/2 left-0 w-full -translate-y-1/2 flex justify-between items-center px-4 md:px-6 z-40 pointer-events-none">
+        <button id="prev-btn" class="text-white/60 hover:text-white text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer p-2" aria-label="Previous Film">&larr;</button>
+        <button id="next-btn" class="text-white/60 hover:text-white text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer p-2" aria-label="Next Film">&rarr;</button>
+      </div>
+
+      <!-- Main Video Element -->
+      <video id="slider-video" src="/video/commute2.mp4" playsinline loop autoplay muted class="w-full h-full object-cover transition-opacity duration-300"></video>
+      
+      <!-- Bottom Overlay: Craft Description & Dashes -->
+      <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
+        <p id="slider-desc" class="text-white/90 text-xs sm:text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3.5rem]">
+          Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.
+        </p>
+        <div id="dashes-container" class="flex justify-center items-center gap-3">
+          <span class="dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer" data-index="0"></span>
+          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="1"></span>
+          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="2"></span>
+          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="3"></span>
+          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="4"></span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const filmsData = [
+      {
+        src: '/video/commute2.mp4',
+        title: 'THE ART OF REPOUSSÉ & HAND-CHISELING',
+        desc: 'Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.'
+      },
+      {
+        src: '/video/commute3.mp4',
+        title: 'PRECISION PIERCING & ARCHITECTURAL LATTICEWORK',
+        desc: 'Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.'
+      },
+      {
+        src: '/video/commute4.mp4',
+        title: 'ARTISAN PATINATION & LIQUID SATIN OXIDATION',
+        desc: 'Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.'
+      },
+      {
+        src: '/video/VN20260909_233157.mp4',
+        title: 'GRAND CHANDELIER STRUCTURAL ASSEMBLY',
+        desc: 'Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.'
+      },
+      {
+        src: '/video/betebat.mp4',
+        title: 'TRADITIONAL METAL SPINNING & LATHE FORMING',
+        desc: 'Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.'
+      }
+    ];
+
+    // Read initial index from URL if present: ?film=2
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialFilm = parseInt(urlParams.get('film'), 10);
+    let currentIndex = (!isNaN(initialFilm) && initialFilm >= 0 && initialFilm < filmsData.length) ? initialFilm : 0;
+
+    const titleEl = document.getElementById('slider-title');
+    const descEl = document.getElementById('slider-desc');
+    const videoEl = document.getElementById('slider-video');
+    const dashesContainer = document.getElementById('dashes-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const soundToggleBtn = document.getElementById('sound-toggle-btn');
+    const soundMutedIcon = document.getElementById('sound-icon-muted');
+    const soundUnmutedIcon = document.getElementById('sound-icon-unmuted');
+
+    let isMuted = true;
+
+    function updateSoundUI() {
+      if (isMuted) {
+        videoEl.muted = true;
+        soundMutedIcon.classList.remove('hidden');
+        soundUnmutedIcon.classList.add('hidden');
+      } else {
+        videoEl.muted = false;
+        soundMutedIcon.classList.add('hidden');
+        soundUnmutedIcon.classList.remove('hidden');
+      }
+    }
+
+    soundToggleBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      updateSoundUI();
+    });
+
+    function updateSlider(index) {
+      if (index < 0) {
+        currentIndex = filmsData.length - 1;
+      } else if (index >= filmsData.length) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+
+      // Smooth crossfade
+      videoEl.style.opacity = '0.3';
+      titleEl.style.opacity = '0.3';
+      descEl.style.opacity = '0.3';
+
+      setTimeout(() => {
+        const film = filmsData[currentIndex];
+        videoEl.src = film.src;
+        videoEl.muted = isMuted;
+        videoEl.play().catch(() => {});
+        titleEl.innerText = film.title;
+        descEl.innerText = film.desc;
+
+        videoEl.style.opacity = '1';
+        titleEl.style.opacity = '1';
+        descEl.style.opacity = '1';
+
+        // Update dashes
+        const dashes = dashesContainer.querySelectorAll('.dash-dot');
+        dashes.forEach((dash, i) => {
+          if (i === currentIndex) {
+            dash.classList.remove('bg-white/30');
+            dash.classList.add('bg-white');
+          } else {
+            dash.classList.remove('bg-white');
+            dash.classList.add('bg-white/30');
+          }
+        });
+      }, 250);
+    }
+
+    prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
+    nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
+      if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    window.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      if (swipeDistance > 45) {
+        updateSlider(currentIndex - 1); // Swiped right -> previous
+      } else if (swipeDistance < -45) {
+        updateSlider(currentIndex + 1); // Swiped left -> next
+      }
+    }
+
+    // Direct click on dashes
+    const dashes = dashesContainer.querySelectorAll('.dash-dot');
+    dashes.forEach((dash) => {
+      dash.addEventListener('click', () => {
+        const idx = parseInt(dash.getAttribute('data-index'), 10);
+        updateSlider(idx);
+      });
+    });
+
+    // Initial setup if film param was given
+    if (currentIndex !== 0) {
+      updateSlider(currentIndex);
+    }
+  </script>
+</body>
+</html>

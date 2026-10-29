@@ -1328,3 +1328,206 @@ select:-webkit-autofill:focus {
 }
 
 #scene-05 { will-change: clip-path; }
+
+
+/* ==========================================================================
+   SCENE 06: TURATH IN ACTION / CRAFT IN MOTION (Vertical Slats & Workshop Films)
+   ========================================================================== */
+#scene-06 {
+  background-color: #0A0A0A !important;
+  will-change: clip-path;
+  border-top: none !important;
+}
+
+.scene06-seam-hairline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.scene06-header {
+  position: relative;
+  z-index: 20;
+}
+
+.scene06-eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: #D7C797;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.scene06-title {
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin: 0 0 0.75rem 0;
+}
+
+.scene06-desc {
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.55;
+  max-width: 620px;
+  margin: 0;
+}
+
+.craft-slats-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+}
+
+.video-slats-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(10px, 1.5vw, 20px);
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.video-slat-item {
+  flex: 1;
+  max-width: 220px;
+  aspect-ratio: 9 / 16;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(215, 199, 151, 0.28);
+  position: relative;
+  cursor: pointer;
+  background-color: #0d0d0d;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  text-decoration: none !important;
+  display: block;
+}
+
+.video-slat-item:hover {
+  transform: translateY(-8px) scale(1.03);
+  border-color: #D7C797;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
+}
+
+.slat-media-box {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slat-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slat-video-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0.35) 55%, rgba(10, 10, 10, 0.1) 100%);
+  transition: opacity 0.3s ease;
+}
+
+.video-slat-item:hover .slat-video-scrim {
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.15) 55%, transparent 100%);
+}
+
+.slat-caption-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 0.85rem;
+  right: 0.85rem;
+  text-align: left;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.slat-badge-num {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.72rem;
+  color: #D7C797;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.05em;
+}
+
+.slat-badge-title {
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: clamp(0.72rem, 0.95vw, 0.85rem);
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.25;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Warm Frosted Glass CTA Button matching site aesthetic */
+.scene06-cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: clamp(0.85rem, 2vw, 1.1rem) clamp(1.5rem, 3.5vw, 2.25rem);
+  background: radial-gradient(circle at 92% 14%, rgba(215, 175, 90, 0.35) 0%, rgba(160, 115, 45, 0.14) 45%, transparent 70%),
+              linear-gradient(135deg, rgba(50, 36, 18, 0.65) 0%, rgba(20, 14, 8, 0.78) 100%);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(215, 199, 151, 0.3) !important;
+  border-radius: 8px;
+  color: #FFFFFF !important;
+  font-family: var(--font-sans, 'Inter', sans-serif) !important;
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 20;
+}
+
+.scene06-cta-button:hover {
+  background: radial-gradient(circle at 92% 14%, rgba(235, 195, 110, 0.50) 0%, rgba(180, 135, 65, 0.22) 45%, transparent 70%),
+              linear-gradient(135deg, rgba(70, 50, 26, 0.75) 0%, rgba(30, 20, 12, 0.88) 100%);
+  transform: translateY(-2px);
+  border-color: #D7C797 !important;
+  color: #FFFFFF !important;
+}
+
+/* Mobile Responsiveness for Slats */
+@media (max-width: 768px) {
+  .video-slats-grid {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    gap: 12px;
+    scrollbar-width: none;
+  }
+  .video-slats-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .video-slat-item {
+    flex: 0 0 210px;
+    max-width: 210px;
+    scroll-snap-align: center;
+  }
+}

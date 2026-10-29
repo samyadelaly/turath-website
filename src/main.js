@@ -736,6 +736,70 @@ function initFeaturedProducts() {
       }
     );
   }
+
+  // Pin Scene 05 when it settles at the top, allowing Scene 06 to climb over it
+  const scene06 = document.querySelector("#scene-06");
+  if (scene06) {
+    ScrollTrigger.create({
+      trigger: scene05,
+      start: "top top",
+      endTrigger: scene06,
+      end: "top top",
+      pin: true,
+      pinSpacing: false, // Crucial: allows section 6 to overlap
+      anticipatePin: 1
+    });
+  }
+}
+
+// 9. SECTION 06: TURATH IN ACTION / CRAFT IN MOTION (Vertical Slats & Workshop Films)
+function initScene06() {
+  const scene06 = document.querySelector("#scene-06");
+  if (!scene06) return;
+
+  // Geometric 2-step morphing reveal for Scene 06 as it ascends over Scene 05
+  gsap.set(scene06, { 
+    clipPath: "polygon(0% 100%, 0% 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0%, 100% 0%, 100% 100%)" 
+  });
+
+  gsap.to(scene06, {
+    clipPath: "polygon(0% 100%, 0% 0%, 33% 0%, 33% 0%, 66% 0%, 66% 0%, 100% 0%, 100% 100%)",
+    ease: "none",
+    scrollTrigger: {
+      trigger: scene06,
+      start: "top bottom", // Starts when top of scene 6 hits bottom of viewport
+      end: "top top",      // Ends when top of scene 6 hits top of viewport
+      scrub: 1             // Smooth tied-to-scroll animation
+    }
+  });
+
+  // Staggered vertical rise and fade-in for the 5 video slats
+  const slats = document.querySelectorAll(".video-slat-item");
+  if (slats.length > 0) {
+    gsap.fromTo(slats,
+      { y: 70, opacity: 0.15 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.08,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: scene06,
+          start: "top 75%",
+          end: "top 20%",
+          scrub: 1
+        }
+      }
+    );
+
+    // Auto-play video slats
+    const slatVideos = document.querySelectorAll(".slat-video");
+    slatVideos.forEach(vid => {
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.play().catch(() => {});
+    });
+  }
 }
 
 initNavDrawer();
@@ -746,6 +810,7 @@ initCollectionsHorizontalScroll();
 initBespokeTransition();
 initBespokeForm();
 initFeaturedProducts();
+initScene06();
 
 // Safely handle cross-page anchor navigation (e.g. returning to #scene-03 from subpages)
 window.addEventListener("load", () => {
