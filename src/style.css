@@ -26,6 +26,7 @@
 }
 
 html {
+  scroll-behavior: smooth;
   width: 100%;
   min-height: 100%;
   background-color: #000000 !important;
@@ -332,6 +333,7 @@ body.menu-open .menu-line.line-2 {
 /* ==========================================================================
    3. SCENE 01 — HERO ARCHITECTURE
    ========================================================================== */
+#scene-01,
 #hero {
   height: 100vh;
   height: 100dvh;
@@ -1197,6 +1199,7 @@ select:-webkit-autofill:focus {
 /* ==========================================================================
    SECTION 05: FEATURED PRODUCTS (HISTORICAL SCENE 04 ARCHITECTURE)
    ========================================================================== */
+#scene-05,
 #location,
 #featured-products,
 .scene04-video-track {
@@ -1441,3 +1444,5 @@ select:-webkit-autofill:focus {
 .scene04-bottom-hairline {
   display: none !important;
 }
+
+#scene-05 { will-change: clip-path; }

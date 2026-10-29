@@ -114,7 +114,7 @@ function initNavDrawer() {
 
 // 2. GSAP ScrollTrigger Synchronized Animations
 function initHeroAnimations() {
-  const hero = document.getElementById('hero');
+  const hero = document.getElementById('scene-01') || document.getElementById('hero');
   const heroSheet = document.getElementById('hero-sheet');
   const heroNight = document.getElementById('hero-night');
   const wordmarkWrap = document.getElementById('hero-wordmark-wrap');
@@ -177,7 +177,7 @@ function initHeroAnimations() {
 
   const heroTl = gsap.timeline({
     scrollTrigger: {
-      trigger: '#hero',
+      trigger: hero || '#scene-01',
       start: 'top top',
       end: 'bottom top',
       pin: true,
@@ -649,7 +649,7 @@ function initBespokeForm() {
 
 // 8. SECTION 05: FEATURED PRODUCTS (Historical Scene 04 Architecture)
 function initFeaturedProducts() {
-  const locationSection = document.getElementById('location');
+  const locationSection = document.querySelector("#scene-05") || document.querySelector("#location");
   const s04Sheet = document.getElementById('scene04-sheet');
   const s04Video = document.getElementById('scene04-video');
   const s04Header = document.querySelector('.scene04-header-block');
@@ -666,6 +666,27 @@ function initFeaturedProducts() {
       pin: true,
       pinSpacing: false, // Crucial: allows section 5 to overlap
       anticipatePin: 1
+    });
+  }
+
+  // Geometric 2-step morphing reveal for Scene 05
+  const scene05 = document.querySelector("#scene-05") || locationSection;
+  if (scene05) {
+    // Initial state: A 2-step geometric staircase starting from bottom
+    gsap.set(scene05, { 
+      clipPath: "polygon(0% 100%, 0% 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0%, 100% 0%, 100% 100%)" 
+    });
+
+    // Morph to a full rectangle as it scrolls over Section 4
+    gsap.to(scene05, {
+      clipPath: "polygon(0% 100%, 0% 0%, 33% 0%, 33% 0%, 66% 0%, 66% 0%, 100% 0%, 100% 100%)",
+      ease: "none",
+      scrollTrigger: {
+        trigger: scene05,
+        start: "top bottom", // Starts when top of scene 5 hits bottom of viewport
+        end: "top top",      // Ends when top of scene 5 hits top of viewport
+        scrub: 1             // Smooth tied-to-scroll animation
+      }
     });
   }
 
@@ -700,7 +721,7 @@ function initFeaturedProducts() {
         opacity: 1,
         ease: 'none',
         scrollTrigger: {
-          trigger: '#location',
+          trigger: locationSection,
           start: 'top bottom',
           end: 'top top',
           scrub: true,
@@ -720,7 +741,7 @@ function initFeaturedProducts() {
         duration: 1.2,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: '#location',
+          trigger: locationSection,
           start: 'top 80%',
           toggleActions: 'play none none reverse'
         }
@@ -739,7 +760,7 @@ function initFeaturedProducts() {
         duration: 1.0,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: '#location',
+          trigger: locationSection,
           start: 'top 70%',
           toggleActions: 'play none none reverse'
         }
