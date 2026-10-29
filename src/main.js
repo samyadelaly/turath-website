@@ -800,6 +800,34 @@ function initScene06() {
       vid.play().catch(() => {});
     });
   }
+
+  // Arrow navigation buttons for Section 6 video slats (identical interaction to Collections)
+  const slatsTrack = document.getElementById("video-slats-track");
+  const slatsPrevBtn = document.getElementById("slats-prev-btn");
+  const slatsNextBtn = document.getElementById("slats-next-btn");
+
+  function scrollSlats(direction) {
+    if (!slatsTrack) return;
+    const card = slatsTrack.querySelector(".video-slat-item");
+    const step = card ? (card.offsetWidth + 20) : (slatsTrack.clientWidth * 0.7);
+    slatsTrack.scrollBy({
+      left: direction * step,
+      behavior: "smooth"
+    });
+  }
+
+  if (slatsPrevBtn) {
+    slatsPrevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollSlats(-1);
+    });
+  }
+  if (slatsNextBtn) {
+    slatsNextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollSlats(1);
+    });
+  }
 }
 
 initNavDrawer();

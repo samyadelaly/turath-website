@@ -476,12 +476,6 @@
       <div class="absolute inset-0 bg-black/20"></div>
     </div>
 
-    <!-- Top Morphing Stepped Notch Hairline (Entry Seam) -->
-    <svg class="scene06-seam-hairline relative z-20" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M 0,35.5 L 320,35.5 L 320,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" stroke="rgba(215, 199, 151, 0.45)" fill="none" stroke-width="1" />
-      <circle cx="320" cy="35.5" r="2.5" fill="#D7C797" />
-    </svg>
-
     <!-- Header Section (Without 06 / TURATH IN ACTION eyebrow) -->
     <div class="scene06-header w-full max-w-[1240px] text-center sm:text-left mt-4 sm:mt-6 mb-4 sm:mb-8 relative z-20">
       <h2 class="scene06-title">CRAFTSMANSHIP IN MOTION</h2>
@@ -491,8 +485,16 @@
     </div>
 
     <!-- Vertical Video Slats Grid (Taller architectural cards) -->
-    <div class="craft-slats-container w-full max-w-[1240px] my-auto relative z-20 pb-4">
-      <div class="video-slats-grid" id="video-slats-track">
+    <div class="craft-slats-container w-full max-w-[1360px] my-auto relative z-20 pb-4 flex items-center">
+      <!-- Left Floating Arrow Button (Identical to Collections in style, colors, and hover animation) -->
+      <button id="slats-prev-btn" class="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Slats Left">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+
+      <!-- Video Slats Track -->
+      <div class="video-slats-grid px-8 sm:px-12 md:px-16" id="video-slats-track">
         
         <!-- Slat 1 -->
         <a href="action.html?film=0" class="video-slat-item group" id="slat-item-0" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
@@ -555,6 +557,13 @@
         </a>
 
       </div>
+
+      <!-- Right Floating Arrow Button (Identical to Collections in style, colors, and hover animation) -->
+      <button id="slats-next-btn" class="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Slats Right">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
     </div>
   </section>
 

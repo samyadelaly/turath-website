@@ -1386,26 +1386,34 @@ select:-webkit-autofill:focus {
 
 .craft-slats-container {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative;
   z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .video-slats-grid {
   display: flex;
-  justify-content: center;
   align-items: stretch;
-  gap: clamp(10px, 1.5vw, 20px);
+  gap: clamp(12px, 1.8vw, 22px);
   width: 100%;
-  max-width: 1240px;
+  max-width: 1320px;
   margin: 0 auto;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+}
+
+.video-slats-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .video-slat-item {
-  flex: 1;
-  max-width: 228px;
+  flex: 0 0 clamp(235px, 20vw, 280px);
   height: clamp(500px, 64vh, 660px);
   border-radius: 6px;
   overflow: hidden;
@@ -1416,6 +1424,7 @@ select:-webkit-autofill:focus {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
   text-decoration: none !important;
   display: block;
+  scroll-snap-align: center;
 }
 
 .video-slat-item:hover {
@@ -1519,16 +1528,16 @@ select:-webkit-autofill:focus {
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     justify-content: flex-start;
-    padding: 0.5rem 0.5rem 1rem 0.5rem;
-    gap: 12px;
+    padding: 0.5rem 3rem 1.5rem 3rem;
+    gap: 14px;
     scrollbar-width: none;
   }
   .video-slats-grid::-webkit-scrollbar {
     display: none;
   }
   .video-slat-item {
-    flex: 0 0 230px;
-    max-width: 230px;
+    flex: 0 0 240px;
+    max-width: 240px;
     height: clamp(480px, 66vh, 580px);
     scroll-snap-align: center;
   }
