@@ -567,6 +567,49 @@
     </div>
   </section>
 
+  <!-- ========================================================================
+       07 — FOUNDER (SAMY ADEL ABDALLAH / SCROLL-DRIVEN ILLUMINATION CROSSFADE)
+       ======================================================================== -->
+  <section id="scene-07" class="relative w-full h-screen min-h-screen z-[70] overflow-hidden flex flex-col justify-start items-center p-6 md:p-12" data-theme="dark">
+    <!-- Anchor alias -->
+    <a id="founder" class="sr-only"></a>
+
+    <!-- Two Layered Background Plates (Dark Unlit vs Lit Illuminated) -->
+    <div class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none" id="founder-bg-media">
+      <!-- Plate 1: Dark / Unlit Ambient Lamp (Base Layer) -->
+      <div class="absolute inset-0 w-full h-full z-10" id="founder-plate-dark">
+        <img src="/assets/images/founder-dark.jpg?v=4" alt="Samy Adel Abdallah - Founder of Turath (Ambient Unlit)" class="w-full h-full object-cover object-center" />
+      </div>
+      
+      <!-- Plate 2: Lit / Illuminated Brass Lamp (Cross-fades in with scroll) -->
+      <div class="absolute inset-0 w-full h-full z-20 opacity-0 will-change-opacity" id="founder-plate-lit">
+        <img src="/assets/images/founder-lit.jpg?v=5" alt="Samy Adel Abdallah - Founder of Turath (Illuminated Brass Fixture)" class="w-full h-full object-cover object-center" />
+      </div>
+
+      <!-- Atmospheric Dark Scrim for Typography Legibility -->
+      <div class="absolute inset-0 z-30 pointer-events-none bg-gradient-to-b from-black/55 via-black/25 to-black/65"></div>
+    </div>
+
+    <!-- Editorial Card: Placed in the Upper Area / First Quarter -->
+    <div class="relative z-40 w-full max-w-[840px] mt-10 sm:mt-14 md:mt-18 px-3 sm:px-6">
+      <div class="founder-editorial-card">
+        <span class="founder-tag">FOUNDER</span>
+        <h2 class="founder-name">
+          SAMY ADEL ABDALLAH
+        </h2>
+        <h3 class="founder-subhead">
+          FROM GRAPHIC DESIGN &amp; MARKETING TO BRASS &amp; COPPER CRAFTSMANSHIP
+        </h3>
+
+        <div class="founder-bio">
+          <p>Samy Adel Abdallah, founder of Turath, graduated in Computer Science in 2000 and began his career in marketing.</p>
+          <p>His creative mindset and passion for design shaped his approach to brass and copper, combining craftsmanship with artistic vision.</p>
+          <p class="founder-milestone">In 2016, he founded Turath, turning an idea into a journey of creativity, craftsmanship, and Egyptian design.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>

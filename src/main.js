@@ -828,6 +828,82 @@ function initScene06() {
       scrollSlats(1);
     });
   }
+
+  // Pin Scene 06 when it settles at the top, allowing Scene 07 (Founder) to climb over it
+  const scene07 = document.querySelector("#scene-07");
+  if (scene07) {
+    ScrollTrigger.create({
+      trigger: scene06,
+      start: "top top",
+      endTrigger: scene07,
+      end: "top top",
+      pin: true,
+      pinSpacing: false, // Crucial: allows section 7 to overlap
+      anticipatePin: 1
+    });
+  }
+}
+
+// 10. SECTION 07: FOUNDER (SAMY ADEL ABDALLAH / SCROLL-DRIVEN ILLUMINATION CROSSFADE)
+function initScene07() {
+  const scene07 = document.querySelector("#scene-07");
+  const litPlate = document.getElementById("founder-plate-lit");
+  const card = document.querySelector(".founder-editorial-card");
+
+  if (!scene07) return;
+
+  // Geometric 2-step morphing reveal for Scene 07 as it ascends over Scene 06
+  gsap.set(scene07, { 
+    clipPath: "polygon(0% 100%, 0% 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0%, 100% 0%, 100% 100%)" 
+  });
+
+  gsap.to(scene07, {
+    clipPath: "polygon(0% 100%, 0% 0%, 33% 0%, 33% 0%, 66% 0%, 66% 0%, 100% 0%, 100% 100%)",
+    ease: "none",
+    scrollTrigger: {
+      trigger: scene07,
+      start: "top bottom", // Starts when top of scene 7 hits bottom of viewport
+      end: "top top",      // Ends when top of scene 7 hits top of viewport
+      scrub: 1             // Smooth tied-to-scroll animation
+    }
+  });
+
+  // Pinned Dwell Phase: Section 07 pins at top, and the lit lamp gradually illuminates with scroll!
+  const founderTL = gsap.timeline({
+    scrollTrigger: {
+      trigger: scene07,
+      start: "top top",
+      end: "+=120%", // Dwell distance for reading and illumination
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1
+    }
+  });
+
+  if (litPlate) {
+    founderTL.fromTo(litPlate,
+      { opacity: 0 },
+      { opacity: 1, ease: "power2.inOut" }
+    );
+  }
+
+  // Editorial card subtle upward float
+  if (card) {
+    gsap.fromTo(card,
+      { y: 35, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: scene07,
+          start: "top 70%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  }
 }
 
 initNavDrawer();
@@ -839,6 +915,7 @@ initBespokeTransition();
 initBespokeForm();
 initFeaturedProducts();
 initScene06();
+initScene07();
 
 // Safely handle cross-page anchor navigation (e.g. returning to #scene-03 from subpages)
 window.addEventListener("load", () => {

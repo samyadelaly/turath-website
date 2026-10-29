@@ -1542,3 +1542,106 @@ select:-webkit-autofill:focus {
     scroll-snap-align: center;
   }
 }
+
+
+/* ==========================================================================
+   SCENE 07: FOUNDER (SAMY ADEL ABDALLAH / SCROLL-DRIVEN ILLUMINATION)
+   ========================================================================== */
+#scene-07 {
+  position: relative;
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100svh !important;
+  will-change: clip-path;
+  background-color: transparent !important;
+}
+
+#founder-bg-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.founder-editorial-card {
+  width: 100%;
+  max-width: 840px;
+  background: radial-gradient(circle at 92% 14%, rgba(215, 175, 90, 0.28) 0%, rgba(160, 115, 45, 0.12) 45%, transparent 70%),
+              linear-gradient(135deg, rgba(20, 15, 10, 0.68) 0%, rgba(10, 8, 6, 0.84) 100%);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(215, 199, 151, 0.22);
+  border-radius: 8px;
+  padding: clamp(1.25rem, 2.8vw, 2.25rem) clamp(1.25rem, 3.5vw, 2.75rem);
+  box-sizing: border-box;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+  margin: 0 auto;
+}
+
+.founder-tag {
+  display: block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: #D7C797;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.founder-name {
+  font-family: var(--font-sans, 'Inter', sans-serif) !important;
+  font-size: clamp(1.35rem, 3.2vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin: 0 0 0.35rem 0;
+}
+
+.founder-subhead {
+  font-family: var(--font-sans, 'Inter', sans-serif) !important;
+  font-size: clamp(0.70rem, 1.2vw, 0.86rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #D7C797;
+  line-height: 1.35;
+  text-transform: uppercase;
+  margin: 0 0 0.85rem 0;
+}
+
+.founder-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: rgba(240, 235, 225, 0.88);
+  font-family: var(--font-sans, 'Inter', sans-serif) !important;
+  font-size: clamp(0.80rem, 1.15vw, 0.90rem);
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.founder-bio p {
+  margin: 0;
+}
+
+.founder-milestone {
+  color: #D7C797 !important;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .founder-editorial-card {
+    padding: 1.15rem 1rem;
+  }
+  .founder-name {
+    font-size: 1.25rem;
+  }
+  .founder-subhead {
+    font-size: 0.68rem;
+  }
+  .founder-bio {
+    font-size: 0.78rem;
+    gap: 0.4rem;
+  }
+}
