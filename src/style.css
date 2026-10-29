@@ -887,7 +887,7 @@ body.menu-open .menu-line.line-2 {
 
 #bespoke {
   position: relative;
-  z-index: 30;
+  z-index: 40;
   overflow: hidden;
 }
 
@@ -1201,7 +1201,7 @@ select:-webkit-autofill:focus {
 #featured-products,
 .scene04-video-track {
   position: relative;
-  z-index: 40;
+  z-index: 50;
   width: 100%;
   min-height: 100vh;
   min-height: 100svh;

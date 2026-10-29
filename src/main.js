@@ -657,29 +657,15 @@ function initFeaturedProducts() {
 
   if (!locationSection) return;
 
-  // Layered Scroll Transition: Pin #bespoke while Section 5 (#location) scrolls on it with animation
-  const bespokeSection = document.getElementById('bespoke');
+  // Pin Scene 04 (Bespoke) so Scene 05 slides over it smoothly
+  const bespokeSection = document.querySelector("#bespoke") || document.querySelector("#scene-04");
   if (bespokeSection) {
     ScrollTrigger.create({
-      trigger: "#bespoke",
+      trigger: bespokeSection,
       start: "top top",
-      endTrigger: "#location",
-      end: "top top",
       pin: true,
-      pinSpacing: false,
+      pinSpacing: false, // Crucial: allows section 5 to overlap
       anticipatePin: 1
-    });
-
-    gsap.to("#bespoke", {
-      scale: 0.96,
-      opacity: 0.35,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#location",
-        start: "top bottom",
-        end: "top top",
-        scrub: true
-      }
     });
   }
 
