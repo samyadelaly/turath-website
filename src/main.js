@@ -657,6 +657,32 @@ function initFeaturedProducts() {
 
   if (!locationSection) return;
 
+  // Layered Scroll Transition: Pin #bespoke while Section 5 (#location) scrolls on it with animation
+  const bespokeSection = document.getElementById('bespoke');
+  if (bespokeSection) {
+    ScrollTrigger.create({
+      trigger: "#bespoke",
+      start: "top top",
+      endTrigger: "#location",
+      end: "top top",
+      pin: true,
+      pinSpacing: false,
+      anticipatePin: 1
+    });
+
+    gsap.to("#bespoke", {
+      scale: 0.96,
+      opacity: 0.35,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#location",
+        start: "top bottom",
+        end: "top top",
+        scrub: true
+      }
+    });
+  }
+
   // Video Autoplay & Robust Interaction Fallback
   if (s04Video) {
     s04Video.muted = true;
@@ -674,25 +700,9 @@ function initFeaturedProducts() {
     });
   }
 
-  // Stepped Notch Scroll Entrance Transition (Asymmetric notch revealing video)
+  // Seamless Full-Sheet Layered Entrance Transition
   if (s04Sheet) {
-    ScrollTrigger.create({
-      trigger: '#location',
-      start: 'top bottom',
-      end: 'top top',
-      scrub: 1.2,
-      onUpdate: (self) => {
-        const p = self.progress;
-        if (p >= 0.98) {
-          s04Sheet.style.clipPath = 'none';
-        } else {
-          // Asymmetric Stepped Notch on the Left
-          const stepX = (24 + (1 - p) * 10).toFixed(1);
-          const stepY = (48 * p).toFixed(1);
-          s04Sheet.style.clipPath = `polygon(0% ${stepY}px, ${stepX}% ${stepY}px, ${stepX}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
-        }
-      }
-    });
+    s04Sheet.style.clipPath = 'none';
   }
 
   // Subtle Video Parallax / Zoom

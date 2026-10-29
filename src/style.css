@@ -1207,7 +1207,7 @@ select:-webkit-autofill:focus {
   min-height: 100svh;
   min-height: 100dvh;
   overflow: hidden;
-  background-color: #000000;
+  background-color: #000000 !important;
   box-sizing: border-box;
 }
 
@@ -1311,10 +1311,10 @@ select:-webkit-autofill:focus {
   font-family: var(--font-sans, sans-serif);
   font-size: clamp(0.85rem, 1.3vw, 1.05rem);
   line-height: 1.7;
-  color: var(--text-muted, #A1A1AA);
+  color: #FFFFFF !important;
   max-width: 780px;
   margin: 0 auto;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
+  text-shadow: none !important;
 }
 
 /* Category Chips Grid */
@@ -1334,28 +1334,30 @@ select:-webkit-autofill:focus {
   align-items: center;
   gap: 0.6rem;
   padding: 0.75rem 1.4rem;
-  background: rgba(18, 19, 22, 0.75);
-  border: 1px solid rgba(215, 199, 151, 0.3);
+  background: linear-gradient(135deg, rgba(215, 199, 151, 0.22) 0%, rgba(180, 155, 100, 0.10) 100%);
+  border: none !important;
+  outline: none !important;
   border-radius: 2px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text-light, #F3F1ED);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  color: #FFFFFF !important;
   font-size: 0.9rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-decoration: none !important;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 0 12px rgba(215, 199, 151, 0.12);
   will-change: transform, opacity;
 }
 
 .scene04-product-chip:hover {
-  background: rgba(215, 199, 151, 0.18);
-  border-color: var(--brand-copper, #D7C797);
-  color: #FFFFFF;
+  background: linear-gradient(135deg, rgba(215, 199, 151, 0.35) 0%, rgba(215, 199, 151, 0.18) 100%);
+  border: none !important;
+  outline: none !important;
+  color: #FFFFFF !important;
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(215, 199, 151, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), inset 0 0 16px rgba(215, 199, 151, 0.25);
 }
 
 .chip-accent-dot {
@@ -1425,4 +1427,17 @@ select:-webkit-autofill:focus {
   .chip-label {
     font-size: 0.78rem;
   }
+}
+
+/* Remove all strokes/borders from Section 5 */
+#location,
+#location *,
+.scene04-bottom-hairline {
+  border: none !important;
+  outline: none !important;
+  stroke: none !important;
+}
+
+.scene04-bottom-hairline {
+  display: none !important;
 }
