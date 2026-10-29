@@ -466,27 +466,32 @@
   <!-- ========================================================================
        06 — TURATH IN ACTION / CRAFT IN MOTION (Vertical Slats & Workshop Films)
        ======================================================================== -->
-  <section id="scene-06" class="relative w-full min-h-screen z-[60] bg-[#0A0A0A] flex flex-col justify-between items-center py-12 px-4 sm:px-6 md:px-12 overflow-hidden" data-theme="dark">
+  <section id="scene-06" class="relative w-full min-h-screen z-[60] flex flex-col justify-between items-center py-8 sm:py-12 px-4 sm:px-6 md:px-12 overflow-hidden" data-theme="dark">
     <!-- Anchor alias -->
     <a id="action" class="sr-only"></a>
 
+    <!-- Background Photo Layer (Uploaded Textured Wall & Dramatic Spotlight) -->
+    <div class="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden" id="scene06-bg">
+      <img src="/assets/images/section06-bg.jpg" alt="Turath Workshop Architecture" class="w-full h-full object-cover object-center" />
+      <div class="absolute inset-0 bg-black/20"></div>
+    </div>
+
     <!-- Top Morphing Stepped Notch Hairline (Entry Seam) -->
-    <svg class="scene06-seam-hairline" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true">
+    <svg class="scene06-seam-hairline relative z-20" viewBox="0 0 1000 36" preserveAspectRatio="none" aria-hidden="true">
       <path d="M 0,35.5 L 320,35.5 L 320,0.5 L 1000,0.5" vector-effect="non-scaling-stroke" stroke="rgba(215, 199, 151, 0.45)" fill="none" stroke-width="1" />
       <circle cx="320" cy="35.5" r="2.5" fill="#D7C797" />
     </svg>
 
-    <!-- Header Section -->
-    <div class="scene06-header w-full max-w-[1240px] text-center sm:text-left mt-6 sm:mt-8 mb-6 sm:mb-10">
-      <span class="scene06-eyebrow">06 / TURATH IN ACTION</span>
+    <!-- Header Section (Without 06 / TURATH IN ACTION eyebrow) -->
+    <div class="scene06-header w-full max-w-[1240px] text-center sm:text-left mt-4 sm:mt-6 mb-4 sm:mb-8 relative z-20">
       <h2 class="scene06-title">CRAFTSMANSHIP IN MOTION</h2>
       <p class="scene06-desc">
         Centuries of authentic Egyptian metalworking, captured inside our historic Cairo workshops. Watch raw brass and copper shaped by master hands.
       </p>
     </div>
 
-    <!-- Vertical Video Slats Grid -->
-    <div class="craft-slats-container w-full max-w-[1240px] my-auto">
+    <!-- Vertical Video Slats Grid (Taller architectural cards) -->
+    <div class="craft-slats-container w-full max-w-[1240px] my-auto relative z-20 pb-4">
       <div class="video-slats-grid" id="video-slats-track">
         
         <!-- Slat 1 -->
@@ -550,13 +555,6 @@
         </a>
 
       </div>
-    </div>
-
-    <!-- Bottom Action Button -->
-    <div class="w-full max-w-[1240px] flex justify-center mt-6 mb-4">
-      <a href="action.html" class="scene06-cta-button">
-        <span>Click to enter full cinema experience &rarr;</span>
-      </a>
     </div>
   </section>
 

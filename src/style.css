@@ -1200,7 +1200,7 @@ select:-webkit-autofill:focus {
    SECTION 05: BOTTOM QUARTER TEXT & ZERO BUTTONS (MATCHING REFERENCE AESTHETIC)
    ========================================================================== */
 #scene-05 {
-  position: relative !important;
+  position: relative;
   width: 100% !important;
   height: 100vh !important;
   height: 100svh !important;
@@ -1334,7 +1334,8 @@ select:-webkit-autofill:focus {
    SCENE 06: TURATH IN ACTION / CRAFT IN MOTION (Vertical Slats & Workshop Films)
    ========================================================================== */
 #scene-06 {
-  background-color: #0A0A0A !important;
+  background-color: transparent !important;
+  position: relative;
   will-change: clip-path;
   border-top: none !important;
 }
@@ -1404,11 +1405,11 @@ select:-webkit-autofill:focus {
 
 .video-slat-item {
   flex: 1;
-  max-width: 220px;
-  aspect-ratio: 9 / 16;
+  max-width: 228px;
+  height: clamp(500px, 64vh, 660px);
   border-radius: 6px;
   overflow: hidden;
-  border: 1px solid rgba(215, 199, 151, 0.28);
+  border: 1px solid rgba(215, 199, 151, 0.32);
   position: relative;
   cursor: pointer;
   background-color: #0d0d0d;
@@ -1526,8 +1527,9 @@ select:-webkit-autofill:focus {
     display: none;
   }
   .video-slat-item {
-    flex: 0 0 210px;
-    max-width: 210px;
+    flex: 0 0 230px;
+    max-width: 230px;
+    height: clamp(480px, 66vh, 580px);
     scroll-snap-align: center;
   }
 }
