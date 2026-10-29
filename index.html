@@ -425,82 +425,43 @@
   </section>
 
   <!-- SCENE 05: FEATURED PRODUCTS (HISTORICAL SCENE 04 ARCHITECTURE) -->
-  <section id="scene-05" class="scene-track scene04-video-track relative w-full min-h-screen z-50 overflow-hidden bg-black flex flex-col justify-center items-center" data-theme="dark"><a id="location"></a>
-    <div class="scene-sheet scene04-video-container relative w-full min-h-screen flex flex-col justify-center items-center" id="scene04-sheet">
-      <!-- Cinematic Full-Bleed Highway / Commute Video -->
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        preload="auto"
-        poster="/assets/images/commute-poster.jpg"
-        class="scene04-video-bg"
-        id="scene04-video"
-      >
-        <source src="/video/commute.mp4" type="video/mp4" />
-        <source src="/video/commute.webm" type="video/webm" />
-      </video>
+  <section id="scene-05" class="relative w-full h-screen overflow-hidden z-50 flex items-center justify-center p-4 md:p-8" data-theme="dark">
+    <a id="location" class="sr-only"></a>
+    
+    <!-- Video Trapped Inside Section 5 -->
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
+      poster="/assets/images/commute-poster.jpg"
+      class="absolute inset-0 w-full h-full object-cover z-0"
+      id="scene04-video"
+    >
+      <source src="/video/commute.mp4" type="video/mp4" />
+      <source src="/video/commute.webm" type="video/webm" />
+    </video>
 
-      <!-- Subtle Cinematic Bottom Scrim for crisp typography -->
-      <div class="scene04-video-scrim scene04-scrim scene04-overlay"></div>
+    <!-- Dark Overlay directly over video -->
+    <div class="absolute inset-0 bg-black/60 z-10 pointer-events-none"></div>
 
-      <!-- Floating Editorial Caption Overlay with Parallax Inertia -->
-      <div class="scene04-caption-overlay container" id="scene04-caption-overlay">
-        <div class="scene04-caption-inner" id="scene04-caption-inner">
-          <div class="scene04-header-block">
-            
-            <h2 class="scene04-headline">
-              Featured Handcrafted Masterpieces
-            </h2>
-            <p class="scene04-desc">
-              Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
-            </p>
-          </div>
+    <!-- Warm Golden/Brown Glass Content Card matching Reference Image -->
+    <div class="relative z-20 w-full max-w-xl md:max-w-2xl scene05-warm-glass-card" id="scene05-content-card">
+      <span class="scene05-card-eyebrow">04 / FEATURED PRODUCTS</span>
+      <h2 class="scene05-card-title">
+        FEATURED HANDCRAFTED<br class="hidden sm:inline" /> MASTERPIECES
+      </h2>
+      <p class="scene05-card-desc">
+        Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
+      </p>
 
-          <!-- Featured Handcrafted Masterpieces Categories -->
-          <div class="scene04-products-grid scene04-buttons-grid scene04-pills-container">
-            <a href="lighting.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Lighting</span>
-            </a>
-            <a href="mirrors.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Mirrors</span>
-            </a>
-            <a href="handles.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Handles</span>
-            </a>
-            <a href="handrails.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Handrails</span>
-            </a>
-            <a href="wall-art.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Wall art</span>
-            </a>
-            <a href="tableware.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Tableware</span>
-            </a>
-            <a href="tables.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Tables &amp; Consoles</span>
-            </a>
-            <a href="decor.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">Decorative Objects</span>
-            </a>
-            <a href="partitions.html" class="scene04-product-chip">
-              <span class="chip-accent-dot"></span>
-              <span class="chip-label">PARTITIONS &amp; BOOKCASES</span>
-            </a>
-          </div>
-        </div>
+      <!-- Single Centered CTA Button -->
+      <div class="scene05-cta-wrap">
+        <a href="#scene-03" class="scene05-single-cta" onclick="document.getElementById('scene-03').scrollIntoView({behavior: 'smooth'});">
+          Click to see our featured products
+        </a>
       </div>
-
-      
     </div>
   </section>
 

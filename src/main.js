@@ -649,13 +649,12 @@ function initBespokeForm() {
 
 // 8. SECTION 05: FEATURED PRODUCTS (Historical Scene 04 Architecture)
 function initFeaturedProducts() {
-  const locationSection = document.querySelector("#scene-05") || document.querySelector("#location");
-  const s04Sheet = document.getElementById('scene04-sheet');
+  const scene05 = document.querySelector("#scene-05");
   const s04Video = document.getElementById('scene04-video');
-  const s04Header = document.querySelector('.scene04-header-block');
-  const s04Chips = document.querySelectorAll('.scene04-product-chip');
+  const card = document.getElementById('scene05-content-card') || document.querySelector('.scene05-warm-glass-card');
+  const ctaBtn = document.querySelector('.scene05-single-cta');
 
-  if (!locationSection) return;
+  if (!scene05) return;
 
   // Pin Scene 04 (Bespoke) so Scene 05 slides over it smoothly
   const bespokeSection = document.querySelector("#bespoke") || document.querySelector("#scene-04");
@@ -670,25 +669,22 @@ function initFeaturedProducts() {
   }
 
   // Geometric 2-step morphing reveal for Scene 05
-  const scene05 = document.querySelector("#scene-05") || locationSection;
-  if (scene05) {
-    // Initial state: A 2-step geometric staircase starting from bottom
-    gsap.set(scene05, { 
-      clipPath: "polygon(0% 100%, 0% 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0%, 100% 0%, 100% 100%)" 
-    });
+  // Initial state: A 2-step geometric staircase starting from bottom
+  gsap.set(scene05, { 
+    clipPath: "polygon(0% 100%, 0% 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0%, 100% 0%, 100% 100%)" 
+  });
 
-    // Morph to a full rectangle as it scrolls over Section 4
-    gsap.to(scene05, {
-      clipPath: "polygon(0% 100%, 0% 0%, 33% 0%, 33% 0%, 66% 0%, 66% 0%, 100% 0%, 100% 100%)",
-      ease: "none",
-      scrollTrigger: {
-        trigger: scene05,
-        start: "top bottom", // Starts when top of scene 5 hits bottom of viewport
-        end: "top top",      // Ends when top of scene 5 hits top of viewport
-        scrub: 1             // Smooth tied-to-scroll animation
-      }
-    });
-  }
+  // Morph to a full rectangle as it scrolls over Section 4
+  gsap.to(scene05, {
+    clipPath: "polygon(0% 100%, 0% 0%, 33% 0%, 33% 0%, 66% 0%, 66% 0%, 100% 0%, 100% 100%)",
+    ease: "none",
+    scrollTrigger: {
+      trigger: scene05,
+      start: "top bottom", // Starts when top of scene 5 hits bottom of viewport
+      end: "top top",      // Ends when top of scene 5 hits top of viewport
+      scrub: 1             // Smooth tied-to-scroll animation
+    }
+  });
 
   // Video Autoplay & Robust Interaction Fallback
   if (s04Video) {
@@ -705,23 +701,15 @@ function initFeaturedProducts() {
       window.addEventListener('click', playOnInteract, { passive: true, once: true });
       window.addEventListener('touchstart', playOnInteract, { passive: true, once: true });
     });
-  }
 
-  // Seamless Full-Sheet Layered Entrance Transition
-  if (s04Sheet) {
-    s04Sheet.style.clipPath = 'none';
-  }
-
-  // Subtle Video Parallax / Zoom
-  if (s04Video) {
+    // Video parallax zoom
     gsap.fromTo(s04Video,
-      { scale: 1.08, opacity: 0.85 },
+      { scale: 1.08 },
       {
         scale: 1.0,
-        opacity: 1,
         ease: 'none',
         scrollTrigger: {
-          trigger: locationSection,
+          trigger: scene05,
           start: 'top bottom',
           end: 'top top',
           scrub: true,
@@ -731,37 +719,18 @@ function initFeaturedProducts() {
     );
   }
 
-  // Header Block Scroll Entrance
-  if (s04Header) {
-    gsap.fromTo(s04Header,
-      { y: 35, opacity: 0 },
+  // Warm Glass Content Card Entrance Animation
+  if (card) {
+    gsap.fromTo(card,
+      { y: 40, opacity: 0 },
       {
         y: 0,
         opacity: 1,
         duration: 1.2,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: locationSection,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
-  }
-
-  // Staggered Upward Emergence of 9 Product Chips
-  if (s04Chips.length > 0) {
-    gsap.fromTo(s04Chips,
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.08,
-        duration: 1.0,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: locationSection,
-          start: 'top 70%',
+          trigger: scene05,
+          start: 'top 75%',
           toggleActions: 'play none none reverse'
         }
       }
@@ -769,7 +738,6 @@ function initFeaturedProducts() {
   }
 }
 
-// Initialize on DOM ready
 initNavDrawer();
 initHeroAnimations();
 initScrollBtn();
