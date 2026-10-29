@@ -1285,4 +1285,46 @@ select:-webkit-autofill:focus {
   }
 }
 
+
+/* Button matching exact same background, width from right to left, and colors */
+.scene05-cta-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: clamp(0.85rem, 2.2vw, 1.15rem) clamp(1.15rem, 3vw, 1.75rem);
+  background: radial-gradient(circle at 92% 14%, rgba(215, 175, 90, 0.45) 0%, rgba(160, 115, 45, 0.18) 45%, transparent 70%),
+              linear-gradient(135deg, rgba(65, 45, 22, 0.58) 0%, rgba(28, 18, 10, 0.72) 100%);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #FFFFFF !important;
+  font-family: var(--font-sans, 'Inter', sans-serif) !important;
+  font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.scene05-cta-button:hover {
+  background: radial-gradient(circle at 92% 14%, rgba(235, 195, 110, 0.60) 0%, rgba(180, 135, 65, 0.28) 45%, transparent 70%),
+              linear-gradient(135deg, rgba(85, 60, 30, 0.70) 0%, rgba(38, 26, 14, 0.85) 100%);
+  transform: translateY(-2px);
+  color: #FFFFFF !important;
+}
+
+@media (max-width: 480px) {
+  .scene05-cta-button {
+    padding: 0.85rem 1rem;
+    font-size: 0.82rem;
+  }
+}
+
 #scene-05 { will-change: clip-path; }

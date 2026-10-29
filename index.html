@@ -445,14 +445,21 @@
     <!-- Warm Atmospheric Scrim (15% opacity to let background lamps glow) -->
     <div class="absolute inset-0 bg-black/15 z-10 pointer-events-none"></div>
 
-    <!-- Text positioned in the bottom quarter of the image (Zero buttons) -->
-    <div class="relative z-20 w-full max-w-[560px] scene05-bottom-card" id="scene05-content-card">
-      <h2 class="scene05-headline">
-        FEATURED HANDCRAFTED<br />MASTERPIECES
-      </h2>
-      <p class="scene05-description">
-        Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
-      </p>
+    <!-- Content Wrapper in the bottom quarter: Card + Full-Width Button -->
+    <div class="relative z-20 w-full max-w-[560px] flex flex-col gap-3" id="scene05-content-card">
+      <div class="scene05-bottom-card">
+        <h2 class="scene05-headline">
+          FEATURED HANDCRAFTED<br />MASTERPIECES
+        </h2>
+        <p class="scene05-description">
+          Our best-selling products and most requested custom manufacturing pieces, crafted in brass, copper, and other materials to meet a wide range of design and project requirements.
+        </p>
+      </div>
+
+      <!-- Button matching the exact same background, width from right to left, and colors -->
+      <a href="#scene-03" class="scene05-cta-button" onclick="document.getElementById('scene-03').scrollIntoView({behavior: 'smooth'});">
+        <span>Click to see the best selling products</span>
+      </a>
     </div>
   </section>
 
