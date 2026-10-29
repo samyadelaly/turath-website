@@ -746,3 +746,23 @@ initCollectionsHorizontalScroll();
 initBespokeTransition();
 initBespokeForm();
 initFeaturedProducts();
+
+// Safely handle cross-page anchor navigation (e.g. returning to #scene-03 from subpages)
+window.addEventListener("load", () => {
+  // 1. Force GSAP to recalculate all pinned sections first
+  ScrollTrigger.refresh();
+  
+  // 2. Safely handle the incoming hash link
+  if (window.location.hash) {
+    const target = document.querySelector(window.location.hash);
+    if (target) {
+      // Prevent the broken native jump by resetting to top momentarily
+      window.scrollTo(0, 0);
+      
+      // Wait a tiny fraction of a second for GSAP math to settle, then scroll smoothly
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+  }
+});
