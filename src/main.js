@@ -6,6 +6,10 @@
  * - Day / Night Hero Crossfade
  */
 
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
