@@ -24,25 +24,16 @@
 
   <link rel="stylesheet" href="./src/style.css">
 </head>
-<body class="bg-[#050505] text-white antialiased selection:bg-[#D7C797] selection:text-black">
+<body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
 
-  <main class="min-h-screen bg-[#050505] text-white overflow-x-hidden">
+  <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <!-- Slider View Container (Matching mirrors.html and the 9 sub-pages) -->
     <div id="slider-view" class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black overflow-hidden">
       
       <!-- Top Navbar with Back Link to Scene 05 -->
       <div class="absolute top-0 left-0 w-full p-6 md:p-10 flex items-center justify-between z-50 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
         <a href="index.html#scene-05" class="text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Featured Masterpieces">&larr;</a>
-        
-        <div class="flex items-center gap-4">
-          <span class="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-white/70">MASTERPIECES</span>
-          
-          <!-- View Toggle Button (Slider / Grid) -->
-          <button id="toggle-view-btn" class="text-xs tracking-wider uppercase bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-full transition-all cursor-pointer backdrop-blur-md flex items-center gap-1.5" aria-label="Toggle Grid View">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-            <span id="toggle-view-text">Grid</span>
-          </button>
-        </div>
+        <span class="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-white/70">MASTERPIECES</span>
       </div>
 
       <!-- Main Page Heading & Sub-text (Matching OUR VISION Typography Standards) -->
@@ -71,29 +62,12 @@
             SCULPTURAL CAST BRASS BRANCH CONSOLE
           </h2>
           <p id="slider-desc" class="text-white/90 text-xs md:text-sm font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[2.5rem]">
-            A statement console table featuring organic cast solid brass branch legs supporting a hand-honed Nero Marquina marble slab.
+            A signature architectural console table featuring organic cast solid brass branch structure supporting a hand-honed black marble slab.
           </p>
         </div>
         <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-3 flex-wrap">
           <!-- Populated dynamically by script -->
         </div>
-      </div>
-    </div>
-
-    <!-- Ready CSS Grid Layout for Featured Product Cards (Toggleable or Scrollable) -->
-    <div id="grid-view" class="hidden w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-        <h2 class="hero-bottom-title about-title text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-white mb-3">
-          FEATURED MASTERPIECES
-        </h2>
-        <p class="text-sm sm:text-base text-white/80 font-light tracking-wide">
-          Explore our most requested best-selling bespoke brass and copper creations.
-        </p>
-      </div>
-
-      <!-- Responsive CSS Grid of Product Cards with Warm Glassmorphism Styling -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="product-grid-container">
-        <!-- Cards generated dynamically or accessible for custom layouts -->
       </div>
     </div>
   </main>
@@ -119,6 +93,26 @@
         src: '/assets/images/masterpieces/radiant-brass-sunburst-mirror.jpg',
         title: 'RADIANT BRASS SUNBURST BRANCH MIRROR',
         desc: 'A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.'
+      },
+      {
+        src: '/assets/images/masterpieces/studded-brass-halo-mirror.jpg',
+        title: 'STUDDED BRASS PIN HALO MIRROR',
+        desc: 'A monumental circular wall mirror surrounded by concentric radial rows of hand-turned solid brass pins, creating a hypnotic textural halo.'
+      },
+      {
+        src: '/assets/images/masterpieces/pair-cast-brass-branch-handles.jpg',
+        title: 'PAIR CAST BRASS BRANCH PULLS',
+        desc: 'A magnificent pair of monumental architectural door handles cast in solid brass, echoing natural organic tree branches.'
+      },
+      {
+        src: '/assets/images/masterpieces/hammered-brass-curved-applique.jpg',
+        title: 'HAMMERED BRASS CYLINDER APPLIQUE',
+        desc: 'An architectural wall sconce hand-hammered from solid brass sheet with overlapping curve geometry, diffusing a warm golden ambiance.'
+      },
+      {
+        src: '/assets/images/masterpieces/sculptural-cast-brass-bookends.jpg',
+        title: 'SCULPTURAL CAST BRASS BOOKENDS',
+        desc: 'A pair of heavy solid brass sculptural bookends featuring deep fluid ripples and organic geological texturing.'
       },
       {
         src: '/assets/images/masterpieces/sculptural-brass-branch-handle.jpg',
@@ -183,63 +177,33 @@
     if (prevBtn) prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
     if (nextBtn) nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
 
-    // Populate CSS Grid Cards
-    const gridContainer = document.getElementById('product-grid-container');
-    if (gridContainer) {
-      masterpiecesData.forEach((item, i) => {
-        const card = document.createElement('div');
-        card.className = 'group relative rounded-xl overflow-hidden bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 hover:border-[#D7C797]/50 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 shadow-2xl';
-        card.innerHTML = `
-          <div class="aspect-[4/5] w-full overflow-hidden bg-black">
-            <img src="${item.src}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-          </div>
-          <div class="p-5 sm:p-6 flex flex-col justify-between">
-            <div>
-              <span class="text-[0.65rem] font-mono tracking-[0.25em] text-[#D7C797] uppercase">0${i + 1} / MASTERPIECE</span>
-              <h3 class="text-sm sm:text-base font-bold text-white tracking-wider uppercase mt-1 mb-2">${item.title}</h3>
-              <p class="text-xs sm:text-sm text-white/70 font-light leading-relaxed">${item.desc}</p>
-            </div>
-            <button onclick="selectSlide(${i})" class="mt-4 w-full py-2 px-3 rounded-lg bg-white/5 hover:bg-[#D7C797] text-white hover:text-black text-xs font-semibold tracking-wider uppercase transition-colors border border-white/10">
-              View Showcase
-            </button>
-          </div>
-        `;
-        gridContainer.appendChild(card);
-      });
-    }
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
+      if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
+    });
 
-    function selectSlide(index) {
-      const sliderView = document.getElementById('slider-view');
-      const gridView = document.getElementById('grid-view');
-      const toggleText = document.getElementById('toggle-view-text');
-      
-      gridView.classList.add('hidden');
-      sliderView.classList.remove('hidden');
-      if (toggleText) toggleText.innerText = 'Grid';
-      updateSlider(index);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    // Touch swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const container = document.querySelector('main');
 
-    // Toggle Slider / Grid View
-    const toggleBtn = document.getElementById('toggle-view-btn');
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
-        const sliderView = document.getElementById('slider-view');
-        const gridView = document.getElementById('grid-view');
-        const toggleText = document.getElementById('toggle-view-text');
+    if (container) {
+      container.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
 
-        if (sliderView.classList.contains('hidden')) {
-          sliderView.classList.remove('hidden');
-          gridView.classList.add('hidden');
-          toggleText.innerText = 'Grid';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          sliderView.classList.add('hidden');
-          gridView.classList.remove('hidden');
-          toggleText.innerText = 'Showcase';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+      container.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          if (diff < 0) {
+            updateSlider(currentIndex + 1);
+          } else {
+            updateSlider(currentIndex - 1);
+          }
         }
-      });
+      }, { passive: true });
     }
   </script>
 </body>
