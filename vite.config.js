@@ -15,7 +15,8 @@ export default defineConfig({
         wallArt: resolve(__dirname, 'wall-art.html'),
         partitions: resolve(__dirname, 'partitions.html'),
         tableware: resolve(__dirname, 'tableware.html'),
-        action: resolve(__dirname, 'action.html')
+        action: resolve(__dirname, 'action.html'),
+        masterpieces: resolve(__dirname, 'masterpieces.html')
       }
     }
   },

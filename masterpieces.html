@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <title>Featured Masterpieces | Turath Egypt</title>
+  <meta name="description" content="Explore our most requested best-selling bespoke brass and copper creations made in Cairo, Egypt.">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://turath-egypt.com/masterpieces.html">
+  <meta property="og:title" content="Featured Masterpieces | Turath Egypt">
+  <meta property="og:description" content="Explore our most requested best-selling bespoke brass and copper creations. Egyptian luxury metal manufacturing.">
+  <meta property="og:image" content="/assets/images/tables/table-01.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body class="bg-[#050505] text-white antialiased selection:bg-[#D7C797] selection:text-black">
+
+  <main class="min-h-screen bg-[#050505] text-white overflow-x-hidden">
+    <!-- Slider View Container (Matching mirrors.html and the 9 sub-pages) -->
+    <div id="slider-view" class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black overflow-hidden">
+      
+      <!-- Top Navbar with Back Link to Scene 05 -->
+      <div class="absolute top-0 left-0 w-full p-6 md:p-10 flex items-center justify-between z-50 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
+        <a href="index.html#scene-05" class="text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Featured Masterpieces">&larr;</a>
+        
+        <div class="flex items-center gap-4">
+          <span class="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-white/70">MASTERPIECES</span>
+          
+          <!-- View Toggle Button (Slider / Grid) -->
+          <button id="toggle-view-btn" class="text-xs tracking-wider uppercase bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-full transition-all cursor-pointer backdrop-blur-md flex items-center gap-1.5" aria-label="Toggle Grid View">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            <span id="toggle-view-text">Grid</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Page Heading & Sub-text (Matching OUR VISION Typography Standards) -->
+      <div class="absolute top-[12%] md:top-[16%] left-0 w-full flex flex-col justify-center items-center z-40 px-4 pointer-events-none text-center">
+        <h1 id="slider-title" class="hero-bottom-title about-title text-lg md:text-xl lg:text-2xl font-bold tracking-tight text-white uppercase text-center drop-shadow-md mb-1">
+          FEATURED MASTERPIECES
+        </h1>
+        <p class="text-xs md:text-sm text-white/80 font-light tracking-wide max-w-md text-center drop-shadow">
+          Explore our most requested best-selling bespoke brass and copper creations.
+        </p>
+      </div>
+
+      <!-- Center Navigation Arrows -->
+      <div class="absolute top-1/2 left-0 w-full -translate-y-1/2 flex justify-between items-center px-4 md:px-6 z-40 pointer-events-none">
+        <button id="prev-btn" class="text-white/60 hover:text-white text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Previous Image">&larr;</button>
+        <button id="next-btn" class="text-white/60 hover:text-white text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Next Image">&rarr;</button>
+      </div>
+
+      <!-- Main Product Image -->
+      <img id="slider-image" src="/assets/images/tables/table-01.jpg" alt="Featured Masterpiece" class="w-full h-full object-cover transition-opacity duration-300">
+      
+      <!-- Bottom Overlay: Description & Dashes -->
+      <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
+        <div class="text-center">
+          <h2 id="product-name" class="text-sm md:text-base font-semibold tracking-wider text-[#D7C797] uppercase mb-1">
+            SCULPTURAL CAST BRASS BRANCH CONSOLE
+          </h2>
+          <p id="slider-desc" class="text-white/90 text-xs md:text-sm font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[2.5rem]">
+            A statement console table featuring organic cast solid brass branch legs supporting a hand-honed Nero Marquina marble slab.
+          </p>
+        </div>
+        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-3 flex-wrap">
+          <!-- Populated dynamically by script -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Ready CSS Grid Layout for Featured Product Cards (Toggleable or Scrollable) -->
+    <div id="grid-view" class="hidden w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <h2 class="hero-bottom-title about-title text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight text-white mb-3">
+          FEATURED MASTERPIECES
+        </h2>
+        <p class="text-sm sm:text-base text-white/80 font-light tracking-wide">
+          Explore our most requested best-selling bespoke brass and copper creations.
+        </p>
+      </div>
+
+      <!-- Responsive CSS Grid of Product Cards with Warm Glassmorphism Styling -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="product-grid-container">
+        <!-- Cards generated dynamically or accessible for custom layouts -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const masterpiecesData = [
+      {
+        src: '/assets/images/tables/table-01.jpg',
+        title: 'SCULPTURAL CAST BRASS BRANCH CONSOLE',
+        desc: 'A statement console table featuring organic cast solid brass branch legs supporting a hand-honed Nero Marquina marble slab.'
+      },
+      {
+        src: '/assets/images/lighting/lighting-hero.jpg',
+        title: 'SOLID BRASS SCULPTED APPLIQUE',
+        desc: 'A handcrafted solid brass wall sconce featuring curved textured surfaces that cast an architectural warm golden glow.'
+      },
+      {
+        src: '/assets/images/mirrors/mirror-01.jpg',
+        title: 'ISLAMIC STAR GEOMETRIC BRASS MIRROR',
+        desc: 'A monumental circular mirror encompassed by an intricate hand-pierced solid brass border with eight-point star latticework.'
+      },
+      {
+        src: '/assets/images/decor/decor-01.jpg',
+        title: 'HAMMERED BRASS ARTISAN VESSEL',
+        desc: 'A masterwork decorative centerpiece crafted from heavy-gauge solid brass shaped with thousands of precise hand-hammered facets.'
+      },
+      {
+        src: '/assets/images/partitions/partition-01.jpg',
+        title: 'ARCHITECTURAL BRASS MASHRABIYA PARTITION',
+        desc: 'Custom room divider screen constructed from solid brass profiles with precision hand-pierced arabesque fretwork.'
+      },
+      {
+        src: '/assets/images/tables/table-03.jpg',
+        title: 'CHISELED BRASS & MARBLE COFFEE TABLE',
+        desc: 'Contemporary low table anchored by chiseled heavy brass legs paired with bookmatched natural stone.'
+      },
+      {
+        src: '/assets/images/lighting/lighting-crown-chandelier.jpg',
+        title: 'ARTISAN GRAND CROWN CHANDELIER',
+        desc: 'Monumental multi-tiered solid brass chandelier featuring traditional hand-pierced patterns for luxury architectural residences.'
+      },
+      {
+        src: '/assets/images/wall-art/wall-art-01.jpg',
+        title: 'ORGANIC CAST BRASS SCULPTURE',
+        desc: 'High-relief wall art piece hand-chiseled in oxidized brass and polished copper, reflecting authentic Egyptian artistry.'
+      }
+    ];
+
+    let currentIndex = 0;
+    const imgEl = document.getElementById('slider-image');
+    const productNameEl = document.getElementById('product-name');
+    const descEl = document.getElementById('slider-desc');
+    const dashesContainer = document.getElementById('dashes-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    // Build Dash indicators
+    masterpiecesData.forEach((_, idx) => {
+      const dash = document.createElement('span');
+      dash.className = `dash-dot w-6 sm:w-8 h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.addEventListener('click', () => updateSlider(idx));
+      dashesContainer.appendChild(dash);
+    });
+
+    function updateSlider(index) {
+      if (index < 0) {
+        currentIndex = masterpiecesData.length - 1;
+      } else if (index >= masterpiecesData.length) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+
+      // Smooth crossfade
+      imgEl.style.opacity = '0.3';
+      if (productNameEl) productNameEl.style.opacity = '0.3';
+      descEl.style.opacity = '0.3';
+
+      setTimeout(() => {
+        imgEl.src = masterpiecesData[currentIndex].src;
+        if (productNameEl) productNameEl.innerText = masterpiecesData[currentIndex].title;
+        descEl.innerText = masterpiecesData[currentIndex].desc;
+
+        imgEl.style.opacity = '1';
+        if (productNameEl) productNameEl.style.opacity = '1';
+        descEl.style.opacity = '1';
+
+        // Update active dash
+        const dashes = dashesContainer.querySelectorAll('.dash-dot');
+        dashes.forEach((dash, i) => {
+          if (i === currentIndex) {
+            dash.classList.remove('bg-white/30');
+            dash.classList.add('bg-white');
+          } else {
+            dash.classList.remove('bg-white');
+            dash.classList.add('bg-white/30');
+          }
+        });
+      }, 150);
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
+
+    // Populate CSS Grid Cards
+    const gridContainer = document.getElementById('product-grid-container');
+    if (gridContainer) {
+      masterpiecesData.forEach((item, i) => {
+        const card = document.createElement('div');
+        card.className = 'group relative rounded-xl overflow-hidden bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 hover:border-[#D7C797]/50 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 shadow-2xl';
+        card.innerHTML = `
+          <div class="aspect-[4/5] w-full overflow-hidden bg-black">
+            <img src="${item.src}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-5 sm:p-6 flex flex-col justify-between">
+            <div>
+              <span class="text-[0.65rem] font-mono tracking-[0.25em] text-[#D7C797] uppercase">0${i + 1} / MASTERPIECE</span>
+              <h3 class="text-sm sm:text-base font-bold text-white tracking-wider uppercase mt-1 mb-2">${item.title}</h3>
+              <p class="text-xs sm:text-sm text-white/70 font-light leading-relaxed">${item.desc}</p>
+            </div>
+            <button onclick="selectSlide(${i})" class="mt-4 w-full py-2 px-3 rounded-lg bg-white/5 hover:bg-[#D7C797] text-white hover:text-black text-xs font-semibold tracking-wider uppercase transition-colors border border-white/10">
+              View Showcase
+            </button>
+          </div>
+        `;
+        gridContainer.appendChild(card);
+      });
+    }
+
+    function selectSlide(index) {
+      const sliderView = document.getElementById('slider-view');
+      const gridView = document.getElementById('grid-view');
+      const toggleText = document.getElementById('toggle-view-text');
+      
+      gridView.classList.add('hidden');
+      sliderView.classList.remove('hidden');
+      if (toggleText) toggleText.innerText = 'Grid';
+      updateSlider(index);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Toggle Slider / Grid View
+    const toggleBtn = document.getElementById('toggle-view-btn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const sliderView = document.getElementById('slider-view');
+        const gridView = document.getElementById('grid-view');
+        const toggleText = document.getElementById('toggle-view-text');
+
+        if (sliderView.classList.contains('hidden')) {
+          sliderView.classList.remove('hidden');
+          gridView.classList.add('hidden');
+          toggleText.innerText = 'Grid';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          sliderView.classList.add('hidden');
+          gridView.classList.remove('hidden');
+          toggleText.innerText = 'Showcase';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
