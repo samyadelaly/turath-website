@@ -853,6 +853,7 @@ function initScene07() {
   const scene07 = document.querySelector("#scene-07");
   const litPlate = document.getElementById("founder-plate-lit");
   const card = document.querySelector(".founder-editorial-card");
+  const contact = document.querySelector("#contact");
 
   if (!scene07) return;
 
@@ -866,28 +867,37 @@ function initScene07() {
     ease: "none",
     scrollTrigger: {
       trigger: scene07,
-      start: "top bottom", // Starts when top of scene 7 hits bottom of viewport
-      end: "top top",      // Ends when top of scene 7 hits top of viewport
-      scrub: 1             // Smooth tied-to-scroll animation
+      start: "top bottom",
+      end: "top top",
+      scrub: 1
     }
   });
 
-  // Pinned Dwell Phase: Section 07 pins at top, and the lit lamp gradually illuminates with scroll!
-  const founderTL = gsap.timeline({
-    scrollTrigger: {
-      trigger: scene07,
-      start: "top top",
-      end: "+=120%", // Dwell distance for reading and illumination
-      pin: true,
-      scrub: 1,
-      anticipatePin: 1
-    }
+  // Pin Scene 07 at top top and KEEP IT PINNED until Contact fully covers it!
+  ScrollTrigger.create({
+    trigger: scene07,
+    start: "top top",
+    endTrigger: contact || scene07,
+    end: "top top",
+    pin: true,
+    pinSpacing: false, // Allows Contact to climb directly over Scene 07 without being pushed down
+    anticipatePin: 1
   });
 
+  // Lamp illumination during founder dwell (100vh dwell spacer)
   if (litPlate) {
-    founderTL.fromTo(litPlate,
+    gsap.fromTo(litPlate,
       { opacity: 0 },
-      { opacity: 1, ease: "power2.inOut" }
+      {
+        opacity: 1,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: scene07,
+          start: "top top",
+          end: "+=100%", // Illuminates during the 100vh dwell spacer
+          scrub: 1
+        }
+      }
     );
   }
 
@@ -910,12 +920,9 @@ function initScene07() {
   }
 }
 
-
 // 11. SECTION 08: CONTACT TURATH (DYNAMIC CORNER MORPHING & OVERLAP SCROLL)
 function initContactSection() {
   const contact = document.querySelector("#contact");
-  const scene07 = document.querySelector("#scene-07");
-
   if (!contact) return;
 
   // Initial corner styling: large smooth radius 60px 60px 0 0
@@ -924,25 +931,9 @@ function initContactSection() {
     borderTopRightRadius: "60px"
   });
 
-  // Overlap / Curtain Effect:
-  // Pin Scene 07 after its dwell so Contact slides UP and covers it as the user scrolls
-  if (scene07) {
-    ScrollTrigger.create({
-      trigger: scene07,
-      start: "bottom bottom",
-      endTrigger: contact,
-      end: "top top",
-      pin: true,
-      pinSpacing: false,
-      anticipatePin: 1
-    });
-  }
-
-  // Morphing Animation:
-  // As the section starts sliding up (top enters bottom of viewport),
-  // top corners start with smooth 60px radius.
-  // As it reaches and docks to the top of the viewport (filling screen),
-  // morph border-radius smoothly to 0px (sharp 90-degree corners).
+  // Corner Morphing Animation:
+  // Triggers exactly as Scene 07 finishes its dwell and Contact ascends over Scene 07.
+  // Starts with 60px radius at bottom of viewport, morphing to 0px (sharp 90-deg) when docked at top.
   gsap.fromTo(contact,
     {
       borderTopLeftRadius: "60px",
@@ -954,9 +945,9 @@ function initContactSection() {
       ease: "none",
       scrollTrigger: {
         trigger: contact,
-        start: "top bottom", // Starts when top of contact hits bottom of viewport
-        end: "top top",      // Ends when top of contact docks to top of viewport
-        scrub: 1             // Smooth tied-to-scroll interpolation
+        start: "top bottom", // Starts as top of Contact enters bottom of viewport
+        end: "top top",      // Ends when Contact reaches top of viewport
+        scrub: 1
       }
     }
   );
