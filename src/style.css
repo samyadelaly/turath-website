@@ -1565,38 +1565,43 @@ select:-webkit-autofill:focus {
 
 .founder-editorial-card {
   width: 100%;
-  max-width: 840px;
-  background: radial-gradient(circle at 92% 14%, rgba(215, 175, 90, 0.28) 0%, rgba(160, 115, 45, 0.12) 45%, transparent 70%),
-              linear-gradient(135deg, rgba(20, 15, 10, 0.68) 0%, rgba(10, 8, 6, 0.84) 100%);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(215, 199, 151, 0.22);
-  border-radius: 8px;
-  padding: clamp(1.25rem, 2.8vw, 2.25rem) clamp(1.25rem, 3.5vw, 2.75rem);
-  box-sizing: border-box;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+  max-width: 860px;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
   margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .founder-tag {
-  display: block;
+  display: inline-block;
   font-family: var(--font-mono, monospace);
   font-size: 0.72rem;
   color: #D7C797;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   font-weight: 700;
   margin-bottom: 0.4rem;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .founder-name {
   font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: clamp(1.35rem, 3.2vw, 2.2rem);
+  font-size: clamp(1.4rem, 3.2vw, 2.3rem);
   font-weight: 800;
   letter-spacing: 0.05em;
   color: #FFFFFF;
   line-height: 1.15;
-  margin: 0 0 0.35rem 0;
+  margin: 0 auto 0.35rem auto;
+  text-align: center;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
 }
 
 .founder-subhead {
@@ -1607,22 +1612,31 @@ select:-webkit-autofill:focus {
   color: #D7C797;
   line-height: 1.35;
   text-transform: uppercase;
-  margin: 0 0 0.85rem 0;
+  margin: 0 auto 0.75rem auto;
+  text-align: center;
+  max-width: 680px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
 }
 
 .founder-bio {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  color: rgba(240, 235, 225, 0.88);
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(240, 235, 225, 0.92);
   font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: clamp(0.80rem, 1.15vw, 0.90rem);
+  font-size: clamp(0.80rem, 1.15vw, 0.92rem);
   line-height: 1.55;
   font-weight: 400;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
 }
 
 .founder-bio p {
   margin: 0;
+  text-align: center;
 }
 
 .founder-milestone {
@@ -1632,7 +1646,7 @@ select:-webkit-autofill:focus {
 
 @media (max-width: 480px) {
   .founder-editorial-card {
-    padding: 1.15rem 1rem;
+    padding: 0;
   }
   .founder-name {
     font-size: 1.25rem;
@@ -1642,6 +1656,6 @@ select:-webkit-autofill:focus {
   }
   .founder-bio {
     font-size: 0.78rem;
-    gap: 0.4rem;
+    gap: 0.35rem;
   }
 }
