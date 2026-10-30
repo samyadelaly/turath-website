@@ -910,6 +910,58 @@ function initScene07() {
   }
 }
 
+
+// 11. SECTION 08: CONTACT TURATH (DYNAMIC CORNER MORPHING & OVERLAP SCROLL)
+function initContactSection() {
+  const contact = document.querySelector("#contact");
+  const scene07 = document.querySelector("#scene-07");
+
+  if (!contact) return;
+
+  // Initial corner styling: large smooth radius 60px 60px 0 0
+  gsap.set(contact, {
+    borderTopLeftRadius: "60px",
+    borderTopRightRadius: "60px"
+  });
+
+  // Overlap / Curtain Effect:
+  // Pin Scene 07 after its dwell so Contact slides UP and covers it as the user scrolls
+  if (scene07) {
+    ScrollTrigger.create({
+      trigger: scene07,
+      start: "bottom bottom",
+      endTrigger: contact,
+      end: "top top",
+      pin: true,
+      pinSpacing: false,
+      anticipatePin: 1
+    });
+  }
+
+  // Morphing Animation:
+  // As the section starts sliding up (top enters bottom of viewport),
+  // top corners start with smooth 60px radius.
+  // As it reaches and docks to the top of the viewport (filling screen),
+  // morph border-radius smoothly to 0px (sharp 90-degree corners).
+  gsap.fromTo(contact,
+    {
+      borderTopLeftRadius: "60px",
+      borderTopRightRadius: "60px"
+    },
+    {
+      borderTopLeftRadius: "0px",
+      borderTopRightRadius: "0px",
+      ease: "none",
+      scrollTrigger: {
+        trigger: contact,
+        start: "top bottom", // Starts when top of contact hits bottom of viewport
+        end: "top top",      // Ends when top of contact docks to top of viewport
+        scrub: 1             // Smooth tied-to-scroll interpolation
+      }
+    }
+  );
+}
+
 initNavDrawer();
 initHeroAnimations();
 initScrollBtn();
@@ -920,6 +972,7 @@ initBespokeForm();
 initFeaturedProducts();
 initScene06();
 initScene07();
+initContactSection();
 
 // Safely handle cross-page anchor navigation (e.g. returning to #scene-03 from subpages)
 window.addEventListener("load", () => {
