@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          ORGANIC BOUGH DOOR PULL
+          CIRCULAR COBBLESTONE BRASS DOOR PULLS
         </h1>
       </div>
 
@@ -49,19 +49,14 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/handles/handle-01.jpg" alt="Handles Product" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/handles/circular-cobblestone-brass-door-pulls.jpg" alt="CIRCULAR COBBLESTONE BRASS DOOR PULLS" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          A monumental entrance door pull hand-cast in solid brass, echoing the graceful form of an outstretched tree bough.
+          A monumental pair of semicircular entry door handles cast in solid brass, featuring deep organic cobblestone relief texturing.
         </p>
-        <div id="dashes-container" class="flex justify-center items-center gap-3">
-          <span class="dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-        </div>
+        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-2.5 w-full max-w-xs sm:max-w-sm px-4 overflow-hidden"></div>
       </div>
     </div>
   </main>
@@ -69,26 +64,51 @@
   <script>
     const sliderData = [
       {
-        src: '/assets/images/handles/handle-01.jpg',
-        title: 'ORGANIC BOUGH DOOR PULL',
-        desc: 'A monumental entrance door pull hand-cast in solid brass, echoing the graceful form of an outstretched tree bough.'
+            "src": "/assets/images/handles/circular-cobblestone-brass-door-pulls.jpg",
+            "title": "CIRCULAR COBBLESTONE BRASS DOOR PULLS",
+            "desc": "A monumental pair of semicircular entry door handles cast in solid brass, featuring deep organic cobblestone relief texturing."
       },
       {
-        src: '/assets/images/handles/handle-02.jpg',
-        title: 'TOPOGRAPHIC BRUTALIST HANDLES',
-        desc: 'A sculptural pair of semicircular door pulls featuring deep molten brass casting and rich tactile topography.'
+            "src": "/assets/images/handles/hammered-honeycomb-brass-pull.jpg",
+            "title": "HAMMERED HONEYCOMB BRASS PULL",
+            "desc": "A rectilinear architectural door pull in solid brass with beveled perimeter borders framing a densely hand-hammered honeycomb textural core."
       },
       {
-        src: '/assets/images/handles/handle-03.jpg',
-        title: 'SCULPTED TWIG VERTICAL PULL',
-        desc: 'An elongated solid brass architectural pull with undulating organic contours and hand-finished bronze undertones.'
+            "src": "/assets/images/handles/sculptural-fluid-magma-brass-pull.jpg",
+            "title": "SCULPTURAL FLUID MAGMA BRASS PULL",
+            "desc": "A monumental full-height architectural door pull hand-cast in solid brass, capturing liquid ripples and dynamic molten geological flows."
       },
       {
-        src: '/assets/images/handles/handle-04.jpg',
-        title: 'SYMMETRIC BRANCH PULL PAIR',
-        desc: 'A dramatic pair of branching solid brass door handles engineered for grand double doors and luxury entranceways.'
+            "src": "/assets/images/handles/pair-cast-brass-branch-pulls.jpg",
+            "title": "PAIR CAST BRASS BRANCH PULLS",
+            "desc": "A dramatic pair of branching solid brass door handles engineered for grand double doors and luxury entranceways."
+      },
+      {
+            "src": "/assets/images/handles/minimalist-tbar-escutcheon-pull.jpg",
+            "title": "MINIMALIST T-BAR ESCUTCHEON PULL",
+            "desc": "A precision-machined solid brass T-bar handle mounted to a softly radiused square backplate escutcheon in polished golden brass."
+      },
+      {
+            "src": "/assets/images/handles/handle-01.jpg",
+            "title": "ORGANIC BOUGH DOOR PULL",
+            "desc": "A monumental entrance door pull hand-cast in solid brass, echoing the graceful form of an outstretched tree bough."
+      },
+      {
+            "src": "/assets/images/handles/handle-02.jpg",
+            "title": "TOPOGRAPHIC BRUTALIST HANDLES",
+            "desc": "A sculptural pair of semicircular door pulls featuring deep molten brass casting and rich tactile topography."
+      },
+      {
+            "src": "/assets/images/handles/handle-03.jpg",
+            "title": "SCULPTED TWIG VERTICAL PULL",
+            "desc": "An elongated solid brass architectural pull with undulating organic contours and hand-finished bronze undertones."
+      },
+      {
+            "src": "/assets/images/handles/handle-04.jpg",
+            "title": "SYMMETRIC BRANCH PULL PAIR",
+            "desc": "A dramatic pair of branching solid brass door handles engineered for grand double doors and luxury entranceways."
       }
-    ];
+];
 
     let currentIndex = 0;
     const titleEl = document.getElementById('slider-title');
@@ -97,6 +117,14 @@
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+
+    // Build Dash indicators dynamically
+    sliderData.forEach((_, idx) => {
+      const dash = document.createElement('span');
+      dash.className = `dash-dot flex-1 max-w-[28px] min-w-[8px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.addEventListener('click', () => updateSlider(idx));
+      dashesContainer.appendChild(dash);
+    });
 
     function updateSlider(index) {
       if (index < 0) {
@@ -114,6 +142,7 @@
 
       setTimeout(() => {
         imgEl.src = sliderData[currentIndex].src;
+        imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
 
@@ -125,9 +154,11 @@
         const dots = dashesContainer.querySelectorAll('.dash-dot');
         dots.forEach((dot, idx) => {
           if (idx === currentIndex) {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white/30');
+            dot.classList.add('bg-white');
           } else {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white');
+            dot.classList.add('bg-white/30');
           }
         });
       }, 150);
@@ -138,14 +169,6 @@
     }
     if (nextBtn) {
       nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
-    }
-
-    // Direct dash clicks
-    if (dashesContainer) {
-      const dots = dashesContainer.querySelectorAll('.dash-dot');
-      dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => updateSlider(idx));
-      });
     }
 
     // Keyboard navigation
