@@ -17,6 +17,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { initTurathScrambleAnimation } from './artwork.js';
+import { setupFormHandler } from './formHandler.js';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 if (ScrollTrigger.clearScrollMemory) {
@@ -643,17 +644,16 @@ function initBespokeTransition() {
   );
 }
 
-// 7. Bespoke Manufacturing Inquiry Form
+// 7. Bespoke Manufacturing Inquiry Form (Secure Serverless Fetch)
 function initBespokeForm() {
   const form = document.getElementById('bespoke-form');
   const successMsg = document.getElementById('form-success');
-  if (form && successMsg) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      form.classList.add('hidden');
-      form.style.display = 'none';
-      successMsg.classList.remove('hidden');
-      successMsg.style.display = 'block';
+  const errorMsg = document.getElementById('form-error');
+  if (form) {
+    setupFormHandler(form, {
+      successElement: successMsg,
+      errorElement: errorMsg,
+      submitButton: form.querySelector('button[type="submit"]')
     });
   }
 }
