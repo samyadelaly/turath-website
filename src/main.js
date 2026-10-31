@@ -853,6 +853,7 @@ function initScene07() {
   const scene07 = document.querySelector("#scene-07");
   const litPlate = document.getElementById("founder-plate-lit");
   const card = document.querySelector(".founder-editorial-card");
+  const contact = document.querySelector("#contact");
 
   if (!scene07) return;
 
@@ -872,24 +873,33 @@ function initScene07() {
     }
   });
 
-  // Pinned Dwell Phase: Section 07 pins at top, and the lit lamp gradually illuminates with scroll!
-  // CRITICAL: pinSpacing is true (default) to preserve normal document flow and full visibility!
-  const founderTL = gsap.timeline({
-    scrollTrigger: {
+  // Pin Scene 07 when it settles at the top, allowing Contact (z-70) to climb over it (z-60)
+  if (contact) {
+    ScrollTrigger.create({
       trigger: scene07,
       start: "top top",
-      end: "+=120%", // Dwell distance for reading and illumination
+      endTrigger: contact,
+      end: "top top",
       pin: true,
-      pinSpacing: true, // Prevents DOM collapse and preserves layout flow
-      scrub: 1,
+      pinSpacing: false, // Crucial: allows Contact to overlap Scene 07
       anticipatePin: 1
-    }
-  });
+    });
+  }
 
+  // Lamp illumination during ascent and docking
   if (litPlate) {
-    founderTL.fromTo(litPlate,
+    gsap.fromTo(litPlate,
       { opacity: 0 },
-      { opacity: 1, ease: "power2.inOut" }
+      {
+        opacity: 1,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: scene07,
+          start: "top 60%",
+          end: "top top",
+          scrub: 1
+        }
+      }
     );
   }
 
