@@ -247,7 +247,9 @@ body.menu-open .menu-line.line-2 {
 #collections-prev-arrow,
 #collections-next-arrow,
 #track-prev-btn,
-#track-next-btn {
+#track-next-btn,
+#slats-prev-btn,
+#slats-next-btn {
   width: 44px;
   height: 44px;
   min-width: 44px;
@@ -270,7 +272,9 @@ body.menu-open .menu-line.line-2 {
 #collections-prev-arrow:hover,
 #collections-next-arrow:hover,
 #track-prev-btn:hover,
-#track-next-btn:hover {
+#track-next-btn:hover,
+#slats-prev-btn:hover,
+#slats-next-btn:hover {
   background: rgba(0, 0, 0, 0.9);
   border-color: rgba(215, 199, 151, 0.6);
   color: #D7C797;
@@ -280,7 +284,9 @@ body.menu-open .menu-line.line-2 {
 #collections-prev-arrow svg,
 #collections-next-arrow svg,
 #track-prev-btn svg,
-#track-next-btn svg {
+#track-next-btn svg,
+#slats-prev-btn svg,
+#slats-next-btn svg {
   width: 20px;
   height: 20px;
   pointer-events: none;
@@ -1430,8 +1436,8 @@ select:-webkit-autofill:focus {
 .video-slat-item {
   flex: 0 0 auto;
   aspect-ratio: 9 / 14 !important;
-  max-height: 75vh !important;
-  height: clamp(420px, 68vh, 640px);
+  height: 65vh !important;
+  max-height: 800px !important;
   width: auto !important;
   border-radius: 1rem !important;
   overflow: hidden;
@@ -1556,8 +1562,8 @@ select:-webkit-autofill:focus {
   .video-slat-item {
     flex: 0 0 auto;
     aspect-ratio: 9 / 14 !important;
-    max-height: 75vh !important;
-    height: clamp(380px, 62vh, 520px);
+    height: 65vh !important;
+    max-height: 800px !important;
     width: auto !important;
     border-radius: 1rem !important;
     scroll-snap-align: center;

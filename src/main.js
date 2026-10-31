@@ -874,16 +874,14 @@ function initScene07() {
     }
   );
 
-  // Pinned Dwell Phase: Section 07 pins at top, allowing Section 08 (Contact) to ascend over it
-  const contact = document.querySelector("#contact");
+  // Pinned Dwell Phase: Section 07 pins at top, allowing day/night animation to fully play before Contact section appears
   const founderTL = gsap.timeline({
     scrollTrigger: {
       trigger: scene07,
       start: "top top",
-      endTrigger: contact || undefined,
-      end: contact ? "top top" : "+=150vh",
+      end: "+=350vh", // Dramatically increased duration allowing day/night animation to fully play before Contact appears
       pin: true,
-      pinSpacing: false, // Allows Section 08 (Contact) to ascend directly over Section 07
+      pinSpacing: true, // Forces user to scroll longer before Contact section appears
       scrub: 1.5,       // Smooth inertia scrub
       anticipatePin: 1
     }
@@ -921,19 +919,19 @@ function initContactSection() {
   const contact = document.querySelector("#contact");
   if (!contact) return;
 
-  // Initial corner styling: prominent smooth radius 80px 80px 0 0
+  // Initial corner styling: extreme circular dome radius 50vw 50vw 0 0
   gsap.set(contact, {
-    borderTopLeftRadius: "80px",
-    borderTopRightRadius: "80px"
+    borderTopLeftRadius: "50vw",
+    borderTopRightRadius: "50vw"
   });
 
-  // Corner Morphing & Parallax Ascension Animation:
-  // Triggers as Contact ascends directly over Scene 07.
-  // Starts with 80px radius and parallax offset at bottom of viewport, morphing to 0px and y: 0 when docked at top.
+  // Extreme Circular Dome Morphing Animation:
+  // Starts as a massive circular dome (50vw radius) rising up from bottom of viewport,
+  // morphing down to 0px (sharp full-width rectangular container) when docked at top.
   gsap.fromTo(contact,
     {
-      borderTopLeftRadius: "80px",
-      borderTopRightRadius: "80px",
+      borderTopLeftRadius: "50vw",
+      borderTopRightRadius: "50vw",
       y: 60
     },
     {
