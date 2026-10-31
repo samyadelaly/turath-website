@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          PIERCED OVOID BRASS LANTERN
+          GEOMETRIC TRIANGLE BRASS SCONCE
         </h1>
       </div>
 
@@ -49,20 +49,45 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/lighting/pierced-ovoid-brass-lantern.jpg" alt="PIERCED OVOID BRASS LANTERN" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/lighting/geometric-triangle-brass-sconce.jpg" alt="GEOMETRIC TRIANGLE BRASS SCONCE" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          An egg-shaped solid brass table lamp intricately perforated with traditional arabesque filigree, casting mesmerizing geometric shadows.
+          A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.
         </p>
-        <div id="dashes-container" class="flex justify-center items-center gap-1.5 sm:gap-2 w-full max-w-sm sm:max-w-md px-4"></div>
+        <div id="dashes-container" class="flex justify-center items-center gap-1 sm:gap-1.5 w-full max-w-xs sm:max-w-md px-2"></div>
       </div>
     </div>
   </main>
 
   <script>
     const sliderData = [
+      {
+            "src": "/assets/images/lighting/geometric-triangle-brass-sconce.jpg",
+            "title": "GEOMETRIC TRIANGLE BRASS SCONCE",
+            "desc": "A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays."
+      },
+      {
+            "src": "/assets/images/lighting/domed-arabesque-brass-lantern.jpg",
+            "title": "DOMED ARABESQUE BRASS LANTERN",
+            "desc": "A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate arabesque filigree."
+      },
+      {
+            "src": "/assets/images/lighting/celestial-verdigris-brass-sconce.jpg",
+            "title": "CELESTIAL VERDIGRIS BRASS SCONCE",
+            "desc": "A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm architectural halo."
+      },
+      {
+            "src": "/assets/images/lighting/teardrop-filigree-brass-pendant.jpg",
+            "title": "TEARDROP FILIGREE BRASS PENDANT",
+            "desc": "A voluptuous teardrop brass pendant intricately pierced with classical Islamic motifs, casting a radiant mandala shadow pattern below."
+      },
+      {
+            "src": "/assets/images/lighting/cascading-brass-disc-chandelier.jpg",
+            "title": "CASCADING BRASS DISC CHANDELIER",
+            "desc": "A multi-tier statement chandelier featuring sunburst textured brass discs and ribbed blown glass lanterns suspended at sculpted heights."
+      },
       {
             "src": "/assets/images/lighting/pierced-ovoid-brass-lantern.jpg",
             "title": "PIERCED OVOID BRASS LANTERN",
@@ -156,7 +181,7 @@
     // Build Dash indicators dynamically
     sliderData.forEach((_, idx) => {
       const dash = document.createElement('span');
-      dash.className = `dash-dot flex-1 max-w-[24px] min-w-[6px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.className = `dash-dot flex-1 max-w-[18px] min-w-[4px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
     });
