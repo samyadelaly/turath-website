@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://turath-egypt.com/decor.html">
   <meta property="og:title" content="Decorative Objects Collection — TURATH">
   <meta property="og:description" content="Handcrafted solid brass decorative vessels, artisanal centerpieces, and luxury wall medallions. Egyptian metal manufacturing.">
-  <meta property="og:image" content="/assets/images/decor/decor-01.jpg">
+  <meta property="og:image" content="/assets/images/decor/royal-arabesque-brass-wall-charger.jpg">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          HAMMERED BRASS VESSEL
+          ROYAL ARABESQUE BRASS WALL CHARGER
         </h1>
       </div>
 
@@ -49,26 +49,45 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/decor/decor-01.jpg" alt="Decorative Objects Product" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/decor/royal-arabesque-brass-wall-charger.jpg" alt="ROYAL ARABESQUE BRASS WALL CHARGER" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          A monumental handcrafted solid brass decorative basin shaped with thousands of precise hand-hammered facets.
+          A monumental wall-mounted circular charger hand-etched in solid brass, featuring intricate classical Islamic floral arabesques and radiating star medallions.
         </p>
-        <div id="dashes-container" class="flex justify-center items-center gap-3">
-          <span class="dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-        </div>
+        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-2.5 w-full max-w-xs sm:max-w-sm px-4 overflow-hidden"></div>
       </div>
     </div>
   </main>
 
   <script>
     const sliderData = [
+      {
+        src: '/assets/images/decor/royal-arabesque-brass-wall-charger.jpg',
+        title: 'ROYAL ARABESQUE BRASS WALL CHARGER',
+        desc: 'A monumental wall-mounted circular charger hand-etched in solid brass, featuring intricate classical Islamic floral arabesques and radiating star medallions.'
+      },
+      {
+        src: '/assets/images/decor/honeycomb-faceted-hammered-copper-shield.jpg',
+        title: 'HONEYCOMB FACETED HAMMERED COPPER SHIELD',
+        desc: 'A sculptural concave wall medallion hand-hammered in warm bronze-toned brass, radiating from a central floral rosette into hundreds of faceted honeycomb cells.'
+      },
+      {
+        src: '/assets/images/decor/golden-divers-cast-brass-wall-sculptures.jpg',
+        title: 'GOLDEN DIVERS SCULPTURAL WALL INSTALLATION',
+        desc: 'A dynamic set of five cast brass diver figurines hand-sculpted in suspended motion, mounted across a textured stone feature wall above river stone bedding.'
+      },
+      {
+        src: '/assets/images/decor/pleated-sunburst-polished-brass-disk.jpg',
+        title: 'PLEATED SUNBURST POLISHED BRASS DISK',
+        desc: 'A dramatic circular wall sculpture crafted in mirror-polished golden brass, featuring deep accordion pleats that catch the light in a hypnotic radiating sunburst.'
+      },
+      {
+        src: '/assets/images/decor/openwork-filigree-brass-leaf-sculptures.jpg',
+        title: 'OPENWORK FILIGREE BRASS BOTANICAL LEAVES',
+        desc: 'A set of four sculptural brass leaves featuring openwork vein filigree and polished contours, casting intricate shadow patterns across contemporary feature walls.'
+      },
       {
         src: '/assets/images/decor/decor-01.jpg',
         title: 'HAMMERED BRASS VESSEL',
@@ -104,6 +123,14 @@
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
+    // Build Dash indicators dynamically
+    sliderData.forEach((_, idx) => {
+      const dash = document.createElement('span');
+      dash.className = `dash-dot flex-1 max-w-[28px] min-w-[8px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.addEventListener('click', () => updateSlider(idx));
+      dashesContainer.appendChild(dash);
+    });
+
     function updateSlider(index) {
       if (index < 0) {
         currentIndex = sliderData.length - 1;
@@ -120,6 +147,7 @@
 
       setTimeout(() => {
         imgEl.src = sliderData[currentIndex].src;
+        imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
 
@@ -131,9 +159,11 @@
         const dots = dashesContainer.querySelectorAll('.dash-dot');
         dots.forEach((dot, idx) => {
           if (idx === currentIndex) {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white/30');
+            dot.classList.add('bg-white');
           } else {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white');
+            dot.classList.add('bg-white/30');
           }
         });
       }, 150);
@@ -144,14 +174,6 @@
     }
     if (nextBtn) {
       nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
-    }
-
-    // Direct dash clicks
-    if (dashesContainer) {
-      const dots = dashesContainer.querySelectorAll('.dash-dot');
-      dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => updateSlider(idx));
-      });
     }
 
     // Keyboard navigation
