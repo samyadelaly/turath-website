@@ -853,53 +853,43 @@ function initScene07() {
   const scene07 = document.querySelector("#scene-07");
   const litPlate = document.getElementById("founder-plate-lit");
   const card = document.querySelector(".founder-editorial-card");
-  const contact = document.querySelector("#contact");
 
   if (!scene07) return;
 
-  // Geometric 2-step morphing reveal for Scene 07 as it ascends over Scene 06
-  gsap.set(scene07, { 
-    clipPath: "polygon(0% 100%, 0% 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0%, 100% 0%, 100% 100%)" 
-  });
+  // Staggered fade in as section 07 scrolls into view over section 06
+  gsap.fromTo(scene07,
+    { opacity: 0.8 },
+    {
+      opacity: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: scene07,
+        start: "top bottom",
+        end: "top 30%",
+        scrub: 1
+      }
+    }
+  );
 
-  gsap.to(scene07, {
-    clipPath: "polygon(0% 100%, 0% 0%, 33% 0%, 33% 0%, 66% 0%, 66% 0%, 100% 0%, 100% 100%)",
-    ease: "none",
+  // Pinned Dwell Phase: Section 07 pins at top, and the lit lamp gradually illuminates with scroll!
+  // CRITICAL: pinSpacing is true to preserve normal document flow, full visibility and reading dwell!
+  const founderTL = gsap.timeline({
     scrollTrigger: {
       trigger: scene07,
-      start: "top bottom",
-      end: "top top",
-      scrub: 1
+      start: "top top",
+      end: "+=120%", // Dwell distance for reading and illumination
+      pin: true,
+      pinSpacing: true, // Prevents DOM collapse and preserves layout flow
+      scrub: 1,
+      anticipatePin: 1
     }
   });
 
-  // Pin Scene 07 when it settles at the top, allowing Contact (z-70) to climb over it (z-60)
-  if (contact) {
-    ScrollTrigger.create({
-      trigger: scene07,
-      start: "top top",
-      endTrigger: contact,
-      end: "top top",
-      pin: true,
-      pinSpacing: false, // Crucial: allows Contact to overlap Scene 07
-      anticipatePin: 1
-    });
-  }
-
-  // Lamp illumination during ascent and docking
+  // Lamp illumination during founder dwell
   if (litPlate) {
-    gsap.fromTo(litPlate,
+    founderTL.fromTo(litPlate,
       { opacity: 0 },
-      {
-        opacity: 1,
-        ease: "power2.inOut",
-        scrollTrigger: {
-          trigger: scene07,
-          start: "top 60%",
-          end: "top top",
-          scrub: 1
-        }
-      }
+      { opacity: 1, ease: "power2.inOut" }
     );
   }
 

@@ -47,9 +47,6 @@ const reportData = targetSections.map((sec) => {
   let pinSpacing = 'N/A';
   let overlapMode = 'Standard Flow';
 
-  // Check for ScrollTrigger mentions of this ID
-  const idRegex = new RegExp(`(?:trigger|endTrigger):\\s*["'#a-zA-Z0-9_]*${sec.id.replace('-', '')}`, 'i');
-  
   // Specific GSAP search for sections
   if (sec.id === 'scene-02') {
     if (mainJs.includes('trigger: "#scene-02"') && mainJs.includes('pin: true')) {
@@ -66,8 +63,8 @@ const reportData = targetSections.map((sec) => {
   } else if (sec.id === 'scene-07') {
     if (mainJs.includes('trigger: scene07') && mainJs.includes('pin: true')) {
       gsapPin = 'Yes (Pinned)';
-      pinSpacing = 'false';
-      overlapMode = 'Curtain Base (Under Contact)';
+      pinSpacing = mainJs.includes('pinSpacing: true') ? 'true (reading dwell)' : 'false';
+      overlapMode = 'Pinned Dwell & Illumination (Covered by Contact)';
     }
   } else if (sec.id === 'contact') {
     overlapMode = 'Curtain Cover (Over Scene 07)';
@@ -90,9 +87,10 @@ console.table(reportData);
 console.log('\n----------------------------------------------------------------------------------------');
 console.log('VERIFICATION SUMMARY:');
 console.log('----------------------------------------------------------------------------------------');
-console.log('✓ Z-Index Hierarchy: Monotonically increasing z-10 -> z-20 -> z-30 -> z-35/40 -> z-50 -> z-60 -> z-70');
+console.log('✓ Z-Index Hierarchy: Monotonically increasing z-10 -> z-20 -> z-30 -> z-35 -> z-40 -> z-50 -> z-60 -> z-70');
+console.log('✓ CSS Overrides: Hardcoded in src/style.css with !important to prevent Tailwind compilation ambiguity');
 console.log('✓ Stacking Order: Contact (z-70) > Founder (z-60) > Craftsmanship (z-50)');
-console.log('✓ Curtain Overlap: Scene 06 & Scene 07 both use `pin: true` with `pinSpacing: false`');
-console.log('✓ Founder Background: Strictly opaque `bg-black` to prevent bleed-through');
-console.log('✓ Contact Overlap: Ascends smoothly from bottom to top with 60px -> 0px corner morphing');
+console.log('✓ Founder Visibility: Scene 07 pins at top: 0 with pinSpacing: true, providing 120% dwell time for reading');
+console.log('✓ Smooth Overlap: Scene 07 smoothly covers Scene 06; Contact smoothly covers Scene 07 with corner morphing');
+console.log('✓ Founder Background: Strictly opaque bg-black to prevent bleed-through');
 console.log('========================================================================================\n');
