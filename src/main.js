@@ -22,6 +22,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 if (ScrollTrigger.clearScrollMemory) {
   ScrollTrigger.clearScrollMemory();
 }
+ScrollTrigger.config({ ignoreMobileResize: true });
 ScrollTrigger.normalizeScroll(true);
 window.ScrollTrigger = ScrollTrigger;
 window.gsap = gsap;
@@ -667,15 +668,16 @@ function initFeaturedProducts() {
 
   if (!scene05) return;
 
-  // Pin Scene 04 (Bespoke) with generous dwell duration giving time to read & interact with the form before Scene 05 appears
+  // Pin Scene 04 (Bespoke) so Scene 05 slides over it strictly as a curtain
   const bespokeSection = document.querySelector("#bespoke") || document.querySelector("#scene-04");
   if (bespokeSection) {
     ScrollTrigger.create({
       trigger: bespokeSection,
       start: "top top",
-      end: "+=250vh",
+      endTrigger: scene05 || undefined,
+      end: scene05 ? "top top" : "+=100%",
       pin: true,
-      pinSpacing: true, // Holds Bespoke in place with ample scroll time to type in form before Section 05 appears
+      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 05
       anticipatePin: 1
     });
   }
@@ -749,15 +751,16 @@ function initFeaturedProducts() {
     );
   }
 
-  // Pin Scene 05 with extended dwell duration giving ample time to view featured products before Scene 06 appears
+  // Pin Scene 05 when it settles at the top, allowing Scene 06 to climb strictly over it
   const scene06 = document.querySelector("#scene-06");
   if (scene06) {
     ScrollTrigger.create({
       trigger: scene05,
       start: "top top",
-      end: "+=250vh",
+      endTrigger: scene06,
+      end: "top top",
       pin: true,
-      pinSpacing: true,
+      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 06
       anticipatePin: 1
     });
   }
@@ -840,13 +843,15 @@ function initScene06() {
     });
   }
 
-  // Pin Scene 06 with generous dwell duration and pinSpacing to prevent fast running
+  // Pin Scene 06 strictly so Scene 07 climbs over it as a curtain
+  const scene07 = document.querySelector("#scene-07");
   ScrollTrigger.create({
     trigger: scene06,
     start: "top top",
-    end: "+=250vh", // Generous duration to explore craftsmanship without fast running
+    endTrigger: scene07 || undefined,
+    end: scene07 ? "top top" : "+=100%",
     pin: true,
-    pinSpacing: true, // Preserves layout flow and document height
+    pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 07
     anticipatePin: 1
   });
 }
@@ -874,15 +879,17 @@ function initScene07() {
     }
   );
 
-  // Pinned Dwell Phase: Section 07 pins at top, allowing day/night animation to fully play as Contact ascends over it
+  // Pinned Dwell Phase: Section 07 pins at top, allowing day/night animation to fully play as Contact ascends strictly over it
+  const contact = document.querySelector("#contact");
   const founderTL = gsap.timeline({
     scrollTrigger: {
       trigger: scene07,
       start: "top top",
-      end: "+=250vh", // Extended scroll distance giving user plenty of time to view day/night illumination
+      endTrigger: contact || undefined,
+      end: contact ? "top top" : "+=100%",
       pin: true,
-      pinSpacing: false, // User requirement: MUST have pin: true and pinSpacing: false so Contact ascends over it like a curtain
-      scrub: 1.5,        // Smooth inertia scrub
+      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Contact
+      scrub: 1.5,
       anticipatePin: 1
     }
   });
