@@ -403,8 +403,7 @@ body.menu-open .menu-line.line-2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 92% 14%, rgba(215, 175, 90, 0.45) 0%, rgba(160, 115, 45, 0.18) 45%, transparent 70%),
-              linear-gradient(135deg, rgba(65, 45, 22, 0.58) 0%, rgba(28, 18, 10, 0.72) 100%) !important;
+  background: rgba(215, 199, 151, 0.72) !important;
   backdrop-filter: blur(20px) saturate(140%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
   clip-path: polygon(0 0, 100% 0, 100% 29%, 64% 29%, 64% 34%, 0 34%);
