@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          MAMLUK ROYAL BRASS CHANDELIER
+          SCULPTURAL HAMMERED BRASS SCROLL SCONCE
         </h1>
       </div>
 
@@ -49,12 +49,12 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/lighting/mamluk-royal-brass-chandelier.jpg" alt="MAMLUK ROYAL BRASS CHANDELIER" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/lighting/hammered-brass-scroll-sconce.jpg" alt="SCULPTURAL HAMMERED BRASS SCROLL SCONCE" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          A monumental ceremonial brass lantern inspired by classical Mamluk architecture, suspended by ornate chains with pierced arabesque motifs.
+          A statement architectural wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture.
         </p>
         <div id="dashes-container" class="flex justify-center items-center gap-1 w-full max-w-xs sm:max-w-md px-2 overflow-hidden"></div>
       </div>
@@ -63,6 +63,16 @@
 
   <script>
     const sliderData = [
+      {
+            "src": "/assets/images/lighting/hammered-brass-scroll-sconce.jpg",
+            "title": "SCULPTURAL HAMMERED BRASS SCROLL SCONCE",
+            "desc": "A statement architectural wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture."
+      },
+      {
+            "src": "/assets/images/lighting/elongated-arabesque-teardrop-pendant.jpg",
+            "title": "ELONGATED ARABESQUE TEARDROP PENDANT",
+            "desc": "An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection."
+      },
       {
             "src": "/assets/images/lighting/mamluk-royal-brass-chandelier.jpg",
             "title": "MAMLUK ROYAL BRASS CHANDELIER",
@@ -231,7 +241,7 @@
     // Build Dash indicators dynamically
     sliderData.forEach((_, idx) => {
       const dash = document.createElement('span');
-      dash.className = `dash-dot flex-1 max-w-[12px] min-w-[3px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.className = `dash-dot flex-1 max-w-[10px] min-w-[2px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
     });
