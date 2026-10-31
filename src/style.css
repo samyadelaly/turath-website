@@ -1699,13 +1699,24 @@ select:-webkit-autofill:focus {
 #scene-07 { z-index: 70 !important; }
 #contact  { z-index: 80 !important; }
 
-/* Ensure Bespoke form and inputs are always clickable, typable, and never lose focus */
+/* Ensure Bespoke form, wrapper, and inputs are always clickable, typable, and never lose focus */
 #bespoke input,
 #bespoke textarea,
 #bespoke select,
 #bespoke button,
-#bespoke-form {
+#bespoke-form,
+#bespoke-content {
   pointer-events: auto !important;
-  position: relative;
-  z-index: 999 !important;
+  position: relative !important;
+  z-index: 9999 !important;
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+}
+
+/* Ensure no GSAP pin-spacer blocks clicks */
+.pin-spacer {
+  pointer-events: none !important;
+}
+.pin-spacer > * {
+  pointer-events: auto !important;
 }

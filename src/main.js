@@ -879,14 +879,14 @@ function initScene07() {
     }
   );
 
-  // Pinned Dwell Phase: Section 07 pins at top, allowing day/night animation to fully play as Contact ascends strictly over it
+  // Pinned Dwell Phase: Section 07 pins at top throughout the 150vh scroll gap before Contact arrives
   const contact = document.querySelector("#contact");
   const founderTL = gsap.timeline({
     scrollTrigger: {
       trigger: scene07,
       start: "top top",
       endTrigger: contact || undefined,
-      end: contact ? "top top" : "+=100%",
+      end: contact ? "top top" : "+=200vh", // Extended end matching the 150vh gap (e.g. +=200vh+)
       pin: true,
       pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Contact
       scrub: 1.5,
@@ -894,12 +894,14 @@ function initScene07() {
     }
   });
 
-  // Lamp illumination during founder dwell
+  // Day/Night Lamp illumination: fades slowly as the user scrolls through the 150vh gap
   if (litPlate) {
     founderTL.fromTo(litPlate,
       { opacity: 0 },
-      { opacity: 1, ease: "power2.inOut" }
+      { opacity: 1, ease: "power1.inOut", duration: 1.5 }
     );
+    // Hold lit plate fully illuminated while Contact ascends over it
+    founderTL.to({}, { duration: 1.0 });
   }
 
   // Editorial card subtle upward float
