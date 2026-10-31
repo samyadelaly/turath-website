@@ -57,17 +57,17 @@ const reportData = targetSections.map((sec) => {
   } else if (sec.id === 'scene-06') {
     if (mainJs.includes('trigger: scene06') && mainJs.includes('pin: true')) {
       gsapPin = 'Yes (Pinned)';
-      pinSpacing = 'false';
-      overlapMode = 'Curtain Base (Under Scene 07)';
+      pinSpacing = mainJs.includes('pinSpacing: true') ? 'true (+=250vh)' : 'false';
+      overlapMode = 'Pinned Dwell & Workshop Slats';
     }
   } else if (sec.id === 'scene-07') {
     if (mainJs.includes('trigger: scene07') && mainJs.includes('pin: true')) {
       gsapPin = 'Yes (Pinned)';
-      pinSpacing = mainJs.includes('pinSpacing: true') ? 'true (reading dwell)' : 'false';
+      pinSpacing = mainJs.includes('pinSpacing: true') ? 'true (+=250vh)' : 'false';
       overlapMode = 'Pinned Dwell & Illumination (Covered by Contact)';
     }
   } else if (sec.id === 'contact') {
-    overlapMode = 'Curtain Cover (Over Scene 07)';
+    overlapMode = 'Unpinned Curtain Cover (Over Scene 07)';
   }
 
   return {
@@ -90,7 +90,8 @@ console.log('-------------------------------------------------------------------
 console.log('✓ Z-Index Hierarchy: Monotonically increasing z-10 -> z-20 -> z-30 -> z-35 -> z-40 -> z-50 -> z-60 -> z-70');
 console.log('✓ CSS Overrides: Hardcoded in src/style.css with !important to prevent Tailwind compilation ambiguity');
 console.log('✓ Stacking Order: Contact (z-70) > Founder (z-60) > Craftsmanship (z-50)');
-console.log('✓ Founder Visibility: Scene 07 pins at top: 0 with pinSpacing: true, providing 120% dwell time for reading');
-console.log('✓ Smooth Overlap: Scene 07 smoothly covers Scene 06; Contact smoothly covers Scene 07 with corner morphing');
-console.log('✓ Founder Background: Strictly opaque bg-black to prevent bleed-through');
+console.log('✓ Stabilized Scroll: Numeric scrub: 1.5 across Scenes 06, 07, and Contact for inertia damping');
+console.log('✓ Anti-Running Durations: Increased pin distance to +=250vh on Scene 06 and Scene 07');
+console.log('✓ Height Preservation: pinSpacing: true on Scene 06 & 07; Contact unpinned to prevent DOM collapse');
+console.log('✓ Calculation Refresh: ScrollTrigger.refresh() on window load + normalizeScroll(true) on mobile');
 console.log('========================================================================================\n');

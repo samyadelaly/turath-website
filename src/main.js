@@ -16,6 +16,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { initTurathScrambleAnimation } from './artwork.js';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+ScrollTrigger.normalizeScroll(true);
 window.ScrollTrigger = ScrollTrigger;
 window.gsap = gsap;
 
@@ -771,9 +772,9 @@ function initScene06() {
     ease: "none",
     scrollTrigger: {
       trigger: scene06,
-      start: "top bottom", // Starts when top of scene 6 hits bottom of viewport
-      end: "top top",      // Ends when top of scene 6 hits top of viewport
-      scrub: 1             // Smooth tied-to-scroll animation
+      start: "top bottom",
+      end: "top top",
+      scrub: 1.5           // Smooth tied-to-scroll animation with inertia
     }
   });
 
@@ -791,7 +792,7 @@ function initScene06() {
           trigger: scene06,
           start: "top 75%",
           end: "top 20%",
-          scrub: 1
+          scrub: 1.5
         }
       }
     );
@@ -833,19 +834,15 @@ function initScene06() {
     });
   }
 
-  // Pin Scene 06 when it settles at the top, allowing Scene 07 (Founder) to climb over it
-  const scene07 = document.querySelector("#scene-07");
-  if (scene07) {
-    ScrollTrigger.create({
-      trigger: scene06,
-      start: "top top",
-      endTrigger: scene07,
-      end: "top top",
-      pin: true,
-      pinSpacing: false, // Crucial: allows section 7 to overlap
-      anticipatePin: 1
-    });
-  }
+  // Pin Scene 06 with generous dwell duration and pinSpacing to prevent fast running
+  ScrollTrigger.create({
+    trigger: scene06,
+    start: "top top",
+    end: "+=250vh", // Generous duration to explore craftsmanship without fast running
+    pin: true,
+    pinSpacing: true, // Preserves layout flow and document height
+    anticipatePin: 1
+  });
 }
 
 // 10. SECTION 07: FOUNDER (SAMY ADEL ABDALLAH / SCROLL-DRIVEN ILLUMINATION CROSSFADE)
@@ -866,7 +863,7 @@ function initScene07() {
         trigger: scene07,
         start: "top bottom",
         end: "top 30%",
-        scrub: 1
+        scrub: 1.5
       }
     }
   );
@@ -877,10 +874,10 @@ function initScene07() {
     scrollTrigger: {
       trigger: scene07,
       start: "top top",
-      end: "+=120%", // Dwell distance for reading and illumination
+      end: "+=250vh", // Generously increased dwell duration to prevent jumping and fast running
       pin: true,
       pinSpacing: true, // Prevents DOM collapse and preserves layout flow
-      scrub: 1,
+      scrub: 1.5,       // Smooth inertia scrub
       anticipatePin: 1
     }
   });
@@ -939,7 +936,7 @@ function initContactSection() {
         trigger: contact,
         start: "top bottom", // Starts as top of Contact enters bottom of viewport
         end: "top top",      // Ends when Contact reaches top of viewport
-        scrub: 1
+        scrub: 1.5           // Smooth inertia scrub
       }
     }
   );
@@ -957,10 +954,15 @@ initScene06();
 initScene07();
 initContactSection();
 
-// Safely handle cross-page anchor navigation (e.g. returning to #scene-03 from subpages)
+// Stabilize GSAP calculations and safely handle cross-page anchor navigation
 window.addEventListener("load", () => {
   // 1. Force GSAP to recalculate all pinned sections first
   ScrollTrigger.refresh();
+
+  // Extra safety refresh after fonts and image reflows
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 200);
   
   // 2. Safely handle the incoming hash link
   if (window.location.hash) {
@@ -972,7 +974,7 @@ window.addEventListener("load", () => {
       // Wait a tiny fraction of a second for GSAP math to settle, then scroll smoothly
       setTimeout(() => {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 150);
+      }, 250);
     }
   }
 });
