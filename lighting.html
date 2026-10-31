@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          INTERLOCKING BRASS RIBBON CHANDELIER
+          MAMLUK ROYAL BRASS CHANDELIER
         </h1>
       </div>
 
@@ -49,12 +49,12 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/lighting/interlocking-brass-ribbon-chandelier.jpg" alt="INTERLOCKING BRASS RIBBON CHANDELIER" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/lighting/mamluk-royal-brass-chandelier.jpg" alt="MAMLUK ROYAL BRASS CHANDELIER" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core.
+          A monumental ceremonial brass lantern inspired by classical Mamluk architecture, suspended by ornate chains with pierced arabesque motifs.
         </p>
         <div id="dashes-container" class="flex justify-center items-center gap-1 w-full max-w-xs sm:max-w-md px-2 overflow-hidden"></div>
       </div>
@@ -63,6 +63,31 @@
 
   <script>
     const sliderData = [
+      {
+            "src": "/assets/images/lighting/mamluk-royal-brass-chandelier.jpg",
+            "title": "MAMLUK ROYAL BRASS CHANDELIER",
+            "desc": "A monumental ceremonial brass lantern inspired by classical Mamluk architecture, suspended by ornate chains with pierced arabesque motifs."
+      },
+      {
+            "src": "/assets/images/lighting/fluted-brass-drum-chandelier.jpg",
+            "title": "FLUTED BRASS DRUM CHANDELIER",
+            "desc": "A circular solid brass chandelier featuring a vertically fluted brass collar and an etched sunburst glass diffuser casting a soft, glare-free downward glow."
+      },
+      {
+            "src": "/assets/images/lighting/sunburst-pierced-brass-sconce.jpg",
+            "title": "SUNBURST PIERCED BRASS SCONCE",
+            "desc": "A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall."
+      },
+      {
+            "src": "/assets/images/lighting/sculptural-brass-monstera-sconce.jpg",
+            "title": "SCULPTURAL BRASS MONSTERA SCONCE",
+            "desc": "An organic architectural wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows."
+      },
+      {
+            "src": "/assets/images/lighting/tri-stem-brass-globe-floor-lamp.jpg",
+            "title": "TRI-STEM BRASS GLOBE FLOOR LAMP",
+            "desc": "A statuesque three-branch solid brass floor lamp featuring staggered architectural stems topped with clear hand-blown glass illuminating spheres."
+      },
       {
             "src": "/assets/images/lighting/interlocking-brass-ribbon-chandelier.jpg",
             "title": "INTERLOCKING BRASS RIBBON CHANDELIER",
@@ -206,7 +231,7 @@
     // Build Dash indicators dynamically
     sliderData.forEach((_, idx) => {
       const dash = document.createElement('span');
-      dash.className = `dash-dot flex-1 max-w-[14px] min-w-[3px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.className = `dash-dot flex-1 max-w-[12px] min-w-[3px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
     });
