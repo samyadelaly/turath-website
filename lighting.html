@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          GEOMETRIC TRIANGLE BRASS SCONCE
+          INTERLOCKING BRASS RIBBON CHANDELIER
         </h1>
       </div>
 
@@ -49,20 +49,45 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/lighting/geometric-triangle-brass-sconce.jpg" alt="GEOMETRIC TRIANGLE BRASS SCONCE" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/lighting/interlocking-brass-ribbon-chandelier.jpg" alt="INTERLOCKING BRASS RIBBON CHANDELIER" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.
+          A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core.
         </p>
-        <div id="dashes-container" class="flex justify-center items-center gap-1 sm:gap-1.5 w-full max-w-xs sm:max-w-md px-2"></div>
+        <div id="dashes-container" class="flex justify-center items-center gap-1 w-full max-w-xs sm:max-w-md px-2 overflow-hidden"></div>
       </div>
     </div>
   </main>
 
   <script>
     const sliderData = [
+      {
+            "src": "/assets/images/lighting/interlocking-brass-ribbon-chandelier.jpg",
+            "title": "INTERLOCKING BRASS RIBBON CHANDELIER",
+            "desc": "A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core."
+      },
+      {
+            "src": "/assets/images/lighting/star-lattice-cylinder-sconce.jpg",
+            "title": "STAR LATTICE CYLINDER SCONCE",
+            "desc": "A classical wall sconce featuring an illuminated frosted glass cylinder encased in an intricately hand-cut Islamic star lattice brass cage."
+      },
+      {
+            "src": "/assets/images/lighting/brass-dome-tripod-floor-lamp.jpg",
+            "title": "BRASS DOME TRIPOD FLOOR LAMP",
+            "desc": "A mid-century inspired architectural floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips."
+      },
+      {
+            "src": "/assets/images/lighting/rosette-medallion-brass-pendant.jpg",
+            "title": "ROSETTE MEDALLION BRASS PENDANT",
+            "desc": "A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite Arabesque filigree."
+      },
+      {
+            "src": "/assets/images/lighting/filigree-chimney-brass-lamp.jpg",
+            "title": "FILIGREE CHIMNEY BRASS LAMP",
+            "desc": "A traditional kerosene-style chimney table lamp hand-turned in solid brass with an intricately perforated fluted shade that casts a rich, romantic amber glow."
+      },
       {
             "src": "/assets/images/lighting/geometric-triangle-brass-sconce.jpg",
             "title": "GEOMETRIC TRIANGLE BRASS SCONCE",
@@ -181,7 +206,7 @@
     // Build Dash indicators dynamically
     sliderData.forEach((_, idx) => {
       const dash = document.createElement('span');
-      dash.className = `dash-dot flex-1 max-w-[18px] min-w-[4px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.className = `dash-dot flex-1 max-w-[14px] min-w-[3px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
     });
