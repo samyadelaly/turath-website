@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          SOLID BRASS APPLIQUE
+          GEOMETRIC BRASS PLATE SCONCE
         </h1>
       </div>
 
@@ -49,21 +49,14 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/lighting/lighting-hero.jpg" alt="Lighting Product" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/lighting/geometric-brass-plate-sconce.jpg" alt="GEOMETRIC BRASS PLATE SCONCE" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.
+          An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination.
         </p>
-        <div id="dashes-container" class="flex justify-center items-center gap-3">
-          <span class="dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-        </div>
+        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-3 flex-wrap"></div>
       </div>
     </div>
   </main>
@@ -71,36 +64,61 @@
   <script>
     const sliderData = [
       {
-        src: '/assets/images/lighting/lighting-hero.jpg',
-        title: 'SOLID BRASS APPLIQUE',
-        desc: 'A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.'
+            "src": "/assets/images/lighting/geometric-brass-plate-sconce.jpg",
+            "title": "GEOMETRIC BRASS PLATE SCONCE",
+            "desc": "An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination."
       },
       {
-        src: '/assets/images/lighting/lighting-geometric-chandelier.jpg',
-        title: 'GEOMETRIC BRASS CHANDELIER',
-        desc: 'A sculptural multi-arm chandelier handcrafted in solid brass with warm multidirectional ambient lighting.'
+            "src": "/assets/images/lighting/slender-brass-torch-sconce.jpg",
+            "title": "SLENDER BRASS TORCH SCONCE",
+            "desc": "A neoclassical solid brass torch fixture featuring an elongated drop spindle finial and a tailored linen lampshade diffusing soft, glare-free light."
       },
       {
-        src: '/assets/images/lighting/lighting-kinetic-pendant.jpg',
-        title: 'KINETIC BRASS PENDANT',
-        desc: 'A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination.'
+            "src": "/assets/images/lighting/cantilever-brass-orb-lamp.jpg",
+            "title": "CANTILEVER BRASS ORB LAMP",
+            "desc": "A sculptural minimalist balance lamp featuring a precision-calibrated solid brass arm and a hand-blown frosted glass illuminating sphere."
       },
       {
-        src: '/assets/images/lighting/lighting-arabesque-lantern.jpg',
-        title: 'ENGRAVED ARABESQUE LANTERN',
-        desc: 'A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs.'
+            "src": "/assets/images/lighting/hammered-brass-teardrop-pendant.jpg",
+            "title": "HAMMERED BRASS TEARDROP PENDANT",
+            "desc": "A teardrop-shaped solid brass pendant hand-hammered by master Egyptian artisans, radiating an intimate, downward golden pool of light."
       },
       {
-        src: '/assets/images/lighting/lighting-fluted-sconce.jpg',
-        title: 'FLUTED BRASS PIPE SCONCE',
-        desc: 'A dramatic statement wall sconce crafted from staggered tubular brass pipes casting a sunburst halo of light.'
+            "src": "/assets/images/lighting/dual-capsule-arched-brass-sconce.jpg",
+            "title": "DUAL CAPSULE ARCHED BRASS SCONCE",
+            "desc": "A dramatic double-light architectural sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon."
       },
       {
-        src: '/assets/images/lighting/lighting-crown-chandelier.jpg',
-        title: 'CROWN RING CHANDELIER',
-        desc: 'A majestic circular solid brass chandelier featuring tapered white shades for refined, glare-free dining illumination.'
+            "src": "/assets/images/lighting/lighting-hero.jpg",
+            "title": "SOLID BRASS APPLIQUE",
+            "desc": "A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-geometric-chandelier.jpg",
+            "title": "GEOMETRIC BRASS CHANDELIER",
+            "desc": "A sculptural multi-arm chandelier handcrafted in solid brass with warm multidirectional ambient lighting."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-kinetic-pendant.jpg",
+            "title": "KINETIC BRASS PENDANT",
+            "desc": "A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-arabesque-lantern.jpg",
+            "title": "ENGRAVED ARABESQUE LANTERN",
+            "desc": "A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-fluted-sconce.jpg",
+            "title": "FLUTED BRASS PIPE SCONCE",
+            "desc": "A dramatic statement wall sconce crafted from staggered tubular brass pipes casting a sunburst halo of light."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-crown-chandelier.jpg",
+            "title": "CROWN RING CHANDELIER",
+            "desc": "A majestic circular solid brass chandelier featuring tapered white shades for refined, glare-free dining illumination."
       }
-    ];
+];
 
     let currentIndex = 0;
     const titleEl = document.getElementById('slider-title');
@@ -109,6 +127,14 @@
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+
+    // Build Dash indicators dynamically
+    sliderData.forEach((_, idx) => {
+      const dash = document.createElement('span');
+      dash.className = `dash-dot w-5 sm:w-7 h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.addEventListener('click', () => updateSlider(idx));
+      dashesContainer.appendChild(dash);
+    });
 
     function updateSlider(index) {
       if (index < 0) {
@@ -126,6 +152,7 @@
 
       setTimeout(() => {
         imgEl.src = sliderData[currentIndex].src;
+        imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
 
@@ -137,9 +164,11 @@
         const dots = dashesContainer.querySelectorAll('.dash-dot');
         dots.forEach((dot, idx) => {
           if (idx === currentIndex) {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white/30');
+            dot.classList.add('bg-white');
           } else {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white');
+            dot.classList.add('bg-white/30');
           }
         });
       }, 150);
@@ -150,14 +179,6 @@
     }
     if (nextBtn) {
       nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
-    }
-
-    // Direct dash clicks
-    if (dashesContainer) {
-      const dots = dashesContainer.querySelectorAll('.dash-dot');
-      dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => updateSlider(idx));
-      });
     }
 
     // Keyboard navigation
