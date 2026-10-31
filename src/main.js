@@ -874,15 +874,16 @@ function initScene07() {
     }
   );
 
-  // Pinned Dwell Phase: Section 07 pins at top, and the lit lamp gradually illuminates with scroll!
-  // CRITICAL: pinSpacing is true to preserve normal document flow, full visibility and reading dwell!
+  // Pinned Dwell Phase: Section 07 pins at top, allowing Section 08 (Contact) to ascend over it
+  const contact = document.querySelector("#contact");
   const founderTL = gsap.timeline({
     scrollTrigger: {
       trigger: scene07,
       start: "top top",
-      end: "+=250vh", // Generously increased dwell duration to prevent jumping and fast running
+      endTrigger: contact || undefined,
+      end: contact ? "top top" : "+=150vh",
       pin: true,
-      pinSpacing: true, // Prevents DOM collapse and preserves layout flow
+      pinSpacing: false, // Allows Section 08 (Contact) to ascend directly over Section 07
       scrub: 1.5,       // Smooth inertia scrub
       anticipatePin: 1
     }
@@ -920,32 +921,77 @@ function initContactSection() {
   const contact = document.querySelector("#contact");
   if (!contact) return;
 
-  // Initial corner styling: large smooth radius 60px 60px 0 0
+  // Initial corner styling: prominent smooth radius 80px 80px 0 0
   gsap.set(contact, {
-    borderTopLeftRadius: "60px",
-    borderTopRightRadius: "60px"
+    borderTopLeftRadius: "80px",
+    borderTopRightRadius: "80px"
   });
 
-  // Corner Morphing Animation:
-  // Triggers exactly as Scene 07 finishes its dwell and Contact ascends over Scene 07.
-  // Starts with 60px radius at bottom of viewport, morphing to 0px (sharp 90-deg) when docked at top.
+  // Corner Morphing & Parallax Ascension Animation:
+  // Triggers as Contact ascends directly over Scene 07.
+  // Starts with 80px radius and parallax offset at bottom of viewport, morphing to 0px and y: 0 when docked at top.
   gsap.fromTo(contact,
     {
-      borderTopLeftRadius: "60px",
-      borderTopRightRadius: "60px"
+      borderTopLeftRadius: "80px",
+      borderTopRightRadius: "80px",
+      y: 60
     },
     {
       borderTopLeftRadius: "0px",
       borderTopRightRadius: "0px",
+      y: 0,
       ease: "none",
       scrollTrigger: {
         trigger: contact,
         start: "top bottom", // Starts as top of Contact enters bottom of viewport
         end: "top top",      // Ends when Contact reaches top of viewport
-        scrub: 1.5           // Smooth inertia scrub
+        scrub: 1.2           // Smooth inertia scrub
       }
     }
   );
+}
+
+// 12. PHONE DROPDOWN (CALL & WHATSAPP)
+function initPhoneDropdown() {
+  const trigger = document.getElementById("phone-trigger");
+  const options = document.getElementById("phone-options");
+  const chevron = document.getElementById("phone-chevron");
+
+  if (!trigger || !options) return;
+
+  function toggleDropdown(show) {
+    const isHidden = options.classList.contains("opacity-0");
+    const shouldOpen = typeof show === "boolean" ? show : isHidden;
+
+    if (shouldOpen) {
+      options.classList.remove("opacity-0", "invisible", "scale-95");
+      options.classList.add("opacity-100", "scale-100");
+      trigger.setAttribute("aria-expanded", "true");
+      if (chevron) chevron.classList.add("rotate-180");
+    } else {
+      options.classList.add("opacity-0", "invisible", "scale-95");
+      options.classList.remove("opacity-100", "scale-100");
+      trigger.setAttribute("aria-expanded", "false");
+      if (chevron) chevron.classList.remove("rotate-180");
+    }
+  }
+
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleDropdown();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!trigger.contains(e.target) && !options.contains(e.target)) {
+      toggleDropdown(false);
+    }
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      toggleDropdown(false);
+    }
+  });
 }
 
 initNavDrawer();
@@ -959,6 +1005,7 @@ initFeaturedProducts();
 initScene06();
 initScene07();
 initContactSection();
+initPhoneDropdown();
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 window.addEventListener("load", () => {

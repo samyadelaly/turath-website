@@ -1428,9 +1428,12 @@ select:-webkit-autofill:focus {
 }
 
 .video-slat-item {
-  flex: 0 0 clamp(235px, 20vw, 280px);
-  height: clamp(500px, 64vh, 660px);
-  border-radius: 6px;
+  flex: 0 0 auto;
+  aspect-ratio: 9 / 14 !important;
+  max-height: 75vh !important;
+  height: clamp(420px, 68vh, 640px);
+  width: auto !important;
+  border-radius: 1rem !important;
   overflow: hidden;
   border: 1px solid rgba(215, 199, 151, 0.32);
   position: relative;
@@ -1551,9 +1554,12 @@ select:-webkit-autofill:focus {
     display: none;
   }
   .video-slat-item {
-    flex: 0 0 240px;
-    max-width: 240px;
-    height: clamp(480px, 66vh, 580px);
+    flex: 0 0 auto;
+    aspect-ratio: 9 / 14 !important;
+    max-height: 75vh !important;
+    height: clamp(380px, 62vh, 520px);
+    width: auto !important;
+    border-radius: 1rem !important;
     scroll-snap-align: center;
   }
 }
