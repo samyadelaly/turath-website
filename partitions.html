@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://turath-egypt.com/partitions.html">
   <meta property="og:title" content="Partitions & Bookcases Collection — TURATH">
   <meta property="og:description" content="Handcrafted solid brass architectural partitions, freestanding room dividers, and bespoke luxury shelving. Egyptian metal manufacturing.">
-  <meta property="og:image" content="/assets/images/partitions/partition-01.jpg">
+  <meta property="og:image" content="/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +38,7 @@
       <!-- Centered Product Title -->
       <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-lg md:text-xl lg:text-2xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
-          ASYMMETRIC BRASS BOOKCASE
+          AMBER SCALLOP ARCHITECTURAL BRASS SCREEN
         </h1>
       </div>
 
@@ -49,26 +49,30 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/partitions/partition-01.jpg" alt="Partitions and Bookcases Product" class="w-full h-full object-cover transition-opacity duration-300">
+      <img id="slider-image" src="/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg" alt="AMBER SCALLOP ARCHITECTURAL BRASS SCREEN" class="w-full h-full object-cover transition-opacity duration-300">
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3rem]">
-          A monumental open-frame bookcase precision-welded in solid brass with staggered floating glass display tiers.
+          A tall architectural brass partition screen featuring an organic cascading pattern of artisan scalloped fish-scale panels in antique amber glass and solid brass framing.
         </p>
-        <div id="dashes-container" class="flex justify-center items-center gap-3">
-          <span class="dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
-        </div>
+        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-2.5 w-full max-w-xs sm:max-w-sm px-4 overflow-hidden"></div>
       </div>
     </div>
   </main>
 
   <script>
     const sliderData = [
+      {
+        src: '/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg',
+        title: 'AMBER SCALLOP ARCHITECTURAL BRASS SCREEN',
+        desc: 'A tall architectural brass partition screen featuring an organic cascading pattern of artisan scalloped fish-scale panels in antique amber glass and solid brass framing.'
+      },
+      {
+        src: '/assets/images/partitions/rhombus-geometric-brass-bookcase.jpg',
+        title: 'RHOMBUS GEOMETRIC BRASS BOOKCASE',
+        desc: 'A monumental architectural bookcase hand-welded from solid square brass tubing, featuring a bold central diamond focal structure with cantilevered open glass display shelving.'
+      },
       {
         src: '/assets/images/partitions/partition-01.jpg',
         title: 'ASYMMETRIC BRASS BOOKCASE',
@@ -104,6 +108,14 @@
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
+    // Build Dash indicators dynamically
+    sliderData.forEach((_, idx) => {
+      const dash = document.createElement('span');
+      dash.className = `dash-dot flex-1 max-w-[28px] min-w-[8px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === 0 ? 'bg-white' : 'bg-white/30'}`;
+      dash.addEventListener('click', () => updateSlider(idx));
+      dashesContainer.appendChild(dash);
+    });
+
     function updateSlider(index) {
       if (index < 0) {
         currentIndex = sliderData.length - 1;
@@ -120,6 +132,7 @@
 
       setTimeout(() => {
         imgEl.src = sliderData[currentIndex].src;
+        imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
 
@@ -131,9 +144,11 @@
         const dots = dashesContainer.querySelectorAll('.dash-dot');
         dots.forEach((dot, idx) => {
           if (idx === currentIndex) {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white/30');
+            dot.classList.add('bg-white');
           } else {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer';
+            dot.classList.remove('bg-white');
+            dot.classList.add('bg-white/30');
           }
         });
       }, 150);
@@ -144,14 +159,6 @@
     }
     if (nextBtn) {
       nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
-    }
-
-    // Direct dash clicks
-    if (dashesContainer) {
-      const dots = dashesContainer.querySelectorAll('.dash-dot');
-      dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => updateSlider(idx));
-      });
     }
 
     // Keyboard navigation
