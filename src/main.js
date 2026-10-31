@@ -167,7 +167,7 @@ function initHeroAnimations() {
       x: initialDeltas.startX,
       y: initialDeltas.startY,
       scale: initialDeltas.startScale,
-      color: '#0A0A0A'
+      color: '#FFFFFF'
     });
 
     if (scrambleEngine) {
