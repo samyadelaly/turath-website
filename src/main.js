@@ -9,6 +9,9 @@
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
+if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.clearScrollMemory) {
+  ScrollTrigger.clearScrollMemory();
+}
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -16,6 +19,9 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { initTurathScrambleAnimation } from './artwork.js';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+if (ScrollTrigger.clearScrollMemory) {
+  ScrollTrigger.clearScrollMemory();
+}
 ScrollTrigger.normalizeScroll(true);
 window.ScrollTrigger = ScrollTrigger;
 window.gsap = gsap;
@@ -959,22 +965,44 @@ window.addEventListener("load", () => {
   // 1. Force GSAP to recalculate all pinned sections first
   ScrollTrigger.refresh();
 
+  // 2. Handle hash navigation instantly without animating
+  if (window.location.hash) {
+    const target = document.querySelector(window.location.hash);
+    if (target) {
+      // Find the ScrollTrigger associated with this target (prefer pinned / top-docked trigger)
+      const allMatching = ScrollTrigger.getAll().filter(t => {
+        if (!t.trigger) return false;
+        const triggerEl = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+        return triggerEl === target || (t.pin && triggerEl && triggerEl.contains && triggerEl.contains(target));
+      });
+
+      const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
+
+      if (st) {
+        // Jump instantly to the exact start of this section's animation
+        window.scrollTo(0, st.start);
+      } else {
+        target.scrollIntoView({ behavior: "instant" });
+      }
+    }
+  }
+
+  // 3. Fade in body after jumping to completely prevent FOUC and hide the jump
+  requestAnimationFrame(() => {
+    document.body.style.opacity = '1';
+    document.body.classList.remove('opacity-0');
+    document.body.classList.add('page-loaded');
+  });
+
   // Extra safety refresh after fonts and image reflows
   setTimeout(() => {
     ScrollTrigger.refresh();
   }, 200);
-  
-  // 2. Safely handle the incoming hash link
-  if (window.location.hash) {
-    const target = document.querySelector(window.location.hash);
-    if (target) {
-      // Prevent the broken native jump by resetting to top momentarily
-      window.scrollTo(0, 0);
-      
-      // Wait a tiny fraction of a second for GSAP math to settle, then scroll smoothly
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 250);
-    }
-  }
 });
+
+// Safety fallback: ensure body is revealed even if load event is delayed
+setTimeout(() => {
+  document.body.style.opacity = '1';
+  document.body.classList.remove('opacity-0');
+  document.body.classList.add('page-loaded');
+}, 1200);

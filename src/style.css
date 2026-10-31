@@ -49,6 +49,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* FOUC & GSAP Jump Prevention for Hash Navigation / Back Navigation */
+body.main-page {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+body.main-page.page-loaded {
+  opacity: 1 !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;
