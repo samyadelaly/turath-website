@@ -667,14 +667,15 @@ function initFeaturedProducts() {
 
   if (!scene05) return;
 
-  // Pin Scene 04 (Bespoke) so Scene 05 slides over it smoothly
+  // Pin Scene 04 (Bespoke) with generous dwell duration giving time to read & interact with the form before Scene 05 appears
   const bespokeSection = document.querySelector("#bespoke") || document.querySelector("#scene-04");
   if (bespokeSection) {
     ScrollTrigger.create({
       trigger: bespokeSection,
       start: "top top",
+      end: "+=250vh",
       pin: true,
-      pinSpacing: false, // Crucial: allows section 5 to overlap
+      pinSpacing: true, // Holds Bespoke in place with ample scroll time to type in form before Section 05 appears
       anticipatePin: 1
     });
   }
@@ -748,16 +749,15 @@ function initFeaturedProducts() {
     );
   }
 
-  // Pin Scene 05 when it settles at the top, allowing Scene 06 to climb over it
+  // Pin Scene 05 with extended dwell duration giving ample time to view featured products before Scene 06 appears
   const scene06 = document.querySelector("#scene-06");
   if (scene06) {
     ScrollTrigger.create({
       trigger: scene05,
       start: "top top",
-      endTrigger: scene06,
-      end: "top top",
+      end: "+=250vh",
       pin: true,
-      pinSpacing: false, // Crucial: allows section 6 to overlap
+      pinSpacing: true,
       anticipatePin: 1
     });
   }
@@ -874,15 +874,15 @@ function initScene07() {
     }
   );
 
-  // Pinned Dwell Phase: Section 07 pins at top, allowing day/night animation to fully play before Contact section appears
+  // Pinned Dwell Phase: Section 07 pins at top, allowing day/night animation to fully play as Contact ascends over it
   const founderTL = gsap.timeline({
     scrollTrigger: {
       trigger: scene07,
       start: "top top",
-      end: "+=350vh", // Dramatically increased duration allowing day/night animation to fully play before Contact appears
+      end: "+=250vh", // Extended scroll distance giving user plenty of time to view day/night illumination
       pin: true,
-      pinSpacing: true, // Forces user to scroll longer before Contact section appears
-      scrub: 1.5,       // Smooth inertia scrub
+      pinSpacing: false, // User requirement: MUST have pin: true and pinSpacing: false so Contact ascends over it like a curtain
+      scrub: 1.5,        // Smooth inertia scrub
       anticipatePin: 1
     }
   });

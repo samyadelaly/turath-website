@@ -1688,13 +1688,24 @@ select:-webkit-autofill:focus {
 }
 
 /* ========================================================================
-   SECTION Z-INDEX HIERARCHY (10 to 70 STRICT ASCENT)
+   SECTION Z-INDEX HIERARCHY
    ======================================================================== */
 #scene-01 { z-index: 10 !important; }
 #scene-02 { z-index: 20 !important; }
 #scene-03 { z-index: 30 !important; }
 #bespoke  { z-index: 35 !important; }
-#scene-05 { z-index: 40 !important; }
-#scene-06 { z-index: 50 !important; }
-#scene-07 { z-index: 60 !important; }
-#contact  { z-index: 70 !important; }
+#scene-05 { z-index: 36 !important; }
+#scene-06 { z-index: 38 !important; }
+#scene-07 { z-index: 40 !important; }
+#contact  { z-index: 50 !important; }
+
+/* Ensure Bespoke form and inputs are always clickable and interactive */
+#bespoke input,
+#bespoke textarea,
+#bespoke select,
+#bespoke button,
+#bespoke-form {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 50 !important;
+}
