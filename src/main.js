@@ -717,78 +717,88 @@ function initCollectionsHorizontalScroll() {
   }
 }
 
-// 6. Scene 03 -> Scene 04: Pin Scene 03 (No Fade), 3-Slice Entrance
+// 6. Scene 03 -> Scene 04: Desktop Pinning vs Mobile Standard Document Flow
 function initBespokeTransition() {
   const bespokeSection = document.getElementById('bespoke');
   const bespokeSlices = document.querySelectorAll('#bespoke .b-slice');
-  const bespokeContent = document.getElementById('bespoke-content');
   const bespokeForm = document.getElementById('bespoke-form');
 
   if (!bespokeSection) return;
 
-  // Pin Scene 03 safely with anticipatePin, staying fully visible as Bespoke covers it
-  ScrollTrigger.create({
-    trigger: "#scene-03",
-    start: "top top",
-    endTrigger: "#bespoke",
-    end: "top top",
-    pin: true,
-    pinSpacing: false,
-    anticipatePin: 1 // Prevents jitter on pin entry
+  ScrollTrigger.matchMedia({
+    // Desktop (1024px+): Elegant curtain transition with pinned Scene 03
+    "(min-width: 1024px)": function() {
+      ScrollTrigger.create({
+        trigger: "#scene-03",
+        start: "top top",
+        endTrigger: "#bespoke",
+        end: "top top",
+        pin: true,
+        pinSpacing: false,
+        anticipatePin: 1
+      });
+
+      if (bespokeSlices.length) {
+        gsap.set(bespokeSlices, { clipPath: 'inset(100% 0% 0% 0%)' });
+        if (bespokeForm) {
+          gsap.set(bespokeForm, { opacity: 0, y: 35 });
+        }
+
+        const bespokeEntranceTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '#bespoke',
+            start: 'top bottom',
+            end: 'top top',
+            scrub: 1.5,
+            invalidateOnRefresh: true,
+          }
+        });
+
+        bespokeEntranceTl.to(bespokeSlices, {
+          clipPath: 'inset(0% 0% 0%)',
+          stagger: 0.12,
+          ease: 'power2.inOut',
+          duration: 0.70
+        }, 0);
+
+        if (bespokeForm) {
+          bespokeEntranceTl.to(bespokeForm, {
+            opacity: 1,
+            y: 0,
+            ease: 'power2.out',
+            duration: 0.45
+          }, 0.5);
+        }
+      }
+
+      gsap.fromTo(".bespoke-text-anim", 
+        { opacity: 0, y: 25 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          stagger: 0.5,
+          duration: 2.0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#bespoke", 
+            start: "top 25px",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    },
+
+    // Mobile & Tablet (<1024px): Standard document flow - NO pinning overlap!
+    "(max-width: 1023px)": function() {
+      if (bespokeSlices.length) {
+        gsap.set(bespokeSlices, { clipPath: 'inset(0% 0% 0%)' });
+      }
+      if (bespokeForm) {
+        gsap.set(bespokeForm, { opacity: 1, y: 0, clearProps: "transform,opacity" });
+      }
+      gsap.set(".bespoke-text-anim", { opacity: 1, y: 0, clearProps: "transform,opacity" });
+    }
   });
-
-  // 3 Vertical Slices Entrance: Staggering Upwards
-  if (bespokeSlices.length) {
-    gsap.set(bespokeSlices, { clipPath: 'inset(100% 0% 0% 0%)' });
-    if (bespokeForm) {
-      gsap.set(bespokeForm, { opacity: 0, y: 35 });
-    }
-
-    const bespokeEntranceTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#bespoke',
-        start: 'top bottom',
-        end: 'top top',
-        scrub: 1.5,
-        invalidateOnRefresh: true,
-      }
-    });
-
-    // 1. 3 vertical slices enter with staggered clipPath inset (fully level before text starts)
-    bespokeEntranceTl.to(bespokeSlices, {
-      clipPath: 'inset(0% 0% 0% 0%)',
-      stagger: 0.12,
-      ease: 'power2.inOut',
-      duration: 0.70
-    }, 0);
-
-    // 2. Bespoke form rises and fades in smoothly as slices enter
-    if (bespokeForm) {
-      bespokeEntranceTl.to(bespokeForm, {
-        opacity: 1,
-        y: 0,
-        ease: 'power2.out',
-        duration: 0.45
-      }, 0.5);
-    }
-  }
-
-  // Balanced & elegant fade in for Bespoke texts - starts after slices are fully risen and level
-  gsap.fromTo(".bespoke-text-anim", 
-    { opacity: 0, y: 25 },
-    { 
-      opacity: 1, 
-      y: 0, 
-      stagger: 0.5, // 0.5s delay before subtitle begins
-      duration: 2.0,  // 2.0s smooth & elegant fade
-      ease: "power2.out", // Smooth luxury deceleration
-      scrollTrigger: {
-        trigger: "#bespoke", 
-        start: "top 25px", // Starts ONLY after all 3 slices have completely risen and reached the exact same level
-        toggleActions: "play none none reverse" // Plays fully once triggered, reverses gracefully if scrolled all the way back up
-      }
-    }
-  );
 }
 
 // 7. Bespoke Manufacturing Inquiry Form (Secure Serverless Fetch)
@@ -815,19 +825,23 @@ function initFeaturedProducts() {
 
   if (!scene05) return;
 
-  // Pin Scene 04 (Bespoke) so Scene 05 slides over it strictly as a curtain
-  const bespokeSection = document.querySelector("#bespoke") || document.querySelector("#scene-04");
-  if (bespokeSection) {
-    ScrollTrigger.create({
-      trigger: bespokeSection,
-      start: "top top",
-      endTrigger: scene05 || undefined,
-      end: scene05 ? "top top" : "+=100%",
-      pin: true,
-      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 05
-      anticipatePin: 1
-    });
-  }
+  // Pin Scene 04 (Bespoke) on desktop only so Scene 05 slides over it
+  ScrollTrigger.matchMedia({
+    "(min-width: 1024px)": function() {
+      const bespokeSection = document.querySelector("#bespoke") || document.querySelector("#scene-04");
+      if (bespokeSection && scene05) {
+        ScrollTrigger.create({
+          trigger: bespokeSection,
+          start: "top top",
+          endTrigger: scene05,
+          end: "top top",
+          pin: true,
+          pinSpacing: false,
+          anticipatePin: 1
+        });
+      }
+    }
+  });
 
   // Geometric 2-step morphing reveal for Scene 05
   // Initial state: A 2-step geometric staircase starting from bottom
@@ -1075,34 +1089,42 @@ function initContactSection() {
   const contact = document.querySelector("#contact");
   if (!contact) return;
 
-  // Initial corner styling: extreme circular dome radius 50vw 50vw 0 0
-  gsap.set(contact, {
-    borderTopLeftRadius: "50vw",
-    borderTopRightRadius: "50vw"
-  });
+  ScrollTrigger.matchMedia({
+    "(min-width: 1024px)": function() {
+      gsap.set(contact, {
+        borderTopLeftRadius: "50vw",
+        borderTopRightRadius: "50vw"
+      });
 
-  // Extreme Circular Dome Morphing Animation:
-  // Starts as a massive circular dome (50vw radius) rising up from bottom of viewport,
-  // morphing down to 0px (sharp full-width rectangular container) when docked at top.
-  gsap.fromTo(contact,
-    {
-      borderTopLeftRadius: "50vw",
-      borderTopRightRadius: "50vw",
-      y: 60
+      gsap.fromTo(contact,
+        {
+          borderTopLeftRadius: "50vw",
+          borderTopRightRadius: "50vw",
+          y: 60
+        },
+        {
+          borderTopLeftRadius: "0px",
+          borderTopRightRadius: "0px",
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: contact,
+            start: "top bottom",
+            end: "top top",
+            scrub: 1.2
+          }
+        }
+      );
     },
-    {
-      borderTopLeftRadius: "0px",
-      borderTopRightRadius: "0px",
-      y: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: contact,
-        start: "top bottom", // Starts as top of Contact enters bottom of viewport
-        end: "top top",      // Ends when Contact reaches top of viewport
-        scrub: 1.2           // Smooth inertia scrub
-      }
+    "(max-width: 1023px)": function() {
+      gsap.set(contact, {
+        borderTopLeftRadius: "0px",
+        borderTopRightRadius: "0px",
+        y: 0,
+        clearProps: "all"
+      });
     }
-  );
+  });
 }
 
 // 12. PHONE DROPDOWN (CALL & WHATSAPP)

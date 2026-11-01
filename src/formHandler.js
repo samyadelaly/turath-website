@@ -69,7 +69,13 @@ export function setupFormHandler(formElement, options = {}) {
 
     if (errorElement) {
       errorElement.classList.add('hidden');
+      errorElement.classList.remove('active');
       errorElement.style.display = 'none';
+    }
+    if (successElement) {
+      successElement.classList.add('hidden');
+      successElement.classList.remove('active');
+      successElement.style.display = 'none';
     }
 
     // Set submitting loading state
@@ -95,8 +101,14 @@ export function setupFormHandler(formElement, options = {}) {
       formElement.classList.add('hidden');
       formElement.style.display = 'none';
 
+      if (errorElement) {
+        errorElement.classList.add('hidden');
+        errorElement.classList.remove('active');
+        errorElement.style.display = 'none';
+      }
       if (successElement) {
         successElement.classList.remove('hidden');
+        successElement.classList.add('active');
         successElement.style.display = 'block';
         if (response.message) {
           successElement.textContent = response.message;
@@ -118,8 +130,14 @@ export function setupFormHandler(formElement, options = {}) {
         }, 4000);
       }
 
+      if (successElement) {
+        successElement.classList.add('hidden');
+        successElement.classList.remove('active');
+        successElement.style.display = 'none';
+      }
       if (errorElement) {
         errorElement.classList.remove('hidden');
+        errorElement.classList.add('active');
         errorElement.style.display = 'block';
         errorElement.textContent = err.message || 'Unable to send inquiry. Please try again.';
       } else {

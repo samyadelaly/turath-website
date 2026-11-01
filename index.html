@@ -582,11 +582,13 @@
         </button>
       </form>
 
-      <div id="form-error" class="hidden mt-8 text-rose-300 text-center tracking-widest text-sm p-4 border border-rose-500/30 bg-black/80 backdrop-blur-md rounded-sm shadow-2xl">
-        Unable to submit inquiry at this time. Please try again or email us directly at Turath.egypt@gmail.com
-      </div>
-      <div id="form-success" class="hidden mt-8 text-[#D7C797] text-center tracking-widest text-lg p-6 border border-[#D7C797]/30 bg-black/80 backdrop-blur-md rounded-sm shadow-2xl">
-        Thank you for your inquiry. Our team will review your request and get back to you soon.
+            <div id="form-messages-wrapper" class="w-full max-w-2xl mx-auto flex flex-col gap-4 mt-6 relative z-50">
+        <div id="form-error" class="hidden w-full text-rose-300 text-center tracking-widest text-sm p-4 border border-rose-500/30 bg-black/80 backdrop-blur-md rounded-sm shadow-2xl" role="alert">
+          Unable to submit inquiry at this time. Please try again or email us directly at Turath.egypt@gmail.com
+        </div>
+        <div id="form-success" class="hidden w-full text-[#D7C797] text-center tracking-widest text-lg p-6 border border-[#D7C797]/30 bg-black/80 backdrop-blur-md rounded-sm shadow-2xl" role="status">
+          Thank you for your inquiry. Our team will review your request and get back to you soon.
+        </div>
       </div>
     </div>
   </section>
@@ -779,7 +781,7 @@
     <!-- ========================================================================
        08 — CONTACT TURATH (DYNAMIC CORNER MORPHING & GLASSMORPHISM)
        ======================================================================== -->
-  <section id="contact" class="relative w-full min-h-screen z-80 bg-black overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 pt-28 sm:pt-32 md:pt-36 pb-8 sm:pb-10 rounded-t-[50vw] mt-[150vh]" style="margin-top: 150vh; border-top-left-radius: 50vw; border-top-right-radius: 50vw; box-shadow: 0 -35px 80px rgba(0, 0, 0, 0.95);" data-theme="dark">
+  <section id="contact" class="relative w-full min-h-screen z-80 bg-black overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 pt-20 md:pt-36 pb-8 sm:pb-10 contact-section" data-theme="dark">
     <!-- Anchor alias -->
     <a id="contact-turath" class="sr-only"></a>
 
