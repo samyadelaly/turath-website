@@ -1401,3 +1401,41 @@ setTimeout(() => {
     onWindowAssetsLoaded();
   }
 }, 3500);
+
+
+// ==========================================================================
+// 14. ROBUST LAYOUT RECALCULATION ON IMAGE & DOM HEIGHT CHANGES
+// ==========================================================================
+let refreshDebounceTimer = null;
+function debouncedScrollTriggerRefresh(delay = 150) {
+  if (refreshDebounceTimer) clearTimeout(refreshDebounceTimer);
+  refreshDebounceTimer = setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, delay);
+}
+
+// 1. ResizeObserver on document.body: recalculate whenever body height changes
+if (typeof ResizeObserver !== 'undefined' && document.body) {
+  let lastBodyHeight = 0;
+  const bodyResizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const currentHeight = entry.contentRect.height;
+      if (lastBodyHeight !== 0 && Math.abs(currentHeight - lastBodyHeight) > 2) {
+        debouncedScrollTriggerRefresh(150);
+      }
+      lastBodyHeight = currentHeight;
+    }
+  });
+  bodyResizeObserver.observe(document.body);
+}
+
+// 2. Query all <img> elements and attach load listener to handle network latency
+document.querySelectorAll('img').forEach((img) => {
+  if (img.complete) return;
+  img.addEventListener('load', () => {
+    debouncedScrollTriggerRefresh(100);
+  }, { once: true });
+  img.addEventListener('error', () => {
+    debouncedScrollTriggerRefresh(100);
+  }, { once: true });
+});
