@@ -234,6 +234,7 @@ body.menu-open .menu-line.line-2 {
   visibility: hidden;
   pointer-events: none;
   will-change: transform;
+  overflow-y: auto;
 }
 
 /* Hide scrollbar cleanly across browsers */
@@ -1721,4 +1722,17 @@ select:-webkit-autofill:focus {
 }
 .pin-spacer > * {
   pointer-events: auto !important;
+}
+
+
+.nav-menu-category-title {
+  font-family: var(--font-heading, 'Cinzel', serif);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #D7C797;
+  opacity: 0.75;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }

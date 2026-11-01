@@ -106,13 +106,109 @@ function initNavDrawer() {
     closeBtn.addEventListener('click', closeMenu);
   }
 
+    const idToSemantic = {
+    'scene-01': 'home',
+    'scene-02': 'about',
+    'scene-03': 'gallery',
+    'bespoke': 'bespoke',
+    'scene-05': 'masterpieces',
+    'scene-06': 'craftsmanship',
+    'scene-07': 'founder',
+    'contact': 'contact'
+  };
+
+  const semanticToId = {
+    'home': 'scene-01',
+    'about': 'scene-02',
+    'gallery': 'scene-03',
+    'bespoke': 'bespoke',
+    'masterpieces': 'scene-05',
+    'craftsmanship': 'scene-06',
+    'founder': 'scene-07',
+    'contact': 'contact',
+    'scene-01': 'scene-01',
+    'scene-02': 'scene-02',
+    'scene-03': 'scene-03',
+    'scene-05': 'scene-05',
+    'scene-06': 'scene-06',
+    'scene-07': 'scene-07',
+    'hero': 'scene-01'
+  };
+
+  function smoothScrollToSemanticHash(semanticHash) {
+    if (!semanticHash) return;
+    const cleanHash = semanticHash.replace(/^#/, '');
+    const realId = semanticToId[cleanHash] || cleanHash;
+
+    if (realId === 'scene-01') {
+      gsap.to(window, {
+        scrollTo: { y: 0, autoKill: false },
+        duration: 1.2,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', '#home');
+          }
+        }
+      });
+      return;
+    }
+
+    if (realId === 'contact') {
+      const contactEl = document.getElementById('contact');
+      if (contactEl) {
+        const triggers = ScrollTrigger.getAll().filter(t => t.trigger === contactEl);
+        const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
+        const targetY = contactST && typeof contactST.end === 'number'
+          ? contactST.end
+          : (contactEl.getBoundingClientRect().top + window.scrollY);
+        gsap.to(window, {
+          scrollTo: { y: targetY, autoKill: false },
+          duration: 1.2,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, '', '#contact');
+            }
+          }
+        });
+        return;
+      }
+    }
+
+    const target = document.getElementById(realId);
+    if (!target) return;
+
+    const allMatching = ScrollTrigger.getAll().filter(t => {
+      if (!t.trigger) return false;
+      const triggerEl = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+      return triggerEl === target || (t.pin && triggerEl && triggerEl.contains && triggerEl.contains(target));
+    });
+    const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
+    const targetY = st && typeof st.start === 'number' ? st.start : (target.getBoundingClientRect().top + window.scrollY);
+
+    gsap.to(window, {
+      scrollTo: { y: targetY, autoKill: false },
+      duration: 1.2,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        const semanticName = idToSemantic[realId] || realId;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', '#' + semanticName);
+        }
+      }
+    });
+  }
+
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      closeMenu();
       const href = link.getAttribute('href');
-      if (href === '#hero' || href === '#scene-01') {
+      if (href && href.startsWith('#')) {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        closeMenu();
+        smoothScrollToSemanticHash(href);
+      } else {
+        closeMenu();
       }
     });
   });
@@ -1001,6 +1097,51 @@ function initPhoneDropdown() {
   });
 }
 
+
+// 13. SEMANTIC URL HASH MAPPING & ACTIVE NAV TRACKER
+function initSemanticHashTracking() {
+  const sections = [
+    { id: 'scene-01', hash: 'home' },
+    { id: 'scene-02', hash: 'about' },
+    { id: 'scene-03', hash: 'gallery' },
+    { id: 'bespoke',  hash: 'bespoke' },
+    { id: 'scene-05', hash: 'masterpieces' },
+    { id: 'scene-06', hash: 'craftsmanship' },
+    { id: 'scene-07', hash: 'founder' },
+    { id: 'contact',  hash: 'contact' }
+  ];
+
+  let currentSemanticHash = '';
+
+  function setSemanticHash(semanticName) {
+    if (currentSemanticHash === semanticName) return;
+    currentSemanticHash = semanticName;
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', '#' + semanticName);
+    }
+    document.querySelectorAll('.nav-menu-link').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === '#' + semanticName) {
+        link.classList.add('active');
+      } else if (href && href.startsWith('#')) {
+        link.classList.remove('active');
+      }
+    });
+  }
+
+  sections.forEach(({ id, hash }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onEnter: () => setSemanticHash(hash),
+      onEnterBack: () => setSemanticHash(hash)
+    });
+  });
+}
+
 initNavDrawer();
 initHeroAnimations();
 initScrollBtn();
@@ -1013,30 +1154,50 @@ initScene06();
 initScene07();
 initContactSection();
 initPhoneDropdown();
+initSemanticHashTracking();
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 window.addEventListener("load", () => {
   // 1. Force GSAP to recalculate all pinned sections first
   ScrollTrigger.refresh();
 
-  // 2. Handle hash navigation instantly without animating
+    // 2. Handle hash navigation instantly without animating
   if (window.location.hash) {
-    const target = document.querySelector(window.location.hash);
+    const rawHash = window.location.hash.replace(/^#/, '');
+    const semanticToId = {
+      'home': 'scene-01',
+      'about': 'scene-02',
+      'gallery': 'scene-03',
+      'bespoke': 'bespoke',
+      'masterpieces': 'scene-05',
+      'craftsmanship': 'scene-06',
+      'founder': 'scene-07',
+      'contact': 'contact'
+    };
+    const realId = semanticToId[rawHash] || rawHash;
+    const target = document.getElementById(realId);
     if (target) {
-      // Find the ScrollTrigger associated with this target (prefer pinned / top-docked trigger)
-      const allMatching = ScrollTrigger.getAll().filter(t => {
-        if (!t.trigger) return false;
-        const triggerEl = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
-        return triggerEl === target || (t.pin && triggerEl && triggerEl.contains && triggerEl.contains(target));
-      });
-
-      const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
-
-      if (st) {
-        // Jump instantly to the exact start of this section's animation
-        window.scrollTo(0, st.start);
+      if (realId === 'contact') {
+        const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
+        const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
+        const targetY = contactST && typeof contactST.end === 'number'
+          ? contactST.end
+          : (target.getBoundingClientRect().top + window.scrollY);
+        window.scrollTo(0, targetY);
       } else {
-        target.scrollIntoView({ behavior: "instant" });
+        const allMatching = ScrollTrigger.getAll().filter(t => {
+          if (!t.trigger) return false;
+          const triggerEl = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+          return triggerEl === target || (t.pin && triggerEl && triggerEl.contains && triggerEl.contains(target));
+        });
+
+        const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
+
+        if (st) {
+          window.scrollTo(0, st.start);
+        } else {
+          target.scrollIntoView({ behavior: "instant" });
+        }
       }
     }
   }
