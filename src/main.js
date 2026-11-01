@@ -1335,15 +1335,30 @@ if (initialHashRaw) {
 }
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
-window.addEventListener("load", () => {
-  // CNC Preloader fadeout logic
+// Premium Knockout Preloader hide logic
+function hideLuxuryPreloader() {
   const preloader = document.getElementById('luxury-preloader');
-  if (preloader) {
+  if (!preloader || preloader.dataset.hiding === 'true') return;
+  preloader.dataset.hiding = 'true';
+  setTimeout(() => {
+    preloader.classList.add('opacity-0', 'pointer-events-none');
+    preloader.style.opacity = '0';
+    preloader.style.pointerEvents = 'none';
     setTimeout(() => {
-      preloader.style.opacity = '0';
-      setTimeout(() => preloader.remove(), 700);
-    }, 1500); 
-  }
+      preloader.remove();
+    }, 1000);
+  }, 1200);
+}
+
+if (document.readyState === 'complete') {
+  hideLuxuryPreloader();
+} else {
+  window.addEventListener('load', hideLuxuryPreloader);
+}
+setTimeout(hideLuxuryPreloader, 3000);
+
+window.addEventListener("load", () => {
+  hideLuxuryPreloader();
 
   // 1. Force GSAP to recalculate all pinned sections first
   ScrollTrigger.refresh(true);

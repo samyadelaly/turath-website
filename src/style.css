@@ -1752,7 +1752,31 @@ select:-webkit-autofill:focus {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Premium Knockout Preloader Animation */
+/* Premium Knockout Preloader */
+#luxury-preloader {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 99999 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  opacity: 1;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity, visibility;
+}
+
+#luxury-preloader.opacity-0,
+#luxury-preloader.preloader-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 .knockout-animate {
   transform-origin: center;
   animation: textBreathe 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
