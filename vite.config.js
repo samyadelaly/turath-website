@@ -45,6 +45,7 @@ function vercelApiDevPlugin() {
 }
 
 export default defineConfig({
+  base: './',
   plugins: [
     vercelApiDevPlugin(),
     ViteImageOptimizer({
