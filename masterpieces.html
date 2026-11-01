@@ -25,12 +25,19 @@
   <link rel="stylesheet" href="./src/style.css">
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
-  <!-- Luxury CNC Preloader -->
-<div id="luxury-preloader" class="fixed inset-0 z-[9999] bg-[#0a0a0a] flex items-center justify-center transition-opacity duration-700 pointer-events-none">
-  <svg class="w-32 h-32 md:w-48 md:h-48 logo-draw" viewBox="0 0 100 100" fill="none" stroke="#c5a059" stroke-width="1.5">
-    <path class="draw-path" stroke-linecap="round" stroke-linejoin="round" d="M50 10 L90 50 L50 90 L10 50 Z M50 25 L75 50 L50 75 L25 50 Z" />
-  </svg>
-</div>
+    <!-- Premium Knockout Preloader -->
+  <div id="luxury-preloader" class="fixed inset-0 z-[9999] pointer-events-none transition-opacity duration-1000 ease-in-out">
+    <svg width="100%" height="100%" class="w-full h-full">
+      <defs>
+        <mask id="knockout-text">
+          <!-- White background means solid, black text means transparent hole -->
+          <rect width="100%" height="100%" fill="white" />
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
+    </svg>
+  </div>
 
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <!-- Slider View Container (Matching mirrors.html and the 9 sub-pages) -->
