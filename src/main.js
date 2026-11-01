@@ -32,7 +32,7 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 if (ScrollTrigger.clearScrollMemory) {
   ScrollTrigger.clearScrollMemory();
 }
-ScrollTrigger.normalizeScroll(true);
+ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
 window.ScrollTrigger = ScrollTrigger;
 window.gsap = gsap;
 
@@ -90,6 +90,9 @@ function initNavDrawer() {
     menuTl = gsap.timeline();
 
     gsap.set(navDrawer, { visibility: 'visible', pointerEvents: 'auto' });
+    if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.normalizeScroll) {
+      ScrollTrigger.normalizeScroll(false);
+    }
     menuTl.fromTo(navDrawer, {
       yPercent: 100,
       y: 0
@@ -121,6 +124,9 @@ function initNavDrawer() {
     menuTl = gsap.timeline({
       onComplete: () => {
         gsap.set(navDrawer, { visibility: 'hidden', pointerEvents: 'none' });
+        if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.normalizeScroll) {
+          ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
+        }
       }
     });
 

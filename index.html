@@ -194,16 +194,16 @@
   </header>
 
     <!-- NAVIGATION MENU OVERLAY (Turath frosted glass sheet effect) -->
-  <aside id="nav-drawer" class="nav-drawer bg-black/20 backdrop-blur-md" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
-    <div class="nav-drawer-inner max-w-5xl mx-auto w-full my-auto pb-8">
+  <aside id="nav-drawer" class="nav-drawer bg-black/20 backdrop-blur-md overflow-y-auto overscroll-contain pointer-events-auto" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+    <div class="nav-drawer-inner max-w-5xl mx-auto w-full my-0 md:my-auto pb-12 pointer-events-auto">
       <div class="nav-drawer-header">
         <img src="/turath-brand-logo.jpg" alt="Turath Brand Logo" class="nav-drawer-logo w-24 sm:w-28 h-auto object-contain border-0 ring-0 shadow-none p-0" />
         <button type="button" class="nav-drawer-close" id="nav-close-btn" aria-label="Close Menu">&times;</button>
       </div>
-      <nav class="nav-drawer-nav" aria-label="Main Navigation">
+      <nav class="nav-drawer-nav overflow-y-auto overscroll-contain pointer-events-auto max-h-[85vh] md:max-h-none pb-10" aria-label="Main Navigation">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
           <!-- Column 1: Core Website Sections -->
-          <div>
+          <div class="pointer-events-auto">
             <ul class="nav-menu-list">
               <li class="nav-menu-item"><a href="#home" class="nav-menu-link active">HOME</a></li>
               <li class="nav-menu-item"><a href="#about" class="nav-menu-link">ABOUT TURATH</a></li>
@@ -216,9 +216,9 @@
             </ul>
           </div>
           <!-- Column 2: 9 Handcrafted Collections -->
-          <div>
+          <div class="overflow-y-auto overscroll-contain pointer-events-auto max-h-[85vh] md:max-h-none pb-10">
             <div class="nav-menu-category-title font-mono text-xs text-[#D7C797]/80 tracking-widest uppercase mb-4 pb-2 border-b border-white/10">9 BESPOKE COLLECTIONS</div>
-            <ul class="nav-menu-list">
+            <ul class="nav-menu-list overflow-y-auto overscroll-contain pointer-events-auto pb-4">
               <li class="nav-menu-item"><a href="lighting.html" class="nav-menu-link">1. LIGHTING FIXTURES</a></li>
               <li class="nav-menu-item"><a href="mirrors.html" class="nav-menu-link">2. SOLID BRASS MIRRORS</a></li>
               <li class="nav-menu-item"><a href="tables.html" class="nav-menu-link">3. TABLES &amp; CONSOLES</a></li>

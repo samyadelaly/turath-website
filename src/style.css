@@ -234,7 +234,22 @@ body.menu-open .menu-line.line-2 {
   visibility: hidden;
   pointer-events: none;
   will-change: transform;
-  overflow-y: auto;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-drawer-inner {
+  margin-top: 0;
+  margin-bottom: auto;
+  min-height: min-content;
+}
+
+@media (min-width: 768px) {
+  .nav-drawer-inner {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }
 
 /* Hide scrollbar cleanly across browsers */
