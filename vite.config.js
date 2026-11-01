@@ -55,7 +55,8 @@ export default defineConfig({
     })
   ],
   build: {
-    minify: 'esbuild',
+    minify: false,
+    cssMinify: false,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
