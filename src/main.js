@@ -6,11 +6,15 @@
  * - Day / Night Hero Crossfade
  */
 
+// Capture requested deep link hash immediately before any ScrollTrigger can overwrite it
+const initialHashRaw = (window.location.hash || '').replace(/^[#/]+/, '').trim().toLowerCase();
+let isInitialJumpPending = Boolean(initialHashRaw);
+
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 // Prevent initial native jump while page and GSAP layouts are preparing
-if (window.location.hash) {
+if (initialHashRaw) {
   window.scrollTo(0, 0);
 }
 if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.clearScrollMemory) {
@@ -1118,6 +1122,7 @@ function initSemanticHashTracking() {
   let currentSemanticHash = '';
 
   function setSemanticHash(semanticName) {
+    if (isInitialJumpPending) return;
     if (currentSemanticHash === semanticName) return;
     currentSemanticHash = semanticName;
     if (window.history && window.history.replaceState) {
@@ -1160,55 +1165,104 @@ initContactSection();
 initPhoneDropdown();
 initSemanticHashTracking();
 
+// Function to handle initial deep link hash navigation
+function handleInitialDeepLink() {
+  const hashToResolve = initialHashRaw || (window.location.hash || '').replace(/^[#/]+/, '').trim().toLowerCase();
+  if (!hashToResolve) return;
+
+  const semanticToId = {
+    'home': 'scene-01',
+    'about': 'scene-02',
+    'gallery': 'scene-03',
+    'bespoke': 'bespoke',
+    'masterpieces': 'scene-05',
+    'craftsmanship': 'scene-06',
+    'founder': 'scene-07',
+    'contact': 'contact',
+    'scene-01': 'scene-01',
+    'scene-02': 'scene-02',
+    'scene-03': 'scene-03',
+    'scene-05': 'scene-05',
+    'scene-06': 'scene-06',
+    'scene-07': 'scene-07',
+    'hero': 'scene-01'
+  };
+
+  const realId = semanticToId[hashToResolve] || hashToResolve;
+  const target = document.getElementById(realId);
+  if (!target) return;
+
+  let targetY = 0;
+  if (realId === 'scene-01' || realId === 'home') {
+    targetY = 0;
+  } else if (realId === 'contact') {
+    const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
+    const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
+    targetY = contactST && typeof contactST.end === 'number'
+      ? contactST.end
+      : (target.getBoundingClientRect().top + window.scrollY);
+  } else {
+    const allMatching = ScrollTrigger.getAll().filter(t => {
+      if (!t.trigger) return false;
+      const triggerEl = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+      return triggerEl === target || (t.pin && triggerEl && triggerEl.contains && triggerEl.contains(target));
+    });
+
+    const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
+    targetY = st && typeof st.start === 'number' ? st.start : (target.getBoundingClientRect().top + window.scrollY);
+  }
+
+  // Instant jump with GSAP (duration: 0) to prevent visible scrolling
+  gsap.to(window, {
+    scrollTo: { y: targetY, autoKill: false },
+    duration: 0,
+    overwrite: 'all'
+  });
+  window.scrollTo(0, targetY);
+
+  const idToSemantic = {
+    'scene-01': 'home',
+    'scene-02': 'about',
+    'scene-03': 'gallery',
+    'bespoke': 'bespoke',
+    'scene-05': 'masterpieces',
+    'scene-06': 'craftsmanship',
+    'scene-07': 'founder',
+    'contact': 'contact'
+  };
+  const semanticName = idToSemantic[realId] || hashToResolve;
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, '', '#' + semanticName);
+  }
+
+  document.querySelectorAll('.nav-menu-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === '#' + semanticName) {
+      link.classList.add('active');
+    } else if (href && href.startsWith('#')) {
+      link.classList.remove('active');
+    }
+  });
+
+  setTimeout(() => {
+    isInitialJumpPending = false;
+  }, 100);
+}
+
+// Perform deep link jump immediately after initialization if hash exists
+if (initialHashRaw) {
+  ScrollTrigger.refresh(true);
+  handleInitialDeepLink();
+}
+
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 window.addEventListener("load", () => {
   // 1. Force GSAP to recalculate all pinned sections first
   ScrollTrigger.refresh(true);
 
   // 2. Handle hash navigation instantly using GSAP with duration: 0
-  if (window.location.hash) {
-    const rawHash = window.location.hash.replace(/^#/, '');
-    const semanticToId = {
-      'home': 'scene-01',
-      'about': 'scene-02',
-      'gallery': 'scene-03',
-      'bespoke': 'bespoke',
-      'masterpieces': 'scene-05',
-      'craftsmanship': 'scene-06',
-      'founder': 'scene-07',
-      'contact': 'contact'
-    };
-    const realId = semanticToId[rawHash] || rawHash;
-    const target = document.getElementById(realId);
-    if (target) {
-      let targetY = 0;
-      if (realId === 'scene-01' || realId === 'home') {
-        targetY = 0;
-      } else if (realId === 'contact') {
-        const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
-        const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
-        targetY = contactST && typeof contactST.end === 'number'
-          ? contactST.end
-          : (target.getBoundingClientRect().top + window.scrollY);
-      } else {
-        const allMatching = ScrollTrigger.getAll().filter(t => {
-          if (!t.trigger) return false;
-          const triggerEl = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
-          return triggerEl === target || (t.pin && triggerEl && triggerEl.contains && triggerEl.contains(target));
-        });
-
-        const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
-        targetY = st && typeof st.start === 'number' ? st.start : (target.getBoundingClientRect().top + window.scrollY);
-      }
-
-      // Instant jump with GSAP (duration: 0) to prevent visible scrolling
-      gsap.to(window, {
-        scrollTo: { y: targetY, autoKill: false },
-        duration: 0,
-        overwrite: 'all'
-      });
-      window.scrollTo(0, targetY);
-    }
+  if (initialHashRaw || window.location.hash) {
+    handleInitialDeepLink();
   }
 
   // 3. Fade in body after jumping to completely prevent FOUC and hide the jump
