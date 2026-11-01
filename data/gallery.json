@@ -1,0 +1,10 @@
+{
+  "images": [
+    {
+      "id": "gallery-item-1",
+      "title": "Turath Craftsmanship",
+      "description": "Master artisan at Turath workshop.",
+      "image": "/assets/placeholder.jpg"
+    }
+  ]
+}

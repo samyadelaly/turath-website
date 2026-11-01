@@ -1,0 +1,112 @@
+{
+  "categories": {
+    "lighting": {
+      "title": "Lighting Fixtures",
+      "items": [
+        {
+          "id": "lighting-item-1",
+          "title": "SCULPTURAL HAMMERED BRASS SCROLL SCONCE",
+          "description": "A statement architectural wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture.",
+          "image": "/assets/images/lighting/hammered-brass-scroll-sconce.jpg",
+          "categorySlug": "lighting"
+        }
+      ]
+    },
+    "mirrors": {
+      "title": "Solid Brass Mirrors",
+      "items": [
+        {
+          "id": "mirrors-item-1",
+          "title": "ISLAMIC STAR FILIGREE ROUND MIRROR",
+          "description": "A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and arabesque filigree.",
+          "image": "/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg",
+          "categorySlug": "mirrors"
+        }
+      ]
+    },
+    "tables": {
+      "title": "Tables & Consoles",
+      "items": [
+        {
+          "id": "tables-item-1",
+          "title": "STAGGERED BRASS PLATE CYLINDER TABLE",
+          "description": "A sculptural drum side table featuring a clear glass top supported by an architectural cylinder of vertical brass rods and staggered patinated rectangular plates.",
+          "image": "/assets/images/tables/staggered-brass-plate-cylinder-table.jpg",
+          "categorySlug": "tables"
+        }
+      ]
+    },
+    "handles": {
+      "title": "Architectural Handles",
+      "items": [
+        {
+          "id": "handles-item-1",
+          "title": "CIRCULAR COBBLESTONE BRASS DOOR PULLS",
+          "description": "A monumental pair of semicircular entry door handles cast in solid brass, featuring deep organic cobblestone relief texturing.",
+          "image": "/assets/images/handles/circular-cobblestone-brass-door-pulls.jpg",
+          "categorySlug": "handles"
+        }
+      ]
+    },
+    "handrails": {
+      "title": "Custom Handrails",
+      "items": [
+        {
+          "id": "handrails-item-1",
+          "title": "BOTANICAL BRASS & MARBLE BALUSTRADE",
+          "description": "An architectural parapet featuring intricate pierced brass leaf screens framed by rich Italian rouge marble.",
+          "image": "/assets/images/handrails/handrail-01.jpg",
+          "categorySlug": "handrails"
+        }
+      ]
+    },
+    "decor": {
+      "title": "Decorative Objects",
+      "items": [
+        {
+          "id": "decor-item-1",
+          "title": "ROYAL ARABESQUE BRASS WALL CHARGER",
+          "description": "A monumental wall-mounted circular charger hand-etched in solid brass, featuring intricate classical Islamic floral arabesques and radiating star medallions.",
+          "image": "/assets/images/decor/royal-arabesque-brass-wall-charger.jpg",
+          "categorySlug": "decor"
+        }
+      ]
+    },
+    "wall-art": {
+      "title": "Brass & Copper Wall Art",
+      "items": [
+        {
+          "id": "wall-art-item-1",
+          "title": "SCULPTURAL BOTANICAL URN BRASS RELIEF",
+          "description": "A monumental sculptural brass wall plaque featuring an opulent bouquet of dimensional botanical foliage and blooming flora emerging from a hand-textured vase.",
+          "image": "/assets/images/wall-art/sculptural-botanical-urn-brass-relief.jpg",
+          "categorySlug": "wall-art"
+        }
+      ]
+    },
+    "partitions": {
+      "title": "Partitions & Screens",
+      "items": [
+        {
+          "id": "partitions-item-1",
+          "title": "AMBER SCALLOP ARCHITECTURAL BRASS SCREEN",
+          "description": "A tall architectural brass partition screen featuring an organic cascading pattern of artisan scalloped fish-scale panels in antique amber glass and solid brass framing.",
+          "image": "/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg",
+          "categorySlug": "partitions"
+        }
+      ]
+    },
+    "tableware": {
+      "title": "Luxury Tableware",
+      "items": [
+        {
+          "id": "tableware-item-1",
+          "title": "SCULPTURAL FLUID BRASS VESSEL PAIR",
+          "description": "A pair of sculptural tabletop bowls hand-cast in solid brass, featuring freeform undulating rims and a warm hand-buffed golden bronze patina.",
+          "image": "/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg",
+          "categorySlug": "tableware"
+        }
+      ]
+    }
+  }
+}
