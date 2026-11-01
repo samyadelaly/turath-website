@@ -222,18 +222,31 @@
       updateSlider(currentIndex);
     }
   
-    // Share button interaction
+    // Share button interaction (dynamic SSG product link)
     const shareBtn = document.getElementById('share-btn');
     if (shareBtn) {
-      shareBtn.addEventListener('click', async () => {
+      shareBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
         const title = (typeof titleEl !== 'undefined' && titleEl) ? titleEl.innerText : document.title;
-        const url = window.location.href;
+        
+        // Extract category slug from URL
+        const path = window.location.pathname;
+        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
+        const categorySlug = match ? match[1] : 'lighting';
+        
+        // Determine active product ID based on current slide
+        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) ? sliderData[currentIndex] : null;
+        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        
+        // Construct specific SSG share URL
+        const shareUrl = window.location.origin + '/products/' + activeProductId + '/';
+
         if (navigator.share) {
           try {
-            await navigator.share({ title: title, url: url });
+            await navigator.share({ title: title, url: shareUrl });
           } catch (err) {}
         } else if (navigator.clipboard) {
-          await navigator.clipboard.writeText(url);
+          await navigator.clipboard.writeText(shareUrl);
           shareBtn.classList.add('text-[#D7C797]');
           setTimeout(() => shareBtn.classList.remove('text-[#D7C797]'), 1500);
         }

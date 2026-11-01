@@ -1194,6 +1194,96 @@ function initSemanticHashTracking() {
   });
 }
 
+
+// 14. Dynamic Share Button for Active Product
+function initDynamicShareButton() {
+  document.addEventListener('click', (e) => {
+    const shareBtn = e.target.closest('#share-btn');
+    if (!shareBtn) return;
+    e.preventDefault();
+
+    let activeProductId = null;
+    let activeProductTitle = document.title;
+
+    // 1. Iterate through product container elements to find the one closest to viewport center
+    const productElements = Array.from(document.querySelectorAll('[id*="-item-"], [data-product-id]'));
+    if (productElements.length > 0) {
+      const viewportCenterY = window.innerHeight / 2;
+      let closestEl = null;
+      let minDistance = Infinity;
+
+      productElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const elCenterY = rect.top + rect.height / 2;
+        const distance = Math.abs(viewportCenterY - elCenterY);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestEl = el;
+        }
+      });
+
+      if (closestEl) {
+        activeProductId = closestEl.getAttribute('data-product-id') || closestEl.id;
+        const heading = closestEl.querySelector('h1, h2, h3, [class*="title"]') || closestEl;
+        if (heading && heading.textContent) {
+          activeProductTitle = heading.textContent.trim();
+        }
+      }
+    }
+
+    // 2. Fallback for category slider pages (lighting, mirrors, tables, etc.)
+    if (!activeProductId) {
+      const sliderTitle = document.getElementById('slider-title');
+      if (sliderTitle && sliderTitle.textContent) {
+        activeProductTitle = sliderTitle.textContent.trim();
+      }
+
+      const path = window.location.pathname;
+      const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
+      const categorySlug = match ? match[1] : '';
+
+      if (categorySlug && categorySlug !== 'index') {
+        let itemIndex = 1;
+        if (typeof sliderData !== 'undefined' && Array.isArray(sliderData)) {
+          const idx = sliderData.findIndex(item => item.title && item.title.trim().toLowerCase() === activeProductTitle.toLowerCase());
+          if (idx !== -1) {
+            itemIndex = idx + 1;
+            if (sliderData[idx].id) {
+              activeProductId = sliderData[idx].id;
+            }
+          }
+        }
+        if (!activeProductId) {
+          activeProductId = `${categorySlug}-item-${itemIndex}`;
+        }
+      }
+    }
+
+    // Default safety fallback if not detected
+    if (!activeProductId) {
+      activeProductId = 'lighting-item-1';
+    }
+
+    // Construct specific SSG share URL
+    const shareUrl = window.location.origin + '/products/' + activeProductId + '/';
+
+    // Trigger share
+    if (navigator.share) {
+      navigator.share({
+        title: activeProductTitle,
+        url: shareUrl
+      }).catch(console.error);
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        shareBtn.classList.add('text-[#D7C797]');
+        setTimeout(() => {
+          shareBtn.classList.remove('text-[#D7C797]');
+        }, 1500);
+      }).catch(console.error);
+    }
+  });
+}
+
 initNavDrawer();
 initHeroAnimations();
 initScrollBtn();
@@ -1207,6 +1297,7 @@ initScene07();
 initContactSection();
 initPhoneDropdown();
 initSemanticHashTracking();
+initDynamicShareButton();
 
 // Function to handle initial deep link hash navigation
 function handleInitialDeepLink() {
