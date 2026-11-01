@@ -1265,7 +1265,23 @@ window.addEventListener("load", () => {
     handleInitialDeepLink();
   }
 
-  // 3. Fade in body after jumping to completely prevent FOUC and hide the jump
+  // 3. Deep scrolling logic for product query parameters (?product=...)
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('product');
+  if (productId) {
+    const targetElement = document.getElementById(productId);
+    if (targetElement) {
+      requestAnimationFrame(() => {
+        gsap.to(window, {
+          scrollTo: { y: "#" + productId, offsetY: 50 },
+          duration: 1,
+          ease: "power3.out"
+        });
+      });
+    }
+  }
+
+  // 4. Fade in body after jumping to completely prevent FOUC and hide the jump
   requestAnimationFrame(() => {
     document.body.style.opacity = '1';
     document.body.classList.remove('opacity-0');

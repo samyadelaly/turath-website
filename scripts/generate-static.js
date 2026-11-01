@@ -77,11 +77,11 @@ for (const [categoryKey, categoryData] of Object.entries(data.categories)) {
 
   <!-- Instant Client-Side Redirect to Category Collection Page -->
   <script>
-    window.location.replace("/${categorySlug}.html");
+    window.location.replace("/${categorySlug}.html?product=${item.id}");
   </script>
 </head>
 <body style="background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Redirecting to <a href="/${categorySlug}.html" style="color: #D7C797;">${item.title}</a>...</p>
+  <p>Redirecting to <a href="/${categorySlug}.html?product=${item.id}" style="color: #D7C797;">${item.title}</a>...</p>
 </body>
 </html>
 `;
