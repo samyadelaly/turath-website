@@ -621,13 +621,17 @@ function initCollectionsHorizontalScroll() {
 
   if (collectionsTrack && collectionsSection) {
     // Architectural Layered Scrolling (Scene 03 slides OVER Scene 02 smoothly without jumping)
-    ScrollTrigger.create({
-      trigger: "#scene-02",
-      start: "top top",
-      endTrigger: "#scene-03",
-      end: "top top",
-      pin: true,
-      pinSpacing: false
+    ScrollTrigger.matchMedia({
+      "(min-width: 1024px)": function() {
+        ScrollTrigger.create({
+          trigger: "#scene-02",
+          start: "top top",
+          endTrigger: "#scene-03",
+          end: "top top",
+          pin: true,
+          pinSpacing: false
+        });
+      }
     });
     gsap.to("#scene-02", {
       scale: 0.95,
@@ -726,15 +730,19 @@ function initBespokeTransition() {
 
   if (!bespokeSection) return;
 
-  // Pin Scene 03 safely with anticipatePin, staying fully visible as Bespoke covers it
-  ScrollTrigger.create({
-    trigger: "#scene-03",
-    start: "top top",
-    endTrigger: "#bespoke",
-    end: "top top",
-    pin: true,
-    pinSpacing: false,
-    anticipatePin: 1 // Prevents jitter on pin entry
+  // Pin Scene 03 safely with anticipatePin, staying fully visible as Bespoke covers it (Desktop Only)
+  ScrollTrigger.matchMedia({
+    "(min-width: 1024px)": function() {
+      ScrollTrigger.create({
+        trigger: "#scene-03",
+        start: "top top",
+        endTrigger: "#bespoke",
+        end: "top top",
+        pin: true,
+        pinSpacing: false,
+        anticipatePin: 1 // Prevents jitter on pin entry
+      });
+    }
   });
 
   // 3 Vertical Slices Entrance: Staggering Upwards
@@ -815,17 +823,21 @@ function initFeaturedProducts() {
 
   if (!scene05) return;
 
-  // Pin Scene 04 (Bespoke) so Scene 05 slides over it strictly as a curtain
+  // Pin Scene 04 (Bespoke) so Scene 05 slides over it strictly as a curtain (Desktop Only)
   const bespokeSection = document.querySelector("#bespoke") || document.querySelector("#scene-04");
   if (bespokeSection) {
-    ScrollTrigger.create({
-      trigger: bespokeSection,
-      start: "top top",
-      endTrigger: scene05 || undefined,
-      end: scene05 ? "top top" : "+=100%",
-      pin: true,
-      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 05
-      anticipatePin: 1
+    ScrollTrigger.matchMedia({
+      "(min-width: 1024px)": function() {
+        ScrollTrigger.create({
+          trigger: bespokeSection,
+          start: "top top",
+          endTrigger: scene05 || undefined,
+          end: scene05 ? "top top" : "+=100%",
+          pin: true,
+          pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 05
+          anticipatePin: 1
+        });
+      }
     });
   }
 
@@ -898,17 +910,21 @@ function initFeaturedProducts() {
     );
   }
 
-  // Pin Scene 05 when it settles at the top, allowing Scene 06 to climb strictly over it
+  // Pin Scene 05 when it settles at the top, allowing Scene 06 to climb strictly over it (Desktop Only)
   const scene06 = document.querySelector("#scene-06");
   if (scene06) {
-    ScrollTrigger.create({
-      trigger: scene05,
-      start: "top top",
-      endTrigger: scene06,
-      end: "top top",
-      pin: true,
-      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 06
-      anticipatePin: 1
+    ScrollTrigger.matchMedia({
+      "(min-width: 1024px)": function() {
+        ScrollTrigger.create({
+          trigger: scene05,
+          start: "top top",
+          endTrigger: scene06,
+          end: "top top",
+          pin: true,
+          pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 06
+          anticipatePin: 1
+        });
+      }
     });
   }
 }
@@ -990,16 +1006,20 @@ function initScene06() {
     });
   }
 
-  // Pin Scene 06 strictly so Scene 07 climbs over it as a curtain
+  // Pin Scene 06 strictly so Scene 07 climbs over it as a curtain (Desktop Only)
   const scene07 = document.querySelector("#scene-07");
-  ScrollTrigger.create({
-    trigger: scene06,
-    start: "top top",
-    endTrigger: scene07 || undefined,
-    end: scene07 ? "top top" : "+=100%",
-    pin: true,
-    pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 07
-    anticipatePin: 1
+  ScrollTrigger.matchMedia({
+    "(min-width: 1024px)": function() {
+      ScrollTrigger.create({
+        trigger: scene06,
+        start: "top top",
+        endTrigger: scene07 || undefined,
+        end: scene07 ? "top top" : "+=100%",
+        pin: true,
+        pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Scene 07
+        anticipatePin: 1
+      });
+    }
   });
 }
 
@@ -1026,30 +1046,52 @@ function initScene07() {
     }
   );
 
-  // Pinned Dwell Phase: Section 07 pins at top throughout the 150vh scroll gap before Contact arrives
+  // Pinned Dwell Phase: Section 07 pins at top throughout the 150vh scroll gap before Contact arrives (Desktop Only)
   const contact = document.querySelector("#contact");
-  const founderTL = gsap.timeline({
-    scrollTrigger: {
-      trigger: scene07,
-      start: "top top",
-      endTrigger: contact || undefined,
-      end: contact ? "top top" : "+=200vh", // Extended end matching the 150vh gap (e.g. +=200vh+)
-      pin: true,
-      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Contact
-      scrub: 1.5,
-      anticipatePin: 1
+  ScrollTrigger.matchMedia({
+    "(min-width: 1024px)": function() {
+      const founderTL = gsap.timeline({
+        scrollTrigger: {
+          trigger: scene07,
+          start: "top top",
+          endTrigger: contact || undefined,
+          end: contact ? "top top" : "+=200vh", // Extended end matching the 150vh gap (e.g. +=200vh+)
+          pin: true,
+          pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Contact
+          scrub: 1.5,
+          anticipatePin: 1
+        }
+      });
+
+      // Day/Night Lamp illumination: fades slowly as the user scrolls through the 150vh gap
+      if (litPlate) {
+        founderTL.fromTo(litPlate,
+          { opacity: 0 },
+          { opacity: 1, ease: "power1.inOut", duration: 1.5 }
+        );
+        // Hold lit plate fully illuminated while Contact ascends over it
+        founderTL.to({}, { duration: 1.0 });
+      }
+    },
+    "(max-width: 1023px)": function() {
+      // Mobile: Disable pinning! Smooth fade in for lamp plate as section scrolls into view
+      if (litPlate) {
+        gsap.fromTo(litPlate,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            ease: "power1.inOut",
+            scrollTrigger: {
+              trigger: scene07,
+              start: "top center",
+              end: "bottom center",
+              scrub: 1.5
+            }
+          }
+        );
+      }
     }
   });
-
-  // Day/Night Lamp illumination: fades slowly as the user scrolls through the 150vh gap
-  if (litPlate) {
-    founderTL.fromTo(litPlate,
-      { opacity: 0 },
-      { opacity: 1, ease: "power1.inOut", duration: 1.5 }
-    );
-    // Hold lit plate fully illuminated while Contact ascends over it
-    founderTL.to({}, { duration: 1.0 });
-  }
 
   // Editorial card subtle upward float
   if (card) {
@@ -1075,34 +1117,46 @@ function initContactSection() {
   const contact = document.querySelector("#contact");
   if (!contact) return;
 
-  // Initial corner styling: extreme circular dome radius 50vw 50vw 0 0
-  gsap.set(contact, {
-    borderTopLeftRadius: "50vw",
-    borderTopRightRadius: "50vw"
-  });
+  ScrollTrigger.matchMedia({
+    "(min-width: 1024px)": function() {
+      // Initial corner styling: extreme circular dome radius 50vw 50vw 0 0
+      gsap.set(contact, {
+        borderTopLeftRadius: "50vw",
+        borderTopRightRadius: "50vw"
+      });
 
-  // Extreme Circular Dome Morphing Animation:
-  // Starts as a massive circular dome (50vw radius) rising up from bottom of viewport,
-  // morphing down to 0px (sharp full-width rectangular container) when docked at top.
-  gsap.fromTo(contact,
-    {
-      borderTopLeftRadius: "50vw",
-      borderTopRightRadius: "50vw",
-      y: 60
+      // Extreme Circular Dome Morphing Animation:
+      // Starts as a massive circular dome (50vw radius) rising up from bottom of viewport,
+      // morphing down to 0px (sharp full-width rectangular container) when docked at top.
+      gsap.fromTo(contact,
+        {
+          borderTopLeftRadius: "50vw",
+          borderTopRightRadius: "50vw",
+          y: 60
+        },
+        {
+          borderTopLeftRadius: "0px",
+          borderTopRightRadius: "0px",
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: contact,
+            start: "top bottom",
+            end: "top top",
+            scrub: 1.2
+          }
+        }
+      );
     },
-    {
-      borderTopLeftRadius: "0px",
-      borderTopRightRadius: "0px",
-      y: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: contact,
-        start: "top bottom", // Starts as top of Contact enters bottom of viewport
-        end: "top top",      // Ends when Contact reaches top of viewport
-        scrub: 1.2           // Smooth inertia scrub
-      }
+    "(max-width: 1023px)": function() {
+      gsap.set(contact, {
+        borderTopLeftRadius: "0px",
+        borderTopRightRadius: "0px",
+        y: 0,
+        clearProps: "all"
+      });
     }
-  );
+  });
 }
 
 // 12. PHONE DROPDOWN (CALL & WHATSAPP)
