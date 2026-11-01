@@ -1751,3 +1751,8 @@ select:-webkit-autofill:focus {
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* CNC Preloader */
+.draw-path { stroke-dasharray: 400; stroke-dashoffset: 400; animation: cncDraw 2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes cncDraw { 100% { stroke-dashoffset: 0; } }
+

@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import fs from 'fs';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 /**
  * Local dev server middleware plugin to emulate Vercel Serverless Function (/api/contact)
@@ -44,8 +45,16 @@ function vercelApiDevPlugin() {
 }
 
 export default defineConfig({
-  plugins: [vercelApiDevPlugin()],
+  plugins: [
+    vercelApiDevPlugin(),
+    ViteImageOptimizer({
+      jpg: { quality: 80 },
+      png: { quality: 80 },
+      webp: { quality: 80, lossless: false }
+    })
+  ],
   build: {
+    minify: 'esbuild',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
