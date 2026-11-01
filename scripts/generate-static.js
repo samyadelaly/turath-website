@@ -6,6 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
+const BASE_URL = 'https://turath-egypt.vercel.app';
+
 const productsDataPath = path.join(rootDir, 'data', 'products.json');
 const publicDir = path.join(rootDir, 'public');
 const productsOutputDir = path.join(publicDir, 'products');
@@ -25,7 +27,17 @@ for (const [categoryKey, categoryData] of Object.entries(data.categories)) {
 
   for (const item of items) {
     const categorySlug = item.categorySlug || categoryKey;
-    const itemDir = path.join(productsOutputDir, item.id);
+    const productId = item.id;
+    const productTitle = item.title;
+    const productDescription = item.description;
+
+    let cleanImagePath = (item.image || '').trim();
+    cleanImagePath = cleanImagePath.replace(/^(\.\.?\/)+/, '');
+    if (!cleanImagePath.startsWith('/')) {
+      cleanImagePath = '/' + cleanImagePath;
+    }
+
+    const itemDir = path.join(productsOutputDir, productId);
     fs.mkdirSync(itemDir, { recursive: true });
 
     const htmlContent = `<!DOCTYPE html>
@@ -33,34 +45,32 @@ for (const [categoryKey, categoryData] of Object.entries(data.categories)) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${item.title} | Turath</title>
-  <meta name="description" content="${item.description}">
+  <title>${productTitle} | Turath Egypt</title>
+  <meta name="description" content="${productDescription}">
   <meta name="keywords" content="${item.keywords}">
-  <link rel="canonical" href="https://turath-egypt.vercel.app/${categorySlug}.html">
+  <link rel="canonical" href="${BASE_URL}/${categorySlug}.html">
 
   <!-- Open Graph / Social Media (English Only) -->
+  <meta property="og:title" content="${productTitle} | Turath Egypt">
+  <meta property="og:description" content="${productDescription}">
+  <meta property="og:image" content="${BASE_URL}${cleanImagePath}">
+  <meta property="og:url" content="${BASE_URL}/products/${productId}/">
   <meta property="og:type" content="product">
-  <meta property="og:title" content="${item.title}">
-  <meta property="og:description" content="${item.description}">
-  <meta property="og:image" content="https://turath-egypt.vercel.app${item.image}">
-  <meta property="og:url" content="https://turath-egypt.vercel.app/products/${item.id}/">
-  <meta property="og:site_name" content="Turath Egypt">
-
-  <!-- Twitter Card (English Only) -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${item.title}">
-  <meta name="twitter:description" content="${item.description}">
-  <meta name="twitter:image" content="https://turath-egypt.vercel.app${item.image}">
+  <meta name="twitter:title" content="${productTitle} | Turath Egypt">
+  <meta name="twitter:description" content="${productDescription}">
+  <meta name="twitter:image" content="${BASE_URL}${cleanImagePath}">
+  <meta property="og:site_name" content="Turath Egypt">
 
   <!-- Invisible Bilingual SEO for AI & Google (Arabic & English) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": "${item.title} - ${item.titleAr}",
-    "description": "${item.description} \\n ${item.descriptionAr}",
-    "image": "https://turath-egypt.vercel.app${item.image}",
-    "url": "https://turath-egypt.vercel.app/products/${item.id}/",
+    "name": "${productTitle} - ${item.titleAr}",
+    "description": "${productDescription} \\n ${item.descriptionAr}",
+    "image": "${BASE_URL}${cleanImagePath}",
+    "url": "${BASE_URL}/products/${productId}/",
     "brand": {
       "@type": "Brand",
       "name": "Turath"
@@ -70,25 +80,25 @@ for (const [categoryKey, categoryData] of Object.entries(data.categories)) {
       "@type": "Offer",
       "priceCurrency": "EGP",
       "availability": "https://schema.org/InStock",
-      "url": "https://turath-egypt.vercel.app/${categorySlug}.html"
+      "url": "${BASE_URL}/${categorySlug}.html"
     }
   }
   </script>
 
   <!-- Instant Client-Side Redirect to Category Collection Page -->
   <script>
-    window.location.replace("/${categorySlug}.html?product=${item.id}");
+    window.location.replace("/${categorySlug}.html?product=${productId}");
   </script>
 </head>
 <body style="background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Redirecting to <a href="/${categorySlug}.html?product=${item.id}" style="color: #D7C797;">${item.title}</a>...</p>
+  <p>Redirecting to <a href="/${categorySlug}.html?product=${productId}" style="color: #D7C797;">${productTitle}</a>...</p>
 </body>
 </html>
 `;
 
     fs.writeFileSync(path.join(itemDir, 'index.html'), htmlContent, 'utf8');
     generatedCount++;
-    console.log(`Generated: public/products/${item.id}/index.html`);
+    console.log(`Generated: public/products/${productId}/index.html`);
   }
 }
 
