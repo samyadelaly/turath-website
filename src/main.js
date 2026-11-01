@@ -1328,12 +1328,6 @@ function handleInitialDeepLink() {
   }, 100);
 }
 
-// Perform deep link jump immediately after initialization if hash exists
-if (initialHashRaw) {
-  ScrollTrigger.refresh(true);
-  handleInitialDeepLink();
-}
-
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 // Premium Knockout Preloader hide logic
 function hideLuxuryPreloader() {
@@ -1350,56 +1344,60 @@ function hideLuxuryPreloader() {
   }, 1200);
 }
 
-if (document.readyState === 'complete') {
+// Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded
+let isWindowAssetsLoaded = false;
+
+function onWindowAssetsLoaded() {
+  if (isWindowAssetsLoaded) return;
+  isWindowAssetsLoaded = true;
+
+  // 1. Hide the preloader once all images and window assets are fully loaded
   hideLuxuryPreloader();
-} else {
-  window.addEventListener('load', hideLuxuryPreloader);
-}
-setTimeout(hideLuxuryPreloader, 3000);
 
-window.addEventListener("load", () => {
-  hideLuxuryPreloader();
-
-  // 1. Force GSAP to recalculate all pinned sections first
-  ScrollTrigger.refresh(true);
-
-  // 2. Handle hash navigation instantly using GSAP with duration: 0
-  if (initialHashRaw || window.location.hash) {
-    handleInitialDeepLink();
-  }
-
-  // 3. Deep scrolling logic for product query parameters (?product=...)
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('product');
-  if (productId) {
-    const targetElement = document.getElementById(productId);
-    if (targetElement) {
-      requestAnimationFrame(() => {
-        gsap.to(window, {
-          scrollTo: { y: "#" + productId, offsetY: 50 },
-          duration: 1,
-          ease: "power3.out"
-        });
-      });
-    }
-  }
-
-  // 4. Fade in body after jumping to completely prevent FOUC and hide the jump
+  // 2. Reveal body after assets are loaded
   requestAnimationFrame(() => {
     document.body.style.opacity = '1';
     document.body.classList.remove('opacity-0');
     document.body.classList.add('page-loaded');
   });
 
-  // Extra safety refresh after fonts and image reflows
+  // 3. Strictly call ScrollTrigger.refresh() AFTER all images and window assets are fully loaded,
+  // with a 500ms timeout to ensure complete DOM stability and layout settling
   setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 200);
-});
+    ScrollTrigger.refresh(true);
 
-// Safety fallback: ensure body is revealed even if load event is delayed
+    // Handle hash navigation instantly using GSAP with accurate section offsets
+    if (initialHashRaw || window.location.hash) {
+      handleInitialDeepLink();
+    }
+
+    // Deep scrolling logic for product query parameters (?product=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('product');
+    if (productId) {
+      const targetElement = document.getElementById(productId);
+      if (targetElement) {
+        requestAnimationFrame(() => {
+          gsap.to(window, {
+            scrollTo: { y: "#" + productId, offsetY: 50 },
+            duration: 1,
+            ease: "power3.out"
+          });
+        });
+      }
+    }
+  }, 500);
+}
+
+if (document.readyState === 'complete') {
+  onWindowAssetsLoaded();
+} else {
+  window.addEventListener('load', onWindowAssetsLoaded);
+}
+
+// Safety fallback: ensure preloader hides, body reveals, and layout settles even if an asset hangs
 setTimeout(() => {
-  document.body.style.opacity = '1';
-  document.body.classList.remove('opacity-0');
-  document.body.classList.add('page-loaded');
-}, 1200);
+  if (!isWindowAssetsLoaded) {
+    onWindowAssetsLoaded();
+  }
+}, 3500);
