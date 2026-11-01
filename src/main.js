@@ -36,6 +36,38 @@ ScrollTrigger.normalizeScroll(true);
 window.ScrollTrigger = ScrollTrigger;
 window.gsap = gsap;
 
+// Prevent GSAP from refreshing and blurring inputs on mobile keyboard popup
+let originalHeight = window.innerHeight;
+window.addEventListener("resize", () => {
+  const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+  const isInputFocused = activeTag === "input" || activeTag === "textarea";
+  
+  // Only block if it's a vertical resize (like a keyboard) AND user is typing
+  if (isInputFocused && window.innerWidth === document.documentElement.clientWidth) {
+    return; 
+  }
+});
+
+// To be bulletproof with GSAP ScrollTrigger:
+ScrollTrigger.addEventListener("refreshInit", (e) => {
+  const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+  if (activeTag === "input" || activeTag === "textarea") {
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault(); // Stop refresh
+    }
+  }
+});
+
+// Bulletproof protection: prevent direct ScrollTrigger.refresh() calls while typing
+const originalRefresh = ScrollTrigger.refresh.bind(ScrollTrigger);
+ScrollTrigger.refresh = function(safe) {
+  const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+  if (activeTag === "input" || activeTag === "textarea") {
+    return;
+  }
+  return originalRefresh(safe);
+};
+
 // 1. Navigation Menu Overlay Interactions
 function initNavDrawer() {
   const menuTrigger = document.getElementById('menu-trigger');
@@ -407,8 +439,13 @@ function initHeroAnimations() {
     }
   });
 
-  // Recalculate docking targets on resize
+  // Recalculate docking targets on resize (safely ignoring mobile keyboard popups)
   window.addEventListener('resize', () => {
+    const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+    const isInputFocused = activeTag === "input" || activeTag === "textarea";
+    if (isInputFocused && window.innerWidth === document.documentElement.clientWidth) {
+      return; 
+    }
     ScrollTrigger.refresh();
   });
 }
