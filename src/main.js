@@ -9,6 +9,10 @@
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
+// Prevent initial native jump while page and GSAP layouts are preparing
+if (window.location.hash) {
+  window.scrollTo(0, 0);
+}
 if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.clearScrollMemory) {
   ScrollTrigger.clearScrollMemory();
 }
@@ -1159,9 +1163,9 @@ initSemanticHashTracking();
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 window.addEventListener("load", () => {
   // 1. Force GSAP to recalculate all pinned sections first
-  ScrollTrigger.refresh();
+  ScrollTrigger.refresh(true);
 
-    // 2. Handle hash navigation instantly without animating
+  // 2. Handle hash navigation instantly using GSAP with duration: 0
   if (window.location.hash) {
     const rawHash = window.location.hash.replace(/^#/, '');
     const semanticToId = {
@@ -1177,13 +1181,15 @@ window.addEventListener("load", () => {
     const realId = semanticToId[rawHash] || rawHash;
     const target = document.getElementById(realId);
     if (target) {
-      if (realId === 'contact') {
+      let targetY = 0;
+      if (realId === 'scene-01' || realId === 'home') {
+        targetY = 0;
+      } else if (realId === 'contact') {
         const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
         const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
-        const targetY = contactST && typeof contactST.end === 'number'
+        targetY = contactST && typeof contactST.end === 'number'
           ? contactST.end
           : (target.getBoundingClientRect().top + window.scrollY);
-        window.scrollTo(0, targetY);
       } else {
         const allMatching = ScrollTrigger.getAll().filter(t => {
           if (!t.trigger) return false;
@@ -1192,13 +1198,16 @@ window.addEventListener("load", () => {
         });
 
         const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
-
-        if (st) {
-          window.scrollTo(0, st.start);
-        } else {
-          target.scrollIntoView({ behavior: "instant" });
-        }
+        targetY = st && typeof st.start === 'number' ? st.start : (target.getBoundingClientRect().top + window.scrollY);
       }
+
+      // Instant jump with GSAP (duration: 0) to prevent visible scrolling
+      gsap.to(window, {
+        scrollTo: { y: targetY, autoKill: false },
+        duration: 0,
+        overwrite: 'all'
+      });
+      window.scrollTo(0, targetY);
     }
   }
 
