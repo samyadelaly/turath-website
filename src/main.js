@@ -28,10 +28,10 @@ import { initTurathScrambleAnimation } from './artwork.js';
 import { setupFormHandler } from './formHandler.js';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+ScrollTrigger.config({ ignoreMobileResize: true });
 if (ScrollTrigger.clearScrollMemory) {
   ScrollTrigger.clearScrollMemory();
 }
-ScrollTrigger.config({ ignoreMobileResize: true });
 ScrollTrigger.normalizeScroll(true);
 window.ScrollTrigger = ScrollTrigger;
 window.gsap = gsap;
