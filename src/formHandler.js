@@ -5,37 +5,52 @@
  */
 
 export async function submitInquiry(formData) {
-  try {
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
+  const endpoint = '/api/contact';
 
-    const result = await response.json().catch(() => ({}));
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  });
 
-    if (!response.ok || !result.success) {
-      throw new Error(result.error || `Server responded with status ${response.status}`);
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(`[API Error ${response.status}] Request to ${endpoint} failed:`, errorText);
+
+    let parsedMessage = null;
+    try {
+      const parsed = JSON.parse(errorText);
+      if (parsed && (parsed.error || parsed.message)) {
+        parsedMessage = parsed.error || parsed.message;
+      }
+    } catch (e) {
+      // response was not JSON (e.g. 404 HTML page from Vite dev server)
     }
 
-    return {
-      success: true,
-      message: result.message || 'Message sent successfully.'
-    };
-  } catch (error) {
-    // If running in local static dev without a serverless runtime, provide a graceful fallback
-    if (error.message && (error.message.includes('404') || error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
-      console.warn('[formHandler] /api/contact is unavailable on local static dev server; simulating successful submission.');
-      return {
-        success: true,
-        message: 'Message sent successfully. Our team will review your custom request shortly.'
-      };
+    if (parsedMessage) {
+      throw new Error(parsedMessage);
+    } else if (response.status === 404) {
+      throw new Error('Serverless endpoint /api/contact returned 404 Not Found. If testing locally, ensure Vercel dev is active or backend middleware is enabled.');
+    } else if (response.status === 500) {
+      throw new Error('Server error (500) while sending inquiry. Please check mail credentials or try again later.');
+    } else {
+      throw new Error(`Server returned HTTP ${response.status}: ${errorText.slice(0, 150)}`);
     }
-    throw error;
   }
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!result.success) {
+    throw new Error(result.error || 'Failed to submit inquiry.');
+  }
+
+  return {
+    success: true,
+    message: result.message || 'Inquiry sent successfully! Our team will get back to you soon.'
+  };
 }
 
 export function setupFormHandler(formElement, options = {}) {
@@ -50,7 +65,7 @@ export function setupFormHandler(formElement, options = {}) {
   formElement.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const originalBtnText = submitButton ? submitButton.innerText : 'SUBMIT';
+    const originalBtnText = submitButton ? submitButton.innerText : 'SUBMIT INQUIRY';
 
     if (errorElement) {
       errorElement.classList.add('hidden');
@@ -88,18 +103,31 @@ export function setupFormHandler(formElement, options = {}) {
         }
       }
     } catch (err) {
-      console.error('[setupFormHandler] Error submitting form:', err);
+      console.error('[setupFormHandler] Form submission failed:', err);
+
+      // Reset button state and display error feedback
+      if (submitButton) {
+        submitButton.innerText = 'ERROR — TRY AGAIN';
+        submitButton.classList.remove('cursor-wait');
+        submitButton.classList.add('bg-rose-900/60');
+        setTimeout(() => {
+          if (submitButton.innerText === 'ERROR — TRY AGAIN') {
+            submitButton.innerText = originalBtnText;
+            submitButton.classList.remove('bg-rose-900/60');
+          }
+        }, 4000);
+      }
+
       if (errorElement) {
         errorElement.classList.remove('hidden');
         errorElement.style.display = 'block';
-        errorElement.textContent = err.message || 'Unable to send message. Please try again.';
+        errorElement.textContent = err.message || 'Unable to send inquiry. Please try again.';
       } else {
-        alert(err.message || 'Unable to send message. Please try again.');
+        alert(err.message || 'Unable to send inquiry. Please try again.');
       }
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.innerText = originalBtnText;
         submitButton.classList.remove('opacity-70', 'cursor-wait');
       }
     }

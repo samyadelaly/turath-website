@@ -1,7 +1,50 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import fs from 'fs';
+
+/**
+ * Local dev server middleware plugin to emulate Vercel Serverless Function (/api/contact)
+ * during `npm run dev` so form testing works immediately on local dev and tunnels.
+ */
+function vercelApiDevPlugin() {
+  return {
+    name: 'vercel-api-dev',
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (req.url && (req.url === '/api/contact' || req.url.startsWith('/api/contact?'))) {
+          try {
+            // Load .env variables into process.env if not loaded yet
+            if ((!process.env.EMAIL_SERVICE_API_KEY || !process.env.CONTACT_EMAIL) && fs.existsSync('.env')) {
+              const envContent = fs.readFileSync('.env', 'utf8');
+              envContent.split('\n').forEach(line => {
+                const m = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+                if (m) {
+                  let v = (m[2] || '').trim();
+                  if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+                    v = v.slice(1, -1);
+                  }
+                  process.env[m[1]] = v;
+                }
+              });
+            }
+
+            const { default: handler } = await import('./api/contact.js');
+            return await handler(req, res);
+          } catch (err) {
+            console.error('[Vite Dev API Error]:', err);
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            return res.end(JSON.stringify({ success: false, error: err.message }));
+          }
+        }
+        next();
+      });
+    }
+  };
+}
 
 export default defineConfig({
+  plugins: [vercelApiDevPlugin()],
   build: {
     rollupOptions: {
       input: {
