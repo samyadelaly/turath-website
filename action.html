@@ -121,7 +121,15 @@
     // Read initial index from URL if present: ?film=2
     const urlParams = new URLSearchParams(window.location.search);
     const initialFilm = parseInt(urlParams.get('film'), 10);
-    let currentIndex = (!isNaN(initialFilm) && initialFilm >= 0 && initialFilm < filmsData.length) ? initialFilm : 0;
+    const productParam = urlParams.get('product') || urlParams.get('item');
+        let pIdx = -1;
+        if (productParam) {
+          const match = productParam.match(/-item-(\d+)$/i);
+          pIdx = match ? (parseInt(match[1], 10) - 1) : (parseInt(productParam, 10) - 1);
+        }
+        let currentIndex = (!isNaN(initialFilm) && initialFilm >= 0 && initialFilm < filmsData.length)
+          ? initialFilm
+          : ((pIdx >= 0 && pIdx < filmsData.length) ? pIdx : 0);
 
     const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');

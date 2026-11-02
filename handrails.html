@@ -94,7 +94,18 @@
       }
     ];
 
-    let currentIndex = 0;
+    // Read initial product from URL if present: ?product=...-item-2 or ?item=2
+        const urlParams = new URLSearchParams(window.location.search);
+        const productParam = urlParams.get('product') || urlParams.get('item');
+        let initialIndex = 0;
+        if (productParam) {
+          const match = productParam.match(/-item-(\d+)$/i);
+          const parsedIdx = match ? (parseInt(match[1], 10) - 1) : (parseInt(productParam, 10) - 1);
+          if (!isNaN(parsedIdx) && parsedIdx >= 0 && parsedIdx < sliderData.length) {
+            initialIndex = parsedIdx;
+          }
+        }
+        let currentIndex = initialIndex;
     const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
     const imgEl = document.getElementById('slider-image');

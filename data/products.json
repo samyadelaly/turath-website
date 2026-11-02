@@ -2,6 +2,7 @@
   "categories": {
     "lighting": {
       "title": "Lighting Fixtures",
+      "titleAr": "وحدات إضاءة نحاسية معمارية",
       "items": [
         {
           "id": "lighting-item-1",
@@ -12,11 +13,332 @@
           "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، الجمالية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
           "image": "/assets/images/lighting/hammered-brass-scroll-sconce.jpg",
           "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-2",
+          "title": "ELONGATED ARABESQUE TEARDROP PENDANT",
+          "titleAr": "ELONGATED ARABESQUE TEARDROP PENDANT",
+          "description": "An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection.",
+          "descriptionAr": "An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/elongated-arabesque-teardrop-pendant.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-3",
+          "title": "MAMLUK ROYAL BRASS CHANDELIER",
+          "titleAr": "MAMLUK ROYAL BRASS CHANDELIER",
+          "description": "A monumental ceremonial brass lantern inspired by classical Mamluk architecture, suspended by ornate chains with pierced arabesque motifs.",
+          "descriptionAr": "A monumental ceremonial brass lantern inspired by classical Mamluk architecture, suspended by ornate chains with pierced arabesque motifs.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/mamluk-royal-brass-chandelier.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-4",
+          "title": "FLUTED BRASS DRUM CHANDELIER",
+          "titleAr": "FLUTED BRASS DRUM CHANDELIER",
+          "description": "A circular solid brass chandelier featuring a vertically fluted brass collar and an etched sunburst glass diffuser casting a soft, glare-free downward glow.",
+          "descriptionAr": "A circular solid brass chandelier featuring a vertically fluted brass collar and an etched sunburst glass diffuser casting a soft, glare-free downward glow.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/fluted-brass-drum-chandelier.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-5",
+          "title": "SUNBURST PIERCED BRASS SCONCE",
+          "titleAr": "SUNBURST PIERCED BRASS SCONCE",
+          "description": "A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall.",
+          "descriptionAr": "A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/sunburst-pierced-brass-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-6",
+          "title": "SCULPTURAL BRASS MONSTERA SCONCE",
+          "titleAr": "SCULPTURAL BRASS MONSTERA SCONCE",
+          "description": "An organic architectural wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows.",
+          "descriptionAr": "An organic architectural wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/sculptural-brass-monstera-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-7",
+          "title": "TRI-STEM BRASS GLOBE FLOOR LAMP",
+          "titleAr": "TRI-STEM BRASS GLOBE FLOOR LAMP",
+          "description": "A statuesque three-branch solid brass floor lamp featuring staggered architectural stems topped with clear hand-blown glass illuminating spheres.",
+          "descriptionAr": "A statuesque three-branch solid brass floor lamp featuring staggered architectural stems topped with clear hand-blown glass illuminating spheres.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/tri-stem-brass-globe-floor-lamp.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-8",
+          "title": "INTERLOCKING BRASS RIBBON CHANDELIER",
+          "titleAr": "INTERLOCKING BRASS RIBBON CHANDELIER",
+          "description": "A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core.",
+          "descriptionAr": "A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/interlocking-brass-ribbon-chandelier.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-9",
+          "title": "STAR LATTICE CYLINDER SCONCE",
+          "titleAr": "STAR LATTICE CYLINDER SCONCE",
+          "description": "A classical wall sconce featuring an illuminated frosted glass cylinder encased in an intricately hand-cut Islamic star lattice brass cage.",
+          "descriptionAr": "A classical wall sconce featuring an illuminated frosted glass cylinder encased in an intricately hand-cut Islamic star lattice brass cage.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/star-lattice-cylinder-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-10",
+          "title": "BRASS DOME TRIPOD FLOOR LAMP",
+          "titleAr": "BRASS DOME TRIPOD FLOOR LAMP",
+          "description": "A mid-century inspired architectural floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips.",
+          "descriptionAr": "A mid-century inspired architectural floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/brass-dome-tripod-floor-lamp.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-11",
+          "title": "ROSETTE MEDALLION BRASS PENDANT",
+          "titleAr": "ROSETTE MEDALLION BRASS PENDANT",
+          "description": "A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite Arabesque filigree.",
+          "descriptionAr": "A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite Arabesque filigree.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/rosette-medallion-brass-pendant.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-12",
+          "title": "FILIGREE CHIMNEY BRASS LAMP",
+          "titleAr": "FILIGREE CHIMNEY BRASS LAMP",
+          "description": "A traditional kerosene-style chimney table lamp hand-turned in solid brass with an intricately perforated fluted shade that casts a rich, romantic amber glow.",
+          "descriptionAr": "A traditional kerosene-style chimney table lamp hand-turned in solid brass with an intricately perforated fluted shade that casts a rich, romantic amber glow.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/filigree-chimney-brass-lamp.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-13",
+          "title": "GEOMETRIC TRIANGLE BRASS SCONCE",
+          "titleAr": "GEOMETRIC TRIANGLE BRASS SCONCE",
+          "description": "A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.",
+          "descriptionAr": "A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/geometric-triangle-brass-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-14",
+          "title": "DOMED ARABESQUE BRASS LANTERN",
+          "titleAr": "DOMED ARABESQUE BRASS LANTERN",
+          "description": "A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate arabesque filigree.",
+          "descriptionAr": "A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate arabesque filigree.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/domed-arabesque-brass-lantern.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-15",
+          "title": "CELESTIAL VERDIGRIS BRASS SCONCE",
+          "titleAr": "CELESTIAL VERDIGRIS BRASS SCONCE",
+          "description": "A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm architectural halo.",
+          "descriptionAr": "A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm architectural halo.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/celestial-verdigris-brass-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-16",
+          "title": "TEARDROP FILIGREE BRASS PENDANT",
+          "titleAr": "TEARDROP FILIGREE BRASS PENDANT",
+          "description": "A voluptuous teardrop brass pendant intricately pierced with classical Islamic motifs, casting a radiant mandala shadow pattern below.",
+          "descriptionAr": "A voluptuous teardrop brass pendant intricately pierced with classical Islamic motifs, casting a radiant mandala shadow pattern below.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/teardrop-filigree-brass-pendant.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-17",
+          "title": "CASCADING BRASS DISC CHANDELIER",
+          "titleAr": "CASCADING BRASS DISC CHANDELIER",
+          "description": "A multi-tier statement chandelier featuring sunburst textured brass discs and ribbed blown glass lanterns suspended at sculpted heights.",
+          "descriptionAr": "A multi-tier statement chandelier featuring sunburst textured brass discs and ribbed blown glass lanterns suspended at sculpted heights.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/cascading-brass-disc-chandelier.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-18",
+          "title": "PIERCED OVOID BRASS LANTERN",
+          "titleAr": "PIERCED OVOID BRASS LANTERN",
+          "description": "An egg-shaped solid brass table lamp intricately perforated with traditional arabesque filigree, casting mesmerizing geometric shadows.",
+          "descriptionAr": "An egg-shaped solid brass table lamp intricately perforated with traditional arabesque filigree, casting mesmerizing geometric shadows.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/pierced-ovoid-brass-lantern.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-19",
+          "title": "ARABESQUE SPHERICAL PENDANT",
+          "titleAr": "ARABESQUE SPHERICAL PENDANT",
+          "description": "A hand-pierced spherical solid brass pendant light suspended by an antiqued brass chain, radiating a warm ambient celestial glow.",
+          "descriptionAr": "A hand-pierced spherical solid brass pendant light suspended by an antiqued brass chain, radiating a warm ambient celestial glow.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/arabesque-spherical-brass-pendant.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-20",
+          "title": "PATINATED BRASS DISC TRIPTYCH",
+          "titleAr": "PATINATED BRASS DISC TRIPTYCH",
+          "description": "A vertical triptych of three hand-hammered patinated brass disc sconces, each casting a soft golden halo of indirect architectural light.",
+          "descriptionAr": "A vertical triptych of three hand-hammered patinated brass disc sconces, each casting a soft golden halo of indirect architectural light.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/patinated-brass-disc-triptych.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-21",
+          "title": "CYLINDRICAL FILIGREE PENDANT",
+          "titleAr": "CYLINDRICAL FILIGREE PENDANT",
+          "description": "An elongated cylindrical brass lantern featuring alternating bands of hand-carved calligraphy and intricate openwork filigree.",
+          "descriptionAr": "An elongated cylindrical brass lantern featuring alternating bands of hand-carved calligraphy and intricate openwork filigree.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/cylindrical-filigree-brass-pendant.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-22",
+          "title": "TRIO FILIGREE CLUSTER CHANDELIER",
+          "titleAr": "TRIO FILIGREE CLUSTER CHANDELIER",
+          "description": "A staggered three-pendant chandelier in solid brass combining teardrop and spherical filigree lanterns suspended from a single canopy.",
+          "descriptionAr": "A staggered three-pendant chandelier in solid brass combining teardrop and spherical filigree lanterns suspended from a single canopy.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/trio-filigree-cluster-chandelier.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-23",
+          "title": "GEOMETRIC BRASS PLATE SCONCE",
+          "titleAr": "GEOMETRIC BRASS PLATE SCONCE",
+          "description": "An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination.",
+          "descriptionAr": "An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/geometric-brass-plate-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-24",
+          "title": "SLENDER BRASS TORCH SCONCE",
+          "titleAr": "SLENDER BRASS TORCH SCONCE",
+          "description": "A neoclassical solid brass torch fixture featuring an elongated drop spindle finial and a tailored linen lampshade diffusing soft, glare-free light.",
+          "descriptionAr": "A neoclassical solid brass torch fixture featuring an elongated drop spindle finial and a tailored linen lampshade diffusing soft, glare-free light.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/slender-brass-torch-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-25",
+          "title": "CANTILEVER BRASS ORB LAMP",
+          "titleAr": "CANTILEVER BRASS ORB LAMP",
+          "description": "A sculptural minimalist balance lamp featuring a precision-calibrated solid brass arm and a hand-blown frosted glass illuminating sphere.",
+          "descriptionAr": "A sculptural minimalist balance lamp featuring a precision-calibrated solid brass arm and a hand-blown frosted glass illuminating sphere.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/cantilever-brass-orb-lamp.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-26",
+          "title": "HAMMERED BRASS TEARDROP PENDANT",
+          "titleAr": "HAMMERED BRASS TEARDROP PENDANT",
+          "description": "A teardrop-shaped solid brass pendant hand-hammered by master Egyptian artisans, radiating an intimate, downward golden pool of light.",
+          "descriptionAr": "A teardrop-shaped solid brass pendant hand-hammered by master Egyptian artisans, radiating an intimate, downward golden pool of light.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/hammered-brass-teardrop-pendant.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-27",
+          "title": "DUAL CAPSULE ARCHED BRASS SCONCE",
+          "titleAr": "DUAL CAPSULE ARCHED BRASS SCONCE",
+          "description": "A dramatic double-light architectural sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon.",
+          "descriptionAr": "A dramatic double-light architectural sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/dual-capsule-arched-brass-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-28",
+          "title": "SOLID BRASS APPLIQUE",
+          "titleAr": "SOLID BRASS APPLIQUE",
+          "description": "A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.",
+          "descriptionAr": "A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/lighting-hero.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-29",
+          "title": "GEOMETRIC BRASS CHANDELIER",
+          "titleAr": "GEOMETRIC BRASS CHANDELIER",
+          "description": "A sculptural multi-arm chandelier handcrafted in solid brass with warm multidirectional ambient lighting.",
+          "descriptionAr": "A sculptural multi-arm chandelier handcrafted in solid brass with warm multidirectional ambient lighting.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/lighting-geometric-chandelier.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-30",
+          "title": "KINETIC BRASS PENDANT",
+          "titleAr": "KINETIC BRASS PENDANT",
+          "description": "A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination.",
+          "descriptionAr": "A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/lighting-kinetic-pendant.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-31",
+          "title": "ENGRAVED ARABESQUE LANTERN",
+          "titleAr": "ENGRAVED ARABESQUE LANTERN",
+          "description": "A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs.",
+          "descriptionAr": "A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/lighting-arabesque-lantern.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-32",
+          "title": "FLUTED BRASS PIPE SCONCE",
+          "titleAr": "FLUTED BRASS PIPE SCONCE",
+          "description": "A dramatic statement wall sconce crafted from staggered tubular brass pipes casting a sunburst halo of light.",
+          "descriptionAr": "A dramatic statement wall sconce crafted from staggered tubular brass pipes casting a sunburst halo of light.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/lighting-fluted-sconce.jpg",
+          "categorySlug": "lighting"
+        },
+        {
+          "id": "lighting-item-33",
+          "title": "CROWN RING CHANDELIER",
+          "titleAr": "CROWN RING CHANDELIER",
+          "description": "A majestic circular solid brass chandelier featuring tapered white shades for refined, glare-free dining illumination.",
+          "descriptionAr": "A majestic circular solid brass chandelier featuring tapered white shades for refined, glare-free dining illumination.",
+          "keywords": "نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage",
+          "image": "/assets/images/lighting/lighting-crown-chandelier.jpg",
+          "categorySlug": "lighting"
         }
       ]
     },
     "mirrors": {
       "title": "Solid Brass Mirrors",
+      "titleAr": "مرايا نحاس أصفر مصمت",
       "items": [
         {
           "id": "mirrors-item-1",
@@ -27,11 +349,142 @@
           "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
           "image": "/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg",
           "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-2",
+          "title": "ORGANIC FLUID BRASS MIRROR",
+          "titleAr": "ORGANIC FLUID BRASS MIRROR",
+          "description": "A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel.",
+          "descriptionAr": "A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/organic-fluid-brass-mirror.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-3",
+          "title": "FACETED OCTAGONAL BRASS MIRROR",
+          "titleAr": "FACETED OCTAGONAL BRASS MIRROR",
+          "description": "An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.",
+          "descriptionAr": "An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/faceted-octagonal-brass-mirror.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-4",
+          "title": "BOTANICAL LAUREL BRANCH BRASS MIRROR",
+          "titleAr": "BOTANICAL LAUREL BRANCH BRASS MIRROR",
+          "description": "A circular decorative wall mirror embraced by a sculptural, hand-forged solid brass laurel vine with delicate hand-carved leaves blossoming along the rim.",
+          "descriptionAr": "A circular decorative wall mirror embraced by a sculptural, hand-forged solid brass laurel vine with delicate hand-carved leaves blossoming along the rim.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/botanical-laurel-branch-brass-mirror.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-5",
+          "title": "MANDALA BRASS MIRROR GALLERY COLLECTION",
+          "titleAr": "MANDALA BRASS MIRROR GALLERY COLLECTION",
+          "description": "A curated salon ensemble of seven hand-engraved circular solid brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.",
+          "descriptionAr": "A curated salon ensemble of seven hand-engraved circular solid brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mandala-brass-mirror-gallery-collection.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-6",
+          "title": "ISLAMIC STAR GEOMETRIC BRASS MIRROR",
+          "titleAr": "ISLAMIC STAR GEOMETRIC BRASS MIRROR",
+          "description": "A circular mirror encompassed by an intricate hand-cut solid brass border featuring Islamic eight-point star geometric fretwork.",
+          "descriptionAr": "A circular mirror encompassed by an intricate hand-cut solid brass border featuring Islamic eight-point star geometric fretwork.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-01.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-7",
+          "title": "SCALLOPED BRASS INLAY MIRROR",
+          "titleAr": "SCALLOPED BRASS INLAY MIRROR",
+          "description": "An architectural tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.",
+          "descriptionAr": "An architectural tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-02.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-8",
+          "title": "TUBULAR OVAL BRASS MIRROR",
+          "titleAr": "TUBULAR OVAL BRASS MIRROR",
+          "description": "A pill-shaped mirror encased in concentric solid brass tubular bands with a hand-brushed satin luster.",
+          "descriptionAr": "A pill-shaped mirror encased in concentric solid brass tubular bands with a hand-brushed satin luster.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-03.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-9",
+          "title": "PIERCED GEOMETRIC BRASS MIRROR",
+          "titleAr": "PIERCED GEOMETRIC BRASS MIRROR",
+          "description": "A square wall mirror enveloped by hand-pierced solid brass geometric latticework reflecting authentic Egyptian metalcraft.",
+          "descriptionAr": "A square wall mirror enveloped by hand-pierced solid brass geometric latticework reflecting authentic Egyptian metalcraft.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-04.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-10",
+          "title": "SCULPTED BRASS LEAF MIRROR",
+          "titleAr": "SCULPTED BRASS LEAF MIRROR",
+          "description": "An organic silhouette mirror adorned with a hand-cast and chased solid brass botanical palm leaf relief.",
+          "descriptionAr": "An organic silhouette mirror adorned with a hand-cast and chased solid brass botanical palm leaf relief.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-05.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-11",
+          "title": "ORGANIC CAST BRASS BRANCH MIRROR",
+          "titleAr": "ORGANIC CAST BRASS BRANCH MIRROR",
+          "description": "A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished solid brass.",
+          "descriptionAr": "A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished solid brass.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-06.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-12",
+          "title": "RADIANT BRASS SUNBURST BRANCH MIRROR",
+          "titleAr": "RADIANT BRASS SUNBURST BRANCH MIRROR",
+          "description": "A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.",
+          "descriptionAr": "A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-07.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-13",
+          "title": "FILIGREE BRASS SCROLLWORK MIRROR",
+          "titleAr": "FILIGREE BRASS SCROLLWORK MIRROR",
+          "description": "An artisanal round mirror surrounded by layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.",
+          "descriptionAr": "An artisanal round mirror surrounded by layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-08.jpg",
+          "categorySlug": "mirrors"
+        },
+        {
+          "id": "mirrors-item-14",
+          "title": "TEXTURED BRASS STUDDED HALO MIRROR",
+          "titleAr": "TEXTURED BRASS STUDDED HALO MIRROR",
+          "description": "A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.",
+          "descriptionAr": "A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.",
+          "keywords": "مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo",
+          "image": "/assets/images/mirrors/mirror-09.jpg",
+          "categorySlug": "mirrors"
         }
       ]
     },
     "tables": {
       "title": "Tables & Consoles",
+      "titleAr": "طاولات وكونسول نحاسي فاخر",
       "items": [
         {
           "id": "tables-item-1",
@@ -42,11 +495,92 @@
           "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
           "image": "/assets/images/tables/staggered-brass-plate-cylinder-table.jpg",
           "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-2",
+          "title": "TIERED BRASS TUBULAR NESTING TABLES",
+          "titleAr": "TIERED BRASS TUBULAR NESTING TABLES",
+          "description": "A refined pair of tiered accent drink tables with clear glass tops supported by slender brushed solid brass columns and architectural tiered cross stretchers.",
+          "descriptionAr": "A refined pair of tiered accent drink tables with clear glass tops supported by slender brushed solid brass columns and architectural tiered cross stretchers.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/tiered-brass-tubular-nesting-tables.jpg",
+          "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-3",
+          "title": "NESTING BRASS COFFEE TABLES",
+          "titleAr": "NESTING BRASS COFFEE TABLES",
+          "description": "A sophisticated duo of nesting circular coffee tables featuring inset glass tops, slender triple-rod brass pillars, and continuous circular ground rings.",
+          "descriptionAr": "A sophisticated duo of nesting circular coffee tables featuring inset glass tops, slender triple-rod brass pillars, and continuous circular ground rings.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/nesting-circular-brass-coffee-tables.jpg",
+          "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-4",
+          "title": "GEOMETRIC BRASS X-BASE TUFTED BENCH",
+          "titleAr": "GEOMETRIC BRASS X-BASE TUFTED BENCH",
+          "description": "A luxurious console bench combining a deeply tufted charcoal velvet cushion with an architectural geometric solid brass X-frame trestle base.",
+          "descriptionAr": "A luxurious console bench combining a deeply tufted charcoal velvet cushion with an architectural geometric solid brass X-frame trestle base.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/geometric-brass-x-base-tufted-bench.jpg",
+          "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-5",
+          "title": "ORGANIC BRANCH BRASS CONSOLE",
+          "titleAr": "ORGANIC BRANCH BRASS CONSOLE",
+          "description": "A sculptural console base handcrafted in solid brass casting, capturing the organic silhouette of intertwining natural branches.",
+          "descriptionAr": "A sculptural console base handcrafted in solid brass casting, capturing the organic silhouette of intertwining natural branches.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/table-01.jpg",
+          "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-6",
+          "title": "BRANCH LEG ARTISAN CONSOLE",
+          "titleAr": "BRANCH LEG ARTISAN CONSOLE",
+          "description": "Sleek dark timber console elevated by hand-cast solid brass branch legs featuring tactile textured detailing.",
+          "descriptionAr": "Sleek dark timber console elevated by hand-cast solid brass branch legs featuring tactile textured detailing.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/table-02.jpg",
+          "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-7",
+          "title": "FLUTED BRASS MARBLE GUÉRIDON",
+          "titleAr": "FLUTED BRASS MARBLE GUÉRIDON",
+          "description": "An elegant side table featuring Italian veined marble supported by slender fluted brass columns and tripod footing.",
+          "descriptionAr": "An elegant side table featuring Italian veined marble supported by slender fluted brass columns and tripod footing.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/table-03.jpg",
+          "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-8",
+          "title": "BRUTALIST BRASS DRUM TABLE",
+          "titleAr": "BRUTALIST BRASS DRUM TABLE",
+          "description": "A circular coffee table with tempered glass resting on a hand-welded cylindrical cage of aged brass panels.",
+          "descriptionAr": "A circular coffee table with tempered glass resting on a hand-welded cylindrical cage of aged brass panels.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/table-04.jpg",
+          "categorySlug": "tables"
+        },
+        {
+          "id": "tables-item-9",
+          "title": "FLUTED COLUMN BRASS CONSOLE",
+          "titleAr": "FLUTED COLUMN BRASS CONSOLE",
+          "description": "Nero Marquina marble console anchored by architectural fluted brass uprights mounted to a solid polished plinth.",
+          "descriptionAr": "Nero Marquina marble console anchored by architectural fluted brass uprights mounted to a solid polished plinth.",
+          "keywords": "طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier",
+          "image": "/assets/images/tables/table-05.jpg",
+          "categorySlug": "tables"
         }
       ]
     },
     "handles": {
       "title": "Architectural Handles",
+      "titleAr": "مقابض أبواب نحاسية معمارية",
       "items": [
         {
           "id": "handles-item-1",
@@ -57,11 +591,92 @@
           "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
           "image": "/assets/images/handles/circular-cobblestone-brass-door-pulls.jpg",
           "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-2",
+          "title": "HAMMERED HONEYCOMB BRASS PULL",
+          "titleAr": "HAMMERED HONEYCOMB BRASS PULL",
+          "description": "A rectilinear architectural door pull in solid brass with beveled perimeter borders framing a densely hand-hammered honeycomb textural core.",
+          "descriptionAr": "A rectilinear architectural door pull in solid brass with beveled perimeter borders framing a densely hand-hammered honeycomb textural core.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/hammered-honeycomb-brass-pull.jpg",
+          "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-3",
+          "title": "SCULPTURAL FLUID MAGMA BRASS PULL",
+          "titleAr": "SCULPTURAL FLUID MAGMA BRASS PULL",
+          "description": "A monumental full-height architectural door pull hand-cast in solid brass, capturing liquid ripples and dynamic molten geological flows.",
+          "descriptionAr": "A monumental full-height architectural door pull hand-cast in solid brass, capturing liquid ripples and dynamic molten geological flows.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/sculptural-fluid-magma-brass-pull.jpg",
+          "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-4",
+          "title": "PAIR CAST BRASS BRANCH PULLS",
+          "titleAr": "PAIR CAST BRASS BRANCH PULLS",
+          "description": "A dramatic pair of branching solid brass door handles engineered for grand double doors and luxury entranceways.",
+          "descriptionAr": "A dramatic pair of branching solid brass door handles engineered for grand double doors and luxury entranceways.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/pair-cast-brass-branch-pulls.jpg",
+          "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-5",
+          "title": "MINIMALIST T-BAR ESCUTCHEON PULL",
+          "titleAr": "MINIMALIST T-BAR ESCUTCHEON PULL",
+          "description": "A precision-machined solid brass T-bar handle mounted to a softly radiused square backplate escutcheon in polished golden brass.",
+          "descriptionAr": "A precision-machined solid brass T-bar handle mounted to a softly radiused square backplate escutcheon in polished golden brass.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/minimalist-tbar-escutcheon-pull.jpg",
+          "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-6",
+          "title": "ORGANIC BOUGH DOOR PULL",
+          "titleAr": "ORGANIC BOUGH DOOR PULL",
+          "description": "A monumental entrance door pull hand-cast in solid brass, echoing the graceful form of an outstretched tree bough.",
+          "descriptionAr": "A monumental entrance door pull hand-cast in solid brass, echoing the graceful form of an outstretched tree bough.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/handle-01.jpg",
+          "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-7",
+          "title": "TOPOGRAPHIC BRUTALIST HANDLES",
+          "titleAr": "TOPOGRAPHIC BRUTALIST HANDLES",
+          "description": "A sculptural pair of semicircular door pulls featuring deep molten brass casting and rich tactile topography.",
+          "descriptionAr": "A sculptural pair of semicircular door pulls featuring deep molten brass casting and rich tactile topography.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/handle-02.jpg",
+          "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-8",
+          "title": "SCULPTED TWIG VERTICAL PULL",
+          "titleAr": "SCULPTED TWIG VERTICAL PULL",
+          "description": "An elongated solid brass architectural pull with undulating organic contours and hand-finished bronze undertones.",
+          "descriptionAr": "An elongated solid brass architectural pull with undulating organic contours and hand-finished bronze undertones.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/handle-03.jpg",
+          "categorySlug": "handles"
+        },
+        {
+          "id": "handles-item-9",
+          "title": "SYMMETRIC BRANCH PULL PAIR",
+          "titleAr": "SYMMETRIC BRANCH PULL PAIR",
+          "description": "A dramatic pair of branching solid brass door handles engineered for grand double doors and luxury entranceways.",
+          "descriptionAr": "A dramatic pair of branching solid brass door handles engineered for grand double doors and luxury entranceways.",
+          "keywords": "مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas",
+          "image": "/assets/images/handles/handle-04.jpg",
+          "categorySlug": "handles"
         }
       ]
     },
     "handrails": {
       "title": "Custom Handrails",
+      "titleAr": "درابزين سلالم نحاسي مخصص",
       "items": [
         {
           "id": "handrails-item-1",
@@ -72,11 +687,22 @@
           "keywords": "درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors",
           "image": "/assets/images/handrails/handrail-01.jpg",
           "categorySlug": "handrails"
+        },
+        {
+          "id": "handrails-item-2",
+          "title": "FACETED BRASS SPINDLE BALUSTRADE",
+          "titleAr": "FACETED BRASS SPINDLE BALUSTRADE",
+          "description": "Precision-machined solid brass balustrade showcasing articulated faceted spindles and a polished continuous handrail.",
+          "descriptionAr": "Precision-machined solid brass balustrade showcasing articulated faceted spindles and a polished continuous handrail.",
+          "keywords": "درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors",
+          "image": "/assets/images/handrails/handrail-02.jpg",
+          "categorySlug": "handrails"
         }
       ]
     },
     "decor": {
       "title": "Decorative Objects",
+      "titleAr": "تحف وصواني ديكور نحاسية",
       "items": [
         {
           "id": "decor-item-1",
@@ -87,11 +713,102 @@
           "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
           "image": "/assets/images/decor/royal-arabesque-brass-wall-charger.jpg",
           "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-2",
+          "title": "HONEYCOMB FACETED HAMMERED COPPER SHIELD",
+          "titleAr": "HONEYCOMB FACETED HAMMERED COPPER SHIELD",
+          "description": "A sculptural concave wall medallion hand-hammered in warm bronze-toned brass, radiating from a central floral rosette into hundreds of faceted honeycomb cells.",
+          "descriptionAr": "A sculptural concave wall medallion hand-hammered in warm bronze-toned brass, radiating from a central floral rosette into hundreds of faceted honeycomb cells.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/honeycomb-faceted-hammered-copper-shield.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-3",
+          "title": "GOLDEN DIVERS SCULPTURAL WALL INSTALLATION",
+          "titleAr": "GOLDEN DIVERS SCULPTURAL WALL INSTALLATION",
+          "description": "A dynamic set of five cast brass diver figurines hand-sculpted in suspended motion, mounted across a textured stone feature wall above river stone bedding.",
+          "descriptionAr": "A dynamic set of five cast brass diver figurines hand-sculpted in suspended motion, mounted across a textured stone feature wall above river stone bedding.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/golden-divers-cast-brass-wall-sculptures.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-4",
+          "title": "PLEATED SUNBURST POLISHED BRASS DISK",
+          "titleAr": "PLEATED SUNBURST POLISHED BRASS DISK",
+          "description": "A dramatic circular wall sculpture crafted in mirror-polished golden brass, featuring deep accordion pleats that catch the light in a hypnotic radiating sunburst.",
+          "descriptionAr": "A dramatic circular wall sculpture crafted in mirror-polished golden brass, featuring deep accordion pleats that catch the light in a hypnotic radiating sunburst.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/pleated-sunburst-polished-brass-disk.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-5",
+          "title": "OPENWORK FILIGREE BRASS BOTANICAL LEAVES",
+          "titleAr": "OPENWORK FILIGREE BRASS BOTANICAL LEAVES",
+          "description": "A set of four sculptural brass leaves featuring openwork vein filigree and polished contours, casting intricate shadow patterns across contemporary feature walls.",
+          "descriptionAr": "A set of four sculptural brass leaves featuring openwork vein filigree and polished contours, casting intricate shadow patterns across contemporary feature walls.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/openwork-filigree-brass-leaf-sculptures.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-6",
+          "title": "HAMMERED BRASS VESSEL",
+          "titleAr": "HAMMERED BRASS VESSEL",
+          "description": "A monumental handcrafted solid brass decorative basin shaped with thousands of precise hand-hammered facets.",
+          "descriptionAr": "A monumental handcrafted solid brass decorative basin shaped with thousands of precise hand-hammered facets.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/decor-01.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-7",
+          "title": "ORGANIC CAST BRONZE PLATTER",
+          "titleAr": "ORGANIC CAST BRONZE PLATTER",
+          "description": "A multi-compartment artisanal serving tray hand-cast in solid brass with an earthy textured bronze patina.",
+          "descriptionAr": "A multi-compartment artisanal serving tray hand-cast in solid brass with an earthy textured bronze patina.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/decor-02.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-8",
+          "title": "SCULPTURAL BRASS DUO BOWLS",
+          "titleAr": "SCULPTURAL BRASS DUO BOWLS",
+          "description": "A pair of freeform decorative brass bowls with soft undulating rim contours and hand-buffed warm luster.",
+          "descriptionAr": "A pair of freeform decorative brass bowls with soft undulating rim contours and hand-buffed warm luster.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/decor-03.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-9",
+          "title": "ARABESQUE BRASS WALL NICHE",
+          "titleAr": "ARABESQUE BRASS WALL NICHE",
+          "description": "An architectural solid brass wall sculpture featuring flowing arabesque ribbon motifs and an integrated display ledge.",
+          "descriptionAr": "An architectural solid brass wall sculpture featuring flowing arabesque ribbon motifs and an integrated display ledge.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/decor-04.jpg",
+          "categorySlug": "decor"
+        },
+        {
+          "id": "decor-item-10",
+          "title": "FILIGREE BRASS MEDALLION SHELF",
+          "titleAr": "FILIGREE BRASS MEDALLION SHELF",
+          "description": "An ornate hand-finished brass wall medallion featuring intricate lattice fretwork and classical symmetrical flourishes.",
+          "descriptionAr": "An ornate hand-finished brass wall medallion featuring intricate lattice fretwork and classical symmetrical flourishes.",
+          "keywords": "أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans",
+          "image": "/assets/images/decor/decor-05.jpg",
+          "categorySlug": "decor"
         }
       ]
     },
     "wall-art": {
       "title": "Brass & Copper Wall Art",
+      "titleAr": "لوحات جدارية من النحاس الأصفر والأحمر",
       "items": [
         {
           "id": "wall-art-item-1",
@@ -102,11 +819,82 @@
           "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
           "image": "/assets/images/wall-art/sculptural-botanical-urn-brass-relief.jpg",
           "categorySlug": "wall-art"
+        },
+        {
+          "id": "wall-art-item-2",
+          "title": "SOARING CRANE OVAL BRASS RELIEF",
+          "titleAr": "SOARING CRANE OVAL BRASS RELIEF",
+          "description": "An oval solid brass sculptural relief panel depicting a graceful crane in flight among stylized swirling clouds and flowing waters beneath a celestial sun.",
+          "descriptionAr": "An oval solid brass sculptural relief panel depicting a graceful crane in flight among stylized swirling clouds and flowing waters beneath a celestial sun.",
+          "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
+          "image": "/assets/images/wall-art/soaring-crane-oval-brass-relief.jpg",
+          "categorySlug": "wall-art"
+        },
+        {
+          "id": "wall-art-item-3",
+          "title": "TRI-COLOR FILIGREE LEAF WALL SCULPTURES",
+          "titleAr": "TRI-COLOR FILIGREE LEAF WALL SCULPTURES",
+          "description": "A dynamic triptych of sculptural openwork leaves crafted in three distinct finishes—golden brass, warm copper, and silvered bronze—casting intricate shadows.",
+          "descriptionAr": "A dynamic triptych of sculptural openwork leaves crafted in three distinct finishes—golden brass, warm copper, and silvered bronze—casting intricate shadows.",
+          "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
+          "image": "/assets/images/wall-art/tri-color-filigree-leaf-wall-sculptures.jpg",
+          "categorySlug": "wall-art"
+        },
+        {
+          "id": "wall-art-item-4",
+          "title": "OPENWORK LEAF BRASS PANEL",
+          "titleAr": "OPENWORK LEAF BRASS PANEL",
+          "description": "A tall architectural brass screen featuring pierced organic leaf venation cast with delicate sculptural permeability.",
+          "descriptionAr": "A tall architectural brass screen featuring pierced organic leaf venation cast with delicate sculptural permeability.",
+          "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
+          "image": "/assets/images/wall-art/wall-art-01.jpg",
+          "categorySlug": "wall-art"
+        },
+        {
+          "id": "wall-art-item-5",
+          "title": "REPOUSSÉ BRASS MEDALLION PANEL",
+          "titleAr": "REPOUSSÉ BRASS MEDALLION PANEL",
+          "description": "An embossed solid brass architectural wall panel celebrating classical spiral rosettes and relief rope-twist borders.",
+          "descriptionAr": "An embossed solid brass architectural wall panel celebrating classical spiral rosettes and relief rope-twist borders.",
+          "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
+          "image": "/assets/images/wall-art/wall-art-02.jpg",
+          "categorySlug": "wall-art"
+        },
+        {
+          "id": "wall-art-item-6",
+          "title": "PORTORO MARBLE & BRASS HEARTH",
+          "titleAr": "PORTORO MARBLE & BRASS HEARTH",
+          "description": "A monumental fireplace surround in black gold marble framed by artisan hammered brass medallion relief friezes.",
+          "descriptionAr": "A monumental fireplace surround in black gold marble framed by artisan hammered brass medallion relief friezes.",
+          "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
+          "image": "/assets/images/wall-art/wall-art-03.jpg",
+          "categorySlug": "wall-art"
+        },
+        {
+          "id": "wall-art-item-7",
+          "title": "BOTANICAL BRANCH BRASS RELIEF",
+          "titleAr": "BOTANICAL BRANCH BRASS RELIEF",
+          "description": "A framed high-relief wall artwork crafted with hand-chased brass foliage radiating from an articulated central branch.",
+          "descriptionAr": "A framed high-relief wall artwork crafted with hand-chased brass foliage radiating from an articulated central branch.",
+          "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
+          "image": "/assets/images/wall-art/wall-art-04.jpg",
+          "categorySlug": "wall-art"
+        },
+        {
+          "id": "wall-art-item-8",
+          "title": "FOLKLORIC COPPER BAS-RELIEF",
+          "titleAr": "FOLKLORIC COPPER BAS-RELIEF",
+          "description": "A narrative hammered copper mural depicting folkloric maritime and nature motifs with an authentic antique patina.",
+          "descriptionAr": "A narrative hammered copper mural depicting folkloric maritime and nature motifs with an authentic antique patina.",
+          "keywords": "لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding",
+          "image": "/assets/images/wall-art/wall-art-05.jpg",
+          "categorySlug": "wall-art"
         }
       ]
     },
     "partitions": {
       "title": "Partitions & Screens",
+      "titleAr": "قواطع وفواصل ديكور نحاسية",
       "items": [
         {
           "id": "partitions-item-1",
@@ -117,11 +905,72 @@
           "keywords": "قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal",
           "image": "/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg",
           "categorySlug": "partitions"
+        },
+        {
+          "id": "partitions-item-2",
+          "title": "RHOMBUS GEOMETRIC BRASS BOOKCASE",
+          "titleAr": "RHOMBUS GEOMETRIC BRASS BOOKCASE",
+          "description": "A monumental architectural bookcase hand-welded from solid square brass tubing, featuring a bold central diamond focal structure with cantilevered open glass display shelving.",
+          "descriptionAr": "A monumental architectural bookcase hand-welded from solid square brass tubing, featuring a bold central diamond focal structure with cantilevered open glass display shelving.",
+          "keywords": "قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal",
+          "image": "/assets/images/partitions/rhombus-geometric-brass-bookcase.jpg",
+          "categorySlug": "partitions"
+        },
+        {
+          "id": "partitions-item-3",
+          "title": "ASYMMETRIC BRASS BOOKCASE",
+          "titleAr": "ASYMMETRIC BRASS BOOKCASE",
+          "description": "A monumental open-frame bookcase precision-welded in solid brass with staggered floating glass display tiers.",
+          "descriptionAr": "A monumental open-frame bookcase precision-welded in solid brass with staggered floating glass display tiers.",
+          "keywords": "قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal",
+          "image": "/assets/images/partitions/partition-01.jpg",
+          "categorySlug": "partitions"
+        },
+        {
+          "id": "partitions-item-4",
+          "title": "GEOMETRIC BRASS ROOM DIVIDER",
+          "titleAr": "GEOMETRIC BRASS ROOM DIVIDER",
+          "description": "A freestanding architectural screen crafted with angular brass rod compositions anchored to a sculptural triangular base.",
+          "descriptionAr": "A freestanding architectural screen crafted with angular brass rod compositions anchored to a sculptural triangular base.",
+          "keywords": "قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal",
+          "image": "/assets/images/partitions/partition-02.jpg",
+          "categorySlug": "partitions"
+        },
+        {
+          "id": "partitions-item-5",
+          "title": "LABYRINTH BRASS SCREEN PANEL",
+          "titleAr": "LABYRINTH BRASS SCREEN PANEL",
+          "description": "A continuous vertical partition panel laser-pierced in solid brass featuring an intricate geometric meander motif.",
+          "descriptionAr": "A continuous vertical partition panel laser-pierced in solid brass featuring an intricate geometric meander motif.",
+          "keywords": "قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal",
+          "image": "/assets/images/partitions/partition-03.jpg",
+          "categorySlug": "partitions"
+        },
+        {
+          "id": "partitions-item-6",
+          "title": "RHYTHMIC SLAT BRASS PARTITION",
+          "titleAr": "RHYTHMIC SLAT BRASS PARTITION",
+          "description": "An architectural spatial divider composed of staggered solid brass uprights creating dynamic shadow play and light filtration.",
+          "descriptionAr": "An architectural spatial divider composed of staggered solid brass uprights creating dynamic shadow play and light filtration.",
+          "keywords": "قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal",
+          "image": "/assets/images/partitions/partition-04.jpg",
+          "categorySlug": "partitions"
+        },
+        {
+          "id": "partitions-item-7",
+          "title": "STEPPED ÉTAGÈRE BRASS SHELF",
+          "titleAr": "STEPPED ÉTAGÈRE BRASS SHELF",
+          "description": "A luxury multi-tier display étagère crafted from square-profile solid brass with cantilevered geometric glass shelves.",
+          "descriptionAr": "A luxury multi-tier display étagère crafted from square-profile solid brass with cantilevered geometric glass shelves.",
+          "keywords": "قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal",
+          "image": "/assets/images/partitions/partition-05.jpg",
+          "categorySlug": "partitions"
         }
       ]
     },
     "tableware": {
       "title": "Luxury Tableware",
+      "titleAr": "أدوات مائدة وأواني ضيافة نحاسية",
       "items": [
         {
           "id": "tableware-item-1",
@@ -132,6 +981,228 @@
           "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
           "image": "/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg",
           "categorySlug": "tableware"
+        },
+        {
+          "id": "tableware-item-2",
+          "title": "ROYAL ARABESQUE BRASS TEA SERVICE SET",
+          "titleAr": "ROYAL ARABESQUE BRASS TEA SERVICE SET",
+          "description": "An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.",
+          "descriptionAr": "An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.",
+          "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
+          "image": "/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg",
+          "categorySlug": "tableware"
+        },
+        {
+          "id": "tableware-item-3",
+          "title": "ARTISAN BEADED SOLID COPPER CUP",
+          "titleAr": "ARTISAN BEADED SOLID COPPER CUP",
+          "description": "A minimalist luxury drinking vessel hand-spun in solid pure copper, featuring a fine beaded rim detail and warm hand-brushed metallic luster.",
+          "descriptionAr": "A minimalist luxury drinking vessel hand-spun in solid pure copper, featuring a fine beaded rim detail and warm hand-brushed metallic luster.",
+          "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
+          "image": "/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg",
+          "categorySlug": "tableware"
+        },
+        {
+          "id": "tableware-item-4",
+          "title": "ENGRAVED BRASS HOSPITALITY BRAZIER",
+          "titleAr": "ENGRAVED BRASS HOSPITALITY BRAZIER",
+          "description": "Handcrafted solid brass charcoal food warmer featuring bespoke Arabic calligraphic cartouches and Islamic geometric fretwork.",
+          "descriptionAr": "Handcrafted solid brass charcoal food warmer featuring bespoke Arabic calligraphic cartouches and Islamic geometric fretwork.",
+          "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
+          "image": "/assets/images/tableware/tableware-01.jpg",
+          "categorySlug": "tableware"
+        },
+        {
+          "id": "tableware-item-5",
+          "title": "GEOMETRIC BRASS GRILL BRAZIER",
+          "titleAr": "GEOMETRIC BRASS GRILL BRAZIER",
+          "description": "Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved arabesque side panels.",
+          "descriptionAr": "Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved arabesque side panels.",
+          "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
+          "image": "/assets/images/tableware/tableware-02.jpg",
+          "categorySlug": "tableware"
+        },
+        {
+          "id": "tableware-item-6",
+          "title": "HAMMERED COPPER SERVING CASSEROLE",
+          "titleAr": "HAMMERED COPPER SERVING CASSEROLE",
+          "description": "Traditional round hammered solid copper culinary serving dish fitted with hand-cast solid brass handles.",
+          "descriptionAr": "Traditional round hammered solid copper culinary serving dish fitted with hand-cast solid brass handles.",
+          "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
+          "image": "/assets/images/tableware/tableware-03.jpg",
+          "categorySlug": "tableware"
+        },
+        {
+          "id": "tableware-item-7",
+          "title": "ARABESQUE BRASS FOOD WARMER",
+          "titleAr": "ARABESQUE BRASS FOOD WARMER",
+          "description": "A rectangular low-profile brass serving brazier showcasing openwork pierced arabesque motifs.",
+          "descriptionAr": "A rectangular low-profile brass serving brazier showcasing openwork pierced arabesque motifs.",
+          "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
+          "image": "/assets/images/tableware/tableware-04.jpg",
+          "categorySlug": "tableware"
+        },
+        {
+          "id": "tableware-item-8",
+          "title": "ORGANIC CAST BRONZE SERVING DISH",
+          "titleAr": "ORGANIC CAST BRONZE SERVING DISH",
+          "description": "Freeform compartmentalized solid brass platter with a dark antique bronze luster for luxury dining presentation.",
+          "descriptionAr": "Freeform compartmentalized solid brass platter with a dark antique bronze luster for luxury dining presentation.",
+          "keywords": "أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining",
+          "image": "/assets/images/tableware/tableware-05.jpg",
+          "categorySlug": "tableware"
+        }
+      ]
+    },
+    "masterpieces": {
+      "title": "Architectural Masterpieces",
+      "titleAr": "روائع نحاسية معمارية نادرة",
+      "items": [
+        {
+          "id": "masterpieces-item-1",
+          "title": "SCULPTURAL CAST BRASS BRANCH CONSOLE",
+          "titleAr": "SCULPTURAL CAST BRASS BRANCH CONSOLE",
+          "description": "A signature architectural console table featuring organic cast solid brass branch structure supporting a hand-honed black marble slab.",
+          "descriptionAr": "A signature architectural console table featuring organic cast solid brass branch structure supporting a hand-honed black marble slab.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/sculptural-brass-branch-console.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-2",
+          "title": "ORGANIC CAST BRASS WEB MIRROR",
+          "titleAr": "ORGANIC CAST BRASS WEB MIRROR",
+          "description": "A sculptural circular wall mirror framed by hand-cast solid brass branch web motifs with polished artisanal luster.",
+          "descriptionAr": "A sculptural circular wall mirror framed by hand-cast solid brass branch web motifs with polished artisanal luster.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/organic-cast-brass-web-mirror.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-3",
+          "title": "FILIGREE BRASS SCROLLWORK MIRROR",
+          "titleAr": "FILIGREE BRASS SCROLLWORK MIRROR",
+          "description": "A monumental circular mirror enveloped in multi-layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.",
+          "descriptionAr": "A monumental circular mirror enveloped in multi-layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/filigree-brass-floral-mirror.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-4",
+          "title": "RADIANT BRASS SUNBURST BRANCH MIRROR",
+          "titleAr": "RADIANT BRASS SUNBURST BRANCH MIRROR",
+          "description": "A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.",
+          "descriptionAr": "A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/radiant-brass-sunburst-mirror.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-5",
+          "title": "STUDDED BRASS PIN HALO MIRROR",
+          "titleAr": "STUDDED BRASS PIN HALO MIRROR",
+          "description": "A monumental circular wall mirror surrounded by concentric radial rows of hand-turned solid brass pins, creating a hypnotic textural halo.",
+          "descriptionAr": "A monumental circular wall mirror surrounded by concentric radial rows of hand-turned solid brass pins, creating a hypnotic textural halo.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/studded-brass-halo-mirror.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-6",
+          "title": "PAIR CAST BRASS BRANCH PULLS",
+          "titleAr": "PAIR CAST BRASS BRANCH PULLS",
+          "description": "A magnificent pair of monumental architectural door handles cast in solid brass, echoing natural organic tree branches.",
+          "descriptionAr": "A magnificent pair of monumental architectural door handles cast in solid brass, echoing natural organic tree branches.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/pair-cast-brass-branch-handles.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-7",
+          "title": "HAMMERED BRASS CYLINDER APPLIQUE",
+          "titleAr": "HAMMERED BRASS CYLINDER APPLIQUE",
+          "description": "An architectural wall sconce hand-hammered from solid brass sheet with overlapping curve geometry, diffusing a warm golden ambiance.",
+          "descriptionAr": "An architectural wall sconce hand-hammered from solid brass sheet with overlapping curve geometry, diffusing a warm golden ambiance.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/hammered-brass-curved-applique.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-8",
+          "title": "SCULPTURAL CAST BRASS BOOKENDS",
+          "titleAr": "SCULPTURAL CAST BRASS BOOKENDS",
+          "description": "A pair of heavy solid brass sculptural bookends featuring deep fluid ripples and organic geological texturing.",
+          "descriptionAr": "A pair of heavy solid brass sculptural bookends featuring deep fluid ripples and organic geological texturing.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/sculptural-cast-brass-bookends.jpg",
+          "categorySlug": "masterpieces"
+        },
+        {
+          "id": "masterpieces-item-9",
+          "title": "SCULPTURAL CAST BRASS BRANCH HANDLE",
+          "titleAr": "SCULPTURAL CAST BRASS BRANCH HANDLE",
+          "description": "An architectural statement door pull hand-cast in solid brass with natural tree branch contours and hand-finished warm patina.",
+          "descriptionAr": "An architectural statement door pull hand-cast in solid brass with natural tree branch contours and hand-finished warm patina.",
+          "keywords": "تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo",
+          "image": "/assets/images/masterpieces/sculptural-brass-branch-handle.jpg",
+          "categorySlug": "masterpieces"
+        }
+      ]
+    },
+    "action": {
+      "title": "Turath in Action",
+      "titleAr": "حرفية النحاس في ورش تراث التاريخية",
+      "items": [
+        {
+          "id": "action-item-1",
+          "title": "THE ART OF REPOUSSÉ & HAND-CHISELING",
+          "titleAr": "THE ART OF REPOUSSÉ & HAND-CHISELING",
+          "description": "Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.",
+          "descriptionAr": "Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork",
+          "image": "/assets/images/commute-poster.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-2",
+          "title": "PRECISION PIERCING & ARCHITECTURAL LATTICEWORK",
+          "titleAr": "PRECISION PIERCING & ARCHITECTURAL LATTICEWORK",
+          "description": "Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.",
+          "descriptionAr": "Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork",
+          "image": "/assets/images/commute-poster.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-3",
+          "title": "ARTISAN PATINATION & LIQUID SATIN OXIDATION",
+          "titleAr": "ARTISAN PATINATION & LIQUID SATIN OXIDATION",
+          "description": "Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.",
+          "descriptionAr": "Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork",
+          "image": "/assets/images/commute-poster.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-4",
+          "title": "GRAND CHANDELIER STRUCTURAL ASSEMBLY",
+          "titleAr": "GRAND CHANDELIER STRUCTURAL ASSEMBLY",
+          "description": "Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.",
+          "descriptionAr": "Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork",
+          "image": "/assets/images/commute-poster.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-5",
+          "title": "TRADITIONAL METAL SPINNING & LATHE FORMING",
+          "titleAr": "TRADITIONAL METAL SPINNING & LATHE FORMING",
+          "description": "Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.",
+          "descriptionAr": "Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork",
+          "image": "/assets/images/commute-poster.jpg",
+          "categorySlug": "action"
         }
       ]
     }
