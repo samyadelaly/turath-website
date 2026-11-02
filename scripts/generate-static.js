@@ -200,6 +200,7 @@ for (const cat of CATEGORIES) {
     const canonicalUrl = `${BASE_URL}/${cat.slug}.html`;
     const redirectUrl = `/${cat.slug}.html?product=${productId}`;
     const imageMimeType = getMimeType(cleanImagePath);
+    const imageAltText = `${productTitle} - Handcrafted Brass & Copper`;
 
     const consolidatedItem = {
       id: productId,
@@ -236,7 +237,7 @@ for (const cat of CATEGORIES) {
   <meta property="og:image" content="${fullImageUrl}">
   <meta property="og:image:secure_url" content="${fullImageUrl}">
   <meta property="og:image:type" content="${imageMimeType}">
-  <meta property="og:image:alt" content="${escapeHtml(productTitle)}">
+  <meta property="og:image:alt" content="${escapeHtml(imageAltText)}">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="ar_EG">
 
@@ -246,7 +247,7 @@ for (const cat of CATEGORIES) {
   <meta name="twitter:title" content="${escapeHtml(productTitle)} | Turath Egypt">
   <meta name="twitter:description" content="${escapeHtml(productDesc)}">
   <meta name="twitter:image" content="${fullImageUrl}">
-  <meta name="twitter:image:alt" content="${escapeHtml(productTitle)}">
+  <meta name="twitter:image:alt" content="${escapeHtml(imageAltText)}">
 
   <!-- Schema.org JSON-LD Structured Data for Search Engines -->
   <script type="application/ld+json">
@@ -259,7 +260,7 @@ for (const cat of CATEGORIES) {
     "url": ${JSON.stringify(fullProductUrl)},
     "brand": {
       "@type": "Brand",
-      "name": "Turath"
+      "name": "Turath Egypt"
     },
     "category": ${JSON.stringify(cat.title)},
     "offers": {
@@ -279,8 +280,11 @@ for (const cat of CATEGORIES) {
     <meta http-equiv="refresh" content="0;url=${redirectUrl}">
   </noscript>
 </head>
-<body style="background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-  <p>Redirecting to <a href="${redirectUrl}" style="color: #D7C797;">${escapeHtml(productTitle)}</a>...</p>
+<body style="background: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; text-align: center;">
+  <img src="${cleanImagePath}" alt="${escapeHtml(imageAltText)}" style="max-width: 320px; max-height: 320px; width: auto; height: auto; object-fit: contain; border-radius: 8px; margin-bottom: 20px;" loading="eager">
+  <h1 style="font-size: 1.25rem; font-weight: 600; margin: 0 0 10px; color: #fff;">${escapeHtml(productTitle)}</h1>
+  <p style="font-size: 0.9rem; color: #aaa; max-width: 500px; margin: 0 0 16px; line-height: 1.5;">${escapeHtml(productDesc)}</p>
+  <p style="font-size: 0.85rem; color: #888;">Redirecting to <a href="${redirectUrl}" style="color: #D7C797; text-decoration: underline;">${escapeHtml(productTitle)} Collection</a>...</p>
 </body>
 </html>
 `;
