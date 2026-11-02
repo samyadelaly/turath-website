@@ -42,7 +42,7 @@
 
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <!-- Slider View Container (Matching mirrors.html and the 9 sub-pages) -->
-    <div id="slider-view" class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black overflow-hidden">
+    <div id="slider-view" class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black overflow-hidden lg:h-[82vh] lg:max-w-6xl lg:aspect-auto lg:rounded-2xl lg:shadow-2xl lg:my-6">
       
       <!-- Top Navbar with Back Link to Scene 05 -->
       <div class="w-full grid grid-cols-3 items-center px-4 py-4 md:px-10 md:py-6 z-50 absolute top-0 left-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
@@ -87,6 +87,122 @@
         </div>
       </div>
     </div>
+  
+    <!-- Desktop-Only Multi-Column Masterpieces Grid Catalog (lg:grid-cols-3 xl:grid-cols-4) -->
+    <section class="hidden lg:block w-full max-w-7xl mx-auto px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <span class="text-xs font-mono tracking-[0.3em] uppercase text-[#D7C797]/80 block mb-2">CURATED ARCHITECTURAL WORKS</span>
+        <h2 class="text-3xl lg:text-4xl font-serif font-bold text-white tracking-wide uppercase">THE MASTERPIECES CATALOG</h2>
+        <div class="w-16 h-[2px] bg-[#D7C797] mx-auto mt-4"></div>
+      </div>
+
+      <div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- 1 -->
+        <div onclick="updateSlider(0); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/sculptural-brass-branch-console.jpg" alt="Sculptural Cast Brass Branch Console" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">01 / CONSOLE</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">SCULPTURAL CAST BRASS CONSOLE</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Organic cast solid brass branch structure supporting a hand-honed black marble slab.</p>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div onclick="updateSlider(1); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/organic-cast-brass-web-mirror.jpg" alt="Organic Cast Brass Web Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">02 / MIRROR</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">ORGANIC CAST BRASS WEB MIRROR</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Hand-cast solid brass branch web motifs with polished artisanal luster.</p>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div onclick="updateSlider(2); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/filigree-brass-floral-mirror.jpg" alt="Filigree Brass Scrollwork Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">03 / FILIGREE</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">FILIGREE BRASS SCROLLWORK MIRROR</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Multi-layered solid brass petals with delicate hand-spun wire filigree scrollwork.</p>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div onclick="updateSlider(3); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/radiant-brass-sunburst-mirror.jpg" alt="Radiant Brass Sunburst Branch Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">04 / SUNBURST</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">RADIANT BRASS SUNBURST</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Hand-forged solid brass branches radiating with sculptural architectural energy.</p>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div onclick="updateSlider(4); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/studded-brass-halo-mirror.jpg" alt="Studded Brass Pin Halo Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">05 / HALO</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">STUDDED BRASS PIN HALO MIRROR</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Concentric radial rows of hand-turned solid brass pins with hypnotic textural halo.</p>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div onclick="updateSlider(5); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/pair-cast-brass-branch-handles.jpg" alt="Pair Cast Brass Branch Pulls" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">06 / HARDWARE</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">PAIR CAST BRASS BRANCH PULLS</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Architectural door handles cast in solid brass echoing natural organic tree branches.</p>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div onclick="updateSlider(6); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/hammered-brass-curved-applique.jpg" alt="Hammered Brass Cylinder Applique" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">07 / LIGHTING</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">HAMMERED BRASS APPLIQUE</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Architectural wall sconce hand-hammered with overlapping curves diffusing warm golden ambiance.</p>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div onclick="updateSlider(7); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <img src="/assets/images/masterpieces/sculptural-cast-brass-bookends.jpg" alt="Sculptural Cast Brass Bookends" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">08 / OBJECTS</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">SCULPTURAL CAST BRASS BOOKENDS</h3>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Pair of solid brass bookends with deep fluid ripples and organic geological texturing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <script>

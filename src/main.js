@@ -729,7 +729,7 @@ function initBespokeTransition() {
   // Pin Scene 03 safely with anticipatePin, staying fully visible as Bespoke covers it
   ScrollTrigger.create({
     trigger: "#scene-03",
-    start: "top top",
+    start: () => window.innerWidth >= 1024 ? "bottom bottom" : "top top",
     endTrigger: "#bespoke",
     end: "top top",
     pin: true,

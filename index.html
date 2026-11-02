@@ -188,7 +188,7 @@
   <header id="site-header" class="site-header fixed top-0 left-0 w-full z-[9999] bg-black/20 backdrop-blur-md">
     <div class="header-left">
       <!-- 2-line minimal menu trigger on extreme LEFT -->
-      <button id="menu-trigger" class="header-menu-trigger" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="nav-drawer">
+      <button id="menu-trigger" class="header-menu-trigger lg:hidden" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="nav-drawer">
         <span class="menu-line line-1"></span>
         <span class="menu-line line-2"></span>
       </button>
@@ -205,6 +205,18 @@
         </div>
       </div>
     </div>
+
+    <!-- Desktop Horizontal Navigation Menu (Hidden on mobile, properly spaced and horizontal on desktop) -->
+    <nav class="desktop-nav-menu hidden lg:flex items-center gap-6 xl:gap-8 mx-auto" aria-label="Desktop Navigation">
+      <a href="#hero" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">HOME</a>
+      <a href="#about" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">ABOUT</a>
+      <a href="#gallery" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">COLLECTIONS</a>
+      <a href="#bespoke" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">BESPOKE</a>
+      <a href="#masterpieces" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">MASTERPIECES</a>
+      <a href="#action" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">CRAFTSMANSHIP</a>
+      <a href="#founder" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">FOUNDER</a>
+      <a href="#contact" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">CONTACT</a>
+    </nav>
 
     <!-- Top-Right Brand Logo -->
     <a href="#hero" class="header-logo-right" aria-label="Turath Home" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
@@ -278,20 +290,20 @@
     </div>
 
     <!-- Gold Sheet Content: Left-aligned in the deep left shelf -->
-    <div class="hero-sheet-content">
-      <span class="hero-eyebrow">SCROLL TURATH WEBSITE..</span>
-      <h1 class="hero-headline-1">DEVOTED</h1>
-      <h2 class="hero-headline-2">TO CREATIVITY ..</h2>
+    <div class="hero-sheet-content lg:top-[16svh] lg:left-[8vw] xl:left-[10vw]">
+      <span class="hero-eyebrow lg:text-sm lg:tracking-[0.25em]">SCROLL TURATH WEBSITE..</span>
+      <h1 class="hero-headline-1 lg:text-6xl xl:text-7xl lg:tracking-tight">DEVOTED</h1>
+      <h2 class="hero-headline-2 lg:text-4xl xl:text-5xl lg:font-light">TO CREATIVITY ..</h2>
       
       <div class="hero-wordmark-placeholder" id="hero-wordmark-placeholder" aria-hidden="true"></div>
     </div>
 
     <!-- Bottom Content: Left-aligned over the dark image gradient -->
-    <div class="hero-bottom-content z-10">
-      <h2 class="hero-bottom-title">
+    <div class="hero-bottom-content z-10 lg:bottom-16 xl:bottom-20 lg:left-[8vw] xl:left-[10vw] lg:max-w-3xl">
+      <h2 class="hero-bottom-title lg:text-4xl xl:text-5xl lg:leading-tight lg:mb-4">
         Handcrafted Brass &amp; Copper Excellence from Egypt
       </h2>
-      <p class="hero-bottom-desc">
+      <p class="hero-bottom-desc lg:text-lg xl:text-xl lg:leading-relaxed lg:max-w-2xl text-white/90">
         Premium handcrafted brass, copper and decorative metal products, made in Cairo, Egypt for luxury homes, hotels, restaurants, palaces and commercial projects worldwide. Gamaliya Street, Historic Cairo, Egypt.
       </p>
     </div>
@@ -383,7 +395,7 @@
   <div id="about-spacer" style="height: 120vh; pointer-events: none;" aria-hidden="true"></div>
 
   <!-- SCENE 03: COLLECTIONS (HORIZONTAL SCROLL GALLERY) -->
-  <section id="scene-03" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-30 bg-black flex flex-col justify-between pb-24">
+  <section id="scene-03" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-30 bg-black flex flex-col justify-between pb-24 lg:h-auto lg:min-h-screen lg:py-24 lg:overflow-visible">
     <!-- Background Image with Dark Luxury Texture -->
     <div class="collections-bg-wrapper absolute inset-0 w-full h-full z-0 pointer-events-none">
       <img src="/assets/images/dark-luxury-bg.jpg" alt="Background Texture" class="collections-bg-img w-full h-full object-cover opacity-70" loading="lazy">
@@ -392,13 +404,13 @@
     </div>
 
     <!-- Header Row with David Thulstrup Minimalist Nav Controls -->
-    <div class="relative z-20 flex items-end justify-between px-4 mt-4 w-full">
+    <div class="relative z-20 flex items-end justify-between px-4 mt-4 w-full lg:max-w-7xl lg:mx-auto lg:px-8 lg:mb-10">
       <div class="flex flex-col items-start text-left">
-        <h2 id="collections-title" class="collections-title collections-text-anim text-left uppercase text-white">OUR COLLECTIONS</h2>
-        <p class="collections-text-anim text-sm md:text-base text-white/80 max-w-2xl mt-2 font-light text-left tracking-wide">Explore our handcrafted collections in brass and copper, created with traditional craftsmanship and distinctive design.</p>
+        <h2 id="collections-title" class="collections-title collections-text-anim text-left uppercase text-white lg:text-4xl xl:text-5xl">OUR COLLECTIONS</h2>
+        <p class="collections-text-anim text-sm md:text-base text-white/80 max-w-2xl mt-2 font-light text-left tracking-wide lg:text-lg">Explore our handcrafted collections in brass and copper, created with traditional craftsmanship and distinctive design.</p>
       </div>
       <!-- David Thulstrup Minimalist Arrow Controls -->
-      <div class="hidden sm:flex items-center gap-3 shrink-0 mr-4">
+      <div class="hidden sm:flex lg:hidden items-center gap-3 shrink-0 mr-4">
         <button id="collections-prev-arrow" class="w-11 h-11 rounded-full border border-white/20 bg-black/40 hover:bg-black/80 hover:border-white/60 text-white/70 hover:text-white flex items-center justify-center transition-all cursor-pointer backdrop-blur-md" aria-label="Previous Collection">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -412,103 +424,103 @@
       </div>
     </div>
 
-    <div class="collections-wrapper relative z-10 w-full h-[55vh] md:h-[60vh] flex items-center">
+    <div class="collections-wrapper relative z-10 w-full h-[55vh] md:h-[60vh] flex items-center lg:h-auto lg:block">
       <!-- Left Floating Arrow Button -->
-      <button id="track-prev-btn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Left">
+      <button id="track-prev-btn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105 lg:hidden" aria-label="Scroll Left">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       </button>
 
       <!-- Native Horizontal Scroller Track with Snap Center -->
-      <div class="collections-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar w-full gap-4 px-4 h-full items-center">
+      <div class="collections-track flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar w-full gap-4 px-4 h-full items-center lg:grid lg:grid-cols-3 xl:grid-cols-3 lg:gap-8 lg:max-w-7xl lg:mx-auto lg:px-8 lg:overflow-visible lg:h-auto">
 
         <!-- Card 1: LIGHTING -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/lighting.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/lighting.html'">
           <img src="/assets/images/lighting-02.jpg" alt="LIGHTING" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">LIGHTING</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">LIGHTING</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 2: MIRRORS -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/mirrors.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/mirrors.html'">
           <img src="/assets/images/brass-mirrors-01.jpg" alt="MIRRORS" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">MIRRORS</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">MIRRORS</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 3: TABLES & CONSOLES -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/tables.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/tables.html'">
           <img src="/assets/images/tables-consoles-04.jpg" alt="TABLES & CONSOLES" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">TABLES & CONSOLES</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">TABLES & CONSOLES</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 4: HANDLES -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/handles.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/handles.html'">
           <img src="/assets/images/handles-card-hero.jpg" alt="HANDLES" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">HANDLES</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">HANDLES</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 5: HANDRAILS -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/handrails.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/handrails.html'">
           <img src="/assets/images/handrails-05.jpg" alt="HANDRAILS" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">HANDRAILS</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">HANDRAILS</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 6: DECORATIVE OBJECTS -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/decor.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/decor.html'">
           <img src="/assets/images/decorative-objects-06.jpg" alt="DECORATIVE OBJECTS" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">DECORATIVE OBJECTS</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">DECORATIVE OBJECTS</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 7: BRASS & COPPER WALL ART -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/wall-art.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/wall-art.html'">
           <img src="/assets/images/brass-copper-wall-art-07.jpg" alt="BRASS & COPPER WALL ART" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">BRASS & COPPER WALL ART</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">BRASS & COPPER WALL ART</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 8: PARTITIONS & BOOKCASES -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/partitions.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/partitions.html'">
           <img src="/assets/images/partitions-bookcases-08.jpg" alt="PARTITIONS & BOOKCASES" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">PARTITIONS & BOOKCASES</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">PARTITIONS & BOOKCASES</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
 
         <!-- Card 9: TABLEWARE -->
-        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50" onclick="window.location.href='/tableware.html'">
+        <div class="collection-card relative h-full aspect-[9/16] min-w-[85vw] md:min-w-[400px] snap-center shrink-0 overflow-hidden group cursor-pointer border border-white/10 rounded-sm z-50 lg:min-w-0 lg:w-full lg:h-[460px] lg:aspect-auto lg:shrink-0 lg:rounded-lg" onclick="window.location.href='/tableware.html'">
           <img src="/assets/images/tableware-09.jpg" alt="TABLEWARE" class="collection-card-img absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
           <div class="collection-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-0 pointer-events-none"></div>
           <div class="collection-card-content absolute bottom-8 left-8 z-10 pointer-events-none">
-            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white">TABLEWARE</h3>
+            <h3 class="collection-card-title text-lg md:text-xl uppercase tracking-widest mb-2 font-bold text-white lg:text-2xl">TABLEWARE</h3>
             <p class="collection-card-cta text-sm font-light opacity-80 text-[#D7C797]">Explore &rarr;</p>
           </div>
         </div>
@@ -598,8 +610,9 @@
   </section>
 
   <!-- SCENE 05: FEATURED PRODUCTS (HISTORICAL SCENE 04 ARCHITECTURE) -->
-  <section id="scene-05" class="relative w-full h-screen overflow-hidden z-50 flex flex-col justify-end items-center sm:items-start p-4 sm:p-6 md:p-12 pb-8 sm:pb-10 md:pb-14" data-theme="dark">
+  <section id="scene-05" class="relative w-full h-screen overflow-hidden z-50 flex flex-col justify-end items-center sm:items-start p-4 sm:p-6 md:p-12 lg:p-16 pb-8 sm:pb-10 md:pb-14 lg:pb-16" data-theme="dark">
     <a id="location" class="sr-only"></a>
+    <a id="masterpieces" class="sr-only"></a>
     
     <!-- Background Wall Lamp Visual Trapped Inside Section 5 -->
     <video
@@ -619,8 +632,10 @@
     <div class="absolute inset-0 bg-black/15 z-10 pointer-events-none"></div>
 
     <!-- Content Wrapper in the bottom quarter: Card + Full-Width Button -->
-    <div class="relative z-20 w-full max-w-[560px] flex flex-col gap-3" id="scene05-content-card">
-      <div class="scene05-bottom-card">
+    <div class="relative z-20 w-full max-w-[560px] lg:max-w-7xl lg:mx-auto flex flex-col lg:flex-row items-center lg:items-end justify-between gap-6 lg:gap-10 pb-2" id="scene05-content-card">
+      <!-- Left Editorial Card -->
+      <div class="w-full lg:max-w-md flex flex-col gap-3">
+      <div class="scene05-bottom-card lg:p-7">
         <h2 class="scene05-headline">
           FEATURED HANDCRAFTED<br />MASTERPIECES
         </h2>
@@ -630,9 +645,40 @@
       </div>
 
       <!-- Button matching the exact same background, width from right to left, and colors -->
-      <a href="./masterpieces.html" class="scene05-cta-button">
+      <a href="./masterpieces.html" class="scene05-cta-button lg:text-base lg:py-4">
         <span>Click to see the best selling products</span>
       </a>
+      </div>
+
+      <!-- Right Multi-Column Desktop Grid: 3 Featured Masterpiece Cards -->
+      <div class="hidden lg:grid lg:grid-cols-3 gap-5 w-full max-w-3xl pointer-events-auto">
+        <a href="./masterpieces.html?item=1" class="group relative h-[360px] rounded-xl overflow-hidden border border-white/15 bg-black/40 backdrop-blur-md transition-all duration-500 hover:border-[#D7C797] hover:-translate-y-2">
+          <img src="/assets/images/masterpieces/sculptural-brass-branch-console.jpg" alt="Sculptural Cast Brass Branch Console" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 z-10">
+            <span class="text-[10px] font-mono tracking-widest text-[#D7C797] uppercase">01 / CONSOLE</span>
+            <h3 class="text-sm font-semibold text-white uppercase tracking-wider mt-1 line-clamp-1">SCULPTURAL CAST BRASS CONSOLE</h3>
+          </div>
+        </a>
+
+        <a href="./masterpieces.html?item=2" class="group relative h-[360px] rounded-xl overflow-hidden border border-white/15 bg-black/40 backdrop-blur-md transition-all duration-500 hover:border-[#D7C797] hover:-translate-y-2">
+          <img src="/assets/images/masterpieces/organic-cast-brass-web-mirror.jpg" alt="Organic Cast Brass Web Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 z-10">
+            <span class="text-[10px] font-mono tracking-widest text-[#D7C797] uppercase">02 / MIRROR</span>
+            <h3 class="text-sm font-semibold text-white uppercase tracking-wider mt-1 line-clamp-1">ORGANIC CAST BRASS WEB MIRROR</h3>
+          </div>
+        </a>
+
+        <a href="./masterpieces.html?item=4" class="group relative h-[360px] rounded-xl overflow-hidden border border-white/15 bg-black/40 backdrop-blur-md transition-all duration-500 hover:border-[#D7C797] hover:-translate-y-2">
+          <img src="/assets/images/masterpieces/radiant-brass-sunburst-mirror.jpg" alt="Radiant Brass Sunburst Branch Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 z-10">
+            <span class="text-[10px] font-mono tracking-widest text-[#D7C797] uppercase">03 / SUNBURST</span>
+            <h3 class="text-sm font-semibold text-white uppercase tracking-wider mt-1 line-clamp-1">RADIANT BRASS SUNBURST</h3>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -658,19 +704,19 @@
     </div>
 
     <!-- Vertical Video Slats Grid (Taller architectural cards) -->
-    <div class="craft-slats-container w-full max-w-[1360px] relative z-20 flex items-center">
+    <div class="craft-slats-container w-full max-w-[1360px] relative z-20 flex items-center lg:block">
       <!-- Left Floating Arrow Button (Identical to Collections in style, colors, and hover animation) -->
-      <button id="slats-prev-btn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Slats Left">
+      <button id="slats-prev-btn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105 lg:hidden" aria-label="Scroll Slats Left">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       </button>
 
       <!-- Video Slats Track -->
-      <div class="video-slats-grid px-8 sm:px-12 md:px-16" id="video-slats-track">
+      <div class="video-slats-grid px-8 sm:px-12 md:px-16 lg:grid lg:grid-cols-5 lg:gap-4 lg:w-full lg:max-w-7xl lg:px-4 lg:mx-auto" id="video-slats-track">
         
         <!-- Slat 1 -->
-        <a href="action.html?film=0" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-0" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
+        <a href="action.html?film=0" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-0" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
           <div class="slat-media-box">
             <video class="slat-video" data-src="/video/commute2.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -682,7 +728,7 @@
         </a>
 
         <!-- Slat 2 -->
-        <a href="action.html?film=1" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-1" aria-label="Watch Precision Piercing & Architectural Latticework">
+        <a href="action.html?film=1" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-1" aria-label="Watch Precision Piercing & Architectural Latticework">
           <div class="slat-media-box">
             <video class="slat-video" data-src="/video/commute3.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -694,7 +740,7 @@
         </a>
 
         <!-- Slat 3 -->
-        <a href="action.html?film=2" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-2" aria-label="Watch Artisan Finishing & Liquid Satin Patina">
+        <a href="action.html?film=2" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-2" aria-label="Watch Artisan Finishing & Liquid Satin Patina">
           <div class="slat-media-box">
             <video class="slat-video" data-src="/video/commute4.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -706,7 +752,7 @@
         </a>
 
         <!-- Slat 4 -->
-        <a href="action.html?film=3" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-3" aria-label="Watch Grand Chandelier Structural Assembly">
+        <a href="action.html?film=3" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-3" aria-label="Watch Grand Chandelier Structural Assembly">
           <div class="slat-media-box">
             <video class="slat-video" data-src="/video/VN20260909_233157.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -718,7 +764,7 @@
         </a>
 
         <!-- Slat 5 -->
-        <a href="action.html?film=4" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-4" aria-label="Watch Traditional Metal Spinning & Lathe Forming">
+        <a href="action.html?film=4" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-4" aria-label="Watch Traditional Metal Spinning & Lathe Forming">
           <div class="slat-media-box">
             <video class="slat-video" data-src="/video/betebat.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -732,7 +778,7 @@
       </div>
 
       <!-- Right Floating Arrow Button (Identical to Collections in style, colors, and hover animation) -->
-      <button id="slats-next-btn" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Slats Right">
+      <button id="slats-next-btn" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105 lg:hidden" aria-label="Scroll Slats Right">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
