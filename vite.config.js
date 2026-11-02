@@ -49,14 +49,53 @@ export default defineConfig({
   plugins: [
     vercelApiDevPlugin(),
     ViteImageOptimizer({
-      jpg: { quality: 80 },
-      png: { quality: 80 },
-      webp: { quality: 80, lossless: false }
+      test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
+      includePublic: true,
+      logStats: true,
+      ansiColors: true,
+      svg: {
+        multipass: true,
+        plugins: [
+          {
+            name: 'preset-default',
+            params: {
+              overrides: {
+                cleanupNumericValues: false,
+                removeViewBox: false,
+              },
+            },
+          },
+        ],
+      },
+      png: {
+        quality: 80,
+        compressionLevel: 8,
+      },
+      jpeg: {
+        quality: 75,
+        progressive: true,
+        mozjpeg: true,
+      },
+      jpg: {
+        quality: 75,
+        progressive: true,
+        mozjpeg: true,
+      },
+      webp: {
+        lossless: false,
+        quality: 75,
+        effort: 4,
+      },
+      avif: {
+        lossless: false,
+        quality: 70,
+        effort: 4,
+      },
     })
   ],
   build: {
-    minify: false,
-    cssMinify: false,
+    minify: 'esbuild',
+    cssMinify: true,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
@@ -71,6 +110,16 @@ export default defineConfig({
         tableware: resolve(__dirname, 'tableware.html'),
         action: resolve(__dirname, 'action.html'),
         masterpieces: resolve(__dirname, 'masterpieces.html')
+      },
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('gsap')) {
+              return 'vendor-gsap';
+            }
+            return 'vendor';
+          }
+        }
       }
     }
   },

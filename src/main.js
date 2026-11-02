@@ -807,6 +807,67 @@ function initBespokeForm() {
 
 
 // 8. SECTION 05: FEATURED PRODUCTS (Historical Scene 04 Architecture)
+
+/**
+ * Lazy loads video media and manages playback via IntersectionObserver
+ * so heavy background videos never block initial page load or waste mobile resources.
+ */
+function initLazyVideo(video) {
+  if (!video) return;
+
+  const loadMedia = () => {
+    let needsLoad = false;
+    if (video.dataset.src && !video.getAttribute('src')) {
+      video.src = video.dataset.src;
+      needsLoad = true;
+    }
+    const sources = video.querySelectorAll('source[data-src]');
+    sources.forEach(srcEl => {
+      if (!srcEl.getAttribute('src') && srcEl.dataset.src) {
+        srcEl.src = srcEl.dataset.src;
+        needsLoad = true;
+      }
+    });
+    if (needsLoad) {
+      video.load();
+    }
+  };
+
+  const playMedia = () => {
+    loadMedia();
+    video.muted = true;
+    video.playsInline = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  };
+
+  const pauseMedia = () => {
+    if (!video.paused) {
+      video.pause();
+    }
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          playMedia();
+        } else {
+          pauseMedia();
+        }
+      });
+    }, {
+      rootMargin: '250px 0px',
+      threshold: 0.05
+    });
+    observer.observe(video);
+  } else {
+    playMedia();
+  }
+}
+
 function initFeaturedProducts() {
   const scene05 = document.querySelector("#scene-05");
   const s04Video = document.getElementById('scene04-video');
@@ -847,21 +908,9 @@ function initFeaturedProducts() {
     }
   });
 
-  // Video Autoplay & Robust Interaction Fallback
+  // Deferred Video Lazy Loading & Parallax Zoom
   if (s04Video) {
-    s04Video.muted = true;
-    s04Video.playsInline = true;
-    s04Video.play().catch(() => {
-      const playOnInteract = () => {
-        s04Video.play();
-        window.removeEventListener('scroll', playOnInteract);
-        window.removeEventListener('click', playOnInteract);
-        window.removeEventListener('touchstart', playOnInteract);
-      };
-      window.addEventListener('scroll', playOnInteract, { passive: true, once: true });
-      window.addEventListener('click', playOnInteract, { passive: true, once: true });
-      window.addEventListener('touchstart', playOnInteract, { passive: true, once: true });
-    });
+    initLazyVideo(s04Video);
 
     // Video parallax zoom
     gsap.fromTo(s04Video,
@@ -953,12 +1002,10 @@ function initScene06() {
       }
     );
 
-    // Auto-play video slats
+    // Lazy-load and play video slats strictly on viewport intersection
     const slatVideos = document.querySelectorAll(".slat-video");
     slatVideos.forEach(vid => {
-      vid.muted = true;
-      vid.playsInline = true;
-      vid.play().catch(() => {});
+      initLazyVideo(vid);
     });
   }
 

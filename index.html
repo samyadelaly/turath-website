@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
+  <!-- Early Preconnect for External Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload Critical LCP Hero Image -->
+  <link rel="preload" as="image" href="./assets/images/hero-turath-1.jpg" fetchpriority="high">
   <meta name="google-site-verification" content="etj0JfCkl1r_dRniYMm7EZth5UaKqjy0xqqWNe9Tbic" />
   <title>Turath Egypt | Custom Brass &amp; Copper | تصنيع نحاس يدوي</title>
   <meta name="description" content="Turath Egypt by Samy Adel. Bespoke solid brass and red copper manufacturing. Chandeliers, wall sconces, console tables, wall cladding, and brass casting. ورشة تراث لتصنيع النحاس الأحمر والأصفر، نجف، ديكورات، تجليد حوائط، وسبك النحاس.">
@@ -158,7 +164,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com" defer></script>
 
   <link rel="stylesheet" href="./src/style.css">
 </head>
@@ -252,12 +258,12 @@
   <section id="scene-01" class="relative z-10"><a id="hero"></a>
         <!-- Day Base Image -->
     <div class="hero-bg-image hero-day" id="hero-day">
-      <img src="/assets/images/hero-turath-1.jpg?v=2" alt="Turath Architectural Metalwork - Day" />
+      <img src="./assets/images/hero-turath-1.jpg" alt="Turath Architectural Metalwork - Day" fetchpriority="high" loading="eager" />
     </div>
 
     <!-- Night Reveal Image (Faded in via GSAP ScrollTrigger scrub) -->
     <div class="hero-bg-image hero-night" id="hero-night">
-      <img src="/assets/images/hero-turath-2.jpg?v=2" alt="Turath Architectural Metalwork - Night" />
+      <img src="./assets/images/hero-turath-2.jpg" alt="Turath Architectural Metalwork - Night" loading="lazy" />
     </div>
 
     <!-- Dark gradient overlay from middle to bottom for readable bottom text -->
@@ -299,15 +305,15 @@
     <div class="about-fullscreen-layer about-layer-1" id="about-layer-1">
       <!-- Slice 1 (left: 0) -->
       <div class="about-vertical-slice slice-1" style="left: 0;">
-        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(0);" />
+        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(0);" loading="lazy" />
       </div>
       <!-- Slice 2 (left: 33.333%) -->
       <div class="about-vertical-slice slice-2" style="left: 33.3333%;">
-        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" />
+        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" loading="lazy" />
       </div>
       <!-- Slice 3 (left: 66.666%) -->
       <div class="about-vertical-slice slice-3" style="left: 66.6666%;">
-        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" />
+        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" loading="lazy" />
       </div>
     </div>
 
@@ -315,15 +321,15 @@
     <div class="about-fullscreen-layer about-layer-2" id="about-layer-2">
       <!-- Slice 1 (left: 0) -->
       <div class="about-vertical-slice slice-1" style="left: 0;">
-        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(0);" />
+        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(0);" loading="lazy" />
       </div>
       <!-- Slice 2 (left: 33.333%) -->
       <div class="about-vertical-slice slice-2" style="left: 33.3333%;">
-        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" />
+        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" loading="lazy" />
       </div>
       <!-- Slice 3 (left: 66.666%) -->
       <div class="about-vertical-slice slice-3" style="left: 66.6666%;">
-        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" />
+        <img src="/assets/images/about-slice-2.jpg" alt="Turath Craftsmanship - Stage 2" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" loading="lazy" />
       </div>
     </div>
 
@@ -331,15 +337,15 @@
     <div class="about-fullscreen-layer about-layer-3" id="about-layer-3">
       <!-- Slice 1 (left: 0) -->
       <div class="about-vertical-slice slice-1" style="left: 0;">
-        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(0);" />
+        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(0);" loading="lazy" />
       </div>
       <!-- Slice 2 (left: 33.333%) -->
       <div class="about-vertical-slice slice-2" style="left: 33.3333%;">
-        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" />
+        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" loading="lazy" />
       </div>
       <!-- Slice 3 (left: 66.666%) -->
       <div class="about-vertical-slice slice-3" style="left: 66.6666%;">
-        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" />
+        <img src="/assets/images/about-slice-3.jpg" alt="Turath Craftsmanship - Stage 3" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" loading="lazy" />
       </div>
     </div>
 
@@ -380,7 +386,7 @@
   <section id="scene-03" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-30 bg-black flex flex-col justify-between pb-24">
     <!-- Background Image with Dark Luxury Texture -->
     <div class="collections-bg-wrapper absolute inset-0 w-full h-full z-0 pointer-events-none">
-      <img src="/assets/images/dark-luxury-bg.jpg" alt="Background Texture" class="collections-bg-img w-full h-full object-cover opacity-70">
+      <img src="/assets/images/dark-luxury-bg.jpg" alt="Background Texture" class="collections-bg-img w-full h-full object-cover opacity-70" loading="lazy">
       <!-- Dark Luxury Overlay to ensure text pops -->
       <div class="collections-bg-overlay absolute inset-0 bg-black/60"></div>
     </div>
@@ -597,17 +603,16 @@
     
     <!-- Background Wall Lamp Visual Trapped Inside Section 5 -->
     <video
-      autoplay
       loop
       muted
       playsinline
-      preload="auto"
+      preload="none"
       poster="/assets/images/commute-poster.jpg"
       class="absolute inset-0 w-full h-full object-cover z-0"
       id="scene04-video"
     >
-      <source src="/video/commute.mp4" type="video/mp4" />
-      <source src="/video/commute.webm" type="video/webm" />
+      <source data-src="/video/commute.mp4" type="video/mp4" />
+      <source data-src="/video/commute.webm" type="video/webm" />
     </video>
 
     <!-- Warm Atmospheric Scrim (15% opacity to let background lamps glow) -->
@@ -640,7 +645,7 @@
 
     <!-- Background Photo Layer (Uploaded Textured Wall & Dramatic Spotlight) -->
     <div class="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden" id="scene06-bg">
-      <img src="/assets/images/section06-bg.jpg" alt="Turath Workshop Architecture" class="w-full h-full object-cover object-center" />
+      <img src="/assets/images/section06-bg.jpg" alt="Turath Workshop Architecture" class="w-full h-full object-cover object-center" loading="lazy" />
       <div class="absolute inset-0 bg-black/20"></div>
     </div>
 
@@ -667,7 +672,7 @@
         <!-- Slat 1 -->
         <a href="action.html?film=0" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-0" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
           <div class="slat-media-box">
-            <video class="slat-video" src="/video/commute2.mp4" playsinline muted loop autoplay preload="metadata"></video>
+            <video class="slat-video" data-src="/video/commute2.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
@@ -679,7 +684,7 @@
         <!-- Slat 2 -->
         <a href="action.html?film=1" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-1" aria-label="Watch Precision Piercing & Architectural Latticework">
           <div class="slat-media-box">
-            <video class="slat-video" src="/video/commute3.mp4" playsinline muted loop autoplay preload="metadata"></video>
+            <video class="slat-video" data-src="/video/commute3.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
@@ -691,7 +696,7 @@
         <!-- Slat 3 -->
         <a href="action.html?film=2" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-2" aria-label="Watch Artisan Finishing & Liquid Satin Patina">
           <div class="slat-media-box">
-            <video class="slat-video" src="/video/commute4.mp4" playsinline muted loop autoplay preload="metadata"></video>
+            <video class="slat-video" data-src="/video/commute4.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
@@ -703,7 +708,7 @@
         <!-- Slat 4 -->
         <a href="action.html?film=3" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-3" aria-label="Watch Grand Chandelier Structural Assembly">
           <div class="slat-media-box">
-            <video class="slat-video" src="/video/VN20260909_233157.mp4" playsinline muted loop autoplay preload="metadata"></video>
+            <video class="slat-video" data-src="/video/VN20260909_233157.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
@@ -715,7 +720,7 @@
         <!-- Slat 5 -->
         <a href="action.html?film=4" class="video-slat-item group aspect-[9/14] h-[65vh] max-h-[800px] w-auto mx-auto rounded-2xl overflow-hidden" id="slat-item-4" aria-label="Watch Traditional Metal Spinning & Lathe Forming">
           <div class="slat-media-box">
-            <video class="slat-video" src="/video/betebat.mp4" playsinline muted loop autoplay preload="metadata"></video>
+            <video class="slat-video" data-src="/video/betebat.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
@@ -746,12 +751,12 @@
     <div class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none" id="founder-bg-media">
       <!-- Plate 1: Dark / Unlit Ambient Lamp (Base Layer) -->
       <div class="absolute inset-0 w-full h-full z-10" id="founder-plate-dark">
-        <img src="/assets/images/founder-dark.jpg?v=4" alt="Samy Adel Abdallah - Founder of Turath (Ambient Unlit)" class="w-full h-full object-cover object-center" />
+        <img src="/assets/images/founder-dark.jpg?v=4" alt="Samy Adel Abdallah - Founder of Turath (Ambient Unlit)" class="w-full h-full object-cover object-center" loading="lazy" />
       </div>
       
       <!-- Plate 2: Lit / Illuminated Brass Lamp (Cross-fades in with scroll) -->
       <div class="absolute inset-0 w-full h-full z-20 opacity-0 will-change-opacity" id="founder-plate-lit">
-        <img src="/assets/images/founder-lit.jpg?v=5" alt="Samy Adel Abdallah - Founder of Turath (Illuminated Brass Fixture)" class="w-full h-full object-cover object-center" />
+        <img src="/assets/images/founder-lit.jpg?v=5" alt="Samy Adel Abdallah - Founder of Turath (Illuminated Brass Fixture)" class="w-full h-full object-cover object-center" loading="lazy" />
       </div>
 
       <!-- Atmospheric Dark Scrim for Typography Legibility -->
@@ -785,7 +790,7 @@
 
     <!-- Fixed Cover Background without dark mask -->
     <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0" id="contact-bg-media">
-      <img src="/assets/images/contact-bg.jpg?v=3" alt="Turath Handcrafted Brass Background" class="w-full h-full object-cover object-center scale-105 bg-cover bg-center" />
+      <img src="/assets/images/contact-bg.jpg?v=3" alt="Turath Handcrafted Brass Background" class="w-full h-full object-cover object-center scale-105 bg-cover bg-center" loading="lazy" />
     </div>
 
     <!-- Free-Standing Main Title (Matches OUR VISION Typography Standards) -->
