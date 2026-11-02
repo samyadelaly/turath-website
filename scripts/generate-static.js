@@ -53,77 +53,77 @@ const CATEGORIES = [
     file: 'lighting.html',
     title: 'Lighting Fixtures',
     titleAr: 'وحدات إضاءة نحاسية معمارية',
-    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage'
+    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'mirrors',
     file: 'mirrors.html',
     title: 'Solid Brass Mirrors',
     titleAr: 'مرايا نحاس أصفر مصمت',
-    defaultKeywords: 'مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo'
+    defaultKeywords: 'مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'tables',
     file: 'tables.html',
     title: 'Tables & Consoles',
     titleAr: 'طاولات وكونسول نحاسي فاخر',
-    defaultKeywords: 'طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier'
+    defaultKeywords: 'طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'handles',
     file: 'handles.html',
     title: 'Architectural Handles',
     titleAr: 'مقابض أبواب نحاسية معمارية',
-    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas'
+    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'handrails',
     file: 'handrails.html',
     title: 'Custom Handrails',
     titleAr: 'درابزين سلالم نحاسي مخصص',
-    defaultKeywords: 'درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors'
+    defaultKeywords: 'درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'decor',
     file: 'decor.html',
     title: 'Decorative Objects',
     titleAr: 'تحف وصواني ديكور نحاسية',
-    defaultKeywords: 'أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans'
+    defaultKeywords: 'أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'wall-art',
     file: 'wall-art.html',
     title: 'Brass & Copper Wall Art',
     titleAr: 'لوحات جدارية من النحاس الأصفر والأحمر',
-    defaultKeywords: 'لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding'
+    defaultKeywords: 'لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'partitions',
     file: 'partitions.html',
     title: 'Partitions & Screens',
     titleAr: 'قواطع وفواصل ديكور نحاسية',
-    defaultKeywords: 'قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal'
+    defaultKeywords: 'قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'tableware',
     file: 'tableware.html',
     title: 'Luxury Tableware',
     titleAr: 'أدوات مائدة وأواني ضيافة نحاسية',
-    defaultKeywords: 'أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining'
+    defaultKeywords: 'أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'masterpieces',
     file: 'masterpieces.html',
     title: 'Architectural Masterpieces',
     titleAr: 'روائع نحاسية معمارية نادرة',
-    defaultKeywords: 'تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo'
+    defaultKeywords: 'تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'action',
     file: 'action.html',
     title: 'Turath in Action',
     titleAr: 'حرفية النحاس في ورش تراث التاريخية',
-    defaultKeywords: 'ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork'
+    defaultKeywords: 'ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   }
 ];
 
@@ -181,7 +181,12 @@ for (const cat of CATEGORIES) {
     const productTitleAr = (existing.titleAr || raw.titleAr || productTitle).trim();
     const productDesc = (existing.description || raw.desc || raw.description || `Handcrafted ${cat.title.toLowerCase()} forged in solid brass and copper by master artisans in Cairo, Egypt.`).trim();
     const productDescAr = (existing.descriptionAr || raw.descriptionAr || productDesc).trim();
-    const keywords = (existing.keywords || cat.defaultKeywords).trim();
+    const commercialSuffix = 'ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي';
+    let baseKeywords = (existing.keywords || cat.defaultKeywords).trim();
+    if (!baseKeywords.includes('ورشة نحاس بالجمالية')) {
+      baseKeywords = `${baseKeywords}, ${commercialSuffix}`;
+    }
+    const keywords = baseKeywords;
 
     // Image resolution: for videos (.mp4), provide a high-resolution poster image
     let rawImg = (existing.image || raw.poster || raw.src || raw.image || '').trim();
