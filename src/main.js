@@ -1243,6 +1243,7 @@ initContactSection();
 initPhoneDropdown();
 initSemanticHashTracking();
 initDynamicShareButton();
+initTouchDragThreshold();
 
 // Function to handle initial deep link hash navigation
 function handleInitialDeepLink() {
@@ -1439,3 +1440,39 @@ document.querySelectorAll('img').forEach((img) => {
     debouncedScrollTriggerRefresh(100);
   }, { once: true });
 });
+
+// 15. DISTINGUISH TOUCH DRAG/SCROLL FROM TAP (COLLECTION & VIDEO CARDS)
+function initTouchDragThreshold() {
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isDragging = false;
+  const DRAG_THRESHOLD = 8; // pixels
+
+  window.addEventListener('touchstart', (e) => {
+    if (!e.touches || !e.touches[0]) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    isDragging = false;
+  }, { passive: true, capture: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!e.touches || !e.touches[0]) return;
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+    if (Math.hypot(dx, dy) > DRAG_THRESHOLD) {
+      isDragging = true;
+    }
+  }, { passive: true, capture: true });
+
+  // In capturing phase: cancel click if gesture was a drag or scroll
+  window.addEventListener('click', (e) => {
+    if (!isDragging) return;
+    const targetInteractive = e.target.closest('.collection-card, .video-slat-item, .collections-track a, #video-slats-track a');
+    if (targetInteractive) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      isDragging = false;
+    }
+  }, true);
+}

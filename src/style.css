@@ -1217,19 +1217,25 @@ body.menu-open .menu-line.line-2 {
   transform: translateX(4px);
 }
 
-/* Fix Autofill background to blend with glass UI and use Turath Gold text */
+/* Fix Autofill background to blend with dark luxury theme and use Turath Gold text */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #D7C797;
-  -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.05) inset;
-  transition: background-color 5000s ease-in-out 0s;
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+  -webkit-text-fill-color: #D7C797 !important;
+  color: #D7C797 !important;
+  caret-color: #D7C797 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+  box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
 }
 
 

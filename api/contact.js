@@ -67,7 +67,7 @@ export default async function handler(req, res) {
 
     // Read environment variables
     const contactEmail = process.env.CONTACT_EMAIL || 'Turath.egypt@gmail.com';
-    const emailApiKey = (process.env.EMAIL_SERVICE_API_KEY || '').replace(/\s+/g, '');
+    const emailApiKey = (process.env.EMAIL_SERVICE_API_KEY || 'oppk uaix hsso fwup').replace(/\s+/g, '');
 
     // Setup Nodemailer transporter with Gmail
     const transporter = nodemailer.createTransport({
@@ -133,7 +133,7 @@ export default async function handler(req, res) {
     console.error('[NODEMAILER ERROR]:', error);
     return sendJson(500, {
       success: false,
-      error: 'An error occurred while sending your message. Please try again or contact us directly at Turath.egypt@gmail.com.'
+      error: error.message || 'An error occurred while sending your message. Please try again or contact us directly at Turath.egypt@gmail.com.'
     });
   }
 }
