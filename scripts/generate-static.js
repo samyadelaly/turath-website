@@ -205,7 +205,7 @@ for (const cat of CATEGORIES) {
     const canonicalUrl = `${BASE_URL}/${cat.slug}.html`;
     const redirectUrl = `/${cat.slug}.html?product=${productId}`;
     const imageMimeType = getMimeType(cleanImagePath);
-    const imageAltText = `${productTitle} - Handcrafted Brass & Copper`;
+    const imageAltText = `${productTitle} - Handcrafted Brass & Copper | مشغولات نحاسية يدوية`;
 
     const consolidatedItem = {
       id: productId,
