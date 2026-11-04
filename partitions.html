@@ -56,24 +56,85 @@
   <script src="https://cdn.tailwindcss.com" defer></script>
 
   <link rel="stylesheet" href="./src/style.css">
+  <!-- Critical Anti-FOUC & Preloader Styles (Synchronous execution) -->
+  <style>
+    #luxury-preloader {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: #050505 !important;
+      z-index: 9999999 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      pointer-events: none !important;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .turath-loader-text {
+      font-family: 'Cinzel', 'Playfair Display', Georgia, serif, sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: #D7C797;
+      text-transform: uppercase;
+      text-shadow: 0 0 30px rgba(215, 199, 151, 0.45);
+      animation: turathPulse 1.8s ease-in-out infinite alternate;
+    }
+    .turath-loader-sub {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+    @keyframes turathPulse {
+      0% { opacity: 0.35; transform: scale(0.97); }
+      100% { opacity: 1; transform: scale(1.02); }
+    }
+    /* Anti-FOUC Header Icons Strict Sizing */
+    #product-wa-btn, #share-btn, #sound-toggle-btn {
+      width: 24px !important;
+      height: 24px !important;
+      min-width: 24px !important;
+      min-height: 24px !important;
+      max-width: 24px !important;
+      max-height: 24px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+    #product-wa-btn svg, #share-btn svg {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      max-width: 20px !important;
+      max-height: 20px !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+    }
+  </style>
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
   <!-- Meta Pixel noscript fallback -->
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
-    <!-- Premium Knockout Preloader -->
-  <div id="luxury-preloader" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
-    <svg width="100%" height="100%" class="w-full h-full">
-      <defs>
-        <mask id="knockout-text">
-          <!-- White background means solid, black text means transparent hole -->
-          <rect width="100%" height="100%" fill="white" />
-          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
-        </mask>
-      </defs>
-      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
-    </svg>
+      <!-- Premium Solid Preloader (Zero FOUC guaranteed) -->
+  <div id="luxury-preloader">
+    <div style="text-align: center;">
+      <div class="turath-loader-text">TURATH</div>
+      <div class="turath-loader-sub">ورشة تراث • مصر</div>
+    </div>
   </div>
 
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
@@ -84,11 +145,11 @@
         <a href="index.html#gallery" class="justify-self-start text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Collections">&larr;</a>
         <span class="justify-self-center text-center whitespace-nowrap text-xs md:text-sm font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase text-white/70">PARTITIONS & BOOKCASES</span>
         <div class="justify-self-end flex items-center gap-3">
-        <a id="product-wa-btn" href="https://wa.me/201016771010" target="_blank" rel="noopener noreferrer" class="w-6 h-6 text-white/70 hover:text-white transition-colors cursor-pointer pointer-events-auto flex items-center justify-center" aria-label="Inquire on WhatsApp" title="Inquire on WhatsApp">
-          <svg class="w-5 h-5 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <a id="product-wa-btn" href="https://wa.me/201016771010" target="_blank" rel="noopener noreferrer" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 text-white/70 hover:text-white transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Inquire on WhatsApp" title="Inquire on WhatsApp">
+          <svg width="20" height="20" style="width: 20px; height: 20px; max-width: 20px; max-height: 20px; display: block;" class="w-5 h-5 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
         </a>
-        <button id="share-btn" type="button" class="w-6 h-6 text-white/70 hover:text-white transition-colors cursor-pointer pointer-events-auto flex items-center justify-center" aria-label="Share" title="Share">
-          <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+        <button id="share-btn" type="button" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 text-white/70 hover:text-white transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Share" title="Share">
+          <svg width="20" height="20" style="width: 20px; height: 20px; max-width: 20px; max-height: 20px; display: block;" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
         </button>
       </div>
       </div>
@@ -297,11 +358,18 @@
       });
     }
 
-    // Direct WhatsApp Product Inquiry Button (Dynamic active title & conversion tracking)
+    // Direct WhatsApp Product Inquiry Button (With Rich Link Card Preview)
     const productWaBtn = document.getElementById('product-wa-btn');
     if (productWaBtn) {
       productWaBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        
+        // Extract category slug from URL
+        const path = window.location.pathname;
+        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
+        let categorySlug = match ? match[1].toLowerCase() : 'lighting';
+        if (categorySlug === 'index' || !categorySlug) categorySlug = 'lighting';
+
         const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) 
           ? sliderData[currentIndex] 
           : (typeof masterpiecesData !== 'undefined' && masterpiecesData[currentIndex])
@@ -311,7 +379,11 @@
           : null;
         const title = (currentItem && currentItem.title) || (typeof titleEl !== 'undefined' && titleEl ? titleEl.innerText : document.title);
         
-        // Track Conversion
+        // Determine active product ID and full product link (Produces Rich Preview with Picture in WhatsApp)
+        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        const productUrl = `${window.location.origin}/products/${activeProductId}/`;
+
+        // Track Conversion Events
         if (typeof window.fbq === 'function') {
           window.fbq('track', 'Contact', { content_name: title, content_category: 'WhatsApp Product Inquiry' });
         }
@@ -319,8 +391,8 @@
           window.gtag('event', 'generate_lead', { event_category: 'WhatsApp', event_label: title });
         }
 
-        const waMsg = encodeURIComponent('مرحباً ورشة تراث، أود الاستفسار عن تفصيل وسعر: ' + title);
-        window.open('https://wa.me/201016771010?text=' + waMsg, '_blank', 'noopener,noreferrer');
+        const waText = `مرحباً ورشة تراث، أود الاستفسار عن تفصيل وسعر هذه القطعة:\n${title}\n${productUrl}`;
+        window.open('https://wa.me/201016771010?text=' + encodeURIComponent(waText), '_blank', 'noopener,noreferrer');
       });
     }
 
@@ -341,16 +413,30 @@
 
 
   
-    // Luxury CNC Preloader Fadeout
-    window.addEventListener('load', () => {
+    // Smooth Luxury Preloader Fadeout (Waits for DOM and images)
+    const dismissPreloader = () => {
       const preloader = document.getElementById('luxury-preloader');
-      if (preloader) {
+      if (preloader && preloader.style.opacity !== '0') {
+        preloader.style.opacity = '0';
         setTimeout(() => {
-          preloader.style.opacity = '0';
-          setTimeout(() => preloader.remove(), 700);
-        }, 1500);
+          if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+        }, 800);
       }
-    });
+    };
+
+    if (document.readyState === 'complete') {
+      setTimeout(dismissPreloader, 400);
+    } else {
+      window.addEventListener('load', () => {
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(() => setTimeout(dismissPreloader, 400));
+        } else {
+          setTimeout(dismissPreloader, 400);
+        }
+      });
+      // Safety fallback timeout
+      setTimeout(dismissPreloader, 3000);
+    }
 </script>
 
 </body>
