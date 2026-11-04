@@ -189,7 +189,13 @@ for (const cat of CATEGORIES) {
     const keywords = baseKeywords;
 
     // Image resolution: for videos (.mp4), provide a high-resolution poster image
-    let rawImg = (existing.image || raw.poster || raw.src || raw.image || '').trim();
+    let rawImg = (raw.poster || existing.image || raw.src || raw.image || '').trim();
+    if (cat.slug === 'action') {
+      const posterCandidate = '/assets/images/action-poster-' + (idx + 1) + '.jpg';
+      if (fs.existsSync(path.join(rootDir, 'public', posterCandidate.slice(1)))) {
+        rawImg = posterCandidate;
+      }
+    }
     if (!rawImg || rawImg.toLowerCase().endsWith('.mp4')) {
       rawImg = '/assets/images/commute-poster.jpg';
     }

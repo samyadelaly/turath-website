@@ -16,5 +16,5 @@
   "theme_color": "#0a0a0a",
   "background_color": "#000000",
   "display": "standalone",
-  "start_url": "/"
+  "start_url": "/?utm_source=pwa&utm_medium=standalone&utm_campaign=turath_app"
 }

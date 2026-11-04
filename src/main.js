@@ -1638,6 +1638,37 @@ function initAnalyticsTracking() {
       }
     }
   });
+
+  // PWA App Installation Tracking
+  window.addEventListener('appinstalled', () => {
+    try {
+      localStorage.setItem('turath_pwa_installed', 'true');
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'pwa_install', {
+          event_category: 'PWA',
+          event_label: 'Turath App Installed',
+          value: 1
+        });
+      }
+      if (typeof window.fbq === 'function') {
+        window.fbq('trackCustom', 'PWA_Installed');
+      }
+    } catch (e) {}
+  });
+
+  // PWA Standalone Mode Detection & Session Tracking
+  const isPWAStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (isPWAStandalone) {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('set', 'user_properties', { pwa_user: 'true' });
+        window.gtag('event', 'pwa_session_open', {
+          event_category: 'PWA',
+          event_label: 'App Launch'
+        });
+      }
+    } catch (e) {}
+  }
 }
 
 // 17. SURGICAL MEDIA PROTECTION (IMAGES & VIDEOS)
