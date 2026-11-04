@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.turathegypt.app",
+        "sha256_cert_fingerprints": ["BE:92:68:05:7B:06:2F:F4:9A:40:C7:68:77:65:2E:D2:12:89:36:59:3B:C2:61:42:D2:4D:ED:22:45:C1:3D:06"]
+      }
+    }]
