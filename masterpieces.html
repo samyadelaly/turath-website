@@ -175,7 +175,7 @@
 
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <!-- Slider View Container (Matching mirrors.html and the 9 sub-pages) -->
-    <div id="slider-view" class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black overflow-hidden lg:h-[82vh] lg:max-w-6xl lg:aspect-auto lg:rounded-2xl lg:shadow-2xl lg:my-6">
+    <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black lg:h-[85vh] lg:max-w-6xl lg:aspect-auto lg:rounded-2xl lg:shadow-2xl lg:my-6 lg:overflow-hidden">
       
       <!-- Top Navbar with Back Link to Scene 05 -->
       <div class="w-full grid grid-cols-3 items-center px-4 py-4 md:px-10 md:py-6 z-50 absolute top-0 left-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent" style="position: absolute; top: 0; left: 0; width: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; z-index: 50;">
@@ -191,14 +191,11 @@
       </div>
       </div>
 
-      <!-- Main Page Heading & Sub-text (Matching OUR VISION Typography Standards) -->
-      <div class="absolute top-[12%] md:top-[16%] left-0 w-full flex flex-col justify-center items-center z-40 px-4 pointer-events-none text-center">
-        <h1 id="slider-title" class="hero-bottom-title about-title text-lg md:text-xl lg:text-2xl font-bold tracking-tight text-white uppercase text-center drop-shadow-md mb-1">
-          FEATURED MASTERPIECES
+      <!-- Centered Product Title -->
+      <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
+        <h1 id="slider-title" class="text-lg md:text-xl lg:text-3xl xl:text-4xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">
+          SCULPTURAL CAST BRASS BRANCH CONSOLE
         </h1>
-        <p class="text-xs md:text-sm text-white/80 font-light tracking-wide max-w-md text-center drop-shadow">
-          Explore our most requested best-selling bespoke brass and copper creations.
-        </p>
       </div>
 
       <!-- Center Navigation Arrows -->
@@ -208,139 +205,16 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/masterpieces/sculptural-brass-branch-console.jpg" alt="Sculptural Cast Brass Branch Console" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      <img id="slider-image" src="/assets/images/masterpieces/sculptural-brass-branch-console.jpg" alt="SCULPTURAL CAST BRASS BRANCH CONSOLE" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
       
-      <!-- Bottom Overlay: Description & Dashes -->
+      <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
-        <div class="text-center">
-          <h2 id="product-name" class="text-sm md:text-base font-semibold tracking-wider text-[#D7C797] uppercase mb-1">
-            SCULPTURAL CAST BRASS BRANCH CONSOLE
-          </h2>
-          <p id="slider-desc" class="text-white/90 text-xs md:text-sm font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[2.5rem]">
-            A signature architectural console table featuring organic cast solid brass branch structure supporting a hand-honed black marble slab.
-          </p>
-        </div>
-        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-3 flex-wrap">
-          <!-- Populated dynamically by script -->
-        </div>
+        <p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-lg font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">
+          A signature architectural console table featuring organic cast solid brass branch structure supporting a hand-honed black marble slab.
+        </p>
+        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-2.5 w-full max-w-xs sm:max-w-sm px-4 overflow-hidden"></div>
       </div>
     </div>
-  
-    <!-- Desktop-Only Multi-Column Masterpieces Grid Catalog (lg:grid-cols-3 xl:grid-cols-4) -->
-    <section class="hidden lg:block w-full max-w-7xl mx-auto px-6 lg:px-8 py-16">
-      <div class="text-center mb-12">
-        <span class="text-xs font-mono tracking-[0.3em] uppercase text-[#D7C797]/80 block mb-2">CURATED ARCHITECTURAL WORKS</span>
-        <h2 class="text-3xl lg:text-4xl font-serif font-bold text-white tracking-wide uppercase">THE MASTERPIECES CATALOG</h2>
-        <div class="w-16 h-[2px] bg-[#D7C797] mx-auto mt-4"></div>
-      </div>
-
-      <div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- 1 -->
-        <div onclick="updateSlider(0); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/sculptural-brass-branch-console.jpg" alt="Sculptural Cast Brass Branch Console" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">01 / CONSOLE</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">SCULPTURAL CAST BRASS CONSOLE</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Organic cast solid brass branch structure supporting a hand-honed black marble slab.</p>
-          </div>
-        </div>
-
-        <!-- 2 -->
-        <div onclick="updateSlider(1); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/organic-cast-brass-web-mirror.jpg" alt="Organic Cast Brass Web Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">02 / MIRROR</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">ORGANIC CAST BRASS WEB MIRROR</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Hand-cast solid brass branch web motifs with polished artisanal luster.</p>
-          </div>
-        </div>
-
-        <!-- 3 -->
-        <div onclick="updateSlider(2); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/filigree-brass-floral-mirror.jpg" alt="Filigree Brass Scrollwork Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">03 / FILIGREE</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">FILIGREE BRASS SCROLLWORK MIRROR</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Multi-layered solid brass petals with delicate hand-spun wire filigree scrollwork.</p>
-          </div>
-        </div>
-
-        <!-- 4 -->
-        <div onclick="updateSlider(3); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/radiant-brass-sunburst-mirror.jpg" alt="Radiant Brass Sunburst Branch Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">04 / SUNBURST</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">RADIANT BRASS SUNBURST</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Hand-forged solid brass branches radiating with sculptural architectural energy.</p>
-          </div>
-        </div>
-
-        <!-- 5 -->
-        <div onclick="updateSlider(4); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/studded-brass-halo-mirror.jpg" alt="Studded Brass Pin Halo Mirror" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">05 / HALO</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">STUDDED BRASS PIN HALO MIRROR</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Concentric radial rows of hand-turned solid brass pins with hypnotic textural halo.</p>
-          </div>
-        </div>
-
-        <!-- 6 -->
-        <div onclick="updateSlider(5); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/pair-cast-brass-branch-handles.jpg" alt="Pair Cast Brass Branch Pulls" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">06 / HARDWARE</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">PAIR CAST BRASS BRANCH PULLS</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Architectural door handles cast in solid brass echoing natural organic tree branches.</p>
-          </div>
-        </div>
-
-        <!-- 7 -->
-        <div onclick="updateSlider(6); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/hammered-brass-curved-applique.jpg" alt="Hammered Brass Cylinder Applique" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">07 / LIGHTING</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">HAMMERED BRASS APPLIQUE</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Architectural wall sconce hand-hammered with overlapping curves diffusing warm golden ambiance.</p>
-          </div>
-        </div>
-
-        <!-- 8 -->
-        <div onclick="updateSlider(7); window.scrollTo({top: 0, behavior: 'smooth'});" class="group cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-black/60 hover:border-[#D7C797] transition-all duration-500 hover:-translate-y-2">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img src="/assets/images/masterpieces/sculptural-cast-brass-bookends.jpg" alt="Sculptural Cast Brass Bookends" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-            <span class="absolute top-3 left-3 px-2 py-1 bg-black/70 backdrop-blur-md rounded text-[10px] font-mono text-[#D7C797]">08 / OBJECTS</span>
-          </div>
-          <div class="p-4">
-            <h3 class="text-sm font-semibold text-white group-hover:text-[#D7C797] transition-colors uppercase tracking-wider">SCULPTURAL CAST BRASS BOOKENDS</h3>
-            <p class="text-xs text-white/70 line-clamp-2 mt-2 leading-relaxed">Pair of solid brass bookends with deep fluid ripples and organic geological texturing.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <script>
@@ -392,44 +266,46 @@
       }
     ];
 
+    const sliderData = masterpiecesData;
+
     // Read initial product from URL if present: ?product=masterpieces-item-2 or ?item=2
-        const urlParams = new URLSearchParams(window.location.search);
-        const productParam = urlParams.get('product') || urlParams.get('item');
-        let initialIndex = 0;
-        if (productParam) {
-          const match = productParam.match(/-item-(\d+)$/i);
-          const parsedIdx = match ? (parseInt(match[1], 10) - 1) : (parseInt(productParam, 10) - 1);
-          if (!isNaN(parsedIdx) && parsedIdx >= 0 && parsedIdx < masterpiecesData.length) {
-            initialIndex = parsedIdx;
-          }
-        }
-        let currentIndex = initialIndex;
-    const imgEl = document.getElementById('slider-image');
-    const productNameEl = document.getElementById('product-name');
+    const urlParams = new URLSearchParams(window.location.search);
+    const productParam = urlParams.get('product') || urlParams.get('item');
+    let initialIndex = 0;
+    if (productParam) {
+      const match = productParam.match(/-item-(\d+)$/i);
+      const parsedIdx = match ? (parseInt(match[1], 10) - 1) : (parseInt(productParam, 10) - 1);
+      if (!isNaN(parsedIdx) && parsedIdx >= 0 && parsedIdx < sliderData.length) {
+        initialIndex = parsedIdx;
+      }
+    }
+    let currentIndex = initialIndex;
+    const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
+    const imgEl = document.getElementById('slider-image');
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
-    // Build Dash indicators
-    masterpiecesData.forEach((_, idx) => {
+    // Build Dash indicators dynamically
+    sliderData.forEach((_, idx) => {
       const dash = document.createElement('span');
-      dash.className = `dash-dot w-6 sm:w-8 h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-white' : 'bg-white/30'}`;
+      dash.className = `dash-dot flex-1 max-w-[28px] min-w-[8px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-white' : 'bg-white/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
-        });
-    
-        if (currentIndex !== 0 && masterpiecesData[currentIndex]) {
-          imgEl.src = masterpiecesData[currentIndex].src;
-          imgEl.alt = masterpiecesData[currentIndex].title;
-          if (productNameEl) productNameEl.innerText = masterpiecesData[currentIndex].title;
-          descEl.innerText = masterpiecesData[currentIndex].desc;
-        }
+    });
+
+    if (currentIndex !== 0 && sliderData[currentIndex]) {
+      imgEl.src = sliderData[currentIndex].src;
+      imgEl.alt = sliderData[currentIndex].title;
+      titleEl.innerText = sliderData[currentIndex].title;
+      descEl.innerText = sliderData[currentIndex].desc;
+    }
 
     function updateSlider(index) {
       if (index < 0) {
-        currentIndex = masterpiecesData.length - 1;
-      } else if (index >= masterpiecesData.length) {
+        currentIndex = sliderData.length - 1;
+      } else if (index >= sliderData.length) {
         currentIndex = 0;
       } else {
         currentIndex = index;
@@ -437,16 +313,17 @@
 
       // Smooth crossfade
       imgEl.style.opacity = '0.3';
-      if (productNameEl) productNameEl.style.opacity = '0.3';
+      titleEl.style.opacity = '0.3';
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = masterpiecesData[currentIndex].src;
-        if (productNameEl) productNameEl.innerText = masterpiecesData[currentIndex].title;
-        descEl.innerText = masterpiecesData[currentIndex].desc;
+        imgEl.src = sliderData[currentIndex].src;
+        imgEl.alt = sliderData[currentIndex].title;
+        titleEl.innerText = sliderData[currentIndex].title;
+        descEl.innerText = sliderData[currentIndex].desc;
 
         imgEl.style.opacity = '1';
-        if (productNameEl) productNameEl.style.opacity = '1';
+        titleEl.style.opacity = '1';
         descEl.style.opacity = '1';
 
         // Update active dash
@@ -501,17 +378,7 @@
       shareBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         const title = (typeof titleEl !== 'undefined' && titleEl) ? titleEl.innerText : document.title;
-        
-        // Extract category slug from URL
-        const path = window.location.pathname;
-        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
-        const categorySlug = match ? match[1] : 'lighting';
-        
-        // Determine active product ID based on current slide
-        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) ? sliderData[currentIndex] : null;
-        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
-        
-        // Construct specific SSG share URL
+        const activeProductId = `masterpieces-item-${currentIndex + 1}`;
         const shareUrl = window.location.origin + '/products/' + activeProductId + '/';
 
         if (navigator.share) {
@@ -531,24 +398,9 @@
     if (productWaBtn) {
       productWaBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        
-        // Extract category slug from URL
-        const path = window.location.pathname;
-        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
-        let categorySlug = match ? match[1].toLowerCase() : 'lighting';
-        if (categorySlug === 'index' || !categorySlug) categorySlug = 'lighting';
-
-        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) 
-          ? sliderData[currentIndex] 
-          : (typeof masterpiecesData !== 'undefined' && masterpiecesData[currentIndex])
-          ? masterpiecesData[currentIndex]
-          : (typeof filmsData !== 'undefined' && filmsData[currentIndex])
-          ? filmsData[currentIndex]
-          : null;
+        const currentItem = sliderData[currentIndex];
         const title = (currentItem && currentItem.title) || (typeof titleEl !== 'undefined' && titleEl ? titleEl.innerText : document.title);
-        
-        // Determine active product ID and full product link (Produces Rich Preview with Picture in WhatsApp)
-        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        const activeProductId = `masterpieces-item-${currentIndex + 1}`;
         const productUrl = `${window.location.origin}/products/${activeProductId}/`;
 
         // Track Conversion Events
