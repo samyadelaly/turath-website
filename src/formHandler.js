@@ -91,6 +91,20 @@ export function setupFormHandler(formElement, options = {}) {
     try {
       const response = await submitInquiry(data);
 
+      // Conversion Tracking (Meta Pixel & GA4)
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead', {
+          content_name: 'Bespoke Manufacturing Inquiry',
+          content_category: data.material || 'Bespoke Metalwork'
+        });
+      }
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'Bespoke Form',
+          event_label: data.material || 'General'
+        });
+      }
+
       // UI Success feedback
       formElement.classList.add('hidden');
       formElement.style.display = 'none';

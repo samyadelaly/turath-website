@@ -1291,6 +1291,7 @@ initPhoneDropdown();
 initSemanticHashTracking();
 initDynamicShareButton();
 initTouchDragThreshold();
+initAnalyticsTracking();
 
 // Function to handle initial deep link hash navigation
 function handleInitialDeepLink() {
@@ -1522,4 +1523,28 @@ function initTouchDragThreshold() {
       isDragging = false;
     }
   }, true);
+}
+
+// 16. CONVERSION TRACKING (WHATSAPP, PHONE, CONTACT)
+function initAnalyticsTracking() {
+  document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a');
+    if (!anchor) return;
+    const href = anchor.getAttribute('href') || '';
+    if (href.includes('wa.me') || href.includes('whatsapp.com')) {
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Contact', { content_name: 'WhatsApp Contact', value: 0, currency: 'EGP' });
+      }
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'contact', { method: 'WhatsApp' });
+      }
+    } else if (href.startsWith('tel:')) {
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Contact', { content_name: 'Phone Call', value: 0, currency: 'EGP' });
+      }
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'contact', { method: 'Phone' });
+      }
+    }
+  });
 }

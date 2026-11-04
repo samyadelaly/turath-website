@@ -228,6 +228,31 @@ for (const cat of CATEGORIES) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-PDYBS5D7CZ');
+  </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '148068092481360');
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
   <title>${escapeHtml(productTitle)} | Turath Egypt</title>
   <meta name="description" content="${escapeHtml(productDesc)}">
   <meta name="keywords" content="${escapeHtml(keywords)}">
@@ -286,6 +311,10 @@ for (const cat of CATEGORIES) {
   </noscript>
 </head>
 <body style="background: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; text-align: center;">
+  <!-- Meta Pixel noscript fallback -->
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
+  /></noscript>
   <img src="${cleanImagePath}" alt="${escapeHtml(imageAltText)}" style="max-width: 320px; max-height: 320px; width: auto; height: auto; object-fit: contain; border-radius: 8px; margin-bottom: 20px;" loading="eager">
   <h1 style="font-size: 1.25rem; font-weight: 600; margin: 0 0 10px; color: #fff;">${escapeHtml(productTitle)}</h1>
   <p style="font-size: 0.9rem; color: #aaa; max-width: 500px; margin: 0 0 16px; line-height: 1.5;">${escapeHtml(productDesc)}</p>
