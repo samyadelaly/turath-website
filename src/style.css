@@ -1946,14 +1946,26 @@ select:-webkit-autofill:active {
   #bespoke > div.absolute.inset-0.z-0 {
     position: absolute !important;
     inset: 0 !important;
-    width: min(100vh * 0.58, 620px) !important;
+    width: 100% !important;
     height: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
   #bespoke .b-slice {
+    background-image: url('/assets/images/bespoke-bg-desktop.jpg') !important;
     background-size: 300% 100% !important;
     background-repeat: no-repeat !important;
+  }
+
+  #founder-plate-dark picture,
+  #founder-plate-dark img,
+  #founder-plate-lit picture,
+  #founder-plate-lit img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
   }
 
   /* 4. GOLDEN RATIO CIRCULAR NAVIGATION CONTROLS (48px / 20px) */

@@ -430,7 +430,10 @@
 
     <!-- Night Reveal Image (Faded in via GSAP ScrollTrigger scrub) -->
     <div class="hero-bg-image hero-night" id="hero-night">
-      <img src="./assets/images/hero-turath-2.jpg" alt="Turath Architectural Metalwork - Night" loading="lazy" />
+      <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/hero-turath-2-desktop.jpg">
+        <img src="./assets/images/hero-turath-2.jpg" alt="Turath Architectural Metalwork - Night" loading="lazy" />
+      </picture>
     </div>
 
     <!-- Dark gradient overlay from middle to bottom for readable bottom text -->
@@ -961,12 +964,18 @@
     <div class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none" id="founder-bg-media">
       <!-- Plate 1: Dark / Unlit Ambient Lamp (Base Layer) -->
       <div class="absolute inset-0 w-full h-full z-10" id="founder-plate-dark">
-        <img src="/assets/images/founder-dark.jpg?v=4" alt="Samy Adel Abdallah - Founder of Turath (Ambient Unlit)" class="w-full h-full object-cover object-center" loading="lazy" />
+        <picture class="w-full h-full block">
+          <source media="(min-width: 1024px)" srcset="/assets/images/founder-dark-desktop.jpg">
+          <img src="/assets/images/founder-dark.jpg?v=4" alt="Samy Adel Abdallah - Founder of Turath (Ambient Unlit)" class="w-full h-full object-cover object-center" loading="lazy" />
+        </picture>
       </div>
       
       <!-- Plate 2: Lit / Illuminated Brass Lamp (Cross-fades in with scroll) -->
       <div class="absolute inset-0 w-full h-full z-20 opacity-0 will-change-opacity" id="founder-plate-lit">
-        <img src="/assets/images/founder-lit.jpg?v=5" alt="Samy Adel Abdallah - Founder of Turath (Illuminated Brass Fixture)" class="w-full h-full object-cover object-center" loading="lazy" />
+        <picture class="w-full h-full block">
+          <source media="(min-width: 1024px)" srcset="/assets/images/founder-lit-desktop.jpg">
+          <img src="/assets/images/founder-lit.jpg?v=5" alt="Samy Adel Abdallah - Founder of Turath (Illuminated Brass Fixture)" class="w-full h-full object-cover object-center" loading="lazy" />
+        </picture>
       </div>
 
       <!-- Atmospheric Dark Scrim for Typography Legibility -->
