@@ -1848,23 +1848,19 @@ select:-webkit-autofill:active {
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    display: flex !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    background-color: #050505 !important;
     overflow: hidden !important;
+    background-color: #050505 !important;
   }
 
+  .hero-bg-image picture,
   .hero-bg-image img {
-    position: relative !important;
-    inset: auto !important;
-    width: auto !important;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
     height: 100% !important;
-    max-height: 100vh !important;
-    object-fit: contain !important;
-    object-position: right center !important;
-    margin-left: auto !important;
-    margin-right: 2vw !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
   }
 
   .hero-sheet-content {

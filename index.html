@@ -422,7 +422,10 @@
   <section id="scene-01" class="relative z-10"><a id="hero"></a>
         <!-- Day Base Image -->
     <div class="hero-bg-image hero-day" id="hero-day">
-      <img src="./assets/images/hero-turath-1.jpg" alt="Turath Architectural Metalwork - Day" fetchpriority="high" loading="eager" />
+      <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/hero-turath-1-desktop.jpg">
+        <img src="./assets/images/hero-turath-1.jpg" alt="Turath Architectural Metalwork - Day" fetchpriority="high" loading="eager" />
+      </picture>
     </div>
 
     <!-- Night Reveal Image (Faded in via GSAP ScrollTrigger scrub) -->
