@@ -32,3 +32,6 @@ Thumbs.db
 
 # Agent brain & scratch artifacts
 .gemini/
+
+.vercel/
+*.zip
