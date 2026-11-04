@@ -15,6 +15,19 @@
   -webkit-tap-highlight-color: transparent !important;
 }
 
+
+/* Surgical Media Protection: Prevents drag, ghost saving & touch callouts */
+img, video, [data-protected-media], .collection-card-img, .slat-video {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 :root {
   --brand-copper: #D7C797;
   --bg-dark: #000000;

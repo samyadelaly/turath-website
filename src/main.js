@@ -1376,6 +1376,7 @@ initSemanticHashTracking();
 initDynamicShareButton();
 initTouchDragThreshold();
 initAnalyticsTracking();
+initMediaProtection();
 
 // Function to handle initial deep link hash navigation
 function handleInitialDeepLink() {
@@ -1637,4 +1638,21 @@ function initAnalyticsTracking() {
       }
     }
   });
+}
+
+// 17. SURGICAL MEDIA PROTECTION (IMAGES & VIDEOS)
+function initMediaProtection() {
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target.closest('img, video, [data-protected-media], .collection-card-img, .slat-video')) {
+      e.preventDefault();
+      return false;
+    }
+  }, { capture: true });
+
+  document.addEventListener('dragstart', (e) => {
+    if (e.target.closest('img, video, [data-protected-media], .collection-card-img, .slat-video')) {
+      e.preventDefault();
+      return false;
+    }
+  }, { capture: true });
 }
