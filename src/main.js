@@ -48,6 +48,10 @@ window.addEventListener("resize", () => {
   }
 });
 
+// Preserve horizontal track scroll positions across GSAP recalculations & unpin cycles
+let savedCollectionsScrollLeft = 0;
+let savedSlatsScrollLeft = 0;
+
 // To be bulletproof with GSAP ScrollTrigger:
 ScrollTrigger.addEventListener("refreshInit", (e) => {
   const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
@@ -55,6 +59,26 @@ ScrollTrigger.addEventListener("refreshInit", (e) => {
     if (e && typeof e.preventDefault === "function") {
       e.preventDefault(); // Stop refresh
     }
+  }
+
+  const collectionsTrack = document.querySelector('.collections-track');
+  if (collectionsTrack && collectionsTrack.scrollLeft > 0) {
+    savedCollectionsScrollLeft = collectionsTrack.scrollLeft;
+  }
+  const slatsTrack = document.getElementById("video-slats-track");
+  if (slatsTrack && slatsTrack.scrollLeft > 0) {
+    savedSlatsScrollLeft = slatsTrack.scrollLeft;
+  }
+});
+
+ScrollTrigger.addEventListener("refresh", () => {
+  const collectionsTrack = document.querySelector('.collections-track');
+  if (collectionsTrack && savedCollectionsScrollLeft > 0) {
+    collectionsTrack.scrollLeft = savedCollectionsScrollLeft;
+  }
+  const slatsTrack = document.getElementById("video-slats-track");
+  if (slatsTrack && savedSlatsScrollLeft > 0) {
+    slatsTrack.scrollLeft = savedSlatsScrollLeft;
   }
 });
 
@@ -222,6 +246,29 @@ function initNavDrawer() {
       }
     }
 
+    if (realId === 'scene-07' || realId === 'founder') {
+      const founderEl = document.getElementById('scene-07');
+      if (founderEl) {
+        const triggers = ScrollTrigger.getAll().filter(t => t.trigger === founderEl);
+        const st = triggers.find(t => t.pin) || triggers[0];
+        // Target 65% of the pinned illumination crossfade where the founder & lamp are 100% lit
+        const targetY = st && typeof st.start === 'number'
+          ? (st.start + (st.end - st.start) * 0.65)
+          : (founderEl.getBoundingClientRect().top + window.scrollY);
+        gsap.to(window, {
+          scrollTo: { y: targetY, autoKill: false },
+          duration: 1.2,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, '', '#founder');
+            }
+          }
+        });
+        return;
+      }
+    }
+
     const target = document.getElementById(realId);
     if (!target) return;
 
@@ -255,6 +302,18 @@ function initNavDrawer() {
         smoothScrollToSemanticHash(href);
       } else {
         closeMenu();
+      }
+    });
+  });
+
+  // Desktop navbar links smooth scroll integration
+  const desktopNavLinks = document.querySelectorAll('.desktop-nav-menu a[href^="#"]');
+  desktopNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        smoothScrollToSemanticHash(href);
       }
     });
   });
@@ -651,6 +710,31 @@ function initCollectionsHorizontalScroll() {
     const nextArrow = document.getElementById('collections-next-arrow');
     const trackPrevBtn = document.getElementById('track-prev-btn');
     const trackNextBtn = document.getElementById('track-next-btn');
+
+    // Restore saved collections scroll position if available
+    try {
+      const savedPos = sessionStorage.getItem('turath_collections_scroll');
+      if (savedPos && collectionsTrack) {
+        const parsed = parseFloat(savedPos);
+        if (!isNaN(parsed) && parsed > 0) {
+          requestAnimationFrame(() => {
+            collectionsTrack.scrollLeft = parsed;
+          });
+        }
+      }
+    } catch (e) {}
+
+    let scrollSaveTimer = null;
+    collectionsTrack.addEventListener('scroll', () => {
+      clearTimeout(scrollSaveTimer);
+      scrollSaveTimer = setTimeout(() => {
+        try {
+          if (collectionsTrack.scrollLeft > 0) {
+            sessionStorage.setItem('turath_collections_scroll', collectionsTrack.scrollLeft.toString());
+          }
+        } catch (e) {}
+      }, 150);
+    }, { passive: true });
 
     function scrollCollections(direction) {
       const card = collectionsTrack.querySelector('.collection-card');
@@ -1328,6 +1412,12 @@ function handleInitialDeepLink() {
     const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
     targetY = contactST && typeof contactST.end === 'number'
       ? contactST.end
+      : (target.getBoundingClientRect().top + window.scrollY);
+  } else if (realId === 'scene-07' || realId === 'founder') {
+    const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
+    const st = triggers.find(t => t.pin) || triggers[0];
+    targetY = st && typeof st.start === 'number'
+      ? (st.start + (st.end - st.start) * 0.65)
       : (target.getBoundingClientRect().top + window.scrollY);
   } else {
     const allMatching = ScrollTrigger.getAll().filter(t => {
