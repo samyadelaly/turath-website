@@ -56,7 +56,7 @@
   <script src="https://cdn.tailwindcss.com" defer></script>
 
   <link rel="stylesheet" href="./src/style.css">
-  <!-- Critical Anti-FOUC & Preloader Styles (Synchronous execution) -->
+  <!-- Critical Anti-FOUC & Strict Sizing Styles -->
   <style>
     #luxury-preloader {
       position: fixed !important;
@@ -66,38 +66,14 @@
       bottom: 0 !important;
       width: 100vw !important;
       height: 100vh !important;
-      background: #050505 !important;
-      z-index: 9999999 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
+      z-index: 99999 !important;
       pointer-events: none !important;
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      transition: opacity 0.8s ease-in-out !important;
     }
-    .turath-loader-text {
-      font-family: 'Cinzel', 'Playfair Display', Georgia, serif, sans-serif;
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      font-weight: 300;
-      letter-spacing: 0.3em;
-      color: #D7C797;
-      text-transform: uppercase;
-      text-shadow: 0 0 30px rgba(215, 199, 151, 0.45);
-      animation: turathPulse 1.8s ease-in-out infinite alternate;
+    #main-content {
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
     }
-    .turath-loader-sub {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.35em;
-      color: rgba(255, 255, 255, 0.4);
-      text-transform: uppercase;
-      margin-top: 10px;
-    }
-    @keyframes turathPulse {
-      0% { opacity: 0.35; transform: scale(0.97); }
-      100% { opacity: 1; transform: scale(1.02); }
-    }
-    /* Anti-FOUC Header Icons Strict Sizing */
     #product-wa-btn, #share-btn, #sound-toggle-btn {
       width: 24px !important;
       height: 24px !important;
@@ -129,15 +105,21 @@
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
-      <!-- Premium Solid Preloader (Zero FOUC guaranteed) -->
-  <div id="luxury-preloader">
-    <div style="text-align: center;">
-      <div class="turath-loader-text">TURATH</div>
-      <div class="turath-loader-sub">ورشة تراث • مصر</div>
-    </div>
+      <!-- Premium Knockout Preloader -->
+  <div id="luxury-preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 0.8s ease-in-out;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
+    <svg width="100%" height="100%" class="w-full h-full">
+      <defs>
+        <mask id="knockout-text">
+          <!-- White background means solid, black text means transparent hole -->
+          <rect width="100%" height="100%" fill="white" />
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
+    </svg>
   </div>
 
-  <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
+  <main id="main-content" style="opacity: 0; transition: opacity 0.4s ease-in-out;" class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <!-- Slider View Container (Matching mirrors.html and the 9 sub-pages) -->
     <div id="slider-view" class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black overflow-hidden lg:h-[82vh] lg:max-w-6xl lg:aspect-auto lg:rounded-2xl lg:shadow-2xl lg:my-6">
       
@@ -545,9 +527,11 @@
 
 
   
-    // Smooth Luxury Preloader Fadeout (Waits for DOM and images)
-    const dismissPreloader = () => {
+        // Smooth Luxury Preloader Fadeout (Waits for page and images to load completely)
+    const revealPage = () => {
+      const mainEl = document.getElementById('main-content');
       const preloader = document.getElementById('luxury-preloader');
+      if (mainEl) mainEl.style.opacity = '1';
       if (preloader && preloader.style.opacity !== '0') {
         preloader.style.opacity = '0';
         setTimeout(() => {
@@ -557,17 +541,13 @@
     };
 
     if (document.readyState === 'complete') {
-      setTimeout(dismissPreloader, 400);
+      setTimeout(revealPage, 500);
     } else {
       window.addEventListener('load', () => {
-        if (document.fonts && document.fonts.ready) {
-          document.fonts.ready.then(() => setTimeout(dismissPreloader, 400));
-        } else {
-          setTimeout(dismissPreloader, 400);
-        }
+        setTimeout(revealPage, 500);
       });
-      // Safety fallback timeout
-      setTimeout(dismissPreloader, 3000);
+      // Safety fallback so content is never stuck
+      setTimeout(revealPage, 2500);
     }
 </script>
 </body>
