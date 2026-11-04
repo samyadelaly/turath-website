@@ -204,7 +204,10 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg" alt="ISLAMIC STAR FILIGREE ROUND MIRROR" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      <picture class="w-full h-full block">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/mirrors/islamic-star-filigree-round-mirror-desktop.jpg">
+        <img id="slider-image" src="/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg" alt="ISLAMIC STAR FILIGREE ROUND MIRROR" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
@@ -220,16 +223,19 @@
     const sliderData = [
       {
             "src": "/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg",
+            "desktopSrc": "/assets/images/mirrors/islamic-star-filigree-round-mirror-desktop.jpg",
             "title": "ISLAMIC STAR FILIGREE ROUND MIRROR",
             "desc": "A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and arabesque filigree."
       },
       {
             "src": "/assets/images/mirrors/organic-fluid-brass-mirror.jpg",
+            "desktopSrc": "/assets/images/mirrors/organic-fluid-brass-mirror-desktop.jpg",
             "title": "ORGANIC FLUID BRASS MIRROR",
             "desc": "A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel."
       },
       {
             "src": "/assets/images/mirrors/faceted-octagonal-brass-mirror.jpg",
+            "desktopSrc": "/assets/images/mirrors/faceted-octagonal-brass-mirror-desktop.jpg",
             "title": "FACETED OCTAGONAL BRASS MIRROR",
             "desc": "An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry."
       },
@@ -305,6 +311,7 @@
     const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
     const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
@@ -317,12 +324,21 @@
       dashesContainer.appendChild(dash);
         });
     
-        if (currentIndex !== 0 && sliderData[currentIndex]) {
-          imgEl.src = sliderData[currentIndex].src;
-          imgEl.alt = sliderData[currentIndex].title;
-          titleEl.innerText = sliderData[currentIndex].title;
-          descEl.innerText = sliderData[currentIndex].desc;
-        }
+        function syncSlide(idx) {
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+      const currentItem = sliderData[idx];
+      if (sourceDesktopEl) {
+        sourceDesktopEl.srcset = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
+      }
+      imgEl.src = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
+      imgEl.alt = currentItem.title;
+      titleEl.innerText = currentItem.title;
+      descEl.innerText = currentItem.desc;
+    }
+
+    if (currentIndex >= 0 && sliderData[currentIndex]) {
+      syncSlide(currentIndex);
+    }
 
     function updateSlider(index) {
       if (index < 0) {
@@ -339,10 +355,15 @@
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = sliderData[currentIndex].src;
-        imgEl.alt = sliderData[currentIndex].title;
-        titleEl.innerText = sliderData[currentIndex].title;
-        descEl.innerText = sliderData[currentIndex].desc;
+        const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const currentItem = sliderData[currentIndex];
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = currentItem.desktopSrc || currentItem.src;
+        }
+        imgEl.src = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
+        imgEl.alt = currentItem.title;
+        titleEl.innerText = currentItem.title;
+        descEl.innerText = currentItem.desc;
 
         imgEl.style.opacity = '1';
         titleEl.style.opacity = '1';
