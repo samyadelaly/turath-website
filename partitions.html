@@ -450,20 +450,35 @@
 
   
 
-    // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
+        // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
     function initPreloaderDismissal() {
       const preloader = document.getElementById('luxury-preloader');
       if (!preloader || preloader.dataset.dismissed === 'true') return;
 
+      function dismiss() {
+        if (preloader.dataset.dismissed === 'true') return;
+        preloader.dataset.dismissed = 'true';
+        requestAnimationFrame(() => {
+          preloader.style.opacity = '0';
+          preloader.style.pointerEvents = 'none';
+          setTimeout(() => {
+            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+          }, 1000);
+        });
+      }
+
+      // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
+      const safetyTimeout = setTimeout(dismiss, 1800);
+
       const mainMedia = document.getElementById('slider-image') || document.getElementById('slider-video') || document.getElementById('masterpiece-img');
 
-      // 1. Ensure the hero image/video is completely decoded and painted before unveiling
       const mediaReadyPromise = new Promise((resolve) => {
         if (!mainMedia) return resolve();
-        if (mainMedia.tagName.toLowerCase() === 'video') {
+        if (mainMedia.tagName && mainMedia.tagName.toLowerCase() === 'video') {
           if (mainMedia.readyState >= 2) return resolve();
           mainMedia.addEventListener('loadeddata', () => resolve(), { once: true });
-          setTimeout(resolve, 2500);
+          mainMedia.addEventListener('canplay', () => resolve(), { once: true });
+          setTimeout(resolve, 800);
           return;
         }
         if (mainMedia.complete && mainMedia.naturalWidth > 0) {
@@ -478,24 +493,16 @@
             else resolve();
           }, { once: true });
           mainMedia.addEventListener('error', resolve, { once: true });
-          setTimeout(resolve, 3000); // safety fallback for network delays
+          setTimeout(resolve, 1000);
         }
       });
 
-      // 2. Minimum display time (1200ms) so TURATH breathing text looks luxurious & intentional
-      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 1200));
-
-      // 3. Document fonts ready
+      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
       const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
 
       Promise.all([mediaReadyPromise, minDisplayPromise, fontsPromise]).then(() => {
-        preloader.dataset.dismissed = 'true';
-        requestAnimationFrame(() => {
-          preloader.style.opacity = '0';
-          setTimeout(() => {
-            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
-          }, 1000);
-        });
+        clearTimeout(safetyTimeout);
+        dismiss();
       });
     }
 
@@ -503,8 +510,11 @@
       initPreloaderDismissal();
     } else {
       window.addEventListener('load', initPreloaderDismissal);
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initPreloaderDismissal, 2000);
+      });
     }
-</script>
+  </script>
 
 </body>
 </html>

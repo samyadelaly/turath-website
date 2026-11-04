@@ -541,6 +541,70 @@
 
   
 
-</script>
+    // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
+    function initPreloaderDismissal() {
+      const preloader = document.getElementById('luxury-preloader');
+      if (!preloader || preloader.dataset.dismissed === 'true') return;
+
+      function dismiss() {
+        if (preloader.dataset.dismissed === 'true') return;
+        preloader.dataset.dismissed = 'true';
+        requestAnimationFrame(() => {
+          preloader.style.opacity = '0';
+          preloader.style.pointerEvents = 'none';
+          setTimeout(() => {
+            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+          }, 1000);
+        });
+      }
+
+      // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
+      const safetyTimeout = setTimeout(dismiss, 1800);
+
+      const mainMedia = document.getElementById('slider-image') || document.getElementById('slider-video') || document.getElementById('masterpiece-img');
+
+      const mediaReadyPromise = new Promise((resolve) => {
+        if (!mainMedia) return resolve();
+        if (mainMedia.tagName && mainMedia.tagName.toLowerCase() === 'video') {
+          if (mainMedia.readyState >= 2) return resolve();
+          mainMedia.addEventListener('loadeddata', () => resolve(), { once: true });
+          mainMedia.addEventListener('canplay', () => resolve(), { once: true });
+          setTimeout(resolve, 800);
+          return;
+        }
+        if (mainMedia.complete && mainMedia.naturalWidth > 0) {
+          if (mainMedia.decode) {
+            mainMedia.decode().then(resolve).catch(resolve);
+          } else {
+            resolve();
+          }
+        } else {
+          mainMedia.addEventListener('load', () => {
+            if (mainMedia.decode) mainMedia.decode().then(resolve).catch(resolve);
+            else resolve();
+          }, { once: true });
+          mainMedia.addEventListener('error', resolve, { once: true });
+          setTimeout(resolve, 1000);
+        }
+      });
+
+      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+      const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+
+      Promise.all([mediaReadyPromise, minDisplayPromise, fontsPromise]).then(() => {
+        clearTimeout(safetyTimeout);
+        dismiss();
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      initPreloaderDismissal();
+    } else {
+      window.addEventListener('load', initPreloaderDismissal);
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initPreloaderDismissal, 2000);
+      });
+    }
+  </script>
 </body>
 </html>
