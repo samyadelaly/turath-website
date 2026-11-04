@@ -1121,6 +1121,42 @@ function initScene06() {
     });
   }
 
+  const slatDashes = document.querySelectorAll(".slat-dash");
+  if (slatDashes.length && slatsTrack) {
+    slatDashes.forEach((dash, idx) => {
+      dash.addEventListener("click", () => {
+        const items = slatsTrack.querySelectorAll(".video-slat-item");
+        if (items[idx]) {
+          items[idx].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        }
+      });
+    });
+
+    slatsTrack.addEventListener("scroll", () => {
+      const items = slatsTrack.querySelectorAll(".video-slat-item");
+      const trackCenter = slatsTrack.scrollLeft + slatsTrack.clientWidth / 2;
+      let activeIdx = 0;
+      let minDist = Infinity;
+      items.forEach((item, idx) => {
+        const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+        const dist = Math.abs(trackCenter - itemCenter);
+        if (dist < minDist) {
+          minDist = dist;
+          activeIdx = idx;
+        }
+      });
+      slatDashes.forEach((d, i) => {
+        if (i === activeIdx) {
+          d.classList.add("bg-white");
+          d.classList.remove("bg-white/30");
+        } else {
+          d.classList.remove("bg-white");
+          d.classList.add("bg-white/30");
+        }
+      });
+    }, { passive: true });
+  }
+
   // Pin Scene 06 strictly so Scene 07 climbs over it as a curtain
   const scene07 = document.querySelector("#scene-07");
   ScrollTrigger.create({

@@ -1831,3 +1831,256 @@ select:-webkit-autofill:active {
   display: block !important;
   flex-shrink: 0 !important;
 }
+
+/* ==========================================================================
+   DESKTOP MASTERPIECE OVERHAUL (STRICTLY ISOLATED TO MIN-WIDTH 1024px)
+   ZERO MODIFICATIONS TO MOBILE OR TABLET
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* 1. HERO ARCHITECTURE & NOTCH CONTAINMENT */
+  .hero-gold-sheet {
+    clip-path: polygon(0 0, 100% 0, 100% 16%, 52% 16%, 52% 50%, 0 50%) !important;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 16%, 52% 16%, 52% 50%, 0 50%) !important;
+  }
+
+  .hero-bg-image {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    background-color: #050505 !important;
+    overflow: hidden !important;
+  }
+
+  .hero-bg-image img {
+    position: relative !important;
+    inset: auto !important;
+    width: auto !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+    object-fit: contain !important;
+    object-position: right center !important;
+    margin-left: auto !important;
+    margin-right: 2vw !important;
+  }
+
+  .hero-sheet-content {
+    top: clamp(100px, 13vh, 125px) !important;
+    left: clamp(48px, 6vw, 80px) !important;
+    max-width: 48vw !important;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.22em !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .hero-headline-1 {
+    font-size: clamp(2.4rem, 3.6vw, 3.4rem) !important;
+    line-height: 1.05 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .hero-headline-2 {
+    font-size: clamp(1.3rem, 1.8vw, 1.7rem) !important;
+    line-height: 1.15 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .hero-wordmark-wrap {
+    margin-top: 0.25rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
+
+  .hero-wordmark {
+    font-size: clamp(1.8rem, 2.5vw, 2.4rem) !important;
+    color: #0A0A0A !important;
+  }
+
+  .hero-bottom-content {
+    bottom: clamp(35px, 6vh, 60px) !important;
+    left: clamp(48px, 6vw, 80px) !important;
+    max-width: 520px !important;
+  }
+
+  /* 2. UNIFIED TYPOGRAPHY HIERARCHY (نسب العناوين والدباجة موحدة) */
+  .hero-bottom-title,
+  .about-title,
+  .collections-title,
+  .bespoke-text-anim,
+  .scene05-headline,
+  .scene06-title {
+    font-family: var(--font-heading, 'Syne', sans-serif) !important;
+    font-size: clamp(1.65rem, 2.1vw, 2.2rem) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    line-height: 1.25 !important;
+    text-transform: uppercase !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75) !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .hero-bottom-desc,
+  .about-desc,
+  .collections-desc,
+  #bespoke-content p,
+  .scene05-description,
+  .scene06-desc {
+    font-family: var(--font-sans) !important;
+    font-size: clamp(0.92rem, 1.05vw, 1.02rem) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.65 !important;
+    color: rgba(243, 241, 237, 0.85) !important;
+    max-width: 620px !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85) !important;
+  }
+
+  /* 3. 9:16 BACKGROUND IMAGES PRESERVATION (دون مط أو استريتش للمنتج) */
+  #bespoke {
+    background-color: #050505 !important;
+  }
+  #bespoke > div.absolute.inset-0.z-0 {
+    position: absolute !important;
+    inset: 0 !important;
+    width: min(100vh * 0.58, 620px) !important;
+    height: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  #bespoke .b-slice {
+    background-size: 300% 100% !important;
+    background-repeat: no-repeat !important;
+  }
+
+  /* 4. GOLDEN RATIO CIRCULAR NAVIGATION CONTROLS (48px / 20px) */
+  #track-prev-btn,
+  #track-next-btn,
+  #slats-prev-btn,
+  #slats-next-btn,
+  #collections-prev-arrow,
+  #collections-next-arrow {
+    display: flex !important;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    color: #FFFFFF !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+    z-index: 70 !important;
+  }
+
+  #track-prev-btn:hover,
+  #track-next-btn:hover,
+  #slats-prev-btn:hover,
+  #slats-next-btn:hover,
+  #collections-prev-arrow:hover,
+  #collections-next-arrow:hover {
+    background: rgba(0, 0, 0, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
+    transform: translateY(-50%) scale(1.08) !important;
+  }
+
+  #track-prev-btn svg,
+  #track-next-btn svg,
+  #slats-prev-btn svg,
+  #slats-next-btn svg,
+  #collections-prev-arrow svg,
+  #collections-next-arrow svg {
+    width: 20px !important;
+    height: 20px !important;
+    stroke: #FFFFFF !important;
+  }
+
+  /* 5. SCENE 03 COLLECTIONS CAROUSEL & DASHES CLEAN ALIGNMENT */
+  .collections-track {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 1.5rem !important;
+    width: 100% !important;
+    max-width: 1360px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 1rem 3rem !important;
+    height: auto !important;
+  }
+
+  .collections-track .collection-card {
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+    height: 462px !important;
+    aspect-ratio: 9/16 !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: center !important;
+    border-radius: 12px !important;
+    transition: transform 0.4s ease, border-color 0.4s ease !important;
+  }
+
+  .collections-track .collection-card:hover {
+    transform: translateY(-6px) !important;
+    border-color: #D7C797 !important;
+  }
+
+  .collections-pagination {
+    position: relative !important;
+    bottom: auto !important;
+    margin-top: 1.75rem !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    gap: 0.75rem !important;
+    z-index: 30 !important;
+  }
+
+  /* 6. SCENE 06 VIDEO SLATS SINGLE ROW & DASHES ALIGNMENT */
+  .video-slats-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    width: 100% !important;
+    max-width: 1360px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0 1.5rem !important;
+  }
+
+  .video-slat-item {
+    width: 240px !important;
+    min-width: 240px !important;
+    max-width: 240px !important;
+    height: 426px !important;
+    aspect-ratio: 9/16 !important;
+    flex-shrink: 0 !important;
+    border-radius: 14px !important;
+  }
+
+  .slats-pagination {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 0.75rem !important;
+    margin-top: 2rem !important;
+    z-index: 30 !important;
+  }
+}
