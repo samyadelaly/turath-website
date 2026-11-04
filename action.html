@@ -103,6 +103,7 @@
       max-width: 36px !important;
       max-height: 36px !important;
       border-radius: 9999px !important;
+      background: transparent !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
@@ -203,17 +204,17 @@
         <a href="index.html#craftsmanship" class="justify-self-start text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Scene 06">&larr;</a>
         <span class="justify-self-center text-center whitespace-nowrap text-xs md:text-sm font-light tracking-[0.16em] sm:tracking-[0.25em] uppercase text-white/70">TURATH IN ACTION</span>
         <div class="justify-self-end flex items-center gap-3" style="justify-self: end; display: flex; align-items: center; gap: 0.75rem;">
-          <button id="sound-toggle-btn" type="button" class="group relative w-9 h-9 rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md border border-[#D7C797]/60 hover:border-[#D7C797] text-[#D7C797] transition-all duration-300 shadow-[0_0_12px_rgba(215,199,151,0.25)] hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer pointer-events-auto shrink-0" aria-label="Toggle Sound" title="Toggle Sound">
+          <button id="sound-toggle-btn" type="button" class="group relative w-9 h-9 rounded-full bg-transparent border border-white/50 hover:border-white text-white transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center cursor-pointer pointer-events-auto shrink-0" aria-label="Toggle Sound" title="Toggle Sound">
             <!-- Muted Speaker Icon -->
-            <svg id="sound-icon-muted" width="18" height="18" class="w-[18px] h-[18px] text-white/90 group-hover:text-[#D7C797] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg id="sound-icon-muted" width="18" height="18" class="w-[18px] h-[18px] text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-4.5L5.625 9.75H3a.75.75 0 00-.75.75v3c0 .414.336.75.75.75h2.625l3.375 2.25c.677.451 1.5.018 1.5-.75v-7.5c0-.768-.823-1.201-1.5-.75z" />
             </svg>
-            <!-- Animated Equalizer Sound Waves (Playing State) -->
+            <!-- Animated Equalizer Sound Waves (Playing State - Pure White with exact same animation) -->
             <div id="sound-wave-bars" class="items-end justify-center gap-[2.5px] h-4 w-4" style="display: none;">
-              <span class="w-[2.5px] bg-[#D7C797] rounded-full sound-bar-1" style="height: 6px;"></span>
-              <span class="w-[2.5px] bg-[#D7C797] rounded-full sound-bar-2" style="height: 14px;"></span>
-              <span class="w-[2.5px] bg-[#D7C797] rounded-full sound-bar-3" style="height: 8px;"></span>
-              <span class="w-[2.5px] bg-[#D7C797] rounded-full sound-bar-4" style="height: 15px;"></span>
+              <span class="w-[2.5px] bg-white rounded-full sound-bar-1" style="height: 6px;"></span>
+              <span class="w-[2.5px] bg-white rounded-full sound-bar-2" style="height: 14px;"></span>
+              <span class="w-[2.5px] bg-white rounded-full sound-bar-3" style="height: 8px;"></span>
+              <span class="w-[2.5px] bg-white rounded-full sound-bar-4" style="height: 15px;"></span>
             </div>
           </button>
           <a id="product-wa-btn" href="https://wa.me/201016771010" target="_blank" rel="noopener noreferrer" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 text-white/70 hover:text-white transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Inquire on WhatsApp" title="Inquire on WhatsApp">
@@ -326,14 +327,14 @@
         videoEl.muted = true;
         soundMutedIcon.style.display = 'block';
         soundWaveBars.style.display = 'none';
-        soundToggleBtn.classList.remove('border-[#D7C797]', 'shadow-[0_0_18px_rgba(215,199,151,0.55)]', 'bg-black/90');
-        soundToggleBtn.classList.add('border-[#D7C797]/60', 'bg-black/60');
+        soundToggleBtn.classList.remove('border-white', 'shadow-[0_0_12px_rgba(255,255,255,0.4)]');
+        soundToggleBtn.classList.add('border-white/50');
       } else {
         videoEl.muted = false;
         soundMutedIcon.style.display = 'none';
         soundWaveBars.style.display = 'flex';
-        soundToggleBtn.classList.add('border-[#D7C797]', 'shadow-[0_0_18px_rgba(215,199,151,0.55)]', 'bg-black/90');
-        soundToggleBtn.classList.remove('border-[#D7C797]/60', 'bg-black/60');
+        soundToggleBtn.classList.add('border-white', 'shadow-[0_0_12px_rgba(255,255,255,0.4)]');
+        soundToggleBtn.classList.remove('border-white/50');
       }
     }
 
