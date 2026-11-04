@@ -68,11 +68,8 @@
       height: 100vh !important;
       z-index: 99999 !important;
       pointer-events: none !important;
-      transition: opacity 0.8s ease-in-out !important;
-    }
-    #main-content {
-      opacity: 0;
-      transition: opacity 0.4s ease-in-out;
+      transition: opacity 1s ease-in-out !important;
+      background: transparent !important;
     }
     #product-wa-btn, #share-btn, #sound-toggle-btn {
       width: 24px !important;
@@ -88,7 +85,7 @@
       overflow: hidden !important;
       box-sizing: border-box !important;
     }
-    #product-wa-btn svg, #share-btn svg {
+    #product-wa-btn svg, #share-btn svg, #sound-toggle-btn svg {
       width: 20px !important;
       height: 20px !important;
       min-width: 20px !important;
@@ -106,7 +103,7 @@
   src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
       <!-- Premium Knockout Preloader -->
-  <div id="luxury-preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 0.8s ease-in-out;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
+  <div id="luxury-preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
     <svg width="100%" height="100%" class="w-full h-full">
       <defs>
         <mask id="knockout-text">
@@ -119,7 +116,7 @@
     </svg>
   </div>
 
-  <main id="main-content" style="opacity: 0; transition: opacity 0.4s ease-in-out;" class="min-h-screen bg-[#050505] text-white overflow-hidden">
+  <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <!-- Slider View Container (Matching mirrors.html and the 9 sub-pages) -->
     <div id="slider-view" class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black overflow-hidden lg:h-[82vh] lg:max-w-6xl lg:aspect-auto lg:rounded-2xl lg:shadow-2xl lg:my-6">
       
@@ -527,28 +524,18 @@
 
 
   
-        // Smooth Luxury Preloader Fadeout (Waits for page and images to load completely)
-    const revealPage = () => {
-      const mainEl = document.getElementById('main-content');
+        // Premium Knockout Preloader Fadeout
+    window.addEventListener('load', () => {
       const preloader = document.getElementById('luxury-preloader');
-      if (mainEl) mainEl.style.opacity = '1';
-      if (preloader && preloader.style.opacity !== '0') {
-        preloader.style.opacity = '0';
+      if (preloader) {
         setTimeout(() => {
-          if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
-        }, 800);
+          preloader.style.opacity = '0';
+          setTimeout(() => {
+            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+          }, 1000);
+        }, 1000);
       }
-    };
-
-    if (document.readyState === 'complete') {
-      setTimeout(revealPage, 500);
-    } else {
-      window.addEventListener('load', () => {
-        setTimeout(revealPage, 500);
-      });
-      // Safety fallback so content is never stuck
-      setTimeout(revealPage, 2500);
-    }
+    });
 </script>
 </body>
 </html>
