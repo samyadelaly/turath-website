@@ -64,8 +64,7 @@ body {
 
 /* FOUC & GSAP Jump Prevention for Hash Navigation / Back Navigation */
 body.main-page {
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
+  opacity: 1;
 }
 body.main-page.page-loaded {
   opacity: 1 !important;
@@ -148,8 +147,8 @@ img, video {
   border: none;
   padding: 0;
   z-index: 1002;
-  opacity: 0;
-  pointer-events: none;
+  opacity: 1;
+  pointer-events: auto;
   transition: opacity 0.3s ease;
 }
 
