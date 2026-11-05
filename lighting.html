@@ -204,7 +204,10 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/lighting/hammered-brass-scroll-sconce.jpg" alt="SCULPTURAL HAMMERED BRASS SCROLL SCONCE" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      <picture id="slider-picture">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/lighting/hammered-brass-scroll-sconce-desktop.jpg">
+        <img id="slider-image" src="/assets/images/lighting/hammered-brass-scroll-sconce.jpg" alt="SCULPTURAL HAMMERED BRASS SCROLL SCONCE" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
@@ -220,16 +223,19 @@
     const sliderData = [
       {
             "src": "/assets/images/lighting/hammered-brass-scroll-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/hammered-brass-scroll-sconce-desktop.jpg",
             "title": "SCULPTURAL HAMMERED BRASS SCROLL SCONCE",
             "desc": "A statement architectural wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture."
       },
       {
             "src": "/assets/images/lighting/elongated-arabesque-teardrop-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/elongated-arabesque-teardrop-pendant-desktop.jpg",
             "title": "ELONGATED ARABESQUE TEARDROP PENDANT",
             "desc": "An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection."
       },
       {
             "src": "/assets/images/lighting/mamluk-royal-brass-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/mamluk-royal-brass-chandelier-desktop.jpg",
             "title": "EGYPTIAN ROYAL BRASS CHANDELIER",
             "desc": "A monumental ceremonial brass lantern inspired by classical Egyptian architecture, suspended by ornate chains with pierced arabesque motifs."
       },
@@ -400,9 +406,21 @@
     const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
     const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+
+    function syncSlide(idx) {
+      if (!sliderData[idx]) return;
+      imgEl.src = sliderData[idx].src;
+      imgEl.alt = sliderData[idx].title;
+      if (sourceDesktopEl) {
+        sourceDesktopEl.srcset = sliderData[idx].desktopSrc || sliderData[idx].src;
+      }
+      titleEl.innerText = sliderData[idx].title;
+      descEl.innerText = sliderData[idx].desc;
+    }
 
     // Build Dash indicators dynamically
     sliderData.forEach((_, idx) => {
@@ -410,14 +428,9 @@
       dash.className = `dash-dot flex-1 max-w-[10px] min-w-[2px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-white' : 'bg-white/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
-        });
-    
-        if (currentIndex !== 0 && sliderData[currentIndex]) {
-          imgEl.src = sliderData[currentIndex].src;
-          imgEl.alt = sliderData[currentIndex].title;
-          titleEl.innerText = sliderData[currentIndex].title;
-          descEl.innerText = sliderData[currentIndex].desc;
-        }
+    });
+
+    syncSlide(currentIndex);
 
     function updateSlider(index) {
       if (index < 0) {
@@ -434,12 +447,9 @@
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = sliderData[currentIndex].src;
-        imgEl.alt = sliderData[currentIndex].title;
-        titleEl.innerText = sliderData[currentIndex].title;
-        descEl.innerText = sliderData[currentIndex].desc;
+          syncSlide(currentIndex);
 
-        imgEl.style.opacity = '1';
+          imgEl.style.opacity = '1';
         titleEl.style.opacity = '1';
         descEl.style.opacity = '1';
 
