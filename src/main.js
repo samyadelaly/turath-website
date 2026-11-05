@@ -1567,10 +1567,11 @@ function onWindowAssetsLoaded() {
     document.body.classList.add('page-loaded');
   });
 
-  // 3. Strictly call ScrollTrigger.refresh() AFTER images & window assets settle,
-  // with a timeout to ensure complete DOM stability and layout settling
+  // 3. Refresh ScrollTrigger only when needed (avoid blocking mobile main-thread at scroll 0)
   setTimeout(() => {
-    ScrollTrigger.refresh(true);
+    if (window.innerWidth >= 1024 || isBelowFoldInitialized) {
+      ScrollTrigger.refresh();
+    }
 
     // Handle hash navigation instantly using GSAP with accurate section offsets
     if (initialHashRaw || window.location.hash) {
