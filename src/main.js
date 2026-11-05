@@ -1510,14 +1510,16 @@ function hideLuxuryPreloader() {
   const preloader = document.getElementById('luxury-preloader');
   if (!preloader || preloader.dataset.hiding === 'true') return;
   preloader.dataset.hiding = 'true';
+  const isMobile = window.innerWidth < 1024;
+  const fadeDelay = isMobile ? 0 : 200;
   setTimeout(() => {
     preloader.classList.add('opacity-0', 'pointer-events-none');
     preloader.style.opacity = '0';
     preloader.style.pointerEvents = 'none';
     setTimeout(() => {
       preloader.remove();
-    }, 1000);
-  }, 1200);
+    }, 400);
+  }, fadeDelay);
 }
 
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded
@@ -1527,18 +1529,18 @@ function onWindowAssetsLoaded() {
   if (isWindowAssetsLoaded) return;
   isWindowAssetsLoaded = true;
 
-  // 1. Hide the preloader once all images and window assets are fully loaded
+  // 1. Hide the preloader once assets are ready
   hideLuxuryPreloader();
 
-  // 2. Reveal body after assets are loaded
+  // 2. Reveal body and mark page loaded
   requestAnimationFrame(() => {
     document.body.style.opacity = '1';
     document.body.classList.remove('opacity-0');
     document.body.classList.add('page-loaded');
   });
 
-  // 3. Strictly call ScrollTrigger.refresh() AFTER all images and window assets are fully loaded,
-  // with a 500ms timeout to ensure complete DOM stability and layout settling
+  // 3. Strictly call ScrollTrigger.refresh() AFTER images & window assets settle,
+  // with a timeout to ensure complete DOM stability and layout settling
   setTimeout(() => {
     ScrollTrigger.refresh(true);
 
@@ -1562,7 +1564,7 @@ function onWindowAssetsLoaded() {
         });
       }
     }
-  }, 500);
+  }, 350);
 }
 
 if (document.readyState === 'complete') {
@@ -1571,12 +1573,18 @@ if (document.readyState === 'complete') {
   window.addEventListener('load', onWindowAssetsLoaded);
 }
 
-// Safety fallback: ensure preloader hides, body reveals, and layout settles even if an asset hangs
+// Mobile and performance safety triggers: ensure preloader never holds screen hostage
+if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+  setTimeout(hideLuxuryPreloader, 400);
+  setTimeout(onWindowAssetsLoaded, 1000);
+}
+
+// Global safety fallback: guarantee page interactive even if an external asset hangs
 setTimeout(() => {
   if (!isWindowAssetsLoaded) {
     onWindowAssetsLoaded();
   }
-}, 3500);
+}, 2000);
 
 
 // ==========================================================================
