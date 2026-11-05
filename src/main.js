@@ -253,7 +253,7 @@ function initNavDrawer() {
         const st = triggers.find(t => t.pin) || triggers[0];
         // Target 65% of the pinned illumination crossfade where the founder & lamp are 100% lit
         const targetY = st && typeof st.start === 'number'
-          ? (st.start + (st.end - st.start) * 0.65)
+          ? (st.start + (st.end - st.start) * 0.45)
           : (founderEl.getBoundingClientRect().top + window.scrollY);
         gsap.to(window, {
           scrollTo: { y: targetY, autoKill: false },
@@ -1212,10 +1212,10 @@ function initScene07() {
   if (litPlate) {
     founderTL.fromTo(litPlate,
       { opacity: 0 },
-      { opacity: 1, ease: "power1.inOut", duration: 1.5 }
+      { opacity: 1, ease: "power1.inOut", duration: 0.5 }
     );
-    // Hold lit plate fully illuminated while Contact ascends over it
-    founderTL.to({}, { duration: 1.0 });
+    // Hold lit plate fully illuminated in daytime while user scrolls and before Contact ascends
+    founderTL.to({}, { duration: 2.0 });
   }
 
   // Editorial card subtle upward float
@@ -1484,7 +1484,7 @@ function handleInitialDeepLink() {
     const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
     const st = triggers.find(t => t.pin) || triggers[0];
     targetY = st && typeof st.start === 'number'
-      ? (st.start + (st.end - st.start) * 0.65)
+      ? (st.start + (st.end - st.start) * 0.45)
       : (target.getBoundingClientRect().top + window.scrollY);
   } else {
     const allMatching = ScrollTrigger.getAll().filter(t => {
