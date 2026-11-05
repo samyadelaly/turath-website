@@ -1399,20 +1399,50 @@ function initDynamicShareButton() {
 initNavDrawer();
 initHeroAnimations();
 initScrollBtn();
-initAboutPinnedTimeline();
-initCollectionsHorizontalScroll();
-initBespokeTransition();
-initBespokeForm();
-initFeaturedProducts();
-initScene06();
-initScene07();
-initContactSection();
 initPhoneDropdown();
 initSemanticHashTracking();
 initDynamicShareButton();
 initTouchDragThreshold();
 initAnalyticsTracking();
 initMediaProtection();
+
+// Performance Optimization: Defer below-the-fold heavy GSAP timelines and ScrollTriggers
+let isBelowFoldInitialized = false;
+function initBelowFold() {
+  if (isBelowFoldInitialized) return;
+  isBelowFoldInitialized = true;
+  initAboutPinnedTimeline();
+  initCollectionsHorizontalScroll();
+  initBespokeTransition();
+  initBespokeForm();
+  initFeaturedProducts();
+  initScene06();
+  initScene07();
+  initContactSection();
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 100);
+}
+
+// Deep linking or immediate initialization if direct hash requested
+const directHash = (window.location.hash || '').replace(/^[#/]+/, '').toLowerCase();
+if (directHash && directHash !== 'home' && directHash !== 'scene-01' && directHash !== 'hero') {
+  initBelowFold();
+} else {
+  // Otherwise defer until first user interaction or idle callback to keep initial CPU thread empty
+  const startTriggers = ['scroll', 'touchstart', 'mousemove', 'wheel', 'keydown'];
+  const onUserReady = () => {
+    startTriggers.forEach(ev => window.removeEventListener(ev, onUserReady, { passive: true }));
+    initBelowFold();
+  };
+  startTriggers.forEach(ev => window.addEventListener(ev, onUserReady, { passive: true, once: true }));
+
+  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+    requestIdleCallback(() => initBelowFold(), { timeout: 1200 });
+  } else {
+    setTimeout(initBelowFold, 700);
+  }
+}
 
 // Function to handle initial deep link hash navigation
 function handleInitialDeepLink() {
