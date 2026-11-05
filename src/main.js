@@ -1437,8 +1437,9 @@ if (directHash && directHash !== 'home' && directHash !== 'scene-01' && directHa
   };
   startTriggers.forEach(ev => window.addEventListener(ev, onUserReady, { passive: true, once: true }));
 
-  // On mobile: strictly wait for user interaction (touch/scroll) so initial CPU is 100% idle
-  if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+  // On mobile/touch: strictly wait for user interaction (touch/scroll) so initial CPU is 100% idle
+  const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth < 1024 || /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent));
+  if (!isMobileDevice) {
     setTimeout(initBelowFold, 2000);
   }
 }
@@ -1570,7 +1571,8 @@ function onWindowAssetsLoaded() {
 
   // 3. Refresh ScrollTrigger only when needed (avoid blocking mobile main-thread at scroll 0)
   setTimeout(() => {
-    if (window.innerWidth >= 1024 || isBelowFoldInitialized) {
+    const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth < 1024 || /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent));
+    if (!isMobileDevice || isBelowFoldInitialized) {
       ScrollTrigger.refresh();
     }
 
