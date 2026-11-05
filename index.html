@@ -5,46 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
 
-  <!-- Deferred Google Tag Manager & Meta Pixel (Zero initial thread contention) -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-PDYBS5D7CZ');
 
+    gtag('config', 'G-PDYBS5D7CZ');
+  </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];}(window, document);
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '148068092481360');
     fbq('track', 'PageView');
-
-    // Defer heavy external scripts until after first interaction or 2.5s safety timer
-    (function() {
-      let loaded = false;
-      function loadThirdParty() {
-        if (loaded) return;
-        loaded = true;
-        ['touchstart', 'scroll', 'mousemove', 'keydown'].forEach(ev => window.removeEventListener(ev, loadThirdParty, { passive: true }));
-        
-        // Load GTM
-        const sGtm = document.createElement('script');
-        sGtm.async = true;
-        sGtm.src = 'https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ';
-        document.head.appendChild(sGtm);
-
-        // Load Meta Pixel
-        const sFb = document.createElement('script');
-        sFb.async = true;
-        sFb.src = 'https://connect.facebook.net/en_US/fbevents.js';
-        document.head.appendChild(sFb);
-      }
-      ['touchstart', 'scroll', 'mousemove', 'keydown'].forEach(ev => window.addEventListener(ev, loadThirdParty, { passive: true, once: true }));
-      setTimeout(loadThirdParty, 2500);
-    })();
   </script>
-  <!-- End Deferred Analytics -->
+  <!-- End Meta Pixel Code -->
   <!-- Early Preconnect for External Web Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
