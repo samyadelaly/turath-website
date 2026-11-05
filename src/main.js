@@ -1437,9 +1437,10 @@ if (directHash && directHash !== 'home' && directHash !== 'scene-01' && directHa
   };
   startTriggers.forEach(ev => window.addEventListener(ev, onUserReady, { passive: true, once: true }));
 
-  // Defer below-fold initialization until actual user interaction or 3.5s on mobile
-  const idleDelay = (typeof window !== 'undefined' && window.innerWidth < 1024) ? 3500 : 1200;
-  setTimeout(initBelowFold, idleDelay);
+  // On mobile: strictly wait for user interaction (touch/scroll) so initial CPU is 100% idle
+  if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+    setTimeout(initBelowFold, 2000);
+  }
 }
 
 // Function to handle initial deep link hash navigation
