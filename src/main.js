@@ -1540,16 +1540,14 @@ function hideLuxuryPreloader() {
   const preloader = document.getElementById('luxury-preloader');
   if (!preloader || preloader.dataset.hiding === 'true') return;
   preloader.dataset.hiding = 'true';
-  const isMobile = window.innerWidth < 1024;
-  const fadeDelay = isMobile ? 0 : 200;
   setTimeout(() => {
     preloader.classList.add('opacity-0', 'pointer-events-none');
     preloader.style.opacity = '0';
     preloader.style.pointerEvents = 'none';
     setTimeout(() => {
       preloader.remove();
-    }, 400);
-  }, fadeDelay);
+    }, 1000);
+  }, 1200);
 }
 
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded
@@ -1605,18 +1603,12 @@ if (document.readyState === 'complete') {
   window.addEventListener('load', onWindowAssetsLoaded);
 }
 
-// Mobile and performance safety triggers: ensure preloader never holds screen hostage
-if (typeof window !== 'undefined' && window.innerWidth < 1024) {
-  setTimeout(hideLuxuryPreloader, 400);
-  setTimeout(onWindowAssetsLoaded, 1000);
-}
-
-// Global safety fallback: guarantee page interactive even if an external asset hangs
+// Safety fallback: ensure preloader hides, body reveals, and layout settles even if an asset hangs
 setTimeout(() => {
   if (!isWindowAssetsLoaded) {
     onWindowAssetsLoaded();
   }
-}, 2000);
+}, 3500);
 
 
 // ==========================================================================
