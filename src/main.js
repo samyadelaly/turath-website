@@ -175,6 +175,7 @@ function initNavDrawer() {
   if (closeBtn) {
     closeBtn.addEventListener('click', closeMenu);
   }
+  window.closeMenu = closeMenu;
 
     const idToSemantic = {
     'scene-01': 'home',
@@ -1535,20 +1536,41 @@ function handleInitialDeepLink() {
 }
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
-// Premium Knockout Preloader hide logic
+// Premium Preloader hide logic (handles #preloader & #luxury-preloader)
 function hideLuxuryPreloader() {
-  const preloader = document.getElementById('luxury-preloader');
+  const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
   if (!preloader || preloader.dataset.hiding === 'true') return;
   preloader.dataset.hiding = 'true';
+  preloader.classList.add('opacity-0', 'pointer-events-none');
+  preloader.style.opacity = '0';
+  preloader.style.pointerEvents = 'none';
   setTimeout(() => {
-    preloader.classList.add('opacity-0', 'pointer-events-none');
-    preloader.style.opacity = '0';
-    preloader.style.pointerEvents = 'none';
-    setTimeout(() => {
-      preloader.remove();
-    }, 1000);
-  }, 1200);
+    preloader.style.display = 'none';
+  }, 300);
 }
+
+// BFCache (Back-Forward Cache) Restoration Handler for Safari & Chrome
+window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+        const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
+        if (preloader) {
+            preloader.style.opacity = '0';
+            preloader.style.pointerEvents = 'none';
+            setTimeout(() => { preloader.style.display = 'none'; }, 300);
+        }
+        if (typeof window.closeMenu === 'function') {
+            window.closeMenu();
+        } else {
+            document.body.classList.remove('menu-open');
+            const navDrawer = document.getElementById('nav-drawer');
+            if (navDrawer) {
+                navDrawer.style.visibility = 'hidden';
+                navDrawer.style.pointerEvents = 'none';
+                navDrawer.setAttribute('aria-hidden', 'true');
+            }
+        }
+    }
+});
 
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded
 let isWindowAssetsLoaded = false;

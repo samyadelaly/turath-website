@@ -320,6 +320,14 @@
   <script src="https://cdn.tailwindcss.com" defer></script>
 
   <link rel="stylesheet" href="./src/style.css">
+  <style>
+    /* Strict Mobile Menu Flash Prevention (Critical CSS) */
+    @media (max-width: 1023px) {
+      .desktop-nav-menu, nav.desktop-nav-menu {
+        display: none !important;
+      }
+    }
+  </style>
 </head>
 <body class="bg-black main-page">
   <!-- Meta Pixel noscript fallback -->
@@ -329,8 +337,11 @@
 
   <noscript><style>body.main-page { opacity: 1 !important; }</style></noscript>
   
+  <!-- Solid Background Mask Preloader for Transitions & BFCache (z-[9999] bg-[#0a0a0a]) -->
+  <div id="preloader" class="fixed inset-0 w-screen h-screen z-[9999] bg-[#0a0a0a] transition-opacity duration-300 pointer-events-none" style="position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9999; background-color: #0a0a0a; transition: opacity 0.3s ease-out; opacity: 1;"></div>
+  
   <!-- TOP LUXURY NAVBAR (PERMANENTLY FIXED AT TOP) -->
-  <header id="site-header" class="site-header fixed top-0 left-0 w-full z-[9999] bg-black/20 backdrop-blur-md">
+  <header id="site-header" class="site-header fixed top-0 left-0 w-full z-[9990] bg-black/20 backdrop-blur-md">
     <div class="header-left">
       <!-- 2-line minimal menu trigger on extreme LEFT -->
       <button id="menu-trigger" class="header-menu-trigger lg:hidden" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="nav-drawer">

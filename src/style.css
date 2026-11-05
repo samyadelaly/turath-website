@@ -1,3 +1,23 @@
+
+/* ==========================================================================
+   STRICT MOBILE MENU FLASH PREVENTION & PRELOADER MASK
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .desktop-nav-menu,
+  nav.desktop-nav-menu {
+    display: none !important;
+  }
+}
+
+#preloader {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  background-color: #0a0a0a !important;
+  transition: opacity 0.3s ease-out !important;
+}
 /**
  * TURATH (تراث) — Clean Master Foundation & Hero Architecture
  * Step 1: Global Foundation & CSS Reset
