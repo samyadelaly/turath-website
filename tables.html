@@ -204,7 +204,10 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/tables/staggered-brass-plate-cylinder-table.jpg" alt="STAGGERED BRASS PLATE CYLINDER TABLE" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      <picture id="slider-picture">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/tables/staggered-brass-plate-cylinder-table-desktop.jpg">
+        <img id="slider-image" src="/assets/images/tables/staggered-brass-plate-cylinder-table.jpg" alt="STAGGERED BRASS PLATE CYLINDER TABLE" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
@@ -219,51 +222,60 @@
   <script>
     const sliderData = [
       {
-            "src": "/assets/images/tables/staggered-brass-plate-cylinder-table.jpg",
-            "title": "STAGGERED BRASS PLATE CYLINDER TABLE",
-            "desc": "A sculptural drum side table featuring a clear glass top supported by an architectural cylinder of vertical brass rods and staggered patinated rectangular plates."
+        src: "/assets/images/tables/staggered-brass-plate-cylinder-table.jpg",
+        desktopSrc: "/assets/images/tables/staggered-brass-plate-cylinder-table-desktop.jpg",
+        title: "STAGGERED BRASS PLATE CYLINDER TABLE",
+        desc: "A sculptural drum side table featuring a clear glass top supported by an architectural cylinder of vertical brass rods and staggered patinated rectangular plates."
       },
       {
-            "src": "/assets/images/tables/tiered-brass-tubular-nesting-tables.jpg",
-            "title": "TIERED BRASS TUBULAR NESTING TABLES",
-            "desc": "A refined pair of tiered accent drink tables with clear glass tops supported by slender brushed solid brass columns and architectural tiered cross stretchers."
+        src: "/assets/images/tables/tiered-brass-tubular-nesting-tables.jpg",
+        desktopSrc: "/assets/images/tables/tiered-brass-tubular-nesting-tables-desktop.jpg",
+        title: "TIERED BRASS TUBULAR NESTING TABLES",
+        desc: "A refined pair of tiered accent drink tables with clear glass tops supported by slender brushed solid brass columns and architectural tiered cross stretchers."
       },
       {
-            "src": "/assets/images/tables/nesting-circular-brass-coffee-tables.jpg",
-            "title": "NESTING BRASS COFFEE TABLES",
-            "desc": "A sophisticated duo of nesting circular coffee tables featuring inset glass tops, slender triple-rod brass pillars, and continuous circular ground rings."
+        src: "/assets/images/tables/nesting-circular-brass-coffee-tables.jpg",
+        desktopSrc: "/assets/images/tables/nesting-circular-brass-coffee-tables-desktop.jpg",
+        title: "NESTING BRASS COFFEE TABLES",
+        desc: "A sophisticated duo of nesting circular coffee tables featuring inset glass tops, slender triple-rod brass pillars, and continuous circular ground rings."
       },
       {
-            "src": "/assets/images/tables/geometric-brass-x-base-tufted-bench.jpg",
-            "title": "GEOMETRIC BRASS X-BASE TUFTED BENCH",
-            "desc": "A luxurious console bench combining a deeply tufted charcoal velvet cushion with an architectural geometric solid brass X-frame trestle base."
+        src: "/assets/images/tables/geometric-brass-x-base-tufted-bench.jpg",
+        desktopSrc: "/assets/images/tables/geometric-brass-x-base-tufted-bench-desktop.jpg",
+        title: "GEOMETRIC BRASS X-BASE TUFTED BENCH",
+        desc: "A luxurious console bench combining a deeply tufted charcoal velvet cushion with an architectural geometric solid brass X-frame trestle base."
       },
       {
-            "src": "/assets/images/tables/table-01.jpg",
-            "title": "ORGANIC BRANCH BRASS CONSOLE",
-            "desc": "A sculptural console base handcrafted in solid brass casting, capturing the organic silhouette of intertwining natural branches."
+        src: "/assets/images/tables/table-01.jpg",
+        desktopSrc: "/assets/images/tables/table-01-desktop.jpg",
+        title: "ORGANIC BRANCH BRASS CONSOLE",
+        desc: "A sculptural console base handcrafted in solid brass casting, capturing the organic silhouette of intertwining natural branches."
       },
       {
-            "src": "/assets/images/tables/table-02.jpg",
-            "title": "BRANCH LEG ARTISAN CONSOLE",
-            "desc": "Sleek dark timber console elevated by hand-cast solid brass branch legs featuring tactile textured detailing."
+        src: "/assets/images/tables/table-02.jpg",
+        desktopSrc: "/assets/images/tables/table-02-desktop.jpg",
+        title: "BRANCH LEG ARTISAN CONSOLE",
+        desc: "Sleek dark timber console elevated by hand-cast solid brass branch legs featuring tactile textured detailing."
       },
       {
-            "src": "/assets/images/tables/table-03.jpg",
-            "title": "FLUTED BRASS MARBLE GUÉRIDON",
-            "desc": "An elegant side table featuring Italian veined marble supported by slender fluted brass columns and tripod footing."
+        src: "/assets/images/tables/table-03.jpg",
+        desktopSrc: "/assets/images/tables/table-03-desktop.jpg",
+        title: "FLUTED BRASS MARBLE GUERIDON",
+        desc: "An elegant side table featuring Italian veined marble supported by slender fluted brass columns and tripod footing."
       },
       {
-            "src": "/assets/images/tables/table-04.jpg",
-            "title": "BRUTALIST BRASS DRUM TABLE",
-            "desc": "A circular coffee table with tempered glass resting on a hand-welded cylindrical cage of aged brass panels."
+        src: "/assets/images/tables/table-04.jpg",
+        desktopSrc: "/assets/images/tables/table-04-desktop.jpg",
+        title: "BRUTALIST BRASS DRUM TABLE",
+        desc: "A circular coffee table with tempered glass resting on a hand-welded cylindrical cage of aged brass panels."
       },
       {
-            "src": "/assets/images/tables/table-05.jpg",
-            "title": "FLUTED COLUMN BRASS CONSOLE",
-            "desc": "Nero Marquina marble console anchored by architectural fluted brass uprights mounted to a solid polished plinth."
+        src: "/assets/images/tables/table-05.jpg",
+        desktopSrc: "/assets/images/tables/table-05-desktop.jpg",
+        title: "FLUTED COLUMN BRASS CONSOLE",
+        desc: "Nero Marquina marble console anchored by architectural fluted brass uprights mounted to a solid polished plinth."
       }
-];
+    ];
 
     // Read initial product from URL if present: ?product=...-item-2 or ?item=2
         const urlParams = new URLSearchParams(window.location.search);
@@ -277,12 +289,24 @@
           }
         }
         let currentIndex = initialIndex;
-    const titleEl = document.getElementById('slider-title');
+        const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
     const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+
+    function syncSlide(idx) {
+      if (!sliderData[idx]) return;
+      imgEl.src = sliderData[idx].src;
+      imgEl.alt = sliderData[idx].title;
+      if (sourceDesktopEl) {
+        sourceDesktopEl.srcset = sliderData[idx].desktopSrc || sliderData[idx].src;
+      }
+      titleEl.innerText = sliderData[idx].title;
+      descEl.innerText = sliderData[idx].desc;
+    }
 
     // Build Dash indicators dynamically
     sliderData.forEach((_, idx) => {
@@ -290,14 +314,9 @@
       dash.className = `dash-dot flex-1 max-w-[28px] min-w-[8px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-white' : 'bg-white/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
-        });
-    
-        if (currentIndex !== 0 && sliderData[currentIndex]) {
-          imgEl.src = sliderData[currentIndex].src;
-          imgEl.alt = sliderData[currentIndex].title;
-          titleEl.innerText = sliderData[currentIndex].title;
-          descEl.innerText = sliderData[currentIndex].desc;
-        }
+    });
+
+    syncSlide(currentIndex);
 
     function updateSlider(index) {
       if (index < 0) {
@@ -314,12 +333,9 @@
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = sliderData[currentIndex].src;
-        imgEl.alt = sliderData[currentIndex].title;
-        titleEl.innerText = sliderData[currentIndex].title;
-        descEl.innerText = sliderData[currentIndex].desc;
+          syncSlide(currentIndex);
 
-        imgEl.style.opacity = '1';
+          imgEl.style.opacity = '1';
         titleEl.style.opacity = '1';
         descEl.style.opacity = '1';
 
