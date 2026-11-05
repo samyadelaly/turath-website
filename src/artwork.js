@@ -246,8 +246,10 @@ export function initTurathScrambleAnimation() {
     }
   }
 
-  // Run intro on start
-  runIntroScramble();
+  // Run intro on start only on desktop and after page settles
+  if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+    setTimeout(runIntroScramble, 1200);
+  }
 
   return {
     triggerScramble: runIntroScramble,
