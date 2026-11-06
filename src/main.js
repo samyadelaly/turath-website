@@ -1536,6 +1536,15 @@ function handleInitialDeepLink() {
 }
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
+
+// Helper to smoothly reveal slider arrows after initialization
+function revealSliderArrows() {
+  document.querySelectorAll('.slider-arrow').forEach(arrow => {
+    arrow.classList.add('loaded', 'opacity-100');
+    arrow.classList.remove('opacity-0');
+  });
+}
+
 // Premium Preloader hide logic (handles #preloader & #luxury-preloader)
 function hideLuxuryPreloader() {
   const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
@@ -1572,6 +1581,21 @@ window.addEventListener('pageshow', function (event) {
     }
 });
 
+// Force re-evaluation of slider arrows on BFCache back-navigation to prevent breaking layout
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    document.querySelectorAll('.slider-arrow').forEach(arrow => {
+       arrow.style.display = 'none';
+       setTimeout(() => { 
+         arrow.style.display = 'block'; 
+         arrow.classList.add('loaded', 'opacity-100');
+         arrow.classList.remove('opacity-0');
+       }, 50);
+    });
+  }
+});
+
+
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded
 let isWindowAssetsLoaded = false;
 
@@ -1581,6 +1605,7 @@ function onWindowAssetsLoaded() {
 
   // 1. Hide the preloader once assets are ready
   hideLuxuryPreloader();
+  revealSliderArrows();
 
   // 2. Reveal body and mark page loaded
   requestAnimationFrame(() => {
@@ -1776,4 +1801,11 @@ function initMediaProtection() {
       return false;
     }
   }, { capture: true });
+}
+
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', revealSliderArrows);
+} else {
+  revealSliderArrows();
 }

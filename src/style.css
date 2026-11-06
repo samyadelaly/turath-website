@@ -18,6 +18,26 @@
   background-color: #0a0a0a !important;
   transition: opacity 0.3s ease-out !important;
 }
+
+/* Ensure all section anchors and main sections respect the sticky header height on mobile and desktop */
+section[id],
+a[id],
+[id^="scene-"] {
+  scroll-margin-top: 6rem;
+}
+
+/* Slider Arrows BFCache & Fade-In Support */
+.slider-arrow {
+  transition: opacity 0.3s ease;
+}
+.slider-arrow svg {
+  margin: auto;
+}
+.slider-arrow.loaded,
+.slider-arrow.opacity-100 {
+  opacity: 1 !important;
+}
+
 /**
  * TURATH (تراث) — Clean Master Foundation & Hero Architecture
  * Step 1: Global Foundation & CSS Reset
