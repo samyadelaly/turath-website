@@ -1,11 +1,33 @@
 
-// BFCache restoration handler: ensure preloader is hidden on back-button navigation
+// BFCache restoration handler: ensure preloader is hidden and mobile menu is force-closed
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
+    // 1. Force hide preloader
     const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
     if (preloader) {
       preloader.style.opacity = '0';
       preloader.style.display = 'none';
+    }
+
+    // 2. Force close mobile menu overlay on back-navigation
+    const mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
+    if (mobileMenu) {
+      mobileMenu.classList.remove('active', 'open', 'opacity-100');
+      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      if (typeof gsap !== 'undefined') {
+        gsap.set(mobileMenu, { yPercent: 100, y: 0, visibility: 'hidden', pointerEvents: 'none' });
+      } else {
+        mobileMenu.style.visibility = 'hidden';
+        mobileMenu.style.pointerEvents = 'none';
+      }
+    }
+    const menuTrigger = document.getElementById('menu-trigger');
+    if (menuTrigger) {
+      menuTrigger.setAttribute('aria-expanded', 'false');
+    }
+    document.body.classList.remove('menu-open', 'overflow-hidden');
+    if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.normalizeScroll) {
+      ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
     }
   }
 });
