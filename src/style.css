@@ -1462,7 +1462,7 @@ select:-webkit-autofill:active {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
 }
 
 .video-slats-grid::-webkit-scrollbar {
@@ -1472,8 +1472,8 @@ select:-webkit-autofill:active {
 .video-slat-item {
   flex: 0 0 auto;
   aspect-ratio: 9 / 14 !important;
-  height: 65vh !important;
-  max-height: 800px !important;
+  height: clamp(320px, 50vh, 460px) !important;
+  max-height: 480px !important;
   width: auto !important;
   border-radius: 1rem !important;
   overflow: hidden;
@@ -1598,8 +1598,8 @@ select:-webkit-autofill:active {
   .video-slat-item {
     flex: 0 0 auto;
     aspect-ratio: 9 / 14 !important;
-    height: 65vh !important;
-    max-height: 800px !important;
+    height: clamp(320px, 50vh, 460px) !important;
+  max-height: 480px !important;
     width: auto !important;
     border-radius: 1rem !important;
     scroll-snap-align: center;
@@ -2087,7 +2087,7 @@ select:-webkit-autofill:active {
     display: flex !important;
     justify-content: center !important;
     gap: 0.75rem !important;
-    margin-top: 2rem !important;
+    margin-top: 1.25rem !important;
     z-index: 30 !important;
   }
 }

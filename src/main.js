@@ -126,6 +126,59 @@ ScrollTrigger.refresh = function(safe) {
   return originalRefresh(safe);
 };
 
+
+// Active Mobile Menu Link Indentation & URL Highlighting
+function updateActiveDrawerMenu() {
+  const drawerLinks = document.querySelectorAll('#nav-drawer .nav-menu-link');
+  if (!drawerLinks.length) return;
+
+  const currentPath = window.location.pathname;
+  const currentHash = (window.location.hash || '').toLowerCase();
+  const cleanPath = (currentPath.split('/').pop() || 'index.html').toLowerCase();
+  const isHomePage = cleanPath === '' || cleanPath === 'index.html' || currentPath === '/';
+
+  let matchedLink = null;
+
+  drawerLinks.forEach(link => {
+    if (!link.classList.contains('transition-all')) {
+      link.classList.add('transition-all', 'duration-300');
+    }
+
+    const href = link.getAttribute('href');
+    if (!href) return;
+    const lowerHref = href.toLowerCase();
+
+    if (lowerHref.startsWith('#')) {
+      if (isHomePage) {
+        if (currentHash === lowerHref) {
+          matchedLink = link;
+        } else if ((!currentHash || currentHash === '#' || currentHash === '#hero' || currentHash === '#scene-01') && (lowerHref === '#home' || lowerHref === '#scene-01')) {
+          if (!matchedLink) matchedLink = link;
+        }
+      }
+    } else {
+      const linkFile = lowerHref.split('/').pop().split('#')[0];
+      if (linkFile && (cleanPath === linkFile || currentPath.toLowerCase().endsWith(linkFile))) {
+        matchedLink = link;
+      }
+    }
+  });
+
+  if (!matchedLink && isHomePage) {
+    matchedLink = document.querySelector('#nav-drawer a[href="#home"]') || drawerLinks[0];
+  }
+
+  drawerLinks.forEach(link => {
+    if (link === matchedLink) {
+      link.classList.add('active', 'pl-6', 'text-[#D7C797]', 'opacity-100', 'font-bold');
+      link.classList.remove('opacity-70', 'opacity-75');
+    } else {
+      link.classList.remove('active', 'pl-6', 'text-[#D7C797]', 'font-bold');
+      link.classList.add('opacity-75');
+    }
+  });
+}
+
 // 1. Navigation Menu Overlay Interactions
 function initNavDrawer() {
   const menuTrigger = document.getElementById('menu-trigger');
@@ -140,6 +193,7 @@ function initNavDrawer() {
   let menuTl = null;
 
   function openMenu() {
+    updateActiveDrawerMenu();
     document.body.classList.add('menu-open');
     if (menuTrigger) menuTrigger.setAttribute('aria-expanded', 'true');
     if (navDrawer) navDrawer.setAttribute('aria-hidden', 'false');
@@ -209,6 +263,11 @@ function initNavDrawer() {
   if (closeBtn) {
     closeBtn.addEventListener('click', closeMenu);
   }
+
+  // Initial call & listeners for active drawer highlight
+  updateActiveDrawerMenu();
+  window.addEventListener('hashchange', updateActiveDrawerMenu);
+  window.addEventListener('popstate', updateActiveDrawerMenu);
 
     const idToSemantic = {
     'scene-01': 'home',
@@ -1372,6 +1431,7 @@ function initSemanticHashTracking() {
     if (window.history && window.history.replaceState) {
       window.history.replaceState(null, '', '#' + semanticName);
     }
+    updateActiveDrawerMenu();
     document.querySelectorAll('.nav-menu-link').forEach(link => {
       const href = link.getAttribute('href');
       if (href === '#' + semanticName) {
