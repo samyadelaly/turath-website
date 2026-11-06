@@ -320,6 +320,20 @@
   <script src="https://cdn.tailwindcss.com" defer></script>
 
   <link rel="stylesheet" href="./src/style.css">
+  <style> 
+    @media (max-width: 1024px) { 
+      .desktop-nav-menu, nav ul { 
+        display: none !important; 
+        opacity: 0 !important; 
+        visibility: hidden !important; 
+      } 
+      #nav-drawer nav ul, #nav-drawer .nav-menu-list {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+    } 
+  </style>
 </head>
 <body class="bg-black main-page">
   <!-- Meta Pixel noscript fallback -->

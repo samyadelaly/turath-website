@@ -153,6 +153,15 @@
       object-fit: cover !important;
     }
   </style>
+  <style> 
+    @media (max-width: 1024px) { 
+      .desktop-nav-menu, nav ul { 
+        display: none !important; 
+        opacity: 0 !important; 
+        visibility: hidden !important; 
+      } 
+    } 
+  </style>
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
   <!-- Meta Pixel noscript fallback -->
@@ -521,5 +530,16 @@
     }
   </script>
 
+  <script>
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader');
+        if (preloader) {
+          preloader.style.opacity = '0';
+          preloader.style.display = 'none';
+        }
+      }
+    });
+  </script>
 </body>
 </html>

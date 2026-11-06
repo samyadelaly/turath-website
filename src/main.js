@@ -1,3 +1,15 @@
+
+// BFCache restoration handler: ensure preloader is hidden on back-button navigation
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+    const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
+    if (preloader) {
+      preloader.style.opacity = '0';
+      preloader.style.display = 'none';
+    }
+  }
+});
+
 /**
  * TURATH (تراث) — Master Engine
  * - Luxury Navigation & Menu Overlay Interactions
