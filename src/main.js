@@ -127,57 +127,113 @@ ScrollTrigger.refresh = function(safe) {
 };
 
 
-// Active Mobile Menu Link Indentation & URL Highlighting
-function updateActiveDrawerMenu() {
+// Active Menu Link Indentation & URL Highlighting (Mobile Drawer & Desktop Nav)
+function updateActiveNavigation(forceHash) {
   const drawerLinks = document.querySelectorAll('#nav-drawer .nav-menu-link');
-  if (!drawerLinks.length) return;
+  const desktopLinks = document.querySelectorAll('.desktop-nav-menu a');
 
   const currentPath = window.location.pathname;
-  const currentHash = (window.location.hash || '').toLowerCase();
+  const currentHash = (forceHash || window.location.hash || '').toLowerCase();
   const cleanPath = (currentPath.split('/').pop() || 'index.html').toLowerCase();
   const isHomePage = cleanPath === '' || cleanPath === 'index.html' || currentPath === '/';
 
-  let matchedLink = null;
-
-  drawerLinks.forEach(link => {
-    if (!link.classList.contains('transition-all')) {
-      link.classList.add('transition-all', 'duration-300');
-    }
-
-    const href = link.getAttribute('href');
-    if (!href) return;
-    const lowerHref = href.toLowerCase();
-
-    if (lowerHref.startsWith('#')) {
-      if (isHomePage) {
-        if (currentHash === lowerHref) {
-          matchedLink = link;
-        } else if ((!currentHash || currentHash === '#' || currentHash === '#hero' || currentHash === '#scene-01') && (lowerHref === '#home' || lowerHref === '#scene-01')) {
-          if (!matchedLink) matchedLink = link;
-        }
-      }
-    } else {
-      const linkFile = lowerHref.split('/').pop().split('#')[0];
-      if (linkFile && (cleanPath === linkFile || currentPath.toLowerCase().endsWith(linkFile))) {
-        matchedLink = link;
-      }
-    }
-  });
-
-  if (!matchedLink && isHomePage) {
-    matchedLink = document.querySelector('#nav-drawer a[href="#home"]') || drawerLinks[0];
+  // Map alias hashes to normalized semantic hash
+  let normalizedHash = currentHash;
+  if (!normalizedHash || normalizedHash === '#' || normalizedHash === '#hero' || normalizedHash === '#scene-01') {
+    normalizedHash = '#home';
+  } else if (normalizedHash === '#action' || normalizedHash === '#scene-06') {
+    normalizedHash = '#craftsmanship';
+  } else if (normalizedHash === '#collections' || normalizedHash === '#scene-03') {
+    normalizedHash = '#gallery';
+  } else if (normalizedHash === '#scene-02') {
+    normalizedHash = '#about';
+  } else if (normalizedHash === '#scene-05' || normalizedHash === '#location') {
+    normalizedHash = '#masterpieces';
+  } else if (normalizedHash === '#scene-07') {
+    normalizedHash = '#founder';
+  } else if (normalizedHash === '#contact-turath') {
+    normalizedHash = '#contact';
   }
 
-  drawerLinks.forEach(link => {
-    if (link === matchedLink) {
-      link.classList.add('active', 'pl-6', 'text-[#D7C797]', 'opacity-100', 'font-bold');
-      link.classList.remove('opacity-70', 'opacity-75');
-    } else {
-      link.classList.remove('active', 'pl-6', 'text-[#D7C797]', 'font-bold');
-      link.classList.add('opacity-75');
+  // 1. Update Mobile Drawer Links
+  if (drawerLinks.length) {
+    let matchedDrawerLink = null;
+    drawerLinks.forEach(link => {
+      if (!link.classList.contains('transition-all')) {
+        link.classList.add('transition-all', 'duration-300');
+      }
+      const href = link.getAttribute('href');
+      if (!href) return;
+      const lowerHref = href.toLowerCase();
+
+      if (lowerHref.startsWith('#')) {
+        if (isHomePage) {
+          let targetAlias = lowerHref;
+          if (targetAlias === '#hero') targetAlias = '#home';
+          if (targetAlias === '#action') targetAlias = '#craftsmanship';
+          if (targetAlias === '#collections') targetAlias = '#gallery';
+          if (normalizedHash === targetAlias || normalizedHash === lowerHref) {
+            matchedDrawerLink = link;
+          }
+        }
+      } else {
+        const linkFile = lowerHref.split('/').pop().split('#')[0];
+        if (linkFile && (cleanPath === linkFile || currentPath.toLowerCase().endsWith(linkFile))) {
+          matchedDrawerLink = link;
+        }
+      }
+    });
+
+    if (!matchedDrawerLink && isHomePage) {
+      matchedDrawerLink = document.querySelector('#nav-drawer a[href="#home"]') || drawerLinks[0];
     }
-  });
+
+    drawerLinks.forEach(link => {
+      if (link === matchedDrawerLink) {
+        link.classList.add('active', 'pl-6', 'text-[#D7C797]', 'opacity-100', 'font-bold');
+        link.classList.remove('opacity-70', 'opacity-75');
+      } else {
+        link.classList.remove('active', 'pl-6', 'text-[#D7C797]', 'font-bold');
+        link.classList.add('opacity-75');
+      }
+    });
+  }
+
+  // 2. Update Desktop Nav Links
+  if (desktopLinks.length) {
+    let matchedDesktopLink = null;
+    desktopLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      const lowerHref = href.toLowerCase();
+
+      if (lowerHref.startsWith('#')) {
+        if (isHomePage) {
+          let targetAlias = lowerHref;
+          if (targetAlias === '#hero') targetAlias = '#home';
+          if (targetAlias === '#action') targetAlias = '#craftsmanship';
+          if (targetAlias === '#collections') targetAlias = '#gallery';
+          if (normalizedHash === targetAlias || normalizedHash === lowerHref) {
+            matchedDesktopLink = link;
+          }
+        }
+      }
+    });
+
+    if (!matchedDesktopLink && isHomePage) {
+      matchedDesktopLink = document.querySelector('.desktop-nav-menu a[href="#home"]') || document.querySelector('.desktop-nav-menu a[href="#hero"]') || desktopLinks[0];
+    }
+
+    desktopLinks.forEach(link => {
+      if (link === matchedDesktopLink) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
 }
+const updateActiveDrawerMenu = updateActiveNavigation;
 
 // 1. Navigation Menu Overlay Interactions
 function initNavDrawer() {
@@ -271,31 +327,46 @@ function initNavDrawer() {
 
     const idToSemantic = {
     'scene-01': 'home',
+    'hero': 'home',
+    'home': 'home',
     'scene-02': 'about',
+    'about': 'about',
     'scene-03': 'gallery',
+    'gallery': 'gallery',
+    'collections': 'gallery',
     'bespoke': 'bespoke',
     'scene-05': 'masterpieces',
+    'masterpieces': 'masterpieces',
+    'location': 'masterpieces',
     'scene-06': 'craftsmanship',
+    'craftsmanship': 'craftsmanship',
+    'action': 'craftsmanship',
     'scene-07': 'founder',
-    'contact': 'contact'
+    'founder': 'founder',
+    'contact': 'contact',
+    'contact-turath': 'contact'
   };
 
   const semanticToId = {
     'home': 'scene-01',
+    'hero': 'scene-01',
     'about': 'scene-02',
     'gallery': 'scene-03',
+    'collections': 'scene-03',
     'bespoke': 'bespoke',
     'masterpieces': 'scene-05',
+    'location': 'scene-05',
     'craftsmanship': 'scene-06',
+    'action': 'scene-06',
     'founder': 'scene-07',
     'contact': 'contact',
+    'contact-turath': 'contact',
     'scene-01': 'scene-01',
     'scene-02': 'scene-02',
     'scene-03': 'scene-03',
     'scene-05': 'scene-05',
     'scene-06': 'scene-06',
-    'scene-07': 'scene-07',
-    'hero': 'scene-01'
+    'scene-07': 'scene-07'
   };
 
   function smoothScrollToSemanticHash(semanticHash) {
@@ -1431,15 +1502,7 @@ function initSemanticHashTracking() {
     if (window.history && window.history.replaceState) {
       window.history.replaceState(null, '', '#' + semanticName);
     }
-    updateActiveDrawerMenu();
-    document.querySelectorAll('.nav-menu-link').forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === '#' + semanticName) {
-        link.classList.add('active');
-      } else if (href && href.startsWith('#')) {
-        link.classList.remove('active');
-      }
-    });
+    updateActiveNavigation('#' + semanticName);
   }
 
   sections.forEach(({ id, hash }) => {
@@ -1614,14 +1677,7 @@ function handleInitialDeepLink() {
     window.history.replaceState(null, '', '#' + semanticName);
   }
 
-  document.querySelectorAll('.nav-menu-link').forEach(link => {
-    const href = link.getAttribute('href');
-    if (href === '#' + semanticName) {
-      link.classList.add('active');
-    } else if (href && href.startsWith('#')) {
-      link.classList.remove('active');
-    }
-  });
+  updateActiveNavigation('#' + semanticName);
 
   setTimeout(() => {
     isInitialJumpPending = false;
