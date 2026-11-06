@@ -307,6 +307,9 @@
     
         if (currentIndex !== 0 && sliderData[currentIndex]) {
           imgEl.src = sliderData[currentIndex].src;
+          if (sourceDesktopEl) {
+            sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+          }
           imgEl.alt = sliderData[currentIndex].title;
           titleEl.innerText = sliderData[currentIndex].title;
           descEl.innerText = sliderData[currentIndex].desc;
