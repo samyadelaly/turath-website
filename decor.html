@@ -204,7 +204,10 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/decor/royal-arabesque-brass-wall-charger.jpg" alt="ROYAL ARABESQUE BRASS WALL CHARGER" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      <picture id="slider-picture">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/decor/royal-arabesque-brass-wall-charger-desktop.jpg">
+        <img id="slider-image" src="/assets/images/decor/royal-arabesque-brass-wall-charger.jpg" alt="ROYAL ARABESQUE BRASS WALL CHARGER" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
@@ -220,11 +223,13 @@
     const sliderData = [
       {
         src: '/assets/images/decor/royal-arabesque-brass-wall-charger.jpg',
+        desktopSrc: '/assets/images/decor/royal-arabesque-brass-wall-charger-desktop.jpg',
         title: 'ROYAL ARABESQUE BRASS WALL CHARGER',
         desc: 'A monumental wall-mounted circular charger hand-etched in solid brass, featuring intricate classical Islamic floral arabesques and radiating star medallions.'
       },
       {
         src: '/assets/images/decor/honeycomb-faceted-hammered-copper-shield.jpg',
+        desktopSrc: '/assets/images/decor/honeycomb-faceted-hammered-copper-shield-desktop.jpg',
         title: 'HONEYCOMB FACETED HAMMERED COPPER SHIELD',
         desc: 'A sculptural concave wall medallion hand-hammered in warm bronze-toned brass, radiating from a central floral rosette into hundreds of faceted honeycomb cells.'
       },
@@ -285,6 +290,7 @@
     const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
     const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
@@ -299,6 +305,9 @@
     
         if (currentIndex !== 0 && sliderData[currentIndex]) {
           imgEl.src = sliderData[currentIndex].src;
+          if (sourceDesktopEl) {
+            sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+          }
           imgEl.alt = sliderData[currentIndex].title;
           titleEl.innerText = sliderData[currentIndex].title;
           descEl.innerText = sliderData[currentIndex].desc;
@@ -320,6 +329,9 @@
 
       setTimeout(() => {
         imgEl.src = sliderData[currentIndex].src;
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+        }
         imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
