@@ -51,7 +51,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-  
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com" defer></script>
 
@@ -175,7 +175,7 @@
 
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black lg:h-[85vh] lg:max-w-6xl lg:aspect-auto lg:rounded-2xl lg:shadow-2xl lg:my-6 lg:overflow-hidden">
-      
+
       <!-- Top Navbar -->
       <div class="w-full grid grid-cols-3 items-center px-4 py-4 md:px-10 md:py-6 z-50 absolute top-0 left-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent" style="position: absolute; top: 0; left: 0; width: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; z-index: 50;">
         <a href="index.html#gallery" class="justify-self-start text-white text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Collections">&larr;</a>
@@ -204,8 +204,11 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/handrails/handrail-01.jpg" alt="Handrails Product" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
-      
+      <picture id="slider-picture">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/handrails/handrail-01-desktop.jpg">
+        <img id="slider-image" src="/assets/images/handrails/handrail-01.jpg" alt="Handrails Product" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
+
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-lg font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">
@@ -223,11 +226,13 @@
     const sliderData = [
       {
         src: '/assets/images/handrails/handrail-01.jpg',
+        desktopSrc: '/assets/images/handrails/handrail-01-desktop.jpg',
         title: 'BOTANICAL BRASS & MARBLE BALUSTRADE',
         desc: 'An architectural parapet featuring intricate pierced brass leaf screens framed by rich Italian rouge marble.'
       },
       {
         src: '/assets/images/handrails/handrail-02.jpg',
+        desktopSrc: '/assets/images/handrails/handrail-02-desktop.jpg',
         title: 'FACETED BRASS SPINDLE BALUSTRADE',
         desc: 'Precision-machined solid brass balustrade showcasing articulated faceted spindles and a polished continuous handrail.'
       }
@@ -245,12 +250,24 @@
           }
         }
         let currentIndex = initialIndex;
+
     const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
     const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+
+    if (currentIndex !== 0 && sliderData[currentIndex]) {
+      imgEl.src = sliderData[currentIndex].src;
+      if (sourceDesktopEl) {
+        sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+      }
+      imgEl.alt = sliderData[currentIndex].title;
+      titleEl.innerText = sliderData[currentIndex].title;
+      descEl.innerText = sliderData[currentIndex].desc;
+    }
 
     function updateSlider(index) {
       if (index < 0) {
@@ -268,6 +285,9 @@
 
       setTimeout(() => {
         imgEl.src = sliderData[currentIndex].src;
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+        }
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
 
@@ -330,23 +350,23 @@
         }
       }, { passive: true });
     }
-  
+
     // Share button interaction (dynamic SSG product link)
     const shareBtn = document.getElementById('share-btn');
     if (shareBtn) {
       shareBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         const title = (typeof titleEl !== 'undefined' && titleEl) ? titleEl.innerText : document.title;
-        
+
         // Extract category slug from URL
         const path = window.location.pathname;
         const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
         const categorySlug = match ? match[1] : 'lighting';
-        
+
         // Determine active product ID based on current slide
         const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) ? sliderData[currentIndex] : null;
         const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
-        
+
         // Construct specific SSG share URL
         const shareUrl = window.location.origin + '/products/' + activeProductId + '/';
 
@@ -367,22 +387,22 @@
     if (productWaBtn) {
       productWaBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        
+
         // Extract category slug from URL
         const path = window.location.pathname;
         const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
         let categorySlug = match ? match[1].toLowerCase() : 'lighting';
         if (categorySlug === 'index' || !categorySlug) categorySlug = 'lighting';
 
-        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) 
-          ? sliderData[currentIndex] 
+        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex])
+          ? sliderData[currentIndex]
           : (typeof masterpiecesData !== 'undefined' && masterpiecesData[currentIndex])
           ? masterpiecesData[currentIndex]
           : (typeof filmsData !== 'undefined' && filmsData[currentIndex])
           ? filmsData[currentIndex]
           : null;
         const title = (currentItem && currentItem.title) || (typeof titleEl !== 'undefined' && titleEl ? titleEl.innerText : document.title);
-        
+
         // Determine active product ID and full product link (Produces Rich Preview with Picture in WhatsApp)
         const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
         const productUrl = `${window.location.origin}/products/${activeProductId}/`;
@@ -416,7 +436,7 @@
     }, { capture: true });
 
 
-  
+
 
         // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
     function initPreloaderDismissal() {
