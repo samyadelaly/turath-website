@@ -19,12 +19,7 @@
   transition: opacity 0.3s ease-out !important;
 }
 
-/* Ensure all section anchors and main sections respect the sticky header height on mobile and desktop */
-section[id],
-a[id],
-[id^="scene-"] {
-  scroll-margin-top: 6rem;
-}
+
 
 /* Slider Arrows BFCache & Fade-In Support */
 .slider-arrow {
@@ -136,35 +131,38 @@ img, video {
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: clamp(52px, 6.5vh, 60px);
+  height: 5rem !important; /* h-20 = 80px */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 5.5vw;
-  z-index: 9999 !important;
+  z-index: 50 !important;
   pointer-events: none;
-  background: transparent !important;
+  background-color: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   border: none !important;
   box-shadow: none !important;
   transform: none !important;
-  transition: background 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.site-header.is-scrolled {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  z-index: 9999 !important;
-  background: rgba(0, 0, 0, 0.20) !important;
+.site-header.is-scrolled,
+.site-header.bg-\[\#0a0a0a\] {
+  background-color: #0a0a0a !important;
   backdrop-filter: blur(24px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
-  border: none !important;
-  border-bottom: none !important;
-  transform: none !important;
-  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Strict Parent Background: inner elements NEVER have background boxes */
+.header-left,
+.navbar-dock-slot,
+.hero-wordmark-wrap,
+.hero-wordmark {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .header-left {

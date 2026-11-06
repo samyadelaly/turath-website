@@ -337,7 +337,7 @@
   <div id="preloader" class="fixed inset-0 w-screen h-screen z-[9999] bg-[#0a0a0a] transition-opacity duration-300 pointer-events-none" style="position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 9999; background-color: #0a0a0a; transition: opacity 0.3s ease-out; opacity: 1;"></div>
   
   <!-- TOP LUXURY NAVBAR (PERMANENTLY FIXED AT TOP) -->
-  <header id="site-header" class="site-header fixed top-0 left-0 w-full z-[9990] bg-black/20 backdrop-blur-md">
+  <header id="site-header" class="site-header fixed top-0 left-0 w-full z-50 h-20">
     <div class="header-left">
       <!-- 2-line minimal menu trigger on extreme LEFT -->
       <button id="menu-trigger" class="header-menu-trigger lg:hidden" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="nav-drawer">
@@ -349,7 +349,7 @@
       <div class="navbar-dock-slot" id="navbar-dock-slot">
         <div class="hero-wordmark-wrap relative z-[90] pointer-events-auto cursor-pointer" id="hero-wordmark-wrap">
           <span class="hero-wordmark turath-interpolator" id="hero-wordmark"><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="U">U</span><span class="scramble-char" data-char="R">R</span><span class="scramble-char" data-char="A">A</span><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="H">H</span></span>
-          <button type="button" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'});" style="touch-action: manipulation;" class="hero-scroll-btn cursor-pointer relative z-[90] pointer-events-auto" id="hero-scroll-btn" aria-label="Scroll to About Section">
+          <button type="button" onclick="const el = document.getElementById('about-section') || document.getElementById('about') || document.getElementById('scene-02'); const y = el.getBoundingClientRect().top + window.scrollY - 80; window.scrollTo({top: y, behavior: 'smooth'});" style="touch-action: manipulation;" class="hero-scroll-btn cursor-pointer relative z-[90] pointer-events-auto" id="hero-scroll-btn" aria-label="Scroll to Section 02">
             <svg class="hero-chevron-icon pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -419,7 +419,7 @@
   </aside>
 
   <!-- STEP 2: SCENE 01 - HERO ARCHITECTURE -->
-  <section id="scene-01" class="relative z-10 scroll-mt-24" style="scroll-margin-top: 120px;"><a id="hero" style="scroll-margin-top: 120px;"></a>
+  <section id="scene-01" class="relative z-10"><a id="hero"></a>
         <!-- Day Base Image -->
     <div class="hero-bg-image hero-day" id="hero-day">
       <picture>
@@ -468,8 +468,8 @@
   </section>
 
   <!-- STEP 3: SCENE 02 — ABOUT TURATH (FULL-SCREEN CINEMATIC EXPERIENCE) -->
-  <section id="scene-02" class="relative w-full h-screen overflow-hidden z-20 bg-black scroll-mt-24" style="scroll-margin-top: 120px;">
-    <a id="about" class="sr-only scroll-mt-24" style="scroll-margin-top: 120px;"></a>
+  <section id="scene-02" class="relative w-full h-screen overflow-hidden z-20 bg-black">
+    <a id="about" class="sr-only"></a><a id="about-section" class="sr-only"></a>
     <!-- FULL-BLEED BACKGROUND LAYERS (100vw x 100vh) -->
     
     <!-- Layer 1 (3-Slice Entrance Stagger Reveal): Full wrapper with 3 vertical slice divs -->
@@ -554,8 +554,8 @@
   <div id="about-spacer" style="height: 120vh; pointer-events: none;" aria-hidden="true"></div>
 
   <!-- SCENE 03: COLLECTIONS (HORIZONTAL SCROLL GALLERY) -->
-  <section id="scene-03" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-30 bg-black flex flex-col justify-between pb-24 lg:h-auto lg:min-h-screen lg:py-24 lg:overflow-visible scroll-mt-24" style="scroll-margin-top: 120px;">
-    <a id="gallery" class="sr-only scroll-mt-24" style="scroll-margin-top: 120px;"></a>
+  <section id="scene-03" class="relative w-full h-screen min-h-screen text-[#F3F1ED] overflow-hidden z-30 bg-black flex flex-col justify-between pb-24 lg:h-auto lg:min-h-screen lg:py-24 lg:overflow-visible">
+    <a id="gallery" class="sr-only"></a>
     <!-- Background Image with Dark Luxury Texture -->
     <div class="collections-bg-wrapper absolute inset-0 w-full h-full z-0 pointer-events-none">
       <img src="/assets/images/dark-luxury-bg.jpg" alt="Background Texture" class="collections-bg-img w-full h-full object-cover opacity-70" loading="lazy">
@@ -710,7 +710,7 @@
   </section>
 
   <!-- SCENE 04: BESPOKE MANUFACTURING -->
-  <section id="bespoke" class="relative w-full min-h-screen flex flex-col justify-center items-center px-4 py-12 z-40 pointer-events-auto select-auto overflow-hidden scroll-mt-24" style="scroll-margin-top: 120px;">
+  <section id="bespoke" class="relative w-full min-h-screen flex flex-col justify-center items-center px-4 py-12 z-40 pointer-events-auto select-auto overflow-hidden">
   <div class="absolute inset-0 z-0 flex w-full h-full pointer-events-none">
     <div class="b-slice h-full w-1/3 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover" style="background-position: left center;"></div>
     <div class="b-slice h-full w-1/3 bg-[url('/assets/images/bespoke-bg.jpg')] bg-cover" style="background-position: center center;"></div>
@@ -770,9 +770,9 @@
   </section>
 
   <!-- SCENE 05: FEATURED PRODUCTS (HISTORICAL SCENE 04 ARCHITECTURE) -->
-  <section id="scene-05" class="relative w-full h-screen overflow-hidden z-50 flex flex-col justify-end items-center sm:items-start p-4 sm:p-6 md:p-12 lg:p-16 pb-8 sm:pb-10 md:pb-14 lg:pb-16 scroll-mt-24" style="scroll-margin-top: 120px;" data-theme="dark">
-    <a id="location" class="sr-only" style="scroll-margin-top: 120px;"></a>
-    <a id="masterpieces" class="sr-only" style="scroll-margin-top: 120px;"></a>
+  <section id="scene-05" class="relative w-full h-screen overflow-hidden z-50 flex flex-col justify-end items-center sm:items-start p-4 sm:p-6 md:p-12 lg:p-16 pb-8 sm:pb-10 md:pb-14 lg:pb-16" data-theme="dark">
+    <a id="location" class="sr-only"></a>
+    <a id="masterpieces" class="sr-only"></a>
     
     <!-- Background Wall Lamp Visual Trapped Inside Section 5 -->
     <video
@@ -845,8 +845,8 @@
   <!-- ========================================================================
        06 — TURATH IN ACTION / CRAFT IN MOTION (Vertical Slats & Workshop Films)
        ======================================================================== -->
-  <section id="scene-06" class="relative w-full min-h-screen z-60 flex flex-col justify-center items-center py-16 gap-4 px-4 sm:px-6 md:px-12 overflow-hidden scroll-mt-24" style="scroll-margin-top: 120px;" data-theme="dark">
-    <a id="craftsmanship" class="sr-only scroll-mt-24" style="scroll-margin-top: 120px;"></a>
+  <section id="scene-06" class="relative w-full min-h-screen z-60 flex flex-col justify-center items-center py-16 gap-4 px-4 sm:px-6 md:px-12 overflow-hidden" data-theme="dark">
+    <a id="craftsmanship" class="sr-only"></a>
     <!-- Anchor alias -->
     <a id="action" class="sr-only"></a>
 
@@ -959,9 +959,9 @@
   <!-- ========================================================================
        07 — FOUNDER (SAMY ADEL ABDALLAH / SCROLL-DRIVEN ILLUMINATION CROSSFADE)
        ======================================================================== -->
-  <section id="scene-07" class="relative w-full h-screen min-h-screen z-70 bg-black overflow-hidden flex flex-col justify-start items-center p-6 md:p-12 scroll-mt-24" style="scroll-margin-top: 120px;" data-theme="dark">
+  <section id="scene-07" class="relative w-full h-screen min-h-screen z-70 bg-black overflow-hidden flex flex-col justify-start items-center p-6 md:p-12" data-theme="dark">
     <!-- Anchor alias -->
-    <a id="founder" class="sr-only" style="scroll-margin-top: 120px;"></a>
+    <a id="founder" class="sr-only"></a>
 
     <!-- Two Layered Background Plates (Dark Unlit vs Lit Illuminated) -->
     <div class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none" id="founder-bg-media">
@@ -1006,9 +1006,9 @@
     <!-- ========================================================================
        08 — CONTACT TURATH (DYNAMIC CORNER MORPHING & GLASSMORPHISM)
        ======================================================================== -->
-  <section id="contact" class="relative w-full min-h-screen z-80 bg-black overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 pt-28 sm:pt-32 md:pt-36 pb-8 sm:pb-10 rounded-t-[50vw] mt-[150vh] scroll-mt-24" style="margin-top: 150vh; border-top-left-radius: 50vw; border-top-right-radius: 50vw; box-shadow: 0 -35px 80px rgba(0, 0, 0, 0.95); scroll-margin-top: 120px;" data-theme="dark">
+  <section id="contact" class="relative w-full min-h-screen z-80 bg-black overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 pt-28 sm:pt-32 md:pt-36 pb-8 sm:pb-10 rounded-t-[50vw] mt-[150vh]" style="margin-top: 150vh; border-top-left-radius: 50vw; border-top-right-radius: 50vw; box-shadow: 0 -35px 80px rgba(0, 0, 0, 0.95)" data-theme="dark">
     <!-- Anchor alias -->
-    <a id="contact-turath" class="sr-only" style="scroll-margin-top: 120px;"></a>
+    <a id="contact-turath" class="sr-only"></a>
 
     <!-- Fixed Cover Background without dark mask -->
     <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0" id="contact-bg-media">

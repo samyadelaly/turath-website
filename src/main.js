@@ -496,11 +496,11 @@ function initHeroAnimations() {
   ScrollTrigger.create({
     trigger: '#scene-02',
     start: 'top 60px',
-    onEnter: () => siteHeader && siteHeader.classList.add('is-scrolled'),
-    onLeaveBack: () => siteHeader && siteHeader.classList.remove('is-scrolled'),
+    onEnter: () => siteHeader && siteHeader.classList.add('bg-[#0a0a0a]', 'is-scrolled'),
+    onLeaveBack: () => siteHeader && siteHeader.classList.remove('bg-[#0a0a0a]', 'is-scrolled'),
     onRefresh: (self) => {
       if (self.progress > 0 && siteHeader) {
-        siteHeader.classList.add('is-scrolled');
+        siteHeader.classList.add('bg-[#0a0a0a]', 'is-scrolled');
       }
     }
   });
