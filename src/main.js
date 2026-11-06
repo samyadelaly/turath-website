@@ -1560,37 +1560,32 @@ function hideLuxuryPreloader() {
 
 // BFCache (Back-Forward Cache) Restoration Handler for Safari & Chrome
 window.addEventListener('pageshow', function (event) {
-    if (event.persisted) {
-        const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
-        if (preloader) {
-            preloader.style.opacity = '0';
-            preloader.style.pointerEvents = 'none';
-            setTimeout(() => { preloader.style.display = 'none'; }, 300);
-        }
-        if (typeof window.closeMenu === 'function') {
-            window.closeMenu();
-        } else {
-            document.body.classList.remove('menu-open');
-            const navDrawer = document.getElementById('nav-drawer');
-            if (navDrawer) {
-                navDrawer.style.visibility = 'hidden';
-                navDrawer.style.pointerEvents = 'none';
-                navDrawer.setAttribute('aria-hidden', 'true');
-            }
-        }
-    }
-});
-
-// Force re-evaluation of slider arrows on BFCache back-navigation to prevent breaking layout
-window.addEventListener('pageshow', function(event) {
   if (event.persisted) {
+    const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
+    if (preloader) {
+      preloader.style.opacity = '0';
+      preloader.style.pointerEvents = 'none';
+      setTimeout(() => { preloader.style.display = 'none'; }, 300);
+    }
+    if (typeof window.closeMenu === 'function') {
+      window.closeMenu();
+    } else {
+      document.body.classList.remove('menu-open');
+      const navDrawer = document.getElementById('nav-drawer');
+      if (navDrawer) {
+        navDrawer.style.visibility = 'hidden';
+        navDrawer.style.pointerEvents = 'none';
+        navDrawer.setAttribute('aria-hidden', 'true');
+      }
+    }
+    // Re-evaluate slider arrows without breaking flex centering
     document.querySelectorAll('.slider-arrow').forEach(arrow => {
-       arrow.style.display = 'none';
-       setTimeout(() => { 
-         arrow.style.display = 'block'; 
-         arrow.classList.add('loaded', 'opacity-100');
-         arrow.classList.remove('opacity-0');
-       }, 50);
+      arrow.style.display = 'none';
+      setTimeout(() => { 
+        arrow.style.display = ''; 
+        arrow.classList.add('loaded', 'opacity-100');
+        arrow.classList.remove('opacity-0');
+      }, 50);
     });
   }
 });

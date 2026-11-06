@@ -327,6 +327,11 @@
         display: none !important;
       }
     }
+    @media (min-width: 1024px) {
+      .desktop-nav-menu, nav.desktop-nav-menu {
+        display: flex !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-black main-page">
@@ -363,7 +368,7 @@
     </div>
 
     <!-- Desktop Horizontal Navigation Menu (Hidden on mobile, properly spaced and horizontal on desktop) -->
-    <nav class="desktop-nav-menu hidden lg:flex items-center gap-6 xl:gap-8 mx-auto" aria-label="Desktop Navigation">
+    <nav class="desktop-nav-menu hidden lg:flex items-center gap-6 xl:gap-8 mx-auto" aria-label="Desktop Navigation" style="display: none;">
       <a href="#hero" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">HOME</a>
       <a href="#about" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">ABOUT</a>
       <a href="#gallery" class="text-xs xl:text-sm font-medium tracking-widest text-white/80 hover:text-[#D7C797] transition-colors uppercase">COLLECTIONS</a>
