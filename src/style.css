@@ -372,7 +372,7 @@ body.menu-open .menu-line.line-2 {
 .nav-menu-link:hover,
 .nav-menu-link.active {
   color: #D7C797;
-  transform: translateX(6px);
+  transform: none !important;
 }
 
 /* ==========================================================================
