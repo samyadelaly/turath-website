@@ -699,13 +699,16 @@ function initHeroAnimations() {
 
 // 3. Interactive Scroll Button
 function initScrollBtn() {
-  const scrollBtn = document.getElementById('hero-scroll-btn');
-  if (scrollBtn) {
-    scrollBtn.addEventListener('click', (e) => {
+  const heroScrollBtn = document.getElementById('hero-scroll-btn');
+  if (heroScrollBtn) {
+    heroScrollBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const scene02 = document.getElementById('scene-02');
-      if (scene02) {
-        scene02.scrollIntoView({ behavior: 'smooth' });
+      const target = document.getElementById('scene-02');
+      const header = document.querySelector('.site-header');
+      if (target && header) {
+        const headerOffset = header.offsetHeight;
+        const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
       }
     });
   }
@@ -1831,9 +1834,14 @@ function onWindowAssetsLoaded() {
 
 if (document.readyState === 'complete') {
   onWindowAssetsLoaded();
+  if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
 } else {
   window.addEventListener('load', onWindowAssetsLoaded);
 }
+
+window.addEventListener('load', () => {
+  if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+});
 
 // Safety fallback: ensure preloader hides, body reveals, and layout settles even if an asset hangs
 setTimeout(() => {
