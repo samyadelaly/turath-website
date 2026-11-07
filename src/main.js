@@ -7,7 +7,7 @@ window.addEventListener('pageshow', function (event) {
 
   if (isBack) {
     // A. Instantly force the preloader ON with NO transition (blackout the screen)
-    const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader') || document.querySelector('.preloader');
+    const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader')) || document.getElementById('preloader') || document.querySelector('.preloader');
     if (preloader) {
       preloader.style.transition = 'none';
       preloader.style.display = 'flex';
@@ -1766,7 +1766,7 @@ function handleInitialDeepLink() {
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 // Premium Knockout Preloader hide logic
 function hideLuxuryPreloader() {
-  const preloader = document.getElementById('luxury-preloader');
+  const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
   if (!preloader || preloader.dataset.hiding === 'true') return;
   preloader.dataset.hiding = 'true';
   const delay = (sessionStorage.getItem('turath_returning_from_subpage') === '1') ? 350 : 150;

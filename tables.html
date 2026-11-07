@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
 
+  <script>
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted || performance.navigation.type === 2) {
+      // 1. Instantly blackout screen (Inline Force)
+      var preloader = document.getElementById('preloader') || document.querySelector('.preloader');
+      if (preloader) {
+        preloader.style.cssText = 'transition: none !important; display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 99999 !important;';
+      }
+      
+      // 2. Instantly kill menu overlay (Inline Force)
+      var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer]');
+      if (mobileMenu) {
+        mobileMenu.style.cssText = 'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;';
+        document.body.classList.remove('overflow-hidden', 'menu-open');
+      }
+      
+      // 3. Smooth fade out after scroll settles
+      if (preloader) {
+        setTimeout(function() {
+          preloader.style.cssText = 'transition: opacity 0.6s ease, visibility 0.6s ease !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important;';
+        }, 500);
+      }
+    }
+  });
+  </script>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
   <script>
@@ -58,7 +84,7 @@
   <link rel="stylesheet" href="./src/style.css">
   <!-- Critical Anti-FOUC & Strict Sizing Styles -->
   <style>
-    #luxury-preloader {
+    #preloader, #luxury-preloader, .preloader {
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
@@ -169,7 +195,7 @@
   src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
       <!-- Premium Knockout Preloader -->
-  <div id="luxury-preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
+  <div id="preloader" class="preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
     <svg width="100%" height="100%" class="w-full h-full">
       <defs>
         <mask id="knockout-text">
@@ -488,7 +514,7 @@
 
         // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
     function initPreloaderDismissal() {
-      const preloader = document.getElementById('luxury-preloader');
+      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
       if (!preloader || preloader.dataset.dismissed === 'true') return;
 
       function dismiss() {
@@ -552,7 +578,7 @@
 
   <script>
     function initExitPreloader() {
-      const preloader = document.getElementById('luxury-preloader');
+      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
       if (!preloader) return;
       const exitLinks = document.querySelectorAll('.arrow-turath, a[href*="index.html"]');
       exitLinks.forEach(link => {
@@ -580,45 +606,7 @@
       initExitPreloader();
     }
 
-    window.addEventListener('pageshow', function (event) {
-      const isBack = event.persisted || 
-        (window.performance && window.performance.navigation && window.performance.navigation.type === 2) ||
-        (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType('navigation')[0] && window.performance.getEntriesByType('navigation')[0].type === 'back_forward');
-
-      if (isBack) {
-        // A. Instantly force the preloader ON with NO transition (blackout the screen)
-        const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader') || document.querySelector('.preloader');
-        if (preloader) {
-          preloader.style.transition = 'none';
-          preloader.style.display = 'flex';
-          preloader.style.opacity = '1';
-          preloader.style.visibility = 'visible';
-          preloader.style.zIndex = '99999';
-          preloader.style.pointerEvents = 'auto';
-        }
-
-        // B. Instantly force-close the mobile menu to prevent any flash
-        const mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
-        if (mobileMenu) {
-          mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open');
-          mobileMenu.classList.add('hidden', 'opacity-0', 'pointer-events-none');
-          document.body.classList.remove('overflow-hidden', 'menu-open');
-        }
-
-        // C. Wait 500ms for the browser's native scroll-jump to finish, THEN fade out smoothly
-        if (preloader) {
-          setTimeout(() => {
-            preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
-            preloader.style.opacity = '0';
-            preloader.style.visibility = 'hidden';
-            preloader.style.pointerEvents = 'none';
-            setTimeout(() => {
-              preloader.style.display = 'none';
-            }, 600);
-          }, 500);
-        }
-      }
-    });
+    
   </script>
 </body>
 </html>

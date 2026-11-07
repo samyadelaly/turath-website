@@ -1853,7 +1853,7 @@ select:-webkit-autofill:active {
 }
 
 /* Premium Knockout Preloader */
-#luxury-preloader {
+#preloader, #luxury-preloader, .preloader {
   position: fixed !important;
   inset: 0 !important;
   top: 0 !important;
@@ -1870,8 +1870,8 @@ select:-webkit-autofill:active {
   will-change: opacity, visibility;
 }
 
-#luxury-preloader.opacity-0,
-#luxury-preloader.preloader-hidden {
+#preloader.opacity-0, #luxury-preloader.opacity-0,
+#preloader.preloader-hidden, #luxury-preloader.preloader-hidden {
   opacity: 0 !important;
   pointer-events: none !important;
   visibility: hidden !important;
