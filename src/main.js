@@ -974,17 +974,17 @@ function initCollectionsHorizontalScroll() {
 
     // Collections sequential fade in only
     gsap.fromTo(".collections-text-anim", 
-      { opacity: 0, y: 20 },
+      { opacity: 0, y: 25 },
       { 
         opacity: 1, 
         y: 0, 
-        stagger: 0.2, 
-        duration: 1,
+        stagger: 0.5, 
+        duration: 2.0,
         ease: "power2.out",
         scrollTrigger: {
-          trigger: ".collections-text-anim", // triggers when the text reaches viewport
-          start: "top 85%",
-          once: true // Fades in only once and stays permanently visible
+          trigger: "#scene-03",
+          start: "top 70%",
+          toggleActions: "play none none reverse"
         }
       }
     );
@@ -1257,6 +1257,23 @@ function initScene06() {
     }
   });
 
+    // Craftsmanship in Motion sequential fade in matching Bespoke Manufacturing 100%
+    gsap.fromTo(".craftsmanship-text-anim", 
+      { opacity: 0, y: 25 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        stagger: 0.5, 
+        duration: 2.0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#scene-06",
+          start: "top 70%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
   // Staggered vertical rise and fade-in for the 5 video slats
   const slats = document.querySelectorAll(".video-slat-item");
   if (slats.length > 0) {
@@ -1406,11 +1423,22 @@ function initScene07() {
   });
 
   // Day/Night Lamp illumination: fades slowly as the user scrolls through the 150vh gap
+    const founderTitle = document.querySelector(".founder-name");
+
+  // Day/Night Lamp illumination: fades slowly as the user scrolls through the 150vh gap
   if (litPlate) {
     founderTL.fromTo(litPlate,
       { opacity: 0 },
       { opacity: 1, ease: "power1.inOut", duration: 0.5 }
     );
+    // Synchronize founder title color transition with daytime illumination: White at night -> Turath Gold (#D7C797) in daytime
+    if (founderTitle) {
+      founderTL.fromTo(founderTitle,
+        { color: "#FFFFFF" },
+        { color: "#D7C797", ease: "power1.inOut", duration: 0.5 },
+        0
+      );
+    }
     // Hold lit plate fully illuminated in daytime while user scrolls and before Contact ascends
     founderTL.to({}, { duration: 2.0 });
   }
@@ -1723,14 +1751,17 @@ function hideLuxuryPreloader() {
   const preloader = document.getElementById('luxury-preloader');
   if (!preloader || preloader.dataset.hiding === 'true') return;
   preloader.dataset.hiding = 'true';
+  const delay = (sessionStorage.getItem('turath_returning_from_subpage') === '1') ? 350 : 150;
   setTimeout(() => {
-    preloader.classList.add('opacity-0', 'pointer-events-none');
+    preloader.style.transition = 'opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    preloader.classList.add('opacity-0', 'pointer-events-none', 'preloader-hidden');
     preloader.style.opacity = '0';
     preloader.style.pointerEvents = 'none';
-    setTimeout(() => {
-      preloader.remove();
-    }, 1000);
-  }, 1200);
+    document.documentElement.classList.remove('is-returning-preloader');
+    try {
+      sessionStorage.removeItem('turath_returning_from_subpage');
+    } catch(e) {}
+  }, delay);
 }
 
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded

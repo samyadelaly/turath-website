@@ -641,9 +641,7 @@
         requestAnimationFrame(() => {
           preloader.style.opacity = '0';
           preloader.style.pointerEvents = 'none';
-          setTimeout(() => {
-            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
-          }, 1000);
+          preloader.classList.add('opacity-0', 'preloader-hidden');
         });
       }
 
@@ -697,13 +695,41 @@
   </script>
 
   <script>
+    function initExitPreloader() {
+      const preloader = document.getElementById('luxury-preloader');
+      if (!preloader) return;
+      const exitLinks = document.querySelectorAll('.arrow-turath, a[href*="index.html"]');
+      exitLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = link.getAttribute('href');
+          if (!href) return;
+          e.preventDefault();
+          preloader.classList.remove('opacity-0', 'preloader-hidden');
+          preloader.style.transition = 'opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+          preloader.style.pointerEvents = 'auto';
+          preloader.style.opacity = '1';
+          try {
+            sessionStorage.setItem('turath_returning_from_subpage', '1');
+          } catch(err) {}
+          setTimeout(() => {
+            window.location.href = href;
+          }, 320);
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExitPreloader);
+    } else {
+      initExitPreloader();
+    }
+
     window.addEventListener('pageshow', function (event) {
-      if (event.persisted) {
-        const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader');
-        if (preloader) {
-          preloader.style.opacity = '0';
-          preloader.style.display = 'none';
-        }
+      const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader');
+      if (preloader) {
+        preloader.classList.add('opacity-0', 'preloader-hidden');
+        preloader.style.opacity = '0';
+        preloader.style.pointerEvents = 'none';
       }
     });
   </script>

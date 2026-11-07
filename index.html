@@ -367,8 +367,36 @@
       transform: none !important;
     }
   </style>
+  <script>
+    (function() {
+      try {
+        if (sessionStorage.getItem('turath_returning_from_subpage') === '1') {
+          document.documentElement.classList.add('is-returning-preloader');
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <style>
+    .is-returning-preloader #luxury-preloader {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+  </style>
 </head>
 <body class="bg-black main-page">
+  <!-- Premium Knockout Preloader on Index (Covers initial page setup & deep-link restoration) -->
+  <div id="luxury-preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-500 ease-in-out opacity-0 preloader-hidden">
+    <svg width="100%" height="100%" class="w-full h-full">
+      <defs>
+        <mask id="knockout-text">
+          <rect width="100%" height="100%" fill="white" />
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
+    </svg>
+  </div>
   <!-- Meta Pixel noscript fallback -->
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
@@ -894,8 +922,8 @@
 
     <!-- Header Section (Without 06 / TURATH IN ACTION eyebrow) -->
     <div class="scene06-header w-full max-w-[1240px] text-center sm:text-left mb-1 sm:mb-2 relative z-20">
-      <h2 class="scene06-title">CRAFTSMANSHIP IN MOTION</h2>
-      <p class="scene06-desc">
+      <h2 class="scene06-title craftsmanship-text-anim text-[#D7C797]">CRAFTSMANSHIP IN MOTION</h2>
+      <p class="scene06-desc craftsmanship-text-anim">
         A direct look at our work
       </p>
     </div>
@@ -913,7 +941,7 @@
       <div class="video-slats-grid px-8 sm:px-12 md:px-16 lg:grid lg:grid-cols-5 lg:gap-4 lg:w-full lg:max-w-7xl lg:px-4 lg:mx-auto" id="video-slats-track">
         
         <!-- Slat 1 -->
-        <a href="action.html?film=0" class="video-slat-item group aspect-[9/14] h-[50vh] sm:h-[54vh] max-h-[480px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-0" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
+        <a href="action.html?film=0" class="video-slat-item group aspect-[9/14] h-[52.5vh] sm:h-[56.7vh] max-h-[504px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[448px] lg:w-full" id="slat-item-0" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-1.jpg" data-src="/video/commute2.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -925,7 +953,7 @@
         </a>
 
         <!-- Slat 2 -->
-        <a href="action.html?film=1" class="video-slat-item group aspect-[9/14] h-[50vh] sm:h-[54vh] max-h-[480px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-1" aria-label="Watch Precision Piercing & Architectural Latticework">
+        <a href="action.html?film=1" class="video-slat-item group aspect-[9/14] h-[52.5vh] sm:h-[56.7vh] max-h-[504px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[448px] lg:w-full" id="slat-item-1" aria-label="Watch Precision Piercing & Architectural Latticework">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-2.jpg" data-src="/video/commute3.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -937,7 +965,7 @@
         </a>
 
         <!-- Slat 3 -->
-        <a href="action.html?film=2" class="video-slat-item group aspect-[9/14] h-[50vh] sm:h-[54vh] max-h-[480px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-2" aria-label="Watch Artisan Finishing & Liquid Satin Patina">
+        <a href="action.html?film=2" class="video-slat-item group aspect-[9/14] h-[52.5vh] sm:h-[56.7vh] max-h-[504px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[448px] lg:w-full" id="slat-item-2" aria-label="Watch Artisan Finishing & Liquid Satin Patina">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-3.jpg" data-src="/video/commute4.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -949,7 +977,7 @@
         </a>
 
         <!-- Slat 4 -->
-        <a href="action.html?film=3" class="video-slat-item group aspect-[9/14] h-[50vh] sm:h-[54vh] max-h-[480px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-3" aria-label="Watch Grand Chandelier Structural Assembly">
+        <a href="action.html?film=3" class="video-slat-item group aspect-[9/14] h-[52.5vh] sm:h-[56.7vh] max-h-[504px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[448px] lg:w-full" id="slat-item-3" aria-label="Watch Grand Chandelier Structural Assembly">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-4.jpg" data-src="/video/VN20260909_233157.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -961,7 +989,7 @@
         </a>
 
         <!-- Slat 5 -->
-        <a href="action.html?film=4" class="video-slat-item group aspect-[9/14] h-[50vh] sm:h-[54vh] max-h-[480px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[480px] lg:w-full" id="slat-item-4" aria-label="Watch Traditional Metal Spinning & Lathe Forming">
+        <a href="action.html?film=4" class="video-slat-item group aspect-[9/14] h-[52.5vh] sm:h-[56.7vh] max-h-[504px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[448px] lg:w-full" id="slat-item-4" aria-label="Watch Traditional Metal Spinning & Lathe Forming">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-5.jpg" data-src="/video/betebat.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
@@ -1042,13 +1070,13 @@
     <!-- ========================================================================
        08 — CONTACT TURATH (DYNAMIC CORNER MORPHING & GLASSMORPHISM)
        ======================================================================== -->
-  <section id="contact" class="relative w-full min-h-screen z-80 bg-black overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 pt-28 sm:pt-32 md:pt-36 pb-8 sm:pb-10 rounded-t-[50vw] mt-[150vh]" style="margin-top: 150vh; border-top-left-radius: 50vw; border-top-right-radius: 50vw; box-shadow: 0 -35px 80px rgba(0, 0, 0, 0.95);" data-theme="dark">
+  <section id="contact" class="relative w-full min-h-[120vh] z-80 bg-black overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 pt-28 sm:pt-32 md:pt-36 pb-24 sm:pb-32 rounded-t-[50vw] mt-[150vh]" style="margin-top: 150vh; border-top-left-radius: 50vw; border-top-right-radius: 50vw; box-shadow: 0 -35px 80px rgba(0, 0, 0, 0.95);" data-theme="dark">
     <!-- Anchor alias -->
     <a id="contact-turath" class="sr-only"></a>
 
     <!-- Fixed Cover Background without dark mask -->
-    <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0" id="contact-bg-media">
-      <img src="/assets/images/contact-bg.jpg?v=3" alt="Turath Handcrafted Brass Background" class="w-full h-full object-cover object-center scale-105 bg-cover bg-center" loading="lazy" />
+    <div class="absolute inset-0 w-full h-[115%] min-h-[115%] pointer-events-none overflow-hidden z-0" id="contact-bg-media">
+      <img src="/assets/images/contact-bg.jpg?v=3" alt="Turath Handcrafted Brass Background" class="w-full h-full object-cover object-center scale-110 bg-cover bg-center" loading="lazy" />
     </div>
 
     <!-- Free-Standing Main Title (Matches OUR VISION Typography Standards) -->
