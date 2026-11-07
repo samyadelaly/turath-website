@@ -1,51 +1,54 @@
 
-// Global BFCache Fix for Scroll Jumps & Menu Flash on Back-Navigation
+// Global BFCache Fix for Scroll Jumps & Menu Responsiveness on Back-Navigation
 window.addEventListener('pageshow', function (event) {
   const isBack = event.persisted || 
     (window.performance && window.performance.navigation && window.performance.navigation.type === 2) ||
     (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType('navigation')[0] && window.performance.getEntriesByType('navigation')[0].type === 'back_forward');
 
   if (isBack) {
-    // A. Instantly force the preloader ON with NO transition (blackout the screen)
-    const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader')) || document.getElementById('preloader') || document.querySelector('.preloader');
+    // A. Ensure preloader never traps clicks or blocks interactions
+    const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader');
     if (preloader) {
-      preloader.style.transition = 'none';
-      preloader.style.display = 'flex';
-      preloader.style.opacity = '1';
-      preloader.style.visibility = 'visible';
-      preloader.style.zIndex = '99999';
-      preloader.style.pointerEvents = 'auto';
+      preloader.style.pointerEvents = 'none';
+      preloader.style.opacity = '0';
+      preloader.style.visibility = 'hidden';
+      preloader.style.display = 'none';
     }
+    document.documentElement.classList.remove('is-returning-preloader');
+    try {
+      sessionStorage.removeItem('turath_returning_from_subpage');
+    } catch(e) {}
 
-    // B. Instantly force-close the mobile menu to prevent any flash
-    const mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
+    // B. Cleanly reset mobile menu to resting closed position (WITHOUT display:none !important lock)
+    const mobileMenu = document.getElementById('nav-drawer') || document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
     if (mobileMenu) {
-      mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open');
-      mobileMenu.classList.add('hidden', 'opacity-0', 'pointer-events-none');
+      mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open', 'hidden', 'opacity-0', 'pointer-events-none');
+      mobileMenu.style.removeProperty('display');
+      mobileMenu.style.removeProperty('opacity');
+      mobileMenu.style.removeProperty('visibility');
+      mobileMenu.style.removeProperty('pointer-events');
+      document.body.classList.remove('overflow-hidden', 'menu-open');
+      const menuTrigger = document.getElementById('menu-trigger');
+      if (menuTrigger) {
+        menuTrigger.setAttribute('aria-expanded', 'false');
+      }
+      mobileMenu.setAttribute('aria-hidden', 'true');
       if (typeof gsap !== 'undefined') {
         gsap.set(mobileMenu, { yPercent: 100, y: 0, visibility: 'hidden', pointerEvents: 'none' });
       } else {
         mobileMenu.style.visibility = 'hidden';
         mobileMenu.style.pointerEvents = 'none';
+        mobileMenu.style.transform = 'translateY(100%)';
       }
-      document.body.classList.remove('overflow-hidden', 'menu-open');
-    }
-    const menuTrigger = document.getElementById('menu-trigger');
-    if (menuTrigger) {
-      menuTrigger.setAttribute('aria-expanded', 'false');
     }
 
-    // C. Wait 500ms for the browser's native scroll-jump to finish, THEN fade out smoothly
-    if (preloader) {
-      setTimeout(() => {
-        preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
-        preloader.style.opacity = '0';
-        preloader.style.visibility = 'hidden';
-        preloader.style.pointerEvents = 'none';
-        setTimeout(() => {
-          preloader.style.display = 'none';
-        }, 600);
-      }, 500); 
+    // C. Refresh ScrollTrigger & ensure header state is restored
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+    const siteHeader = document.getElementById('site-header');
+    if (siteHeader && window.scrollY > 50) {
+      siteHeader.classList.add('is-scrolled');
     }
   }
 });
@@ -270,12 +273,20 @@ function initNavDrawer() {
     updateActiveDrawerMenu();
     document.body.classList.add('menu-open');
     if (menuTrigger) menuTrigger.setAttribute('aria-expanded', 'true');
-    if (navDrawer) navDrawer.setAttribute('aria-hidden', 'false');
+    if (navDrawer) {
+      navDrawer.setAttribute('aria-hidden', 'false');
+      // Proactively clear any stale inline or class overrides from BFCache/back-navigation
+      navDrawer.style.removeProperty('display');
+      navDrawer.style.removeProperty('opacity');
+      navDrawer.style.removeProperty('visibility');
+      navDrawer.style.removeProperty('pointer-events');
+      navDrawer.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+    }
 
     if (menuTl) menuTl.kill();
     menuTl = gsap.timeline();
 
-    gsap.set(navDrawer, { visibility: 'visible', pointerEvents: 'auto' });
+    gsap.set(navDrawer, { display: 'flex', visibility: 'visible', pointerEvents: 'auto', opacity: 1 });
     if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.normalizeScroll) {
       ScrollTrigger.normalizeScroll(false);
     }
@@ -304,24 +315,33 @@ function initNavDrawer() {
   function closeMenu() {
     document.body.classList.remove('menu-open');
     if (menuTrigger) menuTrigger.setAttribute('aria-expanded', 'false');
-    if (navDrawer) navDrawer.setAttribute('aria-hidden', 'true');
+    if (navDrawer) {
+      navDrawer.setAttribute('aria-hidden', 'true');
+    }
 
     if (menuTl) menuTl.kill();
     menuTl = gsap.timeline({
       onComplete: () => {
-        gsap.set(navDrawer, { visibility: 'hidden', pointerEvents: 'none' });
+        if (navDrawer) {
+          gsap.set(navDrawer, { yPercent: 100, y: 0, visibility: 'hidden', pointerEvents: 'none' });
+          navDrawer.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+          navDrawer.style.removeProperty('display');
+          navDrawer.style.removeProperty('opacity');
+        }
         if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.normalizeScroll) {
           ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
         }
       }
     });
 
-    menuTl.to(navDrawer, {
-      yPercent: 100,
-      y: 0,
-      duration: 0.5,
-      ease: 'power4.in'
-    });
+    if (navDrawer) {
+      menuTl.to(navDrawer, {
+        yPercent: 100,
+        y: 0,
+        duration: 0.5,
+        ease: 'power4.in'
+      });
+    }
   }
 
   if (menuTrigger) {

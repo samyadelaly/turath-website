@@ -15,10 +15,17 @@
       }
       
       // 2. Instantly kill menu overlay (Inline Force)
-      var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer]');
+      var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
       if (mobileMenu) {
-        mobileMenu.style.cssText = 'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;';
+        mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open', 'hidden', 'opacity-0', 'pointer-events-none');
+        mobileMenu.style.removeProperty('display');
+        mobileMenu.style.removeProperty('opacity');
+        mobileMenu.style.visibility = 'hidden';
+        mobileMenu.style.pointerEvents = 'none';
+        mobileMenu.style.transform = 'translateY(100%)';
         document.body.classList.remove('overflow-hidden', 'menu-open');
+        var trigger = document.getElementById('menu-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
       }
       
       // 3. Smooth fade out after scroll settles

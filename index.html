@@ -7,25 +7,25 @@
 
   <script>
   window.addEventListener('pageshow', function (event) {
-    if (event.persisted || performance.navigation.type === 2) {
-      // 1. Instantly blackout screen (Inline Force)
+    if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
+      // 1. Instantly hide any preloader so it never blocks clicks
       var preloader = document.getElementById('preloader') || document.querySelector('.preloader');
       if (preloader) {
-        preloader.style.cssText = 'transition: none !important; display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 99999 !important;';
+        preloader.style.cssText = 'transition: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; display: none !important;';
       }
       
-      // 2. Instantly kill menu overlay (Inline Force)
-      var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer]');
+      // 2. Cleanly reset mobile menu overlay (No permanent display:none lockout)
+      var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
       if (mobileMenu) {
-        mobileMenu.style.cssText = 'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;';
+        mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open', 'hidden', 'opacity-0', 'pointer-events-none');
+        mobileMenu.style.removeProperty('display');
+        mobileMenu.style.removeProperty('opacity');
+        mobileMenu.style.visibility = 'hidden';
+        mobileMenu.style.pointerEvents = 'none';
+        mobileMenu.style.transform = 'translateY(100%)';
         document.body.classList.remove('overflow-hidden', 'menu-open');
-      }
-      
-      // 3. Smooth fade out after scroll settles
-      if (preloader) {
-        setTimeout(function() {
-          preloader.style.cssText = 'transition: opacity 0.6s ease, visibility 0.6s ease !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important;';
-        }, 500);
+        var trigger = document.getElementById('menu-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
       }
     }
   });
@@ -408,7 +408,9 @@
     })();
   </script>
   <style>
-    .is-returning-preloader #preloader, #luxury-preloader, .preloader {
+    .is-returning-preloader #preloader,
+    .is-returning-preloader #luxury-preloader,
+    .is-returning-preloader .preloader {
       opacity: 1 !important;
       visibility: visible !important;
       pointer-events: auto !important;
