@@ -701,10 +701,14 @@ function initHeroAnimations() {
 function initScrollBtn() {
   const heroScrollBtn = document.getElementById('hero-scroll-btn');
   if (heroScrollBtn) {
-    heroScrollBtn.addEventListener('click', (e) => {
+    // Remove inline onclick if it somehow survived DOM rendering
+    heroScrollBtn.removeAttribute('onclick'); 
+    
+    heroScrollBtn.addEventListener('click', function(e) {
       e.preventDefault();
       const target = document.getElementById('scene-02');
       const header = document.querySelector('.site-header');
+      
       if (target && header) {
         const headerOffset = header.offsetHeight;
         const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
