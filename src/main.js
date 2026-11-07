@@ -406,6 +406,24 @@ function initNavDrawer() {
       return;
     }
 
+    if (realId === 'scene-02' || realId === 'about') {
+      if (typeof initBelowFold === 'function') initBelowFold();
+      const hero = document.getElementById('scene-01') || document.getElementById('hero');
+      const target = document.getElementById('scene-02');
+      const targetY = hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
+      gsap.to(window, {
+        scrollTo: { y: targetY, autoKill: false },
+        duration: 1.0,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', '#about');
+          }
+        }
+      });
+      return;
+    }
+
     if (realId === 'contact') {
       const contactEl = document.getElementById('contact');
       if (contactEl) {
@@ -705,18 +723,35 @@ function initScrollBtn() {
     
     heroBtn.addEventListener('click', function(e) {
       e.preventDefault();
+      e.stopPropagation();
+
       if (typeof initBelowFold === 'function') {
         initBelowFold();
       }
+
+      const hero = document.getElementById('scene-01') || document.getElementById('hero');
       const target = document.getElementById('scene-02');
-      if (target) {
-        // Align directly to top: 0 so the full-bleed image fills the entire viewport without any gap
-        const targetPos = target.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: targetPos, behavior: 'smooth' });
-        try {
-          history.pushState(null, null, window.location.pathname);
-        } catch (err) {}
+      const targetPos = hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
+
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
       }
+
+      // Use GSAP scrollTo with autoKill: false so no layout shifts or touch events can interrupt it
+      gsap.to(window, {
+        scrollTo: { y: targetPos, autoKill: false },
+        duration: 0.9,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          window.scrollTo(0, targetPos);
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+          }
+          try {
+            history.pushState(null, null, window.location.pathname);
+          } catch (err) {}
+        }
+      });
     });
   }
 }
@@ -1665,9 +1700,9 @@ function initBelowFold() {
   initScene06();
   initScene07();
   initContactSection();
-  setTimeout(() => {
+  if (typeof ScrollTrigger !== 'undefined') {
     ScrollTrigger.refresh();
-  }, 100);
+  }
 }
 
 // Deep linking or immediate initialization if direct hash requested
@@ -1682,6 +1717,15 @@ if (directHash && directHash !== 'home' && directHash !== 'scene-01' && directHa
     initBelowFold();
   };
   startTriggers.forEach(ev => window.addEventListener(ev, onUserReady, { passive: true, once: true }));
+
+  // Initialize below fold automatically once window has loaded during idle time
+  window.addEventListener('load', () => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => initBelowFold(), { timeout: 1500 });
+    } else {
+      setTimeout(initBelowFold, 1000);
+    }
+  });
 
   // On mobile/touch: strictly wait for user interaction (touch/scroll) so initial CPU is 100% idle
   const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth < 1024 || /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent));
@@ -1720,6 +1764,10 @@ function handleInitialDeepLink() {
   let targetY = 0;
   if (realId === 'scene-01' || realId === 'home') {
     targetY = 0;
+  } else if (realId === 'scene-02' || realId === 'about') {
+    const hero = document.getElementById('scene-01') || document.getElementById('hero');
+    const target = document.getElementById('scene-02');
+    targetY = hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
   } else if (realId === 'contact') {
     const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
     const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
