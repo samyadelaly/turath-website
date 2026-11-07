@@ -427,10 +427,20 @@ function initNavDrawer() {
     }
 
     if (realId === 'scene-02' || realId === 'about') {
+      if (typeof initBelowFold === 'function') {
+        initBelowFold();
+      }
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
+      const slices1 = document.querySelectorAll('#about-layer-1 .about-vertical-slice');
+      if (slices1 && slices1.length) {
+        gsap.set(slices1, { clipPath: 'inset(0% 0% 0% 0%)' });
+      }
       const targetY = getScene02ScrollY();
       gsap.to(window, {
         scrollTo: { y: targetY, autoKill: false },
-        duration: 0.85,
+        duration: 0.75,
         ease: 'power2.inOut',
         onUpdate: () => {
           const siteHeader = document.querySelector('.site-header');
@@ -443,8 +453,11 @@ function initNavDrawer() {
           if (s2) {
             const rect = s2.getBoundingClientRect();
             if (Math.abs(rect.top) > 0.5) {
-              window.scrollBy(0, rect.top);
+              window.scrollBy({ top: rect.top, behavior: 'instant' });
             }
+          }
+          if (slices1 && slices1.length) {
+            gsap.set(slices1, { clipPath: 'inset(0% 0% 0% 0%)' });
           }
           if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
@@ -804,12 +817,18 @@ function initScrollBtn() {
         ScrollTrigger.refresh();
       }
 
+      // Ensure Layer 1 entrance slices are unclipped immediately so zero clip-gap occurs
+      const slices1 = document.querySelectorAll('#about-layer-1 .about-vertical-slice');
+      if (slices1 && slices1.length) {
+        gsap.set(slices1, { clipPath: 'inset(0% 0% 0% 0%)' });
+      }
+
       const targetPos = getScene02ScrollY();
 
       // Use GSAP scrollTo with autoKill: false so no layout shifts or touch events can interrupt it
       gsap.to(window, {
         scrollTo: { y: targetPos, autoKill: false },
-        duration: 0.85,
+        duration: 0.75,
         ease: 'power2.inOut',
         onUpdate: () => {
           const siteHeader = document.querySelector('.site-header');
@@ -823,8 +842,11 @@ function initScrollBtn() {
           if (s2) {
             const rect = s2.getBoundingClientRect();
             if (Math.abs(rect.top) > 0.5) {
-              window.scrollBy(0, rect.top);
+              window.scrollBy({ top: rect.top, behavior: 'instant' });
             }
+          }
+          if (slices1 && slices1.length) {
+            gsap.set(slices1, { clipPath: 'inset(0% 0% 0% 0%)' });
           }
           if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();

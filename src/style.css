@@ -766,11 +766,11 @@ body.menu-open .menu-line.line-2 {
   top: 0 !important;
   left: 0 !important;
   width: 100vw;
-  height: 100vh;
-  height: 100svh;
+  height: 100%;
+  min-height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: center center;
+  object-position: center 25%;
   display: block;
   background: transparent !important;
   background-color: transparent !important;
@@ -778,6 +778,12 @@ body.menu-open .menu-line.line-2 {
   filter: none !important;
   -webkit-filter: none !important;
   box-shadow: none !important;
+}
+
+@media (min-width: 1024px) {
+  .about-slice-fullscreen-img {
+    object-position: center center;
+  }
 }
 
 .about-fullscreen-vignette {
@@ -1043,8 +1049,6 @@ body.menu-open .menu-line.line-2 {
    ========================================================================== */
 #about .bg-layer, #scene-02 .bg-layer, #collections .bg-layer, #scene-03 .bg-layer, 
 #about > img.absolute, #scene-02 > img.absolute, #collections > img.absolute, #scene-03 > img.absolute,
-.about-fullscreen-layer,
-.about-vertical-slice,
 .bespoke-fullscreen-layer,
 .bespoke-vertical-slice,
 .collections-bg-wrapper {
@@ -1053,7 +1057,6 @@ body.menu-open .menu-line.line-2 {
   transform: scale(1.02);
 }
 
-.about-slice-fullscreen-img,
 .bespoke-slice-fullscreen-img,
 .collections-bg-img {
   min-height: 105vh !important;
@@ -1267,9 +1270,10 @@ body.menu-open .menu-line.line-2 {
 .collection-card-cta {
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.05em;
-  color: #D7C797;
+  color: #D7C797 !important;
+  opacity: 1 !important;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -1277,7 +1281,7 @@ body.menu-open .menu-line.line-2 {
 }
 
 .collection-card:hover .collection-card-cta {
-  color: #F3F1ED;
+  color: #F3E7C4 !important;
   transform: translateX(4px);
 }
 
@@ -1818,18 +1822,17 @@ select:-webkit-autofill:active {
   z-index: 80 !important;
   position: relative !important;
   overflow: hidden !important;
-  min-height: 120vh !important;
-  padding-bottom: clamp(80px, 12vh, 140px) !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  background-color: #12100e !important;
+  padding-bottom: clamp(60px, 8vh, 100px) !important;
 }
 #contact-bg-media {
   position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
+  inset: 0 !important;
   width: 100% !important;
-  height: 125% !important;
-  min-height: 125% !important;
+  height: 100% !important;
+  min-height: 100% !important;
   pointer-events: none !important;
   overflow: hidden !important;
   z-index: 0 !important;
@@ -1837,10 +1840,11 @@ select:-webkit-autofill:active {
 #contact-bg-media img {
   width: 100% !important;
   height: 100% !important;
+  min-height: 100% !important;
   object-fit: cover !important;
-  object-position: center center !important;
-  transform: scale(1.15) !important;
-  transform-origin: center center !important;
+  object-position: center bottom !important;
+  transform: scale(1.08) !important;
+  transform-origin: center bottom !important;
 }
 
 /* Ensure Bespoke form, wrapper, and inputs are always clickable, typable, and never lose focus */
@@ -2185,7 +2189,8 @@ select:-webkit-autofill:active {
     width: 252px !important;
     min-width: 252px !important;
     max-width: 252px !important;
-    height: 448px !important;
+    height: 510px !important;
+    max-height: 510px !important;
     aspect-ratio: 9/16 !important;
     flex-shrink: 0 !important;
     border-radius: 14px !important;
@@ -2264,7 +2269,8 @@ select:-webkit-autofill:active {
 
 /* Internal Pages Turath Gold Accents (Back Arrow, Nav Arrows, WA, Share, Page Title) */
 .page-title-turath {
-  color: rgba(215, 199, 151, 0.7) !important;
+  color: #FFFFFF !important;
+  opacity: 0.95 !important;
 }
 
 .arrow-turath {
