@@ -407,17 +407,21 @@ function initNavDrawer() {
     }
 
     if (realId === 'scene-02' || realId === 'about') {
-      if (typeof initBelowFold === 'function') initBelowFold();
-      const hero = document.getElementById('scene-01') || document.getElementById('hero');
-      const target = document.getElementById('scene-02');
-      const targetY = hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
+      const targetY = getScene02ScrollY();
       gsap.to(window, {
         scrollTo: { y: targetY, autoKill: false },
         duration: 1.0,
         ease: 'power2.inOut',
         onComplete: () => {
+          window.scrollTo(0, targetY);
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+          }
           if (window.history && window.history.replaceState) {
             window.history.replaceState(null, '', '#about');
+          }
+          if (typeof updateActiveNavigation === 'function') {
+            updateActiveNavigation('#about');
           }
         }
       });
@@ -715,7 +719,33 @@ function initHeroAnimations() {
   });
 }
 
-// 3. Interactive Scroll Button (Full-Bleed Cinematic Landing at Top: 0)
+// 3. Robust Calculation for Scene 02 Top: 0 Landing
+function getScene02ScrollY() {
+  if (typeof initBelowFold === 'function') {
+    initBelowFold();
+  }
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.refresh();
+  }
+
+  const target = document.getElementById('scene-02');
+  if (typeof ScrollTrigger !== 'undefined' && target) {
+    const triggers = ScrollTrigger.getAll().filter(t => {
+      if (!t.trigger) return false;
+      const tr = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+      return tr === target;
+    });
+    const pinnedST = triggers.find(t => t.pin);
+    if (pinnedST && typeof pinnedST.start === 'number' && pinnedST.start > 0) {
+      return pinnedST.start;
+    }
+  }
+
+  const hero = document.getElementById('scene-01') || document.getElementById('hero');
+  return hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
+}
+
+// Interactive Scroll Button (Full-Bleed Cinematic Landing at Top: 0)
 function initScrollBtn() {
   const heroBtn = document.getElementById('hero-scroll-btn');
   if (heroBtn) {
@@ -725,17 +755,7 @@ function initScrollBtn() {
       e.preventDefault();
       e.stopPropagation();
 
-      if (typeof initBelowFold === 'function') {
-        initBelowFold();
-      }
-
-      const hero = document.getElementById('scene-01') || document.getElementById('hero');
-      const target = document.getElementById('scene-02');
-      const targetPos = hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
-
-      if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.refresh();
-      }
+      const targetPos = getScene02ScrollY();
 
       // Use GSAP scrollTo with autoKill: false so no layout shifts or touch events can interrupt it
       gsap.to(window, {
@@ -747,9 +767,12 @@ function initScrollBtn() {
           if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
           }
-          try {
-            history.pushState(null, null, window.location.pathname);
-          } catch (err) {}
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', '#about');
+          }
+          if (typeof updateActiveNavigation === 'function') {
+            updateActiveNavigation('#about');
+          }
         }
       });
     });
@@ -1815,9 +1838,7 @@ function handleInitialDeepLink() {
   if (realId === 'scene-01' || realId === 'home') {
     targetY = 0;
   } else if (realId === 'scene-02' || realId === 'about') {
-    const hero = document.getElementById('scene-01') || document.getElementById('hero');
-    const target = document.getElementById('scene-02');
-    targetY = hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
+    targetY = getScene02ScrollY();
   } else if (realId === 'contact') {
     const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
     const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
@@ -1909,6 +1930,10 @@ function onWindowAssetsLoaded() {
 
   // 3. Refresh ScrollTrigger only when needed (avoid blocking mobile main-thread at scroll 0)
   setTimeout(() => {
+    if (typeof gsap !== 'undefined' && gsap.isTweening && gsap.isTweening(window)) {
+      // Allow user smooth scroll initiated during loading to finish cleanly without interruption
+      return;
+    }
     const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth < 1024 || /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent));
     if (!isMobileDevice || isBelowFoldInitialized) {
       ScrollTrigger.refresh();
