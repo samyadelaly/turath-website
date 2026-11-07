@@ -885,17 +885,27 @@ body.menu-open .menu-line.line-2 {
   pointer-events: auto;
 }
 
+.slats-pagination {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: clamp(0.5rem, 1vw, 0.75rem) !important;
+  z-index: 50 !important;
+  pointer-events: auto;
+}
+
 .dash-indicator {
   position: relative;
-  width: clamp(2rem, 3.5vw, 3rem);
-  height: 2px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s ease, height 0.3s ease, transform 0.3s ease;
+  width: clamp(2rem, 3.5vw, 3rem) !important;
+  height: 2px !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  outline: none !important;
+  transition: all 0.3s ease, background-color 0.3s ease, opacity 0.3s ease !important;
 }
 
 .dash-indicator::before {
@@ -908,13 +918,14 @@ body.menu-open .menu-line.line-2 {
 }
 
 .dash-indicator:hover {
-  background-color: rgba(215, 199, 151, 0.6);
+  background-color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.dash-indicator.active {
-  background-color: #D7C797 !important;
-  height: 3px;
-  box-shadow: 0 0 10px rgba(215, 199, 151, 0.5);
+.dash-indicator.active,
+.dash-indicator.active:hover {
+  background-color: #FFFFFF !important;
+  height: 2px !important;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4) !important;
 }
 
 /* ==========================================================================

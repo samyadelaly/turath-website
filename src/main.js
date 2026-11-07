@@ -759,23 +759,36 @@ function initAboutPinnedTimeline() {
       onUpdate: (self) => {
         if (!aboutDashes.length) return;
         const activeIndex = Math.min(2, Math.floor(self.progress * 3));
-        aboutDashes.forEach((dash, i) => {
-          dash.classList.toggle('active', i === activeIndex);
-        });
+        updateAboutDashes(activeIndex);
       }
     }
   });
 
+  function updateAboutDashes(activeIndex) {
+    aboutDashes.forEach((dash, i) => {
+      const isActive = i === activeIndex;
+      dash.classList.toggle('active', isActive);
+      if (isActive) {
+        dash.classList.add('bg-white');
+        dash.classList.remove('bg-white/30');
+      } else {
+        dash.classList.remove('bg-white');
+        dash.classList.add('bg-white/30');
+      }
+    });
+  }
+
   // Dash click navigation for Scene 02
   aboutDashes.forEach((dash, i) => {
     dash.addEventListener('click', () => {
+      updateAboutDashes(i);
       const st = aboutTl.scrollTrigger;
       if (st) {
         const scrollPos = st.start + ((st.end - st.start) * (i / 2));
         gsap.to(window, {
           scrollTo: { y: scrollPos, autoKill: false },
-          duration: 1,
-          ease: 'power2.inOut'
+          duration: 0.8,
+          ease: 'power2.out'
         });
       }
     });
@@ -931,14 +944,27 @@ function initCollectionsHorizontalScroll() {
         }
       });
 
-      dashes.forEach((dash, i) => {
-        dash.classList.toggle('active', i === activeIndex);
-      });
+      updateCollectionDashes(activeIndex);
     }, { passive: true });
+
+    function updateCollectionDashes(activeIndex) {
+      dashes.forEach((dash, i) => {
+        const isActive = i === activeIndex;
+        dash.classList.toggle('active', isActive);
+        if (isActive) {
+          dash.classList.add('bg-white');
+          dash.classList.remove('bg-white/30');
+        } else {
+          dash.classList.remove('bg-white');
+          dash.classList.add('bg-white/30');
+        }
+      });
+    }
 
     // Dash click navigation for Scene 03 (9 cards)
     dashes.forEach((dash, i) => {
       dash.addEventListener('click', () => {
+        updateCollectionDashes(i);
         const cards = collectionsTrack.querySelectorAll('.collection-card');
         if (cards[i]) {
           cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -1287,8 +1313,23 @@ function initScene06() {
 
   const slatDashes = document.querySelectorAll(".slat-dash");
   if (slatDashes.length && slatsTrack) {
+    function updateSlatDashes(activeIdx) {
+      slatDashes.forEach((d, i) => {
+        const isActive = i === activeIdx;
+        d.classList.toggle('active', isActive);
+        if (isActive) {
+          d.classList.add("bg-white");
+          d.classList.remove("bg-white/30");
+        } else {
+          d.classList.remove("bg-white");
+          d.classList.add("bg-white/30");
+        }
+      });
+    }
+
     slatDashes.forEach((dash, idx) => {
       dash.addEventListener("click", () => {
+        updateSlatDashes(idx);
         const items = slatsTrack.querySelectorAll(".video-slat-item");
         if (items[idx]) {
           items[idx].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
@@ -1309,15 +1350,7 @@ function initScene06() {
           activeIdx = idx;
         }
       });
-      slatDashes.forEach((d, i) => {
-        if (i === activeIdx) {
-          d.classList.add("bg-white");
-          d.classList.remove("bg-white/30");
-        } else {
-          d.classList.remove("bg-white");
-          d.classList.add("bg-white/30");
-        }
-      });
+      updateSlatDashes(activeIdx);
     }, { passive: true });
   }
 
