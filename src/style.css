@@ -2207,3 +2207,35 @@ select:-webkit-autofill:active {
   background-color: rgba(215, 199, 151, 0.3) !important;
   box-shadow: none !important;
 }
+
+
+/* Internal Pages Turath Gold Accents (Back Arrow, Nav Arrows, WA, Share, Page Title) */
+.page-title-turath {
+  color: rgba(215, 199, 151, 0.7) !important;
+}
+
+.arrow-turath {
+  color: #D7C797 !important;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+.arrow-turath:hover {
+  opacity: 0.7 !important;
+}
+
+.nav-arrow-turath {
+  color: rgba(215, 199, 151, 0.7) !important;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+.nav-arrow-turath:hover {
+  color: #D7C797 !important;
+  opacity: 1 !important;
+}
+
+.icon-turath {
+  color: rgba(215, 199, 151, 0.85) !important;
+  transition: opacity 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.icon-turath:hover {
+  color: #D7C797 !important;
+  opacity: 1 !important;
+}
