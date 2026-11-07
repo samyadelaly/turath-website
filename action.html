@@ -257,11 +257,11 @@
           Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.
         </p>
         <div id="dashes-container" class="flex justify-center items-center gap-3">
-          <span class="dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer" data-index="0"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="1"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="2"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="3"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer" data-index="4"></span>
+          <span class="dash-dot w-8 h-[2px] bg-[#D7C797] rounded-full transition-all duration-300 cursor-pointer" data-index="0" class="dash-dot w-8 h-[2px] bg-[#D7C797] active rounded-full transition-all duration-300 cursor-pointer"></span>
+          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="1"></span>
+          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="2"></span>
+          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="3"></span>
+          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="4"></span>
         </div>
       </div>
     </div>
@@ -383,11 +383,13 @@
         const dashes = dashesContainer.querySelectorAll('.dash-dot');
         dashes.forEach((dash, i) => {
           if (i === currentIndex) {
-            dash.classList.remove('bg-white/30');
-            dash.classList.add('bg-white');
+            dash.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
+            dash.classList.add('bg-[#D7C797]', 'active');
           } else {
-            dash.classList.remove('bg-white');
-            dash.classList.add('bg-white/30');
+            dash.classList.remove('bg-[#D7C797]', 'bg-white');
+            dash.classList.remove('active');
+            dash.classList.remove('active');
+          dash.classList.add('bg-[#D7C797]/30');
           }
         });
       }, 250);

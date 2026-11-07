@@ -294,7 +294,7 @@
     // Build Dash indicators dynamically
     sliderData.forEach((_, idx) => {
       const dash = document.createElement('span');
-      dash.className = `dash-dot flex-1 max-w-[28px] min-w-[8px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-white' : 'bg-white/30'}`;
+      dash.className = `dash-dot flex-1 max-w-[28px] min-w-[8px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-[#D7C797] active' : 'bg-[#D7C797]/30'}`;
       dash.addEventListener('click', () => updateSlider(idx));
       dashesContainer.appendChild(dash);
         });
@@ -340,11 +340,12 @@
         const dots = dashesContainer.querySelectorAll('.dash-dot');
         dots.forEach((dot, idx) => {
           if (idx === currentIndex) {
-            dot.classList.remove('bg-white/30');
-            dot.classList.add('bg-white');
+            dot.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
+          dot.classList.add('bg-[#D7C797]', 'active');
           } else {
-            dot.classList.remove('bg-white');
-            dot.classList.add('bg-white/30');
+            dot.classList.remove('bg-[#D7C797]', 'bg-white');
+          dot.classList.remove('active');
+          dot.classList.add('bg-[#D7C797]/30');
           }
         });
       }, 150);

@@ -769,11 +769,11 @@ function initAboutPinnedTimeline() {
       const isActive = i === activeIndex;
       dash.classList.toggle('active', isActive);
       if (isActive) {
-        dash.classList.add('bg-white');
-        dash.classList.remove('bg-white/30');
+        dash.classList.add('bg-[#D7C797]');
+        dash.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
       } else {
-        dash.classList.remove('bg-white');
-        dash.classList.add('bg-white/30');
+        dash.classList.remove('bg-[#D7C797]', 'bg-white');
+        dash.classList.add('bg-[#D7C797]/30');
       }
     });
   }
@@ -952,11 +952,11 @@ function initCollectionsHorizontalScroll() {
         const isActive = i === activeIndex;
         dash.classList.toggle('active', isActive);
         if (isActive) {
-          dash.classList.add('bg-white');
-          dash.classList.remove('bg-white/30');
+          dash.classList.add('bg-[#D7C797]');
+          dash.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
         } else {
-          dash.classList.remove('bg-white');
-          dash.classList.add('bg-white/30');
+          dash.classList.remove('bg-[#D7C797]', 'bg-white');
+          dash.classList.add('bg-[#D7C797]/30');
         }
       });
     }
@@ -1318,11 +1318,11 @@ function initScene06() {
         const isActive = i === activeIdx;
         d.classList.toggle('active', isActive);
         if (isActive) {
-          d.classList.add("bg-white");
-          d.classList.remove("bg-white/30");
+          d.classList.add('bg-[#D7C797]');
+          d.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
         } else {
-          d.classList.remove("bg-white");
-          d.classList.add("bg-white/30");
+          d.classList.remove('bg-[#D7C797]', 'bg-white');
+          d.classList.add('bg-[#D7C797]/30');
         }
       });
     }

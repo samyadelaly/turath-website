@@ -898,7 +898,7 @@ body.menu-open .menu-line.line-2 {
   position: relative;
   width: clamp(2rem, 3.5vw, 3rem) !important;
   height: 2px !important;
-  background-color: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(215, 199, 151, 0.3) !important;
   border-radius: 9999px !important;
   border: none !important;
   padding: 0 !important;
@@ -918,14 +918,14 @@ body.menu-open .menu-line.line-2 {
 }
 
 .dash-indicator:hover {
-  background-color: rgba(255, 255, 255, 0.6) !important;
+  background-color: rgba(215, 199, 151, 0.6) !important;
 }
 
 .dash-indicator.active,
 .dash-indicator.active:hover {
-  background-color: #FFFFFF !important;
+  background-color: #D7C797 !important;
   height: 2px !important;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 0 10px rgba(215, 199, 151, 0.5) !important;
 }
 
 /* ==========================================================================
@@ -2169,4 +2169,41 @@ select:-webkit-autofill:active {
   height: 1px;
   background-color: #D7C797;
   opacity: 0.8;
+}
+
+
+/* Turath Gold Dash Dots for Collection & Action pages */
+.dash-dot {
+  position: relative;
+  display: block;
+  height: 2px !important;
+  border-radius: 9999px !important;
+  background-color: rgba(215, 199, 151, 0.3) !important;
+  transition: all 0.3s ease, background-color 0.3s ease, opacity 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.dash-dot::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.dash-dot:hover {
+  background-color: rgba(215, 199, 151, 0.6) !important;
+}
+
+.dash-dot.active,
+.dash-dot.bg-\[\#D7C797\] {
+  background-color: #D7C797 !important;
+  height: 2px !important;
+  box-shadow: 0 0 10px rgba(215, 199, 151, 0.5) !important;
+}
+
+.dash-dot.bg-\[\#D7C797\]\/30 {
+  background-color: rgba(215, 199, 151, 0.3) !important;
+  box-shadow: none !important;
 }

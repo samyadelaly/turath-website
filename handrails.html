@@ -224,8 +224,8 @@
           An architectural parapet featuring intricate pierced brass leaf screens framed by rich Italian rouge marble.
         </p>
         <div id="dashes-container" class="flex justify-center items-center gap-3">
-          <span class="dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer"></span>
+          <span class="dash-dot w-8 h-[2px] bg-[#D7C797] rounded-full transition-all duration-300 cursor-pointer"></span>
+          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer"></span>
         </div>
       </div>
     </div>
@@ -308,9 +308,9 @@
         const dots = dashesContainer.querySelectorAll('.dash-dot');
         dots.forEach((dot, idx) => {
           if (idx === currentIndex) {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white rounded-full transition-all duration-300 cursor-pointer';
+            dot.className = 'dash-dot w-8 h-[2px] bg-[#D7C797] rounded-full transition-all duration-300 cursor-pointer';
           } else {
-            dot.className = 'dash-dot w-8 h-[2px] bg-white/30 rounded-full transition-all duration-300 cursor-pointer';
+            dot.className = 'dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer';
           }
         });
       }, 150);
