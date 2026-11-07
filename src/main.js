@@ -697,22 +697,25 @@ function initHeroAnimations() {
   });
 }
 
-// 3. Interactive Scroll Button
+// 3. Interactive Scroll Button (Full-Bleed Cinematic Landing at Top: 0)
 function initScrollBtn() {
-  const heroScrollBtn = document.getElementById('hero-scroll-btn');
-  if (heroScrollBtn) {
-    // Remove inline onclick if it somehow survived DOM rendering
-    heroScrollBtn.removeAttribute('onclick'); 
+  const heroBtn = document.getElementById('hero-scroll-btn');
+  if (heroBtn) {
+    heroBtn.removeAttribute('onclick'); 
     
-    heroScrollBtn.addEventListener('click', function(e) {
+    heroBtn.addEventListener('click', function(e) {
       e.preventDefault();
+      if (typeof initBelowFold === 'function') {
+        initBelowFold();
+      }
       const target = document.getElementById('scene-02');
-      const header = document.querySelector('.site-header');
-      
-      if (target && header) {
-        const headerOffset = header.offsetHeight;
-        const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      if (target) {
+        // Align directly to top: 0 so the full-bleed image fills the entire viewport without any gap
+        const targetPos = target.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        try {
+          history.pushState(null, null, window.location.pathname);
+        } catch (err) {}
       }
     });
   }
