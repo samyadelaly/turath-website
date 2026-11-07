@@ -196,7 +196,7 @@ body.menu-open .menu-line.line-2 {
   pointer-events: auto;
 }
 
-/* Top-Right Brand Logo */
+/* Top-Right Brand Logo: Hidden on mobile hero, visible on desktop and when scrolled */
 .header-logo-right {
   display: inline-flex;
   align-items: center;
@@ -207,24 +207,24 @@ body.menu-open .menu-line.line-2 {
 }
 
 .site-header.is-scrolled .header-logo-right {
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
-/* Desktop Horizontal Navigation Menu (Hidden on Hero, revealed when scrolled) */
+@media (min-width: 1024px) {
+  .header-logo-right {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* Desktop Horizontal Navigation Menu (Visible on Desktop only) */
 .desktop-nav-menu {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transform: translateY(-8px);
-  transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
-}
-
-.site-header.is-scrolled .desktop-nav-menu {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
-  transform: translateY(0);
+  transform: none !important;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .header-brand-img {
