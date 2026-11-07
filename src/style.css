@@ -630,7 +630,7 @@ body.menu-open .menu-line.line-2 {
 }
 
 .hero-bottom-title {
-  color: #FFFFFF;
+  color: #D7C797 !important;
   font-size: clamp(1.4rem, 3.6vw, 2.0rem);
   font-weight: 700;
   margin-bottom: clamp(10px, 1.4vh, 16px);
@@ -814,7 +814,7 @@ body.menu-open .menu-line.line-2 {
 /* HEADINGS EXACTLY MATCH HERO BOTTOM TITLE */
 .about-title,
 .about-text-block h3 {
-  color: #FFFFFF;
+  color: #D7C797 !important;
   font-size: clamp(1.4rem, 3.6vw, 2.0rem);
   font-weight: 700;
   margin-bottom: clamp(10px, 1.4vh, 16px);
@@ -1073,7 +1073,7 @@ body.menu-open .menu-line.line-2 {
   margin-bottom: clamp(10px, 1.4vh, 16px) !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
-  color: #FFFFFF !important;
+  color: #D7C797 !important;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75) !important;
   flex-shrink: 0;
 }
@@ -2238,4 +2238,15 @@ select:-webkit-autofill:active {
 .icon-turath:hover {
   color: #D7C797 !important;
   opacity: 1 !important;
+}
+
+
+/* Specific Turath Gold Headings Override (Ensures Desktop & Mobile Consistency) */
+.hero-bottom-title,
+.about-title,
+.about-text-block h3,
+.collections-title,
+#collections-title,
+#bespoke-form label {
+  color: #D7C797 !important;
 }
