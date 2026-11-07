@@ -1977,6 +1977,76 @@ function initAnalyticsTracking() {
       }
     } catch (e) {}
   }
+
+  // iOS (iPhone / iPad) PWA Install Instruction Banner
+  function initIosPwaBanner() {
+    // Check if device is iOS
+    const isIos = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    };
+    
+    // Check if already installed (standalone mode)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    
+    // Check if user already dismissed the banner
+    const bannerDismissed = localStorage.getItem('turath_ios_pwa_closed');
+
+    if (isIos() && !isStandalone && !bannerDismissed) {
+      if (document.getElementById('ios-pwa-banner')) return;
+
+      // Create the iOS specific instruction banner
+      const iosBanner = document.createElement('div');
+      iosBanner.id = 'ios-pwa-banner';
+      iosBanner.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[999999] bg-black/95 backdrop-blur-xl border border-[#D7C797]/30 rounded-xl p-4 shadow-2xl translate-y-[150%] transition-transform duration-500 flex flex-col gap-3';
+      
+      iosBanner.innerHTML = `
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <img src="/turath-brand-logo.jpg" class="w-10 h-10 rounded-md shadow-lg border border-white/10" alt="Turath App">
+            <div class="flex flex-col">
+              <span class="text-white text-sm font-bold tracking-wide">Install Turath App</span>
+              <span class="text-white/60 text-xs tracking-wider">For a seamless luxury experience</span>
+            </div>
+          </div>
+          <button id="ios-pwa-close" aria-label="Close" class="text-white/50 hover:text-white px-2 py-1 text-xl leading-none">&times;</button>
+        </div>
+        <div class="bg-white/5 rounded-lg p-3 text-xs text-white/80 font-light tracking-wide leading-relaxed border border-white/5 flex flex-col gap-2">
+          <div class="flex items-center gap-2">
+            <span>1. Tap the Share icon</span>
+            <svg class="w-4 h-4 text-[#D7C797] inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+            <span>at the bottom.</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span>2. Select "Add to Home Screen"</span>
+            <svg class="w-4 h-4 text-[#D7C797] inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(iosBanner);
+
+      // Animate banner slide up
+      requestAnimationFrame(() => {
+        setTimeout(() => iosBanner.classList.remove('translate-y-[150%]'), 1500);
+      });
+
+      // Handle Close click and save to localStorage
+      const closeBtn = document.getElementById('ios-pwa-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          iosBanner.classList.add('translate-y-[150%]');
+          localStorage.setItem('turath_ios_pwa_closed', 'true');
+          setTimeout(() => iosBanner.remove(), 500);
+        });
+      }
+    }
+  }
+
+  window.addEventListener('load', initIosPwaBanner);
+  if (document.readyState === 'complete') {
+    initIosPwaBanner();
+  }
 }
 
 // 17. SURGICAL MEDIA PROTECTION (IMAGES & VIDEOS)
