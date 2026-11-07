@@ -383,6 +383,39 @@
       pointer-events: auto !important;
     }
   </style>
+  <!-- Global BFCache Head Listener: Instantly block screen & close menu on back-forward cache restore -->
+  <script>
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
+        var preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader') || document.querySelector('.preloader');
+        if (preloader) {
+          preloader.style.transition = 'none';
+          preloader.style.display = 'flex';
+          preloader.style.opacity = '1';
+          preloader.style.visibility = 'visible';
+          preloader.style.zIndex = '99999';
+          preloader.style.pointerEvents = 'auto';
+        }
+        var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
+        if (mobileMenu) {
+          mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open');
+          mobileMenu.classList.add('hidden', 'opacity-0', 'pointer-events-none');
+          document.body.classList.remove('overflow-hidden', 'menu-open');
+        }
+        if (preloader) {
+          setTimeout(function () {
+            preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            preloader.style.pointerEvents = 'none';
+            setTimeout(function () {
+              preloader.style.display = 'none';
+            }, 600);
+          }, 500);
+        }
+      }
+    });
+  </script>
 </head>
 <body class="bg-black main-page">
   <!-- Premium Knockout Preloader on Index (Covers initial page setup & deep-link restoration) -->

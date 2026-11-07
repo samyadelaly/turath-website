@@ -560,7 +560,12 @@
     }
 
     window.addEventListener('pageshow', function (event) {
-      if (event.persisted) {
+      const isBack = event.persisted || 
+        (window.performance && window.performance.navigation && window.performance.navigation.type === 2) ||
+        (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType('navigation')[0] && window.performance.getEntriesByType('navigation')[0].type === 'back_forward');
+
+      if (isBack) {
+        // A. Instantly force the preloader ON with NO transition (blackout the screen)
         const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader') || document.querySelector('.preloader');
         if (preloader) {
           preloader.style.transition = 'none';
@@ -569,7 +574,18 @@
           preloader.style.visibility = 'visible';
           preloader.style.zIndex = '99999';
           preloader.style.pointerEvents = 'auto';
+        }
 
+        // B. Instantly force-close the mobile menu to prevent any flash
+        const mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
+        if (mobileMenu) {
+          mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open');
+          mobileMenu.classList.add('hidden', 'opacity-0', 'pointer-events-none');
+          document.body.classList.remove('overflow-hidden', 'menu-open');
+        }
+
+        // C. Wait 500ms for the browser's native scroll-jump to finish, THEN fade out smoothly
+        if (preloader) {
           setTimeout(() => {
             preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
             preloader.style.opacity = '0';

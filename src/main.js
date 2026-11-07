@@ -1,51 +1,51 @@
 
-// BFCache restoration handler: delay preloader on back-navigation to mask scroll restoration jumps
+// Global BFCache Fix for Scroll Jumps & Menu Flash on Back-Navigation
 window.addEventListener('pageshow', function (event) {
-  if (event.persisted) {
+  const isBack = event.persisted || 
+    (window.performance && window.performance.navigation && window.performance.navigation.type === 2) ||
+    (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType('navigation')[0] && window.performance.getEntriesByType('navigation')[0].type === 'back_forward');
+
+  if (isBack) {
+    // A. Instantly force the preloader ON with NO transition (blackout the screen)
     const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader') || document.querySelector('.preloader');
     if (preloader) {
-      // 1. Force the preloader to be visible immediately to mask the browser's scroll jump
-      preloader.style.transition = 'none'; // Prevent premature fading
-      preloader.style.display = 'flex'; // Use flex or block depending on your layout
+      preloader.style.transition = 'none';
+      preloader.style.display = 'flex';
       preloader.style.opacity = '1';
       preloader.style.visibility = 'visible';
       preloader.style.zIndex = '99999';
       preloader.style.pointerEvents = 'auto';
-
-      // 2. Wait 500ms for the browser to finish its native scroll restoration jump
-      setTimeout(() => {
-        // 3. Now fade it out smoothly revealing the stabilized page
-        preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
-        preloader.style.opacity = '0';
-        preloader.style.visibility = 'hidden';
-        preloader.style.pointerEvents = 'none';
-        
-        // 4. Remove from DOM flow after fade completes
-        setTimeout(() => {
-          preloader.style.display = 'none';
-        }, 600);
-      }, 500); // 500ms delay gives enough time for the layout to settle
     }
 
-    // 2. Force close mobile menu overlay on back-navigation
+    // B. Instantly force-close the mobile menu to prevent any flash
     const mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
     if (mobileMenu) {
-      mobileMenu.classList.remove('active', 'open', 'opacity-100');
-      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open');
+      mobileMenu.classList.add('hidden', 'opacity-0', 'pointer-events-none');
       if (typeof gsap !== 'undefined') {
         gsap.set(mobileMenu, { yPercent: 100, y: 0, visibility: 'hidden', pointerEvents: 'none' });
       } else {
         mobileMenu.style.visibility = 'hidden';
         mobileMenu.style.pointerEvents = 'none';
       }
+      document.body.classList.remove('overflow-hidden', 'menu-open');
     }
     const menuTrigger = document.getElementById('menu-trigger');
     if (menuTrigger) {
       menuTrigger.setAttribute('aria-expanded', 'false');
     }
-    document.body.classList.remove('menu-open', 'overflow-hidden');
-    if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.normalizeScroll) {
-      ScrollTrigger.normalizeScroll({ allowNestedScroll: true });
+
+    // C. Wait 500ms for the browser's native scroll-jump to finish, THEN fade out smoothly
+    if (preloader) {
+      setTimeout(() => {
+        preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
+        preloader.style.opacity = '0';
+        preloader.style.visibility = 'hidden';
+        preloader.style.pointerEvents = 'none';
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 600);
+      }, 500); 
     }
   }
 });
