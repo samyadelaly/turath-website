@@ -1629,17 +1629,67 @@ function initSemanticHashTracking() {
     updateActiveNavigation('#' + semanticName);
   }
 
-  sections.forEach(({ id, hash }) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 50%',
-      end: 'bottom 50%',
-      onEnter: () => setSemanticHash(hash),
-      onEnterBack: () => setSemanticHash(hash)
+  function getSectionStarts() {
+    return sections.map(({ id, hash }) => {
+      if (id === 'scene-01') return { id, hash, startY: 0 };
+      const el = document.getElementById(id);
+      if (!el) return { id, hash, startY: Infinity };
+
+      const triggers = ScrollTrigger.getAll().filter(t => {
+        if (!t.trigger) return false;
+        const tr = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+        return tr === el;
+      });
+
+      const primaryST = triggers.find(t => t.pin && (t.vars.start === 'top top' || t.vars.endTrigger)) ||
+                        triggers.find(t => t.vars && t.vars.start === 'top top') ||
+                        triggers.find(t => t.pin);
+
+      const startY = primaryST && typeof primaryST.start === 'number'
+        ? primaryST.start
+        : (el.getBoundingClientRect().top + window.scrollY);
+
+      return { id, hash, startY };
     });
-  });
+  }
+
+  function checkActiveSection() {
+    if (isInitialJumpPending) return;
+    const curY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+    // Boundary conditions
+    if (curY >= maxScroll - 60) {
+      setSemanticHash('contact');
+      return;
+    }
+    if (curY < 150) {
+      setSemanticHash('home');
+      return;
+    }
+
+    const sectionStarts = getSectionStarts();
+    const threshold = window.innerHeight * 0.35;
+
+    for (let i = sectionStarts.length - 1; i >= 0; i--) {
+      const s = sectionStarts[i];
+      if (curY >= (s.startY - threshold)) {
+        setSemanticHash(s.hash);
+        return;
+      }
+    }
+    setSemanticHash('home');
+  }
+
+  // Update on native scroll, GSAP ScrollTrigger updates, and window resize/refresh
+  window.addEventListener('scroll', checkActiveSection, { passive: true });
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.addEventListener('refresh', checkActiveSection);
+    ScrollTrigger.addEventListener('scrollEnd', checkActiveSection);
+  }
+
+  // Initial check
+  checkActiveSection();
 }
 
 
