@@ -213,7 +213,10 @@
       </div>
 
       <!-- Main Product Image -->
-      <img id="slider-image" src="/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg" alt="AMBER SCALLOP ARCHITECTURAL BRASS SCREEN" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      <picture id="slider-picture">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/partitions/amber-scallop-architectural-brass-screen-desktop.jpg">
+        <img id="slider-image" src="/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg" alt="AMBER SCALLOP ARCHITECTURAL BRASS SCREEN" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
       
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
@@ -229,21 +232,25 @@
     const sliderData = [
       {
         src: '/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg',
+        desktopSrc: '/assets/images/partitions/amber-scallop-architectural-brass-screen-desktop.jpg',
         title: 'AMBER SCALLOP ARCHITECTURAL BRASS SCREEN',
         desc: 'A tall architectural brass partition screen featuring an organic cascading pattern of artisan scalloped fish-scale panels in antique amber glass and solid brass framing.'
       },
       {
         src: '/assets/images/partitions/rhombus-geometric-brass-bookcase.jpg',
+        desktopSrc: '/assets/images/partitions/rhombus-geometric-brass-bookcase-desktop.jpg',
         title: 'RHOMBUS GEOMETRIC BRASS BOOKCASE',
         desc: 'A monumental architectural bookcase hand-welded from solid square brass tubing, featuring a bold central diamond focal structure with cantilevered open glass display shelving.'
       },
       {
         src: '/assets/images/partitions/partition-01.jpg',
+        desktopSrc: '/assets/images/partitions/partition-01-desktop.jpg',
         title: 'ASYMMETRIC BRASS BOOKCASE',
         desc: 'A monumental open-frame bookcase precision-welded in solid brass with staggered floating glass display tiers.'
       },
       {
         src: '/assets/images/partitions/partition-02.jpg',
+        desktopSrc: '/assets/images/partitions/partition-02-desktop.jpg',
         title: 'GEOMETRIC BRASS ROOM DIVIDER',
         desc: 'A freestanding architectural screen crafted with angular brass rod compositions anchored to a sculptural triangular base.'
       },
@@ -279,6 +286,7 @@
     const titleEl = document.getElementById('slider-title');
     const descEl = document.getElementById('slider-desc');
     const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
     const dashesContainer = document.getElementById('dashes-container');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
@@ -293,6 +301,9 @@
     
         if (currentIndex !== 0 && sliderData[currentIndex]) {
           imgEl.src = sliderData[currentIndex].src;
+          if (sourceDesktopEl) {
+            sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+          }
           imgEl.alt = sliderData[currentIndex].title;
           titleEl.innerText = sliderData[currentIndex].title;
           descEl.innerText = sliderData[currentIndex].desc;
@@ -314,6 +325,9 @@
 
       setTimeout(() => {
         imgEl.src = sliderData[currentIndex].src;
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+        }
         imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
