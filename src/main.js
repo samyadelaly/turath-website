@@ -1985,6 +1985,40 @@ function initAnalyticsTracking() {
     } catch (e) {}
   }
 
+  // Android PWA beforeinstallprompt Banner
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (document.getElementById('pwa-install-banner')) return;
+
+    const banner = document.createElement('div');
+    banner.id = 'pwa-install-banner';
+    banner.className = 'fixed bottom-0 left-0 w-full z-[999999] bg-black/95 backdrop-blur-xl border-t border-[#D7C797]/30 p-4 flex items-center justify-between shadow-2xl';
+    banner.innerHTML = `
+      <div class="flex items-center gap-3">
+        <img src="/turath-brand-logo.jpg" class="w-10 h-10 rounded-md shadow-lg" alt="Turath App">
+        <div class="flex flex-col">
+          <span class="text-white text-sm font-bold tracking-wide">Turath App</span>
+          <span class="text-white/60 text-xs tracking-wider">Install for a faster experience</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="pwa-close-btn" aria-label="Close" class="text-white/50 hover:text-white px-2 py-2 text-2xl leading-none">&times;</button>
+        <button id="pwa-install-btn" class="bg-[#D7C797] text-black text-xs font-bold uppercase tracking-widest px-4 py-2.5 rounded-sm hover:bg-white transition-colors">INSTALL</button>
+      </div>
+    `;
+    document.body.appendChild(banner);
+
+    document.getElementById('pwa-install-btn').addEventListener('click', async () => {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      banner.remove();
+    });
+    document.getElementById('pwa-close-btn').addEventListener('click', () => banner.remove());
+  });
+
   // iOS (iPhone / iPad) PWA Install Instruction Banner
   function initIosPwaBanner() {
     // Check if device is iOS
