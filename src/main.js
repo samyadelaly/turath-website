@@ -1,12 +1,30 @@
 
-// BFCache restoration handler: ensure preloader is hidden and mobile menu is force-closed
+// BFCache restoration handler: delay preloader on back-navigation to mask scroll restoration jumps
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
-    // 1. Force hide preloader
-    const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader');
+    const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader') || document.querySelector('.preloader');
     if (preloader) {
-      preloader.style.opacity = '0';
-      preloader.style.display = 'none';
+      // 1. Force the preloader to be visible immediately to mask the browser's scroll jump
+      preloader.style.transition = 'none'; // Prevent premature fading
+      preloader.style.display = 'flex'; // Use flex or block depending on your layout
+      preloader.style.opacity = '1';
+      preloader.style.visibility = 'visible';
+      preloader.style.zIndex = '99999';
+      preloader.style.pointerEvents = 'auto';
+
+      // 2. Wait 500ms for the browser to finish its native scroll restoration jump
+      setTimeout(() => {
+        // 3. Now fade it out smoothly revealing the stabilized page
+        preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
+        preloader.style.opacity = '0';
+        preloader.style.visibility = 'hidden';
+        preloader.style.pointerEvents = 'none';
+        
+        // 4. Remove from DOM flow after fade completes
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 600);
+      }, 500); // 500ms delay gives enough time for the layout to settle
     }
 
     // 2. Force close mobile menu overlay on back-navigation

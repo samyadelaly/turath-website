@@ -725,11 +725,26 @@
     }
 
     window.addEventListener('pageshow', function (event) {
-      const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader');
-      if (preloader) {
-        preloader.classList.add('opacity-0', 'preloader-hidden');
-        preloader.style.opacity = '0';
-        preloader.style.pointerEvents = 'none';
+      if (event.persisted) {
+        const preloader = document.getElementById('luxury-preloader') || document.getElementById('preloader') || document.querySelector('.preloader');
+        if (preloader) {
+          preloader.style.transition = 'none';
+          preloader.style.display = 'flex';
+          preloader.style.opacity = '1';
+          preloader.style.visibility = 'visible';
+          preloader.style.zIndex = '99999';
+          preloader.style.pointerEvents = 'auto';
+
+          setTimeout(() => {
+            preloader.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            preloader.style.pointerEvents = 'none';
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 600);
+          }, 500);
+        }
       }
     });
   </script>
