@@ -451,7 +451,7 @@
       <div class="navbar-dock-slot" id="navbar-dock-slot">
         <div class="hero-wordmark-wrap relative z-[90] pointer-events-auto cursor-pointer" id="hero-wordmark-wrap">
           <span class="hero-wordmark turath-interpolator" id="hero-wordmark"><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="U">U</span><span class="scramble-char" data-char="R">R</span><span class="scramble-char" data-char="A">A</span><span class="scramble-char" data-char="T">T</span><span class="scramble-char" data-char="H">H</span></span>
-          <button type="button" class="hero-scroll-btn cursor-pointer relative z-[90] pointer-events-auto" id="hero-scroll-btn" aria-label="Scroll to Section 02" onclick="if(!window.gsap){const h=document.getElementById('scene-01');window.scrollTo({top:h?h.offsetHeight:window.innerHeight,behavior:'smooth'});}">
+          <button type="button" class="hero-scroll-btn cursor-pointer relative z-[90] pointer-events-auto" id="hero-scroll-btn" aria-label="Scroll to Section 02">
             <svg class="hero-chevron-icon pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -577,15 +577,15 @@
     <div class="about-fullscreen-layer about-layer-1" id="about-layer-1">
       <!-- Slice 1 (left: 0) -->
       <div class="about-vertical-slice slice-1" style="left: 0;">
-        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(0);" loading="lazy" />
+        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(0);" loading="eager" fetchpriority="high" />
       </div>
       <!-- Slice 2 (left: 33.333%) -->
       <div class="about-vertical-slice slice-2" style="left: 33.3333%;">
-        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" loading="lazy" />
+        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-33.3333vw);" loading="eager" fetchpriority="high" />
       </div>
       <!-- Slice 3 (left: 66.666%) -->
       <div class="about-vertical-slice slice-3" style="left: 66.6666%;">
-        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" loading="lazy" />
+        <img src="/assets/images/about-slice-1.jpg" alt="Turath Craftsmanship - Stage 1" class="about-slice-fullscreen-img" style="transform: translateX(-66.6666vw);" loading="eager" fetchpriority="high" />
       </div>
     </div>
 

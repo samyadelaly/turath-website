@@ -413,7 +413,8 @@ body.menu-open .menu-line.line-2 {
 #scene-01,
 #hero {
   height: 100vh;
-  height: 100dvh;
+  height: 100svh;
+  max-height: 100svh;
   overflow: hidden;
   top: 0;
   left: 0;
@@ -421,6 +422,14 @@ body.menu-open .menu-line.line-2 {
   z-index: 10 !important;
   margin-top: 0;
   background-color: var(--bg-dark);
+}
+
+@media (min-width: 1024px) {
+  #scene-01,
+  #hero {
+    height: 100vh;
+    max-height: none;
+  }
 }
 
 /* Background Images & Scrim: 15% extra height overshoot cushion for address bar retracting */

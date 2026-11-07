@@ -430,12 +430,28 @@ function initNavDrawer() {
       const targetY = getScene02ScrollY();
       gsap.to(window, {
         scrollTo: { y: targetY, autoKill: false },
-        duration: 1.0,
+        duration: 0.85,
         ease: 'power2.inOut',
+        onUpdate: () => {
+          const siteHeader = document.querySelector('.site-header');
+          if (siteHeader && window.scrollY > 40 && !siteHeader.classList.contains('is-scrolled')) {
+            siteHeader.classList.add('is-scrolled');
+          }
+        },
         onComplete: () => {
-          window.scrollTo(0, targetY);
+          const s2 = document.getElementById('scene-02');
+          if (s2) {
+            const rect = s2.getBoundingClientRect();
+            if (Math.abs(rect.top) > 0.5) {
+              window.scrollBy(0, rect.top);
+            }
+          }
           if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
+          }
+          const siteHeader = document.querySelector('.site-header');
+          if (siteHeader) {
+            siteHeader.classList.add('is-scrolled');
           }
           if (window.history && window.history.replaceState) {
             window.history.replaceState(null, '', '#about');
@@ -749,20 +765,26 @@ function getScene02ScrollY() {
   }
 
   const target = document.getElementById('scene-02');
-  if (typeof ScrollTrigger !== 'undefined' && target) {
-    const triggers = ScrollTrigger.getAll().filter(t => {
-      if (!t.trigger) return false;
-      const tr = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
-      return tr === target;
-    });
-    const pinnedST = triggers.find(t => t.pin);
-    if (pinnedST && typeof pinnedST.start === 'number' && pinnedST.start > 0) {
-      return pinnedST.start;
+  if (target) {
+    if (typeof ScrollTrigger !== 'undefined') {
+      const triggers = ScrollTrigger.getAll().filter(t => {
+        if (!t.trigger) return false;
+        const tr = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+        return tr === target;
+      });
+      const pinnedST = triggers.find(t => t.pin);
+      if (pinnedST && typeof pinnedST.start === 'number' && pinnedST.start > 0) {
+        return pinnedST.start;
+      }
+    }
+    const targetTop = target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop);
+    if (targetTop > 0) {
+      return targetTop;
     }
   }
 
   const hero = document.getElementById('scene-01') || document.getElementById('hero');
-  return hero ? hero.offsetHeight : (target ? target.offsetTop : window.innerHeight);
+  return hero ? hero.offsetHeight : window.innerHeight;
 }
 
 // Interactive Scroll Button (Full-Bleed Cinematic Landing at Top: 0)
@@ -775,17 +797,41 @@ function initScrollBtn() {
       e.preventDefault();
       e.stopPropagation();
 
+      if (typeof initBelowFold === 'function') {
+        initBelowFold();
+      }
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
+
       const targetPos = getScene02ScrollY();
 
       // Use GSAP scrollTo with autoKill: false so no layout shifts or touch events can interrupt it
       gsap.to(window, {
         scrollTo: { y: targetPos, autoKill: false },
-        duration: 0.9,
+        duration: 0.85,
         ease: 'power2.inOut',
+        onUpdate: () => {
+          const siteHeader = document.querySelector('.site-header');
+          if (siteHeader && window.scrollY > 40 && !siteHeader.classList.contains('is-scrolled')) {
+            siteHeader.classList.add('is-scrolled');
+          }
+        },
         onComplete: () => {
-          window.scrollTo(0, targetPos);
+          // Precise viewport check: if mobile browser address bar collapsed and caused any subpixel / offset gap, correct it immediately!
+          const s2 = document.getElementById('scene-02');
+          if (s2) {
+            const rect = s2.getBoundingClientRect();
+            if (Math.abs(rect.top) > 0.5) {
+              window.scrollBy(0, rect.top);
+            }
+          }
           if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
+          }
+          const siteHeader = document.querySelector('.site-header');
+          if (siteHeader) {
+            siteHeader.classList.add('is-scrolled');
           }
           if (window.history && window.history.replaceState) {
             window.history.replaceState(null, '', '#about');
@@ -1889,6 +1935,20 @@ function handleInitialDeepLink() {
     overwrite: 'all'
   });
   window.scrollTo(0, targetY);
+
+  if (realId === 'scene-02' || realId === 'about') {
+    const s2 = document.getElementById('scene-02');
+    if (s2) {
+      const rect = s2.getBoundingClientRect();
+      if (Math.abs(rect.top) > 0.5) {
+        window.scrollBy(0, rect.top);
+      }
+    }
+    const siteHeader = document.querySelector('.site-header');
+    if (siteHeader) {
+      siteHeader.classList.add('is-scrolled');
+    }
+  }
 
   const idToSemantic = {
     'scene-01': 'home',
