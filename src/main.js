@@ -2255,8 +2255,8 @@ function initAnalyticsTracking() {
     // Check if already installed (standalone mode)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     
-    // Check if user already dismissed the banner
-    const bannerDismissed = localStorage.getItem('turath_ios_pwa_closed');
+    // Check if user already dismissed the banner in current session
+    const bannerDismissed = sessionStorage.getItem('turath_ios_pwa_closed');
 
     if (isIos() && !isStandalone && !bannerDismissed) {
       if (document.getElementById('ios-pwa-banner')) return;
@@ -2297,12 +2297,12 @@ function initAnalyticsTracking() {
         setTimeout(() => iosBanner.classList.remove('translate-y-[150%]'), 1500);
       });
 
-      // Handle Close click and save to localStorage
+      // Handle Close click and save to sessionStorage
       const closeBtn = document.getElementById('ios-pwa-close');
       if (closeBtn) {
         closeBtn.addEventListener('click', () => {
           iosBanner.classList.add('translate-y-[150%]');
-          localStorage.setItem('turath_ios_pwa_closed', 'true');
+          sessionStorage.setItem('turath_ios_pwa_closed', 'true');
           setTimeout(() => iosBanner.remove(), 500);
         });
       }
