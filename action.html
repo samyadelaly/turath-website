@@ -281,7 +281,7 @@
       <!-- Centered Film Title -->
       <div class="absolute top-[14%] md:top-[18%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
         <h1 id="slider-title" class="text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-[0.16em] text-white uppercase text-center drop-shadow-md">
-          THE ART OF REPOUSSÉ &amp; HAND-CHISELING
+          ORGANIC CAST BRASS BRANCH CONSOLE
         </h1>
       </div>
 
@@ -292,19 +292,24 @@
       </div>
 
       <!-- Main Video Element -->
-      <video id="slider-video" src="/video/commute2.mp4" poster="/assets/images/action-poster-1.jpg" playsinline loop autoplay muted class="w-full h-full object-cover lg:object-contain transition-opacity duration-300"></video>
+      <video id="slider-video" src="/video/VN20260803_060750.mp4" poster="/assets/images/action-poster-6.jpg" playsinline loop autoplay muted class="w-full h-full object-cover lg:object-contain transition-opacity duration-300"></video>
       
       <!-- Bottom Overlay: Craft Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full px-6 pt-8 pb-8 sm:pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-4">
         <p id="slider-desc" class="text-white/90 text-xs sm:text-sm md:text-base font-light tracking-wide text-center max-w-md drop-shadow-md leading-relaxed min-h-[3.5rem]">
-          Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.
+          Sculptural solid brass casting, branch welding, and liquid metal joinery forming an organic tree-limb console paired with polished black marble.
         </p>
-        <div id="dashes-container" class="flex justify-center items-center gap-3">
-          <span class="dash-dot w-8 h-[2px] bg-[#D7C797] rounded-full transition-all duration-300 cursor-pointer" data-index="0" class="dash-dot w-8 h-[2px] bg-[#D7C797] active rounded-full transition-all duration-300 cursor-pointer"></span>
-          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="1"></span>
-          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="2"></span>
-          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="3"></span>
-          <span class="dash-dot w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="4"></span>
+        <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-3">
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797] active rounded-full transition-all duration-300 cursor-pointer" data-index="0" aria-label="Film 1"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="1" aria-label="Film 2"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="2" aria-label="Film 3"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="3" aria-label="Film 4"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="4" aria-label="Film 5"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="5" aria-label="Film 6"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="6" aria-label="Film 7"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="7" aria-label="Film 8"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="8" aria-label="Film 9"></span>
+          <span class="dash-dot w-6 sm:w-8 h-[2px] bg-[#D7C797]/30 rounded-full transition-all duration-300 cursor-pointer" data-index="9" aria-label="Film 10"></span>
         </div>
       </div>
     </div>
@@ -314,34 +319,69 @@
     const filmsData = [
       {
         id: 'action-item-1',
+        src: '/video/VN20260803_060750.mp4',
+        poster: '/assets/images/action-poster-6.jpg',
+        title: 'ORGANIC CAST BRASS BRANCH CONSOLE',
+        desc: 'Sculptural solid brass casting, branch welding, and liquid metal joinery forming an organic tree-limb console paired with polished black marble.'
+      },
+      {
+        id: 'action-item-2',
         src: '/video/commute2.mp4',
         poster: '/assets/images/action-poster-1.jpg',
         title: 'THE ART OF REPOUSSÉ & HAND-CHISELING',
         desc: 'Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.'
       },
       {
-        id: 'action-item-2',
+        id: 'action-item-3',
+        src: '/video/VN20260801_233455.mp4',
+        poster: '/assets/images/action-poster-7.jpg',
+        title: 'FILIGREE FLORAL BRASS MIRROR',
+        desc: 'Handcrafted botanical brass petals adorned with delicate hand-pierced filigree mesh, framing a polished central circular convex mirror.'
+      },
+      {
+        id: 'action-item-4',
         src: '/video/commute3.mp4',
         poster: '/assets/images/action-poster-2.jpg',
         title: 'PRECISION PIERCING & ARCHITECTURAL LATTICEWORK',
         desc: 'Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.'
       },
       {
-        id: 'action-item-3',
+        id: 'action-item-5',
+        src: '/video/VN20260802_011209.mp4',
+        poster: '/assets/images/action-poster-8.jpg',
+        title: 'STUDDED BRASS HALO MIRROR CRAFTSMANSHIP',
+        desc: 'Detailed artisanal placement and hand-anchoring of hundreds of solid brass pins creating a monumental kinetic radial halo mirror.'
+      },
+      {
+        id: 'action-item-6',
         src: '/video/commute4.mp4',
         poster: '/assets/images/action-poster-3.jpg',
         title: 'ARTISAN PATINATION & LIQUID SATIN OXIDATION',
         desc: 'Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.'
       },
       {
-        id: 'action-item-4',
+        id: 'action-item-7',
+        src: '/video/VN20260731_004442.mp4',
+        poster: '/assets/images/action-poster-9.jpg',
+        title: 'ARCHITECTURAL BRASS HANDRAIL & BALUSTRADE',
+        desc: 'Precision architectural brass balusters and handrail installation designed with mirror-polished brass geometric joints for luxury residential villas.'
+      },
+      {
+        id: 'action-item-8',
         src: '/video/VN20260909_233157.mp4',
         poster: '/assets/images/action-poster-4.jpg',
         title: 'GRAND CHANDELIER STRUCTURAL ASSEMBLY',
         desc: 'Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.'
       },
       {
-        id: 'action-item-5',
+        id: 'action-item-9',
+        src: '/video/WhatsApp Video 2018-11-22 at 4.24.27 PM.mp4',
+        poster: '/assets/images/action-poster-10.jpg',
+        title: 'HISTORIC CALLIGRAPHY BRASS LANTERN',
+        desc: 'Intricately pierced Islamic Thuluth calligraphy and arabesque fretwork on a traditional Mamluk brass lantern casting ethereal shadow projections.'
+      },
+      {
+        id: 'action-item-10',
         src: '/video/betebat.mp4',
         poster: '/assets/images/action-poster-5.jpg',
         title: 'TRADITIONAL METAL SPINNING & LATHE FORMING',
@@ -477,9 +517,7 @@
     });
 
     // Initial setup if film param was given
-    if (currentIndex !== 0) {
-      updateSlider(currentIndex);
-    }
+    updateSlider(currentIndex);
   
     // Share button interaction with real-time video snapshot & deep link
     const shareBtn = document.getElementById('share-btn');

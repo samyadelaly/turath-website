@@ -936,7 +936,7 @@
     </div>
 
     <!-- Vertical Video Slats Grid (Taller architectural cards) -->
-    <div class="craft-slats-container w-full max-w-[1360px] relative z-20 flex items-center lg:block mt-3 sm:mt-4">
+    <div class="craft-slats-container w-full max-w-[1360px] relative z-20 flex items-center mt-3 sm:mt-4">
       <!-- Left Floating Arrow Button (Identical to Collections in style, colors, and hover animation) -->
       <button id="slats-prev-btn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Slats Left">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -944,69 +944,127 @@
         </svg>
       </button>
 
-      <!-- Video Slats Track -->
-      <div class="video-slats-grid px-8 sm:px-12 md:px-16 lg:grid lg:grid-cols-5 lg:gap-4 lg:w-full lg:max-w-7xl lg:px-4 lg:mx-auto" id="video-slats-track">
-        
-        <!-- Slat 1 -->
-        <a href="action.html?film=0" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-full" id="slat-item-0" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
+            <!-- Video Slats Track (10 Videos: Alternating New & Heritage Workshop Craftsmanship) -->
+      <div class="video-slats-grid px-8 sm:px-12 md:px-16 lg:flex lg:overflow-x-auto lg:gap-4 lg:w-full lg:max-w-7xl lg:px-4 lg:mx-auto" id="video-slats-track">
+        <!-- Slat 01 -->
+        <a href="action.html?film=0" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-0" aria-label="Watch Organic Cast Brass Branch Console">
+          <div class="slat-media-box">
+            <video class="slat-video" poster="/assets/images/action-poster-6.jpg" data-src="/video/VN20260803_060750.mp4" playsinline muted loop preload="none"></video>
+            <div class="slat-video-scrim"></div>
+          </div>
+          <div class="slat-caption-badge">
+            <span class="slat-badge-num">01</span>
+            <h3 class="slat-badge-title">Organic Cast Brass Branch Console</h3>
+          </div>
+        </a>
+
+        <!-- Slat 02 -->
+        <a href="action.html?film=1" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-1" aria-label="Watch The Art of Repoussé & Hand-Chiseling">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-1.jpg" data-src="/video/commute2.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
-            <span class="slat-badge-num">01</span>
+            <span class="slat-badge-num">02</span>
             <h3 class="slat-badge-title">The Art of Repoussé &amp; Hand-Chiseling</h3>
           </div>
         </a>
 
-        <!-- Slat 2 -->
-        <a href="action.html?film=1" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-full" id="slat-item-1" aria-label="Watch Precision Piercing & Architectural Latticework">
+        <!-- Slat 03 -->
+        <a href="action.html?film=2" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-2" aria-label="Watch Filigree Floral Brass Mirror">
+          <div class="slat-media-box">
+            <video class="slat-video" poster="/assets/images/action-poster-7.jpg" data-src="/video/VN20260801_233455.mp4" playsinline muted loop preload="none"></video>
+            <div class="slat-video-scrim"></div>
+          </div>
+          <div class="slat-caption-badge">
+            <span class="slat-badge-num">03</span>
+            <h3 class="slat-badge-title">Filigree Floral Brass Mirror</h3>
+          </div>
+        </a>
+
+        <!-- Slat 04 -->
+        <a href="action.html?film=3" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-3" aria-label="Watch Precision Piercing & Latticework">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-2.jpg" data-src="/video/commute3.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
-            <span class="slat-badge-num">02</span>
+            <span class="slat-badge-num">04</span>
             <h3 class="slat-badge-title">Precision Piercing &amp; Latticework</h3>
           </div>
         </a>
 
-        <!-- Slat 3 -->
-        <a href="action.html?film=2" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-full" id="slat-item-2" aria-label="Watch Artisan Finishing & Liquid Satin Patina">
+        <!-- Slat 05 -->
+        <a href="action.html?film=4" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-4" aria-label="Watch Studded Brass Halo Mirror">
+          <div class="slat-media-box">
+            <video class="slat-video" poster="/assets/images/action-poster-8.jpg" data-src="/video/VN20260802_011209.mp4" playsinline muted loop preload="none"></video>
+            <div class="slat-video-scrim"></div>
+          </div>
+          <div class="slat-caption-badge">
+            <span class="slat-badge-num">05</span>
+            <h3 class="slat-badge-title">Studded Brass Halo Mirror</h3>
+          </div>
+        </a>
+
+        <!-- Slat 06 -->
+        <a href="action.html?film=5" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-5" aria-label="Watch Artisan Patination & Oxidation">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-3.jpg" data-src="/video/commute4.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
-            <span class="slat-badge-num">03</span>
-            <h3 class="slat-badge-title">Artisan Patination &amp; Satin Oxidation</h3>
+            <span class="slat-badge-num">06</span>
+            <h3 class="slat-badge-title">Artisan Patination &amp; Oxidation</h3>
           </div>
         </a>
 
-        <!-- Slat 4 -->
-        <a href="action.html?film=3" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-full" id="slat-item-3" aria-label="Watch Grand Chandelier Structural Assembly">
+        <!-- Slat 07 -->
+        <a href="action.html?film=6" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-6" aria-label="Watch Architectural Brass Handrail">
+          <div class="slat-media-box">
+            <video class="slat-video" poster="/assets/images/action-poster-9.jpg" data-src="/video/VN20260731_004442.mp4" playsinline muted loop preload="none"></video>
+            <div class="slat-video-scrim"></div>
+          </div>
+          <div class="slat-caption-badge">
+            <span class="slat-badge-num">07</span>
+            <h3 class="slat-badge-title">Architectural Brass Handrail</h3>
+          </div>
+        </a>
+
+        <!-- Slat 08 -->
+        <a href="action.html?film=7" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-7" aria-label="Watch Grand Chandelier Assembly">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-4.jpg" data-src="/video/VN20260909_233157.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
-            <span class="slat-badge-num">04</span>
+            <span class="slat-badge-num">08</span>
             <h3 class="slat-badge-title">Grand Chandelier Assembly</h3>
           </div>
         </a>
 
-        <!-- Slat 5 -->
-        <a href="action.html?film=4" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-full" id="slat-item-4" aria-label="Watch Traditional Metal Spinning & Lathe Forming">
+        <!-- Slat 09 -->
+        <a href="action.html?film=8" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-8" aria-label="Watch Historic Calligraphy Brass Lantern">
+          <div class="slat-media-box">
+            <video class="slat-video" poster="/assets/images/action-poster-10.jpg" data-src="/video/WhatsApp Video 2018-11-22 at 4.24.27 PM.mp4" playsinline muted loop preload="none"></video>
+            <div class="slat-video-scrim"></div>
+          </div>
+          <div class="slat-caption-badge">
+            <span class="slat-badge-num">09</span>
+            <h3 class="slat-badge-title">Historic Calligraphy Brass Lantern</h3>
+          </div>
+        </a>
+
+        <!-- Slat 10 -->
+        <a href="action.html?film=9" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[510px] lg:w-[230px] shrink-0" id="slat-item-9" aria-label="Watch Metal Spinning & Lathe Forming">
           <div class="slat-media-box">
             <video class="slat-video" poster="/assets/images/action-poster-5.jpg" data-src="/video/betebat.mp4" playsinline muted loop preload="none"></video>
             <div class="slat-video-scrim"></div>
           </div>
           <div class="slat-caption-badge">
-            <span class="slat-badge-num">05</span>
+            <span class="slat-badge-num">10</span>
             <h3 class="slat-badge-title">Metal Spinning &amp; Lathe Forming</h3>
           </div>
         </a>
-
       </div>
 
       <!-- Right Floating Arrow Button (Identical to Collections in style, colors, and hover animation) -->
@@ -1017,13 +1075,18 @@
       </button>
     </div>
   
-    <!-- 5-DASH INTERACTIVE PAGINATION (SCENE 06 - CRAFTSMANSHIP IN MOTION) -->
-    <div class="slats-pagination w-full flex justify-center items-center gap-3 z-30 mt-3 sm:mt-4 lg:mt-6" id="slats-pagination" aria-label="Craftsmanship video navigation">
-      <button class="dash-indicator slat-dash w-8 md:w-12 h-[2px] rounded-full bg-[#D7C797] transition-all duration-300 cursor-pointer active" aria-label="Video 1"></button>
-      <button class="dash-indicator slat-dash w-8 md:w-12 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 2"></button>
-      <button class="dash-indicator slat-dash w-8 md:w-12 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 3"></button>
-      <button class="dash-indicator slat-dash w-8 md:w-12 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 4"></button>
-      <button class="dash-indicator slat-dash w-8 md:w-12 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 5"></button>
+    <!-- 10-DASH INTERACTIVE PAGINATION (SCENE 06 - CRAFTSMANSHIP IN MOTION) -->
+    <div class="slats-pagination w-full flex justify-center items-center gap-2 z-30 mt-3 sm:mt-4 lg:mt-5" id="slats-pagination" aria-label="Craftsmanship video navigation">
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797] transition-all duration-300 cursor-pointer active" aria-label="Video 1"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 2"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 3"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 4"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 5"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 6"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 7"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 8"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 9"></button>
+      <button class="dash-indicator slat-dash w-5 sm:w-8 md:w-10 h-[2px] rounded-full bg-[#D7C797]/30 transition-all duration-300 cursor-pointer" aria-label="Video 10"></button>
     </div>
   </section>
 

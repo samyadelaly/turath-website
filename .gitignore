@@ -35,3 +35,6 @@ Thumbs.db
 
 .vercel/
 *.zip
+
+# Raw video backups
+*_raw_backup.mp4

@@ -1532,8 +1532,8 @@
     </item>
     <item>
       <g:id>action-item-1</g:id>
-      <g:title><![CDATA[THE ART OF REPOUSSÉ & HAND-CHISELING | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.]]></g:description>
+      <g:title><![CDATA[ORGANIC CAST BRASS BRANCH CONSOLE | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Sculptural solid brass casting, branch welding, and liquid metal joinery forming an organic tree-limb console paired with polished black marble.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-1.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1546,8 +1546,8 @@
     </item>
     <item>
       <g:id>action-item-2</g:id>
-      <g:title><![CDATA[PRECISION PIERCING & ARCHITECTURAL LATTICEWORK | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.]]></g:description>
+      <g:title><![CDATA[THE ART OF REPOUSSÉ & HAND-CHISELING | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-2/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-2.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1560,8 +1560,8 @@
     </item>
     <item>
       <g:id>action-item-3</g:id>
-      <g:title><![CDATA[ARTISAN PATINATION & LIQUID SATIN OXIDATION | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.]]></g:description>
+      <g:title><![CDATA[FILIGREE FLORAL BRASS MIRROR | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Handcrafted botanical brass petals adorned with delicate hand-pierced filigree mesh, framing a polished central circular convex mirror.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-3/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-3.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1574,8 +1574,8 @@
     </item>
     <item>
       <g:id>action-item-4</g:id>
-      <g:title><![CDATA[GRAND CHANDELIER STRUCTURAL ASSEMBLY | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.]]></g:description>
+      <g:title><![CDATA[PRECISION PIERCING & ARCHITECTURAL LATTICEWORK | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-4/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-4.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1588,10 +1588,80 @@
     </item>
     <item>
       <g:id>action-item-5</g:id>
-      <g:title><![CDATA[TRADITIONAL METAL SPINNING & LATHE FORMING | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.]]></g:description>
+      <g:title><![CDATA[STUDDED BRASS HALO MIRROR CRAFTSMANSHIP | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Detailed artisanal placement and hand-anchoring of hundreds of solid brass pins creating a monumental kinetic radial halo mirror.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-5/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-5.jpg</g:image_link>
+      <g:brand>Turath Egypt</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 EGP</g:price>
+      <g:product_type><![CDATA[Turath in Action]]></g:product_type>
+      <g:custom_label_0>Bespoke Solid Brass</g:custom_label_0>
+      <g:custom_label_1>Cairo Heritage Metalwork</g:custom_label_1>
+    </item>
+    <item>
+      <g:id>action-item-6</g:id>
+      <g:title><![CDATA[ARTISAN PATINATION & LIQUID SATIN OXIDATION | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.]]></g:description>
+      <g:link>https://turath-egypt.vercel.app/products/action-item-6/</g:link>
+      <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-6.jpg</g:image_link>
+      <g:brand>Turath Egypt</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 EGP</g:price>
+      <g:product_type><![CDATA[Turath in Action]]></g:product_type>
+      <g:custom_label_0>Bespoke Solid Brass</g:custom_label_0>
+      <g:custom_label_1>Cairo Heritage Metalwork</g:custom_label_1>
+    </item>
+    <item>
+      <g:id>action-item-7</g:id>
+      <g:title><![CDATA[ARCHITECTURAL BRASS HANDRAIL & BALUSTRADE | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Precision architectural brass balusters and handrail installation designed with mirror-polished brass geometric joints for luxury residential villas.]]></g:description>
+      <g:link>https://turath-egypt.vercel.app/products/action-item-7/</g:link>
+      <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-7.jpg</g:image_link>
+      <g:brand>Turath Egypt</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 EGP</g:price>
+      <g:product_type><![CDATA[Turath in Action]]></g:product_type>
+      <g:custom_label_0>Bespoke Solid Brass</g:custom_label_0>
+      <g:custom_label_1>Cairo Heritage Metalwork</g:custom_label_1>
+    </item>
+    <item>
+      <g:id>action-item-8</g:id>
+      <g:title><![CDATA[GRAND CHANDELIER STRUCTURAL ASSEMBLY | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.]]></g:description>
+      <g:link>https://turath-egypt.vercel.app/products/action-item-8/</g:link>
+      <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-8.jpg</g:image_link>
+      <g:brand>Turath Egypt</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 EGP</g:price>
+      <g:product_type><![CDATA[Turath in Action]]></g:product_type>
+      <g:custom_label_0>Bespoke Solid Brass</g:custom_label_0>
+      <g:custom_label_1>Cairo Heritage Metalwork</g:custom_label_1>
+    </item>
+    <item>
+      <g:id>action-item-9</g:id>
+      <g:title><![CDATA[HISTORIC CALLIGRAPHY BRASS LANTERN | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Intricately pierced Islamic Thuluth calligraphy and arabesque fretwork on a traditional Mamluk brass lantern casting ethereal shadow projections.]]></g:description>
+      <g:link>https://turath-egypt.vercel.app/products/action-item-9/</g:link>
+      <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-9.jpg</g:image_link>
+      <g:brand>Turath Egypt</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>0.00 EGP</g:price>
+      <g:product_type><![CDATA[Turath in Action]]></g:product_type>
+      <g:custom_label_0>Bespoke Solid Brass</g:custom_label_0>
+      <g:custom_label_1>Cairo Heritage Metalwork</g:custom_label_1>
+    </item>
+    <item>
+      <g:id>action-item-10</g:id>
+      <g:title><![CDATA[TRADITIONAL METAL SPINNING & LATHE FORMING | Turath Egypt]]></g:title>
+      <g:description><![CDATA[Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.]]></g:description>
+      <g:link>https://turath-egypt.vercel.app/products/action-item-10/</g:link>
+      <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-10.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in_stock</g:availability>

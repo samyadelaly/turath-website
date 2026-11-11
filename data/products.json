@@ -1156,52 +1156,102 @@
       "items": [
         {
           "id": "action-item-1",
-          "title": "THE ART OF REPOUSSÉ & HAND-CHISELING",
-          "titleAr": "THE ART OF REPOUSSÉ & HAND-CHISELING",
-          "description": "Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.",
-          "descriptionAr": "Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.",
+          "title": "ORGANIC CAST BRASS BRANCH CONSOLE",
+          "titleAr": "ORGANIC CAST BRASS BRANCH CONSOLE",
+          "description": "Sculptural solid brass casting, branch welding, and liquid metal joinery forming an organic tree-limb console paired with polished black marble.",
+          "descriptionAr": "Sculptural solid brass casting, branch welding, and liquid metal joinery forming an organic tree-limb console paired with polished black marble.",
           "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
           "image": "/assets/images/action-poster-1.jpg",
           "categorySlug": "action"
         },
         {
           "id": "action-item-2",
-          "title": "PRECISION PIERCING & ARCHITECTURAL LATTICEWORK",
-          "titleAr": "PRECISION PIERCING & ARCHITECTURAL LATTICEWORK",
-          "description": "Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.",
-          "descriptionAr": "Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.",
+          "title": "THE ART OF REPOUSSÉ & HAND-CHISELING",
+          "titleAr": "THE ART OF REPOUSSÉ & HAND-CHISELING",
+          "description": "Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.",
+          "descriptionAr": "Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.",
           "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
           "image": "/assets/images/action-poster-2.jpg",
           "categorySlug": "action"
         },
         {
           "id": "action-item-3",
-          "title": "ARTISAN PATINATION & LIQUID SATIN OXIDATION",
-          "titleAr": "ARTISAN PATINATION & LIQUID SATIN OXIDATION",
-          "description": "Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.",
-          "descriptionAr": "Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.",
+          "title": "FILIGREE FLORAL BRASS MIRROR",
+          "titleAr": "FILIGREE FLORAL BRASS MIRROR",
+          "description": "Handcrafted botanical brass petals adorned with delicate hand-pierced filigree mesh, framing a polished central circular convex mirror.",
+          "descriptionAr": "Handcrafted botanical brass petals adorned with delicate hand-pierced filigree mesh, framing a polished central circular convex mirror.",
           "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
           "image": "/assets/images/action-poster-3.jpg",
           "categorySlug": "action"
         },
         {
           "id": "action-item-4",
-          "title": "GRAND CHANDELIER STRUCTURAL ASSEMBLY",
-          "titleAr": "GRAND CHANDELIER STRUCTURAL ASSEMBLY",
-          "description": "Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.",
-          "descriptionAr": "Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.",
+          "title": "PRECISION PIERCING & ARCHITECTURAL LATTICEWORK",
+          "titleAr": "PRECISION PIERCING & ARCHITECTURAL LATTICEWORK",
+          "description": "Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.",
+          "descriptionAr": "Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.",
           "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
           "image": "/assets/images/action-poster-4.jpg",
           "categorySlug": "action"
         },
         {
           "id": "action-item-5",
+          "title": "STUDDED BRASS HALO MIRROR CRAFTSMANSHIP",
+          "titleAr": "STUDDED BRASS HALO MIRROR CRAFTSMANSHIP",
+          "description": "Detailed artisanal placement and hand-anchoring of hundreds of solid brass pins creating a monumental kinetic radial halo mirror.",
+          "descriptionAr": "Detailed artisanal placement and hand-anchoring of hundreds of solid brass pins creating a monumental kinetic radial halo mirror.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
+          "image": "/assets/images/action-poster-5.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-6",
+          "title": "ARTISAN PATINATION & LIQUID SATIN OXIDATION",
+          "titleAr": "ARTISAN PATINATION & LIQUID SATIN OXIDATION",
+          "description": "Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.",
+          "descriptionAr": "Multi-stage hand-rubbed oxidation, wire brushing, and proprietary chemical patination revealing the warm earthy undertones and timeless depth of raw brass and copper.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
+          "image": "/assets/images/action-poster-6.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-7",
+          "title": "ARCHITECTURAL BRASS HANDRAIL & BALUSTRADE",
+          "titleAr": "ARCHITECTURAL BRASS HANDRAIL & BALUSTRADE",
+          "description": "Precision architectural brass balusters and handrail installation designed with mirror-polished brass geometric joints for luxury residential villas.",
+          "descriptionAr": "Precision architectural brass balusters and handrail installation designed with mirror-polished brass geometric joints for luxury residential villas.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
+          "image": "/assets/images/action-poster-7.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-8",
+          "title": "GRAND CHANDELIER STRUCTURAL ASSEMBLY",
+          "titleAr": "GRAND CHANDELIER STRUCTURAL ASSEMBLY",
+          "description": "Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.",
+          "descriptionAr": "Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
+          "image": "/assets/images/action-poster-8.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-9",
+          "title": "HISTORIC CALLIGRAPHY BRASS LANTERN",
+          "titleAr": "HISTORIC CALLIGRAPHY BRASS LANTERN",
+          "description": "Intricately pierced Islamic Thuluth calligraphy and arabesque fretwork on a traditional Mamluk brass lantern casting ethereal shadow projections.",
+          "descriptionAr": "Intricately pierced Islamic Thuluth calligraphy and arabesque fretwork on a traditional Mamluk brass lantern casting ethereal shadow projections.",
+          "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
+          "image": "/assets/images/action-poster-9.jpg",
+          "categorySlug": "action"
+        },
+        {
+          "id": "action-item-10",
           "title": "TRADITIONAL METAL SPINNING & LATHE FORMING",
           "titleAr": "TRADITIONAL METAL SPINNING & LATHE FORMING",
           "description": "Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.",
           "descriptionAr": "Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.",
           "keywords": "ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي",
-          "image": "/assets/images/action-poster-5.jpg",
+          "image": "/assets/images/action-poster-10.jpg",
           "categorySlug": "action"
         }
       ]
