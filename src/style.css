@@ -227,6 +227,25 @@ body.menu-open .menu-line.line-2 {
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
+@media (min-width: 1024px) {
+  .site-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+  }
+  /* Decouple desktop navigation menu completely: permanently centered, never shifted by hero elements */
+  .desktop-nav-menu {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    transition: none !important;
+    z-index: 1000 !important;
+  }
+}
+
 .header-brand-img {
   height: clamp(26px, 3.4vw, 32px);
   width: auto;
@@ -2144,10 +2163,10 @@ select:-webkit-autofill:active {
   }
 
   .collections-track .collection-card {
-    width: 260px !important;
-    min-width: 260px !important;
-    max-width: 260px !important;
-    height: 462px !important;
+    width: 236px !important;
+    min-width: 236px !important;
+    max-width: 236px !important;
+    height: 420px !important;
     aspect-ratio: 9/16 !important;
     flex-shrink: 0 !important;
     scroll-snap-align: center !important;
@@ -2163,8 +2182,8 @@ select:-webkit-autofill:active {
   .collections-pagination {
     position: relative !important;
     bottom: auto !important;
-    margin-top: 1.75rem !important;
-    margin-bottom: 0.5rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0 !important;
     display: flex !important;
     justify-content: center !important;
     gap: 0.75rem !important;
