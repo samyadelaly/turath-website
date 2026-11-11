@@ -2329,3 +2329,18 @@ select:-webkit-autofill:active {
 #bespoke-form label {
   color: #D7C797 !important;
 }
+
+
+@media (min-width: 1024px) {
+  #contact {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}
