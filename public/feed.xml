@@ -1656,19 +1656,5 @@
       <g:custom_label_0>Bespoke Solid Brass</g:custom_label_0>
       <g:custom_label_1>Cairo Heritage Metalwork</g:custom_label_1>
     </item>
-    <item>
-      <g:id>action-item-10</g:id>
-      <g:title><![CDATA[TRADITIONAL METAL SPINNING & LATHE FORMING | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Master metal spinners rotating heavy raw brass and copper blanks over solid wooden mandrels at high speed, turning flat metal into flawless seamless curved domes and architectural vessels.]]></g:description>
-      <g:link>https://turath-egypt.vercel.app/products/action-item-10/</g:link>
-      <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-10.jpg</g:image_link>
-      <g:brand>Turath Egypt</g:brand>
-      <g:condition>new</g:condition>
-      <g:availability>in_stock</g:availability>
-      <g:price>0.00 EGP</g:price>
-      <g:product_type><![CDATA[Turath in Action]]></g:product_type>
-      <g:custom_label_0>Bespoke Solid Brass</g:custom_label_0>
-      <g:custom_label_1>Cairo Heritage Metalwork</g:custom_label_1>
-    </item>
   </channel>
 </rss>
