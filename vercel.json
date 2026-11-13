@@ -1,5 +1,21 @@
 {
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/((?!assets/|video/|data/|products/|sitemap\\.xml|robots\\.txt|feed\\.xml|.*\\.(?:html|xml|txt|ico|png|jpg|jpeg|webp|avif|svg|mp4|webm|js|css|json)$).*)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
+    {
+      "source": "/(sitemap\\.xml|robots\\.txt|feed\\.xml)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

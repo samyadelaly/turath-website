@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
@@ -62,8 +63,8 @@
     fbq('track', 'PageView');
   </script>
   <!-- End Meta Pixel Code -->
-  <title>Decorative Objects Collection | Turath Egypt</title>
-  <meta name="description" content="Explore our handcrafted solid brass and copper decorative objects, artisan vessels, and luxury home decor made in Cairo, Egypt.">
+  <title>Decorative Objects | تحف وصواني ديكور نحاسية | TURATH — Bespoke Solid Brass & Copper</title>
+  <meta name="description" content="Handcrafted solid brass and copper decorative wall chargers, hand-etched plates, and heritage decor from Historic Cairo. — صواني وتحف وأطباق نحاس منقوشة ومطعمة يدوياً لتزيين القصور.">
   <meta name="keywords" content="أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي">
 
     <!-- Favicon & Icons -->
@@ -80,9 +81,9 @@
 
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://turath-egypt.com/decor.html">
-  <meta property="og:title" content="Decorative Objects Collection | Turath Egypt">
-  <meta property="og:description" content="Handcrafted solid brass decorative vessels, artisanal centerpieces, and luxury wall medallions. Egyptian metal manufacturing.">
+  <meta property="og:url" content="https://turath-egypt.vercel.app/decor.html">
+  <meta property="og:title" content="Decorative Objects | تحف وصواني ديكور نحاسية | TURATH — Bespoke Solid Brass & Copper">
+  <meta property="og:description" content="Handcrafted solid brass and copper decorative wall chargers, hand-etched plates, and heritage decor from Historic Cairo. — صواني وتحف وأطباق نحاس منقوشة ومطعمة يدوياً لتزيين القصور.">
   <meta property="og:image" content="/assets/images/decor/royal-arabesque-brass-wall-charger.jpg">
 
   <!-- Google Fonts -->
@@ -200,6 +201,45 @@
       } 
     } 
   </style>
+  <link rel="canonical" href="https://turath-egypt.vercel.app/decor.html">
+  <script>
+    // Dynamic Metadata & Route Sync Utility
+    function updateTurathDynamicMeta(item) {
+      if (!item) return;
+      var title = (item.title || '') + (item.titleAr ? ' | ' + item.titleAr : '') + ' | TURATH — Bespoke Solid Brass & Copper';
+      var desc = ((item.desc || item.description || '') + (item.descAr || item.descriptionAr ? ' — ' + (item.descAr || item.descriptionAr) : '')).trim();
+      var canonical = item.id ? ('https://turath-egypt.vercel.app/products/' + item.id + '/') : window.location.href.split('?')[0];
+      var img = item.desktopSrc ? ('https://turath-egypt.vercel.app' + item.desktopSrc) : (item.src ? ('https://turath-egypt.vercel.app' + item.src) : (item.poster ? ('https://turath-egypt.vercel.app' + item.poster) : ''));
+
+      document.title = title;
+
+      function setTag(sel, attr, val, createAttr, createVal) {
+        var el = document.querySelector(sel);
+        if (!el && createAttr) {
+          el = document.createElement(sel.startsWith('link') ? 'link' : 'meta');
+          el.setAttribute(createAttr, createVal);
+          document.head.appendChild(el);
+        }
+        if (el) el.setAttribute(attr, val);
+      }
+
+      setTag('meta[name="description"]', 'content', desc, 'name', 'description');
+      setTag('link[rel="canonical"]', 'href', canonical, 'rel', 'canonical');
+      setTag('meta[property="og:title"]', 'content', title, 'property', 'og:title');
+      setTag('meta[property="og:description"]', 'content', desc, 'property', 'og:description');
+      setTag('meta[property="og:url"]', 'content', canonical, 'property', 'og:url');
+      if (img) setTag('meta[property="og:image"]', 'content', img, 'property', 'og:image');
+      setTag('meta[name="twitter:title"]', 'content', title, 'name', 'twitter:title');
+      setTag('meta[name="twitter:description"]', 'content', desc, 'name', 'twitter:description');
+      if (img) setTag('meta[name="twitter:image"]', 'content', img, 'name', 'twitter:image');
+
+      if (window.history && window.history.replaceState && item.id) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('product', item.id);
+        window.history.replaceState({ productId: item.id }, '', url.toString());
+      }
+    }
+  </script>
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
   <!-- Meta Pixel noscript fallback -->
@@ -264,6 +304,38 @@
         <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-2.5 w-full max-w-xs sm:max-w-sm px-4 overflow-hidden"></div>
       </div>
     </div>
+  
+  <!-- Semantic Crawlable Catalog Index (Discovered by Googlebot & AI Crawlers) -->
+  <nav aria-label="Decorative Objects Products Index" class="sr-only" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;">
+    <h2>Decorative Objects — تحف وصواني ديكور نحاسية</h2>
+    <ul>
+      <li><a href="/products/decor-item-1/">ROYAL ARABESQUE BRASS WALL CHARGER — صينية جدارية نحاسية ملكية بزخارف الأرابيسك</a></li>
+      <li><a href="/products/decor-item-2/">HONEYCOMB FACETED HAMMERED COPPER SHIELD — HONEYCOMB FACETED HAMMERED COPPER SHIELD</a></li>
+      <li><a href="/products/decor-item-3/">GOLDEN DIVERS SCULPTURAL WALL INSTALLATION — GOLDEN DIVERS SCULPTURAL WALL INSTALLATION</a></li>
+      <li><a href="/products/decor-item-4/">PLEATED SUNBURST POLISHED BRASS DISK — PLEATED SUNBURST POLISHED BRASS DISK</a></li>
+      <li><a href="/products/decor-item-5/">OPENWORK FILIGREE BRASS BOTANICAL LEAVES — OPENWORK FILIGREE BRASS BOTANICAL LEAVES</a></li>
+      <li><a href="/products/decor-item-6/">HAMMERED BRASS VESSEL — HAMMERED BRASS VESSEL</a></li>
+      <li><a href="/products/decor-item-7/">ORGANIC CAST BRONZE PLATTER — ORGANIC CAST BRONZE PLATTER</a></li>
+      <li><a href="/products/decor-item-8/">SCULPTURAL BRASS DUO BOWLS — SCULPTURAL BRASS DUO BOWLS</a></li>
+      <li><a href="/products/decor-item-9/">ARABESQUE BRASS WALL NICHE — ARABESQUE BRASS WALL NICHE</a></li>
+      <li><a href="/products/decor-item-10/">FILIGREE BRASS MEDALLION SHELF — FILIGREE BRASS MEDALLION SHELF</a></li>
+    </ul>
+    <h3>All Collections / كافة التصنيفات</h3>
+    <ul>
+      <li><a href="/lighting.html">Lighting Collection (وحدات إضاءة نحاسية معمارية)</a></li>
+      <li><a href="/mirrors.html">Solid Brass Mirrors (مرايا نحاس أصفر مصمت)</a></li>
+      <li><a href="/tables.html">Tables & Consoles (طاولات وكونسول نحاسي فاخر)</a></li>
+      <li><a href="/handles.html">Architectural Handles (مقابض أبواب نحاسية معمارية)</a></li>
+      <li><a href="/handrails.html">Custom Handrails (درابزين وهندريل نحاس مخصص)</a></li>
+      <li><a href="/decor.html">Decorative Objects (تحف وصواني ديكور نحاسية)</a></li>
+      <li><a href="/wall-art.html">Brass & Copper Wall Art (لوحات جدارية نحاس)</a></li>
+      <li><a href="/partitions.html">Partitions & Screens (قواطع وفواصل نحاسية)</a></li>
+      <li><a href="/tableware.html">Luxury Tableware (أدوات مائدة وأواني ضيافة نحاسية)</a></li>
+      <li><a href="/masterpieces.html">Architectural Masterpieces (روائع نحاسية نادرة)</a></li>
+      <li><a href="/action.html">Turath in Action (حرفية النحاس في الورش التاريخية)</a></li>
+    </ul>
+  </nav>
+
   </main>
 
   <script>
@@ -628,6 +700,27 @@
     }
 
     
+  </script>
+  <script>
+    // Enrich slider items with metadata from catalog for instant reactive SEO
+    var __turathCatalog = [{"id":"decor-item-1","title":"ROYAL ARABESQUE BRASS WALL CHARGER","titleAr":"صينية جدارية نحاسية ملكية بزخارف الأرابيسك","description":"A monumental wall-mounted circular charger hand-etched in solid brass, featuring intricate classical Islamic floral arabesques and radiating star medallions.","descriptionAr":"طبق جداري دائري ضخم منقوش يدويًا بالكامل على النحاس الأصفر المصمت، يتألق بزخارف الأرابيسك النباتية الإسلامية وميداليات النجوم المشعة.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/royal-arabesque-brass-wall-charger.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-2","title":"HONEYCOMB FACETED HAMMERED COPPER SHIELD","titleAr":"HONEYCOMB FACETED HAMMERED COPPER SHIELD","description":"A sculptural concave wall medallion hand-hammered in warm bronze-toned brass, radiating from a central floral rosette into hundreds of faceted honeycomb cells.","descriptionAr":"A sculptural concave wall medallion hand-hammered in warm bronze-toned brass, radiating from a central floral rosette into hundreds of faceted honeycomb cells.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/honeycomb-faceted-hammered-copper-shield.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-3","title":"GOLDEN DIVERS SCULPTURAL WALL INSTALLATION","titleAr":"GOLDEN DIVERS SCULPTURAL WALL INSTALLATION","description":"A dynamic set of five cast brass diver figurines hand-sculpted in suspended motion, mounted across a textured stone feature wall above river stone bedding.","descriptionAr":"A dynamic set of five cast brass diver figurines hand-sculpted in suspended motion, mounted across a textured stone feature wall above river stone bedding.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/golden-divers-cast-brass-wall-sculptures.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-4","title":"PLEATED SUNBURST POLISHED BRASS DISK","titleAr":"PLEATED SUNBURST POLISHED BRASS DISK","description":"A dramatic circular wall sculpture crafted in mirror-polished golden brass, featuring deep accordion pleats that catch the light in a hypnotic radiating sunburst.","descriptionAr":"A dramatic circular wall sculpture crafted in mirror-polished golden brass, featuring deep accordion pleats that catch the light in a hypnotic radiating sunburst.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/pleated-sunburst-polished-brass-disk.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-5","title":"OPENWORK FILIGREE BRASS BOTANICAL LEAVES","titleAr":"OPENWORK FILIGREE BRASS BOTANICAL LEAVES","description":"A set of four sculptural brass leaves featuring openwork vein filigree and polished contours, casting intricate shadow patterns across contemporary feature walls.","descriptionAr":"A set of four sculptural brass leaves featuring openwork vein filigree and polished contours, casting intricate shadow patterns across contemporary feature walls.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/openwork-filigree-brass-leaf-sculptures.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-6","title":"HAMMERED BRASS VESSEL","titleAr":"HAMMERED BRASS VESSEL","description":"A monumental handcrafted solid brass decorative basin shaped with thousands of precise hand-hammered facets.","descriptionAr":"A monumental handcrafted solid brass decorative basin shaped with thousands of precise hand-hammered facets.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/decor-01.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-7","title":"ORGANIC CAST BRONZE PLATTER","titleAr":"ORGANIC CAST BRONZE PLATTER","description":"A multi-compartment artisanal serving tray hand-cast in solid brass with an earthy textured bronze patina.","descriptionAr":"A multi-compartment artisanal serving tray hand-cast in solid brass with an earthy textured bronze patina.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/decor-02.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-8","title":"SCULPTURAL BRASS DUO BOWLS","titleAr":"SCULPTURAL BRASS DUO BOWLS","description":"A pair of freeform decorative brass bowls with soft undulating rim contours and hand-buffed warm luster.","descriptionAr":"A pair of freeform decorative brass bowls with soft undulating rim contours and hand-buffed warm luster.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/decor-03.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-9","title":"ARABESQUE BRASS WALL NICHE","titleAr":"ARABESQUE BRASS WALL NICHE","description":"An architectural solid brass wall sculpture featuring flowing arabesque ribbon motifs and an integrated display ledge.","descriptionAr":"An architectural solid brass wall sculpture featuring flowing arabesque ribbon motifs and an integrated display ledge.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/decor-04.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"},{"id":"decor-item-10","title":"FILIGREE BRASS MEDALLION SHELF","titleAr":"FILIGREE BRASS MEDALLION SHELF","description":"An ornate hand-finished brass wall medallion featuring intricate lattice fretwork and classical symmetrical flourishes.","descriptionAr":"An ornate hand-finished brass wall medallion featuring intricate lattice fretwork and classical symmetrical flourishes.","keywords":"أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/decor/decor-05.jpg","categorySlug":"decor","categoryTitle":"Decorative Objects","categoryTitleAr":"تحف وصواني ديكور نحاسية","categoryFile":"decor.html"}];
+    var __dataArray = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+    if (__dataArray && __dataArray.length) {
+      __dataArray.forEach(function(item, idx) {
+        if (!item.id) item.id = 'decor-item-' + (idx + 1);
+        var match = __turathCatalog.find(function(c) { return c.id === item.id; }) || __turathCatalog[idx];
+        if (match) {
+          if (!item.titleAr) item.titleAr = match.titleAr;
+          if (!item.descAr && !item.descriptionAr) item.descAr = match.descriptionAr;
+        }
+      });
+      // Initial dynamic metadata update
+      if (typeof currentIndex !== 'undefined' && __dataArray[currentIndex]) {
+        updateTurathDynamicMeta(__dataArray[currentIndex]);
+      } else if (__dataArray[0]) {
+        updateTurathDynamicMeta(__dataArray[0]);
+      }
+    }
   </script>
 </body>
 </html>

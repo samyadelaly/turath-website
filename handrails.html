@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
@@ -62,8 +63,8 @@
     fbq('track', 'PageView');
   </script>
   <!-- End Meta Pixel Code -->
-  <title>Handrails Collection | Turath Egypt</title>
-  <meta name="description" content="Explore our handcrafted architectural solid brass handrails, bespoke balustrades, and custom metalwork made in Cairo, Egypt.">
+  <title>Custom Handrails | درابزين وهندريل نحاس مخصص | TURATH — Bespoke Solid Brass & Copper</title>
+  <meta name="description" content="Architectural solid brass handrails, banisters, balustrades and staircase metalwork forged in Historic Cairo. — هندريل وكوبيستة ودرابزين سلالم نحاس مصمت للقصور والفيلات.">
   <meta name="keywords" content="درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي">
 
     <!-- Favicon & Icons -->
@@ -80,9 +81,9 @@
 
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://turath-egypt.com/handrails.html">
-  <meta property="og:title" content="Handrails Collection | Turath Egypt">
-  <meta property="og:description" content="Handcrafted solid brass handrails, custom staircase balustrades, and luxury architectural metalwork. Egyptian manufacturing.">
+  <meta property="og:url" content="https://turath-egypt.vercel.app/handrails.html">
+  <meta property="og:title" content="Custom Handrails | درابزين وهندريل نحاس مخصص | TURATH — Bespoke Solid Brass & Copper">
+  <meta property="og:description" content="Architectural solid brass handrails, banisters, balustrades and staircase metalwork forged in Historic Cairo. — هندريل وكوبيستة ودرابزين سلالم نحاس مصمت للقصور والفيلات.">
   <meta property="og:image" content="/assets/images/handrails/handrail-01.jpg">
 
   <!-- Google Fonts -->
@@ -200,6 +201,45 @@
       } 
     } 
   </style>
+  <link rel="canonical" href="https://turath-egypt.vercel.app/handrails.html">
+  <script>
+    // Dynamic Metadata & Route Sync Utility
+    function updateTurathDynamicMeta(item) {
+      if (!item) return;
+      var title = (item.title || '') + (item.titleAr ? ' | ' + item.titleAr : '') + ' | TURATH — Bespoke Solid Brass & Copper';
+      var desc = ((item.desc || item.description || '') + (item.descAr || item.descriptionAr ? ' — ' + (item.descAr || item.descriptionAr) : '')).trim();
+      var canonical = item.id ? ('https://turath-egypt.vercel.app/products/' + item.id + '/') : window.location.href.split('?')[0];
+      var img = item.desktopSrc ? ('https://turath-egypt.vercel.app' + item.desktopSrc) : (item.src ? ('https://turath-egypt.vercel.app' + item.src) : (item.poster ? ('https://turath-egypt.vercel.app' + item.poster) : ''));
+
+      document.title = title;
+
+      function setTag(sel, attr, val, createAttr, createVal) {
+        var el = document.querySelector(sel);
+        if (!el && createAttr) {
+          el = document.createElement(sel.startsWith('link') ? 'link' : 'meta');
+          el.setAttribute(createAttr, createVal);
+          document.head.appendChild(el);
+        }
+        if (el) el.setAttribute(attr, val);
+      }
+
+      setTag('meta[name="description"]', 'content', desc, 'name', 'description');
+      setTag('link[rel="canonical"]', 'href', canonical, 'rel', 'canonical');
+      setTag('meta[property="og:title"]', 'content', title, 'property', 'og:title');
+      setTag('meta[property="og:description"]', 'content', desc, 'property', 'og:description');
+      setTag('meta[property="og:url"]', 'content', canonical, 'property', 'og:url');
+      if (img) setTag('meta[property="og:image"]', 'content', img, 'property', 'og:image');
+      setTag('meta[name="twitter:title"]', 'content', title, 'name', 'twitter:title');
+      setTag('meta[name="twitter:description"]', 'content', desc, 'name', 'twitter:description');
+      if (img) setTag('meta[name="twitter:image"]', 'content', img, 'name', 'twitter:image');
+
+      if (window.history && window.history.replaceState && item.id) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('product', item.id);
+        window.history.replaceState({ productId: item.id }, '', url.toString());
+      }
+    }
+  </script>
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
   <!-- Meta Pixel noscript fallback -->
@@ -267,6 +307,30 @@
         </div>
       </div>
     </div>
+  
+  <!-- Semantic Crawlable Catalog Index (Discovered by Googlebot & AI Crawlers) -->
+  <nav aria-label="Custom Handrails Products Index" class="sr-only" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;">
+    <h2>Custom Handrails — درابزين وهندريل نحاس مخصص</h2>
+    <ul>
+      <li><a href="/products/handrails-item-1/">BOTANICAL BRASS & MARBLE BALUSTRADE — درابزين نباتي من النحاس المفرغ والرخام الإيطالي</a></li>
+      <li><a href="/products/handrails-item-2/">FACETED BRASS SPINDLE BALUSTRADE — FACETED BRASS SPINDLE BALUSTRADE</a></li>
+    </ul>
+    <h3>All Collections / كافة التصنيفات</h3>
+    <ul>
+      <li><a href="/lighting.html">Lighting Collection (وحدات إضاءة نحاسية معمارية)</a></li>
+      <li><a href="/mirrors.html">Solid Brass Mirrors (مرايا نحاس أصفر مصمت)</a></li>
+      <li><a href="/tables.html">Tables & Consoles (طاولات وكونسول نحاسي فاخر)</a></li>
+      <li><a href="/handles.html">Architectural Handles (مقابض أبواب نحاسية معمارية)</a></li>
+      <li><a href="/handrails.html">Custom Handrails (درابزين وهندريل نحاس مخصص)</a></li>
+      <li><a href="/decor.html">Decorative Objects (تحف وصواني ديكور نحاسية)</a></li>
+      <li><a href="/wall-art.html">Brass & Copper Wall Art (لوحات جدارية نحاس)</a></li>
+      <li><a href="/partitions.html">Partitions & Screens (قواطع وفواصل نحاسية)</a></li>
+      <li><a href="/tableware.html">Luxury Tableware (أدوات مائدة وأواني ضيافة نحاسية)</a></li>
+      <li><a href="/masterpieces.html">Architectural Masterpieces (روائع نحاسية نادرة)</a></li>
+      <li><a href="/action.html">Turath in Action (حرفية النحاس في الورش التاريخية)</a></li>
+    </ul>
+  </nav>
+
   </main>
 
   <script>
@@ -580,6 +644,27 @@
     }
 
     
+  </script>
+  <script>
+    // Enrich slider items with metadata from catalog for instant reactive SEO
+    var __turathCatalog = [{"id":"handrails-item-1","title":"BOTANICAL BRASS & MARBLE BALUSTRADE","titleAr":"درابزين نباتي من النحاس المفرغ والرخام الإيطالي","description":"An architectural parapet featuring intricate pierced brass leaf screens framed by rich Italian rouge marble.","descriptionAr":"حاجز معماري ودرابزين سلالم فاخر يجمع بين ألواح النحاس الأصفر المخرمة بزخارف أوراق الشجر النباتية وإطار فخم من رخام الروج الإيطالي النادر.","keywords":"درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/handrails/handrail-01.jpg","categorySlug":"handrails","categoryTitle":"Custom Handrails","categoryTitleAr":"درابزين سلالم نحاسي مخصص","categoryFile":"handrails.html"},{"id":"handrails-item-2","title":"FACETED BRASS SPINDLE BALUSTRADE","titleAr":"FACETED BRASS SPINDLE BALUSTRADE","description":"Precision-machined solid brass balustrade showcasing articulated faceted spindles and a polished continuous handrail.","descriptionAr":"Precision-machined solid brass balustrade showcasing articulated faceted spindles and a polished continuous handrail.","keywords":"درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/handrails/handrail-02.jpg","categorySlug":"handrails","categoryTitle":"Custom Handrails","categoryTitleAr":"درابزين سلالم نحاسي مخصص","categoryFile":"handrails.html"}];
+    var __dataArray = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+    if (__dataArray && __dataArray.length) {
+      __dataArray.forEach(function(item, idx) {
+        if (!item.id) item.id = 'handrails-item-' + (idx + 1);
+        var match = __turathCatalog.find(function(c) { return c.id === item.id; }) || __turathCatalog[idx];
+        if (match) {
+          if (!item.titleAr) item.titleAr = match.titleAr;
+          if (!item.descAr && !item.descriptionAr) item.descAr = match.descriptionAr;
+        }
+      });
+      // Initial dynamic metadata update
+      if (typeof currentIndex !== 'undefined' && __dataArray[currentIndex]) {
+        updateTurathDynamicMeta(__dataArray[currentIndex]);
+      } else if (__dataArray[0]) {
+        updateTurathDynamicMeta(__dataArray[0]);
+      }
+    }
   </script>
 </body>
 </html>

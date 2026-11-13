@@ -9,7 +9,13 @@ const rootDir = path.resolve(__dirname, '..');
 const BASE_URL = 'https://turath-egypt.vercel.app';
 const productsDataPath = path.join(rootDir, 'data', 'products.json');
 const publicDir = path.join(rootDir, 'public');
-const sitemapOutputPath = path.join(publicDir, 'sitemap.xml');
+const distDir = path.join(rootDir, 'dist');
+
+const sitemapPublicPath = path.join(publicDir, 'sitemap.xml');
+const sitemapDistPath = path.join(distDir, 'sitemap.xml');
+
+const robotsPublicPath = path.join(publicDir, 'robots.txt');
+const robotsDistPath = path.join(distDir, 'robots.txt');
 
 // Current date in YYYY-MM-DD format for lastmod
 const today = new Date().toISOString().split('T')[0];
@@ -89,11 +95,37 @@ ${urls
 </urlset>
 `;
 
+// Robots.txt content ensuring all bots and AI search engines have full crawl permissions
+const robotsTxt = `User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://turath-egypt.vercel.app/sitemap.xml
+`;
+
 fs.mkdirSync(publicDir, { recursive: true });
-fs.writeFileSync(sitemapOutputPath, sitemapXml.trim() + '\n', 'utf8');
+fs.writeFileSync(sitemapPublicPath, sitemapXml.trim() + '\n', 'utf8');
+fs.writeFileSync(robotsPublicPath, robotsTxt.trim() + '\n', 'utf8');
+
+if (fs.existsSync(distDir)) {
+  fs.writeFileSync(sitemapDistPath, sitemapXml.trim() + '\n', 'utf8');
+  fs.writeFileSync(robotsDistPath, robotsTxt.trim() + '\n', 'utf8');
+}
 
 console.log(`\n======================================================`);
 console.log(`Sitemap generated successfully!`);
-console.log(`Saved to: ${sitemapOutputPath}`);
+console.log(`Saved to: ${sitemapPublicPath}${fs.existsSync(distDir) ? ' and ' + sitemapDistPath : ''}`);
 console.log(`Total URLs: ${urls.length} (1 homepage, ${categoryFiles.length} categories, ${productCount} products)`);
+console.log(`Robots.txt verified with all AI search engine permissions.`);
 console.log(`======================================================\n`);

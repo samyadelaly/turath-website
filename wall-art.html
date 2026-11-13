@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
@@ -62,8 +63,8 @@
     fbq('track', 'PageView');
   </script>
   <!-- End Meta Pixel Code -->
-  <title>Brass & Copper Wall Art Collection | Turath Egypt</title>
-  <meta name="description" content="Explore our handcrafted solid brass and copper wall art, architectural relief panels, and bespoke metal cladding made in Cairo, Egypt.">
+  <title>Brass & Copper Wall Art | لوحات جدارية نحاس | TURATH — Bespoke Solid Brass & Copper</title>
+  <meta name="description" content="Hand-hammered brass and copper wall sculptures, relief panels, and architectural metal cladding from Historic Cairo. — تابلوهات وجداريات وتجاليد حوائط نحاس بارز يدوي عالي الفخامة.">
   <meta name="keywords" content="لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي">
 
     <!-- Favicon & Icons -->
@@ -80,9 +81,9 @@
 
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://turath-egypt.com/wall-art.html">
-  <meta property="og:title" content="Brass & Copper Wall Art Collection | Turath Egypt">
-  <meta property="og:description" content="Handcrafted solid brass and copper sculptural wall art, repoussé panels, and bespoke murals. Egyptian metal manufacturing.">
+  <meta property="og:url" content="https://turath-egypt.vercel.app/wall-art.html">
+  <meta property="og:title" content="Brass & Copper Wall Art | لوحات جدارية نحاس | TURATH — Bespoke Solid Brass & Copper">
+  <meta property="og:description" content="Hand-hammered brass and copper wall sculptures, relief panels, and architectural metal cladding from Historic Cairo. — تابلوهات وجداريات وتجاليد حوائط نحاس بارز يدوي عالي الفخامة.">
   <meta property="og:image" content="/assets/images/wall-art/sculptural-botanical-urn-brass-relief.jpg">
 
   <!-- Google Fonts -->
@@ -200,6 +201,45 @@
       } 
     } 
   </style>
+  <link rel="canonical" href="https://turath-egypt.vercel.app/wall-art.html">
+  <script>
+    // Dynamic Metadata & Route Sync Utility
+    function updateTurathDynamicMeta(item) {
+      if (!item) return;
+      var title = (item.title || '') + (item.titleAr ? ' | ' + item.titleAr : '') + ' | TURATH — Bespoke Solid Brass & Copper';
+      var desc = ((item.desc || item.description || '') + (item.descAr || item.descriptionAr ? ' — ' + (item.descAr || item.descriptionAr) : '')).trim();
+      var canonical = item.id ? ('https://turath-egypt.vercel.app/products/' + item.id + '/') : window.location.href.split('?')[0];
+      var img = item.desktopSrc ? ('https://turath-egypt.vercel.app' + item.desktopSrc) : (item.src ? ('https://turath-egypt.vercel.app' + item.src) : (item.poster ? ('https://turath-egypt.vercel.app' + item.poster) : ''));
+
+      document.title = title;
+
+      function setTag(sel, attr, val, createAttr, createVal) {
+        var el = document.querySelector(sel);
+        if (!el && createAttr) {
+          el = document.createElement(sel.startsWith('link') ? 'link' : 'meta');
+          el.setAttribute(createAttr, createVal);
+          document.head.appendChild(el);
+        }
+        if (el) el.setAttribute(attr, val);
+      }
+
+      setTag('meta[name="description"]', 'content', desc, 'name', 'description');
+      setTag('link[rel="canonical"]', 'href', canonical, 'rel', 'canonical');
+      setTag('meta[property="og:title"]', 'content', title, 'property', 'og:title');
+      setTag('meta[property="og:description"]', 'content', desc, 'property', 'og:description');
+      setTag('meta[property="og:url"]', 'content', canonical, 'property', 'og:url');
+      if (img) setTag('meta[property="og:image"]', 'content', img, 'property', 'og:image');
+      setTag('meta[name="twitter:title"]', 'content', title, 'name', 'twitter:title');
+      setTag('meta[name="twitter:description"]', 'content', desc, 'name', 'twitter:description');
+      if (img) setTag('meta[name="twitter:image"]', 'content', img, 'name', 'twitter:image');
+
+      if (window.history && window.history.replaceState && item.id) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('product', item.id);
+        window.history.replaceState({ productId: item.id }, '', url.toString());
+      }
+    }
+  </script>
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
   <!-- Meta Pixel noscript fallback -->
@@ -264,6 +304,36 @@
         <div id="dashes-container" class="flex justify-center items-center gap-2 sm:gap-2.5 w-full max-w-xs sm:max-w-sm px-4 overflow-hidden"></div>
       </div>
     </div>
+  
+  <!-- Semantic Crawlable Catalog Index (Discovered by Googlebot & AI Crawlers) -->
+  <nav aria-label="Brass & Copper Wall Art Products Index" class="sr-only" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;">
+    <h2>Brass & Copper Wall Art — لوحات جدارية نحاس</h2>
+    <ul>
+      <li><a href="/products/wall-art-item-1/">SCULPTURAL BOTANICAL URN BRASS RELIEF — لوحة جدارية نحاسية مجسمة لزهرية نباتية بارزة</a></li>
+      <li><a href="/products/wall-art-item-2/">SOARING CRANE OVAL BRASS RELIEF — SOARING CRANE OVAL BRASS RELIEF</a></li>
+      <li><a href="/products/wall-art-item-3/">TRI-COLOR FILIGREE LEAF WALL SCULPTURES — TRI-COLOR FILIGREE LEAF WALL SCULPTURES</a></li>
+      <li><a href="/products/wall-art-item-4/">OPENWORK LEAF BRASS PANEL — OPENWORK LEAF BRASS PANEL</a></li>
+      <li><a href="/products/wall-art-item-5/">REPOUSSÉ BRASS MEDALLION PANEL — REPOUSSÉ BRASS MEDALLION PANEL</a></li>
+      <li><a href="/products/wall-art-item-6/">PORTORO MARBLE & BRASS HEARTH — PORTORO MARBLE & BRASS HEARTH</a></li>
+      <li><a href="/products/wall-art-item-7/">BOTANICAL BRANCH BRASS RELIEF — BOTANICAL BRANCH BRASS RELIEF</a></li>
+      <li><a href="/products/wall-art-item-8/">FOLKLORIC COPPER BAS-RELIEF — FOLKLORIC COPPER BAS-RELIEF</a></li>
+    </ul>
+    <h3>All Collections / كافة التصنيفات</h3>
+    <ul>
+      <li><a href="/lighting.html">Lighting Collection (وحدات إضاءة نحاسية معمارية)</a></li>
+      <li><a href="/mirrors.html">Solid Brass Mirrors (مرايا نحاس أصفر مصمت)</a></li>
+      <li><a href="/tables.html">Tables & Consoles (طاولات وكونسول نحاسي فاخر)</a></li>
+      <li><a href="/handles.html">Architectural Handles (مقابض أبواب نحاسية معمارية)</a></li>
+      <li><a href="/handrails.html">Custom Handrails (درابزين وهندريل نحاس مخصص)</a></li>
+      <li><a href="/decor.html">Decorative Objects (تحف وصواني ديكور نحاسية)</a></li>
+      <li><a href="/wall-art.html">Brass & Copper Wall Art (لوحات جدارية نحاس)</a></li>
+      <li><a href="/partitions.html">Partitions & Screens (قواطع وفواصل نحاسية)</a></li>
+      <li><a href="/tableware.html">Luxury Tableware (أدوات مائدة وأواني ضيافة نحاسية)</a></li>
+      <li><a href="/masterpieces.html">Architectural Masterpieces (روائع نحاسية نادرة)</a></li>
+      <li><a href="/action.html">Turath in Action (حرفية النحاس في الورش التاريخية)</a></li>
+    </ul>
+  </nav>
+
   </main>
 
   <script>
@@ -616,6 +686,27 @@
     }
 
     
+  </script>
+  <script>
+    // Enrich slider items with metadata from catalog for instant reactive SEO
+    var __turathCatalog = [{"id":"wall-art-item-1","title":"SCULPTURAL BOTANICAL URN BRASS RELIEF","titleAr":"لوحة جدارية نحاسية مجسمة لزهرية نباتية بارزة","description":"A monumental sculptural brass wall plaque featuring an opulent bouquet of dimensional botanical foliage and blooming flora emerging from a hand-textured vase.","descriptionAr":"لوحة جدارية نحاسية مجسمة ثلاثية الأبعاد تصور باقة فاخرة من أوراق الشجر والزهور المتفتحة البارزة المنبثقة من زهرية كلاسيكية منقوشة يدويًا.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/sculptural-botanical-urn-brass-relief.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"},{"id":"wall-art-item-2","title":"SOARING CRANE OVAL BRASS RELIEF","titleAr":"SOARING CRANE OVAL BRASS RELIEF","description":"An oval solid brass sculptural relief panel depicting a graceful crane in flight among stylized swirling clouds and flowing waters beneath a celestial sun.","descriptionAr":"An oval solid brass sculptural relief panel depicting a graceful crane in flight among stylized swirling clouds and flowing waters beneath a celestial sun.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/soaring-crane-oval-brass-relief.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"},{"id":"wall-art-item-3","title":"TRI-COLOR FILIGREE LEAF WALL SCULPTURES","titleAr":"TRI-COLOR FILIGREE LEAF WALL SCULPTURES","description":"A dynamic triptych of sculptural openwork leaves crafted in three distinct finishes—golden brass, warm copper, and silvered bronze—casting intricate shadows.","descriptionAr":"A dynamic triptych of sculptural openwork leaves crafted in three distinct finishes—golden brass, warm copper, and silvered bronze—casting intricate shadows.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/tri-color-filigree-leaf-wall-sculptures.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"},{"id":"wall-art-item-4","title":"OPENWORK LEAF BRASS PANEL","titleAr":"OPENWORK LEAF BRASS PANEL","description":"A tall architectural brass screen featuring pierced organic leaf venation cast with delicate sculptural permeability.","descriptionAr":"A tall architectural brass screen featuring pierced organic leaf venation cast with delicate sculptural permeability.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/wall-art-01.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"},{"id":"wall-art-item-5","title":"REPOUSSÉ BRASS MEDALLION PANEL","titleAr":"REPOUSSÉ BRASS MEDALLION PANEL","description":"An embossed solid brass architectural wall panel celebrating classical spiral rosettes and relief rope-twist borders.","descriptionAr":"An embossed solid brass architectural wall panel celebrating classical spiral rosettes and relief rope-twist borders.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/wall-art-02.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"},{"id":"wall-art-item-6","title":"PORTORO MARBLE & BRASS HEARTH","titleAr":"PORTORO MARBLE & BRASS HEARTH","description":"A monumental fireplace surround in black gold marble framed by artisan hammered brass medallion relief friezes.","descriptionAr":"A monumental fireplace surround in black gold marble framed by artisan hammered brass medallion relief friezes.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/wall-art-03.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"},{"id":"wall-art-item-7","title":"BOTANICAL BRANCH BRASS RELIEF","titleAr":"BOTANICAL BRANCH BRASS RELIEF","description":"A framed high-relief wall artwork crafted with hand-chased brass foliage radiating from an articulated central branch.","descriptionAr":"A framed high-relief wall artwork crafted with hand-chased brass foliage radiating from an articulated central branch.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/wall-art-04.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"},{"id":"wall-art-item-8","title":"FOLKLORIC COPPER BAS-RELIEF","titleAr":"FOLKLORIC COPPER BAS-RELIEF","description":"A narrative hammered copper mural depicting folkloric maritime and nature motifs with an authentic antique patina.","descriptionAr":"A narrative hammered copper mural depicting folkloric maritime and nature motifs with an authentic antique patina.","keywords":"لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/wall-art/wall-art-05.jpg","categorySlug":"wall-art","categoryTitle":"Brass & Copper Wall Art","categoryTitleAr":"لوحات جدارية من النحاس الأصفر والأحمر","categoryFile":"wall-art.html"}];
+    var __dataArray = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+    if (__dataArray && __dataArray.length) {
+      __dataArray.forEach(function(item, idx) {
+        if (!item.id) item.id = 'wall-art-item-' + (idx + 1);
+        var match = __turathCatalog.find(function(c) { return c.id === item.id; }) || __turathCatalog[idx];
+        if (match) {
+          if (!item.titleAr) item.titleAr = match.titleAr;
+          if (!item.descAr && !item.descriptionAr) item.descAr = match.descriptionAr;
+        }
+      });
+      // Initial dynamic metadata update
+      if (typeof currentIndex !== 'undefined' && __dataArray[currentIndex]) {
+        updateTurathDynamicMeta(__dataArray[currentIndex]);
+      } else if (__dataArray[0]) {
+        updateTurathDynamicMeta(__dataArray[0]);
+      }
+    }
   </script>
 </body>
 </html>

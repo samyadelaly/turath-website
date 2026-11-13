@@ -11,6 +11,7 @@ const BASE_URL = 'https://turath-egypt.vercel.app';
 
 const publicDir = path.join(rootDir, 'public');
 const productsOutputDir = path.join(publicDir, 'products');
+const distProductsOutputDir = path.join(rootDir, 'dist', 'products');
 const productsDataPath = path.join(rootDir, 'data', 'products.json');
 
 // Ensure output directories exist
@@ -53,77 +54,77 @@ const CATEGORIES = [
     file: 'lighting.html',
     title: 'Lighting Fixtures',
     titleAr: 'وحدات إضاءة نحاسية معمارية',
-    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية, Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'mirrors',
     file: 'mirrors.html',
     title: 'Solid Brass Mirrors',
     titleAr: 'مرايا نحاس أصفر مصمت',
-    defaultKeywords: 'مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث, Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'tables',
     file: 'tables.html',
     title: 'Tables & Consoles',
     titleAr: 'طاولات وكونسول نحاسي فاخر',
-    defaultKeywords: 'طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث، Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'طاولات نحاس، كونسول، طاولات جانبية، أثاث نحاسي فاخر، سبك نحاس، تراث, Turath, Brass Table, Console, Cylinder Table, Luxury Furniture, Bespoke Metalwork, Cairo Atelier, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'handles',
     file: 'handles.html',
     title: 'Architectural Handles',
     titleAr: 'مقابض أبواب نحاسية معمارية',
-    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث، Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث, Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'handrails',
     file: 'handrails.html',
     title: 'Custom Handrails',
     titleAr: 'درابزين سلالم نحاسي مخصص',
-    defaultKeywords: 'درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث، Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'درابزين نحاس، هاندريل، سلالم قصور، رخام ونحاس، قواطع زخرفية، تراث, Turath, Handrail, Balustrade, Pierced Brass, Marble Architecture, Luxury Interiors, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'decor',
     file: 'decor.html',
     title: 'Decorative Objects',
     titleAr: 'تحف وصواني ديكور نحاسية',
-    defaultKeywords: 'أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث، Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث, Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'wall-art',
     file: 'wall-art.html',
     title: 'Brass & Copper Wall Art',
     titleAr: 'لوحات جدارية من النحاس الأصفر والأحمر',
-    defaultKeywords: 'لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث، Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'لوحات نحاس، تجليد حوائط، نحاس بارز، فنون معدنية، ديكور جداري، تراث, Turath, Brass Wall Art, Metal Relief, Botanical Sculpture, Hand-hammered Copper, Wall Cladding, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'partitions',
     file: 'partitions.html',
     title: 'Partitions & Screens',
     titleAr: 'قواطع وفواصل ديكور نحاسية',
-    defaultKeywords: 'قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث، Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث, Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'tableware',
     file: 'tableware.html',
     title: 'Luxury Tableware',
     titleAr: 'أدوات مائدة وأواني ضيافة نحاسية',
-    defaultKeywords: 'أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث, Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'masterpieces',
     file: 'masterpieces.html',
     title: 'Architectural Masterpieces',
     titleAr: 'روائع نحاسية معمارية نادرة',
-    defaultKeywords: 'تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث، Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث, Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'action',
     file: 'action.html',
     title: 'Turath in Action',
     titleAr: 'حرفية النحاس في ورش تراث التاريخية',
-    defaultKeywords: 'ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية، Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'ورشة تراث، تصنيع نحاس يدوي، تشكيل معادن، فن الريبوسيه، تخريم يدوي، باتينا، القاهرة التاريخية, Turath in Action, Egyptian Metalcraft, Artisans at Work, Handcrafted Metalwork, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   }
 ];
 
@@ -140,6 +141,9 @@ if (fs.existsSync(productsDataPath)) {
 // Build consolidated products catalog
 const consolidatedCatalog = { categories: {} };
 let totalGenerated = 0;
+
+// First pass: extract all category items so we have full list for cross-linking
+const allCategoryData = [];
 
 for (const cat of CATEGORIES) {
   const htmlFilePath = path.join(rootDir, cat.file);
@@ -188,7 +192,6 @@ for (const cat of CATEGORIES) {
     }
     const keywords = baseKeywords;
 
-    // Image resolution: for videos (.mp4), provide a high-resolution poster image
     let rawImg = (raw.poster || existing.image || raw.src || raw.image || '').trim();
     if (cat.slug === 'action') {
       const posterCandidate = '/assets/images/action-poster-' + (idx + 1) + '.jpg';
@@ -200,20 +203,12 @@ for (const cat of CATEGORIES) {
       rawImg = '/assets/images/commute-poster.jpg';
     }
 
-    // Clean image path (remove query params for path resolution, ensure single leading slash)
     let cleanImagePath = rawImg.split('?')[0].replace(/^(\.\.?\/)+/, '');
     if (!cleanImagePath.startsWith('/')) {
       cleanImagePath = '/' + cleanImagePath;
     }
 
-    const fullImageUrl = `${BASE_URL}${cleanImagePath}`;
-    const fullProductUrl = `${BASE_URL}/products/${productId}/`;
-    const canonicalUrl = `${BASE_URL}/${cat.slug}.html`;
-    const redirectUrl = `/${cat.slug}.html?product=${productId}`;
-    const imageMimeType = getMimeType(cleanImagePath);
-    const imageAltText = `${productTitle} - Handcrafted Brass & Copper | مشغولات نحاسية يدوية`;
-
-    const consolidatedItem = {
+    categoryItems.push({
       id: productId,
       title: productTitle,
       titleAr: productTitleAr,
@@ -221,19 +216,69 @@ for (const cat of CATEGORIES) {
       descriptionAr: productDescAr,
       keywords: keywords,
       image: cleanImagePath,
-      categorySlug: cat.slug
-    };
-    categoryItems.push(consolidatedItem);
+      categorySlug: cat.slug,
+      categoryTitle: cat.title,
+      categoryTitleAr: cat.titleAr,
+      categoryFile: cat.file
+    });
+  }
 
-    // Generate static HTML SSG page for EVERY product
+  consolidatedCatalog.categories[cat.slug] = {
+    title: cat.title,
+    titleAr: cat.titleAr,
+    items: categoryItems
+  };
+
+  allCategoryData.push({
+    cat,
+    items: categoryItems
+  });
+}
+
+// Second pass: Generate static HTML SSG page for EVERY product with rich internal linking
+for (const { cat, items } of allCategoryData) {
+  for (let idx = 0; idx < items.length; idx++) {
+    const item = items[idx];
+    const productId = item.id;
+    const productTitle = item.title;
+    const productTitleAr = item.titleAr;
+    const productDesc = item.description;
+    const productDescAr = item.descriptionAr;
+    const keywords = item.keywords;
+    const cleanImagePath = item.image;
+
+    const fullImageUrl = `${BASE_URL}${cleanImagePath}`;
+    const fullProductUrl = `${BASE_URL}/products/${productId}/`;
+    const selfCanonicalUrl = fullProductUrl;
+    const categoryUrl = `${BASE_URL}/${cat.file}`;
+    const interactiveSliderUrl = `/${cat.file}?product=${productId}`;
+    const imageMimeType = getMimeType(cleanImagePath);
+    const imageAltText = `${productTitle} - ${productTitleAr} | Handcrafted Solid Brass & Copper | ورشة تراث مصر`;
+
+    // Bilingual description for meta tags
+    const bilingualDesc = `${productDesc} — ${productDescAr}`.trim();
+    const pageTitle = `${productTitle} | ${productTitleAr} | TURATH — Bespoke Solid Brass & Copper`;
+
+    // Sibling product links for crawlable chain
+    const prevItem = items[(idx - 1 + items.length) % items.length];
+    const nextItem = items[(idx + 1) % items.length];
+
+    // Related items from this category (up to 4)
+    const relatedItems = items.filter(it => it.id !== productId).slice(0, 4);
+
+    // WhatsApp inquiry message
+    const waText = encodeURIComponent(`مرحباً ورشة تراث مصر، أرغب بالاستفسار عن هذه القطعة المصنعة عمولة:\nالقطعة: ${productTitle} (${productTitleAr})\nالرابط: ${fullProductUrl}`);
+    const waLink = `https://wa.me/201016771010?text=${waText}`;
+
     const itemDir = path.join(productsOutputDir, productId);
     fs.mkdirSync(itemDir, { recursive: true });
 
     const html = `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" class="bg-[#050505] text-white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
@@ -241,7 +286,6 @@ for (const cat of CATEGORIES) {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-PDYBS5D7CZ');
   </script>
 
@@ -259,24 +303,27 @@ for (const cat of CATEGORIES) {
     fbq('track', 'PageView');
   </script>
   <!-- End Meta Pixel Code -->
-  <title>${escapeHtml(productTitle)} | Turath Egypt</title>
-  <meta name="description" content="${escapeHtml(productDesc)}">
+
+  <!-- Unique Primary Meta Tags & Self-Referencing Canonical -->
+  <title>${escapeHtml(pageTitle)}</title>
+  <meta name="description" content="${escapeHtml(bilingualDesc)}">
   <meta name="keywords" content="${escapeHtml(keywords)}">
-  <link rel="canonical" href="${canonicalUrl}">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="${selfCanonicalUrl}">
 
   <!-- Favicon & Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="manifest" href="/manifest.json">
 
-  <!-- Open Graph / Facebook / WhatsApp / LinkedIn (Must have absolute URLs) -->
-  <meta property="og:site_name" content="Turath Egypt">
-  <meta property="og:type" content="website">
+  <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+  <meta property="og:site_name" content="TURATH EGYPT">
+  <meta property="og:type" content="product">
   <meta property="og:url" content="${fullProductUrl}">
-  <meta property="og:title" content="${escapeHtml(productTitle)} | Turath Egypt">
-  <meta property="og:description" content="${escapeHtml(productDesc)}">
+  <meta property="og:title" content="${escapeHtml(pageTitle)}">
+  <meta property="og:description" content="${escapeHtml(bilingualDesc)}">
   <meta property="og:image" content="${fullImageUrl}">
   <meta property="og:image:secure_url" content="${fullImageUrl}">
   <meta property="og:image:type" content="${imageMimeType}">
@@ -287,64 +334,493 @@ for (const cat of CATEGORIES) {
   <!-- Twitter Card / X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="${fullProductUrl}">
-  <meta name="twitter:title" content="${escapeHtml(productTitle)} | Turath Egypt">
-  <meta name="twitter:description" content="${escapeHtml(productDesc)}">
+  <meta name="twitter:title" content="${escapeHtml(pageTitle)}">
+  <meta name="twitter:description" content="${escapeHtml(bilingualDesc)}">
   <meta name="twitter:image" content="${fullImageUrl}">
   <meta name="twitter:image:alt" content="${escapeHtml(imageAltText)}">
 
-  <!-- Schema.org JSON-LD Structured Data for Search Engines -->
+  <!-- Structured Data (JSON-LD): BreadcrumbList + Product -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Product",
-    "name": ${JSON.stringify(productTitle)},
-    "description": ${JSON.stringify(productDesc)},
-    "image": ${JSON.stringify(fullImageUrl)},
-    "url": ${JSON.stringify(fullProductUrl)},
-    "brand": {
-      "@type": "Brand",
-      "name": "Turath Egypt"
-    },
-    "category": ${JSON.stringify(cat.title)},
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": "EGP",
-      "availability": "https://schema.org/InStock",
-      "url": ${JSON.stringify(canonicalUrl)}
-    }
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TURATH Home",
+            "item": "${BASE_URL}/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": ${JSON.stringify(cat.title)},
+            "item": "${categoryUrl}"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": ${JSON.stringify(productTitle)},
+            "item": "${selfCanonicalUrl}"
+          }
+        ]
+      },
+      {
+        "@type": "Product",
+        "name": ${JSON.stringify(productTitle)},
+        "alternateName": ${JSON.stringify(productTitleAr)},
+        "description": ${JSON.stringify(bilingualDesc)},
+        "image": ${JSON.stringify(fullImageUrl)},
+        "url": ${JSON.stringify(selfCanonicalUrl)},
+        "brand": {
+          "@type": "Brand",
+          "name": "TURATH EGYPT"
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+          "url": "${BASE_URL}/"
+        },
+        "category": ${JSON.stringify(cat.title)},
+        "material": "Solid Brass & Copper (نحاس أصفر وأحمر مصمت)",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "EGP",
+          "availability": "https://schema.org/InStock",
+          "url": ${JSON.stringify(selfCanonicalUrl)},
+          "seller": {
+            "@type": "Organization",
+            "name": "TURATH EGYPT"
+          }
+        }
+      }
+    ]
   }
   </script>
 
-  <!-- Instant Client-Side Redirect to Category Collection Page -->
-  <script>
-    window.location.replace("${redirectUrl}");
-  </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0;url=${redirectUrl}">
-  </noscript>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #050505;
+      color: #e5e5e5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    .header-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(5, 5, 5, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(215, 199, 151, 0.15);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-logo {
+      font-size: 1.25rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: #D7C797;
+    }
+    .back-btn {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: #D7C797; }
+    .wa-btn {
+      background: #25D366;
+      color: #000;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: opacity 0.2s;
+    }
+    .wa-btn:hover { opacity: 0.9; }
+    .main-content {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    .breadcrumb {
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .breadcrumb a:hover { color: #D7C797; }
+    .breadcrumb span { color: #D7C797; }
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media (min-width: 900px) {
+      .product-layout {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 3.5rem;
+      }
+    }
+    .media-card {
+      background: #0d0d0d;
+      border: 1px solid rgba(215, 199, 151, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+      position: relative;
+    }
+    .media-card img {
+      width: 100%;
+      height: auto;
+      max-height: 580px;
+      object-fit: cover;
+      display: block;
+    }
+    .category-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #D7C797;
+      border: 1px solid rgba(215, 199, 151, 0.35);
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+    h1.product-title {
+      font-size: clamp(1.5rem, 3.5vw, 2.3rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+    h2.product-title-ar {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 500;
+      color: #D7C797;
+      direction: rtl;
+      margin-bottom: 1.5rem;
+    }
+    .desc-en {
+      font-size: 1rem;
+      color: #d1d1d1;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .desc-ar {
+      font-size: 1.05rem;
+      color: #bfbfbf;
+      direction: rtl;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.03);
+      border-right: 3px solid #D7C797;
+      border-radius: 4px;
+    }
+    .specs-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      font-size: 0.85rem;
+    }
+    .spec-item {
+      background: #111;
+      padding: 0.75rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .spec-label { color: #888; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; }
+    .spec-val { color: #D7C797; font-weight: 500; margin-top: 0.2rem; }
+    .actions-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (min-width: 500px) {
+      .actions-group { flex-direction: row; }
+    }
+    .btn-interactive {
+      background: #D7C797;
+      color: #000;
+      font-weight: 600;
+      padding: 0.9rem 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-interactive:hover { background: #e3d7b2; transform: translateY(-1px); }
+    .btn-wa-action {
+      background: #1f1f1f;
+      color: #25D366;
+      border: 1px solid rgba(37, 211, 102, 0.4);
+      font-weight: 500;
+      padding: 0.9rem 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      transition: all 0.2s;
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-wa-action:hover { background: rgba(37, 211, 102, 0.1); border-color: #25D366; }
+    .sibling-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 3rem;
+      font-size: 0.85rem;
+    }
+    .sibling-link {
+      color: #888;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .sibling-link:hover { color: #D7C797; }
+    .sibling-title { color: #fff; font-weight: 500; }
+    .related-section {
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .related-title {
+      font-size: 1.15rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #D7C797;
+      margin-bottom: 1.5rem;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .related-card {
+      background: #0f0f0f;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.25s;
+      display: flex;
+      flex-direction: column;
+    }
+    .related-card:hover {
+      border-color: rgba(215, 199, 151, 0.4);
+      transform: translateY(-3px);
+    }
+    .related-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .related-card-content {
+      padding: 0.85rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .related-card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.35rem;
+      line-height: 1.4;
+    }
+    .related-card-ar {
+      font-size: 0.8rem;
+      color: #D7C797;
+      direction: rtl;
+    }
+    .footer-collections {
+      background: #030303;
+      border-top: 1px solid rgba(215, 199, 151, 0.12);
+      padding: 3rem 1.5rem;
+      margin-top: 4rem;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-heading {
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #D7C797;
+      margin-bottom: 1.5rem;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    .footer-links a:hover { color: #D7C797; }
+    .footer-copy {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: #555;
+      text-align: center;
+    }
+  </style>
 </head>
-<body style="background: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; text-align: center;">
+<body>
   <!-- Meta Pixel noscript fallback -->
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
-  <img src="${cleanImagePath}" alt="${escapeHtml(imageAltText)}" style="max-width: 320px; max-height: 320px; width: auto; height: auto; object-fit: contain; border-radius: 8px; margin-bottom: 20px;" loading="eager">
-  <h1 style="font-size: 1.25rem; font-weight: 600; margin: 0 0 10px; color: #fff;">${escapeHtml(productTitle)}</h1>
-  <p style="font-size: 0.9rem; color: #aaa; max-width: 500px; margin: 0 0 16px; line-height: 1.5;">${escapeHtml(productDesc)}</p>
-  <p style="font-size: 0.85rem; color: #888;">Redirecting to <a href="${redirectUrl}" style="color: #D7C797; text-decoration: underline;">${escapeHtml(productTitle)} Collection</a>...</p>
+
+  <header class="header-nav">
+    <a href="/" class="brand-logo" aria-label="TURATH Egypt Home">TURATH</a>
+    <a href="/${cat.file}" class="back-btn" aria-label="Back to ${escapeHtml(cat.title)}">← ${escapeHtml(cat.title)}</a>
+    <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="WhatsApp Inquiry">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+      Inquire
+    </a>
+  </header>
+
+  <main class="main-content">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span>/</span>
+      <a href="/${cat.file}">${escapeHtml(cat.title)}</a>
+      <span>/</span>
+      <span aria-current="page">${escapeHtml(productTitle)}</span>
+    </nav>
+
+    <article class="product-layout">
+      <div class="media-card">
+        <img src="${cleanImagePath}" alt="${escapeHtml(imageAltText)}" loading="eager" fetchpriority="high">
+      </div>
+
+      <div class="info-card">
+        <a href="/${cat.file}" class="category-badge">${escapeHtml(cat.title)} / ${escapeHtml(cat.titleAr)}</a>
+        <h1 class="product-title">${escapeHtml(productTitle)}</h1>
+        <h2 class="product-title-ar">${escapeHtml(productTitleAr)}</h2>
+
+        <p class="desc-en">${escapeHtml(productDesc)}</p>
+        <div class="desc-ar">${escapeHtml(productDescAr)}</div>
+
+        <div class="specs-list">
+          <div class="spec-item">
+            <span class="spec-label">Material & Metal / الخامة</span>
+            <span class="spec-val">Solid Brass & Copper</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Origin / المنشأ</span>
+            <span class="spec-val">Historic Cairo, Egypt</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Craftsmanship / طريقة الصنع</span>
+            <span class="spec-val">Master Hand-forged & Cast</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Customization / التخصيص</span>
+            <span class="spec-val">Bespoke Dimensions Available</span>
+          </div>
+        </div>
+
+        <div class="actions-group">
+          <a href="${interactiveSliderUrl}" class="btn-interactive">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Interactive 3D Gallery
+          </a>
+          <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-wa-action">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Inquire via WhatsApp
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <nav class="sibling-nav" aria-label="Previous and Next Products">
+      <a href="/products/${prevItem.id}/" class="sibling-link">
+        <span>← Previous Piece</span>
+        <span class="sibling-title">${escapeHtml(prevItem.title)}</span>
+      </a>
+      <a href="/products/${nextItem.id}/" class="sibling-link" style="text-align: right;">
+        <span>Next Piece →</span>
+        <span class="sibling-title">${escapeHtml(nextItem.title)}</span>
+      </a>
+    </nav>
+
+    ${relatedItems.length > 0 ? `
+    <section class="related-section">
+      <h3 class="related-title">More Pieces in ${escapeHtml(cat.title)}</h3>
+      <div class="related-grid">
+        ${relatedItems.map(rel => `
+          <a href="/products/${rel.id}/" class="related-card" aria-label="${escapeHtml(rel.title)}">
+            <img src="${rel.image}" alt="${escapeHtml(rel.title)}" loading="lazy">
+            <div class="related-card-content">
+              <span class="related-card-title">${escapeHtml(rel.title)}</span>
+              <span class="related-card-ar">${escapeHtml(rel.titleAr)}</span>
+            </div>
+          </a>
+        `).join('')}
+      </div>
+    </section>
+    ` : ''}
+  </main>
+
+  <footer class="footer-collections">
+    <div class="footer-container">
+      <h4 class="footer-heading">Architectural Metalwork Collections / تصنيفات المشغولات النحاسية</h4>
+      <nav class="footer-links" aria-label="All Categories">
+        ${CATEGORIES.map(c => `<a href="/${c.file}">${escapeHtml(c.title)} (${escapeHtml(c.titleAr)})</a>`).join('\n        ')}
+      </nav>
+      <p class="footer-copy">© 2026 TURATH EGYPT (ورشة تراث) — Historic Cairo Atelier. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
 `;
 
     fs.writeFileSync(path.join(itemDir, 'index.html'), html, 'utf8');
+
+    // Also write directly to dist/products if dist exists
+    if (fs.existsSync(rootDir, 'dist')) {
+      const distItemDir = path.join(distProductsOutputDir, productId);
+      fs.mkdirSync(distItemDir, { recursive: true });
+      fs.writeFileSync(path.join(distItemDir, 'index.html'), html, 'utf8');
+    }
+
     totalGenerated++;
   }
-
-  consolidatedCatalog.categories[cat.slug] = {
-    title: cat.title,
-    titleAr: cat.titleAr,
-    items: categoryItems
-  };
 }
 
 // Persist the consolidated products catalog back to data/products.json
@@ -353,6 +829,6 @@ fs.writeFileSync(productsDataPath, JSON.stringify(consolidatedCatalog, null, 2),
 
 console.log(`\n======================================================`);
 console.log(`Successfully generated ${totalGenerated} product SSG pages!`);
-console.log(`All Open Graph & Twitter meta tags injected with absolute URLs.`);
+console.log(`Self-referencing canonical URLs, rich semantic schema, and crawlable internal links injected.`);
 console.log(`Consolidated catalog saved to: ${productsDataPath}`);
 console.log(`======================================================\n`);
