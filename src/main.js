@@ -1995,22 +1995,46 @@ function handleInitialDeepLink() {
 }
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
-// Premium Knockout Preloader hide logic
+// Premium Knockout Preloader hide logic (Synchronized Asset, Font, Menu & Layout Ready)
 function hideLuxuryPreloader() {
   const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
   if (!preloader || preloader.dataset.hiding === 'true') return;
   preloader.dataset.hiding = 'true';
-  const delay = (sessionStorage.getItem('turath_returning_from_subpage') === '1') ? 350 : 150;
-  setTimeout(() => {
-    preloader.style.transition = 'opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-    preloader.classList.add('opacity-0', 'pointer-events-none', 'preloader-hidden');
-    preloader.style.opacity = '0';
-    preloader.style.pointerEvents = 'none';
-    document.documentElement.classList.remove('is-returning-preloader');
-    try {
-      sessionStorage.removeItem('turath_returning_from_subpage');
-    } catch(e) {}
-  }, delay);
+
+  const isReturning = (sessionStorage.getItem('turath_returning_from_subpage') === '1');
+  const elapsed = performance.now() - (window.__turath_load_start || 0);
+  const minDuration = isReturning ? 350 : 1000;
+  const remaining = Math.max(0, minDuration - elapsed);
+
+  function dismiss() {
+    if (preloader.dataset.dismissed === 'true') return;
+    preloader.dataset.dismissed = 'true';
+    requestAnimationFrame(() => {
+      preloader.style.transition = 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s cubic-bezier(0.16, 1, 0.3, 1)';
+      preloader.classList.add('opacity-0', 'pointer-events-none', 'preloader-hidden');
+      preloader.style.opacity = '0';
+      preloader.style.pointerEvents = 'none';
+      document.documentElement.classList.remove('is-returning-preloader');
+      try {
+        sessionStorage.removeItem('turath_returning_from_subpage');
+      } catch(e) {}
+      setTimeout(() => {
+        preloader.style.visibility = 'hidden';
+        preloader.style.display = 'none';
+      }, 1000);
+    });
+  }
+
+  // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
+  const safetyTimeout = setTimeout(dismiss, 1800);
+
+  const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, remaining));
+  const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+
+  Promise.all([minDisplayPromise, fontsPromise]).then(() => {
+    clearTimeout(safetyTimeout);
+    dismiss();
+  });
 }
 
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded

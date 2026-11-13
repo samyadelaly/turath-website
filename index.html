@@ -399,6 +399,7 @@
     }
   </style>
   <script>
+    window.__turath_load_start = performance.now();
     (function() {
       try {
         if (sessionStorage.getItem('turath_returning_from_subpage') === '1') {
@@ -407,23 +408,41 @@
       } catch(e) {}
     })();
   </script>
+  <!-- Critical Anti-FOUC & Strict Preloader Styles (Matches Subpages) -->
   <style>
-    .is-returning-preloader #preloader,
-    .is-returning-preloader #luxury-preloader,
-    .is-returning-preloader .preloader {
+    #preloader, #luxury-preloader, .preloader {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 99999 !important;
+      pointer-events: none !important;
+      transition: opacity 1s ease-in-out !important;
+      background: transparent !important;
       opacity: 1 !important;
       visibility: visible !important;
-      pointer-events: auto !important;
+    }
+    #preloader.opacity-0,
+    #preloader.preloader-hidden,
+    #luxury-preloader.opacity-0,
+    #luxury-preloader.preloader-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
     }
   </style>
   
 </head>
 <body class="bg-black main-page">
-  <!-- Premium Knockout Preloader on Index (Covers initial page setup & deep-link restoration) -->
-  <div id="preloader" class="preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-500 ease-in-out opacity-0 preloader-hidden">
+  <!-- Premium Knockout Preloader (Identical to Subpages) -->
+  <div id="preloader" class="preloader fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;">
     <svg width="100%" height="100%" class="w-full h-full">
       <defs>
         <mask id="knockout-text">
+          <!-- White background means solid, black text means transparent hole -->
           <rect width="100%" height="100%" fill="white" />
           <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
         </mask>
