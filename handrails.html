@@ -241,77 +241,93 @@
     }
   </script>
 
-  <!-- CollectionPage & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
+  <!-- CollectionPage & ItemList JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "TURATH Home",
+          "item": "https://turath-egypt.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Handrails & Balustrades",
+          "item": "https://turath-egypt.vercel.app/handrails.html"
+        }
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Handrails & Balustrades | هندريل ودرابزين سلالم نحاس | TURATH",
+      "description": "Architectural solid brass balustrades, continuous stair handrails, and bespoke metalwork engineered for high-end residential and hospitality developments.",
+      "url": "https://turath-egypt.vercel.app/handrails.html",
+      "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
+      "manufacturer": {
+        "@type": "Manufacturer",
+        "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+        "url": "https://turath-egypt.vercel.app/",
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "Egypt"
+          },
+          {
+            "@type": "Country",
+            "name": "Saudi Arabia"
+          },
+          {
+            "@type": "Country",
+            "name": "United Arab Emirates"
+          },
+          {
+            "@type": "Country",
+            "name": "Kuwait"
+          },
+          {
+            "@type": "Country",
+            "name": "Qatar"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          },
+          {
+            "@type": "Country",
+            "name": "United Kingdom"
+          }
+        ]
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Handrails & Balustrades Collection",
+        "numberOfItems": 2,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
-            "name": "TURATH Home",
-            "item": "https://turath-egypt.vercel.app/"
+            "name": "BOTANICAL BRASS & MARBLE BALUSTRADE",
+            "url": "https://turath-egypt.vercel.app/products/handrails-item-1/",
+            "image": "https://turath-egypt.vercel.app/assets/images/handrails/handrail-01.jpg"
           },
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Custom Handrails",
-            "item": "https://turath-egypt.vercel.app/handrails.html"
+            "name": "FACETED BRASS SPINDLE BALUSTRADE",
+            "url": "https://turath-egypt.vercel.app/products/handrails-item-2/",
+            "image": "https://turath-egypt.vercel.app/assets/images/handrails/handrail-02.jpg"
           }
         ]
-      },
-      {
-        "@type": "CollectionPage",
-        "name": "Custom Handrails | درابزين سلالم نحاسي مخصص | TURATH",
-        "description": "Bespoke handcrafted solid brass and copper custom handrails crafted in Historic Cairo for Egyptian, GCC, US, and UK architectural projects.",
-        "url": "https://turath-egypt.vercel.app/handrails.html",
-        "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
-        "manufacturer": {
-          "@type": "Manufacturer",
-          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
-          "url": "https://turath-egypt.vercel.app/",
-          "areaServed": [
-            { "@type": "Country", "name": "Egypt" },
-            { "@type": "Country", "name": "Saudi Arabia" },
-            { "@type": "Country", "name": "United Arab Emirates" },
-            { "@type": "Country", "name": "Kuwait" },
-            { "@type": "Country", "name": "Qatar" },
-            { "@type": "Country", "name": "United States" },
-            { "@type": "Country", "name": "United Kingdom" }
-          ]
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Custom Handrails Catalog",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "BOTANICAL BRASS & MARBLE BALUSTRADE",
-                "alternateName": "درابزين نباتي من النحاس المفرغ والرخام الإيطالي",
-                "url": "https://turath-egypt.vercel.app/products/handrails-item-1/",
-                "image": "https://turath-egypt.vercel.app/assets/images/handrails/handrail-01.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "FACETED BRASS SPINDLE BALUSTRADE",
-                "alternateName": "FACETED BRASS SPINDLE BALUSTRADE",
-                "url": "https://turath-egypt.vercel.app/products/handrails-item-2/",
-                "image": "https://turath-egypt.vercel.app/assets/images/handrails/handrail-02.jpg"
-              }
-            }
-          ]
-        }
       }
-    ]
-  }
+    }
+  ]
+}
   </script>
 
 </head>

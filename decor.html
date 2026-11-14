@@ -241,157 +241,149 @@
     }
   </script>
 
-  <!-- CollectionPage & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
+  <!-- CollectionPage & ItemList JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "TURATH Home",
+          "item": "https://turath-egypt.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Luxury Metal Decor",
+          "item": "https://turath-egypt.vercel.app/decor.html"
+        }
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Luxury Metal Decor | تحف وإكسسوارات ديكور نحاسية | TURATH",
+      "description": "Sculptural brass and copper table accessories, hand-pierced trays, and bespoke decorative objects hand-finished in Historic Cairo.",
+      "url": "https://turath-egypt.vercel.app/decor.html",
+      "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
+      "manufacturer": {
+        "@type": "Manufacturer",
+        "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+        "url": "https://turath-egypt.vercel.app/",
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "Egypt"
+          },
+          {
+            "@type": "Country",
+            "name": "Saudi Arabia"
+          },
+          {
+            "@type": "Country",
+            "name": "United Arab Emirates"
+          },
+          {
+            "@type": "Country",
+            "name": "Kuwait"
+          },
+          {
+            "@type": "Country",
+            "name": "Qatar"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          },
+          {
+            "@type": "Country",
+            "name": "United Kingdom"
+          }
+        ]
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Luxury Metal Decor Collection",
+        "numberOfItems": 10,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
-            "name": "TURATH Home",
-            "item": "https://turath-egypt.vercel.app/"
+            "name": "HERITAGE ARABESQUE BRASS WALL CHARGER",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-1/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/royal-arabesque-brass-wall-charger.jpg"
           },
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Decorative Objects",
-            "item": "https://turath-egypt.vercel.app/decor.html"
+            "name": "HONEYCOMB FACETED HAMMERED COPPER SHIELD",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-2/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/honeycomb-faceted-hammered-copper-shield.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "GOLDEN DIVERS SCULPTURAL WALL INSTALLATION",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-3/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/golden-divers-cast-brass-wall-sculptures.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "PLEATED SUNBURST POLISHED BRASS DISK",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-4/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/pleated-sunburst-polished-brass-disk.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "OPENWORK FILIGREE BRASS BOTANICAL LEAVES",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-5/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/openwork-filigree-brass-leaf-sculptures.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "HAMMERED BRASS VESSEL",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-6/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-01.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "name": "ORGANIC CAST BRONZE PLATTER",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-7/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-02.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "name": "SCULPTURAL BRASS DUO BOWLS",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-8/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-03.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 9,
+            "name": "ARABESQUE BRASS WALL NICHE",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-9/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-04.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 10,
+            "name": "FILIGREE BRASS MEDALLION SHELF",
+            "url": "https://turath-egypt.vercel.app/products/decor-item-10/",
+            "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-05.jpg"
           }
         ]
-      },
-      {
-        "@type": "CollectionPage",
-        "name": "Decorative Objects | تحف وصواني ديكور نحاسية | TURATH",
-        "description": "Bespoke handcrafted solid brass and copper decorative objects crafted in Historic Cairo for Egyptian, GCC, US, and UK architectural projects.",
-        "url": "https://turath-egypt.vercel.app/decor.html",
-        "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
-        "manufacturer": {
-          "@type": "Manufacturer",
-          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
-          "url": "https://turath-egypt.vercel.app/",
-          "areaServed": [
-            { "@type": "Country", "name": "Egypt" },
-            { "@type": "Country", "name": "Saudi Arabia" },
-            { "@type": "Country", "name": "United Arab Emirates" },
-            { "@type": "Country", "name": "Kuwait" },
-            { "@type": "Country", "name": "Qatar" },
-            { "@type": "Country", "name": "United States" },
-            { "@type": "Country", "name": "United Kingdom" }
-          ]
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Decorative Objects Catalog",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "HERITAGE ARABESQUE BRASS WALL CHARGER",
-                "alternateName": "صينية جدارية نحاسية فاخرة بزخارف الأرابيسك",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-1/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/royal-arabesque-brass-wall-charger.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "HONEYCOMB FACETED HAMMERED COPPER SHIELD",
-                "alternateName": "HONEYCOMB FACETED HAMMERED COPPER SHIELD",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-2/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/honeycomb-faceted-hammered-copper-shield.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "GOLDEN DIVERS SCULPTURAL WALL INSTALLATION",
-                "alternateName": "GOLDEN DIVERS SCULPTURAL WALL INSTALLATION",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-3/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/golden-divers-cast-brass-wall-sculptures.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "PLEATED SUNBURST POLISHED BRASS DISK",
-                "alternateName": "PLEATED SUNBURST POLISHED BRASS DISK",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-4/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/pleated-sunburst-polished-brass-disk.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "OPENWORK FILIGREE BRASS BOTANICAL LEAVES",
-                "alternateName": "OPENWORK FILIGREE BRASS BOTANICAL LEAVES",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-5/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/openwork-filigree-brass-leaf-sculptures.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "HAMMERED BRASS VESSEL",
-                "alternateName": "HAMMERED BRASS VESSEL",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-6/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-01.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ORGANIC CAST BRONZE PLATTER",
-                "alternateName": "ORGANIC CAST BRONZE PLATTER",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-7/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-02.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "SCULPTURAL BRASS DUO BOWLS",
-                "alternateName": "SCULPTURAL BRASS DUO BOWLS",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-8/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-03.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ARABESQUE BRASS WALL NICHE",
-                "alternateName": "ARABESQUE BRASS WALL NICHE",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-9/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-04.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "FILIGREE BRASS MEDALLION SHELF",
-                "alternateName": "FILIGREE BRASS MEDALLION SHELF",
-                "url": "https://turath-egypt.vercel.app/products/decor-item-10/",
-                "image": "https://turath-egypt.vercel.app/assets/images/decor/decor-05.jpg"
-              }
-            }
-          ]
-        }
       }
-    ]
-  }
+    }
+  ]
+}
   </script>
 
 </head>

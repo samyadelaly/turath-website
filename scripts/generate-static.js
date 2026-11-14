@@ -268,8 +268,10 @@ for (const cat of CATEGORIES) {
         },
         "offers": {
           "@type": "Offer",
+          "price": "0",
           "priceCurrency": "EGP",
-          "availability": "https://schema.org/InStock",
+          "availability": "https://schema.org/MadeToOrder",
+          "itemCondition": "https://schema.org/NewCondition",
           "url": ${JSON.stringify(fullProductUrl)},
           "seller": {
             "@type": "Organization",
@@ -283,8 +285,8 @@ for (const cat of CATEGORIES) {
 `;
 
     // Replace category CollectionPage schema with Product schema
-    if (pageHtml.includes('<!-- CollectionPage & Manufacturer JSON-LD Schema')) {
-      pageHtml = pageHtml.replace(/<!-- CollectionPage & Manufacturer JSON-LD Schema[\s\S]*?<\/script>/, productJsonLd.trim());
+    if (/<!-- CollectionPage[\s\S]*?<\/script>/i.test(pageHtml)) {
+      pageHtml = pageHtml.replace(/<!-- CollectionPage[\s\S]*?<\/script>/i, productJsonLd.trim());
     } else {
       pageHtml = pageHtml.replace('</head>', `${productJsonLd}\n</head>`);
     }

@@ -241,137 +241,135 @@
     }
   </script>
 
-  <!-- CollectionPage & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
+  <!-- CollectionPage & ItemList JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "TURATH Home",
+          "item": "https://turath-egypt.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Luxury Tableware",
+          "item": "https://turath-egypt.vercel.app/tableware.html"
+        }
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Luxury Tableware | أدوات مائدة وأواني ضيافة نحاسية | TURATH",
+      "description": "Handmade solid copper and brass tea sets, hammered serving platters, and artisanal dining hollowware crafted in Historic Cairo.",
+      "url": "https://turath-egypt.vercel.app/tableware.html",
+      "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
+      "manufacturer": {
+        "@type": "Manufacturer",
+        "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+        "url": "https://turath-egypt.vercel.app/",
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "Egypt"
+          },
+          {
+            "@type": "Country",
+            "name": "Saudi Arabia"
+          },
+          {
+            "@type": "Country",
+            "name": "United Arab Emirates"
+          },
+          {
+            "@type": "Country",
+            "name": "Kuwait"
+          },
+          {
+            "@type": "Country",
+            "name": "Qatar"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          },
+          {
+            "@type": "Country",
+            "name": "United Kingdom"
+          }
+        ]
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Luxury Tableware Collection",
+        "numberOfItems": 8,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
-            "name": "TURATH Home",
-            "item": "https://turath-egypt.vercel.app/"
+            "name": "SCULPTURAL FLUID BRASS VESSEL PAIR",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-1/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg"
           },
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Luxury Tableware",
-            "item": "https://turath-egypt.vercel.app/tableware.html"
+            "name": "ARABESQUE BRASS TEA SERVICE SET",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-2/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "ARTISAN BEADED SOLID COPPER CUP",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-3/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "ENGRAVED BRASS HOSPITALITY BRAZIER",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-4/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-01.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "GEOMETRIC BRASS GRILL BRAZIER",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-5/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-02.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "HAMMERED COPPER SERVING CASSEROLE",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-6/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-03.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "name": "ARABESQUE BRASS FOOD WARMER",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-7/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-04.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "name": "ORGANIC CAST BRONZE SERVING DISH",
+            "url": "https://turath-egypt.vercel.app/products/tableware-item-8/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-05.jpg"
           }
         ]
-      },
-      {
-        "@type": "CollectionPage",
-        "name": "Luxury Tableware | أدوات مائدة وأواني ضيافة نحاسية | TURATH",
-        "description": "Bespoke handcrafted solid brass and copper luxury tableware crafted in Historic Cairo for Egyptian, GCC, US, and UK architectural projects.",
-        "url": "https://turath-egypt.vercel.app/tableware.html",
-        "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
-        "manufacturer": {
-          "@type": "Manufacturer",
-          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
-          "url": "https://turath-egypt.vercel.app/",
-          "areaServed": [
-            { "@type": "Country", "name": "Egypt" },
-            { "@type": "Country", "name": "Saudi Arabia" },
-            { "@type": "Country", "name": "United Arab Emirates" },
-            { "@type": "Country", "name": "Kuwait" },
-            { "@type": "Country", "name": "Qatar" },
-            { "@type": "Country", "name": "United States" },
-            { "@type": "Country", "name": "United Kingdom" }
-          ]
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Luxury Tableware Catalog",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "SCULPTURAL FLUID BRASS VESSEL PAIR",
-                "alternateName": "زوج أواني مائدة نحاسية انسيابية منحوتة",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-1/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ARABESQUE BRASS TEA SERVICE SET",
-                "alternateName": "طقم شاي وضيافة نحاسي بزخارف الأرابيسك",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-2/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ARTISAN BEADED SOLID COPPER CUP",
-                "alternateName": "ARTISAN BEADED SOLID COPPER CUP",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-3/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ENGRAVED BRASS HOSPITALITY BRAZIER",
-                "alternateName": "ENGRAVED BRASS HOSPITALITY BRAZIER",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-4/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-01.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "GEOMETRIC BRASS GRILL BRAZIER",
-                "alternateName": "GEOMETRIC BRASS GRILL BRAZIER",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-5/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-02.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "HAMMERED COPPER SERVING CASSEROLE",
-                "alternateName": "HAMMERED COPPER SERVING CASSEROLE",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-6/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-03.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ARABESQUE BRASS FOOD WARMER",
-                "alternateName": "ARABESQUE BRASS FOOD WARMER",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-7/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-04.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ORGANIC CAST BRONZE SERVING DISH",
-                "alternateName": "ORGANIC CAST BRONZE SERVING DISH",
-                "url": "https://turath-egypt.vercel.app/products/tableware-item-8/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-05.jpg"
-              }
-            }
-          ]
-        }
       }
-    ]
-  }
+    }
+  ]
+}
   </script>
 
 </head>

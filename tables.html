@@ -241,147 +241,142 @@
     }
   </script>
 
-  <!-- CollectionPage & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
+  <!-- CollectionPage & ItemList JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "TURATH Home",
+          "item": "https://turath-egypt.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tables & Consoles",
+          "item": "https://turath-egypt.vercel.app/tables.html"
+        }
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Tables & Consoles | ترابيزات وطاولات كونسول نحاسية | TURATH",
+      "description": "Monumental coffee tables, side tables, and console tables handcrafted with solid brass bases, fluted legs, and bespoke liquid patinas.",
+      "url": "https://turath-egypt.vercel.app/tables.html",
+      "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
+      "manufacturer": {
+        "@type": "Manufacturer",
+        "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+        "url": "https://turath-egypt.vercel.app/",
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "Egypt"
+          },
+          {
+            "@type": "Country",
+            "name": "Saudi Arabia"
+          },
+          {
+            "@type": "Country",
+            "name": "United Arab Emirates"
+          },
+          {
+            "@type": "Country",
+            "name": "Kuwait"
+          },
+          {
+            "@type": "Country",
+            "name": "Qatar"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          },
+          {
+            "@type": "Country",
+            "name": "United Kingdom"
+          }
+        ]
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Tables & Consoles Collection",
+        "numberOfItems": 9,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
-            "name": "TURATH Home",
-            "item": "https://turath-egypt.vercel.app/"
+            "name": "STAGGERED BRASS PLATE CYLINDER TABLE",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-1/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/staggered-brass-plate-cylinder-table.jpg"
           },
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Tables & Consoles",
-            "item": "https://turath-egypt.vercel.app/tables.html"
+            "name": "TIERED BRASS TUBULAR NESTING TABLES",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-2/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/tiered-brass-tubular-nesting-tables.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "NESTING BRASS COFFEE TABLES",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-3/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/nesting-circular-brass-coffee-tables.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "GEOMETRIC BRASS X-BASE TUFTED BENCH",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-4/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/geometric-brass-x-base-tufted-bench.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "ORGANIC BRANCH BRASS CONSOLE",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-5/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/table-01.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "BRANCH LEG ARTISAN CONSOLE",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-6/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/table-02.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "name": "FLUTED BRASS MARBLE GUÉRIDON",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-7/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/table-03.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "name": "BRUTALIST BRASS DRUM TABLE",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-8/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/table-04.jpg"
+          },
+          {
+            "@type": "ListItem",
+            "position": 9,
+            "name": "FLUTED COLUMN BRASS CONSOLE",
+            "url": "https://turath-egypt.vercel.app/products/tables-item-9/",
+            "image": "https://turath-egypt.vercel.app/assets/images/tables/table-05.jpg"
           }
         ]
-      },
-      {
-        "@type": "CollectionPage",
-        "name": "Tables & Consoles | طاولات وكونسول نحاسي فاخر | TURATH",
-        "description": "Bespoke handcrafted solid brass and copper tables & consoles crafted in Historic Cairo for Egyptian, GCC, US, and UK architectural projects.",
-        "url": "https://turath-egypt.vercel.app/tables.html",
-        "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
-        "manufacturer": {
-          "@type": "Manufacturer",
-          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
-          "url": "https://turath-egypt.vercel.app/",
-          "areaServed": [
-            { "@type": "Country", "name": "Egypt" },
-            { "@type": "Country", "name": "Saudi Arabia" },
-            { "@type": "Country", "name": "United Arab Emirates" },
-            { "@type": "Country", "name": "Kuwait" },
-            { "@type": "Country", "name": "Qatar" },
-            { "@type": "Country", "name": "United States" },
-            { "@type": "Country", "name": "United Kingdom" }
-          ]
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Tables & Consoles Catalog",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "STAGGERED BRASS PLATE CYLINDER TABLE",
-                "alternateName": "طاولة أسطوانية بألواح نحاسية متدرجة",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-1/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/staggered-brass-plate-cylinder-table.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "TIERED BRASS TUBULAR NESTING TABLES",
-                "alternateName": "TIERED BRASS TUBULAR NESTING TABLES",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-2/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/tiered-brass-tubular-nesting-tables.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "NESTING BRASS COFFEE TABLES",
-                "alternateName": "NESTING BRASS COFFEE TABLES",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-3/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/nesting-circular-brass-coffee-tables.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "GEOMETRIC BRASS X-BASE TUFTED BENCH",
-                "alternateName": "GEOMETRIC BRASS X-BASE TUFTED BENCH",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-4/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/geometric-brass-x-base-tufted-bench.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "ORGANIC BRANCH BRASS CONSOLE",
-                "alternateName": "ORGANIC BRANCH BRASS CONSOLE",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-5/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/table-01.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "BRANCH LEG ARTISAN CONSOLE",
-                "alternateName": "BRANCH LEG ARTISAN CONSOLE",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-6/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/table-02.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "FLUTED BRASS MARBLE GUÉRIDON",
-                "alternateName": "FLUTED BRASS MARBLE GUÉRIDON",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-7/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/table-03.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "BRUTALIST BRASS DRUM TABLE",
-                "alternateName": "BRUTALIST BRASS DRUM TABLE",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-8/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/table-04.jpg"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Product",
-                "name": "FLUTED COLUMN BRASS CONSOLE",
-                "alternateName": "FLUTED COLUMN BRASS CONSOLE",
-                "url": "https://turath-egypt.vercel.app/products/tables-item-9/",
-                "image": "https://turath-egypt.vercel.app/assets/images/tables/table-05.jpg"
-              }
-            }
-          ]
-        }
       }
-    ]
-  }
+    }
+  ]
+}
   </script>
 
 </head>
