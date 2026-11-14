@@ -240,6 +240,140 @@
       }
     }
   </script>
+
+  <!-- CollectionPage & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TURATH Home",
+            "item": "https://turath-egypt.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Luxury Tableware",
+            "item": "https://turath-egypt.vercel.app/tableware.html"
+          }
+        ]
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Luxury Tableware | أدوات مائدة وأواني ضيافة نحاسية | TURATH",
+        "description": "Bespoke handcrafted solid brass and copper luxury tableware crafted in Historic Cairo for Egyptian, GCC, US, and UK architectural projects.",
+        "url": "https://turath-egypt.vercel.app/tableware.html",
+        "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
+        "manufacturer": {
+          "@type": "Manufacturer",
+          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+          "url": "https://turath-egypt.vercel.app/",
+          "areaServed": [
+            { "@type": "Country", "name": "Egypt" },
+            { "@type": "Country", "name": "Saudi Arabia" },
+            { "@type": "Country", "name": "United Arab Emirates" },
+            { "@type": "Country", "name": "Kuwait" },
+            { "@type": "Country", "name": "Qatar" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" }
+          ]
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Luxury Tableware Catalog",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "SCULPTURAL FLUID BRASS VESSEL PAIR",
+                "alternateName": "زوج أواني مائدة نحاسية انسيابية منحوتة",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-1/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "ARABESQUE BRASS TEA SERVICE SET",
+                "alternateName": "طقم شاي وضيافة نحاسي بزخارف الأرابيسك",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-2/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "ARTISAN BEADED SOLID COPPER CUP",
+                "alternateName": "ARTISAN BEADED SOLID COPPER CUP",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-3/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "ENGRAVED BRASS HOSPITALITY BRAZIER",
+                "alternateName": "ENGRAVED BRASS HOSPITALITY BRAZIER",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-4/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-01.jpg"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "GEOMETRIC BRASS GRILL BRAZIER",
+                "alternateName": "GEOMETRIC BRASS GRILL BRAZIER",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-5/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-02.jpg"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "HAMMERED COPPER SERVING CASSEROLE",
+                "alternateName": "HAMMERED COPPER SERVING CASSEROLE",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-6/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-03.jpg"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "ARABESQUE BRASS FOOD WARMER",
+                "alternateName": "ARABESQUE BRASS FOOD WARMER",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-7/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-04.jpg"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "ORGANIC CAST BRONZE SERVING DISH",
+                "alternateName": "ORGANIC CAST BRONZE SERVING DISH",
+                "url": "https://turath-egypt.vercel.app/products/tableware-item-8/",
+                "image": "https://turath-egypt.vercel.app/assets/images/tableware/tableware-05.jpg"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+  </script>
+
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
   <!-- Meta Pixel noscript fallback -->
@@ -286,8 +420,8 @@
 
       <!-- Center Navigation Arrows -->
       <div class="absolute top-1/2 left-0 w-full -translate-y-1/2 flex justify-between items-center px-4 md:px-6 z-40 pointer-events-none">
-        <button id="prev-btn" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Previous Image">&larr;</button>
-        <button id="next-btn" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Next Image">&rarr;</button>
+        <a id="prev-btn" href="/products/tableware-item-8/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Previous item: ORGANIC CAST BRONZE SERVING DISH">&larr;</a>
+        <a id="next-btn" href="/products/tableware-item-2/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Next item: ARABESQUE BRASS TEA SERVICE SET">&rarr;</a>
       </div>
 
       <!-- Main Product Image -->
@@ -310,7 +444,7 @@
     <h2>Luxury Tableware — أدوات مائدة وأواني ضيافة نحاسية</h2>
     <ul>
       <li><a href="/products/tableware-item-1/">SCULPTURAL FLUID BRASS VESSEL PAIR — زوج أواني مائدة نحاسية انسيابية منحوتة</a></li>
-      <li><a href="/products/tableware-item-2/">ROYAL ARABESQUE BRASS TEA SERVICE SET — ROYAL ARABESQUE BRASS TEA SERVICE SET</a></li>
+      <li><a href="/products/tableware-item-2/">ARABESQUE BRASS TEA SERVICE SET — ARABESQUE BRASS TEA SERVICE SET</a></li>
       <li><a href="/products/tableware-item-3/">ARTISAN BEADED SOLID COPPER CUP — ARTISAN BEADED SOLID COPPER CUP</a></li>
       <li><a href="/products/tableware-item-4/">ENGRAVED BRASS HOSPITALITY BRAZIER — ENGRAVED BRASS HOSPITALITY BRAZIER</a></li>
       <li><a href="/products/tableware-item-5/">GEOMETRIC BRASS GRILL BRAZIER — GEOMETRIC BRASS GRILL BRAZIER</a></li>
@@ -347,7 +481,7 @@
       {
         src: '/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg',
         desktopSrc: '/assets/images/tableware/royal-arabesque-brass-tea-service-set-desktop.jpg',
-        title: 'ROYAL ARABESQUE BRASS TEA SERVICE SET',
+        title: 'ARABESQUE BRASS TEA SERVICE SET',
         desc: 'An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.'
       },
       {
@@ -427,6 +561,24 @@
         }
 
     function updateSlider(index) {
+
+      // Update semantic anchor arrows for Googlebot and sequential crawling
+      var __catalogArr = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+      if (__catalogArr && __catalogArr.length) {
+        var __prevIdx = (currentIndex - 1 + __catalogArr.length) % __catalogArr.length;
+        var __nextIdx = (currentIndex + 1) % __catalogArr.length;
+        var __prevItem = __catalogArr[__prevIdx];
+        var __nextItem = __catalogArr[__nextIdx];
+        if (prevBtn && __prevItem) {
+          prevBtn.href = '/products/' + __prevItem.id + '/';
+          prevBtn.setAttribute('aria-label', 'Previous item: ' + __prevItem.title);
+        }
+        if (nextBtn && __nextItem) {
+          nextBtn.href = '/products/' + __nextItem.id + '/';
+          nextBtn.setAttribute('aria-label', 'Next item: ' + __nextItem.title);
+        }
+      }
+  
       if (index < 0) {
         currentIndex = sliderData.length - 1;
       } else if (index >= sliderData.length) {
@@ -469,10 +621,10 @@
     }
 
     if (prevBtn) {
-      prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
+      prevBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex - 1); });
     }
     if (nextBtn) {
-      nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
+      nextBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex + 1); });
     }
 
     // Keyboard navigation
@@ -689,7 +841,7 @@
   </script>
   <script>
     // Enrich slider items with metadata from catalog for instant reactive SEO
-    var __turathCatalog = [{"id":"tableware-item-1","title":"SCULPTURAL FLUID BRASS VESSEL PAIR","titleAr":"زوج أواني مائدة نحاسية انسيابية منحوتة","description":"A pair of sculptural tabletop bowls hand-cast in solid brass, featuring freeform undulating rims and a warm hand-buffed golden bronze patina.","descriptionAr":"زوج من الأواني وأطباق التقديم المنحوتة المسبوكة يدويًا من النحاس الأصفر، بحواف انسيابية حرة ولمسة نهائية مصقولة بالباتينا البرونزية الدافئة.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-2","title":"ROYAL ARABESQUE BRASS TEA SERVICE SET","titleAr":"ROYAL ARABESQUE BRASS TEA SERVICE SET","description":"An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.","descriptionAr":"An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-3","title":"ARTISAN BEADED SOLID COPPER CUP","titleAr":"ARTISAN BEADED SOLID COPPER CUP","description":"A minimalist luxury drinking vessel hand-spun in solid pure copper, featuring a fine beaded rim detail and warm hand-brushed metallic luster.","descriptionAr":"A minimalist luxury drinking vessel hand-spun in solid pure copper, featuring a fine beaded rim detail and warm hand-brushed metallic luster.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-4","title":"ENGRAVED BRASS HOSPITALITY BRAZIER","titleAr":"ENGRAVED BRASS HOSPITALITY BRAZIER","description":"Handcrafted solid brass charcoal food warmer featuring bespoke Arabic calligraphic cartouches and Islamic geometric fretwork.","descriptionAr":"Handcrafted solid brass charcoal food warmer featuring bespoke Arabic calligraphic cartouches and Islamic geometric fretwork.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-01.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-5","title":"GEOMETRIC BRASS GRILL BRAZIER","titleAr":"GEOMETRIC BRASS GRILL BRAZIER","description":"Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved arabesque side panels.","descriptionAr":"Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved arabesque side panels.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-02.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-6","title":"HAMMERED COPPER SERVING CASSEROLE","titleAr":"HAMMERED COPPER SERVING CASSEROLE","description":"Traditional round hammered solid copper culinary serving dish fitted with hand-cast solid brass handles.","descriptionAr":"Traditional round hammered solid copper culinary serving dish fitted with hand-cast solid brass handles.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-03.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-7","title":"ARABESQUE BRASS FOOD WARMER","titleAr":"ARABESQUE BRASS FOOD WARMER","description":"A rectangular low-profile brass serving brazier showcasing openwork pierced arabesque motifs.","descriptionAr":"A rectangular low-profile brass serving brazier showcasing openwork pierced arabesque motifs.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-04.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-8","title":"ORGANIC CAST BRONZE SERVING DISH","titleAr":"ORGANIC CAST BRONZE SERVING DISH","description":"Freeform compartmentalized solid brass platter with a dark antique bronze luster for luxury dining presentation.","descriptionAr":"Freeform compartmentalized solid brass platter with a dark antique bronze luster for luxury dining presentation.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-05.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"}];
+    var __turathCatalog = [{"id":"tableware-item-1","title":"SCULPTURAL FLUID BRASS VESSEL PAIR","titleAr":"زوج أواني مائدة نحاسية انسيابية منحوتة","description":"A pair of sculptural tabletop bowls hand-cast in solid brass, featuring freeform undulating rims and a warm hand-buffed golden bronze patina.","descriptionAr":"زوج من الأواني وأطباق التقديم المنحوتة المسبوكة يدويًا من النحاس الأصفر، بحواف انسيابية حرة ولمسة نهائية مصقولة بالباتينا البرونزية الدافئة.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-2","title":"ARABESQUE BRASS TEA SERVICE SET","titleAr":"ARABESQUE BRASS TEA SERVICE SET","description":"An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.","descriptionAr":"An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-3","title":"ARTISAN BEADED SOLID COPPER CUP","titleAr":"ARTISAN BEADED SOLID COPPER CUP","description":"A minimalist luxury drinking vessel hand-spun in solid pure copper, featuring a fine beaded rim detail and warm hand-brushed metallic luster.","descriptionAr":"A minimalist luxury drinking vessel hand-spun in solid pure copper, featuring a fine beaded rim detail and warm hand-brushed metallic luster.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-4","title":"ENGRAVED BRASS HOSPITALITY BRAZIER","titleAr":"ENGRAVED BRASS HOSPITALITY BRAZIER","description":"Handcrafted solid brass charcoal food warmer featuring bespoke Arabic calligraphic cartouches and Islamic geometric fretwork.","descriptionAr":"Handcrafted solid brass charcoal food warmer featuring bespoke Arabic calligraphic cartouches and Islamic geometric fretwork.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-01.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-5","title":"GEOMETRIC BRASS GRILL BRAZIER","titleAr":"GEOMETRIC BRASS GRILL BRAZIER","description":"Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved arabesque side panels.","descriptionAr":"Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved arabesque side panels.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-02.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-6","title":"HAMMERED COPPER SERVING CASSEROLE","titleAr":"HAMMERED COPPER SERVING CASSEROLE","description":"Traditional round hammered solid copper culinary serving dish fitted with hand-cast solid brass handles.","descriptionAr":"Traditional round hammered solid copper culinary serving dish fitted with hand-cast solid brass handles.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-03.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-7","title":"ARABESQUE BRASS FOOD WARMER","titleAr":"ARABESQUE BRASS FOOD WARMER","description":"A rectangular low-profile brass serving brazier showcasing openwork pierced arabesque motifs.","descriptionAr":"A rectangular low-profile brass serving brazier showcasing openwork pierced arabesque motifs.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-04.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"},{"id":"tableware-item-8","title":"ORGANIC CAST BRONZE SERVING DISH","titleAr":"ORGANIC CAST BRONZE SERVING DISH","description":"Freeform compartmentalized solid brass platter with a dark antique bronze luster for luxury dining presentation.","descriptionAr":"Freeform compartmentalized solid brass platter with a dark antique bronze luster for luxury dining presentation.","keywords":"أواني نحاسية، أدوات مائدة، صواني تقديم، نحاس أصفر وأحمر، سبك وفورجينج، تراث، Turath, Luxury Tableware, Brass Vessels, Hand-cast Hollowware, Artisanal Dining, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/tableware/tableware-05.jpg","categorySlug":"tableware","categoryTitle":"Luxury Tableware","categoryTitleAr":"أدوات مائدة وأواني ضيافة نحاسية","categoryFile":"tableware.html"}];
     var __dataArray = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
     if (__dataArray && __dataArray.length) {
       __dataArray.forEach(function(item, idx) {

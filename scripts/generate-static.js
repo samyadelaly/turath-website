@@ -54,7 +54,7 @@ const CATEGORIES = [
     file: 'lighting.html',
     title: 'Lighting Fixtures',
     titleAr: 'وحدات إضاءة نحاسية معمارية',
-    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية, Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة معمارية، دلايات نحاس، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية, Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'mirrors',
@@ -128,218 +128,82 @@ const CATEGORIES = [
   }
 ];
 
-// Load existing products.json if available to preserve custom Arabic data
-let existingProductsData = { categories: {} };
-if (fs.existsSync(productsDataPath)) {
-  try {
-    existingProductsData = JSON.parse(fs.readFileSync(productsDataPath, 'utf8'));
-  } catch (err) {
-    console.warn(`Warning: Could not parse ${productsDataPath}, proceeding with defaults.`);
+if (!fs.existsSync(productsDataPath)) {
+  console.error(`Error: Products data file not found at ${productsDataPath}`);
+  process.exit(1);
+}
+
+const productsData = JSON.parse(fs.readFileSync(productsDataPath, 'utf8'));
+
+// Extract action videos and posters from action.html
+let actionFilms = [];
+const actionHtmlPath = path.join(rootDir, 'action.html');
+if (fs.existsSync(actionHtmlPath)) {
+  const actionContent = fs.readFileSync(actionHtmlPath, 'utf8');
+  const filmsMatch = actionContent.match(/const\s+filmsData\s*=\s*(\[[\s\S]*?\]);/);
+  if (filmsMatch) {
+    try {
+      actionFilms = eval(filmsMatch[1]);
+    } catch (e) {}
   }
 }
 
-// Build consolidated products catalog
-const consolidatedCatalog = { categories: {} };
 let totalGenerated = 0;
 
-// First pass: extract all category items so we have full list for cross-linking
-const allCategoryData = [];
-
 for (const cat of CATEGORIES) {
-  const htmlFilePath = path.join(rootDir, cat.file);
-  let rawItems = [];
+  const categoryFilePath = path.join(rootDir, cat.file);
+  if (!fs.existsSync(categoryFilePath)) continue;
 
-  if (fs.existsSync(htmlFilePath)) {
-    const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
-    const match = htmlContent.match(/(?:const|let|var)\s+(sliderData|masterpiecesData|filmsData)\s*=\s*(\[[\s\S]*?\n\s*\]);/);
-    if (match) {
-      try {
-        const sandbox = {};
-        vm.runInNewContext('data = ' + match[2], sandbox);
-        if (Array.isArray(sandbox.data)) {
-          rawItems = sandbox.data;
-        }
-      } catch (e) {
-        console.error(`Error parsing data array in ${cat.file}:`, e.message);
-      }
-    }
-  }
+  const baseHtml = fs.readFileSync(categoryFilePath, 'utf8');
+  const catItems = (productsData.categories[cat.slug] && productsData.categories[cat.slug].items) || [];
 
-  // Cross-reference with existing products.json category items
-  const existingCategory = existingProductsData.categories && existingProductsData.categories[cat.slug];
-  const existingItemsMap = new Map();
-  if (existingCategory && Array.isArray(existingCategory.items)) {
-    for (const item of existingCategory.items) {
-      if (item.id) existingItemsMap.set(item.id, item);
-    }
-  }
-
-  const categoryItems = [];
-
-  for (let idx = 0; idx < rawItems.length; idx++) {
-    const raw = rawItems[idx];
-    const productId = raw.id || `${cat.slug}-item-${idx + 1}`;
-    const existing = existingItemsMap.get(productId) || {};
-
-    const productTitle = (existing.title || raw.title || `Turath ${cat.title} Item ${idx + 1}`).trim();
-    const productTitleAr = (existing.titleAr || raw.titleAr || productTitle).trim();
-    const productDesc = (existing.description || raw.desc || raw.description || `Handcrafted ${cat.title.toLowerCase()} forged in solid brass and copper by master artisans in Cairo, Egypt.`).trim();
-    const productDescAr = (existing.descriptionAr || raw.descriptionAr || productDesc).trim();
-    const commercialSuffix = 'ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي';
-    let baseKeywords = (existing.keywords || cat.defaultKeywords).trim();
-    if (!baseKeywords.includes('ورشة نحاس بالجمالية')) {
-      baseKeywords = `${baseKeywords}, ${commercialSuffix}`;
-    }
-    const keywords = baseKeywords;
-
-    let rawImg = (raw.poster || existing.image || raw.src || raw.image || '').trim();
-    if (cat.slug === 'action') {
-      const posterCandidate = '/assets/images/action-poster-' + (idx + 1) + '.jpg';
-      if (fs.existsSync(path.join(rootDir, 'public', posterCandidate.slice(1)))) {
-        rawImg = posterCandidate;
-      }
-    }
-    if (!rawImg || rawImg.toLowerCase().endsWith('.mp4')) {
-      rawImg = '/assets/images/commute-poster.jpg';
-    }
-
-    let cleanImagePath = rawImg.split('?')[0].replace(/^(\.\.?\/)+/, '');
-    if (!cleanImagePath.startsWith('/')) {
-      cleanImagePath = '/' + cleanImagePath;
-    }
-
-    categoryItems.push({
-      id: productId,
-      title: productTitle,
-      titleAr: productTitleAr,
-      description: productDesc,
-      descriptionAr: productDescAr,
-      keywords: keywords,
-      image: cleanImagePath,
-      categorySlug: cat.slug,
-      categoryTitle: cat.title,
-      categoryTitleAr: cat.titleAr,
-      categoryFile: cat.file
-    });
-  }
-
-  consolidatedCatalog.categories[cat.slug] = {
-    title: cat.title,
-    titleAr: cat.titleAr,
-    items: categoryItems
-  };
-
-  allCategoryData.push({
-    cat,
-    items: categoryItems
-  });
-}
-
-// Second pass: Generate static HTML SSG page for EVERY product with rich internal linking
-for (const { cat, items } of allCategoryData) {
-  for (let idx = 0; idx < items.length; idx++) {
-    const item = items[idx];
+  for (let idx = 0; idx < catItems.length; idx++) {
+    const item = catItems[idx];
     const productId = item.id;
-    const productTitle = item.title;
-    const productTitleAr = item.titleAr;
-    const productDesc = item.description;
-    const productDescAr = item.descriptionAr;
-    const keywords = item.keywords;
-    const cleanImagePath = item.image;
+    const prevItem = catItems[(idx - 1 + catItems.length) % catItems.length];
+    const nextItem = catItems[(idx + 1) % catItems.length];
 
-    const fullImageUrl = `${BASE_URL}${cleanImagePath}`;
     const fullProductUrl = `${BASE_URL}/products/${productId}/`;
-    const selfCanonicalUrl = fullProductUrl;
-    const categoryUrl = `${BASE_URL}/${cat.file}`;
-    const interactiveSliderUrl = `/${cat.file}?product=${productId}`;
-    const imageMimeType = getMimeType(cleanImagePath);
-    const imageAltText = `${productTitle} - ${productTitleAr} | Handcrafted Solid Brass & Copper | ورشة تراث مصر`;
+    const fullImageUrl = `${BASE_URL}${item.image}`;
+    const imageMimeType = getMimeType(item.image);
+    const bilingualTitle = `${item.title} | ${item.titleAr} | TURATH — Bespoke Solid Brass & Copper`;
+    const bilingualDesc = `${item.desc || item.description || ''} — ${item.descAr || item.descriptionAr || ''}`.trim();
+    const imageAlt = `${item.title} - ${item.titleAr} | Handcrafted Solid Brass & Copper | ورشة تراث مصر`;
 
-    // Bilingual description for meta tags
-    const bilingualDesc = `${productDesc} — ${productDescAr}`.trim();
-    const pageTitle = `${productTitle} | ${productTitleAr} | TURATH — Bespoke Solid Brass & Copper`;
-
-    // Sibling product links for crawlable chain
-    const prevItem = items[(idx - 1 + items.length) % items.length];
-    const nextItem = items[(idx + 1) % items.length];
-
-    // Related items from this category (up to 4)
-    const relatedItems = items.filter(it => it.id !== productId).slice(0, 4);
-
-    // WhatsApp inquiry message
-    const waText = encodeURIComponent(`مرحباً ورشة تراث مصر، أرغب بالاستفسار عن هذه القطعة المصنعة عمولة:\nالقطعة: ${productTitle} (${productTitleAr})\nالرابط: ${fullProductUrl}`);
+    // WhatsApp pre-filled text
+    const waText = encodeURIComponent(`مرحباً ورشة تراث مصر، أود الاستفسار عن: ${item.title} (${item.titleAr})\nالرابط: ${fullProductUrl}`);
     const waLink = `https://wa.me/201016771010?text=${waText}`;
 
-    const itemDir = path.join(productsOutputDir, productId);
-    fs.mkdirSync(itemDir, { recursive: true });
+    // Start from the category baseHtml so it retains the exact full-screen luxury UI
+    let pageHtml = baseHtml;
 
-    const html = `<!DOCTYPE html>
-<html lang="en" dir="ltr" class="bg-[#050505] text-white">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <base href="/">
+    // 1. Ensure <base href="/"> is in <head>
+    if (!pageHtml.includes('<base href="/">')) {
+      pageHtml = pageHtml.replace('<head>', '<head>\n  <base href="/">');
+    }
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-PDYBS5D7CZ');
-  </script>
+    // 2. Set Self-Referencing Canonical URL (CRITICAL)
+    pageHtml = pageHtml.replace(/<link\s+rel="canonical"\s+href="[^"]*"/i, `<link rel="canonical" href="${fullProductUrl}"`);
 
-  <!-- Meta Pixel Code -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '148068092481360');
-    fbq('track', 'PageView');
-  </script>
-  <!-- End Meta Pixel Code -->
+    // 3. Set unique <title> and meta description
+    pageHtml = pageHtml.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(bilingualTitle)}</title>`);
+    pageHtml = pageHtml.replace(/<meta\s+name="description"\s+content="[^"]*"/i, `<meta name="description" content="${escapeHtml(bilingualDesc)}"`);
 
-  <!-- Unique Primary Meta Tags & Self-Referencing Canonical -->
-  <title>${escapeHtml(pageTitle)}</title>
-  <meta name="description" content="${escapeHtml(bilingualDesc)}">
-  <meta name="keywords" content="${escapeHtml(keywords)}">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
-  <link rel="canonical" href="${selfCanonicalUrl}">
+    // 4. Update Open Graph and Twitter Card tags
+    pageHtml = pageHtml.replace(/<meta\s+property="og:url"\s+content="[^"]*"/i, `<meta property="og:url" content="${fullProductUrl}"`);
+    pageHtml = pageHtml.replace(/<meta\s+property="og:title"\s+content="[^"]*"/i, `<meta property="og:title" content="${escapeHtml(bilingualTitle)}"`);
+    pageHtml = pageHtml.replace(/<meta\s+property="og:description"\s+content="[^"]*"/i, `<meta property="og:description" content="${escapeHtml(bilingualDesc)}"`);
+    pageHtml = pageHtml.replace(/<meta\s+property="og:image"\s+content="[^"]*"/i, `<meta property="og:image" content="${fullImageUrl}"`);
+    pageHtml = pageHtml.replace(/<meta\s+property="og:type"\s+content="[^"]*"/i, `<meta property="og:type" content="product"`);
 
-  <!-- Favicon & Icons -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="manifest" href="/manifest.json">
+    pageHtml = pageHtml.replace(/<meta\s+name="twitter:url"\s+content="[^"]*"/i, `<meta name="twitter:url" content="${fullProductUrl}"`);
+    pageHtml = pageHtml.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"/i, `<meta name="twitter:title" content="${escapeHtml(bilingualTitle)}"`);
+    pageHtml = pageHtml.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"/i, `<meta name="twitter:description" content="${escapeHtml(bilingualDesc)}"`);
+    pageHtml = pageHtml.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"/i, `<meta name="twitter:image" content="${fullImageUrl}"`);
 
-  <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
-  <meta property="og:site_name" content="TURATH EGYPT">
-  <meta property="og:type" content="product">
-  <meta property="og:url" content="${fullProductUrl}">
-  <meta property="og:title" content="${escapeHtml(pageTitle)}">
-  <meta property="og:description" content="${escapeHtml(bilingualDesc)}">
-  <meta property="og:image" content="${fullImageUrl}">
-  <meta property="og:image:secure_url" content="${fullImageUrl}">
-  <meta property="og:image:type" content="${imageMimeType}">
-  <meta property="og:image:alt" content="${escapeHtml(imageAltText)}">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:locale:alternate" content="ar_EG">
-
-  <!-- Twitter Card / X -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="${fullProductUrl}">
-  <meta name="twitter:title" content="${escapeHtml(pageTitle)}">
-  <meta name="twitter:description" content="${escapeHtml(bilingualDesc)}">
-  <meta name="twitter:image" content="${fullImageUrl}">
-  <meta name="twitter:image:alt" content="${escapeHtml(imageAltText)}">
-
-  <!-- Structured Data (JSON-LD): BreadcrumbList + Product -->
+    // 5. Inject Product + Manufacturer JSON-LD Schema with Cleaned Multi-Market Taxonomy
+    const productJsonLd = `
+  <!-- Product & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -357,39 +221,49 @@ for (const { cat, items } of allCategoryData) {
             "@type": "ListItem",
             "position": 2,
             "name": ${JSON.stringify(cat.title)},
-            "item": "${categoryUrl}"
+            "item": "${BASE_URL}/${cat.file}"
           },
           {
             "@type": "ListItem",
             "position": 3,
-            "name": ${JSON.stringify(productTitle)},
-            "item": "${selfCanonicalUrl}"
+            "name": ${JSON.stringify(item.title)},
+            "item": "${fullProductUrl}"
           }
         ]
       },
       {
         "@type": "Product",
-        "name": ${JSON.stringify(productTitle)},
-        "alternateName": ${JSON.stringify(productTitleAr)},
+        "name": ${JSON.stringify(item.title)},
+        "alternateName": ${JSON.stringify(item.titleAr)},
         "description": ${JSON.stringify(bilingualDesc)},
         "image": ${JSON.stringify(fullImageUrl)},
-        "url": ${JSON.stringify(selfCanonicalUrl)},
+        "url": ${JSON.stringify(fullProductUrl)},
+        "category": ${JSON.stringify(cat.title)},
+        "material": "Solid Brass & Copper (نحاس أصفر وأحمر مصمت)",
+        "keywords": "solid brass, unlacquered brass, architectural metalwork, antique brass, hammered copper, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, تشطيبات معمارية, ورشة نحاس بالجمالية",
         "brand": {
           "@type": "Brand",
           "name": "TURATH EGYPT"
         },
         "manufacturer": {
-          "@type": "Organization",
+          "@type": "Manufacturer",
           "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
-          "url": "${BASE_URL}/"
+          "url": "${BASE_URL}/",
+          "areaServed": [
+            { "@type": "Country", "name": "Egypt" },
+            { "@type": "Country", "name": "Saudi Arabia" },
+            { "@type": "Country", "name": "United Arab Emirates" },
+            { "@type": "Country", "name": "Kuwait" },
+            { "@type": "Country", "name": "Qatar" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" }
+          ]
         },
-        "category": ${JSON.stringify(cat.title)},
-        "material": "Solid Brass & Copper (نحاس أصفر وأحمر مصمت)",
         "offers": {
           "@type": "Offer",
           "priceCurrency": "EGP",
           "availability": "https://schema.org/InStock",
-          "url": ${JSON.stringify(selfCanonicalUrl)},
+          "url": ${JSON.stringify(fullProductUrl)},
           "seller": {
             "@type": "Organization",
             "name": "TURATH EGYPT"
@@ -399,436 +273,131 @@ for (const { cat, items } of allCategoryData) {
     ]
   }
   </script>
-
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #050505;
-      color: #e5e5e5;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    a { color: inherit; text-decoration: none; }
-    .header-nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(5, 5, 5, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(215, 199, 151, 0.15);
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .brand-logo {
-      font-size: 1.25rem;
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      color: #D7C797;
-    }
-    .back-btn {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.875rem;
-      letter-spacing: 0.1em;
-      transition: color 0.2s;
-    }
-    .back-btn:hover { color: #D7C797; }
-    .wa-btn {
-      background: #25D366;
-      color: #000;
-      font-weight: 600;
-      padding: 0.45rem 1rem;
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: opacity 0.2s;
-    }
-    .wa-btn:hover { opacity: 0.9; }
-    .main-content {
-      flex: 1;
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-    }
-    .breadcrumb {
-      font-size: 0.8rem;
-      color: #888;
-      margin-bottom: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: center;
-    }
-    .breadcrumb a:hover { color: #D7C797; }
-    .breadcrumb span { color: #D7C797; }
-    .product-layout {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-      align-items: start;
-    }
-    @media (min-width: 900px) {
-      .product-layout {
-        grid-template-columns: 1.1fr 1fr;
-        gap: 3.5rem;
-      }
-    }
-    .media-card {
-      background: #0d0d0d;
-      border: 1px solid rgba(215, 199, 151, 0.2);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-      position: relative;
-    }
-    .media-card img {
-      width: 100%;
-      height: auto;
-      max-height: 580px;
-      object-fit: cover;
-      display: block;
-    }
-    .category-badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #D7C797;
-      border: 1px solid rgba(215, 199, 151, 0.35);
-      padding: 0.3rem 0.8rem;
-      border-radius: 9999px;
-      margin-bottom: 1rem;
-    }
-    h1.product-title {
-      font-size: clamp(1.5rem, 3.5vw, 2.3rem);
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: #ffffff;
-      line-height: 1.25;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-    }
-    h2.product-title-ar {
-      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-      font-weight: 500;
-      color: #D7C797;
-      direction: rtl;
-      margin-bottom: 1.5rem;
-    }
-    .desc-en {
-      font-size: 1rem;
-      color: #d1d1d1;
-      line-height: 1.7;
-      margin-bottom: 1rem;
-    }
-    .desc-ar {
-      font-size: 1.05rem;
-      color: #bfbfbf;
-      direction: rtl;
-      line-height: 1.8;
-      margin-bottom: 2rem;
-      padding: 1rem;
-      background: rgba(255,255,255,0.03);
-      border-right: 3px solid #D7C797;
-      border-radius: 4px;
-    }
-    .specs-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-      font-size: 0.85rem;
-    }
-    .spec-item {
-      background: #111;
-      padding: 0.75rem;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .spec-label { color: #888; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; }
-    .spec-val { color: #D7C797; font-weight: 500; margin-top: 0.2rem; }
-    .actions-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin-bottom: 2.5rem;
-    }
-    @media (min-width: 500px) {
-      .actions-group { flex-direction: row; }
-    }
-    .btn-interactive {
-      background: #D7C797;
-      color: #000;
-      font-weight: 600;
-      padding: 0.9rem 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      letter-spacing: 0.05em;
-      transition: all 0.2s;
-      flex: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-    .btn-interactive:hover { background: #e3d7b2; transform: translateY(-1px); }
-    .btn-wa-action {
-      background: #1f1f1f;
-      color: #25D366;
-      border: 1px solid rgba(37, 211, 102, 0.4);
-      font-weight: 500;
-      padding: 0.9rem 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-      transition: all 0.2s;
-      flex: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-    .btn-wa-action:hover { background: rgba(37, 211, 102, 0.1); border-color: #25D366; }
-    .sibling-nav {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1.5rem 0;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 3rem;
-      font-size: 0.85rem;
-    }
-    .sibling-link {
-      color: #888;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .sibling-link:hover { color: #D7C797; }
-    .sibling-title { color: #fff; font-weight: 500; }
-    .related-section {
-      margin-top: 3rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    .related-title {
-      font-size: 1.15rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #D7C797;
-      margin-bottom: 1.5rem;
-    }
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-    .related-card {
-      background: #0f0f0f;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: all 0.25s;
-      display: flex;
-      flex-direction: column;
-    }
-    .related-card:hover {
-      border-color: rgba(215, 199, 151, 0.4);
-      transform: translateY(-3px);
-    }
-    .related-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .related-card-content {
-      padding: 0.85rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .related-card-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 0.35rem;
-      line-height: 1.4;
-    }
-    .related-card-ar {
-      font-size: 0.8rem;
-      color: #D7C797;
-      direction: rtl;
-    }
-    .footer-collections {
-      background: #030303;
-      border-top: 1px solid rgba(215, 199, 151, 0.12);
-      padding: 3rem 1.5rem;
-      margin-top: 4rem;
-    }
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .footer-heading {
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #D7C797;
-      margin-bottom: 1.5rem;
-    }
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem 1.5rem;
-      font-size: 0.85rem;
-      color: #aaa;
-    }
-    .footer-links a:hover { color: #D7C797; }
-    .footer-copy {
-      margin-top: 2rem;
-      font-size: 0.75rem;
-      color: #555;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <!-- Meta Pixel noscript fallback -->
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
-  /></noscript>
-
-  <header class="header-nav">
-    <a href="/" class="brand-logo" aria-label="TURATH Egypt Home">TURATH</a>
-    <a href="/${cat.file}" class="back-btn" aria-label="Back to ${escapeHtml(cat.title)}">← ${escapeHtml(cat.title)}</a>
-    <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="WhatsApp Inquiry">
-      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-      Inquire
-    </a>
-  </header>
-
-  <main class="main-content">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <span>/</span>
-      <a href="/${cat.file}">${escapeHtml(cat.title)}</a>
-      <span>/</span>
-      <span aria-current="page">${escapeHtml(productTitle)}</span>
-    </nav>
-
-    <article class="product-layout">
-      <div class="media-card">
-        <img src="${cleanImagePath}" alt="${escapeHtml(imageAltText)}" loading="eager" fetchpriority="high">
-      </div>
-
-      <div class="info-card">
-        <a href="/${cat.file}" class="category-badge">${escapeHtml(cat.title)} / ${escapeHtml(cat.titleAr)}</a>
-        <h1 class="product-title">${escapeHtml(productTitle)}</h1>
-        <h2 class="product-title-ar">${escapeHtml(productTitleAr)}</h2>
-
-        <p class="desc-en">${escapeHtml(productDesc)}</p>
-        <div class="desc-ar">${escapeHtml(productDescAr)}</div>
-
-        <div class="specs-list">
-          <div class="spec-item">
-            <span class="spec-label">Material & Metal / الخامة</span>
-            <span class="spec-val">Solid Brass & Copper</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Origin / المنشأ</span>
-            <span class="spec-val">Historic Cairo, Egypt</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Craftsmanship / طريقة الصنع</span>
-            <span class="spec-val">Master Hand-forged & Cast</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Customization / التخصيص</span>
-            <span class="spec-val">Bespoke Dimensions Available</span>
-          </div>
-        </div>
-
-        <div class="actions-group">
-          <a href="${interactiveSliderUrl}" class="btn-interactive">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-            Interactive 3D Gallery
-          </a>
-          <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-wa-action">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-            Inquire via WhatsApp
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <nav class="sibling-nav" aria-label="Previous and Next Products">
-      <a href="/products/${prevItem.id}/" class="sibling-link">
-        <span>← Previous Piece</span>
-        <span class="sibling-title">${escapeHtml(prevItem.title)}</span>
-      </a>
-      <a href="/products/${nextItem.id}/" class="sibling-link" style="text-align: right;">
-        <span>Next Piece →</span>
-        <span class="sibling-title">${escapeHtml(nextItem.title)}</span>
-      </a>
-    </nav>
-
-    ${relatedItems.length > 0 ? `
-    <section class="related-section">
-      <h3 class="related-title">More Pieces in ${escapeHtml(cat.title)}</h3>
-      <div class="related-grid">
-        ${relatedItems.map(rel => `
-          <a href="/products/${rel.id}/" class="related-card" aria-label="${escapeHtml(rel.title)}">
-            <img src="${rel.image}" alt="${escapeHtml(rel.title)}" loading="lazy">
-            <div class="related-card-content">
-              <span class="related-card-title">${escapeHtml(rel.title)}</span>
-              <span class="related-card-ar">${escapeHtml(rel.titleAr)}</span>
-            </div>
-          </a>
-        `).join('')}
-      </div>
-    </section>
-    ` : ''}
-  </main>
-
-  <footer class="footer-collections">
-    <div class="footer-container">
-      <h4 class="footer-heading">Architectural Metalwork Collections / تصنيفات المشغولات النحاسية</h4>
-      <nav class="footer-links" aria-label="All Categories">
-        ${CATEGORIES.map(c => `<a href="/${c.file}">${escapeHtml(c.title)} (${escapeHtml(c.titleAr)})</a>`).join('\n        ')}
-      </nav>
-      <p class="footer-copy">© 2026 TURATH EGYPT (ورشة تراث) — Historic Cairo Atelier. All rights reserved.</p>
-    </div>
-  </footer>
-</body>
-</html>
 `;
 
-    fs.writeFileSync(path.join(itemDir, 'index.html'), html, 'utf8');
+    // Replace category CollectionPage schema with Product schema
+    if (pageHtml.includes('<!-- CollectionPage & Manufacturer JSON-LD Schema')) {
+      pageHtml = pageHtml.replace(/<!-- CollectionPage & Manufacturer JSON-LD Schema[\s\S]*?<\/script>/, productJsonLd.trim());
+    } else {
+      pageHtml = pageHtml.replace('</head>', `${productJsonLd}\n</head>`);
+    }
+
+    // 6. Pre-render initial Product Content in the DOM:
+    // Back button in Top Navbar points to category collection
+    pageHtml = pageHtml.replace(
+      /<a\s+href="[^"]*"\s+class="[^"]*arrow-turath[^"]*"\s+aria-label="[^"]*">/,
+      `<a href="/${cat.file}" class="justify-self-start arrow-turath text-[#D7C797] text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to ${escapeHtml(cat.title)} Collection">`
+    );
+
+    const itemSrc = item.image || item.src || '';
+    const desktopSrc = item.desktopSrc || (itemSrc ? itemSrc.replace(/\.jpg$/, '-desktop.jpg') : '');
+    const itemDesc = item.desc || item.description || '';
+
+    // WhatsApp button with product-specific inquiry
+    pageHtml = pageHtml.replace(
+      /id="product-wa-btn"\s+href="[^"]*"/,
+      `id="product-wa-btn" href="${waLink}"`
+    );
+
+    // Initial Title & Description
+    pageHtml = pageHtml.replace(
+      /<h1\s+id="slider-title"[^>]*>[\s\S]*?<\/h1>/i,
+      `<h1 id="slider-title" class="text-lg md:text-xl lg:text-3xl xl:text-4xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">${escapeHtml(item.title)}</h1>`
+    );
+    pageHtml = pageHtml.replace(
+      /<p\s+id="slider-desc"[^>]*>[\s\S]*?<\/p>/i,
+      `<p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-lg font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">${escapeHtml(itemDesc)}</p>`
+    );
+
+    // Initial Media (image / desktop source or video)
+    if (cat.slug === 'action') {
+      const film = actionFilms[idx] || {};
+      const videoSrc = film.src || item.video || item.src || '';
+      const videoPoster = film.poster || item.poster || itemSrc || '';
+      pageHtml = pageHtml.replace(
+        /<video\s+id="slider-video"[^>]*>[\s\S]*?<\/video>/i,
+        `<video id="slider-video" src="${videoSrc}" poster="${videoPoster}" playsinline loop autoplay muted class="w-full h-full object-cover lg:object-contain transition-opacity duration-300"></video>`
+      );
+    } else {
+      pageHtml = pageHtml.replace(
+        /<source\s+id="slider-source-desktop"[^>]*srcset="[^"]*"/i,
+        `<source id="slider-source-desktop" media="(min-width: 1024px)" srcset="${desktopSrc}"`
+      );
+      pageHtml = pageHtml.replace(
+        /<img\s+id="slider-image"[^>]*src="[^"]*"/i,
+        `<img id="slider-image" src="${itemSrc}"`
+      );
+      pageHtml = pageHtml.replace(
+        /<img\s+id="slider-image"([^>]*)alt="[^"]*"/i,
+        `<img id="slider-image"$1alt="${escapeHtml(imageAlt)}"`
+      );
+    }
+
+    // 7. Navigation Arrows: semantic <a> tags with exact previous & next product URLs and descriptive aria-label
+    pageHtml = pageHtml.replace(
+      /<a\s+id="prev-btn"[^>]*>([\s\S]*?)<\/a>/i,
+      `<a id="prev-btn" href="/products/${prevItem.id}/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Previous item: ${escapeHtml(prevItem.title)}">$1</a>`
+    );
+    pageHtml = pageHtml.replace(
+      /<a\s+id="next-btn"[^>]*>([\s\S]*?)<\/a>/i,
+      `<a id="next-btn" href="/products/${nextItem.id}/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Next item: ${escapeHtml(nextItem.title)}">$1</a>`
+    );
+
+    // 8. Semantic fallback text inside <noscript> for crawlers
+    const productNoscript = `
+  <noscript>
+    <div class="sr-only">
+      <h1>${escapeHtml(item.title)} — ${escapeHtml(item.titleAr)}</h1>
+      <p>${escapeHtml(bilingualDesc)}</p>
+      <p>Material: Solid Brass & Copper. Atelier: Historic Cairo, Egypt. Custom bespoke architectural fabrication.</p>
+      <nav aria-label="Product Navigation">
+        <a href="/products/${prevItem.id}/">Previous: ${escapeHtml(prevItem.title)}</a>
+        <a href="/products/${nextItem.id}/">Next: ${escapeHtml(nextItem.title)}</a>
+        <a href="/${cat.file}">Back to ${escapeHtml(cat.title)}</a>
+      </nav>
+    </div>
+  </noscript>
+`;
+    if (pageHtml.includes('<!-- Semantic Crawlable Catalog Index')) {
+      pageHtml = pageHtml.replace('<!-- Semantic Crawlable Catalog Index', `${productNoscript}\n  <!-- Semantic Crawlable Catalog Index`);
+    } else {
+      pageHtml = pageHtml.replace('</body>', `${productNoscript}\n</body>`);
+    }
+
+    // 9. Initialize slider script with currentIndex = idx
+    if (cat.slug === 'action') {
+      pageHtml = pageHtml.replace(
+        /let\s+currentIndex\s*=\s*\(!isNaN\(initialFilm\)[^;]+;/,
+        `let currentIndex = ${idx};`
+      );
+    } else {
+      pageHtml = pageHtml.replace(
+        /let\s+initialIndex\s*=\s*0;/,
+        `let initialIndex = ${idx};`
+      );
+    }
+
+    // Write file to public/products/${productId}/index.html
+    const itemDir = path.join(productsOutputDir, productId);
+    fs.mkdirSync(itemDir, { recursive: true });
+    fs.writeFileSync(path.join(itemDir, 'index.html'), pageHtml, 'utf8');
 
     // Also write directly to dist/products if dist exists
     if (fs.existsSync(rootDir, 'dist')) {
       const distItemDir = path.join(distProductsOutputDir, productId);
       fs.mkdirSync(distItemDir, { recursive: true });
-      fs.writeFileSync(path.join(distItemDir, 'index.html'), html, 'utf8');
+      fs.writeFileSync(path.join(distItemDir, 'index.html'), pageHtml, 'utf8');
     }
 
     totalGenerated++;
   }
 }
 
-// Persist the consolidated products catalog back to data/products.json
-fs.mkdirSync(path.dirname(productsDataPath), { recursive: true });
-fs.writeFileSync(productsDataPath, JSON.stringify(consolidatedCatalog, null, 2), 'utf8');
-
 console.log(`\n======================================================`);
-console.log(`Successfully generated ${totalGenerated} product SSG pages!`);
-console.log(`Self-referencing canonical URLs, rich semantic schema, and crawlable internal links injected.`);
-console.log(`Consolidated catalog saved to: ${productsDataPath}`);
+console.log(`Successfully generated ${totalGenerated} full-screen product SSG pages!`);
+console.log(`- Exact minimalist full-screen luxury UI preserved.`);
+console.log(`- Self-referencing canonical tags, unique titles, and descriptions.`);
+console.log(`- Semantic <a href> anchor arrows with descriptive aria-label.`);
+console.log(`- Product + Manufacturer multi-market JSON-LD schema injected.`);
+console.log(`- Semantic fallback text inside <noscript>.`);
 console.log(`======================================================\n`);
