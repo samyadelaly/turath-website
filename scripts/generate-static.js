@@ -11,11 +11,15 @@ const BASE_URL = 'https://turath-egypt.vercel.app';
 
 const publicDir = path.join(rootDir, 'public');
 const productsOutputDir = path.join(publicDir, 'products');
-const distProductsOutputDir = path.join(rootDir, 'dist', 'products');
+const distDir = path.join(rootDir, 'dist');
+const distProductsOutputDir = path.join(distDir, 'products');
 const productsDataPath = path.join(rootDir, 'data', 'products.json');
 
 // Ensure output directories exist
 fs.mkdirSync(productsOutputDir, { recursive: true });
+if (fs.existsSync(distDir)) {
+  fs.mkdirSync(distProductsOutputDir, { recursive: true });
+}
 
 function escapeHtml(str) {
   if (!str) return '';
@@ -137,7 +141,8 @@ const productsData = JSON.parse(fs.readFileSync(productsDataPath, 'utf8'));
 
 // Extract action videos and posters from action.html
 let actionFilms = [];
-const actionHtmlPath = path.join(rootDir, 'action.html');
+const distActionHtmlPath = path.join(distDir, 'action.html');
+const actionHtmlPath = fs.existsSync(distActionHtmlPath) ? distActionHtmlPath : path.join(rootDir, 'action.html');
 if (fs.existsSync(actionHtmlPath)) {
   const actionContent = fs.readFileSync(actionHtmlPath, 'utf8');
   const filmsMatch = actionContent.match(/const\s+filmsData\s*=\s*(\[[\s\S]*?\]);/);
@@ -151,7 +156,9 @@ if (fs.existsSync(actionHtmlPath)) {
 let totalGenerated = 0;
 
 for (const cat of CATEGORIES) {
-  const categoryFilePath = path.join(rootDir, cat.file);
+  const distCatPath = path.join(distDir, cat.file);
+  const rootCatPath = path.join(rootDir, cat.file);
+  const categoryFilePath = fs.existsSync(distCatPath) ? distCatPath : rootCatPath;
   if (!fs.existsSync(categoryFilePath)) continue;
 
   const baseHtml = fs.readFileSync(categoryFilePath, 'utf8');
@@ -377,20 +384,160 @@ for (const cat of CATEGORIES) {
       );
     }
 
-    // Write file to public/products/${productId}/index.html
+    // 1. Write file to public/products/${productId}/index.html AND public/products/${productId}.html
     const itemDir = path.join(productsOutputDir, productId);
     fs.mkdirSync(itemDir, { recursive: true });
     fs.writeFileSync(path.join(itemDir, 'index.html'), pageHtml, 'utf8');
+    fs.writeFileSync(path.join(productsOutputDir, `${productId}.html`), pageHtml, 'utf8');
 
-    // Also write directly to dist/products if dist exists
-    if (fs.existsSync(rootDir, 'dist')) {
+    // 2. Also write directly to dist/products if dist exists
+    if (fs.existsSync(distDir)) {
       const distItemDir = path.join(distProductsOutputDir, productId);
       fs.mkdirSync(distItemDir, { recursive: true });
       fs.writeFileSync(path.join(distItemDir, 'index.html'), pageHtml, 'utf8');
+      fs.writeFileSync(path.join(distProductsOutputDir, `${productId}.html`), pageHtml, 'utf8');
     }
 
     totalGenerated++;
   }
+}
+
+// Generate Master Products Catalog Index (/products/ and /products)
+const catalogItemsList = [];
+for (const cat of CATEGORIES) {
+  const catItems = (productsData.categories[cat.slug] && productsData.categories[cat.slug].items) || [];
+  for (const item of catItems) {
+    catalogItemsList.push({
+      id: item.id,
+      title: item.title,
+      titleAr: item.titleAr,
+      categoryTitle: cat.title,
+      categoryFile: cat.file,
+      image: item.image || item.src || ''
+    });
+  }
+}
+
+const masterCatalogHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <title>Complete Architectural Catalog | فهرس تحف ومنتجات النحاس | TURATH — Bespoke Solid Brass &amp; Copper</title>
+  <meta name="description" content="Explore the complete bespoke collection of handcrafted solid brass &amp; copper chandeliers, mirrors, consoles, handrails, partitions, and architectural decor by Turath Egypt. — الدليل الكامل لمنتجات ورشة تراث مصر لتصنيع النحاس الأصفر والأحمر بالجمالية.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="${BASE_URL}/products/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${BASE_URL}/products/">
+  <meta property="og:title" content="Complete Architectural Catalog | TURATH — Bespoke Solid Brass &amp; Copper">
+  <meta property="og:description" content="Handcrafted solid brass &amp; copper lighting, mirrors, furniture, and architectural cladding crafted in Historic Cairo.">
+  <meta property="og:image" content="${BASE_URL}/turath-brand-logo.jpg">
+
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Google Fonts & Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- CollectionPage JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Turath Complete Bespoke Metalwork Catalog",
+    "url": "${BASE_URL}/products/",
+    "description": "Complete catalog of 118+ handcrafted solid brass and copper architectural lighting, furniture, mirrors, and decor.",
+    "publisher": {
+      "@type": "Manufacturer",
+      "name": "Turath Egypt - ورشة تراث",
+      "url": "${BASE_URL}"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Turath Handcrafted Solid Brass & Copper Masterpieces",
+      "numberOfItems": ${catalogItemsList.length}
+    }
+  }
+  </script>
+
+  <style>
+    body { background-color: #0A0A0A; color: #E5E5E5; font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .brand-font { font-family: 'Cinzel', serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#0A0A0A] text-white/90 selection:bg-[#D7C797] selection:text-black">
+  <header class="border-b border-white/10 px-6 py-6 flex items-center justify-between max-w-7xl mx-auto">
+    <a href="/" class="brand-font text-xl md:text-2xl font-bold tracking-[0.25em] text-[#D7C797] hover:opacity-80 transition-opacity">
+      TURATH
+    </a>
+    <a href="/" class="text-xs md:text-sm tracking-widest uppercase text-white/70 hover:text-[#D7C797] transition-colors border border-white/20 px-4 py-2 rounded-full">
+      &larr; Return to Atelier
+    </a>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-12 md:py-16">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <p class="text-xs md:text-sm font-semibold tracking-[0.3em] uppercase text-[#D7C797] mb-3">HISTORIC CAIRO ATELIER</p>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-wider uppercase text-white mb-6">Complete Product Catalog</h1>
+      <p class="text-white/70 text-sm md:text-base leading-relaxed">
+        Browse our comprehensive portfolio of 118+ bespoke solid brass and copper architectural fixtures, handcrafted lanterns, sculptural mirrors, partitions, and museum-grade masterworks.
+      </p>
+    </div>
+
+    <!-- Category Direct Links -->
+    <section class="mb-16">
+      <h2 class="text-sm font-semibold tracking-[0.25em] uppercase text-white/50 mb-6 text-center">Architectural Collections</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        ${CATEGORIES.map(c => `
+          <a href="/${c.file}" class="px-5 py-2.5 rounded-full border border-white/15 bg-white/[0.02] hover:border-[#D7C797] hover:text-[#D7C797] text-xs md:text-sm font-medium tracking-wider transition-all">
+            ${escapeHtml(c.title)}
+          </a>
+        `).join('')}
+      </div>
+    </section>
+
+    <!-- Complete Products Grid -->
+    <section>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        ${catalogItemsList.map(item => `
+          <a href="/products/${item.id}/" class="group block border border-white/10 bg-white/[0.02] hover:border-[#D7C797]/60 rounded-lg overflow-hidden transition-all duration-300 hover:-translate-y-1">
+            <div class="aspect-square w-full overflow-hidden bg-black/40">
+              <img src="${item.image}" alt="${escapeHtml(item.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-4">
+              <span class="text-[10px] tracking-widest uppercase text-[#D7C797]/80 block mb-1">${escapeHtml(item.categoryTitle)}</span>
+              <h3 class="text-xs md:text-sm font-semibold text-white tracking-wider uppercase line-clamp-2">${escapeHtml(item.title)}</h3>
+              <p class="text-[11px] text-white/50 mt-1 line-clamp-1" dir="rtl">${escapeHtml(item.titleAr || '')}</p>
+            </div>
+          </a>
+        `).join('')}
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 py-8 px-6 text-center text-xs text-white/40 tracking-wider">
+    &copy; ${new Date().getFullYear()} TURATH EGYPT — Bespoke Solid Brass &amp; Copper Architectural Metalwork. All rights reserved.
+  </footer>
+</body>
+</html>
+`;
+
+fs.writeFileSync(path.join(productsOutputDir, 'index.html'), masterCatalogHtml, 'utf8');
+fs.writeFileSync(path.join(publicDir, 'products.html'), masterCatalogHtml, 'utf8');
+
+if (fs.existsSync(distDir)) {
+  fs.writeFileSync(path.join(distProductsOutputDir, 'index.html'), masterCatalogHtml, 'utf8');
+  fs.writeFileSync(path.join(distDir, 'products.html'), masterCatalogHtml, 'utf8');
 }
 
 console.log(`\n======================================================`);

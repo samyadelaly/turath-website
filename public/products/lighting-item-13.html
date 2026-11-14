@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+
+  <script>
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted || performance.navigation.type === 2) {
+      // 1. Instantly blackout screen (Inline Force)
+      var preloader = document.getElementById('preloader') || document.querySelector('.preloader');
+      if (preloader) {
+        preloader.style.cssText = 'transition: none !important; display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 99999 !important;';
+      }
+      
+      // 2. Instantly kill menu overlay (Inline Force)
+      var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
+      if (mobileMenu) {
+        mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open', 'hidden', 'opacity-0', 'pointer-events-none');
+        mobileMenu.style.removeProperty('display');
+        mobileMenu.style.removeProperty('opacity');
+        mobileMenu.style.visibility = 'hidden';
+        mobileMenu.style.pointerEvents = 'none';
+        mobileMenu.style.transform = 'translateY(100%)';
+        document.body.classList.remove('overflow-hidden', 'menu-open');
+        var trigger = document.getElementById('menu-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      }
+      
+      // 3. Smooth fade out after scroll settles
+      if (preloader) {
+        setTimeout(function() {
+          preloader.style.cssText = 'transition: opacity 0.6s ease, visibility 0.6s ease !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important;';
+        }, 500);
+      }
+    }
+  });
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-PDYBS5D7CZ');
+  </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '148068092481360');
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
+  <title>GEOMETRIC TRIANGLE BRASS SCONCE | GEOMETRIC TRIANGLE BRASS SCONCE | TURATH — Bespoke Solid Brass &amp; Copper</title>
+  <meta name="description" content="A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays. — A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.">
+  <meta name="keywords" content="نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي">
+
+    <!-- Favicon & Icons -->
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
+    }
+  </script>
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://turath-egypt.vercel.app/products/lighting-item-13/">
+  <meta property="og:title" content="GEOMETRIC TRIANGLE BRASS SCONCE | GEOMETRIC TRIANGLE BRASS SCONCE | TURATH — Bespoke Solid Brass &amp; Copper">
+  <meta property="og:description" content="A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays. — A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.">
+  <meta property="og:image" content="https://turath-egypt.vercel.app/assets/images/lighting/geometric-triangle-brass-sconce.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com" defer></script>
+
+  <!-- Critical Anti-FOUC & Strict Sizing Styles -->
+  <style>
+    #preloader, #luxury-preloader, .preloader {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 99999 !important;
+      pointer-events: none !important;
+      transition: opacity 1s ease-in-out !important;
+      background: transparent !important;
+    }
+    #product-wa-btn, #share-btn, #sound-toggle-btn {
+      width: 24px !important;
+      height: 24px !important;
+      min-width: 24px !important;
+      min-height: 24px !important;
+      max-width: 24px !important;
+      max-height: 24px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+    #product-wa-btn svg, #share-btn svg, #sound-toggle-btn svg {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      max-width: 20px !important;
+      max-height: 20px !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+    }
+    /* CRITICAL ZERO-FOUC HARDWARE LAYOUT (Enforced before Tailwind/CDN loads) */
+    [class*="grid-cols-3"] {
+      display: grid !important;
+      grid-template-columns: 1fr auto 1fr !important;
+      align-items: center !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      z-index: 50 !important;
+      box-sizing: border-box !important;
+    }
+    .justify-self-start {
+      justify-self: start !important;
+    }
+    .justify-self-center {
+      justify-self: center !important;
+      text-align: center !important;
+    }
+    .justify-self-end {
+      justify-self: end !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      gap: 0.75rem !important;
+    }
+    [class*="top-[15%]"], [class*="top-[14%]"], [class*="top-[12%]"], [class*="top-[16%]"], [class*="top-[18%]"], [class*="top-[20%]"] {
+      position: absolute !important;
+      top: 15% !important;
+      left: 0 !important;
+      width: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      z-index: 40 !important;
+      box-sizing: border-box !important;
+    }
+    [class*="top-1/2"] {
+      position: absolute !important;
+      top: 50% !important;
+      left: 0 !important;
+      width: 100% !important;
+      transform: translateY(-50%) !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      z-index: 40 !important;
+      box-sizing: border-box !important;
+    }
+    #slider-image, #slider-video, #masterpiece-img {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+  </style>
+  <style> 
+    @media (max-width: 1024px) { 
+      .desktop-nav-menu, nav ul { 
+        display: none !important; 
+        opacity: 0 !important; 
+        visibility: hidden !important; 
+      } 
+    } 
+  </style>
+  <link rel="canonical" href="https://turath-egypt.vercel.app/products/lighting-item-13/">
+  <script>
+    // Dynamic Metadata & Route Sync Utility
+    function updateTurathDynamicMeta(item) {
+      if (!item) return;
+      var title = (item.title || '') + (item.titleAr ? ' | ' + item.titleAr : '') + ' | TURATH — Bespoke Solid Brass & Copper';
+      var desc = ((item.desc || item.description || '') + (item.descAr || item.descriptionAr ? ' — ' + (item.descAr || item.descriptionAr) : '')).trim();
+      var canonical = item.id ? ('https://turath-egypt.vercel.app/products/' + item.id + '/') : window.location.href.split('?')[0];
+      var img = item.desktopSrc ? ('https://turath-egypt.vercel.app' + item.desktopSrc) : (item.src ? ('https://turath-egypt.vercel.app' + item.src) : (item.poster ? ('https://turath-egypt.vercel.app' + item.poster) : ''));
+
+      document.title = title;
+
+      function setTag(sel, attr, val, createAttr, createVal) {
+        var el = document.querySelector(sel);
+        if (!el && createAttr) {
+          el = document.createElement(sel.startsWith('link') ? 'link' : 'meta');
+          el.setAttribute(createAttr, createVal);
+          document.head.appendChild(el);
+        }
+        if (el) el.setAttribute(attr, val);
+      }
+
+      setTag('meta[name="description"]', 'content', desc, 'name', 'description');
+      setTag('link[rel="canonical"]', 'href', canonical, 'rel', 'canonical');
+      setTag('meta[property="og:title"]', 'content', title, 'property', 'og:title');
+      setTag('meta[property="og:description"]', 'content', desc, 'property', 'og:description');
+      setTag('meta[property="og:url"]', 'content', canonical, 'property', 'og:url');
+      if (img) setTag('meta[property="og:image"]', 'content', img, 'property', 'og:image');
+      setTag('meta[name="twitter:title"]', 'content', title, 'name', 'twitter:title');
+      setTag('meta[name="twitter:description"]', 'content', desc, 'name', 'twitter:description');
+      if (img) setTag('meta[name="twitter:image"]', 'content', img, 'name', 'twitter:image');
+
+      if (window.history && window.history.replaceState && item.id) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('product', item.id);
+        window.history.replaceState({ productId: item.id }, '', url.toString());
+      }
+    }
+  </script>
+
+  <!-- Product & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TURATH Home",
+            "item": "https://turath-egypt.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Lighting Fixtures",
+            "item": "https://turath-egypt.vercel.app/lighting.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "GEOMETRIC TRIANGLE BRASS SCONCE",
+            "item": "https://turath-egypt.vercel.app/products/lighting-item-13/"
+          }
+        ]
+      },
+      {
+        "@type": "Product",
+        "name": "GEOMETRIC TRIANGLE BRASS SCONCE",
+        "alternateName": "GEOMETRIC TRIANGLE BRASS SCONCE",
+        "description": "A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays. — A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.",
+        "image": "https://turath-egypt.vercel.app/assets/images/lighting/geometric-triangle-brass-sconce.jpg",
+        "url": "https://turath-egypt.vercel.app/products/lighting-item-13/",
+        "category": "Lighting Fixtures",
+        "material": "Solid Brass & Copper (نحاس أصفر وأحمر مصمت)",
+        "keywords": "solid brass, unlacquered brass, architectural metalwork, antique brass, hammered copper, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, تشطيبات معمارية, ورشة نحاس بالجمالية",
+        "brand": {
+          "@type": "Brand",
+          "name": "TURATH EGYPT"
+        },
+        "manufacturer": {
+          "@type": "Manufacturer",
+          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+          "url": "https://turath-egypt.vercel.app/",
+          "areaServed": [
+            { "@type": "Country", "name": "Egypt" },
+            { "@type": "Country", "name": "Saudi Arabia" },
+            { "@type": "Country", "name": "United Arab Emirates" },
+            { "@type": "Country", "name": "Kuwait" },
+            { "@type": "Country", "name": "Qatar" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" }
+          ]
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "EGP",
+          "availability": "https://schema.org/InStock",
+          "url": "https://turath-egypt.vercel.app/products/lighting-item-13/",
+          "seller": {
+            "@type": "Organization",
+            "name": "TURATH EGYPT"
+          }
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" crossorigin href="./assets/style-Dj-gKaAT.css">
+</head>
+<body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
+  <!-- Meta Pixel noscript fallback -->
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
+  /></noscript>
+      <!-- Premium Knockout Preloader -->
+  <div id="preloader" class="preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
+    <svg width="100%" height="100%" class="w-full h-full">
+      <defs>
+        <mask id="knockout-text">
+          <!-- White background means solid, black text means transparent hole -->
+          <rect width="100%" height="100%" fill="white" />
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
+    </svg>
+  </div>
+
+  <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
+    <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black lg:h-[100dvh] lg:w-full lg:max-w-none lg:aspect-auto lg:rounded-none lg:shadow-none lg:my-0 lg:overflow-hidden">
+      
+      <!-- Top Navbar -->
+      <div class="w-full grid grid-cols-3 items-center px-4 py-4 md:px-10 md:py-6 z-50 absolute top-0 left-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent" style="position: absolute; top: 0; left: 0; width: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; z-index: 50;">
+        <a href="/lighting.html" class="justify-self-start arrow-turath text-[#D7C797] text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Lighting Fixtures Collection">&larr;</a>
+        <span class="justify-self-center page-title-turath text-center whitespace-nowrap text-xs md:text-sm font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase text-white/90">LIGHTING</span>
+        <div class="justify-self-end flex items-center gap-3" style="justify-self: end; display: flex; align-items: center; gap: 0.75rem;">
+        <a id="product-wa-btn" href="https://wa.me/201016771010?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%88%D8%B1%D8%B4%D8%A9%20%D8%AA%D8%B1%D8%A7%D8%AB%20%D9%85%D8%B5%D8%B1%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%3A%20GEOMETRIC%20TRIANGLE%20BRASS%20SCONCE%20(GEOMETRIC%20TRIANGLE%20BRASS%20SCONCE)%0A%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B7%3A%20https%3A%2F%2Fturath-egypt.vercel.app%2Fproducts%2Flighting-item-13%2F" target="_blank" rel="noopener noreferrer" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 icon-turath text-[#D7C797]/85 hover:text-[#D7C797] transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Inquire on WhatsApp" title="Inquire on WhatsApp">
+          <svg width="20" height="20" style="width: 20px; height: 20px; max-width: 20px; max-height: 20px; display: block;" class="w-5 h-5 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        </a>
+        <button id="share-btn" type="button" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 icon-turath text-[#D7C797]/85 hover:text-[#D7C797] transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Share" title="Share">
+          <svg width="20" height="20" style="width: 20px; height: 20px; max-width: 20px; max-height: 20px; display: block;" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+        </button>
+      </div>
+      </div>
+
+      <!-- Centered Product Title -->
+      <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
+        <h1 id="slider-title" class="text-lg md:text-xl lg:text-3xl xl:text-4xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">GEOMETRIC TRIANGLE BRASS SCONCE</h1>
+      </div>
+
+      <!-- Center Navigation Arrows -->
+      <div class="absolute top-1/2 left-0 w-full -translate-y-1/2 flex justify-between items-center px-4 md:px-6 z-40 pointer-events-none">
+        <a id="prev-btn" href="/products/lighting-item-12/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Previous item: FILIGREE CHIMNEY BRASS LAMP">&larr;</a>
+        <a id="next-btn" href="/products/lighting-item-14/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Next item: DOMED ARABESQUE BRASS LANTERN">&rarr;</a>
+      </div>
+
+      <!-- Main Product Image -->
+      <picture id="slider-picture">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/lighting/geometric-triangle-brass-sconce-desktop.jpg">
+        <img id="slider-image" src="/assets/images/lighting/geometric-triangle-brass-sconce.jpg" alt="GEOMETRIC TRIANGLE BRASS SCONCE - GEOMETRIC TRIANGLE BRASS SCONCE | Handcrafted Solid Brass &amp; Copper | ورشة تراث مصر" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
+      
+      <!-- Bottom Overlay: AI Description & Dashes -->
+      <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
+        <p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-lg font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.</p>
+        <div id="dashes-container" class="flex justify-center items-center gap-1 w-full max-w-xs sm:max-w-md px-2 overflow-hidden"></div>
+      </div>
+    </div>
+  
+  
+  <noscript>
+    <div class="sr-only">
+      <h1>GEOMETRIC TRIANGLE BRASS SCONCE — GEOMETRIC TRIANGLE BRASS SCONCE</h1>
+      <p>A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays. — A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.</p>
+      <p>Material: Solid Brass & Copper. Atelier: Historic Cairo, Egypt. Custom bespoke architectural fabrication.</p>
+      <nav aria-label="Product Navigation">
+        <a href="/products/lighting-item-12/">Previous: FILIGREE CHIMNEY BRASS LAMP</a>
+        <a href="/products/lighting-item-14/">Next: DOMED ARABESQUE BRASS LANTERN</a>
+        <a href="/lighting.html">Back to Lighting Fixtures</a>
+      </nav>
+    </div>
+  </noscript>
+
+  <!-- Semantic Crawlable Catalog Index (Discovered by Googlebot & AI Crawlers) -->
+  <nav aria-label="Lighting Collection Products Index" class="sr-only" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;">
+    <h2>Lighting Collection — وحدات إضاءة نحاسية معمارية</h2>
+    <ul>
+      <li><a href="/products/lighting-item-1/">SCULPTURAL HAMMERED BRASS SCROLL SCONCE — أبليك نحاسي منحوت منحوت يدوي مطروق</a></li>
+      <li><a href="/products/lighting-item-2/">ELONGATED ARABESQUE TEARDROP PENDANT — ELONGATED ARABESQUE TEARDROP PENDANT</a></li>
+      <li><a href="/products/lighting-item-3/">EGYPTIAN CEREMONIAL BRASS CHANDELIER — EGYPTIAN CEREMONIAL BRASS CHANDELIER</a></li>
+      <li><a href="/products/lighting-item-4/">FLUTED BRASS DRUM CHANDELIER — FLUTED BRASS DRUM CHANDELIER</a></li>
+      <li><a href="/products/lighting-item-5/">SUNBURST PIERCED BRASS SCONCE — SUNBURST PIERCED BRASS SCONCE</a></li>
+      <li><a href="/products/lighting-item-6/">SCULPTURAL BRASS MONSTERA SCONCE — SCULPTURAL BRASS MONSTERA SCONCE</a></li>
+      <li><a href="/products/lighting-item-7/">TRI-STEM BRASS GLOBE FLOOR LAMP — TRI-STEM BRASS GLOBE FLOOR LAMP</a></li>
+      <li><a href="/products/lighting-item-8/">INTERLOCKING BRASS RIBBON CHANDELIER — INTERLOCKING BRASS RIBBON CHANDELIER</a></li>
+      <li><a href="/products/lighting-item-9/">STAR LATTICE CYLINDER SCONCE — STAR LATTICE CYLINDER SCONCE</a></li>
+      <li><a href="/products/lighting-item-10/">BRASS DOME TRIPOD FLOOR LAMP — BRASS DOME TRIPOD FLOOR LAMP</a></li>
+      <li><a href="/products/lighting-item-11/">ROSETTE MEDALLION BRASS PENDANT — ROSETTE MEDALLION BRASS PENDANT</a></li>
+      <li><a href="/products/lighting-item-12/">FILIGREE CHIMNEY BRASS LAMP — FILIGREE CHIMNEY BRASS LAMP</a></li>
+      <li><a href="/products/lighting-item-13/">GEOMETRIC TRIANGLE BRASS SCONCE — GEOMETRIC TRIANGLE BRASS SCONCE</a></li>
+      <li><a href="/products/lighting-item-14/">DOMED ARABESQUE BRASS LANTERN — DOMED ARABESQUE BRASS LANTERN</a></li>
+      <li><a href="/products/lighting-item-15/">CELESTIAL VERDIGRIS BRASS SCONCE — CELESTIAL VERDIGRIS BRASS SCONCE</a></li>
+      <li><a href="/products/lighting-item-16/">TEARDROP FILIGREE BRASS PENDANT — TEARDROP FILIGREE BRASS PENDANT</a></li>
+      <li><a href="/products/lighting-item-17/">CASCADING BRASS DISC CHANDELIER — CASCADING BRASS DISC CHANDELIER</a></li>
+      <li><a href="/products/lighting-item-18/">PIERCED OVOID BRASS LANTERN — PIERCED OVOID BRASS LANTERN</a></li>
+      <li><a href="/products/lighting-item-19/">ARABESQUE SPHERICAL PENDANT — ARABESQUE SPHERICAL PENDANT</a></li>
+      <li><a href="/products/lighting-item-20/">PATINATED BRASS DISC TRIPTYCH — PATINATED BRASS DISC TRIPTYCH</a></li>
+      <li><a href="/products/lighting-item-21/">CYLINDRICAL FILIGREE PENDANT — CYLINDRICAL FILIGREE PENDANT</a></li>
+      <li><a href="/products/lighting-item-22/">TRIO FILIGREE CLUSTER CHANDELIER — TRIO FILIGREE CLUSTER CHANDELIER</a></li>
+      <li><a href="/products/lighting-item-23/">GEOMETRIC BRASS PLATE SCONCE — GEOMETRIC BRASS PLATE SCONCE</a></li>
+      <li><a href="/products/lighting-item-24/">SLENDER BRASS TORCH SCONCE — SLENDER BRASS TORCH SCONCE</a></li>
+      <li><a href="/products/lighting-item-25/">CANTILEVER BRASS ORB LAMP — CANTILEVER BRASS ORB LAMP</a></li>
+      <li><a href="/products/lighting-item-26/">HAMMERED BRASS TEARDROP PENDANT — HAMMERED BRASS TEARDROP PENDANT</a></li>
+      <li><a href="/products/lighting-item-27/">DUAL CAPSULE ARCHED BRASS SCONCE — DUAL CAPSULE ARCHED BRASS SCONCE</a></li>
+      <li><a href="/products/lighting-item-28/">SOLID BRASS APPLIQUE — SOLID BRASS APPLIQUE</a></li>
+      <li><a href="/products/lighting-item-29/">GEOMETRIC BRASS CHANDELIER — GEOMETRIC BRASS CHANDELIER</a></li>
+      <li><a href="/products/lighting-item-30/">KINETIC BRASS PENDANT — KINETIC BRASS PENDANT</a></li>
+      <li><a href="/products/lighting-item-31/">ENGRAVED ARABESQUE LANTERN — ENGRAVED ARABESQUE LANTERN</a></li>
+      <li><a href="/products/lighting-item-32/">FLUTED BRASS PIPE SCONCE — FLUTED BRASS PIPE SCONCE</a></li>
+      <li><a href="/products/lighting-item-33/">CROWN RING CHANDELIER — CROWN RING CHANDELIER</a></li>
+    </ul>
+    <h3>All Collections / كافة التصنيفات</h3>
+    <ul>
+      <li><a href="/lighting.html">Lighting Collection (وحدات إضاءة نحاسية معمارية)</a></li>
+      <li><a href="/mirrors.html">Solid Brass Mirrors (مرايا نحاس أصفر مصمت)</a></li>
+      <li><a href="/tables.html">Tables & Consoles (طاولات وكونسول نحاسي فاخر)</a></li>
+      <li><a href="/handles.html">Architectural Handles (مقابض أبواب نحاسية معمارية)</a></li>
+      <li><a href="/handrails.html">Custom Handrails (درابزين وهندريل نحاس مخصص)</a></li>
+      <li><a href="/decor.html">Decorative Objects (تحف وصواني ديكور نحاسية)</a></li>
+      <li><a href="/wall-art.html">Brass & Copper Wall Art (لوحات جدارية نحاس)</a></li>
+      <li><a href="/partitions.html">Partitions & Screens (قواطع وفواصل نحاسية)</a></li>
+      <li><a href="/tableware.html">Luxury Tableware (أدوات مائدة وأواني ضيافة نحاسية)</a></li>
+      <li><a href="/masterpieces.html">Architectural Masterpieces (روائع نحاسية نادرة)</a></li>
+      <li><a href="/action.html">Turath in Action (حرفية النحاس في الورش التاريخية)</a></li>
+    </ul>
+  </nav>
+
+  </main>
+
+  <script>
+    const sliderData = [
+      {
+            "src": "/assets/images/lighting/hammered-brass-scroll-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/hammered-brass-scroll-sconce-desktop.jpg",
+            "title": "SCULPTURAL HAMMERED BRASS SCROLL SCONCE",
+            "desc": "A statement architectural wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture."
+      },
+      {
+            "src": "/assets/images/lighting/elongated-arabesque-teardrop-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/elongated-arabesque-teardrop-pendant-desktop.jpg",
+            "title": "ELONGATED ARABESQUE TEARDROP PENDANT",
+            "desc": "An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection."
+      },
+      {
+            "src": "/assets/images/lighting/mamluk-royal-brass-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/mamluk-royal-brass-chandelier-desktop.jpg",
+            "title": "EGYPTIAN CEREMONIAL BRASS CHANDELIER",
+            "desc": "A monumental ceremonial brass lantern inspired by classical Egyptian architecture, suspended by ornate chains with pierced arabesque motifs."
+      },
+      {
+            "src": "/assets/images/lighting/fluted-brass-drum-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/fluted-brass-drum-chandelier-desktop.jpg",
+            "title": "FLUTED BRASS DRUM CHANDELIER",
+            "desc": "A circular solid brass chandelier featuring a vertically fluted brass collar and an etched sunburst glass diffuser casting a soft, glare-free downward glow."
+      },
+      {
+            "src": "/assets/images/lighting/sunburst-pierced-brass-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/sunburst-pierced-brass-sconce-desktop.jpg",
+            "title": "SUNBURST PIERCED BRASS SCONCE",
+            "desc": "A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall."
+      },
+      {
+            "src": "/assets/images/lighting/sculptural-brass-monstera-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/sculptural-brass-monstera-sconce-desktop.jpg",
+            "title": "SCULPTURAL BRASS MONSTERA SCONCE",
+            "desc": "An organic architectural wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows."
+      },
+      {
+            "src": "/assets/images/lighting/tri-stem-brass-globe-floor-lamp.jpg",
+            "desktopSrc": "/assets/images/lighting/tri-stem-brass-globe-floor-lamp-desktop.jpg",
+            "title": "TRI-STEM BRASS GLOBE FLOOR LAMP",
+            "desc": "A statuesque three-branch solid brass floor lamp featuring staggered architectural stems topped with clear hand-blown glass illuminating spheres."
+      },
+      {
+            "src": "/assets/images/lighting/interlocking-brass-ribbon-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/interlocking-brass-ribbon-chandelier-desktop.jpg",
+            "title": "INTERLOCKING BRASS RIBBON CHANDELIER",
+            "desc": "A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core."
+      },
+      {
+            "src": "/assets/images/lighting/star-lattice-cylinder-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/star-lattice-cylinder-sconce-desktop.jpg",
+            "title": "STAR LATTICE CYLINDER SCONCE",
+            "desc": "A classical wall sconce featuring an illuminated frosted glass cylinder encased in an intricately hand-cut Islamic star lattice brass cage."
+      },
+      {
+            "src": "/assets/images/lighting/brass-dome-tripod-floor-lamp.jpg",
+            "desktopSrc": "/assets/images/lighting/brass-dome-tripod-floor-lamp-desktop.jpg",
+            "title": "BRASS DOME TRIPOD FLOOR LAMP",
+            "desc": "A mid-century inspired architectural floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips."
+      },
+      {
+            "src": "/assets/images/lighting/rosette-medallion-brass-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/rosette-medallion-brass-pendant-desktop.jpg",
+            "title": "ROSETTE MEDALLION BRASS PENDANT",
+            "desc": "A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite Arabesque filigree."
+      },
+      {
+            "src": "/assets/images/lighting/filigree-chimney-brass-lamp.jpg",
+            "desktopSrc": "/assets/images/lighting/filigree-chimney-brass-lamp-desktop.jpg",
+            "title": "FILIGREE CHIMNEY BRASS LAMP",
+            "desc": "A traditional kerosene-style chimney table lamp hand-turned in solid brass with an intricately perforated fluted shade that casts a rich, romantic amber glow."
+      },
+      {
+            "src": "/assets/images/lighting/geometric-triangle-brass-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/geometric-triangle-brass-sconce-desktop.jpg",
+            "title": "GEOMETRIC TRIANGLE BRASS SCONCE",
+            "desc": "A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays."
+      },
+      {
+            "src": "/assets/images/lighting/domed-arabesque-brass-lantern.jpg",
+            "desktopSrc": "/assets/images/lighting/domed-arabesque-brass-lantern-desktop.jpg",
+            "title": "DOMED ARABESQUE BRASS LANTERN",
+            "desc": "A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate arabesque filigree."
+      },
+      {
+            "src": "/assets/images/lighting/celestial-verdigris-brass-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/celestial-verdigris-brass-sconce-desktop.jpg",
+            "title": "CELESTIAL VERDIGRIS BRASS SCONCE",
+            "desc": "A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm architectural halo."
+      },
+      {
+            "src": "/assets/images/lighting/teardrop-filigree-brass-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/teardrop-filigree-brass-pendant-desktop.jpg",
+            "title": "TEARDROP FILIGREE BRASS PENDANT",
+            "desc": "A voluptuous teardrop brass pendant intricately pierced with classical Islamic motifs, casting a radiant mandala shadow pattern below."
+      },
+      {
+            "src": "/assets/images/lighting/cascading-brass-disc-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/cascading-brass-disc-chandelier-desktop.jpg",
+            "title": "CASCADING BRASS DISC CHANDELIER",
+            "desc": "A multi-tier statement chandelier featuring sunburst textured brass discs and ribbed blown glass lanterns suspended at sculpted heights."
+      },
+      {
+            "src": "/assets/images/lighting/pierced-ovoid-brass-lantern.jpg",
+            "desktopSrc": "/assets/images/lighting/pierced-ovoid-brass-lantern-desktop.jpg",
+            "title": "PIERCED OVOID BRASS LANTERN",
+            "desc": "An egg-shaped solid brass table lamp intricately perforated with traditional arabesque filigree, casting mesmerizing geometric shadows."
+      },
+      {
+            "src": "/assets/images/lighting/arabesque-spherical-brass-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/arabesque-spherical-brass-pendant-desktop.jpg",
+            "title": "ARABESQUE SPHERICAL PENDANT",
+            "desc": "A hand-pierced spherical solid brass pendant light suspended by an antiqued brass chain, radiating a warm ambient celestial glow."
+      },
+      {
+            "src": "/assets/images/lighting/patinated-brass-disc-triptych.jpg",
+            "desktopSrc": "/assets/images/lighting/patinated-brass-disc-triptych-desktop.jpg",
+            "title": "PATINATED BRASS DISC TRIPTYCH",
+            "desc": "A vertical triptych of three hand-hammered patinated brass disc sconces, each casting a soft golden halo of indirect architectural light."
+      },
+      {
+            "src": "/assets/images/lighting/cylindrical-filigree-brass-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/cylindrical-filigree-brass-pendant-desktop.jpg",
+            "title": "CYLINDRICAL FILIGREE PENDANT",
+            "desc": "An elongated cylindrical brass lantern featuring alternating bands of hand-carved calligraphy and intricate openwork filigree."
+      },
+      {
+            "src": "/assets/images/lighting/trio-filigree-cluster-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/trio-filigree-cluster-chandelier-desktop.jpg",
+            "title": "TRIO FILIGREE CLUSTER CHANDELIER",
+            "desc": "A staggered three-pendant chandelier in solid brass combining teardrop and spherical filigree lanterns suspended from a single canopy."
+      },
+      {
+            "src": "/assets/images/lighting/geometric-brass-plate-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/geometric-brass-plate-sconce-desktop.jpg",
+            "title": "GEOMETRIC BRASS PLATE SCONCE",
+            "desc": "An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination."
+      },
+      {
+            "src": "/assets/images/lighting/slender-brass-torch-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/slender-brass-torch-sconce-desktop.jpg",
+            "title": "SLENDER BRASS TORCH SCONCE",
+            "desc": "A neoclassical solid brass torch fixture featuring an elongated drop spindle finial and a tailored linen lampshade diffusing soft, glare-free light."
+      },
+      {
+            "src": "/assets/images/lighting/cantilever-brass-orb-lamp.jpg",
+            "desktopSrc": "/assets/images/lighting/cantilever-brass-orb-lamp-desktop.jpg",
+            "title": "CANTILEVER BRASS ORB LAMP",
+            "desc": "A sculptural minimalist balance lamp featuring a precision-calibrated solid brass arm and a hand-blown frosted glass illuminating sphere."
+      },
+      {
+            "src": "/assets/images/lighting/hammered-brass-teardrop-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/hammered-brass-teardrop-pendant-desktop.jpg",
+            "title": "HAMMERED BRASS TEARDROP PENDANT",
+            "desc": "A teardrop-shaped solid brass pendant hand-hammered by master Egyptian artisans, radiating an intimate, downward golden pool of light."
+      },
+      {
+            "src": "/assets/images/lighting/dual-capsule-arched-brass-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/dual-capsule-arched-brass-sconce-desktop.jpg",
+            "title": "DUAL CAPSULE ARCHED BRASS SCONCE",
+            "desc": "A dramatic double-light architectural sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-hero.jpg",
+            "desktopSrc": "/assets/images/lighting/lighting-hero-desktop.jpg",
+            "title": "SOLID BRASS APPLIQUE",
+            "desc": "A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-geometric-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/lighting-geometric-chandelier-desktop.jpg",
+            "title": "GEOMETRIC BRASS CHANDELIER",
+            "desc": "A sculptural multi-arm chandelier handcrafted in solid brass with warm multidirectional ambient lighting."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-kinetic-pendant.jpg",
+            "desktopSrc": "/assets/images/lighting/lighting-kinetic-pendant-desktop.jpg",
+            "title": "KINETIC BRASS PENDANT",
+            "desc": "A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-arabesque-lantern.jpg",
+            "desktopSrc": "/assets/images/lighting/lighting-arabesque-lantern-desktop.jpg",
+            "title": "ENGRAVED ARABESQUE LANTERN",
+            "desc": "A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-fluted-sconce.jpg",
+            "desktopSrc": "/assets/images/lighting/lighting-fluted-sconce-desktop.jpg",
+            "title": "FLUTED BRASS PIPE SCONCE",
+            "desc": "A dramatic statement wall sconce crafted from staggered tubular brass pipes casting a sunburst halo of light."
+      },
+      {
+            "src": "/assets/images/lighting/lighting-crown-chandelier.jpg",
+            "desktopSrc": "/assets/images/lighting/lighting-crown-chandelier-desktop.jpg",
+            "title": "CROWN RING CHANDELIER",
+            "desc": "A majestic circular solid brass chandelier featuring tapered white shades for refined, glare-free dining illumination."
+      }
+];
+
+    // Read initial product from URL if present: ?product=...-item-2 or ?item=2
+        const urlParams = new URLSearchParams(window.location.search);
+        const productParam = urlParams.get('product') || urlParams.get('item');
+        let initialIndex = 12;
+        if (productParam) {
+          const match = productParam.match(/-item-(\d+)$/i);
+          const parsedIdx = match ? (parseInt(match[1], 10) - 1) : (parseInt(productParam, 10) - 1);
+          if (!isNaN(parsedIdx) && parsedIdx >= 0 && parsedIdx < sliderData.length) {
+            initialIndex = parsedIdx;
+          }
+        }
+        let currentIndex = initialIndex;
+    const titleEl = document.getElementById('slider-title');
+    const descEl = document.getElementById('slider-desc');
+    const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
+    const dashesContainer = document.getElementById('dashes-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    function syncSlide(idx) {
+      if (!sliderData[idx]) return;
+      imgEl.src = sliderData[idx].src;
+      imgEl.alt = sliderData[idx].title;
+      if (sourceDesktopEl) {
+        sourceDesktopEl.srcset = sliderData[idx].desktopSrc || sliderData[idx].src;
+      }
+      titleEl.innerText = sliderData[idx].title;
+      descEl.innerText = sliderData[idx].desc;
+    }
+
+    // Build Dash indicators dynamically
+    sliderData.forEach((_, idx) => {
+      const dash = document.createElement('span');
+      dash.className = `dash-dot flex-1 max-w-[10px] min-w-[2px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-[#D7C797] active' : 'bg-[#D7C797]/30'}`;
+      dash.addEventListener('click', () => updateSlider(idx));
+      dashesContainer.appendChild(dash);
+    });
+
+    syncSlide(currentIndex);
+
+    function updateSlider(index) {
+
+      // Update semantic anchor arrows for Googlebot and sequential crawling
+      var __catalogArr = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+      if (__catalogArr && __catalogArr.length) {
+        var __prevIdx = (currentIndex - 1 + __catalogArr.length) % __catalogArr.length;
+        var __nextIdx = (currentIndex + 1) % __catalogArr.length;
+        var __prevItem = __catalogArr[__prevIdx];
+        var __nextItem = __catalogArr[__nextIdx];
+        if (prevBtn && __prevItem) {
+          prevBtn.href = '/products/' + __prevItem.id + '/';
+          prevBtn.setAttribute('aria-label', 'Previous item: ' + __prevItem.title);
+        }
+        if (nextBtn && __nextItem) {
+          nextBtn.href = '/products/' + __nextItem.id + '/';
+          nextBtn.setAttribute('aria-label', 'Next item: ' + __nextItem.title);
+        }
+      }
+  
+      if (index < 0) {
+        currentIndex = sliderData.length - 1;
+      } else if (index >= sliderData.length) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+
+      // Smooth crossfade
+      imgEl.style.opacity = '0.3';
+      titleEl.style.opacity = '0.3';
+      descEl.style.opacity = '0.3';
+
+      setTimeout(() => {
+          syncSlide(currentIndex);
+
+          imgEl.style.opacity = '1';
+        titleEl.style.opacity = '1';
+        descEl.style.opacity = '1';
+
+        // Update dashes
+        const dots = dashesContainer.querySelectorAll('.dash-dot');
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
+          dot.classList.add('bg-[#D7C797]', 'active');
+          } else {
+            dot.classList.remove('bg-[#D7C797]', 'bg-white');
+          dot.classList.remove('active');
+          dot.classList.add('bg-[#D7C797]/30');
+          }
+        });
+      }, 150);
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex - 1); });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex + 1); });
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
+      if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const container = document.querySelector('main');
+
+    if (container) {
+      container.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      container.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          if (diff < 0) {
+            updateSlider(currentIndex + 1);
+          } else {
+            updateSlider(currentIndex - 1);
+          }
+        }
+      }, { passive: true });
+    }
+  
+    // Share button interaction (dynamic SSG product link)
+    const shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const title = (typeof titleEl !== 'undefined' && titleEl) ? titleEl.innerText : document.title;
+        
+        // Extract category slug from URL
+        const path = window.location.pathname;
+        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
+        const categorySlug = match ? match[1] : 'lighting';
+        
+        // Determine active product ID based on current slide
+        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) ? sliderData[currentIndex] : null;
+        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        
+        // Construct specific SSG share URL
+        const shareUrl = window.location.origin + '/products/' + activeProductId + '/';
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: title, url: shareUrl });
+          } catch (err) {}
+        } else if (navigator.clipboard) {
+          await navigator.clipboard.writeText(shareUrl);
+          shareBtn.classList.add('text-white', 'scale-110');
+          setTimeout(() => shareBtn.classList.remove('text-white', 'scale-110'), 1500);
+        }
+      });
+    }
+
+    // Direct WhatsApp Product Inquiry Button (With Rich Link Card Preview)
+    const productWaBtn = document.getElementById('product-wa-btn');
+    if (productWaBtn) {
+      productWaBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Extract category slug from URL
+        const path = window.location.pathname;
+        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
+        let categorySlug = match ? match[1].toLowerCase() : 'lighting';
+        if (categorySlug === 'index' || !categorySlug) categorySlug = 'lighting';
+
+        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) 
+          ? sliderData[currentIndex] 
+          : (typeof masterpiecesData !== 'undefined' && masterpiecesData[currentIndex])
+          ? masterpiecesData[currentIndex]
+          : (typeof filmsData !== 'undefined' && filmsData[currentIndex])
+          ? filmsData[currentIndex]
+          : null;
+        const title = (currentItem && currentItem.title) || (typeof titleEl !== 'undefined' && titleEl ? titleEl.innerText : document.title);
+        
+        // Determine active product ID and full product link (Produces Rich Preview with Picture in WhatsApp)
+        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        const productUrl = `${window.location.origin}/products/${activeProductId}/`;
+
+        // Track Conversion Events
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'Contact', { content_name: title, content_category: 'WhatsApp Product Inquiry' });
+        }
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', { event_category: 'WhatsApp', event_label: title });
+        }
+
+        const waText = `مرحباً ورشة تراث، أود الاستفسار عن تفصيل وسعر هذه القطعة:\n${title}\n${productUrl}`;
+        window.open('https://wa.me/201016771010?text=' + encodeURIComponent(waText), '_blank', 'noopener,noreferrer');
+      });
+    }
+
+    // Surgical Image & Media Protection
+    document.addEventListener('contextmenu', (e) => {
+      if (e.target.closest('img, video, [data-protected-media], #slider-image, #masterpiece-img, .video-stream')) {
+        e.preventDefault();
+        return false;
+      }
+    }, { capture: true });
+
+    document.addEventListener('dragstart', (e) => {
+      if (e.target.closest('img, video, [data-protected-media], #slider-image, #masterpiece-img, .video-stream')) {
+        e.preventDefault();
+        return false;
+      }
+    }, { capture: true });
+
+
+  
+
+        // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
+    function initPreloaderDismissal() {
+      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
+      if (!preloader || preloader.dataset.dismissed === 'true') return;
+
+      function dismiss() {
+        if (preloader.dataset.dismissed === 'true') return;
+        preloader.dataset.dismissed = 'true';
+        requestAnimationFrame(() => {
+          preloader.style.opacity = '0';
+          preloader.style.pointerEvents = 'none';
+          preloader.classList.add('opacity-0', 'preloader-hidden');
+        });
+      }
+
+      // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
+      const safetyTimeout = setTimeout(dismiss, 1800);
+
+      const mainMedia = document.getElementById('slider-image') || document.getElementById('slider-video') || document.getElementById('masterpiece-img');
+
+      const mediaReadyPromise = new Promise((resolve) => {
+        if (!mainMedia) return resolve();
+        if (mainMedia.tagName && mainMedia.tagName.toLowerCase() === 'video') {
+          if (mainMedia.readyState >= 2) return resolve();
+          mainMedia.addEventListener('loadeddata', () => resolve(), { once: true });
+          mainMedia.addEventListener('canplay', () => resolve(), { once: true });
+          setTimeout(resolve, 800);
+          return;
+        }
+        if (mainMedia.complete && mainMedia.naturalWidth > 0) {
+          if (mainMedia.decode) {
+            mainMedia.decode().then(resolve).catch(resolve);
+          } else {
+            resolve();
+          }
+        } else {
+          mainMedia.addEventListener('load', () => {
+            if (mainMedia.decode) mainMedia.decode().then(resolve).catch(resolve);
+            else resolve();
+          }, { once: true });
+          mainMedia.addEventListener('error', resolve, { once: true });
+          setTimeout(resolve, 1000);
+        }
+      });
+
+      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+      const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+
+      Promise.all([mediaReadyPromise, minDisplayPromise, fontsPromise]).then(() => {
+        clearTimeout(safetyTimeout);
+        dismiss();
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      initPreloaderDismissal();
+    } else {
+      window.addEventListener('load', initPreloaderDismissal);
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initPreloaderDismissal, 2000);
+      });
+    }
+  </script>
+
+  <script>
+    function initExitPreloader() {
+      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
+      if (!preloader) return;
+      const exitLinks = document.querySelectorAll('.arrow-turath, a[href*="index.html"]');
+      exitLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = link.getAttribute('href');
+          if (!href) return;
+          e.preventDefault();
+          preloader.classList.remove('opacity-0', 'preloader-hidden');
+          preloader.style.transition = 'opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+          preloader.style.pointerEvents = 'auto';
+          preloader.style.opacity = '1';
+          try {
+            sessionStorage.setItem('turath_returning_from_subpage', '1');
+          } catch(err) {}
+          setTimeout(() => {
+            window.location.href = href;
+          }, 320);
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExitPreloader);
+    } else {
+      initExitPreloader();
+    }
+
+    
+  </script>
+  <script>
+    // Enrich slider items with metadata from catalog for instant reactive SEO
+    var __turathCatalog = [{"id":"lighting-item-1","title":"SCULPTURAL HAMMERED BRASS SCROLL SCONCE","titleAr":"أبليك نحاسي منحوت منحوت يدوي مطروق","description":"A statement architectural wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture.","descriptionAr":"وحدة إضاءة جدارية معمارية فاخرة مصنوعة من لفائف النحاس الأصفر المصمت، مطروقة يدويًا بملمس غائر عاكس للضوء بنمط إسلامي معاصر.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، الجمالية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/hammered-brass-scroll-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-2","title":"ELONGATED ARABESQUE TEARDROP PENDANT","titleAr":"ELONGATED ARABESQUE TEARDROP PENDANT","description":"An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection.","descriptionAr":"An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/elongated-arabesque-teardrop-pendant.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-3","title":"EGYPTIAN CEREMONIAL BRASS CHANDELIER","titleAr":"EGYPTIAN CEREMONIAL BRASS CHANDELIER","description":"A monumental ceremonial brass lantern inspired by classical Egyptian architecture, suspended by ornate chains with pierced arabesque motifs.","descriptionAr":"A monumental ceremonial brass lantern inspired by classical Egyptian architecture, suspended by ornate chains with pierced arabesque motifs.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/mamluk-royal-brass-chandelier.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-4","title":"FLUTED BRASS DRUM CHANDELIER","titleAr":"FLUTED BRASS DRUM CHANDELIER","description":"A circular solid brass chandelier featuring a vertically fluted brass collar and an etched sunburst glass diffuser casting a soft, glare-free downward glow.","descriptionAr":"A circular solid brass chandelier featuring a vertically fluted brass collar and an etched sunburst glass diffuser casting a soft, glare-free downward glow.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/fluted-brass-drum-chandelier.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-5","title":"SUNBURST PIERCED BRASS SCONCE","titleAr":"SUNBURST PIERCED BRASS SCONCE","description":"A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall.","descriptionAr":"A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/sunburst-pierced-brass-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-6","title":"SCULPTURAL BRASS MONSTERA SCONCE","titleAr":"SCULPTURAL BRASS MONSTERA SCONCE","description":"An organic architectural wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows.","descriptionAr":"An organic architectural wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/sculptural-brass-monstera-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-7","title":"TRI-STEM BRASS GLOBE FLOOR LAMP","titleAr":"TRI-STEM BRASS GLOBE FLOOR LAMP","description":"A statuesque three-branch solid brass floor lamp featuring staggered architectural stems topped with clear hand-blown glass illuminating spheres.","descriptionAr":"A statuesque three-branch solid brass floor lamp featuring staggered architectural stems topped with clear hand-blown glass illuminating spheres.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/tri-stem-brass-globe-floor-lamp.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-8","title":"INTERLOCKING BRASS RIBBON CHANDELIER","titleAr":"INTERLOCKING BRASS RIBBON CHANDELIER","description":"A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core.","descriptionAr":"A contemporary statement chandelier crafted from sweeping, interlocking ribbons of brushed solid brass concealing a warm multi-bulb core.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/interlocking-brass-ribbon-chandelier.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-9","title":"STAR LATTICE CYLINDER SCONCE","titleAr":"STAR LATTICE CYLINDER SCONCE","description":"A classical wall sconce featuring an illuminated frosted glass cylinder encased in an intricately hand-cut Islamic star lattice brass cage.","descriptionAr":"A classical wall sconce featuring an illuminated frosted glass cylinder encased in an intricately hand-cut Islamic star lattice brass cage.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/star-lattice-cylinder-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-10","title":"BRASS DOME TRIPOD FLOOR LAMP","titleAr":"BRASS DOME TRIPOD FLOOR LAMP","description":"A mid-century inspired architectural floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips.","descriptionAr":"A mid-century inspired architectural floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/brass-dome-tripod-floor-lamp.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-11","title":"ROSETTE MEDALLION BRASS PENDANT","titleAr":"ROSETTE MEDALLION BRASS PENDANT","description":"A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite Arabesque filigree.","descriptionAr":"A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite Arabesque filigree.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/rosette-medallion-brass-pendant.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-12","title":"FILIGREE CHIMNEY BRASS LAMP","titleAr":"FILIGREE CHIMNEY BRASS LAMP","description":"A traditional kerosene-style chimney table lamp hand-turned in solid brass with an intricately perforated fluted shade that casts a rich, romantic amber glow.","descriptionAr":"A traditional kerosene-style chimney table lamp hand-turned in solid brass with an intricately perforated fluted shade that casts a rich, romantic amber glow.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/filigree-chimney-brass-lamp.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-13","title":"GEOMETRIC TRIANGLE BRASS SCONCE","titleAr":"GEOMETRIC TRIANGLE BRASS SCONCE","description":"A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.","descriptionAr":"A monumental curved wall sconce crafted from textured solid brass with pierced triangular latticework casting dynamic geometric light rays.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/geometric-triangle-brass-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-14","title":"DOMED ARABESQUE BRASS LANTERN","titleAr":"DOMED ARABESQUE BRASS LANTERN","description":"A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate arabesque filigree.","descriptionAr":"A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate arabesque filigree.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/domed-arabesque-brass-lantern.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-15","title":"CELESTIAL VERDIGRIS BRASS SCONCE","titleAr":"CELESTIAL VERDIGRIS BRASS SCONCE","description":"A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm architectural halo.","descriptionAr":"A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm architectural halo.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/celestial-verdigris-brass-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-16","title":"TEARDROP FILIGREE BRASS PENDANT","titleAr":"TEARDROP FILIGREE BRASS PENDANT","description":"A voluptuous teardrop brass pendant intricately pierced with classical Islamic motifs, casting a radiant mandala shadow pattern below.","descriptionAr":"A voluptuous teardrop brass pendant intricately pierced with classical Islamic motifs, casting a radiant mandala shadow pattern below.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/teardrop-filigree-brass-pendant.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-17","title":"CASCADING BRASS DISC CHANDELIER","titleAr":"CASCADING BRASS DISC CHANDELIER","description":"A multi-tier statement chandelier featuring sunburst textured brass discs and ribbed blown glass lanterns suspended at sculpted heights.","descriptionAr":"A multi-tier statement chandelier featuring sunburst textured brass discs and ribbed blown glass lanterns suspended at sculpted heights.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/cascading-brass-disc-chandelier.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-18","title":"PIERCED OVOID BRASS LANTERN","titleAr":"PIERCED OVOID BRASS LANTERN","description":"An egg-shaped solid brass table lamp intricately perforated with traditional arabesque filigree, casting mesmerizing geometric shadows.","descriptionAr":"An egg-shaped solid brass table lamp intricately perforated with traditional arabesque filigree, casting mesmerizing geometric shadows.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/pierced-ovoid-brass-lantern.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-19","title":"ARABESQUE SPHERICAL PENDANT","titleAr":"ARABESQUE SPHERICAL PENDANT","description":"A hand-pierced spherical solid brass pendant light suspended by an antiqued brass chain, radiating a warm ambient celestial glow.","descriptionAr":"A hand-pierced spherical solid brass pendant light suspended by an antiqued brass chain, radiating a warm ambient celestial glow.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/arabesque-spherical-brass-pendant.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-20","title":"PATINATED BRASS DISC TRIPTYCH","titleAr":"PATINATED BRASS DISC TRIPTYCH","description":"A vertical triptych of three hand-hammered patinated brass disc sconces, each casting a soft golden halo of indirect architectural light.","descriptionAr":"A vertical triptych of three hand-hammered patinated brass disc sconces, each casting a soft golden halo of indirect architectural light.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/patinated-brass-disc-triptych.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-21","title":"CYLINDRICAL FILIGREE PENDANT","titleAr":"CYLINDRICAL FILIGREE PENDANT","description":"An elongated cylindrical brass lantern featuring alternating bands of hand-carved calligraphy and intricate openwork filigree.","descriptionAr":"An elongated cylindrical brass lantern featuring alternating bands of hand-carved calligraphy and intricate openwork filigree.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/cylindrical-filigree-brass-pendant.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-22","title":"TRIO FILIGREE CLUSTER CHANDELIER","titleAr":"TRIO FILIGREE CLUSTER CHANDELIER","description":"A staggered three-pendant chandelier in solid brass combining teardrop and spherical filigree lanterns suspended from a single canopy.","descriptionAr":"A staggered three-pendant chandelier in solid brass combining teardrop and spherical filigree lanterns suspended from a single canopy.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/trio-filigree-cluster-chandelier.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-23","title":"GEOMETRIC BRASS PLATE SCONCE","titleAr":"GEOMETRIC BRASS PLATE SCONCE","description":"An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination.","descriptionAr":"An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/geometric-brass-plate-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-24","title":"SLENDER BRASS TORCH SCONCE","titleAr":"SLENDER BRASS TORCH SCONCE","description":"A neoclassical solid brass torch fixture featuring an elongated drop spindle finial and a tailored linen lampshade diffusing soft, glare-free light.","descriptionAr":"A neoclassical solid brass torch fixture featuring an elongated drop spindle finial and a tailored linen lampshade diffusing soft, glare-free light.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/slender-brass-torch-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-25","title":"CANTILEVER BRASS ORB LAMP","titleAr":"CANTILEVER BRASS ORB LAMP","description":"A sculptural minimalist balance lamp featuring a precision-calibrated solid brass arm and a hand-blown frosted glass illuminating sphere.","descriptionAr":"A sculptural minimalist balance lamp featuring a precision-calibrated solid brass arm and a hand-blown frosted glass illuminating sphere.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/cantilever-brass-orb-lamp.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-26","title":"HAMMERED BRASS TEARDROP PENDANT","titleAr":"HAMMERED BRASS TEARDROP PENDANT","description":"A teardrop-shaped solid brass pendant hand-hammered by master Egyptian artisans, radiating an intimate, downward golden pool of light.","descriptionAr":"A teardrop-shaped solid brass pendant hand-hammered by master Egyptian artisans, radiating an intimate, downward golden pool of light.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/hammered-brass-teardrop-pendant.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-27","title":"DUAL CAPSULE ARCHED BRASS SCONCE","titleAr":"DUAL CAPSULE ARCHED BRASS SCONCE","description":"A dramatic double-light architectural sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon.","descriptionAr":"A dramatic double-light architectural sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/dual-capsule-arched-brass-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-28","title":"SOLID BRASS APPLIQUE","titleAr":"SOLID BRASS APPLIQUE","description":"A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.","descriptionAr":"A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/lighting-hero.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-29","title":"GEOMETRIC BRASS CHANDELIER","titleAr":"GEOMETRIC BRASS CHANDELIER","description":"A sculptural multi-arm chandelier handcrafted in solid brass with warm multidirectional ambient lighting.","descriptionAr":"A sculptural multi-arm chandelier handcrafted in solid brass with warm multidirectional ambient lighting.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/lighting-geometric-chandelier.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-30","title":"KINETIC BRASS PENDANT","titleAr":"KINETIC BRASS PENDANT","description":"A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination.","descriptionAr":"A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/lighting-kinetic-pendant.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-31","title":"ENGRAVED ARABESQUE LANTERN","titleAr":"ENGRAVED ARABESQUE LANTERN","description":"A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs.","descriptionAr":"A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/lighting-arabesque-lantern.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-32","title":"FLUTED BRASS PIPE SCONCE","titleAr":"FLUTED BRASS PIPE SCONCE","description":"A dramatic statement wall sconce crafted from staggered tubular brass pipes casting a sunburst halo of light.","descriptionAr":"A dramatic statement wall sconce crafted from staggered tubular brass pipes casting a sunburst halo of light.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/lighting-fluted-sconce.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"},{"id":"lighting-item-33","title":"CROWN RING CHANDELIER","titleAr":"CROWN RING CHANDELIER","description":"A majestic circular solid brass chandelier featuring tapered white shades for refined, glare-free dining illumination.","descriptionAr":"A majestic circular solid brass chandelier featuring tapered white shades for refined, glare-free dining illumination.","keywords":"نحاس، نجف، أبليك، إضاءة معمارية، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية، Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/lighting/lighting-crown-chandelier.jpg","categorySlug":"lighting","categoryTitle":"Lighting Fixtures","categoryTitleAr":"وحدات إضاءة نحاسية معمارية","categoryFile":"lighting.html"}];
+    var __dataArray = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+    if (__dataArray && __dataArray.length) {
+      __dataArray.forEach(function(item, idx) {
+        if (!item.id) item.id = 'lighting-item-' + (idx + 1);
+        var match = __turathCatalog.find(function(c) { return c.id === item.id; }) || __turathCatalog[idx];
+        if (match) {
+          if (!item.titleAr) item.titleAr = match.titleAr;
+          if (!item.descAr && !item.descriptionAr) item.descAr = match.descriptionAr;
+        }
+      });
+      // Initial dynamic metadata update
+      if (typeof currentIndex !== 'undefined' && __dataArray[currentIndex]) {
+        updateTurathDynamicMeta(__dataArray[currentIndex]);
+      } else if (__dataArray[0]) {
+        updateTurathDynamicMeta(__dataArray[0]);
+      }
+    }
+  </script>
+
+  <noscript>
+    <div class="sr-only">
+      <h1>Lighting Fixtures — وحدات إضاءة نحاسية معمارية | TURATH Egypt</h1>
+      <p>Handcrafted solid brass and copper architectural collections forged in Historic Cairo for Egypt, GCC, US, and UK.</p>
+    </div>
+  </noscript>
+</body>
+</html>

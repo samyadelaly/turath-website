@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+
+  <script>
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted || performance.navigation.type === 2) {
+      // 1. Instantly blackout screen (Inline Force)
+      var preloader = document.getElementById('preloader') || document.querySelector('.preloader');
+      if (preloader) {
+        preloader.style.cssText = 'transition: none !important; display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 99999 !important;';
+      }
+      
+      // 2. Instantly kill menu overlay (Inline Force)
+      var mobileMenu = document.querySelector('.nav-drawer, #mobile-menu, [data-menu-drawer], #nav-drawer');
+      if (mobileMenu) {
+        mobileMenu.classList.remove('active', 'open', 'opacity-100', 'is-open', 'hidden', 'opacity-0', 'pointer-events-none');
+        mobileMenu.style.removeProperty('display');
+        mobileMenu.style.removeProperty('opacity');
+        mobileMenu.style.visibility = 'hidden';
+        mobileMenu.style.pointerEvents = 'none';
+        mobileMenu.style.transform = 'translateY(100%)';
+        document.body.classList.remove('overflow-hidden', 'menu-open');
+        var trigger = document.getElementById('menu-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      }
+      
+      // 3. Smooth fade out after scroll settles
+      if (preloader) {
+        setTimeout(function() {
+          preloader.style.cssText = 'transition: opacity 0.6s ease, visibility 0.6s ease !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important;';
+        }, 500);
+      }
+    }
+  });
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-PDYBS5D7CZ');
+  </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '148068092481360');
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
+  <title>TEXTURED BRASS STUDDED HALO MIRROR | TEXTURED BRASS STUDDED HALO MIRROR | TURATH — Bespoke Solid Brass &amp; Copper</title>
+  <meta name="description" content="A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins. — A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.">
+  <meta name="keywords" content="مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي">
+
+    <!-- Favicon & Icons -->
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
+    }
+  </script>
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://turath-egypt.vercel.app/products/mirrors-item-14/">
+  <meta property="og:title" content="TEXTURED BRASS STUDDED HALO MIRROR | TEXTURED BRASS STUDDED HALO MIRROR | TURATH — Bespoke Solid Brass &amp; Copper">
+  <meta property="og:description" content="A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins. — A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.">
+  <meta property="og:image" content="https://turath-egypt.vercel.app/assets/images/mirrors/mirror-09.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com" defer></script>
+
+  <!-- Critical Anti-FOUC & Strict Sizing Styles -->
+  <style>
+    #preloader, #luxury-preloader, .preloader {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 99999 !important;
+      pointer-events: none !important;
+      transition: opacity 1s ease-in-out !important;
+      background: transparent !important;
+    }
+    #product-wa-btn, #share-btn, #sound-toggle-btn {
+      width: 24px !important;
+      height: 24px !important;
+      min-width: 24px !important;
+      min-height: 24px !important;
+      max-width: 24px !important;
+      max-height: 24px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+    #product-wa-btn svg, #share-btn svg, #sound-toggle-btn svg {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      max-width: 20px !important;
+      max-height: 20px !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+    }
+    /* CRITICAL ZERO-FOUC HARDWARE LAYOUT (Enforced before Tailwind/CDN loads) */
+    [class*="grid-cols-3"] {
+      display: grid !important;
+      grid-template-columns: 1fr auto 1fr !important;
+      align-items: center !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      z-index: 50 !important;
+      box-sizing: border-box !important;
+    }
+    .justify-self-start {
+      justify-self: start !important;
+    }
+    .justify-self-center {
+      justify-self: center !important;
+      text-align: center !important;
+    }
+    .justify-self-end {
+      justify-self: end !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      gap: 0.75rem !important;
+    }
+    [class*="top-[15%]"], [class*="top-[14%]"], [class*="top-[12%]"], [class*="top-[16%]"], [class*="top-[18%]"], [class*="top-[20%]"] {
+      position: absolute !important;
+      top: 15% !important;
+      left: 0 !important;
+      width: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      z-index: 40 !important;
+      box-sizing: border-box !important;
+    }
+    [class*="top-1/2"] {
+      position: absolute !important;
+      top: 50% !important;
+      left: 0 !important;
+      width: 100% !important;
+      transform: translateY(-50%) !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      z-index: 40 !important;
+      box-sizing: border-box !important;
+    }
+    #slider-image, #slider-video, #masterpiece-img {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+  </style>
+  <style> 
+    @media (max-width: 1024px) { 
+      .desktop-nav-menu, nav ul { 
+        display: none !important; 
+        opacity: 0 !important; 
+        visibility: hidden !important; 
+      } 
+    } 
+  </style>
+  <link rel="canonical" href="https://turath-egypt.vercel.app/products/mirrors-item-14/">
+  <script>
+    // Dynamic Metadata & Route Sync Utility
+    function updateTurathDynamicMeta(item) {
+      if (!item) return;
+      var title = (item.title || '') + (item.titleAr ? ' | ' + item.titleAr : '') + ' | TURATH — Bespoke Solid Brass & Copper';
+      var desc = ((item.desc || item.description || '') + (item.descAr || item.descriptionAr ? ' — ' + (item.descAr || item.descriptionAr) : '')).trim();
+      var canonical = item.id ? ('https://turath-egypt.vercel.app/products/' + item.id + '/') : window.location.href.split('?')[0];
+      var img = item.desktopSrc ? ('https://turath-egypt.vercel.app' + item.desktopSrc) : (item.src ? ('https://turath-egypt.vercel.app' + item.src) : (item.poster ? ('https://turath-egypt.vercel.app' + item.poster) : ''));
+
+      document.title = title;
+
+      function setTag(sel, attr, val, createAttr, createVal) {
+        var el = document.querySelector(sel);
+        if (!el && createAttr) {
+          el = document.createElement(sel.startsWith('link') ? 'link' : 'meta');
+          el.setAttribute(createAttr, createVal);
+          document.head.appendChild(el);
+        }
+        if (el) el.setAttribute(attr, val);
+      }
+
+      setTag('meta[name="description"]', 'content', desc, 'name', 'description');
+      setTag('link[rel="canonical"]', 'href', canonical, 'rel', 'canonical');
+      setTag('meta[property="og:title"]', 'content', title, 'property', 'og:title');
+      setTag('meta[property="og:description"]', 'content', desc, 'property', 'og:description');
+      setTag('meta[property="og:url"]', 'content', canonical, 'property', 'og:url');
+      if (img) setTag('meta[property="og:image"]', 'content', img, 'property', 'og:image');
+      setTag('meta[name="twitter:title"]', 'content', title, 'name', 'twitter:title');
+      setTag('meta[name="twitter:description"]', 'content', desc, 'name', 'twitter:description');
+      if (img) setTag('meta[name="twitter:image"]', 'content', img, 'name', 'twitter:image');
+
+      if (window.history && window.history.replaceState && item.id) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('product', item.id);
+        window.history.replaceState({ productId: item.id }, '', url.toString());
+      }
+    }
+  </script>
+
+  <!-- Product & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "TURATH Home",
+            "item": "https://turath-egypt.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Solid Brass Mirrors",
+            "item": "https://turath-egypt.vercel.app/mirrors.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "TEXTURED BRASS STUDDED HALO MIRROR",
+            "item": "https://turath-egypt.vercel.app/products/mirrors-item-14/"
+          }
+        ]
+      },
+      {
+        "@type": "Product",
+        "name": "TEXTURED BRASS STUDDED HALO MIRROR",
+        "alternateName": "TEXTURED BRASS STUDDED HALO MIRROR",
+        "description": "A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins. — A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.",
+        "image": "https://turath-egypt.vercel.app/assets/images/mirrors/mirror-09.jpg",
+        "url": "https://turath-egypt.vercel.app/products/mirrors-item-14/",
+        "category": "Solid Brass Mirrors",
+        "material": "Solid Brass & Copper (نحاس أصفر وأحمر مصمت)",
+        "keywords": "solid brass, unlacquered brass, architectural metalwork, antique brass, hammered copper, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, تشطيبات معمارية, ورشة نحاس بالجمالية",
+        "brand": {
+          "@type": "Brand",
+          "name": "TURATH EGYPT"
+        },
+        "manufacturer": {
+          "@type": "Manufacturer",
+          "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
+          "url": "https://turath-egypt.vercel.app/",
+          "areaServed": [
+            { "@type": "Country", "name": "Egypt" },
+            { "@type": "Country", "name": "Saudi Arabia" },
+            { "@type": "Country", "name": "United Arab Emirates" },
+            { "@type": "Country", "name": "Kuwait" },
+            { "@type": "Country", "name": "Qatar" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" }
+          ]
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "EGP",
+          "availability": "https://schema.org/InStock",
+          "url": "https://turath-egypt.vercel.app/products/mirrors-item-14/",
+          "seller": {
+            "@type": "Organization",
+            "name": "TURATH EGYPT"
+          }
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" crossorigin href="./assets/style-Dj-gKaAT.css">
+</head>
+<body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
+  <!-- Meta Pixel noscript fallback -->
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
+  /></noscript>
+      <!-- Premium Knockout Preloader -->
+  <div id="preloader" class="preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
+    <svg width="100%" height="100%" class="w-full h-full">
+      <defs>
+        <mask id="knockout-text">
+          <!-- White background means solid, black text means transparent hole -->
+          <rect width="100%" height="100%" fill="white" />
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
+    </svg>
+  </div>
+
+  <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
+    <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black lg:h-[100dvh] lg:w-full lg:max-w-none lg:aspect-auto lg:rounded-none lg:shadow-none lg:my-0 lg:overflow-hidden">
+      
+      <!-- Top Navbar -->
+      <div class="w-full grid grid-cols-3 items-center px-4 py-4 md:px-10 md:py-6 z-50 absolute top-0 left-0 bg-gradient-to-b from-black/80 via-black/40 to-transparent" style="position: absolute; top: 0; left: 0; width: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; z-index: 50;">
+        <a href="/mirrors.html" class="justify-self-start arrow-turath text-[#D7C797] text-3xl font-light hover:opacity-70 transition-opacity cursor-pointer leading-none" aria-label="Back to Solid Brass Mirrors Collection">&larr;</a>
+        <span class="justify-self-center page-title-turath text-center whitespace-nowrap text-xs md:text-sm font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase text-white/90">MIRRORS</span>
+        <div class="justify-self-end flex items-center gap-3" style="justify-self: end; display: flex; align-items: center; gap: 0.75rem;">
+        <a id="product-wa-btn" href="https://wa.me/201016771010?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%88%D8%B1%D8%B4%D8%A9%20%D8%AA%D8%B1%D8%A7%D8%AB%20%D9%85%D8%B5%D8%B1%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%3A%20TEXTURED%20BRASS%20STUDDED%20HALO%20MIRROR%20(TEXTURED%20BRASS%20STUDDED%20HALO%20MIRROR)%0A%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B7%3A%20https%3A%2F%2Fturath-egypt.vercel.app%2Fproducts%2Fmirrors-item-14%2F" target="_blank" rel="noopener noreferrer" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 icon-turath text-[#D7C797]/85 hover:text-[#D7C797] transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Inquire on WhatsApp" title="Inquire on WhatsApp">
+          <svg width="20" height="20" style="width: 20px; height: 20px; max-width: 20px; max-height: 20px; display: block;" class="w-5 h-5 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        </a>
+        <button id="share-btn" type="button" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 icon-turath text-[#D7C797]/85 hover:text-[#D7C797] transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Share" title="Share">
+          <svg width="20" height="20" style="width: 20px; height: 20px; max-width: 20px; max-height: 20px; display: block;" class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
+        </button>
+      </div>
+      </div>
+
+      <!-- Centered Product Title -->
+      <div class="absolute top-[15%] md:top-[20%] left-0 w-full flex justify-center items-center z-40 px-4 pointer-events-none">
+        <h1 id="slider-title" class="text-lg md:text-xl lg:text-3xl xl:text-4xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">TEXTURED BRASS STUDDED HALO MIRROR</h1>
+      </div>
+
+      <!-- Center Navigation Arrows -->
+      <div class="absolute top-1/2 left-0 w-full -translate-y-1/2 flex justify-between items-center px-4 md:px-6 z-40 pointer-events-none">
+        <a id="prev-btn" href="/products/mirrors-item-13/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Previous item: FILIGREE BRASS SCROLLWORK MIRROR">&larr;</a>
+        <a id="next-btn" href="/products/mirrors-item-1/" class="nav-arrow-turath text-white/90 hover:text-[#D7C797] text-3xl md:text-4xl font-light transition-colors pointer-events-auto cursor-pointer" aria-label="Next item: ISLAMIC STAR FILIGREE ROUND MIRROR">&rarr;</a>
+      </div>
+
+      <!-- Main Product Image -->
+      <picture class="w-full h-full block">
+        <source id="slider-source-desktop" media="(min-width: 1024px)" srcset="/assets/images/mirrors/mirror-09-desktop.jpg">
+        <img id="slider-image" src="/assets/images/mirrors/mirror-09.jpg" alt="TEXTURED BRASS STUDDED HALO MIRROR - TEXTURED BRASS STUDDED HALO MIRROR | Handcrafted Solid Brass &amp; Copper | ورشة تراث مصر" class="w-full h-full object-cover transition-opacity duration-300" loading="eager" fetchpriority="high">
+      </picture>
+      
+      <!-- Bottom Overlay: AI Description & Dashes -->
+      <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
+        <p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-lg font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.</p>
+        <div id="dashes-container" class="flex justify-center items-center gap-1.5 sm:gap-2 w-full max-w-sm sm:max-w-md px-4 overflow-hidden"></div>
+      </div>
+    </div>
+  
+  
+  <noscript>
+    <div class="sr-only">
+      <h1>TEXTURED BRASS STUDDED HALO MIRROR — TEXTURED BRASS STUDDED HALO MIRROR</h1>
+      <p>A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins. — A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.</p>
+      <p>Material: Solid Brass & Copper. Atelier: Historic Cairo, Egypt. Custom bespoke architectural fabrication.</p>
+      <nav aria-label="Product Navigation">
+        <a href="/products/mirrors-item-13/">Previous: FILIGREE BRASS SCROLLWORK MIRROR</a>
+        <a href="/products/mirrors-item-1/">Next: ISLAMIC STAR FILIGREE ROUND MIRROR</a>
+        <a href="/mirrors.html">Back to Solid Brass Mirrors</a>
+      </nav>
+    </div>
+  </noscript>
+
+  <!-- Semantic Crawlable Catalog Index (Discovered by Googlebot & AI Crawlers) -->
+  <nav aria-label="Solid Brass Mirrors Products Index" class="sr-only" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;">
+    <h2>Solid Brass Mirrors — مرايا نحاس أصفر مصمت</h2>
+    <ul>
+      <li><a href="/products/mirrors-item-1/">ISLAMIC STAR FILIGREE ROUND MIRROR — مرآة دائرية بنقوش النجوم الإسلامية المخرمة</a></li>
+      <li><a href="/products/mirrors-item-2/">ORGANIC FLUID BRASS MIRROR — ORGANIC FLUID BRASS MIRROR</a></li>
+      <li><a href="/products/mirrors-item-3/">FACETED OCTAGONAL BRASS MIRROR — FACETED OCTAGONAL BRASS MIRROR</a></li>
+      <li><a href="/products/mirrors-item-4/">BOTANICAL LAUREL BRANCH BRASS MIRROR — BOTANICAL LAUREL BRANCH BRASS MIRROR</a></li>
+      <li><a href="/products/mirrors-item-5/">MANDALA BRASS MIRROR GALLERY COLLECTION — MANDALA BRASS MIRROR GALLERY COLLECTION</a></li>
+      <li><a href="/products/mirrors-item-6/">ISLAMIC STAR GEOMETRIC BRASS MIRROR — ISLAMIC STAR GEOMETRIC BRASS MIRROR</a></li>
+      <li><a href="/products/mirrors-item-7/">SCALLOPED BRASS INLAY MIRROR — SCALLOPED BRASS INLAY MIRROR</a></li>
+      <li><a href="/products/mirrors-item-8/">TUBULAR OVAL BRASS MIRROR — TUBULAR OVAL BRASS MIRROR</a></li>
+      <li><a href="/products/mirrors-item-9/">PIERCED GEOMETRIC BRASS MIRROR — PIERCED GEOMETRIC BRASS MIRROR</a></li>
+      <li><a href="/products/mirrors-item-10/">SCULPTED BRASS LEAF MIRROR — SCULPTED BRASS LEAF MIRROR</a></li>
+      <li><a href="/products/mirrors-item-11/">ORGANIC CAST BRASS BRANCH MIRROR — ORGANIC CAST BRASS BRANCH MIRROR</a></li>
+      <li><a href="/products/mirrors-item-12/">RADIANT BRASS SUNBURST BRANCH MIRROR — RADIANT BRASS SUNBURST BRANCH MIRROR</a></li>
+      <li><a href="/products/mirrors-item-13/">FILIGREE BRASS SCROLLWORK MIRROR — FILIGREE BRASS SCROLLWORK MIRROR</a></li>
+      <li><a href="/products/mirrors-item-14/">TEXTURED BRASS STUDDED HALO MIRROR — TEXTURED BRASS STUDDED HALO MIRROR</a></li>
+    </ul>
+    <h3>All Collections / كافة التصنيفات</h3>
+    <ul>
+      <li><a href="/lighting.html">Lighting Collection (وحدات إضاءة نحاسية معمارية)</a></li>
+      <li><a href="/mirrors.html">Solid Brass Mirrors (مرايا نحاس أصفر مصمت)</a></li>
+      <li><a href="/tables.html">Tables & Consoles (طاولات وكونسول نحاسي فاخر)</a></li>
+      <li><a href="/handles.html">Architectural Handles (مقابض أبواب نحاسية معمارية)</a></li>
+      <li><a href="/handrails.html">Custom Handrails (درابزين وهندريل نحاس مخصص)</a></li>
+      <li><a href="/decor.html">Decorative Objects (تحف وصواني ديكور نحاسية)</a></li>
+      <li><a href="/wall-art.html">Brass & Copper Wall Art (لوحات جدارية نحاس)</a></li>
+      <li><a href="/partitions.html">Partitions & Screens (قواطع وفواصل نحاسية)</a></li>
+      <li><a href="/tableware.html">Luxury Tableware (أدوات مائدة وأواني ضيافة نحاسية)</a></li>
+      <li><a href="/masterpieces.html">Architectural Masterpieces (روائع نحاسية نادرة)</a></li>
+      <li><a href="/action.html">Turath in Action (حرفية النحاس في الورش التاريخية)</a></li>
+    </ul>
+  </nav>
+
+  </main>
+
+  <script>
+    const sliderData = [
+      {
+            "src": "/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg",
+            "desktopSrc": "/assets/images/mirrors/islamic-star-filigree-round-mirror-desktop.jpg",
+            "title": "ISLAMIC STAR FILIGREE ROUND MIRROR",
+            "desc": "A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and arabesque filigree."
+      },
+      {
+            "src": "/assets/images/mirrors/organic-fluid-brass-mirror.jpg",
+            "desktopSrc": "/assets/images/mirrors/organic-fluid-brass-mirror-desktop.jpg",
+            "title": "ORGANIC FLUID BRASS MIRROR",
+            "desc": "A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel."
+      },
+      {
+            "src": "/assets/images/mirrors/faceted-octagonal-brass-mirror.jpg",
+            "desktopSrc": "/assets/images/mirrors/faceted-octagonal-brass-mirror-desktop.jpg",
+            "title": "FACETED OCTAGONAL BRASS MIRROR",
+            "desc": "An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry."
+      },
+      {
+            "src": "/assets/images/mirrors/botanical-laurel-branch-brass-mirror.jpg",
+            "desktopSrc": "/assets/images/mirrors/botanical-laurel-branch-brass-mirror-desktop.jpg",
+            "title": "BOTANICAL LAUREL BRANCH BRASS MIRROR",
+            "desc": "A circular decorative wall mirror embraced by a sculptural, hand-forged solid brass laurel vine with delicate hand-carved leaves blossoming along the rim."
+      },
+      {
+            "src": "/assets/images/mirrors/mandala-brass-mirror-gallery-collection.jpg",
+            "desktopSrc": "/assets/images/mirrors/mandala-brass-mirror-gallery-collection-desktop.jpg",
+            "title": "MANDALA BRASS MIRROR GALLERY COLLECTION",
+            "desc": "A curated salon ensemble of seven hand-engraved circular solid brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-01.jpg?v=2",
+            "desktopSrc": "/assets/images/mirrors/mirror-01-desktop.jpg",
+            "title": "ISLAMIC STAR GEOMETRIC BRASS MIRROR",
+            "desc": "A circular mirror encompassed by an intricate hand-cut solid brass border featuring Islamic eight-point star geometric fretwork."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-02.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-02-desktop.jpg",
+            "title": "SCALLOPED BRASS INLAY MIRROR",
+            "desc": "An architectural tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-03.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-03-desktop.jpg",
+            "title": "TUBULAR OVAL BRASS MIRROR",
+            "desc": "A pill-shaped mirror encased in concentric solid brass tubular bands with a hand-brushed satin luster."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-04.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-04-desktop.jpg",
+            "title": "PIERCED GEOMETRIC BRASS MIRROR",
+            "desc": "A square wall mirror enveloped by hand-pierced solid brass geometric latticework reflecting authentic Egyptian metalcraft."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-05.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-05-desktop.jpg",
+            "title": "SCULPTED BRASS LEAF MIRROR",
+            "desc": "An organic silhouette mirror adorned with a hand-cast and chased solid brass botanical palm leaf relief."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-06.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-06-desktop.jpg",
+            "title": "ORGANIC CAST BRASS BRANCH MIRROR",
+            "desc": "A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished solid brass."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-07.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-07-desktop.jpg",
+            "title": "RADIANT BRASS SUNBURST BRANCH MIRROR",
+            "desc": "A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-08.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-08-desktop.jpg",
+            "title": "FILIGREE BRASS SCROLLWORK MIRROR",
+            "desc": "An artisanal round mirror surrounded by layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork."
+      },
+      {
+            "src": "/assets/images/mirrors/mirror-09.jpg",
+            "desktopSrc": "/assets/images/mirrors/mirror-09-desktop.jpg",
+            "title": "TEXTURED BRASS STUDDED HALO MIRROR",
+            "desc": "A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins."
+      }
+];
+
+    // Read initial product from URL if present: ?product=...-item-2 or ?item=2
+        const urlParams = new URLSearchParams(window.location.search);
+        const productParam = urlParams.get('product') || urlParams.get('item');
+        let initialIndex = 13;
+        if (productParam) {
+          const match = productParam.match(/-item-(\d+)$/i);
+          const parsedIdx = match ? (parseInt(match[1], 10) - 1) : (parseInt(productParam, 10) - 1);
+          if (!isNaN(parsedIdx) && parsedIdx >= 0 && parsedIdx < sliderData.length) {
+            initialIndex = parsedIdx;
+          }
+        }
+        let currentIndex = initialIndex;
+    const titleEl = document.getElementById('slider-title');
+    const descEl = document.getElementById('slider-desc');
+    const imgEl = document.getElementById('slider-image');
+    const sourceDesktopEl = document.getElementById('slider-source-desktop');
+    const dashesContainer = document.getElementById('dashes-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    // Build Dash indicators dynamically
+    sliderData.forEach((_, idx) => {
+      const dash = document.createElement('span');
+      dash.className = `dash-dot flex-1 max-w-[24px] min-w-[6px] h-[2px] rounded-full transition-all duration-300 cursor-pointer ${idx === currentIndex ? 'bg-[#D7C797] active' : 'bg-[#D7C797]/30'}`;
+      dash.addEventListener('click', () => updateSlider(idx));
+      dashesContainer.appendChild(dash);
+        });
+    
+        function syncSlide(idx) {
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+      const currentItem = sliderData[idx];
+      if (sourceDesktopEl) {
+        sourceDesktopEl.srcset = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
+      }
+      imgEl.src = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
+      imgEl.alt = currentItem.title;
+      titleEl.innerText = currentItem.title;
+      descEl.innerText = currentItem.desc;
+    }
+
+    if (currentIndex >= 0 && sliderData[currentIndex]) {
+      syncSlide(currentIndex);
+    }
+
+    function updateSlider(index) {
+
+      // Update semantic anchor arrows for Googlebot and sequential crawling
+      var __catalogArr = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+      if (__catalogArr && __catalogArr.length) {
+        var __prevIdx = (currentIndex - 1 + __catalogArr.length) % __catalogArr.length;
+        var __nextIdx = (currentIndex + 1) % __catalogArr.length;
+        var __prevItem = __catalogArr[__prevIdx];
+        var __nextItem = __catalogArr[__nextIdx];
+        if (prevBtn && __prevItem) {
+          prevBtn.href = '/products/' + __prevItem.id + '/';
+          prevBtn.setAttribute('aria-label', 'Previous item: ' + __prevItem.title);
+        }
+        if (nextBtn && __nextItem) {
+          nextBtn.href = '/products/' + __nextItem.id + '/';
+          nextBtn.setAttribute('aria-label', 'Next item: ' + __nextItem.title);
+        }
+      }
+  
+      if (index < 0) {
+        currentIndex = sliderData.length - 1;
+      } else if (index >= sliderData.length) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+
+      // Smooth crossfade
+      imgEl.style.opacity = '0.3';
+      titleEl.style.opacity = '0.3';
+      descEl.style.opacity = '0.3';
+
+      setTimeout(() => {
+        const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const currentItem = sliderData[currentIndex];
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = currentItem.desktopSrc || currentItem.src;
+        }
+        imgEl.src = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
+        imgEl.alt = currentItem.title;
+        titleEl.innerText = currentItem.title;
+        descEl.innerText = currentItem.desc;
+
+        imgEl.style.opacity = '1';
+        titleEl.style.opacity = '1';
+        descEl.style.opacity = '1';
+
+        // Update dashes
+        const dots = dashesContainer.querySelectorAll('.dash-dot');
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
+          dot.classList.add('bg-[#D7C797]', 'active');
+          } else {
+            dot.classList.remove('bg-[#D7C797]', 'bg-white');
+          dot.classList.remove('active');
+          dot.classList.add('bg-[#D7C797]/30');
+          }
+        });
+      }, 150);
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex - 1); });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex + 1); });
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
+      if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const container = document.querySelector('main');
+
+    if (container) {
+      container.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      container.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          if (diff < 0) {
+            updateSlider(currentIndex + 1);
+          } else {
+            updateSlider(currentIndex - 1);
+          }
+        }
+      }, { passive: true });
+    }
+  
+    // Share button interaction (dynamic SSG product link)
+    const shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const title = (typeof titleEl !== 'undefined' && titleEl) ? titleEl.innerText : document.title;
+        
+        // Extract category slug from URL
+        const path = window.location.pathname;
+        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
+        const categorySlug = match ? match[1] : 'lighting';
+        
+        // Determine active product ID based on current slide
+        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) ? sliderData[currentIndex] : null;
+        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        
+        // Construct specific SSG share URL
+        const shareUrl = window.location.origin + '/products/' + activeProductId + '/';
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: title, url: shareUrl });
+          } catch (err) {}
+        } else if (navigator.clipboard) {
+          await navigator.clipboard.writeText(shareUrl);
+          shareBtn.classList.add('text-white', 'scale-110');
+          setTimeout(() => shareBtn.classList.remove('text-white', 'scale-110'), 1500);
+        }
+      });
+    }
+
+    // Direct WhatsApp Product Inquiry Button (With Rich Link Card Preview)
+    const productWaBtn = document.getElementById('product-wa-btn');
+    if (productWaBtn) {
+      productWaBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Extract category slug from URL
+        const path = window.location.pathname;
+        const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
+        let categorySlug = match ? match[1].toLowerCase() : 'lighting';
+        if (categorySlug === 'index' || !categorySlug) categorySlug = 'lighting';
+
+        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) 
+          ? sliderData[currentIndex] 
+          : (typeof masterpiecesData !== 'undefined' && masterpiecesData[currentIndex])
+          ? masterpiecesData[currentIndex]
+          : (typeof filmsData !== 'undefined' && filmsData[currentIndex])
+          ? filmsData[currentIndex]
+          : null;
+        const title = (currentItem && currentItem.title) || (typeof titleEl !== 'undefined' && titleEl ? titleEl.innerText : document.title);
+        
+        // Determine active product ID and full product link (Produces Rich Preview with Picture in WhatsApp)
+        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        const productUrl = `${window.location.origin}/products/${activeProductId}/`;
+
+        // Track Conversion Events
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'Contact', { content_name: title, content_category: 'WhatsApp Product Inquiry' });
+        }
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', { event_category: 'WhatsApp', event_label: title });
+        }
+
+        const waText = `مرحباً ورشة تراث، أود الاستفسار عن تفصيل وسعر هذه القطعة:\n${title}\n${productUrl}`;
+        window.open('https://wa.me/201016771010?text=' + encodeURIComponent(waText), '_blank', 'noopener,noreferrer');
+      });
+    }
+
+    // Surgical Image & Media Protection
+    document.addEventListener('contextmenu', (e) => {
+      if (e.target.closest('img, video, [data-protected-media], #slider-image, #masterpiece-img, .video-stream')) {
+        e.preventDefault();
+        return false;
+      }
+    }, { capture: true });
+
+    document.addEventListener('dragstart', (e) => {
+      if (e.target.closest('img, video, [data-protected-media], #slider-image, #masterpiece-img, .video-stream')) {
+        e.preventDefault();
+        return false;
+      }
+    }, { capture: true });
+
+
+  
+
+        // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
+    function initPreloaderDismissal() {
+      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
+      if (!preloader || preloader.dataset.dismissed === 'true') return;
+
+      function dismiss() {
+        if (preloader.dataset.dismissed === 'true') return;
+        preloader.dataset.dismissed = 'true';
+        requestAnimationFrame(() => {
+          preloader.style.opacity = '0';
+          preloader.style.pointerEvents = 'none';
+          preloader.classList.add('opacity-0', 'preloader-hidden');
+        });
+      }
+
+      // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
+      const safetyTimeout = setTimeout(dismiss, 1800);
+
+      const mainMedia = document.getElementById('slider-image') || document.getElementById('slider-video') || document.getElementById('masterpiece-img');
+
+      const mediaReadyPromise = new Promise((resolve) => {
+        if (!mainMedia) return resolve();
+        if (mainMedia.tagName && mainMedia.tagName.toLowerCase() === 'video') {
+          if (mainMedia.readyState >= 2) return resolve();
+          mainMedia.addEventListener('loadeddata', () => resolve(), { once: true });
+          mainMedia.addEventListener('canplay', () => resolve(), { once: true });
+          setTimeout(resolve, 800);
+          return;
+        }
+        if (mainMedia.complete && mainMedia.naturalWidth > 0) {
+          if (mainMedia.decode) {
+            mainMedia.decode().then(resolve).catch(resolve);
+          } else {
+            resolve();
+          }
+        } else {
+          mainMedia.addEventListener('load', () => {
+            if (mainMedia.decode) mainMedia.decode().then(resolve).catch(resolve);
+            else resolve();
+          }, { once: true });
+          mainMedia.addEventListener('error', resolve, { once: true });
+          setTimeout(resolve, 1000);
+        }
+      });
+
+      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+      const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+
+      Promise.all([mediaReadyPromise, minDisplayPromise, fontsPromise]).then(() => {
+        clearTimeout(safetyTimeout);
+        dismiss();
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      initPreloaderDismissal();
+    } else {
+      window.addEventListener('load', initPreloaderDismissal);
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initPreloaderDismissal, 2000);
+      });
+    }
+  </script>
+
+  <script>
+    function initExitPreloader() {
+      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
+      if (!preloader) return;
+      const exitLinks = document.querySelectorAll('.arrow-turath, a[href*="index.html"]');
+      exitLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = link.getAttribute('href');
+          if (!href) return;
+          e.preventDefault();
+          preloader.classList.remove('opacity-0', 'preloader-hidden');
+          preloader.style.transition = 'opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+          preloader.style.pointerEvents = 'auto';
+          preloader.style.opacity = '1';
+          try {
+            sessionStorage.setItem('turath_returning_from_subpage', '1');
+          } catch(err) {}
+          setTimeout(() => {
+            window.location.href = href;
+          }, 320);
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExitPreloader);
+    } else {
+      initExitPreloader();
+    }
+
+    
+  </script>
+  <script>
+    // Enrich slider items with metadata from catalog for instant reactive SEO
+    var __turathCatalog = [{"id":"mirrors-item-1","title":"ISLAMIC STAR FILIGREE ROUND MIRROR","titleAr":"مرآة دائرية بنقوش النجوم الإسلامية المخرمة","description":"A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and arabesque filigree.","descriptionAr":"مرآة جدارية دائرية ضخمة محاطة بإطار عريض من النحاس الأصفر المصمت المفرغ يدويًا بزخارف النجوم الإسلامية المعقدة وفنون الأرابيسك الأصيلة.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-2","title":"ORGANIC FLUID BRASS MIRROR","titleAr":"ORGANIC FLUID BRASS MIRROR","description":"A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel.","descriptionAr":"A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/organic-fluid-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-3","title":"FACETED OCTAGONAL BRASS MIRROR","titleAr":"FACETED OCTAGONAL BRASS MIRROR","description":"An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.","descriptionAr":"An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/faceted-octagonal-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-4","title":"BOTANICAL LAUREL BRANCH BRASS MIRROR","titleAr":"BOTANICAL LAUREL BRANCH BRASS MIRROR","description":"A circular decorative wall mirror embraced by a sculptural, hand-forged solid brass laurel vine with delicate hand-carved leaves blossoming along the rim.","descriptionAr":"A circular decorative wall mirror embraced by a sculptural, hand-forged solid brass laurel vine with delicate hand-carved leaves blossoming along the rim.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/botanical-laurel-branch-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-5","title":"MANDALA BRASS MIRROR GALLERY COLLECTION","titleAr":"MANDALA BRASS MIRROR GALLERY COLLECTION","description":"A curated salon ensemble of seven hand-engraved circular solid brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.","descriptionAr":"A curated salon ensemble of seven hand-engraved circular solid brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mandala-brass-mirror-gallery-collection.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-6","title":"ISLAMIC STAR GEOMETRIC BRASS MIRROR","titleAr":"ISLAMIC STAR GEOMETRIC BRASS MIRROR","description":"A circular mirror encompassed by an intricate hand-cut solid brass border featuring Islamic eight-point star geometric fretwork.","descriptionAr":"A circular mirror encompassed by an intricate hand-cut solid brass border featuring Islamic eight-point star geometric fretwork.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-01.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-7","title":"SCALLOPED BRASS INLAY MIRROR","titleAr":"SCALLOPED BRASS INLAY MIRROR","description":"An architectural tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.","descriptionAr":"An architectural tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-02.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-8","title":"TUBULAR OVAL BRASS MIRROR","titleAr":"TUBULAR OVAL BRASS MIRROR","description":"A pill-shaped mirror encased in concentric solid brass tubular bands with a hand-brushed satin luster.","descriptionAr":"A pill-shaped mirror encased in concentric solid brass tubular bands with a hand-brushed satin luster.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-03.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-9","title":"PIERCED GEOMETRIC BRASS MIRROR","titleAr":"PIERCED GEOMETRIC BRASS MIRROR","description":"A square wall mirror enveloped by hand-pierced solid brass geometric latticework reflecting authentic Egyptian metalcraft.","descriptionAr":"A square wall mirror enveloped by hand-pierced solid brass geometric latticework reflecting authentic Egyptian metalcraft.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-04.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-10","title":"SCULPTED BRASS LEAF MIRROR","titleAr":"SCULPTED BRASS LEAF MIRROR","description":"An organic silhouette mirror adorned with a hand-cast and chased solid brass botanical palm leaf relief.","descriptionAr":"An organic silhouette mirror adorned with a hand-cast and chased solid brass botanical palm leaf relief.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-05.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-11","title":"ORGANIC CAST BRASS BRANCH MIRROR","titleAr":"ORGANIC CAST BRASS BRANCH MIRROR","description":"A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished solid brass.","descriptionAr":"A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished solid brass.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-06.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-12","title":"RADIANT BRASS SUNBURST BRANCH MIRROR","titleAr":"RADIANT BRASS SUNBURST BRANCH MIRROR","description":"A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.","descriptionAr":"A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-07.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-13","title":"FILIGREE BRASS SCROLLWORK MIRROR","titleAr":"FILIGREE BRASS SCROLLWORK MIRROR","description":"An artisanal round mirror surrounded by layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.","descriptionAr":"An artisanal round mirror surrounded by layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-08.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"},{"id":"mirrors-item-14","title":"TEXTURED BRASS STUDDED HALO MIRROR","titleAr":"TEXTURED BRASS STUDDED HALO MIRROR","description":"A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.","descriptionAr":"A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.","keywords":"مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-09.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر مصمت","categoryFile":"mirrors.html"}];
+    var __dataArray = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+    if (__dataArray && __dataArray.length) {
+      __dataArray.forEach(function(item, idx) {
+        if (!item.id) item.id = 'mirrors-item-' + (idx + 1);
+        var match = __turathCatalog.find(function(c) { return c.id === item.id; }) || __turathCatalog[idx];
+        if (match) {
+          if (!item.titleAr) item.titleAr = match.titleAr;
+          if (!item.descAr && !item.descriptionAr) item.descAr = match.descriptionAr;
+        }
+      });
+      // Initial dynamic metadata update
+      if (typeof currentIndex !== 'undefined' && __dataArray[currentIndex]) {
+        updateTurathDynamicMeta(__dataArray[currentIndex]);
+      } else if (__dataArray[0]) {
+        updateTurathDynamicMeta(__dataArray[0]);
+      }
+    }
+  </script>
+</body>
+</html>

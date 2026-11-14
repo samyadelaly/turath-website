@@ -29,12 +29,19 @@ const data = JSON.parse(fs.readFileSync(productsDataPath, 'utf8'));
 
 const urls = [];
 
-// 1. Homepage
+// 1. Homepage & Catalog Hub
 urls.push({
   loc: `${BASE_URL}/`,
   lastmod: today,
   changefreq: 'daily',
   priority: '1.0'
+});
+
+urls.push({
+  loc: `${BASE_URL}/products/`,
+  lastmod: today,
+  changefreq: 'weekly',
+  priority: '0.9'
 });
 
 // 2. Category Pages
