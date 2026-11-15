@@ -1262,6 +1262,7 @@ function initBespokeForm() {
  */
 function initLazyVideo(video) {
   if (!video) return;
+  video.preload = 'none';
 
   const loadMedia = () => {
     let needsLoad = false;
