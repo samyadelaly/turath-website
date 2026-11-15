@@ -7,7 +7,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>حاسبة تراث للمعادن | Turath Metal Calculator</title>
-
     <!-- استدعاء Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,12 +16,9 @@
                     colors: {
                         'turath-bg': '#1c1c1c',      /* رمادي غامق سادة للخلفية */
                         'turath-card': '#2a2a2a',    /* رمادي أفتح قليلاً للكروت */
-                        'turath-surface': '#232323', /* سطح وسيط للحقول */
+                        'turath-surface': '#222222', /* رمادي للحقول والعناصر الداخلية */
                         'turath-gold': '#d4b16a',    /* لون تراث الدهبي الصريح */
-                        'turath-gold-hover': '#c29e55',
-                        'turath-copper': '#b85d33',
-                        'turath-steel': '#8fa3b8',
-                        'turath-aluminum': '#d2d8e0'
+                        'turath-gold-hover': '#c29e55'
                     },
                     fontFamily: {
                         'cairo': ['Cairo', 'sans-serif'],
@@ -31,15 +27,12 @@
             }
         }
     </script>
-
-    <!-- خط Cairo لدعم اللغة العربية والأرقام -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="/favicon-32x32.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
     <style>
         :root {
             --metal-accent: #d4b16a;
@@ -59,210 +52,191 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
-        .metal-border {
-            border-color: var(--metal-accent);
-        }
-        .metal-text {
-            color: var(--metal-accent);
-        }
-        .metal-bg {
-            background-color: var(--metal-accent);
-        }
-        .metal-glow {
-            box-shadow: 0 0 15px var(--metal-accent-soft);
-        }
-        /* Custom scrollbar for assembly */
-        .custom-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scroll::-webkit-scrollbar-track {
-            background: #1c1c1c;
-        }
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: #444444;
-            border-radius: 4px;
-        }
+        .metal-text { color: var(--metal-accent); }
+        .metal-border { border-color: var(--metal-accent); }
+        .metal-bg { background-color: var(--metal-accent); }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #1c1c1c; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #444444; border-radius: 4px; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center pb-32 select-none">
+<body class="min-h-screen flex flex-col items-center pb-28 select-none">
 
-    <!-- حاوية التطبيق المركزية (Mobile First Container) -->
-    <main class="w-full max-w-md p-4 min-h-screen flex flex-col">
+    <div class="w-full max-w-md p-4 min-h-screen flex flex-col">
         
-        <!-- الهيدر الفاخر -->
+        <!-- الهيدر -->
         <header class="flex justify-between items-center mb-5 pb-3 border-b border-gray-800">
             <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-base transition-colors duration-300 metal-bg text-turath-bg shadow-md">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm bg-turath-gold text-turath-bg shadow">
                     ت
                 </div>
                 <div>
-                    <h1 class="text-lg font-black tracking-tight metal-text transition-colors duration-300">حاسبة تراث للمعادن</h1>
-                    <p class="text-[10px] text-gray-400 -mt-0.5 tracking-wider font-mono">TURATH METAL CALCULATOR</p>
+                    <h1 class="text-lg font-bold text-turath-gold tracking-tight">حاسبة تراث للمعادن</h1>
+                    <p class="text-[9px] text-gray-400 -mt-0.5 tracking-wider font-mono">TURATH METAL CALCULATOR</p>
                 </div>
             </div>
             
             <div class="flex items-center gap-2">
-                <!-- زر عرض التجميع / السلة -->
-                <button onclick="toggleAssemblyDrawer()" id="assemblyBadgeBtn" class="relative bg-turath-card hover:bg-gray-800 p-2 rounded-lg border border-gray-700 text-gray-300 transition-all text-xs flex items-center gap-1.5" title="قائمة التجميع">
-                    <span>قائمة القطع</span>
-                    <span id="assemblyCountBadge" class="w-4 h-4 rounded-full metal-bg text-turath-bg text-[10px] font-bold flex items-center justify-center">0</span>
+                <!-- زر فتح سلة التجميع مع العداد -->
+                <button onclick="toggleAssemblyDrawer()" id="assemblyBadgeBtn" class="bg-turath-card hover:bg-gray-800 px-2.5 py-1.5 rounded-lg border border-gray-700 text-gray-300 transition-all text-xs flex items-center gap-1.5">
+                    <span>قائمة التجميع</span>
+                    <span id="assemblyCountBadge" class="w-4 h-4 rounded-full bg-turath-gold text-turath-bg text-[10px] font-bold flex items-center justify-center">0</span>
                 </button>
 
                 <!-- زر تثبيت التطبيق PWA -->
-                <button id="installBtn" class="hidden metal-bg text-turath-bg text-xs font-bold px-2.5 py-1.5 rounded-lg shadow-sm hover:brightness-110 active:scale-95 transition-all">
+                <button id="installBtn" class="hidden bg-turath-gold text-turath-bg text-xs font-bold px-3 py-1.5 rounded-lg shadow hover:bg-turath-gold-hover transition-colors">
                     تثبيت 📱
                 </button>
             </div>
         </header>
 
-        <!-- التبويبات العلوية: حساب قطعة / سعر الكيلو -->
-        <div class="grid grid-cols-2 gap-2 mb-4 bg-turath-card p-1 rounded-xl border border-gray-800 text-xs font-bold">
-            <button id="tabCalcBtn" onclick="switchMainTab('calc')" class="py-2 rounded-lg transition-all text-turath-bg metal-bg shadow">
-                حساب وتصميم القطعة
-            </button>
-            <button id="tabPriceBtn" onclick="switchMainTab('prices')" class="py-2 rounded-lg transition-all text-gray-400 hover:text-white">
-                أسعار المعادن والمصنعية
-            </button>
+        <!-- الشاشة الرئيسية: شبكة الكروت (Grid View) للقطاعات -->
+        <div id="shapesGridView" class="space-y-3.5">
+            <div class="flex justify-between items-center mb-1">
+                <h2 class="text-sm font-semibold text-gray-300">اختر القطاع الهندسي للخامة</h2>
+                <span class="text-[10px] text-turath-gold font-mono">4 قطاعات قياسية</span>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-3">
+                <!-- كارت لوح صاج -->
+                <div onclick="openCalculator('sheet', 'SHEET / لوح - صاج')" class="bg-turath-card p-4 rounded-xl border border-gray-700 flex items-center justify-between cursor-pointer hover:border-turath-gold transition-all active:scale-[0.99] group shadow-md">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-turath-surface border border-gray-700 flex items-center justify-center text-turath-gold">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                                <line x1="7" y1="12" x2="17" y2="12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-bold text-turath-gold block text-base group-hover:text-yellow-400 transition-colors">SHEET</span>
+                            <span class="text-xs text-gray-400">لوح - صاج (أبعاد وتخانة مسطحة)</span>
+                        </div>
+                    </div>
+                    <span class="text-turath-gold text-lg transition-transform group-hover:-translate-x-1">←</span>
+                </div>
+
+                <!-- كارت ماسورة مدورة -->
+                <div onclick="openCalculator('round-tube', 'ROUND TUBE / ماسورة مدورة')" class="bg-turath-card p-4 rounded-xl border border-gray-700 flex items-center justify-between cursor-pointer hover:border-turath-gold transition-all active:scale-[0.99] group shadow-md">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-turath-surface border border-gray-700 flex items-center justify-center text-turath-gold">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="9"/>
+                                <circle cx="12" cy="12" r="5" stroke-dasharray="2 2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-bold text-turath-gold block text-base group-hover:text-yellow-400 transition-colors">ROUND TUBE</span>
+                            <span class="text-xs text-gray-400">ماسورة مدورة (قطر وتخانة مفرغة)</span>
+                        </div>
+                    </div>
+                    <span class="text-turath-gold text-lg transition-transform group-hover:-translate-x-1">←</span>
+                </div>
+
+                <!-- كارت خوصة مبطط -->
+                <div onclick="openCalculator('flat-bar', 'FLAT BAR / خوصة - مبطط')" class="bg-turath-card p-4 rounded-xl border border-gray-700 flex items-center justify-between cursor-pointer hover:border-turath-gold transition-all active:scale-[0.99] group shadow-md">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-turath-surface border border-gray-700 flex items-center justify-center text-turath-gold">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="8" width="20" height="8" rx="1"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-bold text-turath-gold block text-base group-hover:text-yellow-400 transition-colors">FLAT BAR</span>
+                            <span class="text-xs text-gray-400">خوصة - مبطط مصمت (عرض وتخانة)</span>
+                        </div>
+                    </div>
+                    <span class="text-turath-gold text-lg transition-transform group-hover:-translate-x-1">←</span>
+                </div>
+
+                <!-- كارت علبة مربعة ومستطيلة -->
+                <div onclick="openCalculator('square-tube', 'SQUARE / RECT TUBE / علبة')" class="bg-turath-card p-4 rounded-xl border border-gray-700 flex items-center justify-between cursor-pointer hover:border-turath-gold transition-all active:scale-[0.99] group shadow-md">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-turath-surface border border-gray-700 flex items-center justify-center text-turath-gold">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="1"/>
+                                <rect x="7" y="7" width="10" height="10" stroke-dasharray="2 2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-bold text-turath-gold block text-base group-hover:text-yellow-400 transition-colors">SQUARE / RECT TUBE</span>
+                            <span class="text-xs text-gray-400">علبة مفرغة مربعة أو مستطيلة</span>
+                        </div>
+                    </div>
+                    <span class="text-turath-gold text-lg transition-transform group-hover:-translate-x-1">←</span>
+                </div>
+            </div>
         </div>
 
-        <!-- تبويب: أسعار المعادن والمصنعية (قابل للتعديل الفوري) -->
-        <section id="pricesTabContent" class="hidden mb-5 space-y-3 bg-turath-card p-4 rounded-xl border border-gray-700">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-2">
-                <h3 class="text-sm font-bold text-gray-200">أسعار الكيلو الحالية (EGP / kg)</h3>
-                <span class="text-[10px] text-gray-400">قابلة للتعديل حسب سعر السوق</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2 text-xs">
-                <div>
-                    <label class="block text-gray-400 mb-1 text-[11px]">نحاس أصفر (Brass)</label>
-                    <input type="number" id="priceBrass" value="580" oninput="saveCustomPrices(); calculate();" class="w-full bg-turath-surface text-center p-2 rounded border border-gray-700 text-turath-gold font-bold">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1 text-[11px]">نحاس أحمر (Copper)</label>
-                    <input type="number" id="priceCopper" value="690" oninput="saveCustomPrices(); calculate();" class="w-full bg-turath-surface text-center p-2 rounded border border-gray-700 text-orange-400 font-bold">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1 text-[11px]">حديد / ستيل (Steel)</label>
-                    <input type="number" id="priceSteel" value="65" oninput="saveCustomPrices(); calculate();" class="w-full bg-turath-surface text-center p-2 rounded border border-gray-700 text-gray-300 font-bold">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1 text-[11px]">ألومنيوم (Aluminum)</label>
-                    <input type="number" id="priceAluminum" value="240" oninput="saveCustomPrices(); calculate();" class="w-full bg-turath-surface text-center p-2 rounded border border-gray-700 text-slate-300 font-bold">
-                </div>
+        <!-- شاشة الحاسبة (تظهر عند اختيار قطاع من الشبكة) -->
+        <div id="calculatorView" class="hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <button onclick="backToGrid()" class="text-xs text-turath-gold flex items-center gap-1 font-semibold hover:underline active:scale-95 transition-all">
+                    <span>← العودة لشبكة القطاعات</span>
+                </button>
+                <span id="activeUnitBadge" class="text-[10px] text-gray-400 bg-turath-surface px-2 py-0.5 rounded border border-gray-700 font-mono">
+                    الأبعاد بـ السنتيمتر (cm)
+                </span>
             </div>
 
-            <!-- نسبة الهالك والتشغيل -->
-            <div class="pt-2 border-t border-gray-800 flex items-center justify-between">
-                <div>
-                    <span class="text-xs text-gray-300 block font-semibold">نسبة الهالك والقص (% Scrap)</span>
-                    <span class="text-[10px] text-gray-500">تضاف للوزن الخام لتغطية فاقد الورشة</span>
-                </div>
-                <div class="flex items-center gap-1">
-                    <input type="number" id="scrapRate" value="5" min="0" max="30" oninput="calculate();" class="w-14 bg-turath-surface text-center p-1.5 rounded border border-gray-700 text-xs font-bold text-white">
-                    <span class="text-xs text-gray-400">%</span>
-                </div>
-            </div>
-
-            <!-- مصنعية تشكيل يدوية اختيارية للكيلو -->
-            <div class="pt-2 border-t border-gray-800 flex items-center justify-between">
-                <div>
-                    <span class="text-xs text-gray-300 block font-semibold">مصنعية تشكيل وتعتيق (لكل kg)</span>
-                    <span class="text-[10px] text-gray-500">لحام، باتينا أنتيك، وتلميع اختياري</span>
-                </div>
-                <div class="flex items-center gap-1">
-                    <input type="number" id="laborPerKg" value="0" min="0" oninput="calculate();" class="w-16 bg-turath-surface text-center p-1.5 rounded border border-gray-700 text-xs font-bold text-white">
-                    <span class="text-[11px] text-gray-400">ج.م</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- محتوى التبويب الرئيسي: الحاسبة -->
-        <div id="calculatorTabContent">
             <!-- صندوق اختيار المعدن -->
-            <div class="mb-3.5">
-                <div class="flex justify-between items-center mb-1">
-                    <label for="metalType" class="text-xs text-gray-400 font-medium">نوع المعدن والسبائك (Alloy)</label>
-                    <span id="metalDensityBadge" class="text-[10px] text-gray-400 font-mono">الكثافة: 8.55 g/cm³</span>
-                </div>
-                <div class="relative">
-                    <select id="metalType" onchange="updateMetalTheme()" class="w-full bg-turath-card text-turath-gold font-bold p-3 rounded-xl border border-gray-700 outline-none appearance-none pr-3 pl-8 transition-colors duration-300 cursor-pointer shadow-inner">
-                        <option value="8.55" data-color="#d4b16a" data-name="نحاس أصفر (Brass)">نحاس أصفر مصمت (High Brass) - 8.55 g/cm³</option>
-                        <option value="8.96" data-color="#b85d33" data-name="نحاس أحمر (Copper)">نحاس أحمر نقي (Pure Copper) - 8.96 g/cm³</option>
-                        <option value="7.85" data-color="#8fa3b8" data-name="حديد / صلب (Steel)">حديد / صلب مشغول (Mild Steel) - 7.85 g/cm³</option>
-                        <option value="2.70" data-color="#cbd5e0" data-name="ألومنيوم (Aluminum)">ألومنيوم خفيف (Aluminum) - 2.70 g/cm³</option>
-                        <option value="8.80" data-color="#c59b48" data-name="برونز معماري (Bronze)">برونز معماري عتيق (Bronze) - 8.80 g/cm³</option>
-                        <option value="7.93" data-color="#a0aec0" data-name="ستانلس ستيل 304 (SS304)">ستانلس ستيل 304 (Stainless Steel) - 7.93 g/cm³</option>
-                    </select>
-                    <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-xs">
-                        ▼
-                    </div>
-                </div>
+            <div>
+                <label class="block text-xs text-gray-400 mb-1">نوع المعدن والسبيكة (Alloy)</label>
+                <select id="metalType" onchange="onMetalChanged()" class="w-full bg-turath-card text-turath-gold font-bold p-3 rounded-lg border border-gray-700 outline-none text-center cursor-pointer shadow-inner">
+                    <option value="8.55" data-color="#d4b16a" data-price="580" data-name="نحاس أصفر (Brass)">نحاس أصفر (Brass) - 8.55 g/cm³</option>
+                    <option value="8.96" data-color="#b85d33" data-price="690" data-name="نحاس أحمر (Copper)">نحاس أحمر (Copper) - 8.96 g/cm³</option>
+                    <option value="7.85" data-color="#8fa3b8" data-price="65" data-name="حديد / ستيل (Steel)">حديد / ستيل (Steel) - 7.85 g/cm³</option>
+                    <option value="2.70" data-color="#cbd5e0" data-price="240" data-name="ألومنيوم (Aluminum)">ألومنيوم (Aluminum) - 2.70 g/cm³</option>
+                </select>
             </div>
 
-            <!-- صندوق اختيار القطاع الهندسي -->
-            <div class="mb-4">
-                <label for="shapeType" class="block text-xs text-gray-400 font-medium mb-1">القطاع الهندسي للمشغولات (Cross Section)</label>
-                <div class="relative">
-                    <select id="shapeType" onchange="renderInputsAndDiagram()" class="w-full bg-turath-card text-white font-semibold p-3 rounded-xl border border-gray-700 outline-none appearance-none pr-3 pl-8 cursor-pointer shadow-inner">
-                        <option value="round-tube">ماسورة مدورة مفرغة (Round Tube / Pipe)</option>
-                        <option value="rect-tube">علبة مربعة / مستطيلة (Square / Rectangular Tube)</option>
-                        <option value="flat-bar">خوصة / مبطط مصمت (Flat Bar / Strip)</option>
-                        <option value="sheet">لوح / صاج مسطح (Sheet / Plate)</option>
-                        <option value="round-bar">بار مدور مصمت (Solid Round Rod)</option>
-                        <option value="square-bar">بار مربع مصمت (Solid Square Bar)</option>
-                    </select>
-                    <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-xs">
-                        ▼
-                    </div>
-                </div>
-            </div>
-
-            <!-- كارت الرسمة المجسمة التفاعلية (Interactive 3D / Isometric Section) -->
-            <div class="bg-turath-card rounded-2xl p-4 mb-4 border border-gray-700 flex flex-col items-center justify-center relative min-h-[175px] shadow-lg transition-all duration-300">
-                <div class="w-full flex justify-between items-center mb-1">
-                    <span id="shapeTitleDisplay" class="text-turath-gold font-bold text-sm tracking-wide metal-text transition-colors">ماسورة مدورة</span>
-                    <span id="dimensionSummaryTag" class="text-[10px] text-gray-400 font-mono bg-turath-bg px-2 py-0.5 rounded border border-gray-800">
-                        الأبعاد بالمليمتر (mm)
-                    </span>
-                </div>
-
-                <!-- حاوية الرسمة الفيكتور ثلاثية الأبعاد (Isometric Vector Diagram) -->
-                <div id="diagramSvgContainer" class="w-full flex items-center justify-center py-2 h-[130px]">
-                    <!-- يتم توليد رسمة الـ SVG المتجاوبة فورياً حسب القطاع والأبعاد -->
+            <!-- كارت عنوان القطاع النشط والرسمة الهندسية ثلاثية الأبعاد -->
+            <div class="bg-turath-card rounded-xl p-3.5 border border-gray-700 text-center relative shadow-lg">
+                <h3 id="activeShapeTitle" class="text-turath-gold font-bold text-base mb-1">اسم القطاع</h3>
+                <p class="text-[11px] text-gray-400 mb-2">رسم توضيحي للقطاع وأماكن الأبعاد</p>
+                <div id="shapeIsometricSvg" class="w-full flex items-center justify-center h-24 py-1">
+                    <!-- يتم توليد الـ SVG ثلاثي الأبعاد فورياً هنا -->
                 </div>
             </div>
 
             <!-- خانات الإدخال الديناميكية -->
-            <div class="bg-turath-card p-4 rounded-2xl border border-gray-700 mb-4 shadow-md">
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-xs font-bold text-gray-300">أبعاد القطعة (Dimensions)</span>
-                    <span class="text-[10px] text-gray-500">أدخل المقاسات بدقة الورشة</span>
-                </div>
-                
-                <div id="inputsContainer" class="space-y-3">
-                    <!-- سيتم تعبئة الحقول تلقائياً حسب القطاع المختار -->
-                </div>
+            <div id="dynamicInputs" class="space-y-2.5">
+                <!-- يتم توليد الأبعاد هنا حسب القطاع -->
             </div>
 
-            <!-- بطاقة النتيجة الفورية للقطعة الحالية -->
-            <div class="bg-turath-surface p-3.5 rounded-xl border border-gray-800 mb-4 flex justify-between items-center">
+            <!-- خانة الكمية / العدد -->
+            <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                <label class="w-36 px-4 text-gray-300 text-sm font-semibold">الكمية (العدد)</label>
+                <input type="number" id="valQty" value="1" min="1" step="1" class="flex-1 bg-transparent p-3 text-white outline-none text-left font-bold" oninput="calculate()">
+                <span class="px-4 text-gray-400 text-xs font-bold bg-turath-card border-l border-gray-700">قطعة</span>
+            </div>
+
+            <!-- خانة سعر الكيلو -->
+            <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                <label class="w-36 px-4 text-gray-300 text-sm font-semibold">سعر الكيلو (Kg Price)</label>
+                <input type="number" id="inputPrice" value="580" placeholder="0" class="flex-1 bg-transparent p-3 text-turath-gold outline-none text-left font-bold text-base" oninput="calculate()">
+                <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">EGP</span>
+            </div>
+
+            <!-- بطاقة ملخص القطعة الحالية -->
+            <div class="bg-turath-surface p-2.5 rounded-lg border border-gray-800 flex justify-between items-center text-xs">
                 <div>
-                    <span class="text-[10px] text-gray-400 block">وزن القطعة الواحدة</span>
-                    <span id="singlePieceWeight" class="text-sm font-bold text-gray-200">0.00 kg</span>
+                    <span class="text-gray-400 block text-[10px]">وزن القطعة الواحدة</span>
+                    <span id="singleItemWeightLabel" class="font-bold text-gray-200">0.00 kg</span>
                 </div>
-                <div class="h-6 w-px bg-gray-700"></div>
+                <div class="h-5 w-px bg-gray-700"></div>
                 <div>
-                    <span class="text-[10px] text-gray-400 block">وزن إجمالي الكمية</span>
-                    <span id="currentBatchWeight" class="text-sm font-bold metal-text">0.00 kg</span>
+                    <span class="text-gray-400 block text-[10px]">إجمالي وزن الكمية</span>
+                    <span id="batchItemWeightLabel" class="font-bold text-turath-gold">0.00 kg</span>
                 </div>
-                <div class="h-6 w-px bg-gray-700"></div>
+                <div class="h-5 w-px bg-gray-700"></div>
                 <div class="text-left">
-                    <span class="text-[10px] text-gray-400 block">تكلفة خامات الكمية</span>
-                    <span id="currentBatchCost" class="text-sm font-bold metal-text">0 EGP</span>
+                    <span class="text-gray-400 block text-[10px]">تكلفة خامات الكمية</span>
+                    <span id="batchItemCostLabel" class="font-bold text-turath-gold">0.00 EGP</span>
                 </div>
             </div>
 
-            <!-- زر إضافة للمنتج (Assembly) -->
-            <button onclick="addToAssembly()" class="w-full metal-bg text-turath-bg font-extrabold text-base p-3.5 rounded-xl shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+            <!-- زر الإضافة للمنتج -->
+            <button onclick="addToAssembly()" class="w-full bg-turath-gold text-turath-bg font-extrabold text-base p-3.5 rounded-lg hover:bg-turath-gold-hover active:scale-[0.99] transition-all shadow-md flex items-center justify-center gap-2">
                 <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
@@ -270,27 +244,26 @@
             </button>
         </div>
 
-        <!-- نافذة سحب / كارت قائمة التجميع (Assembly Bill of Materials) -->
-        <div id="assemblyDrawer" class="hidden mt-4 bg-turath-card rounded-2xl p-4 border border-turath-gold border-opacity-30 shadow-2xl transition-all">
+        <!-- كارت قائمة التجميع الشاملة (Assembly BOM Drawer) -->
+        <div id="assemblyDrawer" class="hidden mt-4 bg-turath-card rounded-xl p-4 border border-turath-gold border-opacity-40 shadow-xl transition-all">
             <div class="flex justify-between items-center mb-3 pb-2 border-b border-gray-700">
                 <div class="flex items-center gap-2">
-                    <h3 class="font-bold text-sm text-gray-200">مكونات المنتج المجمعة (Assembly BOM)</h3>
-                    <span id="assemblyTotalItemsTag" class="text-[10px] bg-gray-800 text-gray-300 px-2 py-0.5 rounded-full">0 قطع</span>
+                    <h3 class="font-bold text-sm text-gray-200">قائمة مكونات المنتج (BOM)</h3>
+                    <span id="assemblyTotalItemsTag" class="text-[10px] bg-gray-800 text-gray-300 px-2 py-0.5 rounded-full font-mono">0 قطع</span>
                 </div>
-                <button onclick="clearAssembly()" class="text-[11px] text-red-400 hover:text-red-300 hover:underline">
+                <button onclick="clearAssembly()" class="text-[11px] text-red-400 hover:underline">
                     مسح الكل ✕
                 </button>
             </div>
 
-            <!-- قائمة القطع المضافة -->
-            <div id="assemblyList" class="space-y-2 max-h-52 overflow-y-auto custom-scroll pr-1">
-                <p id="emptyAssemblyPrompt" class="text-xs text-gray-500 text-center py-6">
-                    لم تقم بإضافة أي قطع إلى المنتج بعد.<br>اختر المقاس واضغط "إضافة القطعة للمنتج".
+            <div id="assemblyList" class="space-y-2 max-h-48 overflow-y-auto custom-scroll pr-1">
+                <p id="emptyAssemblyPrompt" class="text-xs text-gray-500 text-center py-5">
+                    لم تتم إضافة أي قطع للمنتج بعد.<br>اختر أبعاد القطعة واضغط إضافة.
                 </p>
             </div>
 
-            <!-- أزرار المشاركة وتصدير الطلب -->
-            <div id="assemblyActionButtons" class="hidden mt-4 pt-3 border-t border-gray-800 grid grid-cols-2 gap-2">
+            <!-- أزرار الإجراءات السريعة -->
+            <div id="assemblyActionButtons" class="hidden mt-3.5 pt-3 border-t border-gray-800 grid grid-cols-2 gap-2">
                 <button onclick="sendToWhatsApp()" class="bg-[#25D366] hover:bg-[#20ba5a] text-black font-bold text-xs py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
                     <span>إرسال للورشة (واتساب)</span>
                     <span>💬</span>
@@ -301,490 +274,359 @@
             </div>
         </div>
 
-    </main>
+    </div>
 
-    <!-- شريط الإجمالي العائم أسفل الشاشة (Fixed Sticky Bottom Bar) -->
-    <div class="fixed bottom-0 w-full max-w-md bg-turath-card border-t-2 metal-border p-3.5 flex justify-between items-center z-40 shadow-2xl backdrop-blur-md bg-opacity-95">
-        <div class="cursor-pointer" onclick="toggleAssemblyDrawer()">
+    <!-- شريط الإجمالي العائم أسفل الشاشة -->
+    <div class="fixed bottom-0 w-full max-w-md bg-turath-card border-t border-turath-gold p-3.5 flex justify-between items-center z-40 shadow-2xl backdrop-blur-md bg-opacity-95 cursor-pointer" onclick="toggleAssemblyDrawer()">
+        <div>
             <div class="flex items-center gap-1">
                 <p class="text-[10px] text-gray-400">الوزن الإجمالي المقدر</p>
-                <span id="liveItemsCountLabel" class="text-[9px] text-gray-500">(الحالي)</span>
+                <span id="bottomBarModeLabel" class="text-[9px] text-gray-500 font-mono">(القطعة)</span>
             </div>
-            <p class="text-xl font-extrabold metal-text tracking-tight font-mono">
-                <span id="resultWeight">0.00</span> <span class="text-xs font-sans text-gray-300">kg</span>
-            </p>
+            <p class="text-lg font-bold text-turath-gold font-mono"><span id="resultWeight">0.00</span> kg</p>
         </div>
-        <div class="text-left cursor-pointer" onclick="toggleAssemblyDrawer()">
+        <div class="text-left">
             <p class="text-[10px] text-gray-400">التكلفة التقديرية للخامات</p>
-            <p class="text-xl font-extrabold metal-text tracking-tight font-mono">
-                <span id="resultCost">0</span> <span class="text-xs font-sans text-gray-300">EGP</span>
-            </p>
+            <p class="text-lg font-bold text-turath-gold font-mono"><span id="resultCost">0.00</span> EGP</p>
         </div>
     </div>
 
-    <!-- كود الجافاسكريبت والتشغيل الكامل (PWA & Advanced Dynamic Logic) -->
     <script>
-        // تعريف قطاعات الأشكال وبيانات الحقول
-        const SHAPES_CONFIG = {
-            'round-tube': {
-                title: 'ماسورة مدورة مفرغة',
-                fields: [
-                    { id: 'valD', label: 'القطر الخارجي D', unit: 'mm', placeholder: 'مثال: 50.8', default: 50.8 },
-                    { id: 'valT', label: 'سُمك الجدار t', unit: 'mm', placeholder: 'مثال: 1.5', default: 1.5 },
-                    { id: 'valL', label: 'الطول الكلي L', unit: 'mm', placeholder: 'مثال: 1000', default: 1000 },
-                    { id: 'valQty', label: 'الكمية (العدد)', unit: 'قطع', placeholder: '1', default: 1 }
-                ]
-            },
-            'rect-tube': {
-                title: 'علبة مربعة / مستطيلة مفرغة',
-                fields: [
-                    { id: 'valW', label: 'العرض الخارجي W', unit: 'mm', placeholder: 'مثال: 40', default: 40 },
-                    { id: 'valH', label: 'الارتفاع الخارجي H', unit: 'mm', placeholder: 'مثال: 20', default: 20 },
-                    { id: 'valT', label: 'سُمك الجدار t', unit: 'mm', placeholder: 'مثال: 2', default: 2 },
-                    { id: 'valL', label: 'الطول الكلي L', unit: 'mm', placeholder: 'مثال: 1000', default: 1000 },
-                    { id: 'valQty', label: 'الكمية (العدد)', unit: 'قطع', placeholder: '1', default: 1 }
-                ]
-            },
-            'flat-bar': {
-                title: 'خوصة / مبطط مصمت',
-                fields: [
-                    { id: 'valW', label: 'عرض الخوصة W', unit: 'mm', placeholder: 'مثال: 30', default: 30 },
-                    { id: 'valT', label: 'سُمك الخوصة T', unit: 'mm', placeholder: 'مثال: 5', default: 5 },
-                    { id: 'valL', label: 'الطول الكلي L', unit: 'mm', placeholder: 'مثال: 1000', default: 1000 },
-                    { id: 'valQty', label: 'الكمية (العدد)', unit: 'قطع', placeholder: '1', default: 1 }
-                ]
-            },
-            'sheet': {
-                title: 'لوح / صاج مسطح',
-                fields: [
-                    { id: 'valL', label: 'طول اللوح L', unit: 'mm', placeholder: 'مثال: 1000', default: 1000 },
-                    { id: 'valW', label: 'عرض اللوح W', unit: 'mm', placeholder: 'مثال: 1000', default: 1000 },
-                    { id: 'valT', label: 'سُمك الصاج T', unit: 'mm', placeholder: 'مثال: 1.2', default: 1.2 },
-                    { id: 'valQty', label: 'عدد الألواح', unit: 'ألواح', placeholder: '1', default: 1 }
-                ]
-            },
-            'round-bar': {
-                title: 'بار مدور مصمت',
-                fields: [
-                    { id: 'valD', label: 'قطر البار المصمت D', unit: 'mm', placeholder: 'مثال: 25', default: 25 },
-                    { id: 'valL', label: 'الطول الكلي L', unit: 'mm', placeholder: 'مثال: 1000', default: 1000 },
-                    { id: 'valQty', label: 'الكمية (العدد)', unit: 'قطع', placeholder: '1', default: 1 }
-                ]
-            },
-            'square-bar': {
-                title: 'بار مربع مصمت',
-                fields: [
-                    { id: 'valS', label: 'طول ضلع المربع S', unit: 'mm', placeholder: 'مثال: 20', default: 20 },
-                    { id: 'valL', label: 'الطول الكلي L', unit: 'mm', placeholder: 'مثال: 1000', default: 1000 },
-                    { id: 'valQty', label: 'الكمية (العدد)', unit: 'قطع', placeholder: '1', default: 1 }
-                ]
-            }
-        };
-
-        // مصفوفة قائمة التجميع (Assembly BOM)
+        let currentShape = '';
         let assemblyItems = [];
 
-        // عند تحميل الصفحة
-        window.addEventListener('DOMContentLoaded', () => {
-            loadCustomPrices();
-            renderInputsAndDiagram();
-            updateMetalTheme();
+        function openCalculator(shapeKey, shapeName) {
+            currentShape = shapeKey;
+            document.getElementById('shapesGridView').classList.add('hidden');
+            document.getElementById('calculatorView').classList.remove('hidden');
+            document.getElementById('activeShapeTitle').innerText = shapeName;
+            
+            renderInputs(shapeKey);
+            renderShapeSvg(shapeKey);
+            onMetalChanged();
+        }
+
+        function backToGrid() {
+            document.getElementById('calculatorView').classList.add('hidden');
+            document.getElementById('shapesGridView').classList.remove('hidden');
+            updateBottomBar();
+        }
+
+        function onMetalChanged() {
+            const select = document.getElementById('metalType');
+            const selectedOption = select.options[select.selectedIndex];
+            const defaultPrice = selectedOption.getAttribute('data-price') || 580;
+            const color = selectedOption.getAttribute('data-color') || '#d4b16a';
+
+            // ضبط سعر الكيلو التلقائي إذا لم يقم المستخدم بتغييره يدوياً
+            const priceInput = document.getElementById('inputPrice');
+            if (priceInput && (!priceInput.value || priceInput.dataset.autoFilled === "true" || priceInput.value === "0")) {
+                priceInput.value = defaultPrice;
+                priceInput.dataset.autoFilled = "true";
+            }
+
+            document.documentElement.style.setProperty('--metal-accent', color);
+            renderShapeSvg(currentShape);
+            calculate();
+        }
+
+        document.getElementById('inputPrice')?.addEventListener('input', function() {
+            this.dataset.autoFilled = "false";
         });
 
-        // التبديل بين تبويب الحساب وتبويب الأسعار
-        function switchMainTab(tab) {
-            const calcTab = document.getElementById('calculatorTabContent');
-            const pricesTab = document.getElementById('pricesTabContent');
-            const tabCalcBtn = document.getElementById('tabCalcBtn');
-            const tabPriceBtn = document.getElementById('tabPriceBtn');
+        function renderShapeSvg(shape) {
+            const container = document.getElementById('shapeIsometricSvg');
+            if (!container) return;
 
-            if (tab === 'calc') {
-                calcTab.classList.remove('hidden');
-                pricesTab.classList.add('hidden');
-                tabCalcBtn.className = "py-2 rounded-lg transition-all text-turath-bg metal-bg shadow font-bold";
-                tabPriceBtn.className = "py-2 rounded-lg transition-all text-gray-400 hover:text-white font-bold";
-            } else {
-                calcTab.classList.add('hidden');
-                pricesTab.classList.remove('hidden');
-                tabPriceBtn.className = "py-2 rounded-lg transition-all text-turath-bg metal-bg shadow font-bold";
-                tabCalcBtn.className = "py-2 rounded-lg transition-all text-gray-400 hover:text-white font-bold";
-            }
-        }
-
-        // توليد الحقول ورسمة الـ SVG حسب القطاع المختار
-        function renderInputsAndDiagram() {
-            const shape = document.getElementById('shapeType').value;
-            const config = SHAPES_CONFIG[shape] || SHAPES_CONFIG['round-tube'];
-
-            // تحديث عنوان الكارت
-            document.getElementById('shapeTitleDisplay').innerText = config.title;
-
-            // توليد حقول الإدخال
-            const container = document.getElementById('inputsContainer');
-            container.innerHTML = config.fields.map(f => `
-                <div class="flex items-center justify-between gap-3">
-                    <label for="${f.id}" class="text-xs text-gray-300 font-medium whitespace-nowrap min-w-[125px]">
-                        ${f.label}
-                    </label>
-                    <div class="relative w-full flex items-center">
-                        <input type="number" 
-                               id="${f.id}" 
-                               step="any"
-                               value="${f.default}" 
-                               placeholder="${f.placeholder}" 
-                               oninput="calculate()" 
-                               class="w-full bg-turath-surface text-white font-bold text-sm px-3 py-2 rounded-xl border border-gray-700 focus:border-turath-gold outline-none transition-all pl-12 text-left">
-                        <span class="absolute left-3 text-[11px] font-mono text-gray-400 pointer-events-none">
-                            ${f.unit}
-                        </span>
-                    </div>
-                </div>
-            `).join('');
-
-            // تحديث رسمة الـ SVG ثلاثية الأبعاد
-            updateShapeSvg();
-            calculate();
-        }
-
-        // رسم قطاع الـ 3D / Isometric بالفيكتور
-        function updateShapeSvg() {
-            const shape = document.getElementById('shapeType').value;
             const select = document.getElementById('metalType');
-            const selectedOption = select.options[select.selectedIndex];
-            const color = selectedOption.getAttribute('data-color') || '#d4b16a';
-            const svgBox = document.getElementById('diagramSvgContainer');
+            const color = select.options[select.selectedIndex]?.getAttribute('data-color') || '#d4b16a';
 
-            let svgContent = '';
-
-            if (shape === 'round-tube') {
-                svgContent = `
-                <svg viewBox="0 0 320 120" class="w-full h-full max-h-[120px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="tubeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="${color}" stop-opacity="0.8"/>
-                            <stop offset="50%" stop-color="${color}" stop-opacity="0.3"/>
-                            <stop offset="100%" stop-color="${color}" stop-opacity="0.9"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- جسم الماسورة الأسطواني -->
-                    <path d="M70,30 L230,30 C245,30 255,45 255,60 C255,75 245,90 230,90 L70,90" fill="url(#tubeGrad)" stroke="${color}" stroke-width="2"/>
-                    <!-- الفوهة الخارجية الأمامية -->
-                    <ellipse cx="70" cy="60" rx="24" ry="30" fill="#1c1c1c" stroke="${color}" stroke-width="2.5"/>
-                    <!-- التجويف الداخلي للماسورة (سمك الجدار) -->
-                    <ellipse cx="70" cy="60" rx="16" ry="20" fill="#141414" stroke="${color}" stroke-dasharray="3 2" stroke-width="2"/>
-                    <!-- الأبعاد الهندسية والأسهم -->
-                    <line x1="70" y1="20" x2="230" y2="20" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
-                    <text x="150" y="16" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">L (Length)</text>
-                    <!-- إشارة القطر D -->
-                    <line x1="40" y1="30" x2="40" y2="90" stroke="#888" stroke-width="1.5"/>
-                    <line x1="36" y1="30" x2="44" y2="30" stroke="#888" stroke-width="1.5"/>
-                    <line x1="36" y1="90" x2="44" y2="90" stroke="#888" stroke-width="1.5"/>
-                    <text x="32" y="64" fill="#aaa" font-size="10" font-family="monospace" text-anchor="end">Ø D</text>
-                    <!-- إشارة السمك t -->
-                    <text x="70" y="38" fill="${color}" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">t</text>
+            let svg = '';
+            if (shape === 'sheet') {
+                svg = `
+                <svg viewBox="0 0 280 90" class="w-full h-full max-h-20" fill="none">
+                    <polygon points="50,60 120,20 230,20 160,60" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
+                    <polygon points="160,60 230,20 230,28 160,68" fill="${color}" fill-opacity="0.7" stroke="${color}" stroke-width="1.5"/>
+                    <polygon points="50,60 160,60 160,68 50,68" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="2"/>
+                    <text x="105" y="80" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">العرض W</text>
+                    <text x="180" y="16" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
+                    <text x="175" y="66" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">السمك T</text>
                 </svg>`;
-            } else if (shape === 'rect-tube') {
-                svgContent = `
-                <svg viewBox="0 0 320 120" class="w-full h-full max-h-[120px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="rectGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="${color}" stop-opacity="0.8"/>
-                            <stop offset="100%" stop-color="${color}" stop-opacity="0.3"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- الجانب العلوي المجسم -->
-                    <polygon points="50,45 100,20 240,20 190,45" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
-                    <!-- الجانب الجانبي الأيمن المجسم -->
-                    <polygon points="190,45 240,20 240,75 190,100" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="2"/>
-                    <!-- الواجهة الأمامية للعلبة -->
-                    <rect x="50" y="45" width="140" height="55" fill="#1c1c1c" stroke="${color}" stroke-width="2.5"/>
-                    <!-- التجويف المفرغ الداخلي -->
-                    <rect x="62" y="55" width="116" height="35" fill="#141414" stroke="${color}" stroke-dasharray="3 2" stroke-width="1.5"/>
-                    <!-- مؤشرات W و H و L -->
-                    <text x="120" y="112" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">W (Width)</text>
-                    <text x="35" y="75" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">H</text>
-                    <text x="215" y="15" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">L (Length)</text>
-                    <text x="56" y="52" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">t</text>
+            } else if (shape === 'round-tube') {
+                svg = `
+                <svg viewBox="0 0 280 90" class="w-full h-full max-h-20" fill="none">
+                    <path d="M60,25 L200,25 C215,25 225,37 225,50 C225,63 215,75 200,75 L60,75" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
+                    <ellipse cx="60" cy="50" rx="20" ry="25" fill="#1c1c1c" stroke="${color}" stroke-width="2.5"/>
+                    <ellipse cx="60" cy="50" rx="13" ry="17" fill="#141414" stroke="${color}" stroke-dasharray="3 2" stroke-width="1.5"/>
+                    <text x="130" y="18" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
+                    <text x="32" y="53" fill="#bbb" font-size="9" font-family="monospace" text-anchor="end">القطر Ø D</text>
+                    <text x="60" y="32" fill="${color}" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">t</text>
                 </svg>`;
             } else if (shape === 'flat-bar') {
-                svgContent = `
-                <svg viewBox="0 0 320 120" class="w-full h-full max-h-[120px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- مسطح الخوصة العلوي -->
-                    <polygon points="60,65 140,25 250,25 170,65" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="2"/>
-                    <!-- الحافة الجانبية الطولية -->
-                    <polygon points="170,65 250,25 250,40 170,80" fill="${color}" fill-opacity="0.8" stroke="${color}" stroke-width="2"/>
-                    <!-- الوجه الأمامي للخوصة -->
-                    <polygon points="60,65 170,65 170,80 60,80" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2.5"/>
-                    <!-- نصوص الأبعاد -->
-                    <text x="115" y="93" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">W (العرض)</text>
-                    <text x="180" y="75" fill="${color}" font-size="10" font-family="monospace" font-weight="bold">T (السمك)</text>
-                    <text x="200" y="20" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
+                svg = `
+                <svg viewBox="0 0 280 90" class="w-full h-full max-h-20" fill="none">
+                    <polygon points="50,55 120,20 220,20 150,55" fill="${color}" fill-opacity="0.5" stroke="${color}" stroke-width="2"/>
+                    <polygon points="150,55 220,20 220,32 150,67" fill="${color}" fill-opacity="0.8" stroke="${color}" stroke-width="2"/>
+                    <polygon points="50,55 150,55 150,67 50,67" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
+                    <text x="100" y="80" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">العرض W</text>
+                    <text x="165" y="63" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">السمك T</text>
+                    <text x="175" y="16" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
                 </svg>`;
-            } else if (shape === 'sheet') {
-                svgContent = `
-                <svg viewBox="0 0 320 120" class="w-full h-full max-h-[120px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- لوح الصاج مائل مجسم -->
-                    <polygon points="60,75 140,25 260,25 180,75" fill="${color}" fill-opacity="0.5" stroke="${color}" stroke-width="2"/>
-                    <polygon points="180,75 260,25 260,33 180,83" fill="${color}" fill-opacity="0.8" stroke="${color}" stroke-width="1.5"/>
-                    <polygon points="60,75 180,75 180,83 60,83" fill="${color}" fill-opacity="0.7" stroke="${color}" stroke-width="2"/>
-                    <!-- نصوص الأبعاد -->
-                    <text x="120" y="95" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">W (العرض)</text>
-                    <text x="200" y="20" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
-                    <text x="195" y="81" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">T</text>
-                </svg>`;
-            } else if (shape === 'round-bar') {
-                svgContent = `
-                <svg viewBox="0 0 320 120" class="w-full h-full max-h-[120px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- أسطوانة مصمتة -->
-                    <path d="M70,35 L230,35 C245,35 255,48 255,60 C255,72 245,85 230,85 L70,85" fill="${color}" fill-opacity="0.5" stroke="${color}" stroke-width="2"/>
-                    <ellipse cx="70" cy="60" rx="22" ry="25" fill="${color}" fill-opacity="0.8" stroke="${color}" stroke-width="2.5"/>
-                    <text x="150" y="25" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
-                    <text x="35" y="64" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">Ø D</text>
-                </svg>`;
-            } else if (shape === 'square-bar') {
-                svgContent = `
-                <svg viewBox="0 0 320 120" class="w-full h-full max-h-[120px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- بار مربع مجسم -->
-                    <polygon points="60,50 110,25 240,25 190,50" fill="${color}" fill-opacity="0.5" stroke="${color}" stroke-width="2"/>
-                    <polygon points="190,50 240,25 240,65 190,90" fill="${color}" fill-opacity="0.7" stroke="${color}" stroke-width="2"/>
-                    <rect x="60" y="50" width="130" height="40" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
-                    <text x="125" y="103" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">S (الضلع)</text>
-                    <text x="215" y="20" fill="#aaa" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
+            } else {
+                svg = `
+                <svg viewBox="0 0 280 90" class="w-full h-full max-h-20" fill="none">
+                    <polygon points="45,40 90,15 210,15 165,40" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
+                    <polygon points="165,40 210,15 210,60 165,85" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="2"/>
+                    <rect x="45" y="40" width="120" height="45" fill="#1c1c1c" stroke="${color}" stroke-width="2.5"/>
+                    <rect x="55" y="48" width="100" height="29" fill="#141414" stroke="${color}" stroke-dasharray="3 2" stroke-width="1.5"/>
+                    <text x="105" y="98" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">العرض W</text>
+                    <text x="32" y="65" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">H</text>
+                    <text x="150" y="12" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
+                    <text x="50" y="46" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">t</text>
                 </svg>`;
             }
-
-            svgBox.innerHTML = svgContent;
+            container.innerHTML = svg;
         }
 
-        // تغيير ألوان التطبيق ديناميكياً حسب المعدن المختار
-        function updateMetalTheme() {
-            const select = document.getElementById('metalType');
-            const selectedOption = select.options[select.selectedIndex];
-            const color = selectedOption.getAttribute('data-color') || '#d4b16a';
-            const density = parseFloat(selectedOption.value) || 8.55;
+        function renderInputs(shape) {
+            const container = document.getElementById('dynamicInputs');
+            let html = '';
 
-            // تحديث متغير CSS العام
-            document.documentElement.style.setProperty('--metal-accent', color);
-            document.documentElement.style.setProperty('--metal-accent-soft', color + '25');
-
-            // تحديث بطاقة الكثافة
-            document.getElementById('metalDensityBadge').innerText = `الكثافة: ${density} g/cm³`;
-
-            // تحديث الـ SVG
-            updateShapeSvg();
-            calculate();
-        }
-
-        // جلب سعر الكيلو الحالي للمعدن المختار
-        function getCurrentMetalPricePerKg() {
-            const select = document.getElementById('metalType');
-            const density = parseFloat(select.value);
-
-            if (Math.abs(density - 8.55) < 0.05) { // Brass
-                return parseFloat(document.getElementById('priceBrass')?.value) || 580;
-            } else if (Math.abs(density - 8.96) < 0.05) { // Copper
-                return parseFloat(document.getElementById('priceCopper')?.value) || 690;
-            } else if (Math.abs(density - 7.85) < 0.1 || Math.abs(density - 7.93) < 0.1) { // Steel / SS
-                return parseFloat(document.getElementById('priceSteel')?.value) || 65;
-            } else if (Math.abs(density - 2.70) < 0.05) { // Aluminum
-                return parseFloat(document.getElementById('priceAluminum')?.value) || 240;
-            } else { // Bronze or others
-                return parseFloat(document.getElementById('priceBrass')?.value) || 580;
+            if (shape === 'sheet') {
+                html = `
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">الطول (Length)</label>
+                        <input type="number" id="valL" value="100" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">العرض (Width)</label>
+                        <input type="number" id="valW" value="50" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">السمك (Thickness)</label>
+                        <input type="number" id="valT" value="0.2" step="0.05" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                `;
+            } else if (shape === 'round-tube') {
+                html = `
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">القطر (Diameter)</label>
+                        <input type="number" id="valD" value="5.08" step="0.1" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">السمك (Thickness)</label>
+                        <input type="number" id="valT" value="0.15" step="0.05" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">الطول (Length)</label>
+                        <input type="number" id="valL" value="100" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                `;
+            } else if (shape === 'flat-bar') {
+                html = `
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">العرض (Width)</label>
+                        <input type="number" id="valW" value="3.0" step="0.1" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">السمك (Thickness)</label>
+                        <input type="number" id="valT" value="0.5" step="0.1" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">الطول (Length)</label>
+                        <input type="number" id="valL" value="100" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">العرض (Width)</label>
+                        <input type="number" id="valW" value="4.0" step="0.1" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">الارتفاع (Height)</label>
+                        <input type="number" id="valH" value="2.0" step="0.1" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">السمك (Thickness)</label>
+                        <input type="number" id="valT" value="0.2" step="0.05" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                    <div class="flex items-center bg-turath-card rounded-lg overflow-hidden border border-gray-700">
+                        <label class="w-36 px-4 text-gray-300 text-sm font-semibold">الطول (Length)</label>
+                        <input type="number" id="valL" value="100" placeholder="0.0" class="flex-1 bg-transparent p-3 text-white outline-none text-left" oninput="calculate()">
+                        <span class="px-4 text-turath-gold font-bold bg-turath-card border-l border-gray-700">cm</span>
+                    </div>
+                `;
             }
+            container.innerHTML = html;
         }
 
-        // حساب الحجم والوزن والتكلفة الفورية
         function calculate() {
-            const density = parseFloat(document.getElementById('metalType').value) || 8.55;
-            const shape = document.getElementById('shapeType').value;
-            const scrapRate = parseFloat(document.getElementById('scrapRate')?.value || 0) / 100;
-            const laborPerKg = parseFloat(document.getElementById('laborPerKg')?.value || 0);
-            const pricePerKg = getCurrentMetalPricePerKg();
+            const density = parseFloat(document.getElementById('metalType')?.value) || 8.55;
+            const pricePerKg = parseFloat(document.getElementById('inputPrice')?.value) || 0;
+            const qty = parseFloat(document.getElementById('valQty')?.value) || 1;
+            let singleVolumeCm3 = 0;
 
-            let volumeMm3Single = 0; // الحجم بالمليمتر المكعب للقطعة الواحدة
-            let qty = 1;
-
-            if (shape === 'round-tube') {
+            if (currentShape === 'sheet') {
+                const l = parseFloat(document.getElementById('valL')?.value) || 0;
+                const w = parseFloat(document.getElementById('valW')?.value) || 0;
+                const t = parseFloat(document.getElementById('valT')?.value) || 0;
+                singleVolumeCm3 = l * w * t;
+            } else if (currentShape === 'round-tube') {
                 const d = parseFloat(document.getElementById('valD')?.value) || 0;
                 const t = parseFloat(document.getElementById('valT')?.value) || 0;
                 const l = parseFloat(document.getElementById('valL')?.value) || 0;
-                qty = parseFloat(document.getElementById('valQty')?.value) || 1;
-
-                if (t > 0 && d > 0 && t <= d / 2 && l > 0) {
-                    // مساحة المقطع الدائري المفرغ = PI * t * (D - t)
-                    const area = Math.PI * t * (d - t);
-                    volumeMm3Single = area * l;
+                if (t <= d / 2 && t > 0) {
+                    singleVolumeCm3 = Math.PI * (d - t) * t * l;
                 }
-            } else if (shape === 'rect-tube') {
+            } else if (currentShape === 'flat-bar') {
+                const w = parseFloat(document.getElementById('valW')?.value) || 0;
+                const t = parseFloat(document.getElementById('valT')?.value) || 0;
+                const l = parseFloat(document.getElementById('valL')?.value) || 0;
+                singleVolumeCm3 = w * t * l;
+            } else if (currentShape === 'square-tube') {
                 const w = parseFloat(document.getElementById('valW')?.value) || 0;
                 const h = parseFloat(document.getElementById('valH')?.value) || 0;
                 const t = parseFloat(document.getElementById('valT')?.value) || 0;
                 const l = parseFloat(document.getElementById('valL')?.value) || 0;
-                qty = parseFloat(document.getElementById('valQty')?.value) || 1;
-
-                if (t > 0 && w > 2 * t && h > 2 * t && l > 0) {
-                    // مساحة المقطع المستطيل المفرغ = 2*t*(W + H - 2*t)
-                    const area = 2 * t * (w + h - (2 * t));
-                    volumeMm3Single = area * l;
-                }
-            } else if (shape === 'flat-bar') {
-                const w = parseFloat(document.getElementById('valW')?.value) || 0;
-                const t = parseFloat(document.getElementById('valT')?.value) || 0;
-                const l = parseFloat(document.getElementById('valL')?.value) || 0;
-                qty = parseFloat(document.getElementById('valQty')?.value) || 1;
-
-                if (w > 0 && t > 0 && l > 0) {
-                    volumeMm3Single = w * t * l;
-                }
-            } else if (shape === 'sheet') {
-                const l = parseFloat(document.getElementById('valL')?.value) || 0;
-                const w = parseFloat(document.getElementById('valW')?.value) || 0;
-                const t = parseFloat(document.getElementById('valT')?.value) || 0;
-                qty = parseFloat(document.getElementById('valQty')?.value) || 1;
-
-                if (l > 0 && w > 0 && t > 0) {
-                    volumeMm3Single = l * w * t;
-                }
-            } else if (shape === 'round-bar') {
-                const d = parseFloat(document.getElementById('valD')?.value) || 0;
-                const l = parseFloat(document.getElementById('valL')?.value) || 0;
-                qty = parseFloat(document.getElementById('valQty')?.value) || 1;
-
-                if (d > 0 && l > 0) {
-                    const area = Math.PI * Math.pow(d / 2, 2);
-                    volumeMm3Single = area * l;
-                }
-            } else if (shape === 'square-bar') {
-                const s = parseFloat(document.getElementById('valS')?.value) || 0;
-                const l = parseFloat(document.getElementById('valL')?.value) || 0;
-                qty = parseFloat(document.getElementById('valQty')?.value) || 1;
-
-                if (s > 0 && l > 0) {
-                    volumeMm3Single = s * s * l;
+                if (t > 0 && w > 2*t && h > 2*t) {
+                    const outerArea = w * h;
+                    const innerArea = (w - (2 * t)) * (h - (2 * t));
+                    const crossSection = outerArea - innerArea;
+                    singleVolumeCm3 = crossSection * l;
                 }
             }
 
-            // تحويل الحجم من mm3 إلى cm3 (القسمة على 1000)
-            // والوزن بالجرام = cm3 * الكثافة
-            // والوزن بالكيلوجرام = الجرام / 1000 = (mm3 * density) / 1,000,000
-            const singleWeightKg = (volumeMm3Single * density) / 1000000;
-            const singleWeightWithScrap = singleWeightKg * (1 + scrapRate);
-            
-            const totalBatchWeight = singleWeightWithScrap * qty;
-            const totalBatchCost = totalBatchWeight * (pricePerKg + laborPerKg);
+            // الحجم بـ cm³ × الكثافة بـ g/cm³ = جرام / 1000 = كيلوجرام
+            const singleWeightKg = (singleVolumeCm3 * density) / 1000;
+            const batchWeightKg = singleWeightKg * qty;
+            const batchCost = batchWeightKg * pricePerKg;
 
-            // تحديث بطاقة القطعة الحالية
-            document.getElementById('singlePieceWeight').innerText = `${singleWeightKg.toFixed(2)} kg`;
-            document.getElementById('currentBatchWeight').innerText = `${totalBatchWeight.toFixed(2)} kg`;
-            document.getElementById('currentBatchCost').innerText = `${Math.round(totalBatchCost).toLocaleString()} EGP`;
+            // تحديث بطاقة القطعة الواحدة
+            const singleLabel = document.getElementById('singleItemWeightLabel');
+            if (singleLabel) singleLabel.innerText = `${singleWeightKg.toFixed(2)} kg`;
 
-            // تحديث الشريط السفلي العائم (إذا لم توجد قطع مجمعة يعرض الحالية، وإلا يعرض إجمالي التجميع)
-            updateFloatingBottomBar(totalBatchWeight, totalBatchCost);
+            const batchLabel = document.getElementById('batchItemWeightLabel');
+            if (batchLabel) batchLabel.innerText = `${batchWeightKg.toFixed(2)} kg`;
+
+            const costLabel = document.getElementById('batchItemCostLabel');
+            if (costLabel) costLabel.innerText = `${batchCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+
+            updateBottomBar(batchWeightKg, batchCost);
 
             return {
-                shape,
-                density,
+                shape: currentShape,
                 qty,
                 singleWeightKg,
-                totalBatchWeight,
-                totalBatchCost,
+                batchWeightKg,
+                batchCost,
                 pricePerKg
             };
         }
 
-        // تحديث أرقام الشريط السفلي
-        function updateFloatingBottomBar(currentWeight, currentCost) {
-            let displayWeight = 0;
-            let displayCost = 0;
+        function updateBottomBar(currentBatchWeight = 0, currentBatchCost = 0) {
+            let totalWeight = 0;
+            let totalCost = 0;
+
+            const modeLabel = document.getElementById('bottomBarModeLabel');
 
             if (assemblyItems.length > 0) {
-                // حساب إجمالي كل قطع التجميع
                 assemblyItems.forEach(item => {
-                    displayWeight += item.totalWeight;
-                    displayCost += item.totalCost;
+                    totalWeight += item.batchWeight;
+                    totalCost += item.batchCost;
                 });
-                document.getElementById('liveItemsCountLabel').innerText = `(${assemblyItems.length} قطع بالتجميع)`;
+                if (modeLabel) modeLabel.innerText = `(${assemblyItems.length} قطع بالتجميع)`;
             } else {
-                displayWeight = currentWeight;
-                displayCost = currentCost;
-                document.getElementById('liveItemsCountLabel').innerText = `(القطعة الحالية)`;
+                totalWeight = currentBatchWeight;
+                totalCost = currentBatchCost;
+                if (modeLabel) modeLabel.innerText = `(القطعة)`;
             }
 
-            document.getElementById('resultWeight').innerText = displayWeight.toFixed(2);
-            document.getElementById('resultCost').innerText = Math.round(displayCost).toLocaleString();
+            document.getElementById('resultWeight').innerText = totalWeight.toFixed(2);
+            document.getElementById('resultCost').innerText = totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        // إضافة القطعة الحالية لسلة التجميع (Assembly BOM)
         function addToAssembly() {
-            const current = calculate();
-            if (!current || current.totalBatchWeight <= 0) {
-                alert('يرجى التأكد من إدخال مقاسات صحيحة للقطعة أولاً');
+            const data = calculate();
+            if (!data || data.batchWeightKg <= 0) {
+                alert('يرجى التأكد من إدخال أبعاد صحيحة أولاً');
                 return;
             }
 
-            const shape = current.shape;
-            const config = SHAPES_CONFIG[shape];
+            const shapeTitle = document.getElementById('activeShapeTitle')?.innerText || currentShape;
             const select = document.getElementById('metalType');
-            const metalName = select.options[select.selectedIndex].getAttribute('data-name') || select.options[select.selectedIndex].text;
-            
-            // تجميع نص الأبعاد
-            let dimSummary = '';
-            if (shape === 'round-tube') {
-                dimSummary = `Ø${document.getElementById('valD')?.value || 0} × ${document.getElementById('valT')?.value || 0}mm - L:${document.getElementById('valL')?.value || 0}mm`;
-            } else if (shape === 'rect-tube') {
-                dimSummary = `${document.getElementById('valW')?.value || 0}×${document.getElementById('valH')?.value || 0} × ${document.getElementById('valT')?.value || 0}mm - L:${document.getElementById('valL')?.value || 0}mm`;
-            } else if (shape === 'flat-bar') {
-                dimSummary = `${document.getElementById('valW')?.value || 0}×${document.getElementById('valT')?.value || 0}mm - L:${document.getElementById('valL')?.value || 0}mm`;
-            } else if (shape === 'sheet') {
-                dimSummary = `${document.getElementById('valL')?.value || 0}×${document.getElementById('valW')?.value || 0}mm - T:${document.getElementById('valT')?.value || 0}mm`;
-            } else if (shape === 'round-bar') {
-                dimSummary = `Ø${document.getElementById('valD')?.value || 0}mm مصمت - L:${document.getElementById('valL')?.value || 0}mm`;
-            } else if (shape === 'square-bar') {
-                dimSummary = `${document.getElementById('valS')?.value || 0}×${document.getElementById('valS')?.value || 0}mm مصمت - L:${document.getElementById('valL')?.value || 0}mm`;
+            const metalName = select.options[select.selectedIndex]?.getAttribute('data-name') || select.options[select.selectedIndex]?.text;
+
+            let dimText = '';
+            if (currentShape === 'sheet') {
+                dimText = `${document.getElementById('valL')?.value}×${document.getElementById('valW')?.value} cm (سمك ${document.getElementById('valT')?.value}cm)`;
+            } else if (currentShape === 'round-tube') {
+                dimText = `قطر Ø${document.getElementById('valD')?.value}cm (سمك ${document.getElementById('valT')?.value}cm) - طول ${document.getElementById('valL')?.value}cm`;
+            } else if (currentShape === 'flat-bar') {
+                dimText = `عرض ${document.getElementById('valW')?.value}cm (سمك ${document.getElementById('valT')?.value}cm) - طول ${document.getElementById('valL')?.value}cm`;
+            } else {
+                dimText = `${document.getElementById('valW')?.value}×${document.getElementById('valH')?.value}cm (سمك ${document.getElementById('valT')?.value}cm) - طول ${document.getElementById('valL')?.value}cm`;
             }
 
             const item = {
                 id: Date.now(),
-                shapeTitle: config.title,
-                metalName: metalName,
-                dimensions: dimSummary,
-                qty: current.qty,
-                singleWeight: current.singleWeightKg,
-                totalWeight: current.totalBatchWeight,
-                totalCost: current.totalBatchCost
+                title: shapeTitle,
+                metal: metalName,
+                dimensions: dimText,
+                qty: data.qty,
+                singleWeight: data.singleWeightKg,
+                batchWeight: data.batchWeightKg,
+                batchCost: data.batchCost
             };
 
             assemblyItems.push(item);
             renderAssemblyDrawer();
-            
-            // فتح كارت التجميع تلقائياً عند أول إضافة
+
+            // إظهار كارت التجميع تلقائياً
             const drawer = document.getElementById('assemblyDrawer');
-            if (drawer.classList.contains('hidden')) {
+            if (drawer) {
                 drawer.classList.remove('hidden');
+                drawer.scrollIntoView({ behavior: 'smooth' });
             }
 
-            // إشعار بصري سريع
-            calculate();
+            updateBottomBar(data.batchWeightKg, data.batchCost);
         }
 
-        // حذف قطعة من التجميع
         function removeFromAssembly(id) {
-            assemblyItems = assemblyItems.filter(item => item.id !== id);
+            assemblyItems = assemblyItems.filter(i => i.id !== id);
             renderAssemblyDrawer();
             calculate();
         }
 
-        // مسح كل قطع التجميع
         function clearAssembly() {
             if (assemblyItems.length === 0) return;
-            if (confirm('هل أنت متأكد من مسح جميع القطع من قائمة التجميع؟')) {
+            if (confirm('هل تريد مسح جميع القطع من قائمة التجميع؟')) {
                 assemblyItems = [];
                 renderAssemblyDrawer();
                 calculate();
             }
         }
 
-        // رسم كارت التجميع
+        function toggleAssemblyDrawer() {
+            const drawer = document.getElementById('assemblyDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                drawer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         function renderAssemblyDrawer() {
             const list = document.getElementById('assemblyList');
             const badge = document.getElementById('assemblyCountBadge');
@@ -796,8 +638,8 @@
 
             if (assemblyItems.length === 0) {
                 list.innerHTML = `
-                    <p id="emptyAssemblyPrompt" class="text-xs text-gray-500 text-center py-6">
-                        لم تقم بإضافة أي قطع إلى المنتج بعد.<br>اختر المقاس واضغط "إضافة القطعة للمنتج".
+                    <p id="emptyAssemblyPrompt" class="text-xs text-gray-500 text-center py-5">
+                        لم تتم إضافة أي قطع للمنتج بعد.<br>اختر أبعاد القطعة واضغط إضافة.
                     </p>
                 `;
                 actionBtns.classList.add('hidden');
@@ -807,21 +649,21 @@
             actionBtns.classList.remove('hidden');
 
             list.innerHTML = assemblyItems.map((item, idx) => `
-                <div class="bg-turath-surface p-2.5 rounded-xl border border-gray-800 flex justify-between items-center text-xs">
+                <div class="bg-turath-surface p-2.5 rounded-lg border border-gray-800 flex justify-between items-center text-xs">
                     <div>
                         <div class="flex items-center gap-1.5">
                             <span class="w-4 h-4 rounded-full bg-gray-800 text-[10px] text-gray-300 flex items-center justify-center font-mono">${idx + 1}</span>
-                            <span class="font-bold text-gray-200">${item.shapeTitle}</span>
-                            <span class="text-[10px] metal-text">(${item.metalName})</span>
+                            <span class="font-bold text-gray-200">${item.title}</span>
+                            <span class="text-[10px] text-turath-gold">(${item.metal})</span>
                         </div>
-                        <div class="text-[11px] text-gray-400 mt-0.5 font-mono">
+                        <div class="text-[11px] text-gray-400 mt-0.5">
                             ${item.dimensions} <span class="text-turath-gold font-bold">× ${item.qty}</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="text-left font-mono">
-                            <div class="font-bold text-gray-200">${item.totalWeight.toFixed(2)} kg</div>
-                            <div class="text-[10px] text-gray-400">${Math.round(item.totalCost).toLocaleString()} EGP</div>
+                            <div class="font-bold text-gray-200">${item.batchWeight.toFixed(2)} kg</div>
+                            <div class="text-[10px] text-gray-400">${item.batchCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP</div>
                         </div>
                         <button onclick="removeFromAssembly(${item.id})" class="text-gray-500 hover:text-red-400 p-1 text-sm transition-colors" title="حذف القطعة">
                             ✕
@@ -831,16 +673,6 @@
             `).join('');
         }
 
-        // فتح وإغلاق كارت التجميع
-        function toggleAssemblyDrawer() {
-            const drawer = document.getElementById('assemblyDrawer');
-            drawer.classList.toggle('hidden');
-            if (!drawer.classList.contains('hidden')) {
-                drawer.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // نسخ مواصفات المقايسة للحافظة
         function copyAssemblySpecs() {
             if (assemblyItems.length === 0) return;
 
@@ -850,31 +682,30 @@
             text += `------------------------------------\n`;
 
             assemblyItems.forEach((item, i) => {
-                totalW += item.totalWeight;
-                totalC += item.totalCost;
-                text += `${i + 1}. ${item.shapeTitle} (${item.metalName})\n`;
+                totalW += item.batchWeight;
+                totalC += item.batchCost;
+                text += `${i + 1}. ${item.title} (${item.metal})\n`;
                 text += `   المقاس: ${item.dimensions} | العدد: ${item.qty}\n`;
-                text += `   الوزن: ${item.totalWeight.toFixed(2)} kg | التكلفة: ${Math.round(item.totalCost)} EGP\n\n`;
+                text += `   الوزن: ${item.batchWeight.toFixed(2)} kg | التكلفة: ${item.batchCost.toFixed(2)} EGP\n\n`;
             });
 
             text += `------------------------------------\n`;
             text += `*إجمالي الوزن التقديري:* ${totalW.toFixed(2)} kg\n`;
-            text += `*إجمالي تكلفة الخامات:* ${Math.round(totalC).toLocaleString()} EGP\n`;
-            text += `*تاريخ الاستخراج:* ${new Date().toLocaleDateString('ar-EG')}\n`;
+            text += `*إجمالي تكلفة الخامات:* ${totalC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP\n`;
+            text += `*تاريخ المقايسة:* ${new Date().toLocaleDateString('ar-EG')}\n`;
 
             navigator.clipboard.writeText(text).then(() => {
-                const btnText = document.getElementById('copyBtnText');
-                btnText.innerText = 'تم النسخ بنجاح! ✓';
-                setTimeout(() => { btnText.innerText = 'نسخ المقايسة 📋'; }, 2000);
+                const btn = document.getElementById('copyBtnText');
+                btn.innerText = 'تم النسخ بنجاح! ✓';
+                setTimeout(() => { btn.innerText = 'نسخ المقايسة 📋'; }, 2000);
             }).catch(() => {
                 alert('يرجى نسخ النص يدوياً');
             });
         }
 
-        // إرسال المقايسة الفنية مباشرة إلى واتساب ورشة تراث
         function sendToWhatsApp() {
             if (assemblyItems.length === 0) {
-                alert('يرجى إضافة قطع للمنتج أولاً لإرسال المقايسة');
+                alert('يرجى إضافة قطع للمنتج أولاً');
                 return;
             }
 
@@ -883,54 +714,29 @@
             let msg = `مرحباً ورشة تراث مصر، أود الاستفسار عن تصنيع المنتج التالي:\n\n`;
 
             assemblyItems.forEach((item, i) => {
-                totalW += item.totalWeight;
-                totalC += item.totalCost;
-                msg += `▪ ${item.shapeTitle} - ${item.metalName}\n`;
+                totalW += item.batchWeight;
+                totalC += item.batchCost;
+                msg += `▪ ${item.title} - ${item.metal}\n`;
                 msg += `  ${item.dimensions} (العدد: ${item.qty})\n`;
-                msg += `  الوزن: ${item.totalWeight.toFixed(2)} kg\n\n`;
+                msg += `  الوزن: ${item.batchWeight.toFixed(2)} kg\n\n`;
             });
 
             msg += `----------------------------\n`;
             msg += `⚖️ إجمالي الوزن المطلوب: ${totalW.toFixed(2)} kg\n`;
-            msg += `💰 التكلفة المقدرة للخامات: ${Math.round(totalC).toLocaleString()} EGP\n`;
+            msg += `💰 التكلفة المقدرة للخامات: ${totalC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP\n`;
             msg += `أرجو موافاتي بمدة التنفيذ وتفاصيل المصنعية والتشطيب.`;
 
             const encoded = encodeURIComponent(msg);
             window.open(`https://wa.me/201007788448?text=${encoded}`, '_blank');
         }
 
-        // حفظ الأسعار المخصصة في الذاكرة المحلية
-        function saveCustomPrices() {
-            const prices = {
-                brass: document.getElementById('priceBrass')?.value,
-                copper: document.getElementById('priceCopper')?.value,
-                steel: document.getElementById('priceSteel')?.value,
-                aluminum: document.getElementById('priceAluminum')?.value,
-            };
-            localStorage.setItem('turath_metal_prices', JSON.stringify(prices));
-        }
-
-        function loadCustomPrices() {
-            try {
-                const saved = localStorage.getItem('turath_metal_prices');
-                if (saved) {
-                    const prices = JSON.parse(saved);
-                    if (prices.brass) document.getElementById('priceBrass').value = prices.brass;
-                    if (prices.copper) document.getElementById('priceCopper').value = prices.copper;
-                    if (prices.steel) document.getElementById('priceSteel').value = prices.steel;
-                    if (prices.aluminum) document.getElementById('priceAluminum').value = prices.aluminum;
-                }
-            } catch(e) {}
-        }
-
-        // تسجيل الـ Service Worker للتشغيل أوفلاين (PWA)
+        // PWA تسجيل وتثبيت
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration error: ', err));
+                navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW error: ', err));
             });
         }
 
-        // التعامل مع تثبيت التطبيق PWA
         let deferredPrompt;
         const installBtn = document.getElementById('installBtn');
         window.addEventListener('beforeinstallprompt', (e) => {
