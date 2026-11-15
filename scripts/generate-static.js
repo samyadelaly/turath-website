@@ -253,7 +253,7 @@ for (const cat of CATEGORIES) {
           "name": "TURATH EGYPT"
         },
         "manufacturer": {
-          "@type": ["Organization", "Manufacturer"],
+          "@type": "Organization",
           "logo": "${BASE_URL}/turath-brand-logo.jpg",
           "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
           "url": "${BASE_URL}/",
@@ -461,10 +461,10 @@ const masterCatalogHtml = `<!DOCTYPE html>
     "url": "${BASE_URL}/products/",
     "description": "Complete catalog of 118+ handcrafted solid brass and copper architectural lighting, furniture, mirrors, and decor.",
     "publisher": {
-      "@type": ["Organization", "Manufacturer"],
+      "@type": "Organization",
       "logo": "${BASE_URL}/turath-brand-logo.jpg",
       "name": "Turath Egypt - ورشة تراث",
-      "url": "${BASE_URL}"
+      "url": "${BASE_URL}/"
     },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
