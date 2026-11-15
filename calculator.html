@@ -345,22 +345,22 @@
             if (shape === 'sheet') {
                 svg = `
                 <svg viewBox="0 0 280 90" class="w-full h-full max-h-20" fill="none">
-                    <polygon points="50,60 120,20 230,20 160,60" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
-                    <polygon points="160,60 230,20 230,28 160,68" fill="${color}" fill-opacity="0.7" stroke="${color}" stroke-width="1.5"/>
-                    <polygon points="50,60 160,60 160,68 50,68" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="2"/>
-                    <text x="105" y="80" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">العرض W</text>
-                    <text x="180" y="16" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
-                    <text x="175" y="66" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">السمك T</text>
+                    <polygon points="50,55 120,18 230,18 160,55" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
+                    <polygon points="160,55 230,18 230,28 160,65" fill="${color}" fill-opacity="0.7" stroke="${color}" stroke-width="1.5"/>
+                    <polygon points="50,55 160,55 160,65 50,65" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="2"/>
+                    <text x="105" y="78" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">W (العرض)</text>
+                    <text x="175" y="14" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
+                    <text x="180" y="63" fill="${color}" font-size="10" font-family="monospace" font-weight="bold">T (السمك)</text>
                 </svg>`;
             } else if (shape === 'round-tube') {
                 svg = `
                 <svg viewBox="0 0 280 90" class="w-full h-full max-h-20" fill="none">
-                    <path d="M60,25 L200,25 C215,25 225,37 225,50 C225,63 215,75 200,75 L60,75" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
-                    <ellipse cx="60" cy="50" rx="20" ry="25" fill="#1c1c1c" stroke="${color}" stroke-width="2.5"/>
-                    <ellipse cx="60" cy="50" rx="13" ry="17" fill="#141414" stroke="${color}" stroke-dasharray="3 2" stroke-width="1.5"/>
-                    <text x="130" y="18" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
-                    <text x="32" y="53" fill="#bbb" font-size="9" font-family="monospace" text-anchor="end">القطر Ø D</text>
-                    <text x="60" y="32" fill="${color}" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">t</text>
+                    <path d="M75,25 L205,25 C220,25 230,37 230,50 C230,63 220,75 205,75 L75,75" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
+                    <ellipse cx="75" cy="50" rx="22" ry="25" fill="#1c1c1c" stroke="${color}" stroke-width="2.5"/>
+                    <ellipse cx="75" cy="50" rx="14" ry="17" fill="#141414" stroke="${color}" stroke-dasharray="3 2" stroke-width="1.5"/>
+                    <text x="140" y="16" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
+                    <text x="32" y="54" fill="#bbb" font-size="10" font-family="monospace" text-anchor="end">Ø D</text>
+                    <text x="75" y="31" fill="${color}" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">t</text>
                 </svg>`;
             } else if (shape === 'flat-bar') {
                 svg = `
@@ -368,9 +368,9 @@
                     <polygon points="50,55 120,20 220,20 150,55" fill="${color}" fill-opacity="0.5" stroke="${color}" stroke-width="2"/>
                     <polygon points="150,55 220,20 220,32 150,67" fill="${color}" fill-opacity="0.8" stroke="${color}" stroke-width="2"/>
                     <polygon points="50,55 150,55 150,67 50,67" fill="${color}" fill-opacity="0.4" stroke="${color}" stroke-width="2"/>
-                    <text x="100" y="80" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">العرض W</text>
-                    <text x="165" y="63" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">السمك T</text>
-                    <text x="175" y="16" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
+                    <text x="100" y="80" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">W (العرض)</text>
+                    <text x="165" y="63" fill="${color}" font-size="10" font-family="monospace" font-weight="bold">T (السمك)</text>
+                    <text x="175" y="15" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
                 </svg>`;
             } else {
                 svg = `
@@ -379,10 +379,10 @@
                     <polygon points="165,40 210,15 210,60 165,85" fill="${color}" fill-opacity="0.6" stroke="${color}" stroke-width="2"/>
                     <rect x="45" y="40" width="120" height="45" fill="#1c1c1c" stroke="${color}" stroke-width="2.5"/>
                     <rect x="55" y="48" width="100" height="29" fill="#141414" stroke="${color}" stroke-dasharray="3 2" stroke-width="1.5"/>
-                    <text x="105" y="98" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">العرض W</text>
-                    <text x="32" y="65" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">H</text>
-                    <text x="150" y="12" fill="#bbb" font-size="9" font-family="monospace" text-anchor="middle">الطول L</text>
-                    <text x="50" y="46" fill="${color}" font-size="9" font-family="monospace" font-weight="bold">t</text>
+                    <text x="105" y="100" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">W (العرض)</text>
+                    <text x="30" y="65" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">H</text>
+                    <text x="150" y="12" fill="#bbb" font-size="10" font-family="monospace" text-anchor="middle">L (الطول)</text>
+                    <text x="50" y="46" fill="${color}" font-size="10" font-family="monospace" font-weight="bold">t</text>
                 </svg>`;
             }
             container.innerHTML = svg;
