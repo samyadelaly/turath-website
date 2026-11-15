@@ -109,7 +109,8 @@ export default defineConfig({
         partitions: resolve(__dirname, 'partitions.html'),
         tableware: resolve(__dirname, 'tableware.html'),
         action: resolve(__dirname, 'action.html'),
-        masterpieces: resolve(__dirname, 'masterpieces.html')
+        masterpieces: resolve(__dirname, 'masterpieces.html'),
+        calculator: resolve(__dirname, 'calculator.html')
       },
       output: {
         manualChunks(id) {
