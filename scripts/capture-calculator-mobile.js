@@ -6,7 +6,6 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
-
 const brainDir = 'C:\\Users\\SAM\\.gemini\\antigravity\\brain\\a8530eea-fe2d-4172-a255-b5a64a7dbdfa';
 
 async function capture() {
@@ -14,40 +13,55 @@ async function capture() {
   const browser = await puppeteer.launch({
     executablePath: edgePath,
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--allow-file-access-from-files']
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
   const page = await browser.newPage();
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
 
-  const filePath = 'file:///' + path.join(rootDir, 'calculator.html').replace(/\\/g, '/');
-  await page.goto(filePath, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  await new Promise(r => setTimeout(r, 2000));
+  const url = 'http://127.0.0.1:5173/calculator.html';
+  console.log('Navigating to:', url);
+  await page.goto(url, { waitUntil: 'load', timeout: 15000 });
+  await new Promise(r => setTimeout(r, 1200));
 
-  // Add 2 items and scroll down to assembly drawer
+  // 1. Capture Main Screen (Grid View with Top Metal Selection)
+  const gridPath = path.join(brainDir, 'mobile_preview_grid.png');
+  await page.screenshot({ path: gridPath });
+  fs.copyFileSync(gridPath, path.join(rootDir, 'mobile_preview_grid.png'));
+  console.log('Grid screenshot captured.');
+
+  // 2. Open Calculator for Round Tube
+  await page.evaluate(() => {
+    openCalculator('round-tube', 'ROUND TUBE / ماسورة مدورة');
+  });
+  await new Promise(r => setTimeout(r, 600));
+
+  const calcPath = path.join(brainDir, 'mobile_preview_calculator.png');
+  await page.screenshot({ path: calcPath });
+  fs.copyFileSync(calcPath, path.join(rootDir, 'mobile_preview_calculator.png'));
+  console.log('Calc screenshot captured.');
+
+  // 3. Add to assembly and capture drawer
   await page.evaluate(() => {
     addToAssembly();
-    const shapeSelect = document.getElementById('shapeType');
-    if (shapeSelect) {
-      shapeSelect.value = 'rect-tube';
-      shapeSelect.dispatchEvent(new Event('change'));
-      addToAssembly();
-    }
     const drawer = document.getElementById('assemblyDrawer');
     if (drawer) {
       drawer.classList.remove('hidden');
-      drawer.scrollIntoView();
+      drawer.scrollIntoView({ behavior: 'smooth' });
     }
   });
-
   await new Promise(r => setTimeout(r, 600));
 
-  const preview3 = path.join(brainDir, 'mobile_preview_drawer.png');
-  await page.screenshot({ path: preview3, fullPage: false });
-  fs.copyFileSync(preview3, path.join(rootDir, 'mobile_preview_drawer.png'));
+  const asmPath = path.join(brainDir, 'mobile_preview_assembly.png');
+  await page.screenshot({ path: asmPath });
+  fs.copyFileSync(asmPath, path.join(rootDir, 'mobile_preview_assembly.png'));
+  console.log('Assembly screenshot captured.');
 
   await browser.close();
-  console.log('Finished capturing drawer preview.');
+  console.log('All previews saved successfully.');
 }
 
-capture().catch(console.error);
+capture().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
