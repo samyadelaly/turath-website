@@ -130,7 +130,7 @@ export default defineConfig({
     allowedHosts: true,
     cors: true,
     watch: {
-      ignored: ['**/public/video/**', '**/*.mp4']
+      ignored: ['**/public/video/**', '**/*.mp4', '**/scratch/**', '**/*.tmp']
     }
   },
   preview: {

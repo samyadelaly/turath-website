@@ -3,6 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 
+import os from 'os';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
@@ -10,10 +12,14 @@ const brainDir = 'C:\\Users\\SAM\\.gemini\\antigravity\\brain\\a8530eea-fe2d-417
 
 async function capture() {
   const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+  const tempDir = path.join(os.tmpdir(), 'pup-edge-' + Date.now());
+  if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
+
   const browser = await puppeteer.launch({
     executablePath: edgePath,
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    userDataDir: tempDir,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
 
   const page = await browser.newPage();
@@ -24,7 +30,7 @@ async function capture() {
   await page.goto(url, { waitUntil: 'load', timeout: 15000 });
   await new Promise(r => setTimeout(r, 1200));
 
-  // 1. Capture Main Screen (Grid View with Top Metal Selection)
+  // 1. Capture Main Screen (13 Shapes Grid View with Top Metal Selector)
   const gridPath = path.join(brainDir, 'mobile_preview_grid.png');
   await page.screenshot({ path: gridPath });
   fs.copyFileSync(gridPath, path.join(rootDir, 'mobile_preview_grid.png'));
@@ -32,7 +38,7 @@ async function capture() {
 
   // 2. Open Calculator for Round Tube
   await page.evaluate(() => {
-    openCalculator('round-tube', 'ROUND TUBE / ماسورة مدورة');
+    openShape('round-tube');
   });
   await new Promise(r => setTimeout(r, 600));
 
@@ -43,12 +49,8 @@ async function capture() {
 
   // 3. Add to assembly and capture drawer
   await page.evaluate(() => {
-    addToAssembly();
-    const drawer = document.getElementById('assemblyDrawer');
-    if (drawer) {
-      drawer.classList.remove('hidden');
-      drawer.scrollIntoView({ behavior: 'smooth' });
-    }
+    addToBom();
+    scrollToBom();
   });
   await new Promise(r => setTimeout(r, 600));
 
@@ -58,6 +60,7 @@ async function capture() {
   console.log('Assembly screenshot captured.');
 
   await browser.close();
+  try { fs.rmSync(tempDir, { recursive: true, force: true }); } catch (_) {}
   console.log('All previews saved successfully.');
 }
 
