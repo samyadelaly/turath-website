@@ -10,17 +10,22 @@
     <link rel="manifest" href="/manifest-calc.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #1c1c1c;
             --bg-card: #262626;
-            --bg-input: #1f1f1f;
-            --border-color: #363636;
+            --bg-card-subtle: #202020;
+            --bg-input: #1a1a1a;
+            --border-color: #383838;
             --accent: #d4b16a;
             --accent-text: #1c1c1c;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
+            --danger: #ef4444;
+            --danger-bg: #351a1a;
+            --success: #22c55e;
+            --success-bg: #143521;
         }
 
         * {
@@ -38,14 +43,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 110px;
+            padding-bottom: 120px;
             user-select: none;
         }
 
         .container {
             width: 100%;
             max-width: 480px;
-            padding: 16px;
+            padding: 14px 16px;
         }
 
         /* Header */
@@ -53,7 +58,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 16px;
+            padding-bottom: 14px;
             margin-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
@@ -62,6 +67,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
 
         .brand-logo {
@@ -73,15 +79,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+            font-weight: 900;
             font-size: 20px;
             transition: background-color 0.25s ease;
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            flex-shrink: 0;
         }
 
         .brand-title h1 {
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 800;
             color: var(--accent);
             line-height: 1.2;
             transition: color 0.25s ease;
@@ -97,79 +104,107 @@
 
         .header-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
+        }
+
+        .lang-btn {
+            background-color: var(--bg-card);
+            color: var(--accent);
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Space Mono', 'Cairo', monospace;
+        }
+
+        .lang-btn:active {
+            transform: scale(0.96);
+            background-color: var(--accent);
+            color: var(--accent-text);
         }
 
         .btn-flat {
             background-color: var(--accent);
             color: var(--accent-text);
             border: none;
-            padding: 8px 14px;
+            padding: 7px 12px;
             border-radius: 8px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 12px;
             cursor: pointer;
             transition: opacity 0.2s, background-color 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
         .btn-flat:active {
             opacity: 0.85;
+            transform: scale(0.98);
         }
 
         .btn-outline {
             background-color: var(--bg-card);
             color: var(--accent);
             border: 1px solid var(--accent);
-            padding: 6px 12px;
+            padding: 6px 11px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
             transition: all 0.25s ease;
-        }
-
-        /* Top Metal Selector Bar in Grid View */
-        .top-metal-bar {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 14px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-        }
-
-        .top-metal-header {
-            display: flex;
-            justify-content: space-between;
+            display: inline-flex;
             align-items: center;
-            margin-bottom: 8px;
+            gap: 5px;
         }
 
-        .top-metal-header label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-main);
+        .btn-outline:active {
+            background-color: var(--accent);
+            color: var(--accent-text);
         }
 
-        .top-metal-header span {
+        .badge-count {
+            background-color: var(--accent);
+            color: var(--accent-text);
             font-size: 10px;
-            color: var(--accent);
+            font-weight: 900;
+            padding: 1px 6px;
+            border-radius: 10px;
             font-family: 'Space Mono', monospace;
-            font-weight: 700;
         }
 
-        /* Shapes Grid View */
-        .section-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            font-weight: 600;
+        .btn-outline .badge-count {
+            background-color: var(--accent);
+            color: var(--accent-text);
+        }
+
+        /* Section Titles */
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 12px;
         }
 
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .section-sub {
+            font-size: 11px;
+            font-family: 'Space Mono', monospace;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* 1. HOME VIEW: Shapes Grid */
         .shapes-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -192,27 +227,32 @@
         .shape-card:hover, .shape-card:active {
             border-color: var(--accent);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.35);
         }
 
         .shape-card svg {
-            width: 68px;
-            height: 54px;
+            width: 72px;
+            height: 56px;
             margin-bottom: 8px;
+            transition: transform 0.2s;
+        }
+
+        .shape-card:active svg {
+            transform: scale(1.05);
         }
 
         .shape-card .en-name {
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--accent);
-            transition: color 0.25s ease;
             font-family: 'Space Mono', monospace;
+            line-height: 1.2;
         }
 
         .shape-card .ar-name {
             font-size: 11px;
             color: var(--text-muted);
-            margin-top: 2px;
+            margin-top: 3px;
             font-weight: 600;
         }
 
@@ -254,7 +294,7 @@
             padding: 6px 12px;
             border-radius: 8px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 5px;
@@ -265,7 +305,7 @@
             filter: brightness(0.9);
         }
 
-        /* Calculator View */
+        /* 2. CALCULATOR VIEW */
         .hidden {
             display: none !important;
         }
@@ -282,12 +322,13 @@
             border: none;
             color: var(--accent);
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
             transition: color 0.25s ease;
+            padding: 4px 0;
         }
 
         .unit-toggle {
@@ -299,14 +340,15 @@
         }
 
         .unit-btn {
-            padding: 4px 12px;
+            padding: 5px 12px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             border: none;
             background: transparent;
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s;
+            font-family: 'Space Mono', monospace;
         }
 
         .unit-btn.active {
@@ -314,7 +356,7 @@
             color: var(--accent-text);
         }
 
-        /* Metal Selector */
+        /* Metal Selector Inside Calc */
         .control-group {
             margin-bottom: 14px;
         }
@@ -324,7 +366,7 @@
             font-size: 12px;
             color: var(--text-muted);
             margin-bottom: 6px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         select {
@@ -335,7 +377,7 @@
             padding: 12px;
             border-radius: 10px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
             outline: none;
             transition: border-color 0.25s ease, color 0.25s ease;
             cursor: pointer;
@@ -345,7 +387,7 @@
             border-color: var(--accent);
         }
 
-        /* 3D Preview Card */
+        /* 3D Isometric Preview Card */
         .preview-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -368,7 +410,7 @@
 
         .preview-title {
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--accent);
         }
 
@@ -376,15 +418,16 @@
             font-size: 10px;
             background-color: var(--bg-input);
             color: var(--text-muted);
-            padding: 2px 8px;
+            padding: 3px 8px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             font-family: 'Space Mono', monospace;
+            font-weight: 700;
         }
 
         #activeSvgContainer svg {
-            width: 200px;
-            height: 120px;
+            width: 220px;
+            height: 125px;
         }
 
         /* Input Rows */
@@ -412,11 +455,17 @@
         .input-label {
             width: 135px;
             padding: 12px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             color: var(--text-main);
             background-color: var(--bg-input);
             border-left: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        html[dir="ltr"] .input-label {
+            border-left: none;
+            border-right: 1px solid var(--border-color);
         }
 
         .input-row input {
@@ -431,26 +480,283 @@
             direction: ltr;
             outline: none;
             width: 100%;
+            font-family: 'Space Mono', monospace;
         }
 
         .input-unit {
             padding: 0 12px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--accent);
             font-family: 'Space Mono', monospace;
+            flex-shrink: 0;
         }
 
-        /* Assembly / BOM Section */
-        .bom-card {
+        /* Live Calc Result Box */
+        .live-calc-box {
+            background-color: var(--bg-card-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calc-stat {
+            text-align: center;
+            flex: 1;
+        }
+
+        .calc-stat:not(:last-child) {
+            border-left: 1px solid var(--border-color);
+        }
+
+        html[dir="ltr"] .calc-stat:not(:last-child) {
+            border-left: none;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .calc-stat span {
+            font-size: 10px;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .calc-stat strong {
+            font-size: 14px;
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            font-weight: 800;
+        }
+
+        /* 3. PROJECTS & BOM VIEW */
+        .project-selector-bar {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 14px;
-            margin-top: 18px;
+            padding: 12px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
 
-        .bom-header {
+        .project-selector-bar select {
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+
+        .btn-icon {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-icon:active {
+            background-color: var(--border-color);
+        }
+
+        .btn-icon.danger {
+            color: var(--danger);
+            border-color: var(--danger-bg);
+        }
+
+        .btn-icon.danger:active {
+            background-color: var(--danger-bg);
+        }
+
+        /* Products List in Project */
+        .products-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .product-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .product-card-header {
+            background-color: var(--bg-card-subtle);
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .product-card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-card-title strong {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .product-multiplier {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-family: 'Space Mono', monospace;
+            color: var(--text-muted);
+        }
+
+        .product-multiplier input {
+            width: 34px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            text-align: center;
+            outline: none;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .product-parts-list {
+            padding: 8px 12px;
+        }
+
+        .part-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 12px;
+        }
+
+        .part-row:last-child {
+            border-bottom: none;
+        }
+
+        .part-info {
+            flex: 1;
+        }
+
+        .part-info-top {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2px;
+        }
+
+        .part-metal-chip {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .part-shape-name {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .part-dims {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .part-stats {
+            text-align: left;
+            margin: 0 10px;
+        }
+
+        html[dir="ltr"] .part-stats {
+            text-align: right;
+        }
+
+        .part-weight {
+            font-weight: 800;
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+        }
+
+        .part-cost {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .del-btn {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .del-btn:active {
+            transform: scale(0.9);
+        }
+
+        .product-card-footer {
+            background-color: var(--bg-input);
+            padding: 8px 14px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .product-card-footer strong {
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+        }
+
+        /* Raw Material Summary Card */
+        .raw-material-summary-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        }
+
+        .summary-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -459,60 +765,181 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .bom-header h3 {
+        .summary-header h3 {
             font-size: 13px;
+            font-weight: 800;
             color: var(--accent);
-            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .bom-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
+        .raw-mat-table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 12px;
         }
 
-        .bom-item:last-child {
+        .raw-mat-table th {
+            text-align: right;
+            padding: 6px 8px;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 11px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        html[dir="ltr"] .raw-mat-table th {
+            text-align: left;
+        }
+
+        .raw-mat-table td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .raw-mat-table tr:last-child td {
             border-bottom: none;
         }
 
-        .bom-item-info strong {
-            color: var(--text-main);
-            display: block;
-        }
-
-        .bom-item-info span {
-            color: var(--text-muted);
-            font-size: 11px;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .bom-item-vals {
-            text-align: left;
+        .raw-mat-name {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
+            font-weight: 700;
+            color: var(--text-main);
         }
 
-        .del-btn {
-            background: #3a2222;
-            color: #f87171;
+        .raw-mat-val {
+            font-family: 'Space Mono', monospace;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* Grand Total Card */
+        .grand-total-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .grand-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .grand-total-row strong {
+            font-size: 16px;
+            font-family: 'Space Mono', monospace;
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        /* Action Buttons */
+        .actions-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: #000;
             border: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            transition: filter 0.2s, transform 0.15s;
         }
 
-        .del-btn:active {
-            background: #4a2929;
+        .whatsapp-btn:active {
+            filter: brightness(0.9);
+            transform: scale(0.98);
+        }
+
+        /* 4. MODAL / BOTTOM SHEET for Adding to Product */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.75);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+            opacity: 1;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-sheet {
+            background-color: var(--bg-card);
+            border-top: 2px solid var(--accent);
+            border-radius: 18px 18px 0 0;
+            width: 100%;
+            max-width: 480px;
+            padding: 18px;
+            box-shadow: 0 -8px 25px rgba(0,0,0,0.6);
+            transform: translateY(0);
+            transition: transform 0.25s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .chips-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 8px 0 14px 0;
+        }
+
+        .chip {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip:hover, .chip:active, .chip.active {
+            background-color: var(--accent);
+            color: var(--accent-text);
+            border-color: var(--accent);
+            font-weight: 800;
         }
 
         /* Sticky Footer */
@@ -523,7 +950,7 @@
             max-width: 480px;
             background-color: var(--bg-card);
             border-top: 2px solid var(--accent);
-            padding: 12px 18px;
+            padding: 10px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -531,6 +958,7 @@
             transition: border-color 0.25s ease;
             box-shadow: 0 -4px 16px rgba(0,0,0,0.5);
             backdrop-filter: blur(8px);
+            cursor: pointer;
         }
 
         .footer-box span {
@@ -540,7 +968,7 @@
         }
 
         .footer-box strong {
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 800;
             color: var(--accent);
             direction: ltr;
@@ -548,151 +976,296 @@
             transition: color 0.25s ease;
             font-family: 'Space Mono', monospace;
         }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 35px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state p {
+            font-size: 12px;
+            margin-bottom: 14px;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            background-color: var(--accent);
+            color: var(--accent-text);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 200;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
 
+    <div class="toast" id="toastMsg">تم الحفظ بنجاح</div>
+
     <div class="container">
-        <!-- Header -->
+        <!-- Main Top Header -->
         <header>
-            <div class="brand">
+            <div class="brand" onclick="showHomeView()">
                 <div class="brand-logo">ت</div>
                 <div class="brand-title">
-                    <h1>حاسبة تراث للمعادن</h1>
-                    <span>TURATH METAL CALCULATOR</span>
+                    <h1 id="appTitleText">حاسبة تراث للمعادن</h1>
+                    <span>TURATH WORKSHOP - EGYPT</span>
                 </div>
             </div>
             <div class="header-actions">
-                <button id="installBtn" class="btn-flat hidden">تثبيت 📱</button>
-                <button onclick="scrollToBom()" class="btn-outline">المقايسة (<span id="bomCountBadge">0</span>)</button>
+                <button id="langToggleBtn" class="lang-btn" onclick="toggleLanguage()">EN</button>
+                <button id="installBtn" class="btn-flat hidden">📱</button>
+                <button onclick="showProjectsView()" class="btn-outline">
+                    <span id="navProjectsBtnText">المشاريع</span>
+                    <span class="badge-count" id="headerProjectsCount">0</span>
+                </button>
             </div>
         </header>
 
-        <!-- VIEW 1: Shapes Grid -->
-        <div id="gridView">
-            <!-- 1. Top Metal Selector at Start of Page -->
-            <div class="top-metal-bar">
-                <div class="top-metal-header">
-                    <label>١. نوع المعدن والسبيكة (Alloy):</label>
-                    <span id="topDensityBadge">8.55 g/cm³</span>
-                </div>
-                <select id="mainMetalSelect" onchange="onMainMetalChange()"></select>
-            </div>
-
-            <!-- 2. Shapes Grid -->
-            <div class="section-label">
-                <span>٢. اختر القطاع الهندسي للخامة:</span>
-                <span style="font-size:11px; font-family:'Space Mono', monospace; color:var(--accent);">١٣ قطاع قياسي</span>
+        <!-- VIEW 1: HOME VIEW (Simplified Shapes Grid Only) -->
+        <div id="homeView">
+            <div class="section-header">
+                <span class="section-title" id="homeSectionTitle">اختر القطاع الهندسي للخامة:</span>
+                <span class="section-sub" id="homeShapesCount">١٣ قطاع قياسي</span>
             </div>
             <div class="shapes-grid" id="shapesGridContainer"></div>
 
-            <!-- WhatsApp Direct Contact Card -->
+            <!-- Direct WhatsApp Contact Card -->
             <div class="contact-card">
                 <div class="contact-info">
                     <span style="font-size: 18px;">📱</span>
                     <div>
-                        <span>واتساب ورشة تراث المعتمد</span>
+                        <span id="contactWorkshopLabel">واتساب ورشة تراث المعتمد</span>
                         <strong>01016771010</strong>
                     </div>
                 </div>
                 <a href="https://wa.me/201016771010" target="_blank" class="whatsapp-chip">
-                    <span>محادثة</span>
+                    <span id="contactChatLabel">محادثة</span>
                     <span>💬</span>
                 </a>
             </div>
         </div>
 
-        <!-- VIEW 2: Calculator -->
+        <!-- VIEW 2: CALCULATOR VIEW -->
         <div id="calcView" class="hidden">
+            <!-- Top Nav inside Calc -->
             <div class="top-nav">
-                <button class="back-btn" onclick="showGrid()">← كل القطاعات</button>
+                <button class="back-btn" onclick="showHomeView()">
+                    <span id="backToProfilesText">← كل القطاعات</span>
+                </button>
                 <div class="unit-toggle">
                     <button id="unitMm" class="unit-btn active" onclick="setUnit('mm')">mm</button>
                     <button id="unitCm" class="unit-btn" onclick="setUnit('cm')">cm</button>
+                    <button id="unitM" class="unit-btn" onclick="setUnit('m')">m</button>
                 </div>
             </div>
 
-            <!-- Metal Selector in Calc View -->
+            <!-- Metal Selector at Top of Calc View -->
             <div class="control-group">
-                <label>نوع المعدن والسبيكة (يغير لون وهوية الواجهة تلقائياً)</label>
-                <select id="metalSelect" onchange="onMetalChange()"></select>
+                <label id="metalSelectLabel">نوع المعدن والسبيكة (يغير لون وهوية الواجهة تلقائياً):</label>
+                <select id="calcMetalSelect" onchange="onCalcMetalChange()"></select>
             </div>
 
-            <!-- Custom Density Input (Hidden unless Custom selected) -->
+            <!-- Custom Density Row (Hidden unless custom selected) -->
             <div id="customDensityRow" class="input-row hidden" style="margin-bottom: 14px;">
-                <div class="input-label">الكثافة المخصصة</div>
-                <input type="number" id="customDensityInput" value="8.50" step="0.01" oninput="calculate()">
+                <div class="input-label" id="customDensityLabel">الكثافة المخصصة</div>
+                <input type="number" id="customDensityInput" placeholder="0" step="0.01" oninput="calculate()">
                 <div class="input-unit">g/cm³</div>
             </div>
 
-            <!-- 3D Isometric Preview -->
+            <!-- 3D Isometric Preview Card -->
             <div class="preview-card">
                 <div class="preview-header">
                     <span class="preview-title" id="calcShapeTitle">القطاع</span>
-                    <span class="preview-badge" id="densityBadge">8.55 g/cm³</span>
+                    <span class="preview-badge" id="calcDensityBadge">8.55 g/cm³</span>
                 </div>
                 <div id="activeSvgContainer"></div>
             </div>
 
-            <!-- Dynamic Dimension Inputs -->
+            <!-- Dynamic Dimension Inputs (clean, placeholder 0) -->
             <div class="inputs-list" id="dynamicInputs"></div>
 
-            <!-- Quantity & Kg Price -->
+            <!-- Pieces & Kg Price -->
             <div class="inputs-list">
                 <div class="input-row">
-                    <div class="input-label">العدد (Pieces)</div>
-                    <input type="number" id="inputQty" value="1" min="1" oninput="calculate()">
-                    <div class="input-unit">قطعة</div>
+                    <div class="input-label" id="piecesLabel">العدد (Pieces)</div>
+                    <input type="number" id="inputQty" value="1" min="1" step="1" oninput="calculate()">
+                    <div class="input-unit" id="piecesUnitLabel">قطعة</div>
                 </div>
                 <div class="input-row">
-                    <div class="input-label">سعر الكيلو (Kg Price)</div>
-                    <input type="number" id="inputPrice" placeholder="0" oninput="calculate()">
+                    <div class="input-label" id="kgPriceLabel">سعر الكيلو (Kg Price)</div>
+                    <input type="number" id="inputPrice" placeholder="0" step="any" oninput="onPriceInput()">
                     <div class="input-unit">EGP</div>
                 </div>
             </div>
 
-            <button class="btn-flat" style="width: 100%; padding: 14px; font-size: 15px; border-radius: 10px;" onclick="addToBom()">
-                + إضافة القطعة لقائمة المنتج (Assembly)
+            <!-- Live Calculation Stats -->
+            <div class="live-calc-box">
+                <div class="calc-stat">
+                    <span id="unitWeightLabel">وزن القطعة الواحدة</span>
+                    <strong id="statUnitWeight">0.00 kg</strong>
+                </div>
+                <div class="calc-stat">
+                    <span id="batchWeightLabel">إجمالي وزن العدد</span>
+                    <strong id="statBatchWeight">0.00 kg</strong>
+                </div>
+                <div class="calc-stat">
+                    <span id="batchCostLabel">التكلفة التقديرية</span>
+                    <strong id="statBatchCost">0.00 EGP</strong>
+                </div>
+            </div>
+
+            <!-- Add to Product / Project Action Button -->
+            <button class="btn-flat" style="width: 100%; padding: 13px; font-size: 14px; border-radius: 10px;" onclick="openAddToProductModal()">
+                <span id="addToBOMBtnText">+ إضافة لمنتج / مقايسة مشروع</span>
             </button>
         </div>
 
-        <!-- Assembly / BOM Section -->
-        <div class="bom-card" id="bomSection">
-            <div class="bom-header">
-                <h3>قائمة تجميع المنتج (Assembly BOM)</h3>
-                <button onclick="clearBom()" style="background:none; border:none; color:#f87171; font-size:11px; cursor:pointer; font-weight:700;">مسح الكل ✕</button>
-            </div>
-            <div id="bomListContainer">
-                <p style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px 0;">لم يتم إضافة قطع للمنتج بعد</p>
-            </div>
-            
-            <div id="bomTotalRow" class="hidden" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--accent); display:flex; justify-content:space-between; font-size:13px; font-weight:700; color:var(--accent); font-family:'Space Mono', monospace;">
-                <span>إجمالي المشروع: <span id="bomTotalWeight">0.00</span> kg</span>
-                <span><span id="bomTotalCost">0.00</span> EGP</span>
+        <!-- VIEW 3: PROJECTS & BOM VIEW -->
+        <div id="projectsView" class="hidden">
+            <div class="top-nav">
+                <button class="back-btn" onclick="showHomeView()">
+                    <span id="backToHomeFromProjectsText">← العودة للرئيسية</span>
+                </button>
+                <button class="btn-flat" onclick="promptCreateNewProject()" style="padding: 5px 10px; font-size: 11px;">
+                    <span id="newProjectBtnText">+ مشروع جديد</span>
+                </button>
             </div>
 
-            <!-- Action Buttons for WhatsApp & Copy Specs -->
-            <div id="bomActionButtons" class="hidden" style="display:flex; gap:8px; margin-top:12px;">
-                <button onclick="sendToWhatsApp()" style="flex:1; background-color:#25D366; color:#000; border:none; padding:10px; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
-                    <span>واتساب الورشة (01016771010)</span>
+            <!-- Project Selector Bar -->
+            <div class="project-selector-bar">
+                <select id="projectSelect" onchange="onProjectSelectChange()"></select>
+                <button class="btn-icon danger" onclick="confirmDeleteCurrentProject()" title="حذف المشروع">🗑️</button>
+            </div>
+
+            <!-- Products List in Current Project -->
+            <div id="productsSection">
+                <div class="section-header">
+                    <span class="section-title" id="projectProductsTitle">منتجات المشروع:</span>
+                    <span class="section-sub" id="productsCountSub">0 منتج</span>
+                </div>
+                <div class="products-container" id="productsListContainer"></div>
+            </div>
+
+            <!-- Raw Material Summary (Grouped by Metal) -->
+            <div class="raw-material-summary-card" id="rawMaterialSummaryCard">
+                <div class="summary-header">
+                    <h3 id="rawMaterialTitle">📊 ملخص الخامات الخام المطلوبة للشراء</h3>
+                </div>
+                <div id="rawMaterialTableContainer"></div>
+            </div>
+
+            <!-- Project Grand Totals -->
+            <div class="grand-total-card" id="projectGrandTotalsCard">
+                <div class="grand-total-row">
+                    <span id="grandTotalWeightLabel">إجمالي وزن الخامات للمشروع:</span>
+                    <strong id="grandTotalWeight">0.00 kg</strong>
+                </div>
+                <div class="grand-total-row">
+                    <span id="grandTotalCostLabel">إجمالي تكلفة الخامات التقديرية:</span>
+                    <strong id="grandTotalCost">0.00 EGP</strong>
+                </div>
+            </div>
+
+            <!-- Action Buttons for WhatsApp & Copy -->
+            <div class="actions-stack" id="projectActionStack">
+                <button onclick="sendProjectToWhatsApp()" class="whatsapp-btn">
+                    <span id="sendWhatsAppBtnText">إرسال المقايسة للورشة (01016771010)</span>
                     <span>💬</span>
                 </button>
-                <button onclick="copyBom()" class="btn-outline" style="flex:1; padding:10px; font-size:12px;">
-                    <span id="copyBomBtnText">نسخ المقايسة 📋</span>
+                <div style="display:flex; gap:8px;">
+                    <button onclick="copyProjectReport()" class="btn-outline" style="flex:1; padding:10px; font-size:12px; justify-content:center;">
+                        <span id="copyReportBtnText">نسخ التقرير الفني 📋</span>
+                    </button>
+                    <button onclick="window.print()" class="btn-outline" style="width:48px; padding:10px; font-size:14px; justify-content:center;" title="طباعة">
+                        🖨️
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD PART TO PRODUCT -->
+    <div id="addPartModal" class="modal-overlay hidden">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <h3 id="modalTitle">إضافة القطعة إلى منتج</h3>
+                <button onclick="closeAddToProductModal()" class="del-btn">✕</button>
+            </div>
+
+            <!-- Choose Project -->
+            <div class="control-group">
+                <label id="modalProjectLabel">المشروع المستهدف:</label>
+                <select id="modalProjectSelect"></select>
+            </div>
+
+            <!-- Product Name Input & Quick Chips -->
+            <div class="control-group">
+                <label id="modalProductLabel">اسم المنتج (اختر أو اكتب اسماً جديداً):</label>
+                <input type="text" id="modalProductNameInput" placeholder="مثال: ترابيزة سفرة / Dining Table" style="width:100%; background:var(--bg-input); border:1px solid var(--border-color); color:#fff; padding:10px; border-radius:8px; outline:none; font-size:13px; font-weight:700;">
+                <div class="chips-list" id="modalProductChips"></div>
+            </div>
+
+            <!-- Product Quantity (multiplier) -->
+            <div class="control-group">
+                <label id="modalProductQtyLabel">عدد المنتجات المطلوبة (الكمية الإجمالية للمنتج):</label>
+                <div class="input-row">
+                    <div class="input-label" id="modalQtyLabel">الكمية</div>
+                    <input type="number" id="modalProductQtyInput" value="1" min="1" step="1">
+                    <div class="input-unit" id="modalQtyUnit">منتج</div>
+                </div>
+            </div>
+
+            <!-- Summary of the part being added -->
+            <div class="live-calc-box" style="margin-top:10px; margin-bottom:14px;">
+                <div class="calc-stat">
+                    <span id="modalPartShapeLabel">القطعة</span>
+                    <strong id="modalPartShapeVal">-</strong>
+                </div>
+                <div class="calc-stat">
+                    <span id="modalPartWeightLabel">وزن القطع</span>
+                    <strong id="modalPartWeightVal">0.00 kg</strong>
+                </div>
+                <div class="calc-stat">
+                    <span id="modalPartCostLabel">التكلفة</span>
+                    <strong id="modalPartCostVal">0.00 EGP</strong>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:8px;">
+                <button class="btn-flat" style="flex:2; padding:12px; font-size:13px;" onclick="confirmAddPartToProduct()">
+                    <span id="modalConfirmBtnText">تأكيد الإضافة للمنتج ✓</span>
+                </button>
+                <button class="btn-outline" style="flex:1; padding:12px; font-size:13px; justify-content:center;" onclick="closeAddToProductModal()">
+                    <span id="modalCancelBtnText">إلغاء</span>
                 </button>
             </div>
         </div>
-
     </div>
 
-    <!-- Sticky Footer -->
-    <div class="sticky-footer" onclick="scrollToBom()" style="cursor: pointer;">
+    <!-- STICKY FOOTER -->
+    <div class="sticky-footer" id="stickyFooter" onclick="onStickyFooterClick()">
         <div class="footer-box">
-            <span id="footerWeightLabel">الوزن التقديري للقطعة</span>
+            <span id="footerWeightLabel">إجمالي وزن المشروع</span>
             <strong id="footerWeight">0.00 kg</strong>
         </div>
         <div class="footer-box" style="text-align: left;">
-            <span>التكلفة التقديرية للخامات</span>
+            <span id="footerCostLabel">إجمالي تكلفة الخامات</span>
             <strong id="footerCost">0.00 EGP</strong>
         </div>
     </div>
@@ -700,34 +1273,152 @@
     <script>
         const OFFICIAL_WHATSAPP_NUMBER = "201016771010";
 
-        // 1. Metals Database (13 Metals + Custom)
+        // BILINGUAL DICTIONARY (AR / EN)
+        const I18N = {
+            ar: {
+                appTitle: 'حاسبة تراث للمعادن',
+                navProjects: 'المشاريع',
+                homeSectionTitle: 'اختر القطاع الهندسي للخامة:',
+                homeShapesCount: '١٣ قطاع قياسي',
+                contactWorkshop: 'واتساب ورشة تراث المعتمد',
+                contactChat: 'محادثة',
+                backToProfiles: '← كل القطاعات',
+                backToHome: '← العودة للرئيسية',
+                metalSelectLabel: 'نوع المعدن والسبيكة (يغير لون وهوية الواجهة تلقائياً):',
+                customDensity: 'الكثافة المخصصة',
+                pieces: 'العدد (Pieces)',
+                piecesUnit: 'قطعة',
+                kgPrice: 'سعر الكيلو (جنيه)',
+                unitWeight: 'وزن القطعة الواحدة',
+                batchWeight: 'إجمالي وزن العدد',
+                batchCost: 'التكلفة التقديرية',
+                addToBOM: '+ إضافة لمنتج / مقايسة مشروع',
+                newProject: '+ مشروع جديد',
+                projectProducts: 'منتجات المشروع:',
+                productsCount: 'منتج',
+                rawMaterialTitle: '📊 ملخص الخامات الخام المطلوبة للشراء',
+                grandTotalWeight: 'إجمالي وزن الخامات للمشروع:',
+                grandTotalCost: 'إجمالي تكلفة الخامات التقديرية:',
+                sendWhatsApp: 'إرسال المقايسة للورشة (01016771010)',
+                copyReport: 'نسخ التقرير الفني 📋',
+                reportCopied: 'تم نسخ التقرير بنجاح! ✓',
+                footerProjectWeight: 'إجمالي وزن المشروع',
+                footerProjectCost: 'إجمالي تكلفة الخامات',
+                footerPartWeight: 'وزن القطعة الحالية',
+                footerPartCost: 'تكلفة القطعة الحالية',
+                modalTitle: 'إضافة القطعة إلى منتج',
+                modalProject: 'المشروع المستهدف:',
+                modalProduct: 'اسم المنتج (اختر أو اكتب اسماً جديداً):',
+                modalProductQty: 'عدد المنتجات المطلوبة (الكمية الإجمالية للمنتج):',
+                modalQty: 'الكمية',
+                modalQtyUnit: 'منتج',
+                modalPartShape: 'القطعة',
+                modalPartWeight: 'وزن القطع',
+                modalPartCost: 'التكلفة',
+                modalConfirm: 'تأكيد الإضافة للمنتج ✓',
+                modalCancel: 'إلغاء',
+                emptyProjectNotice: 'لا توجد منتجات أو قطع مضافة لهذا المشروع بعد.',
+                emptyAddFirst: '+ اختر قطاعاً للبدء',
+                partAddedSuccess: 'تمت إضافة القطعة للمنتج بنجاح!',
+                fillDimensionsWarning: 'يرجى إدخال أبعاد صالحة للقطعة أولاً',
+                confirmDeleteProject: 'هل أنت متأكد من حذف هذا المشروع بالكامل؟',
+                confirmDeleteProduct: 'هل أنت متأكد من حذف هذا المنتج وجميع قطعه؟',
+                enterProjectNamePrompt: 'أدخل اسم المشروع الجديد:',
+                defaultProjectName: 'مشروع جديد',
+                metalCol: 'الخامة / المعدن',
+                totalWeightCol: 'إجمالي الوزن',
+                totalCostCol: 'إجمالي التكلفة',
+                piecesWord: 'قطع',
+                presetProducts: ['ترابيزة طعام', 'كرسي صالون', 'كونسول ميتال', 'وحدة إضاءة', 'بوابة / بارتشن', 'مقبض باب', 'درابزين سلم']
+            },
+            en: {
+                appTitle: 'Turath Metal Calculator',
+                navProjects: 'Projects',
+                homeSectionTitle: 'Select Metal Profile:',
+                homeShapesCount: '13 Standard Profiles',
+                contactWorkshop: 'Official Turath Workshop WhatsApp',
+                contactChat: 'Chat',
+                backToProfiles: '← All Profiles',
+                backToHome: '← Back to Home',
+                metalSelectLabel: 'Metal & Alloy Type (Dynamically updates theme & density):',
+                customDensity: 'Custom Density',
+                pieces: 'Quantity (Pieces)',
+                piecesUnit: 'pcs',
+                kgPrice: 'Kg Price (EGP)',
+                unitWeight: 'Single Unit Weight',
+                batchWeight: 'Total Batch Weight',
+                batchCost: 'Estimated Batch Cost',
+                addToBOM: '+ Add to Product / Project BOM',
+                newProject: '+ New Project',
+                projectProducts: 'Project Products:',
+                productsCount: 'products',
+                rawMaterialTitle: '📊 Raw Material Procurement Summary',
+                grandTotalWeight: 'Total Project Raw Material Weight:',
+                grandTotalCost: 'Total Project Estimated Cost:',
+                sendWhatsApp: 'Send BOM to Workshop WhatsApp (01016771010)',
+                copyReport: 'Copy Technical Report 📋',
+                reportCopied: 'Report Copied to Clipboard! ✓',
+                footerProjectWeight: 'Total Project Weight',
+                footerProjectCost: 'Total Material Cost',
+                footerPartWeight: 'Current Part Weight',
+                footerPartCost: 'Current Part Cost',
+                modalTitle: 'Add Part to Product',
+                modalProject: 'Target Project:',
+                modalProduct: 'Product Name (Pick or type new):',
+                modalProductQty: 'Product Quantity Multiplier:',
+                modalQty: 'Qty',
+                modalQtyUnit: 'units',
+                modalPartShape: 'Profile',
+                modalPartWeight: 'Batch Wt',
+                modalPartCost: 'Batch Cost',
+                modalConfirm: 'Confirm & Add to Product ✓',
+                modalCancel: 'Cancel',
+                emptyProjectNotice: 'No products or parts have been added to this project yet.',
+                emptyAddFirst: '+ Select a Profile to Start',
+                partAddedSuccess: 'Part successfully added to product!',
+                fillDimensionsWarning: 'Please enter valid dimensions first',
+                confirmDeleteProject: 'Are you sure you want to delete this entire project?',
+                confirmDeleteProduct: 'Are you sure you want to delete this product and its parts?',
+                enterProjectNamePrompt: 'Enter new project name:',
+                defaultProjectName: 'New Project',
+                metalCol: 'Metal / Alloy',
+                totalWeightCol: 'Total Weight',
+                totalCostCol: 'Total Cost',
+                piecesWord: 'pcs',
+                presetProducts: ['Dining Table', 'Living Chair', 'Metal Console', 'Lighting Fixture', 'Partition / Gate', 'Door Handle', 'Stair Handrail']
+            }
+        };
+
+        let currentLang = localStorage.getItem('turath_calc_lang') || 'ar';
+
+        // 13 STANDARD METALS + CUSTOM ALLOY
         const METALS = [
-            { id: 'brass', name: 'نحاس أصفر (Brass)', density: 8.55, defaultPrice: 580, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' },
-            { id: 'copper', name: 'نحاس أحمر (Copper)', density: 8.96, defaultPrice: 690, color: '#c86d44', shade: '#8c4322', light: '#e39674' },
-            { id: 'bronze', name: 'برونز (Bronze)', density: 8.80, defaultPrice: 620, color: '#a87948', shade: '#734f29', light: '#cca276' },
-            { id: 'ss201', name: 'ستانلس ستيل 201 (SS 201)', density: 7.80, defaultPrice: 180, color: '#94a3b8', shade: '#64748b', light: '#cbd5e1' },
-            { id: 'ss304', name: 'ستانلس ستيل 304 (SS 304)', density: 7.93, defaultPrice: 220, color: '#a8b2bd', shade: '#717b85', light: '#d1d9e0' },
-            { id: 'ss316', name: 'ستانلس ستيل 316 (SS 316)', density: 8.00, defaultPrice: 280, color: '#cbd5e1', shade: '#8b99ab', light: '#f1f5f9' },
-            { id: 'chrome', name: 'كروم (Chromium)', density: 7.19, defaultPrice: 350, color: '#e2e8f0', shade: '#94a3b8', light: '#ffffff' },
-            { id: 'steel', name: 'حديد / صلب كربوني (Steel)', density: 7.85, defaultPrice: 65, color: '#788696', shade: '#4e5966', light: '#a3b1c2' },
-            { id: 'castiron', name: 'حديد زهر (Cast Iron)', density: 7.20, defaultPrice: 55, color: '#6b7280', shade: '#4b5563', light: '#9ca3af' },
-            { id: 'aluminum', name: 'ألومنيوم (Aluminum)', density: 2.70, defaultPrice: 240, color: '#bfd7ed', shade: '#82a3c2', light: '#e3f0fc' },
-            { id: 'zinc', name: 'زنك (Zinc)', density: 7.14, defaultPrice: 160, color: '#8fa3b0', shade: '#5e717d', light: '#bccad4' },
-            { id: 'lead', name: 'رصاص (Lead)', density: 11.34, defaultPrice: 140, color: '#737d87', shade: '#4b535c', light: '#9aa4ad' },
-            { id: 'titanium', name: 'تيتانيوم (Titanium)', density: 4.51, defaultPrice: 950, color: '#9ca3af', shade: '#6b7280', light: '#d1d5db' },
-            { id: 'custom', name: 'سبيكة مخصصة (Custom Alloy)', density: 8.50, defaultPrice: 500, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' }
+            { id: 'brass', arName: 'نحاس أصفر (Brass)', enName: 'Brass', density: 8.55, defaultPrice: 580, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' },
+            { id: 'copper', arName: 'نحاس أحمر (Copper)', enName: 'Pure Copper', density: 8.96, defaultPrice: 690, color: '#c86d44', shade: '#8c4322', light: '#e39674' },
+            { id: 'bronze', arName: 'برونز (Bronze)', enName: 'Bronze', density: 8.80, defaultPrice: 620, color: '#a87948', shade: '#734f29', light: '#cca276' },
+            { id: 'ss201', arName: 'ستانلس ستيل 201 (SS 201)', enName: 'Stainless Steel 201', density: 7.80, defaultPrice: 180, color: '#94a3b8', shade: '#64748b', light: '#cbd5e1' },
+            { id: 'ss304', arName: 'ستانلس ستيل 304 (SS 304)', enName: 'Stainless Steel 304', density: 7.93, defaultPrice: 220, color: '#a8b2bd', shade: '#717b85', light: '#d1d9e0' },
+            { id: 'ss316', arName: 'ستانلس ستيل 316 (SS 316)', enName: 'Stainless Steel 316', density: 8.00, defaultPrice: 280, color: '#cbd5e1', shade: '#8b99ab', light: '#f1f5f9' },
+            { id: 'chrome', arName: 'كروم (Chromium)', enName: 'Chromium', density: 7.19, defaultPrice: 350, color: '#e2e8f0', shade: '#94a3b8', light: '#ffffff' },
+            { id: 'steel', arName: 'حديد / صلب كربوني (Steel)', enName: 'Carbon Steel', density: 7.85, defaultPrice: 65, color: '#788696', shade: '#4e5966', light: '#a3b1c2' },
+            { id: 'castiron', arName: 'حديد زهر (Cast Iron)', enName: 'Cast Iron', density: 7.20, defaultPrice: 55, color: '#6b7280', shade: '#4b5563', light: '#9ca3af' },
+            { id: 'aluminum', arName: 'ألومنيوم (Aluminum)', enName: 'Aluminum', density: 2.70, defaultPrice: 240, color: '#bfd7ed', shade: '#82a3c2', light: '#e3f0fc' },
+            { id: 'zinc', arName: 'زنك (Zinc)', enName: 'Zinc', density: 7.14, defaultPrice: 160, color: '#8fa3b0', shade: '#5e717d', light: '#bccad4' },
+            { id: 'lead', arName: 'رصاص (Lead)', enName: 'Lead', density: 11.34, defaultPrice: 140, color: '#737d87', shade: '#4b535c', light: '#9aa4ad' },
+            { id: 'titanium', arName: 'تيتانيوم (Titanium)', enName: 'Titanium', density: 4.51, defaultPrice: 950, color: '#9ca3af', shade: '#6b7280', light: '#d1d5db' },
+            { id: 'custom', arName: 'سبيكة مخصصة (Custom)', enName: 'Custom Alloy', density: 8.50, defaultPrice: 500, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' }
         ];
 
-        // 2. Shapes Database (13 Shapes with 3D Isometric SVG generators)
+        // 13 STANDARD SHAPES WITH ISOMETRIC SVG GENERATORS
         const SHAPES = [
             {
                 id: 'sheet',
-                en: 'SHEET',
+                en: 'SHEET / PLATE',
                 ar: 'لوح / صاج',
                 fields: [
-                    { id: 'L', label: 'الطول (L)', def: 1000 },
-                    { id: 'W', label: 'العرض (W)', def: 1000 },
-                    { id: 'T', label: 'السمك (T)', def: 1.5 }
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' },
+                    { id: 'W', ar: 'العرض (W)', en: 'Width (W)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' }
                 ],
                 calc: (v) => v.L * v.W * v.T,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -744,8 +1435,8 @@
                 en: 'ROUND DISC / PLATE',
                 ar: 'دائرة خامة / قرص صاج',
                 fields: [
-                    { id: 'D', label: 'القطر (D)', def: 300 },
-                    { id: 'T', label: 'السمك (T)', def: 2 }
+                    { id: 'D', ar: 'القطر (D)', en: 'Diameter (D)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' }
                 ],
                 calc: (v) => Math.PI * Math.pow(v.D / 2, 2) * v.T,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -761,9 +1452,9 @@
                 en: 'SQUARE / RECT PLATE',
                 ar: 'مربع / مستطيل خامة',
                 fields: [
-                    { id: 'L', label: 'الطول (L)', def: 500 },
-                    { id: 'W', label: 'العرض (W)', def: 500 },
-                    { id: 'T', label: 'السمك (T)', def: 3 }
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' },
+                    { id: 'W', ar: 'العرض (W)', en: 'Width (W)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' }
                 ],
                 calc: (v) => v.L * v.W * v.T,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -780,9 +1471,9 @@
                 en: 'ROUND TUBE',
                 ar: 'ماسورة مدورة مفرغة',
                 fields: [
-                    { id: 'D', label: 'القطر الخارجي (D)', def: 50.8 },
-                    { id: 'T', label: 'سمك الجدار (T)', def: 1.5 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'D', ar: 'القطر الخارجي (D)', en: 'Outer Diameter (D)' },
+                    { id: 'T', ar: 'سمك الجدار (T)', en: 'Wall Thickness (T)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => (v.T > v.D / 2) ? 0 : Math.PI * (v.D - v.T) * v.T * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -799,10 +1490,10 @@
                 en: 'SQUARE / RECT TUBE',
                 ar: 'علبة مربعة / مستطيلة',
                 fields: [
-                    { id: 'W', label: 'العرض (W)', def: 40 },
-                    { id: 'H', label: 'الارتفاع (H)', def: 20 },
-                    { id: 'T', label: 'السمك (T)', def: 2 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'W', ar: 'العرض (W)', en: 'Width (W)' },
+                    { id: 'H', ar: 'الارتفاع (H)', en: 'Height (H)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => {
                     const outer = v.W * v.H;
@@ -824,9 +1515,9 @@
                 en: 'FLAT BAR',
                 ar: 'خوصة / مبطط',
                 fields: [
-                    { id: 'W', label: 'العرض (W)', def: 30 },
-                    { id: 'T', label: 'السمك (T)', def: 5 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'W', ar: 'العرض (W)', en: 'Width (W)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => v.W * v.T * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -843,8 +1534,8 @@
                 en: 'ROUND BAR',
                 ar: 'مبروم مصمت',
                 fields: [
-                    { id: 'D', label: 'القطر (D)', def: 25 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'D', ar: 'القطر (D)', en: 'Diameter (D)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => Math.PI * Math.pow(v.D / 2, 2) * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -859,8 +1550,8 @@
                 en: 'SQUARE BAR',
                 ar: 'مربع مصمت',
                 fields: [
-                    { id: 'W', label: 'طول الضلع (W)', def: 20 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'W', ar: 'طول الضلع (W)', en: 'Side Width (W)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => v.W * v.W * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -876,8 +1567,8 @@
                 en: 'HEXAGON BAR',
                 ar: 'مسدس مصمت',
                 fields: [
-                    { id: 'S', label: 'المسافة بين الضلعين (S)', def: 19 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'S', ar: 'المسافة بين الضلعين (S)', en: 'Across Flats (S)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => (Math.sqrt(3) / 2) * v.S * v.S * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -891,13 +1582,13 @@
             },
             {
                 id: 'angle',
-                en: 'ANGLE',
+                en: 'ANGLE (L-SHAPE)',
                 ar: 'زاوية',
                 fields: [
-                    { id: 'A', label: 'الضلع الأول (A)', def: 40 },
-                    { id: 'B', label: 'الضلع الثاني (B)', def: 40 },
-                    { id: 'T', label: 'السمك (T)', def: 3 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'A', ar: 'الضلع الأول (A)', en: 'Leg A (A)' },
+                    { id: 'B', ar: 'الضلع الثاني (B)', en: 'Leg B (B)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => ((v.A + v.B - v.T) * v.T) * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -914,10 +1605,10 @@
                 en: 'CHANNEL (U-BAR)',
                 ar: 'مجرى حرف U',
                 fields: [
-                    { id: 'W', label: 'العرض (W)', def: 50 },
-                    { id: 'H', label: 'الارتفاع (H)', def: 25 },
-                    { id: 'T', label: 'السمك (T)', def: 3 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'W', ar: 'العرض (W)', en: 'Width (W)' },
+                    { id: 'H', ar: 'الارتفاع (H)', en: 'Height (H)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => ((v.W + 2 * (v.H - v.T)) * v.T) * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -933,10 +1624,10 @@
                 en: 'I-BEAM / H-BEAM',
                 ar: 'كمر حرف I / H',
                 fields: [
-                    { id: 'H', label: 'الارتفاع (H)', def: 80 },
-                    { id: 'W', label: 'عرض الفلانشة (W)', def: 46 },
-                    { id: 'T', label: 'السمك (T)', def: 3.8 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'H', ar: 'الارتفاع (H)', en: 'Height (H)' },
+                    { id: 'W', ar: 'عرض الفلانشة (W)', en: 'Flange Width (W)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => ((2 * v.W * v.T) + ((v.H - 2 * v.T) * v.T)) * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -952,10 +1643,10 @@
                 en: 'T-BAR',
                 ar: 'قطاع حرف T',
                 fields: [
-                    { id: 'W', label: 'العرض (W)', def: 40 },
-                    { id: 'H', label: 'الارتفاع (H)', def: 40 },
-                    { id: 'T', label: 'السمك (T)', def: 4 },
-                    { id: 'L', label: 'الطول (L)', def: 1000 }
+                    { id: 'W', ar: 'العرض (W)', en: 'Width (W)' },
+                    { id: 'H', ar: 'الارتفاع (H)', en: 'Height (H)' },
+                    { id: 'T', ar: 'السمك (T)', en: 'Thickness (T)' },
+                    { id: 'L', ar: 'الطول (L)', en: 'Length (L)' }
                 ],
                 calc: (v) => ((v.W * v.T) + ((v.H - v.T) * v.T)) * v.L,
                 svg: (c, s, l) => `<svg viewBox="0 0 220 140">
@@ -968,70 +1659,205 @@
             }
         ];
 
-        // App State
-        let currentMetal = METALS[0];
+        // APP STATE
         let currentShape = SHAPES[0];
-        let currentUnit = 'mm'; // 'mm' or 'cm'
-        let bomList = JSON.parse(localStorage.getItem('turath_bom_v1') || '[]');
-        let lastCalcWeight = 0;
-        let lastCalcCost = 0;
+        let currentMetal = METALS[0];
+        let currentUnit = 'mm'; // 'mm' | 'cm' | 'm'
+        let currentView = 'home'; // 'home' | 'calc' | 'projects'
+        let savedPrices = JSON.parse(localStorage.getItem('turath_metal_prices_v2') || '{}');
+        let projects = JSON.parse(localStorage.getItem('turath_projects_v2') || '[]');
+        let activeProjectId = localStorage.getItem('turath_active_project_id') || '';
 
-        function init() {
-            populateMetals();
+        // Temporary calc results
+        let lastUnitWeight = 0;
+        let lastBatchWeight = 0;
+        let lastBatchCost = 0;
+
+        function t(key) {
+            return (I18N[currentLang] && I18N[currentLang][key]) || key;
+        }
+
+        function initApp() {
+            ensureDefaultProject();
+            applyLanguage();
+            populateCalcMetals();
             renderShapesGrid();
-            renderBom();
+            renderProjectsList();
+            updateFooterDisplay();
             applyTheme(currentMetal);
         }
 
-        function populateMetals() {
-            const options = METALS.map(m => 
-                `<option value="${m.id}">${m.name} - ${m.density} g/cm³</option>`
-            ).join('');
-
-            const mainSel = document.getElementById('mainMetalSelect');
-            const calcSel = document.getElementById('metalSelect');
-            if (mainSel) mainSel.innerHTML = options;
-            if (calcSel) calcSel.innerHTML = options;
+        function ensureDefaultProject() {
+            if (!projects || projects.length === 0) {
+                const defaultProj = {
+                    id: 'proj_' + Date.now(),
+                    name: currentLang === 'ar' ? 'المشروع الأول' : 'Main Project',
+                    createdAt: Date.now(),
+                    products: []
+                };
+                projects = [defaultProj];
+                activeProjectId = defaultProj.id;
+                saveProjects();
+            } else if (!activeProjectId || !projects.find(p => p.id === activeProjectId)) {
+                activeProjectId = projects[0].id;
+                localStorage.setItem('turath_active_project_id', activeProjectId);
+            }
         }
 
-        function applyTheme(metal) {
-            document.documentElement.style.setProperty('--accent', metal.color);
-            
-            const topBadge = document.getElementById('topDensityBadge');
-            if (topBadge) topBadge.innerText = `${metal.density} g/cm³`;
+        function saveProjects() {
+            localStorage.setItem('turath_projects_v2', JSON.stringify(projects));
+            localStorage.setItem('turath_active_project_id', activeProjectId);
+        }
 
-            const densityBadge = document.getElementById('densityBadge');
-            if (densityBadge) densityBadge.innerText = `${metal.density} g/cm³`;
+        // BILINGUAL LOGIC
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('turath_calc_lang', currentLang);
+            applyLanguage();
+        }
 
-            const priceInput = document.getElementById('inputPrice');
-            if (priceInput && (!priceInput.value || priceInput.dataset.autoFilled === "true" || priceInput.value === "0")) {
-                priceInput.value = metal.defaultPrice;
-                priceInput.dataset.autoFilled = "true";
-            }
+        function applyLanguage() {
+            const isAr = currentLang === 'ar';
+            document.documentElement.setAttribute('lang', isAr ? 'ar' : 'en');
+            document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
 
+            document.getElementById('langToggleBtn').innerText = isAr ? 'EN' : 'عربي';
+            document.getElementById('appTitleText').innerText = t('appTitle');
+            document.getElementById('navProjectsBtnText').innerText = t('navProjects');
+            document.getElementById('homeSectionTitle').innerText = t('homeSectionTitle');
+            document.getElementById('homeShapesCount').innerText = t('homeShapesCount');
+            document.getElementById('contactWorkshopLabel').innerText = t('contactWorkshop');
+            document.getElementById('contactChatLabel').innerText = t('contactChat');
+
+            // Calc View texts
+            document.getElementById('backToProfilesText').innerText = t('backToProfiles');
+            document.getElementById('metalSelectLabel').innerText = t('metalSelectLabel');
+            document.getElementById('customDensityLabel').innerText = t('customDensity');
+            document.getElementById('piecesLabel').innerText = t('pieces');
+            document.getElementById('piecesUnitLabel').innerText = t('piecesUnit');
+            document.getElementById('kgPriceLabel').innerText = t('kgPrice');
+            document.getElementById('unitWeightLabel').innerText = t('unitWeight');
+            document.getElementById('batchWeightLabel').innerText = t('batchWeight');
+            document.getElementById('batchCostLabel').innerText = t('batchCost');
+            document.getElementById('addToBOMBtnText').innerText = t('addToBOM');
+
+            // Projects View texts
+            document.getElementById('backToHomeFromProjectsText').innerText = t('backToHome');
+            document.getElementById('newProjectBtnText').innerText = t('newProject');
+            document.getElementById('projectProductsTitle').innerText = t('projectProducts');
+            document.getElementById('rawMaterialTitle').innerText = t('rawMaterialTitle');
+            document.getElementById('grandTotalWeightLabel').innerText = t('grandTotalWeight');
+            document.getElementById('grandTotalCostLabel').innerText = t('grandTotalCost');
+            document.getElementById('sendWhatsAppBtnText').innerText = t('sendWhatsApp');
+            document.getElementById('copyReportBtnText').innerText = t('copyReport');
+
+            // Modal texts
+            document.getElementById('modalTitle').innerText = t('modalTitle');
+            document.getElementById('modalProjectLabel').innerText = t('modalProject');
+            document.getElementById('modalProductLabel').innerText = t('modalProduct');
+            document.getElementById('modalProductQtyLabel').innerText = t('modalProductQty');
+            document.getElementById('modalQtyLabel').innerText = t('modalQty');
+            document.getElementById('modalQtyUnit').innerText = t('modalQtyUnit');
+            document.getElementById('modalPartShapeLabel').innerText = t('modalPartShape');
+            document.getElementById('modalPartWeightLabel').innerText = t('modalPartWeight');
+            document.getElementById('modalPartCostLabel').innerText = t('modalPartCost');
+            document.getElementById('modalConfirmBtnText').innerText = t('modalConfirm');
+            document.getElementById('modalCancelBtnText').innerText = t('modalCancel');
+
+            populateCalcMetals();
             renderShapesGrid();
-            if (!document.getElementById('calcView').classList.contains('hidden')) {
-                document.getElementById('activeSvgContainer').innerHTML = currentShape.svg(metal.color, metal.shade, metal.light);
+            renderDynamicInputs();
+            renderProjectsList();
+            renderModalProjectOptions();
+            renderModalChips();
+            updateFooterDisplay();
+
+            if (currentView === 'calc') {
+                const shapeName = isAr ? `${currentShape.ar} (${currentShape.en})` : `${currentShape.en} (${currentShape.ar})`;
+                document.getElementById('calcShapeTitle').innerText = shapeName;
             }
         }
 
-        function onMainMetalChange() {
-            const id = document.getElementById('mainMetalSelect').value;
-            setMetalById(id);
+        function showToast(msg) {
+            const toast = document.getElementById('toastMsg');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
         }
 
-        function onMetalChange() {
-            const id = document.getElementById('metalSelect').value;
+        // VIEW ROUTING
+        function showHomeView() {
+            currentView = 'home';
+            document.getElementById('homeView').classList.remove('hidden');
+            document.getElementById('calcView').classList.add('hidden');
+            document.getElementById('projectsView').classList.add('hidden');
+            updateFooterDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCalcView(shapeId) {
+            currentView = 'calc';
+            if (shapeId) {
+                currentShape = SHAPES.find(s => s.id === shapeId) || SHAPES[0];
+            }
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('calcView').classList.remove('hidden');
+            document.getElementById('projectsView').classList.add('hidden');
+
+            const isAr = currentLang === 'ar';
+            document.getElementById('calcShapeTitle').innerText = isAr ? `${currentShape.ar} (${currentShape.en})` : `${currentShape.en} (${currentShape.ar})`;
+            document.getElementById('activeSvgContainer').innerHTML = currentShape.svg(currentMetal.color, currentMetal.shade, currentMetal.light);
+
+            renderDynamicInputs();
+            populatePriceForMetal(currentMetal);
+            calculate();
+            updateFooterDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showProjectsView() {
+            currentView = 'projects';
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('calcView').classList.add('hidden');
+            document.getElementById('projectsView').classList.remove('hidden');
+            renderProjectsList();
+            updateFooterDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function onStickyFooterClick() {
+            if (currentView === 'projects') {
+                document.getElementById('projectGrandTotalsCard')?.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                showProjectsView();
+            }
+        }
+
+        // METALS & THEMES
+        function populateCalcMetals() {
+            const isAr = currentLang === 'ar';
+            const select = document.getElementById('calcMetalSelect');
+            if (!select) return;
+
+            select.innerHTML = METALS.map(m => {
+                const name = isAr ? m.arName : m.enName;
+                return `<option value="${m.id}">${name} - ${m.density} g/cm³</option>`;
+            }).join('');
+
+            select.value = currentMetal.id;
+        }
+
+        function onCalcMetalChange() {
+            const id = document.getElementById('calcMetalSelect').value;
             setMetalById(id);
         }
 
         function setMetalById(id) {
             currentMetal = METALS.find(m => m.id === id) || METALS[0];
-            
-            const mainSel = document.getElementById('mainMetalSelect');
-            const calcSel = document.getElementById('metalSelect');
-            if (mainSel) mainSel.value = currentMetal.id;
-            if (calcSel) calcSel.value = currentMetal.id;
+            const select = document.getElementById('calcMetalSelect');
+            if (select) select.value = currentMetal.id;
 
             const customRow = document.getElementById('customDensityRow');
             if (currentMetal.id === 'custom') {
@@ -1040,15 +1866,48 @@
                 customRow.classList.add('hidden');
             }
 
+            populatePriceForMetal(currentMetal);
             applyTheme(currentMetal);
             calculate();
         }
 
+        function populatePriceForMetal(metal) {
+            const priceInput = document.getElementById('inputPrice');
+            if (!priceInput) return;
+            const remembered = savedPrices[metal.id];
+            if (remembered !== undefined && remembered !== null) {
+                priceInput.value = remembered;
+            } else {
+                priceInput.value = metal.defaultPrice;
+            }
+        }
+
+        function onPriceInput() {
+            const priceVal = parseFloat(document.getElementById('inputPrice').value) || 0;
+            savedPrices[currentMetal.id] = priceVal;
+            localStorage.setItem('turath_metal_prices_v2', JSON.stringify(savedPrices));
+            calculate();
+        }
+
+        function applyTheme(metal) {
+            document.documentElement.style.setProperty('--accent', metal.color);
+            const badge = document.getElementById('calcDensityBadge');
+            if (badge) badge.innerText = `${metal.density} g/cm³`;
+
+            renderShapesGrid();
+            if (currentView === 'calc') {
+                document.getElementById('activeSvgContainer').innerHTML = currentShape.svg(metal.color, metal.shade, metal.light);
+            }
+        }
+
+        // SHAPES GRID
         function renderShapesGrid() {
             const grid = document.getElementById('shapesGridContainer');
             if (!grid) return;
+            const isAr = currentLang === 'ar';
+
             grid.innerHTML = SHAPES.map(shape => `
-                <div class="shape-card" onclick="openShape('${shape.id}')">
+                <div class="shape-card" onclick="showCalcView('${shape.id}')">
                     ${shape.svg(currentMetal.color, currentMetal.shade, currentMetal.light)}
                     <div class="en-name">${shape.en}</div>
                     <div class="ar-name">${shape.ar}</div>
@@ -1056,261 +1915,593 @@
             `).join('');
         }
 
-        function openShape(shapeId) {
-            currentShape = SHAPES.find(s => s.id === shapeId) || SHAPES[0];
-            document.getElementById('gridView').classList.add('hidden');
-            document.getElementById('calcView').classList.remove('hidden');
+        // UNIT SWITCHER (mm | cm | m)
+        function setUnit(newUnit) {
+            if (currentUnit === newUnit) return;
             
-            document.getElementById('calcShapeTitle').innerText = `${currentShape.ar} (${currentShape.en})`;
-            document.getElementById('activeSvgContainer').innerHTML = currentShape.svg(currentMetal.color, currentMetal.shade, currentMetal.light);
-            
-            renderDynamicFields();
+            // Proportional conversion of existing dimension inputs
+            const oldUnit = currentUnit;
+            currentUnit = newUnit;
+
+            document.getElementById('unitMm').classList.toggle('active', newUnit === 'mm');
+            document.getElementById('unitCm').classList.toggle('active', newUnit === 'cm');
+            document.getElementById('unitM').classList.toggle('active', newUnit === 'm');
+
+            // Conversion factors to cm
+            const toCm = { mm: 0.1, cm: 1.0, m: 100.0 };
+            const fromCm = { mm: 10.0, cm: 1.0, m: 0.01 };
+
+            currentShape.fields.forEach(f => {
+                const el = document.getElementById(`dim_${f.id}`);
+                if (el && el.value !== "" && !isNaN(el.value)) {
+                    const raw = parseFloat(el.value);
+                    if (raw > 0) {
+                        const inCm = raw * toCm[oldUnit];
+                        const inNew = inCm * fromCm[newUnit];
+                        // format cleanly
+                        el.value = Number(inNew.toPrecision(6)).toString();
+                    }
+                }
+            });
+
+            document.querySelectorAll('.dim-unit-tag').forEach(tag => {
+                tag.innerText = currentUnit;
+            });
+
             calculate();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showGrid() {
-            document.getElementById('calcView').classList.add('hidden');
-            document.getElementById('gridView').classList.remove('hidden');
-            updateFooterBar();
-        }
-
-        function setUnit(unit) {
-            currentUnit = unit;
-            document.getElementById('unitMm').classList.toggle('active', unit === 'mm');
-            document.getElementById('unitCm').classList.toggle('active', unit === 'cm');
-            document.querySelectorAll('.dim-unit').forEach(el => el.innerText = unit);
-            calculate();
-        }
-
-        function renderDynamicFields() {
+        // DYNAMIC DIMENSION INPUTS (Clean: empty, placeholder="0")
+        function renderDynamicInputs() {
             const container = document.getElementById('dynamicInputs');
-            const factor = currentUnit === 'cm' ? 0.1 : 1;
+            if (!container) return;
+            const isAr = currentLang === 'ar';
+
             container.innerHTML = currentShape.fields.map(f => {
-                const defaultVal = f.def !== undefined ? (f.def * factor) : 0;
+                const label = isAr ? f.ar : f.en;
                 return `
-                <div class="input-row">
-                    <div class="input-label">${f.label}</div>
-                    <input type="number" id="dim_${f.id}" value="${defaultVal}" placeholder="0" step="any" oninput="calculate()">
-                    <div class="input-unit dim-unit">${currentUnit}</div>
-                </div>
-            `}).join('');
+                    <div class="input-row">
+                        <div class="input-label">${label}</div>
+                        <input type="number" id="dim_${f.id}" placeholder="0" step="any" oninput="calculate()">
+                        <div class="input-unit dim-unit-tag">${currentUnit}</div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        document.getElementById('inputPrice')?.addEventListener('input', function() {
-            this.dataset.autoFilled = "false";
-        });
-
+        // CALCULATION LOGIC
         function calculate() {
             let density = currentMetal.density;
             if (currentMetal.id === 'custom') {
-                density = parseFloat(document.getElementById('customDensityInput').value) || 0;
+                density = parseFloat(document.getElementById('customDensityInput')?.value) || 0;
             }
-            document.getElementById('densityBadge').innerText = `${density} g/cm³`;
+            const densityBadge = document.getElementById('calcDensityBadge');
+            if (densityBadge) densityBadge.innerText = `${density} g/cm³`;
 
-            // Convert dimensions to cm (1 mm = 0.1 cm, 1 cm = 1 cm)
-            const factor = currentUnit === 'mm' ? 0.1 : 1;
-            const vals = {};
+            // Unit factors to cm
+            const factorMap = { mm: 0.1, cm: 1.0, m: 100.0 };
+            const factor = factorMap[currentUnit] || 0.1;
+
+            const valsInCm = {};
+            let hasAtLeastOneVal = false;
+
             currentShape.fields.forEach(f => {
                 const raw = parseFloat(document.getElementById(`dim_${f.id}`)?.value) || 0;
-                vals[f.id] = raw * factor;
+                if (raw > 0) hasAtLeastOneVal = true;
+                valsInCm[f.id] = raw * factor;
             });
 
             const qty = parseFloat(document.getElementById('inputQty')?.value) || 1;
             const price = parseFloat(document.getElementById('inputPrice')?.value) || 0;
 
-            const volumeCm3 = currentShape.calc(vals) || 0;
-            const weightKg = ((volumeCm3 * density) / 1000) * qty;
-            const costEgp = weightKg * price;
+            let unitWeightKg = 0;
+            let batchWeightKg = 0;
+            let batchCostEgp = 0;
 
-            lastCalcWeight = weightKg;
-            lastCalcCost = costEgp;
+            if (hasAtLeastOneVal) {
+                const volumeCm3 = currentShape.calc(valsInCm) || 0;
+                if (volumeCm3 > 0) {
+                    unitWeightKg = (volumeCm3 * density) / 1000;
+                    batchWeightKg = unitWeightKg * qty;
+                    batchCostEgp = batchWeightKg * price;
+                }
+            }
 
-            updateFooterBar(weightKg, costEgp);
+            lastUnitWeight = unitWeightKg;
+            lastBatchWeight = batchWeightKg;
+            lastBatchCost = batchCostEgp;
+
+            document.getElementById('statUnitWeight').innerText = `${unitWeightKg.toFixed(2)} kg`;
+            document.getElementById('statBatchWeight').innerText = `${batchWeightKg.toFixed(2)} kg`;
+            document.getElementById('statBatchCost').innerText = `${batchCostEgp.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+
+            updateFooterDisplay();
         }
 
-        function updateFooterBar(currentWeight = 0, currentCost = 0) {
-            let displayW = 0;
-            let displayC = 0;
-            const label = document.getElementById('footerWeightLabel');
+        function updateFooterDisplay() {
+            const footerWeightEl = document.getElementById('footerWeight');
+            const footerCostEl = document.getElementById('footerCost');
+            const footerWeightLbl = document.getElementById('footerWeightLabel');
+            const footerCostLbl = document.getElementById('footerCostLabel');
 
-            if (bomList.length > 0) {
-                bomList.forEach(item => {
-                    displayW += item.weight;
-                    displayC += item.cost;
-                });
-                if (label) label.innerText = `إجمالي المقايسة (${bomList.length} قطع)`;
+            if (currentView === 'calc') {
+                footerWeightLbl.innerText = t('footerPartWeight');
+                footerCostLbl.innerText = t('footerPartCost');
+                footerWeightEl.innerText = `${lastBatchWeight.toFixed(2)} kg`;
+                footerCostEl.innerText = `${lastBatchCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
             } else {
-                displayW = currentWeight;
-                displayC = currentCost;
-                if (label) label.innerText = `الوزن التقديري للقطعة`;
+                // Compute Project Totals
+                const totals = computeProjectGrandTotals(getActiveProject());
+                footerWeightLbl.innerText = t('footerProjectWeight');
+                footerCostLbl.innerText = t('footerProjectCost');
+                footerWeightEl.innerText = `${totals.totalWeight.toFixed(2)} kg`;
+                footerCostEl.innerText = `${totals.totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
             }
 
-            document.getElementById('footerWeight').innerText = `${displayW.toFixed(2)} kg`;
-            document.getElementById('footerCost').innerText = `${displayC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+            // Update Header Projects Count
+            const totalProjs = projects.length;
+            const headerBadge = document.getElementById('headerProjectsCount');
+            if (headerBadge) headerBadge.innerText = totalProjs;
         }
 
-        function addToBom() {
-            if (lastCalcWeight <= 0) {
-                alert('من فضلك أدخل أبعاد صحيحة للقطعة أولاً');
+        function getActiveProject() {
+            return projects.find(p => p.id === activeProjectId) || projects[0];
+        }
+
+        // 3-TIER SYSTEM: PROJECTS & BOM MANAGEMENT
+        function renderProjectsList() {
+            const project = getActiveProject();
+            const select = document.getElementById('projectSelect');
+            if (select) {
+                select.innerHTML = projects.map(p => 
+                    `<option value="${p.id}" ${p.id === activeProjectId ? 'selected' : ''}>📁 ${p.name} (${(p.products || []).length} ${t('productsCount')})</option>`
+                ).join('');
+            }
+
+            const productsContainer = document.getElementById('productsListContainer');
+            const productsSub = document.getElementById('productsCountSub');
+            if (!project || !project.products || project.products.length === 0) {
+                if (productsSub) productsSub.innerText = `0 ${t('productsCount')}`;
+                productsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <p>${t('emptyProjectNotice')}</p>
+                        <button class="btn-flat" onclick="showHomeView()">${t('emptyAddFirst')}</button>
+                    </div>
+                `;
+                renderRawMaterialSummary([]);
+                renderGrandTotals(0, 0);
                 return;
             }
 
-            const qty = parseFloat(document.getElementById('inputQty').value) || 1;
-            const dimSummary = currentShape.fields.map(f => {
-                const v = document.getElementById(`dim_${f.id}`)?.value || 0;
-                return `${f.id}:${v}${currentUnit}`;
-            }).join(' × ');
+            if (productsSub) productsSub.innerText = `${project.products.length} ${t('productsCount')}`;
 
-            bomList.push({
-                id: Date.now(),
-                shape: `${currentShape.ar} (${currentShape.en})`,
-                metal: currentMetal.name,
-                dims: dimSummary,
-                qty: qty,
-                weight: lastCalcWeight,
-                cost: lastCalcCost
-            });
+            productsContainer.innerHTML = project.products.map(prod => {
+                let prodUnitWeight = 0;
+                let prodUnitCost = 0;
 
-            saveAndRenderBom();
-            scrollToBom();
-        }
-
-        function removeBomItem(id) {
-            bomList = bomList.filter(item => item.id !== id);
-            saveAndRenderBom();
-            calculate();
-        }
-
-        function clearBom() {
-            if (bomList.length === 0) return;
-            if (confirm('هل تريد مسح جميع القطع من قائمة التجميع؟')) {
-                bomList = [];
-                saveAndRenderBom();
-                calculate();
-            }
-        }
-
-        function saveAndRenderBom() {
-            localStorage.setItem('turath_bom_v1', JSON.stringify(bomList));
-            renderBom();
-        }
-
-        function renderBom() {
-            const container = document.getElementById('bomListContainer');
-            const totalRow = document.getElementById('bomTotalRow');
-            const actionBtns = document.getElementById('bomActionButtons');
-            document.getElementById('bomCountBadge').innerText = bomList.length;
-
-            if (bomList.length === 0) {
-                container.innerHTML = `<p style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px 0;">لم يتم إضافة قطع للمنتج بعد</p>`;
-                totalRow.classList.add('hidden');
-                if (actionBtns) actionBtns.classList.add('hidden');
-                updateFooterBar();
-                return;
-            }
-
-            let sumW = 0;
-            let sumC = 0;
-
-            container.innerHTML = bomList.map(item => {
-                sumW += item.weight;
-                sumC += item.cost;
-                return `
-                    <div class="bom-item">
-                        <div class="bom-item-info">
-                            <strong>${item.shape} (عدد ${item.qty})</strong>
-                            <span>${item.metal} | ${item.dims}</span>
-                        </div>
-                        <div class="bom-item-vals">
-                            <div>
-                                <div style="color:var(--accent); font-weight:700; font-family:'Space Mono', monospace;">${item.weight.toFixed(2)} kg</div>
-                                <div style="color:var(--text-muted); font-size:11px; font-family:'Space Mono', monospace;">${item.cost.toLocaleString('en-US', {maximumFractionDigits:0})} EGP</div>
+                const partsHtml = (prod.parts || []).map(part => {
+                    prodUnitWeight += (part.unitWeight * part.partQty);
+                    prodUnitCost += part.totalCost;
+                    return `
+                        <div class="part-row">
+                            <div class="part-info">
+                                <div class="part-info-top">
+                                    <span class="part-metal-chip" style="background-color: ${part.metalColor};"></span>
+                                    <span class="part-shape-name">${part.shapeName}</span>
+                                    <span style="font-size:10px; color:var(--text-muted);">(${part.partQty} ${t('piecesWord')})</span>
+                                </div>
+                                <div class="part-dims">${part.metalName} | ${part.dims}</div>
                             </div>
-                            <button class="del-btn" onclick="removeBomItem(${item.id})">×</button>
+                            <div class="part-stats">
+                                <div class="part-weight">${part.totalWeight.toFixed(2)} kg</div>
+                                <div class="part-cost">${part.totalCost.toLocaleString('en-US', {maximumFractionDigits:0})} EGP</div>
+                            </div>
+                            <button class="del-btn" onclick="deletePartFromProduct('${prod.id}', '${part.id}')" title="حذف">✕</button>
+                        </div>
+                    `;
+                }).join('');
+
+                const prodBatchWeight = prodUnitWeight * prod.qty;
+                const prodBatchCost = prodUnitCost * prod.qty;
+
+                return `
+                    <div class="product-card">
+                        <div class="product-card-header">
+                            <div class="product-card-title">
+                                <strong>🏷️ ${prod.name}</strong>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div class="product-multiplier">
+                                    <span>${t('modalQty')}:</span>
+                                    <input type="number" min="1" value="${prod.qty}" onchange="updateProductQty('${prod.id}', this.value)">
+                                </div>
+                                <button class="del-btn" onclick="deleteProduct('${prod.id}')" title="حذف المنتج">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="product-parts-list">
+                            ${partsHtml}
+                        </div>
+                        <div class="product-card-footer">
+                            <span>${t('modalPartWeight')}: <strong>${prodBatchWeight.toFixed(2)} kg</strong></span>
+                            <span>${t('modalPartCost')}: <strong>${prodBatchCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP</strong></span>
                         </div>
                     </div>
                 `;
             }).join('');
 
-            totalRow.classList.remove('hidden');
-            if (actionBtns) actionBtns.classList.remove('hidden');
-
-            document.getElementById('bomTotalWeight').innerText = sumW.toFixed(2);
-            document.getElementById('bomTotalCost').innerText = sumC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            updateFooterBar(sumW, sumC);
+            // Compute raw materials & grand totals
+            const totals = computeProjectGrandTotals(project);
+            renderRawMaterialSummary(totals.metalGroups);
+            renderGrandTotals(totals.totalWeight, totals.totalCost);
+            updateFooterDisplay();
         }
 
-        function scrollToBom() {
-            document.getElementById('bomSection').scrollIntoView({ behavior: 'smooth' });
+        function computeProjectGrandTotals(project) {
+            if (!project || !project.products) return { totalWeight: 0, totalCost: 0, metalGroups: [] };
+
+            const metalMap = {};
+
+            project.products.forEach(prod => {
+                const pQty = prod.qty || 1;
+                (prod.parts || []).forEach(part => {
+                    const mId = part.metalId;
+                    if (!metalMap[mId]) {
+                        metalMap[mId] = {
+                            id: mId,
+                            name: part.metalName,
+                            color: part.metalColor,
+                            totalWeight: 0,
+                            totalCost: 0
+                        };
+                    }
+                    metalMap[mId].totalWeight += (part.totalWeight * pQty);
+                    metalMap[mId].totalCost += (part.totalCost * pQty);
+                });
+            });
+
+            let grandW = 0;
+            let grandC = 0;
+            const groups = Object.values(metalMap);
+
+            groups.forEach(g => {
+                grandW += g.totalWeight;
+                grandC += g.totalCost;
+            });
+
+            return {
+                totalWeight: grandW,
+                totalCost: grandC,
+                metalGroups: groups
+            };
         }
 
-        function sendToWhatsApp() {
-            if (bomList.length === 0) {
-                alert('من فضلك أضف قطع للمنتج أولاً لإرسال المقايسة');
+        // RAW MATERIAL PROCUREMENT SUMMARY
+        function renderRawMaterialSummary(groups) {
+            const container = document.getElementById('rawMaterialTableContainer');
+            if (!container) return;
+
+            if (!groups || groups.length === 0) {
+                container.innerHTML = `<p style="font-size:11px; color:var(--text-muted); text-align:center; padding:10px 0;">-</p>`;
                 return;
             }
 
-            let totalW = 0;
-            let totalC = 0;
-            let msg = `مرحباً ورشة تراث مصر، أود الاستفسار عن تصنيع ومقايسة المنتج التالي:\n\n`;
+            container.innerHTML = `
+                <table class="raw-mat-table">
+                    <thead>
+                        <tr>
+                            <th>${t('metalCol')}</th>
+                            <th style="text-align:center;">${t('totalWeightCol')}</th>
+                            <th style="text-align:left;">${t('totalCostCol')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${groups.map(g => `
+                            <tr>
+                                <td>
+                                    <div class="raw-mat-name">
+                                        <span class="part-metal-chip" style="background-color:${g.color};"></span>
+                                        <span>${g.name}</span>
+                                    </div>
+                                </td>
+                                <td style="text-align:center;" class="raw-mat-val">${g.totalWeight.toFixed(2)} kg</td>
+                                <td style="text-align:left;" class="raw-mat-val">${g.totalCost.toLocaleString('en-US', {maximumFractionDigits:0})} EGP</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
 
-            bomList.forEach((item, i) => {
-                totalW += item.weight;
-                totalC += item.cost;
-                msg += `▪ ${item.shape} (${item.metal})\n`;
-                msg += `  المقاس: ${item.dims} (العدد: ${item.qty})\n`;
-                msg += `  الوزن: ${item.weight.toFixed(2)} kg\n\n`;
+        function renderGrandTotals(w, c) {
+            document.getElementById('grandTotalWeight').innerText = `${w.toFixed(2)} kg`;
+            document.getElementById('grandTotalCost').innerText = `${c.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+        }
+
+        function onProjectSelectChange() {
+            activeProjectId = document.getElementById('projectSelect').value;
+            localStorage.setItem('turath_active_project_id', activeProjectId);
+            renderProjectsList();
+            updateFooterDisplay();
+        }
+
+        function promptCreateNewProject() {
+            const name = prompt(t('enterProjectNamePrompt'), t('defaultProjectName'));
+            if (!name || !name.trim()) return;
+
+            const newProj = {
+                id: 'proj_' + Date.now(),
+                name: name.trim(),
+                createdAt: Date.now(),
+                products: []
+            };
+
+            projects.push(newProj);
+            activeProjectId = newProj.id;
+            saveProjects();
+            renderProjectsList();
+            showToast(t('defaultProjectName') + ' ✓');
+        }
+
+        function confirmDeleteCurrentProject() {
+            if (projects.length <= 1) {
+                alert(currentLang === 'ar' ? 'لا يمكن حذف المشروع الوحيد، يمكنك تفريغ محتوياته بدلاً من ذلك' : 'Cannot delete the only project');
+                return;
+            }
+
+            if (confirm(t('confirmDeleteProject'))) {
+                projects = projects.filter(p => p.id !== activeProjectId);
+                activeProjectId = projects[0].id;
+                saveProjects();
+                renderProjectsList();
+            }
+        }
+
+        function updateProductQty(prodId, newQty) {
+            const proj = getActiveProject();
+            const prod = (proj.products || []).find(p => p.id === prodId);
+            if (prod) {
+                prod.qty = Math.max(1, parseInt(newQty) || 1);
+                saveProjects();
+                renderProjectsList();
+            }
+        }
+
+        function deleteProduct(prodId) {
+            if (!confirm(t('confirmDeleteProduct'))) return;
+            const proj = getActiveProject();
+            proj.products = (proj.products || []).filter(p => p.id !== prodId);
+            saveProjects();
+            renderProjectsList();
+        }
+
+        function deletePartFromProduct(prodId, partId) {
+            const proj = getActiveProject();
+            const prod = (proj.products || []).find(p => p.id === prodId);
+            if (prod) {
+                prod.parts = (prod.parts || []).filter(part => part.id !== partId);
+                if (prod.parts.length === 0) {
+                    proj.products = proj.products.filter(p => p.id !== prodId);
+                }
+                saveProjects();
+                renderProjectsList();
+            }
+        }
+
+        // ADD TO PRODUCT MODAL
+        function openAddToProductModal() {
+            if (lastBatchWeight <= 0) {
+                alert(t('fillDimensionsWarning'));
+                return;
+            }
+
+            renderModalProjectOptions();
+            renderModalChips();
+
+            const isAr = currentLang === 'ar';
+            document.getElementById('modalPartShapeVal').innerText = isAr ? currentShape.ar : currentShape.en;
+            document.getElementById('modalPartWeightVal').innerText = `${lastBatchWeight.toFixed(2)} kg`;
+            document.getElementById('modalPartCostVal').innerText = `${lastBatchCost.toLocaleString('en-US', {maximumFractionDigits:0})} EGP`;
+
+            document.getElementById('modalProductQtyInput').value = 1;
+            document.getElementById('addPartModal').classList.remove('hidden');
+        }
+
+        function closeAddToProductModal() {
+            document.getElementById('addPartModal').classList.add('hidden');
+        }
+
+        function renderModalProjectOptions() {
+            const select = document.getElementById('modalProjectSelect');
+            if (!select) return;
+            select.innerHTML = projects.map(p => 
+                `<option value="${p.id}" ${p.id === activeProjectId ? 'selected' : ''}>${p.name}</option>`
+            ).join('');
+        }
+
+        function renderModalChips() {
+            const container = document.getElementById('modalProductChips');
+            if (!container) return;
+            const chips = (I18N[currentLang] && I18N[currentLang].presetProducts) || I18N.ar.presetProducts;
+            container.innerHTML = chips.map(c => `
+                <span class="chip" onclick="selectProductChip('${c}')">${c}</span>
+            `).join('');
+        }
+
+        function selectProductChip(name) {
+            document.getElementById('modalProductNameInput').value = name;
+            document.querySelectorAll('.chip').forEach(el => {
+                el.classList.toggle('active', el.innerText === name);
+            });
+        }
+
+        function confirmAddPartToProduct() {
+            const targetProjId = document.getElementById('modalProjectSelect').value;
+            const targetProj = projects.find(p => p.id === targetProjId) || getActiveProject();
+
+            let prodName = document.getElementById('modalProductNameInput').value.trim();
+            if (!prodName) {
+                prodName = currentLang === 'ar' ? 'منتج مخصص' : 'Custom Product';
+            }
+
+            const prodMultiplier = Math.max(1, parseInt(document.getElementById('modalProductQtyInput').value) || 1);
+            const partQty = parseFloat(document.getElementById('inputQty').value) || 1;
+            const kgPrice = parseFloat(document.getElementById('inputPrice').value) || 0;
+
+            const isAr = currentLang === 'ar';
+            const dimParts = currentShape.fields.map(f => {
+                const val = document.getElementById(`dim_${f.id}`)?.value || 0;
+                return `${f.id}:${val}${currentUnit}`;
+            }).join(' × ');
+
+            const newPart = {
+                id: 'part_' + Date.now(),
+                shapeId: currentShape.id,
+                shapeName: isAr ? currentShape.ar : currentShape.en,
+                metalId: currentMetal.id,
+                metalName: isAr ? currentMetal.arName : currentMetal.enName,
+                metalColor: currentMetal.color,
+                dims: dimParts,
+                unit: currentUnit,
+                partQty: partQty,
+                unitWeight: lastUnitWeight,
+                totalWeight: lastBatchWeight,
+                kgPrice: kgPrice,
+                totalCost: lastBatchCost
+            };
+
+            // Check if product exists in this project
+            if (!targetProj.products) targetProj.products = [];
+            let existingProd = targetProj.products.find(p => p.name.toLowerCase() === prodName.toLowerCase());
+
+            if (existingProd) {
+                existingProd.parts.push(newPart);
+                if (prodMultiplier > 1 && existingProd.qty === 1) {
+                    existingProd.qty = prodMultiplier;
+                }
+            } else {
+                targetProj.products.push({
+                    id: 'prod_' + Date.now(),
+                    name: prodName,
+                    qty: prodMultiplier,
+                    parts: [newPart]
+                });
+            }
+
+            activeProjectId = targetProj.id;
+            saveProjects();
+            closeAddToProductModal();
+            showToast(t('partAddedSuccess'));
+
+            // Auto navigate to projects view to see the BOM
+            showProjectsView();
+        }
+
+        // WHATSAPP & COPY EXPORTS
+        function sendProjectToWhatsApp() {
+            const proj = getActiveProject();
+            if (!proj || !proj.products || proj.products.length === 0) {
+                alert(t('emptyProjectNotice'));
+                return;
+            }
+
+            const totals = computeProjectGrandTotals(proj);
+            const isAr = currentLang === 'ar';
+
+            let msg = isAr 
+                ? `*مقايسة تصنيع ومشغولات هندسية - ورشة تراث مصر*\n`
+                : `*Engineering Fabrication & BOM Spec Sheet - Turath Egypt*\n`;
+
+            msg += `══════════════════════════\n`;
+            msg += isAr ? `📁 *المشروع:* ${proj.name}\n` : `📁 *Project:* ${proj.name}\n`;
+            msg += isAr ? `📅 *التاريخ:* ${new Date().toLocaleDateString('ar-EG')}\n\n` : `📅 *Date:* ${new Date().toLocaleDateString('en-GB')}\n\n`;
+
+            msg += isAr ? `📦 *تفاصيل المنتجات والقطع:*\n` : `📦 *Products & Parts Breakdown:*\n`;
+            proj.products.forEach((prod, pIdx) => {
+                msg += `\n*${pIdx + 1}. ${prod.name}* (${isAr ? 'الكمية:' : 'Qty:'} ${prod.qty})\n`;
+                (prod.parts || []).forEach(part => {
+                    msg += `   ▪ ${part.shapeName} [${part.metalName}]\n`;
+                    msg += `     ${part.dims} | ${isAr ? 'العدد بالمنتج:' : 'Per unit:'} ${part.partQty} | ${part.totalWeight.toFixed(2)} kg\n`;
+                });
             });
 
-            msg += `----------------------------\n`;
-            msg += `⚖️ إجمالي الوزن المطلوب: ${totalW.toFixed(2)} kg\n`;
-            if (totalC > 0) {
-                msg += `💰 التكلفة المقدرة للخامات: ${totalC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP\n`;
-            }
-            msg += `أرجو موافاتي بمدة التنفيذ وتفاصيل المصنعية والتشطيب.`;
+            msg += `\n──────────────────────────\n`;
+            msg += isAr ? `📊 *ملخص الخامات الخام للشراء:*\n` : `📊 *Raw Material Procurement Summary:*\n`;
+            totals.metalGroups.forEach(g => {
+                msg += `▪ ${g.name}: ${g.totalWeight.toFixed(2)} kg (${g.totalCost.toLocaleString('en-US', {maximumFractionDigits:0})} EGP)\n`;
+            });
+
+            msg += `══════════════════════════\n`;
+            msg += isAr 
+                ? `⚖️ *إجمالي وزن المشروع:* ${totals.totalWeight.toFixed(2)} kg\n`
+                : `⚖️ *Total Project Weight:* ${totals.totalWeight.toFixed(2)} kg\n`;
+            msg += isAr
+                ? `💰 *التكلفة المقدرة للخامات:* ${totals.totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP\n`
+                : `💰 *Estimated Material Cost:* ${totals.totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP\n`;
+            msg += isAr
+                ? `📞 *رقم الورشة المعتمد:* 01016771010\n`
+                : `📞 *Workshop Contact:* 01016771010\n`;
+            msg += isAr
+                ? `يرجى الإفادة بمدة التنفيذ والتصنيع.`
+                : `Please provide fabrication lead-time and quotation confirmation.`;
 
             const encoded = encodeURIComponent(msg);
             window.open(`https://wa.me/${OFFICIAL_WHATSAPP_NUMBER}?text=${encoded}`, '_blank');
         }
 
-        function copyBom() {
-            if (bomList.length === 0) return;
+        function copyProjectReport() {
+            const proj = getActiveProject();
+            if (!proj || !proj.products || proj.products.length === 0) {
+                alert(t('emptyProjectNotice'));
+                return;
+            }
 
-            let totalW = 0;
-            let totalC = 0;
-            let text = `*مقايسة خامات ومواصفات مشغولات تراث (Turath Egypt)*\n`;
-            text += `------------------------------------\n`;
+            const totals = computeProjectGrandTotals(proj);
+            const isAr = currentLang === 'ar';
 
-            bomList.forEach((item, i) => {
-                totalW += item.weight;
-                totalC += item.cost;
-                text += `${i + 1}. ${item.shape} (${item.metal})\n`;
-                text += `   المقاس: ${item.dims} | العدد: ${item.qty}\n`;
-                text += `   الوزن: ${item.weight.toFixed(2)} kg | التكلفة: ${item.cost.toFixed(2)} EGP\n\n`;
+            let msg = isAr 
+                ? `*مقايسة تصنيع ومشغولات هندسية - ورشة تراث مصر*\n`
+                : `*Engineering Fabrication & BOM Spec Sheet - Turath Egypt*\n`;
+
+            msg += `==========================================\n`;
+            msg += isAr ? `المشروع: ${proj.name}\n` : `Project: ${proj.name}\n`;
+            msg += isAr ? `التاريخ: ${new Date().toLocaleDateString('ar-EG')}\n\n` : `Date: ${new Date().toLocaleDateString('en-GB')}\n\n`;
+
+            msg += isAr ? `قائمة المنتجات والمكونات:\n` : `Products & Components:\n`;
+            proj.products.forEach((prod, pIdx) => {
+                msg += `\n[${pIdx + 1}] ${prod.name} (${isAr ? 'عدد:' : 'Qty:'} ${prod.qty})\n`;
+                (prod.parts || []).forEach(part => {
+                    msg += ` - ${part.shapeName} (${part.metalName}) | ${part.dims} | عدد: ${part.partQty} | وزن: ${part.totalWeight.toFixed(2)} kg | تكلفة: ${part.totalCost.toFixed(2)} EGP\n`;
+                });
             });
 
-            text += `------------------------------------\n`;
-            text += `*إجمالي الوزن التقديري:* ${totalW.toFixed(2)} kg\n`;
-            text += `*إجمالي تكلفة الخامات:* ${totalC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP\n`;
-            text += `*رقم الورشة المعتمد:* 01016771010\n`;
-            text += `*تاريخ المقايسة:* ${new Date().toLocaleDateString('ar-EG')}\n`;
+            msg += `\n==========================================\n`;
+            msg += isAr ? `ملخص الخامات الخام للشراء:\n` : `Raw Material Procurement Summary:\n`;
+            totals.metalGroups.forEach(g => {
+                msg += ` - ${g.name}: ${g.totalWeight.toFixed(2)} kg | ${g.totalCost.toFixed(2)} EGP\n`;
+            });
 
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = document.getElementById('copyBomBtnText');
-                if (btn) {
-                    btn.innerText = 'تم النسخ بنجاح! ✓';
-                    setTimeout(() => { btn.innerText = 'نسخ المقايسة 📋'; }, 2000);
+            msg += `==========================================\n`;
+            msg += isAr ? `إجمالي وزن المشروع: ${totals.totalWeight.toFixed(2)} kg\n` : `Total Project Weight: ${totals.totalWeight.toFixed(2)} kg\n`;
+            msg += isAr ? `إجمالي تكلفة الخامات: ${totals.totalCost.toFixed(2)} EGP\n` : `Total Material Cost: ${totals.totalCost.toFixed(2)} EGP\n`;
+            msg += `رقم الورشة المعتمد: 01016771010\n`;
+
+            navigator.clipboard.writeText(msg).then(() => {
+                const btnText = document.getElementById('copyReportBtnText');
+                if (btnText) {
+                    btnText.innerText = t('reportCopied');
+                    setTimeout(() => { btnText.innerText = t('copyReport'); }, 2000);
                 }
             }).catch(() => {
-                alert('يرجى نسخ النص يدوياً');
+                alert('يرجى نسخ التقرير يدوياً');
             });
         }
 
-        // PWA Service Worker & Install Prompt
+        // PWA SERVICE WORKER REGISTRATION & INSTALL PROMPT
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw-calc.js').catch(() => {});
+                navigator.serviceWorker.register('/sw-calc.js').catch(err => {
+                    console.log('SW registration note:', err);
+                });
             });
         }
 
@@ -1319,18 +2510,21 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.classList.remove('hidden');
+            if (installBtn) installBtn.classList.remove('hidden');
         });
 
-        installBtn.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            installBtn.classList.add('hidden');
-        });
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBtn.classList.add('hidden');
+            });
+        }
 
-        init();
+        // Launch
+        initApp();
     </script>
 </body>
 </html>

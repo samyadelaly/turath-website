@@ -26,49 +26,47 @@ vite.stderr.on('data', (d) => {
   console.error('[Dev Server Error]:', d.toString().trim());
 });
 
-// 2. Launch Cloudflare Tunnel
+// 2. Launch Cloudflare Tunnel with auto-restart
 const cloudflaredExe = path.join(rootDir, 'cloudflared.exe');
-console.log('[Cloudflare Tunnel] Starting tunnel for http://127.0.0.1:5173...');
+let tunnel = null;
+let restartTimeout = null;
 
-const tunnel = spawn(cloudflaredExe, ['tunnel', '--url', 'http://127.0.0.1:5173'], {
-  cwd: rootDir,
-  stdio: ['ignore', 'pipe', 'pipe']
-});
+function startTunnel() {
+  console.log('[Cloudflare Tunnel] Starting tunnel for http://127.0.0.1:5173...');
+  tunnel = spawn(cloudflaredExe, ['tunnel', '--url', 'http://127.0.0.1:5173'], {
+    cwd: rootDir,
+    stdio: ['ignore', 'pipe', 'pipe']
+  });
 
-tunnel.stderr.on('data', (data) => {
-  const text = data.toString();
-  const match = text.match(/https:\/\/[a-zA-Z0-9-]+\.trycloudflare\.com/);
-  if (match) {
-    const tunnelUrl = match[0];
-    const calcUrl = `${tunnelUrl}/calculator.html`;
-    console.log('\n======================================================');
-    console.log('>>> [LIVE MOBILE URL FOR CALCULATOR]:');
-    console.log(calcUrl);
-    console.log('======================================================\n');
-    fs.writeFileSync(path.join(rootDir, 'live_mobile_url.txt'), calcUrl, 'utf8');
-  }
-});
+  const onData = (data) => {
+    const text = data.toString();
+    const match = text.match(/https:\/\/[a-zA-Z0-9-]+\.trycloudflare\.com/);
+    if (match) {
+      const tunnelUrl = match[0];
+      const calcUrl = `${tunnelUrl}/calculator.html`;
+      console.log('\n======================================================');
+      console.log('>>> [LIVE MOBILE URL FOR CALCULATOR]:');
+      console.log(calcUrl);
+      console.log('======================================================\n');
+      fs.writeFileSync(path.join(rootDir, 'live_mobile_url.txt'), calcUrl, 'utf8');
+    }
+  };
 
-tunnel.stdout.on('data', (data) => {
-  const text = data.toString();
-  const match = text.match(/https:\/\/[a-zA-Z0-9-]+\.trycloudflare\.com/);
-  if (match) {
-    const tunnelUrl = match[0];
-    const calcUrl = `${tunnelUrl}/calculator.html`;
-    console.log('\n======================================================');
-    console.log('>>> [LIVE MOBILE URL FOR CALCULATOR]:');
-    console.log(calcUrl);
-    console.log('======================================================\n');
-    fs.writeFileSync(path.join(rootDir, 'live_mobile_url.txt'), calcUrl, 'utf8');
-  }
-});
+  tunnel.stderr.on('data', onData);
+  tunnel.stdout.on('data', onData);
 
-tunnel.on('close', (code) => {
-  console.log(`[Cloudflare Tunnel] Exited with code ${code}`);
-});
+  tunnel.on('close', (code) => {
+    console.log(`[Cloudflare Tunnel] Exited with code ${code}. Reconnecting in 3 seconds...`);
+    clearTimeout(restartTimeout);
+    restartTimeout = setTimeout(startTunnel, 3000);
+  });
+}
+
+startTunnel();
 
 process.on('SIGINT', () => {
-  vite.kill();
-  tunnel.kill();
+  clearTimeout(restartTimeout);
+  if (vite) vite.kill();
+  if (tunnel) tunnel.kill();
   process.exit();
 });

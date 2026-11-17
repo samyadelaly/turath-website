@@ -2,7 +2,6 @@ import puppeteer from 'puppeteer-core';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-
 import os from 'os';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -19,45 +18,97 @@ async function capture() {
     executablePath: edgePath,
     headless: 'new',
     userDataDir: tempDir,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu']
   });
 
   const page = await browser.newPage();
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
 
-  const url = 'http://127.0.0.1:5173/calculator.html';
-  console.log('Navigating to:', url);
-  await page.goto(url, { waitUntil: 'load', timeout: 15000 });
-  await new Promise(r => setTimeout(r, 1200));
+  const fileUrl = 'file:///' + path.resolve(rootDir, 'calculator.html').replace(/\\/g, '/');
+  console.log('Navigating to file URL:', fileUrl);
+  await page.goto(fileUrl, { waitUntil: 'domcontentloaded' });
+  await new Promise(r => setTimeout(r, 1000));
 
-  // 1. Capture Main Screen (13 Shapes Grid View with Top Metal Selector)
-  const gridPath = path.join(brainDir, 'mobile_preview_grid.png');
-  await page.screenshot({ path: gridPath });
-  fs.copyFileSync(gridPath, path.join(rootDir, 'mobile_preview_grid.png'));
-  console.log('Grid screenshot captured.');
+  // 1. Capture Simplified Home View (13 Shapes Grid)
+  const homePath = path.join(brainDir, 'mobile_preview_grid.png');
+  await page.screenshot({ path: homePath });
+  fs.copyFileSync(homePath, path.join(rootDir, 'mobile_preview_grid.png'));
+  console.log('Home grid screenshot captured.');
 
-  // 2. Open Calculator for Round Tube
+  // 2. Open Calculator for Round Tube, select Copper (#c86d44), enter dimensions
   await page.evaluate(() => {
-    openShape('round-tube');
+    showCalcView('round-tube');
+    setMetalById('copper');
+    // Enter dimensions in mm
+    document.getElementById('dim_D').value = '50.8';
+    document.getElementById('dim_T').value = '2.0';
+    document.getElementById('dim_L').value = '1000';
+    document.getElementById('inputQty').value = '4';
+    calculate();
   });
   await new Promise(r => setTimeout(r, 600));
 
   const calcPath = path.join(brainDir, 'mobile_preview_calculator.png');
   await page.screenshot({ path: calcPath });
   fs.copyFileSync(calcPath, path.join(rootDir, 'mobile_preview_calculator.png'));
-  console.log('Calc screenshot captured.');
+  console.log('Calculator screenshot captured.');
 
-  // 3. Add to assembly and capture drawer
+  // 3. Add to Product "ترابيزة سفرة نحاس", add another part, and open Projects View
   await page.evaluate(() => {
-    addToBom();
-    scrollToBom();
+    openAddToProductModal();
+    document.getElementById('modalProductNameInput').value = 'ترابيزة سفرة نحاس';
+    document.getElementById('modalProductQtyInput').value = 2;
+    confirmAddPartToProduct();
+
+    // Add another part: Brass Sheet
+    showCalcView('sheet');
+    setMetalById('brass');
+    document.getElementById('dim_L').value = '2000';
+    document.getElementById('dim_W').value = '1000';
+    document.getElementById('dim_T').value = '3';
+    document.getElementById('inputQty').value = '1';
+    calculate();
+
+    openAddToProductModal();
+    document.getElementById('modalProductNameInput').value = 'ترابيزة سفرة نحاس';
+    document.getElementById('modalProductQtyInput').value = 2;
+    confirmAddPartToProduct();
+
+    // Add another product: Carbon Steel Base
+    showCalcView('rect-tube');
+    setMetalById('steel');
+    document.getElementById('dim_W').value = '80';
+    document.getElementById('dim_H').value = '40';
+    document.getElementById('dim_T').value = '3';
+    document.getElementById('dim_L').value = '1500';
+    document.getElementById('inputQty').value = '6';
+    calculate();
+
+    openAddToProductModal();
+    document.getElementById('modalProductNameInput').value = 'شاسيه كونسول';
+    document.getElementById('modalProductQtyInput').value = 1;
+    confirmAddPartToProduct();
+
+    showProjectsView();
+  });
+  await new Promise(r => setTimeout(r, 800));
+
+  const projPath = path.join(brainDir, 'mobile_preview_assembly.png');
+  await page.screenshot({ path: projPath });
+  fs.copyFileSync(projPath, path.join(rootDir, 'mobile_preview_assembly.png'));
+  console.log('Projects BOM screenshot captured.');
+
+  // 4. Capture English Toggle View & Scroll down to Raw Material Procurement Table & WhatsApp Button
+  await page.evaluate(() => {
+    toggleLanguage();
+    document.getElementById('rawMaterialSummaryCard').scrollIntoView();
   });
   await new Promise(r => setTimeout(r, 600));
 
-  const asmPath = path.join(brainDir, 'mobile_preview_assembly.png');
-  await page.screenshot({ path: asmPath });
-  fs.copyFileSync(asmPath, path.join(rootDir, 'mobile_preview_assembly.png'));
-  console.log('Assembly screenshot captured.');
+  const enPath = path.join(brainDir, 'mobile_preview_drawer.png');
+  await page.screenshot({ path: enPath });
+  fs.copyFileSync(enPath, path.join(rootDir, 'mobile_preview_drawer.png'));
+  console.log('Scrolled BOM Summary screenshot captured.');
 
   await browser.close();
   try { fs.rmSync(tempDir, { recursive: true, force: true }); } catch (_) {}

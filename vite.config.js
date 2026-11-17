@@ -99,6 +99,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
+        ar: resolve(__dirname, 'ar.html'),
         lighting: resolve(__dirname, 'lighting.html'),
         mirrors: resolve(__dirname, 'mirrors.html'),
         tables: resolve(__dirname, 'tables.html'),
