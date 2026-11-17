@@ -326,12 +326,42 @@
             padding: 4px 0;
         }
 
-        /* Smart 2-Column Upper Section in Calculator View */
+        /* Unified Unit Toggle in Top Nav */
+        .unit-toggle {
+            display: flex;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .unit-btn {
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Space Mono', monospace;
+            border-radius: 5px;
+        }
+
+        .unit-btn.active {
+            background-color: var(--accent);
+            color: var(--accent-text);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Smart Equal 50% / 50% Upper Section in Calculator View */
         .calc-top-grid {
             display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             align-items: stretch;
         }
 
@@ -339,6 +369,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            height: 100%;
         }
 
         .control-group.compact {
@@ -347,9 +378,9 @@
 
         .control-group.compact label {
             display: block;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             font-weight: 700;
         }
 
@@ -358,27 +389,29 @@
             background-color: var(--bg-card);
             color: var(--accent);
             border: 1px solid var(--border-color);
-            padding: 8px 10px;
-            border-radius: 9px;
+            padding: 7px 8px;
+            border-radius: 8px;
             font-size: 11px;
             font-weight: 800;
             outline: none;
             cursor: pointer;
             transition: border-color 0.2s;
+            height: 34px;
         }
 
-        /* 3D Isometric Preview Card (Compact) */
+        /* 3D Isometric Preview Card (50% Column) */
         .preview-card.compact {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 8px 10px;
+            padding: 6px 8px;
             margin-bottom: 0;
             flex: 1;
+            min-height: 140px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
             position: relative;
         }
 
@@ -387,7 +420,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .preview-title {
@@ -397,15 +430,15 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 110px;
+            max-width: 95px;
         }
 
         .preview-badge {
             font-size: 9px;
             background-color: var(--bg-input);
             color: var(--text-muted);
-            padding: 2px 6px;
-            border-radius: 5px;
+            padding: 2px 5px;
+            border-radius: 4px;
             border: 1px solid var(--border-color);
             font-family: 'Space Mono', monospace;
             font-weight: 700;
@@ -416,20 +449,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex: 1;
         }
 
         .preview-card.compact #activeSvgContainer svg {
             width: 100%;
-            max-width: 170px;
-            height: 92px;
+            max-width: 135px;
+            height: 76px;
         }
 
         /* Right Quick Panel Cards */
         .quick-panel-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 8px 10px;
+            border-radius: 8px;
+            padding: 6px 8px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -439,7 +473,7 @@
             font-size: 10px;
             color: var(--text-muted);
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             display: block;
         }
 
@@ -448,8 +482,9 @@
             align-items: center;
             background-color: var(--bg-input);
             border: 1px solid var(--border-color);
-            border-radius: 7px;
+            border-radius: 6px;
             overflow: hidden;
+            height: 30px;
             transition: border-color 0.2s;
         }
 
@@ -462,17 +497,17 @@
             background: transparent;
             border: none;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 800;
-            padding: 6px 8px;
+            padding: 4px 6px;
             font-family: 'Space Mono', monospace;
             outline: none;
             direction: ltr;
         }
 
         .quick-currency {
-            padding: 0 8px;
-            font-size: 11px;
+            padding: 0 6px;
+            font-size: 10px;
             font-weight: 800;
             color: var(--accent);
             font-family: 'Space Mono', monospace;
@@ -484,7 +519,11 @@
             background: linear-gradient(145deg, #1f1f1f, #272727);
             border: 1px solid var(--border-color);
             text-align: center;
-            padding: 7px 8px;
+            padding: 6px 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .scale-label {
@@ -498,8 +537,8 @@
             display: flex;
             align-items: baseline;
             justify-content: center;
-            gap: 4px;
-            margin-top: 2px;
+            gap: 3px;
+            margin-top: 1px;
         }
 
         .scale-display strong {
@@ -519,7 +558,7 @@
 
         /* Scrap % Box */
         .scrap-box {
-            padding: 6px 8px;
+            padding: 5px 8px;
         }
 
         .scrap-header {
@@ -528,7 +567,7 @@
             align-items: center;
             font-size: 10px;
             color: var(--text-muted);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             font-weight: 700;
         }
 
@@ -568,12 +607,12 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.4);
         }
 
-        /* Dimension Inputs with Integrated Unit Selectors */
+        /* Full-Width Clean Dimension Inputs */
         .inputs-list {
             display: flex;
             flex-direction: column;
-            gap: 9px;
-            margin-bottom: 14px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .input-row {
@@ -581,9 +620,10 @@
             align-items: center;
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
             transition: border-color 0.2s;
+            height: 38px;
         }
 
         .input-row:focus-within {
@@ -591,13 +631,16 @@
         }
 
         .input-label {
-            width: 120px;
-            padding: 10px 12px;
-            font-size: 12px;
+            width: 130px;
+            padding: 0 10px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-main);
             background-color: var(--bg-input);
             border-left: 1px solid var(--border-color);
+            height: 100%;
+            display: flex;
+            align-items: center;
             flex-shrink: 0;
         }
 
@@ -610,51 +653,35 @@
             flex: 1;
             background: transparent;
             border: none;
-            padding: 10px;
+            padding: 0 10px;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             text-align: left;
             direction: ltr;
             outline: none;
+            height: 100%;
             width: 100%;
             font-family: 'Space Mono', monospace;
         }
 
-        /* Field Unit Segmented Buttons */
-        .field-unit-group {
-            display: flex;
+        .input-unit {
+            padding: 0 12px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent);
             background-color: var(--bg-input);
             border-right: 1px solid var(--border-color);
-            padding: 2px;
-            gap: 2px;
-            border-radius: 6px;
-            margin: 0 6px;
+            height: 100%;
+            display: flex;
+            align-items: center;
             flex-shrink: 0;
+            font-family: 'Space Mono', monospace;
         }
 
-        html[dir="rtl"] .field-unit-group {
+        html[dir="ltr"] .input-unit {
             border-right: none;
             border-left: 1px solid var(--border-color);
-        }
-
-        .f-unit-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 800;
-            padding: 3px 6px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'Space Mono', monospace;
-            transition: all 0.15s ease;
-        }
-
-        .f-unit-btn.active {
-            background-color: var(--accent);
-            color: var(--accent-text);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
         /* Live Calc Result Box */
@@ -1113,7 +1140,7 @@
             font-weight: 800;
         }
 
-        /* Sticky Footer */
+        /* Sticky Footer (Total Weight & Cost on one side, Action Button on the other) */
         .sticky-footer {
             position: fixed;
             bottom: 0;
@@ -1121,31 +1148,81 @@
             max-width: 480px;
             background-color: var(--bg-card);
             border-top: 2px solid var(--accent);
-            padding: 10px 18px;
+            padding: 8px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 50;
             transition: border-color 0.25s ease;
-            box-shadow: 0 -4px 16px rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
+            box-shadow: 0 -4px 18px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-totals {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
             cursor: pointer;
+            text-align: right;
         }
 
-        .footer-box span {
-            font-size: 10px;
+        html[dir="ltr"] .footer-totals {
+            text-align: left;
+        }
+
+        .footer-values {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .footer-weight-val {
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            font-family: 'Space Mono', monospace;
+            direction: ltr;
+        }
+
+        .footer-dot {
             color: var(--text-muted);
-            display: block;
+            font-size: 10px;
         }
 
-        .footer-box strong {
-            font-size: 15px;
+        .footer-cost-val {
+            font-size: 14px;
             font-weight: 800;
             color: var(--accent);
-            direction: ltr;
-            display: inline-block;
-            transition: color 0.25s ease;
             font-family: 'Space Mono', monospace;
+            direction: ltr;
+        }
+
+        .footer-sublabel {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .footer-action-btn {
+            background-color: var(--accent);
+            color: var(--accent-text);
+            border: none;
+            border-radius: 8px;
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .footer-action-btn:active {
+            transform: scale(0.97);
         }
 
         /* Empty State */
@@ -1232,18 +1309,23 @@
             </div>
         </div>
 
-        <!-- VIEW 2: CALCULATOR VIEW (Smart 2-Column Upper Section + Integrated Row Units) -->
+        <!-- VIEW 2: CALCULATOR VIEW (Streamlined Single-Screen Layout) -->
         <div id="calcView" class="hidden">
-            <!-- Top Nav inside Calc (Clean back button without bulky top unit toggle) -->
+            <!-- 1. Top Navigation: Back to Profiles on one side, Unified [ mm | cm | m ] on the other -->
             <div class="top-nav">
                 <button class="back-btn" onclick="showHomeView()">
                     <span id="backToProfilesText">← كل القطاعات</span>
                 </button>
+                <div class="unit-toggle" id="calcUnitToggle">
+                    <button type="button" class="unit-btn active" data-unit="mm" onclick="setGlobalUnit('mm')">mm</button>
+                    <button type="button" class="unit-btn" data-unit="cm" onclick="setGlobalUnit('cm')">cm</button>
+                    <button type="button" class="unit-btn" data-unit="m" onclick="setGlobalUnit('m')">m</button>
+                </div>
             </div>
 
-            <!-- Smart 2-Column Upper Section -->
+            <!-- 2. Equal 50% / 50% Two-Column Section (Display & Pricing) -->
             <div class="calc-top-grid">
-                <!-- Column 1: Metal Select & 3D Isometric Preview -->
+                <!-- Column 1: Metal Select & 3D Isometric Preview with Density Badge -->
                 <div class="top-col">
                     <div class="control-group compact">
                         <label id="metalSelectLabel">نوع المعدن والسبيكة:</label>
@@ -1251,10 +1333,10 @@
                     </div>
 
                     <!-- Custom Density Row (Hidden unless custom selected) -->
-                    <div id="customDensityRow" class="input-row compact hidden" style="margin-top:4px;">
-                        <div class="input-label" id="customDensityLabel" style="width:70px; font-size:10px; padding:6px 8px;">كثافة مخصصة</div>
-                        <input type="number" id="customDensityInput" placeholder="0" step="0.01" oninput="calculate()" style="padding:6px; font-size:12px;">
-                        <div class="input-unit" style="font-size:10px; padding:0 6px;">g/cm³</div>
+                    <div id="customDensityRow" class="input-row compact hidden" style="margin-top:2px;">
+                        <div class="input-label" id="customDensityLabel" style="width:65px; font-size:9px; padding:4px 6px;">كثافة مخصصة</div>
+                        <input type="number" id="customDensityInput" placeholder="0" step="0.01" oninput="calculate()" style="padding:4px 6px; font-size:11px;">
+                        <div class="input-unit" style="font-size:9px; padding:0 4px;">g/cm³</div>
                     </div>
 
                     <!-- 3D Isometric Preview Card -->
@@ -1267,9 +1349,9 @@
                     </div>
                 </div>
 
-                <!-- Column 2: Pricing & Scale Quick Panel -->
+                <!-- Column 2: Pricing, Single Piece Weight Scale, and Quick Scrap Buttons [0% | 5% | 10%] -->
                 <div class="top-col">
-                    <!-- Kg Price Card -->
+                    <!-- 1) Kg Price Input -->
                     <div class="quick-panel-card">
                         <span class="quick-panel-label" id="kgPriceLabel">سعر الكيلو (جنيه):</span>
                         <div class="quick-input-wrap">
@@ -1278,7 +1360,7 @@
                         </div>
                     </div>
 
-                    <!-- Single Piece Weight Scale Box -->
+                    <!-- 2) Single Piece Weight Scale Box -->
                     <div class="quick-panel-card scale-box">
                         <span class="scale-label" id="unitWeightLabel">وزن القطعة الواحدة</span>
                         <div class="scale-display">
@@ -1287,7 +1369,7 @@
                         </div>
                     </div>
 
-                    <!-- Scrap % Quick Buttons -->
+                    <!-- 3) Quick Scrap Buttons [0% | 5% | 10%] -->
                     <div class="quick-panel-card scrap-box">
                         <div class="scrap-header">
                             <span id="scrapLabel">نسبة الهالك (Scrap):</span>
@@ -1297,40 +1379,22 @@
                             <button type="button" class="scrap-btn active" data-val="0" onclick="setScrap(0)">0%</button>
                             <button type="button" class="scrap-btn" data-val="5" onclick="setScrap(5)">5%</button>
                             <button type="button" class="scrap-btn" data-val="10" onclick="setScrap(10)">10%</button>
-                            <button type="button" class="scrap-btn" data-val="15" onclick="setScrap(15)">15%</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Dynamic Dimension Inputs with Integrated Unit Selectors (mm | cm | m) -->
+            <!-- 3. Full-Width Dimensions & Quantity Inputs List -->
             <div class="inputs-list" id="dynamicInputs"></div>
 
             <!-- Pieces (Quantity) Row -->
-            <div class="inputs-list" style="margin-bottom:12px;">
+            <div class="inputs-list" style="margin-top:-3px; margin-bottom:12px;">
                 <div class="input-row">
                     <div class="input-label" id="piecesLabel">العدد (Pieces)</div>
-                    <input type="number" id="inputQty" value="1" min="1" step="1" oninput="calculate()">
+                    <input type="number" id="inputQty" value="1" min="1" step="1" placeholder="0" oninput="calculate()">
                     <div class="input-unit" id="piecesUnitLabel">قطعة</div>
                 </div>
             </div>
-
-            <!-- Live Calculation Stats (Batch Weight & Total Cost) -->
-            <div class="live-calc-box">
-                <div class="calc-stat">
-                    <span id="batchWeightLabel">إجمالي وزن العدد</span>
-                    <strong id="statBatchWeight">0.00 kg</strong>
-                </div>
-                <div class="calc-stat">
-                    <span id="batchCostLabel">التكلفة التقديرية</span>
-                    <strong id="statBatchCost">0.00 EGP</strong>
-                </div>
-            </div>
-
-            <!-- Add to Product / Project Action Button -->
-            <button class="btn-flat" style="width: 100%; padding: 13px; font-size: 14px; border-radius: 10px;" onclick="openAddToProductModal()">
-                <span id="addToBOMBtnText">+ إضافة لمنتج / مقايسة مشروع</span>
-            </button>
         </div>
 
         <!-- VIEW 3: PROJECTS & BOM VIEW -->
@@ -1455,20 +1519,38 @@
         </div>
     </div>
 
-    <!-- STICKY FOOTER -->
-    <div class="sticky-footer" id="stickyFooter" onclick="onStickyFooterClick()">
-        <div class="footer-box">
-            <span id="footerWeightLabel">إجمالي وزن المشروع</span>
-            <strong id="footerWeight">0.00 kg</strong>
+    <!-- 4. STICKY FOOTER (Total Weight & Cost on one side, Action Button on the other) -->
+    <div class="sticky-footer" id="stickyFooter">
+        <div class="footer-totals" id="footerTotalsBlock" onclick="onStickyFooterTotalsClick()">
+            <div class="footer-values">
+                <strong id="footerWeight" class="footer-weight-val">0.00 kg</strong>
+                <span class="footer-dot">•</span>
+                <strong id="footerCost" class="footer-cost-val">0.00 EGP</strong>
+            </div>
+            <span id="footerSubLabel" class="footer-sublabel">إجمالي وزن وتكلفة القطعة</span>
         </div>
-        <div class="footer-box" style="text-align: left;">
-            <span id="footerCostLabel">إجمالي تكلفة الخامات</span>
-            <strong id="footerCost">0.00 EGP</strong>
-        </div>
+        <button type="button" class="footer-action-btn" id="footerActionBtn" onclick="onFooterActionClick()">
+            <span id="footerActionBtnText">+ إضافة للمشروع</span>
+        </button>
     </div>
 
     <script>
         const OFFICIAL_WHATSAPP_NUMBER = "201016771010";
+
+        // Safe Storage Helper (avoids crashes in private browsing / sandboxes)
+        function getStorage(key, fallback = '') {
+            try {
+                const val = localStorage.getItem(key);
+                return val !== null ? val : fallback;
+            } catch (_) {
+                return fallback;
+            }
+        }
+        function setStorage(key, val) {
+            try {
+                localStorage.setItem(key, val);
+            } catch (_) {}
+        }
 
         // BILINGUAL DICTIONARY (AR / EN)
         const I18N = {
@@ -1590,7 +1672,7 @@
             }
         };
 
-        let currentLang = localStorage.getItem('turath_calc_lang') || 'ar';
+        let currentLang = getStorage('turath_calc_lang', 'ar');
 
         // 13 STANDARD METALS + CUSTOM ALLOY
         const METALS = [
@@ -1863,12 +1945,12 @@
         // APP STATE
         let currentShape = SHAPES[0];
         let currentMetal = METALS[0];
-        let currentScrap = 0; // 0, 5, 10, 15 (%)
-        let fieldUnits = {}; // { [fieldId]: 'mm' | 'cm' | 'm' }
+        let currentUnit = 'mm'; // 'mm' | 'cm' | 'm'
+        let currentScrap = 0; // 0, 5, 10 (%)
         let currentView = 'home'; // 'home' | 'calc' | 'projects'
-        let savedPrices = JSON.parse(localStorage.getItem('turath_metal_prices_v2') || '{}');
-        let projects = JSON.parse(localStorage.getItem('turath_projects_v2') || '[]');
-        let activeProjectId = localStorage.getItem('turath_active_project_id') || '';
+        let savedPrices = JSON.parse(getStorage('turath_metal_prices_v2', '{}'));
+        let projects = JSON.parse(getStorage('turath_projects_v2', '[]'));
+        let activeProjectId = getStorage('turath_active_project_id', '');
 
         // Temporary calc results
         let lastUnitWeight = 0;
@@ -1902,19 +1984,19 @@
                 saveProjects();
             } else if (!activeProjectId || !projects.find(p => p.id === activeProjectId)) {
                 activeProjectId = projects[0].id;
-                localStorage.setItem('turath_active_project_id', activeProjectId);
+                setStorage('turath_active_project_id', activeProjectId);
             }
         }
 
         function saveProjects() {
-            localStorage.setItem('turath_projects_v2', JSON.stringify(projects));
-            localStorage.setItem('turath_active_project_id', activeProjectId);
+            setStorage('turath_projects_v2', JSON.stringify(projects));
+            setStorage('turath_active_project_id', activeProjectId);
         }
 
         // BILINGUAL LOGIC
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('turath_calc_lang', currentLang);
+            setStorage('turath_calc_lang', currentLang);
             applyLanguage();
         }
 
@@ -1940,9 +2022,9 @@
             document.getElementById('scrapLabel').innerText = t('scrapLabel');
             document.getElementById('piecesLabel').innerText = t('pieces');
             document.getElementById('piecesUnitLabel').innerText = t('piecesUnit');
-            document.getElementById('batchWeightLabel').innerText = t('batchWeight');
-            document.getElementById('batchCostLabel').innerText = t('batchCost');
-            document.getElementById('addToBOMBtnText').innerText = t('addToBOM');
+            if (document.getElementById('batchWeightLabel')) document.getElementById('batchWeightLabel').innerText = t('batchWeight');
+            if (document.getElementById('batchCostLabel')) document.getElementById('batchCostLabel').innerText = t('batchCost');
+            if (document.getElementById('addToBOMBtnText')) document.getElementById('addToBOMBtnText').innerText = t('addToBOM');
 
             // Projects View texts
             document.getElementById('backToHomeFromProjectsText').innerText = t('backToHome');
@@ -2004,7 +2086,6 @@
             currentView = 'calc';
             if (shapeId) {
                 currentShape = SHAPES.find(s => s.id === shapeId) || SHAPES[0];
-                fieldUnits = {};
             }
             document.getElementById('homeView').classList.add('hidden');
             document.getElementById('calcView').classList.remove('hidden');
@@ -2013,6 +2094,11 @@
             const isAr = currentLang === 'ar';
             document.getElementById('calcShapeTitle').innerText = isAr ? `${currentShape.ar} (${currentShape.en})` : `${currentShape.en} (${currentShape.ar})`;
             document.getElementById('activeSvgContainer').innerHTML = currentShape.svg(currentMetal.color, currentMetal.shade, currentMetal.light);
+
+            // Update active unit toggle in top nav
+            document.querySelectorAll('#calcUnitToggle .unit-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.unit === currentUnit);
+            });
 
             renderDynamicInputs();
             populatePriceForMetal(currentMetal);
@@ -2031,7 +2117,17 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function onStickyFooterClick() {
+        function onFooterActionClick() {
+            if (currentView === 'calc') {
+                openAddToProductModal();
+            } else if (currentView === 'home') {
+                showProjectsView();
+            } else if (currentView === 'projects') {
+                sendProjectToWhatsApp();
+            }
+        }
+
+        function onStickyFooterTotalsClick() {
             if (currentView === 'projects') {
                 document.getElementById('projectGrandTotalsCard')?.scrollIntoView({ behavior: 'smooth' });
             } else {
@@ -2089,7 +2185,7 @@
         function onPriceInput() {
             const priceVal = parseFloat(document.getElementById('inputPrice').value) || 0;
             savedPrices[currentMetal.id] = priceVal;
-            localStorage.setItem('turath_metal_prices_v2', JSON.stringify(savedPrices));
+            setStorage('turath_metal_prices_v2', JSON.stringify(savedPrices));
             calculate();
         }
 
@@ -2104,7 +2200,39 @@
             }
         }
 
-        // SCRAP % SELECTOR
+        // UNIFIED GLOBAL UNIT (mm | cm | m)
+        function setGlobalUnit(newUnit) {
+            if (currentUnit === newUnit) return;
+            const oldUnit = currentUnit;
+            currentUnit = newUnit;
+
+            document.querySelectorAll('#calcUnitToggle .unit-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.unit === newUnit);
+            });
+
+            document.querySelectorAll('.dim-unit-badge').forEach(badge => {
+                badge.innerText = newUnit;
+            });
+
+            // Proportional conversion of existing values
+            const toCm = { mm: 0.1, cm: 1.0, m: 100.0 };
+            const fromCm = { mm: 10.0, cm: 1.0, m: 0.01 };
+            currentShape.fields.forEach(f => {
+                const el = document.getElementById(`dim_${f.id}`);
+                if (el && el.value !== "" && !isNaN(el.value)) {
+                    const raw = parseFloat(el.value);
+                    if (raw > 0) {
+                        const inCm = raw * toCm[oldUnit];
+                        const inNew = inCm * fromCm[newUnit];
+                        el.value = Number(inNew.toPrecision(6)).toString();
+                    }
+                }
+            });
+
+            calculate();
+        }
+
+        // SCRAP % SELECTOR [0% | 5% | 10%]
         function setScrap(percent) {
             currentScrap = percent;
             document.querySelectorAll('.scrap-btn').forEach(btn => {
@@ -2129,7 +2257,7 @@
             `).join('');
         }
 
-        // PER-ROW DYNAMIC DIMENSION INPUTS WITH SEGMENTED UNIT SELECTORS (mm | cm | m)
+        // DYNAMIC DIMENSION INPUTS (Clean full-width with placeholder="0" and unit badge at edge)
         function renderDynamicInputs() {
             const container = document.getElementById('dynamicInputs');
             if (!container) return;
@@ -2137,51 +2265,14 @@
 
             container.innerHTML = currentShape.fields.map(f => {
                 const label = isAr ? f.ar : f.en;
-                if (!fieldUnits[f.id]) fieldUnits[f.id] = 'mm';
-                const u = fieldUnits[f.id];
-
                 return `
                     <div class="input-row">
                         <div class="input-label">${label}</div>
                         <input type="number" id="dim_${f.id}" placeholder="0" step="any" oninput="calculate()">
-                        <div class="field-unit-group" id="unitGroup_${f.id}">
-                            <button type="button" class="f-unit-btn ${u === 'mm' ? 'active' : ''}" onclick="setFieldUnit('${f.id}', 'mm')">mm</button>
-                            <button type="button" class="f-unit-btn ${u === 'cm' ? 'active' : ''}" onclick="setFieldUnit('${f.id}', 'cm')">cm</button>
-                            <button type="button" class="f-unit-btn ${u === 'm' ? 'active' : ''}" onclick="setFieldUnit('${f.id}', 'm')">m</button>
-                        </div>
+                        <div class="input-unit dim-unit-badge">${currentUnit}</div>
                     </div>
                 `;
             }).join('');
-        }
-
-        function setFieldUnit(fieldId, newUnit) {
-            const oldUnit = fieldUnits[fieldId] || 'mm';
-            if (oldUnit === newUnit) return;
-
-            fieldUnits[fieldId] = newUnit;
-
-            // Update UI buttons
-            const grp = document.getElementById(`unitGroup_${fieldId}`);
-            if (grp) {
-                grp.querySelectorAll('.f-unit-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.innerText === newUnit);
-                });
-            }
-
-            // Proportional conversion of existing value in this input
-            const inputEl = document.getElementById(`dim_${fieldId}`);
-            if (inputEl && inputEl.value !== "" && !isNaN(inputEl.value)) {
-                const raw = parseFloat(inputEl.value);
-                if (raw > 0) {
-                    const toCm = { mm: 0.1, cm: 1.0, m: 100.0 };
-                    const fromCm = { mm: 10.0, cm: 1.0, m: 0.01 };
-                    const inCm = raw * toCm[oldUnit];
-                    const inNew = inCm * fromCm[newUnit];
-                    inputEl.value = Number(inNew.toPrecision(6)).toString();
-                }
-            }
-
-            calculate();
         }
 
         // CALCULATION LOGIC (With Digital Scale & Scrap Allowance)
@@ -2200,8 +2291,7 @@
             currentShape.fields.forEach(f => {
                 const raw = parseFloat(document.getElementById(`dim_${f.id}`)?.value) || 0;
                 if (raw > 0) hasAtLeastOneVal = true;
-                const u = fieldUnits[f.id] || 'mm';
-                valsInCm[f.id] = raw * (toCmFactor[u] || 0.1);
+                valsInCm[f.id] = raw * (toCmFactor[currentUnit] || 0.1);
             });
 
             const qty = parseFloat(document.getElementById('inputQty')?.value) || 1;
@@ -2232,39 +2322,35 @@
             const scaleEl = document.getElementById('statUnitWeight');
             if (scaleEl) scaleEl.innerText = unitWeightKg.toFixed(2);
 
-            // Batch Stats (Total Weight with Scrap & Total Cost)
-            const batchWeightEl = document.getElementById('statBatchWeight');
-            if (batchWeightEl) {
-                const scrapNotice = currentScrap > 0 ? ` (+${currentScrap}%)` : '';
-                batchWeightEl.innerText = `${batchWeightWithScrap.toFixed(2)} kg${scrapNotice}`;
-            }
-
-            const batchCostEl = document.getElementById('statBatchCost');
-            if (batchCostEl) {
-                batchCostEl.innerText = `${batchCostEgp.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
-            }
-
             updateFooterDisplay();
         }
 
         function updateFooterDisplay() {
             const footerWeightEl = document.getElementById('footerWeight');
             const footerCostEl = document.getElementById('footerCost');
-            const footerWeightLbl = document.getElementById('footerWeightLabel');
-            const footerCostLbl = document.getElementById('footerCostLabel');
+            const footerSubLabelEl = document.getElementById('footerSubLabel');
+            const footerActionBtnText = document.getElementById('footerActionBtnText');
+            const isAr = currentLang === 'ar';
 
             if (currentView === 'calc') {
-                footerWeightLbl.innerText = t('footerPartWeight');
-                footerCostLbl.innerText = t('footerPartCost');
-                footerWeightEl.innerText = `${lastBatchWeight.toFixed(2)} kg`;
-                footerCostEl.innerText = `${lastBatchCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+                const scrapNotice = currentScrap > 0 ? ` (+${currentScrap}% ${t('scrapBadge') || 'هالك'})` : '';
+                if (footerSubLabelEl) footerSubLabelEl.innerText = (isAr ? 'إجمالي القطعة الحالية' : 'Current Part Total') + scrapNotice;
+                if (footerWeightEl) footerWeightEl.innerText = `${lastBatchWeight.toFixed(2)} kg`;
+                if (footerCostEl) footerCostEl.innerText = `${lastBatchCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+                if (footerActionBtnText) footerActionBtnText.innerText = isAr ? '+ إضافة للمشروع' : '+ Add to Project';
             } else {
                 // Compute Project Totals
                 const totals = computeProjectGrandTotals(getActiveProject());
-                footerWeightLbl.innerText = t('footerProjectWeight');
-                footerCostLbl.innerText = t('footerProjectCost');
-                footerWeightEl.innerText = `${totals.totalWeight.toFixed(2)} kg`;
-                footerCostEl.innerText = `${totals.totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+                if (footerSubLabelEl) footerSubLabelEl.innerText = isAr ? 'إجمالي خامات المشروع' : 'Total Project Materials';
+                if (footerWeightEl) footerWeightEl.innerText = `${totals.totalWeight.toFixed(2)} kg`;
+                if (footerCostEl) footerCostEl.innerText = `${totals.totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+                if (footerActionBtnText) {
+                    if (currentView === 'home') {
+                        footerActionBtnText.innerText = isAr ? `المشاريع (${projects.length}) 📁` : `Projects (${projects.length}) 📁`;
+                    } else {
+                        footerActionBtnText.innerText = isAr ? 'واتساب الورشة 📱' : 'Send WhatsApp 📱';
+                    }
+                }
             }
 
             // Update Header Projects Count
@@ -2450,7 +2536,7 @@
 
         function onProjectSelectChange() {
             activeProjectId = document.getElementById('projectSelect').value;
-            localStorage.setItem('turath_active_project_id', activeProjectId);
+            setStorage('turath_active_project_id', activeProjectId);
             renderProjectsList();
             updateFooterDisplay();
         }
@@ -2581,8 +2667,7 @@
             const isAr = currentLang === 'ar';
             const dimParts = currentShape.fields.map(f => {
                 const val = document.getElementById(`dim_${f.id}`)?.value || 0;
-                const u = fieldUnits[f.id] || 'mm';
-                return `${f.id}:${val}${u}`;
+                return `${f.id}:${val}${currentUnit}`;
             }).join(' × ');
 
             const newPart = {

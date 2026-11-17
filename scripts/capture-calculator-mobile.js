@@ -32,12 +32,14 @@ async function capture() {
   });
 
   const page = await browser.newPage();
+  page.on('pageerror', err => console.error('PAGE ERROR:', err.message));
+  page.on('console', msg => console.log('PAGE CONSOLE:', msg.text()));
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
 
-  const fileUrl = 'file:///' + path.resolve(rootDir, 'calculator.html').replace(/\\/g, '/');
-  console.log('Navigating to file URL:', fileUrl);
-  await page.goto(fileUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  await new Promise(r => setTimeout(r, 800));
+  const htmlContent = fs.readFileSync(path.resolve(rootDir, 'calculator.html'), 'utf8');
+  console.log('Loading calculator HTML directly via setContent...');
+  await page.setContent(htmlContent);
+  await new Promise(r => setTimeout(r, 600));
 
   // 1. Capture Simplified Home View (13 Shapes Grid)
   const homePath = path.join(brainDir, 'mobile_preview_grid.png');
@@ -45,18 +47,15 @@ async function capture() {
   fs.copyFileSync(homePath, path.join(rootDir, 'mobile_preview_grid.png'));
   console.log('Home grid screenshot captured.');
 
-  // 2. Open Calculator for Round Tube, select Copper (#c86d44), set 5% scrap, test integrated units
+  // 2. Open Calculator for Round Tube, select Copper (#c86d44), set 5% scrap, test unified units
   await page.evaluate(() => {
     showCalcView('round-tube');
     setMetalById('copper');
-    // Set scrap to 5%
+    setGlobalUnit('mm');
     setScrap(5);
-    // Enter dimensions with integrated units:
-    // D in mm (50.8), T in mm (2.0), L in m (1 m)
     document.getElementById('dim_D').value = '50.8';
     document.getElementById('dim_T').value = '2.0';
-    setFieldUnit('L', 'm');
-    document.getElementById('dim_L').value = '1';
+    document.getElementById('dim_L').value = '1000';
     document.getElementById('inputQty').value = '4';
     calculate();
   });
@@ -78,10 +77,8 @@ async function capture() {
     showCalcView('sheet');
     setMetalById('brass');
     setScrap(10);
-    setFieldUnit('L', 'm');
-    document.getElementById('dim_L').value = '2';
-    setFieldUnit('W', 'm');
-    document.getElementById('dim_W').value = '1';
+    document.getElementById('dim_L').value = '2000';
+    document.getElementById('dim_W').value = '1000';
     document.getElementById('dim_T').value = '3';
     document.getElementById('inputQty').value = '1';
     calculate();
@@ -98,8 +95,7 @@ async function capture() {
     document.getElementById('dim_W').value = '80';
     document.getElementById('dim_H').value = '40';
     document.getElementById('dim_T').value = '3';
-    setFieldUnit('L', 'm');
-    document.getElementById('dim_L').value = '1.5';
+    document.getElementById('dim_L').value = '1500';
     document.getElementById('inputQty').value = '6';
     calculate();
 
