@@ -365,18 +365,24 @@
             align-items: stretch;
         }
 
-        .top-col {
+        .top-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 9px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            height: 100%;
+            justify-content: space-between;
+            min-height: 180px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
         }
 
-        .control-group.compact {
-            margin-bottom: 0;
+        .top-card-section {
+            display: flex;
+            flex-direction: column;
         }
 
-        .control-group.compact label {
+        .top-card-label {
             display: block;
             font-size: 10px;
             color: var(--text-muted);
@@ -384,35 +390,31 @@
             font-weight: 700;
         }
 
-        .control-group.compact select {
+        .top-card select {
             width: 100%;
-            background-color: var(--bg-card);
+            background-color: var(--bg-input);
             color: var(--accent);
             border: 1px solid var(--border-color);
-            padding: 7px 8px;
-            border-radius: 8px;
+            padding: 6px 8px;
+            border-radius: 7px;
             font-size: 11px;
             font-weight: 800;
             outline: none;
             cursor: pointer;
             transition: border-color 0.2s;
-            height: 34px;
+            height: 32px;
         }
 
-        /* 3D Isometric Preview Card (50% Column) */
-        .preview-card.compact {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 6px 8px;
-            margin-bottom: 0;
-            flex: 1;
-            min-height: 140px;
+        /* 3D Isometric Preview Area inside Left Card */
+        .preview-area {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             align-items: center;
-            position: relative;
+            justify-content: space-between;
+            flex: 1;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px dashed rgba(255,255,255,0.08);
         }
 
         .preview-header {
@@ -421,30 +423,39 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2px;
+            gap: 4px;
         }
 
         .preview-title {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
             color: var(--accent);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 95px;
         }
 
         .preview-badge {
-            font-size: 9px;
+            font-size: 8.5px;
             background-color: var(--bg-input);
             color: var(--text-muted);
+            padding: 1px 4px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
             padding: 2px 5px;
             border-radius: 4px;
             border: 1px solid var(--border-color);
             font-family: 'Space Mono', monospace;
             font-weight: 700;
+            flex-shrink: 0;
         }
 
-        .preview-card.compact #activeSvgContainer {
+        #activeSvgContainer {
             width: 100%;
             display: flex;
             justify-content: center;
@@ -452,39 +463,21 @@
             flex: 1;
         }
 
-        .preview-card.compact #activeSvgContainer svg {
+        #activeSvgContainer svg {
             width: 100%;
             max-width: 135px;
-            height: 76px;
+            height: 72px;
         }
 
-        /* Right Quick Panel Cards */
-        .quick-panel-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 6px 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .quick-panel-label {
-            font-size: 10px;
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 2px;
-            display: block;
-        }
-
+        /* Right Card Components */
         .quick-input-wrap {
             display: flex;
             align-items: center;
             background-color: var(--bg-input);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 7px;
             overflow: hidden;
-            height: 30px;
+            height: 32px;
             transition: border-color 0.2s;
         }
 
@@ -514,70 +507,7 @@
             flex-shrink: 0;
         }
 
-        /* Digital Scale Box (Single Piece Weight) */
-        .scale-box {
-            background: linear-gradient(145deg, #1f1f1f, #272727);
-            border: 1px solid var(--border-color);
-            text-align: center;
-            padding: 6px 8px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .scale-label {
-            font-size: 10px;
-            color: var(--text-muted);
-            font-weight: 700;
-            display: block;
-        }
-
-        .scale-display {
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 3px;
-            margin-top: 1px;
-        }
-
-        .scale-display strong {
-            font-size: 20px;
-            font-weight: 900;
-            color: var(--accent);
-            font-family: 'Space Mono', monospace;
-            line-height: 1.1;
-        }
-
-        .scale-unit {
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--text-muted);
-            font-family: 'Space Mono', monospace;
-        }
-
-        /* Scrap % Box */
-        .scrap-box {
-            padding: 5px 8px;
-        }
-
-        .scrap-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            color: var(--text-muted);
-            margin-bottom: 3px;
-            font-weight: 700;
-        }
-
-        .scrap-badge {
-            color: var(--accent);
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            font-weight: 800;
-        }
-
+        /* Scrap Buttons Group */
         .scrap-btn-group {
             display: flex;
             gap: 2px;
@@ -594,7 +524,7 @@
             color: var(--text-muted);
             font-size: 10px;
             font-weight: 800;
-            padding: 4px 1px;
+            padding: 5px 1px;
             border-radius: 4px;
             cursor: pointer;
             font-family: 'Space Mono', monospace;
@@ -605,6 +535,45 @@
             background-color: var(--accent);
             color: var(--accent-text);
             box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Single Piece Weight Line at Bottom of Right Card */
+        .piece-weight-line {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 7px;
+            padding: 6px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 4px;
+        }
+
+        .piece-weight-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .piece-weight-val {
+            display: flex;
+            align-items: baseline;
+            gap: 3px;
+        }
+
+        .piece-weight-val strong {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            line-height: 1;
+        }
+
+        .piece-weight-val span {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
         }
 
         /* Full-Width Clean Dimension Inputs */
@@ -1323,24 +1292,23 @@
                 </div>
             </div>
 
-            <!-- 2. Equal 50% / 50% Two-Column Section (Display & Pricing) -->
+            <!-- 2. Equal 50% / 50% Two-Column Section (Balanced Cards) -->
             <div class="calc-top-grid">
-                <!-- Column 1: Metal Select & 3D Isometric Preview with Density Badge -->
-                <div class="top-col">
-                    <div class="control-group compact">
-                        <label id="metalSelectLabel">نوع المعدن والسبيكة:</label>
+                <!-- Column 1: Single Card for Metal Select & 3D Isometric Preview with Density Badge -->
+                <div class="top-card">
+                    <div class="top-card-section">
+                        <label class="top-card-label" id="metalSelectLabel">نوع المعدن والسبيكة:</label>
                         <select id="calcMetalSelect" onchange="onCalcMetalChange()"></select>
+
+                        <!-- Custom Density Row (Hidden unless custom selected) -->
+                        <div id="customDensityRow" class="input-row compact hidden" style="margin-top:4px; height:28px;">
+                            <div class="input-label" id="customDensityLabel" style="width:60px; font-size:9px; padding:2px 4px;">كثافة مخصصة</div>
+                            <input type="number" id="customDensityInput" placeholder="0" step="0.01" oninput="calculate()" style="padding:2px 4px; font-size:11px;">
+                            <div class="input-unit" style="font-size:9px; padding:0 4px;">g/cm³</div>
+                        </div>
                     </div>
 
-                    <!-- Custom Density Row (Hidden unless custom selected) -->
-                    <div id="customDensityRow" class="input-row compact hidden" style="margin-top:2px;">
-                        <div class="input-label" id="customDensityLabel" style="width:65px; font-size:9px; padding:4px 6px;">كثافة مخصصة</div>
-                        <input type="number" id="customDensityInput" placeholder="0" step="0.01" oninput="calculate()" style="padding:4px 6px; font-size:11px;">
-                        <div class="input-unit" style="font-size:9px; padding:0 4px;">g/cm³</div>
-                    </div>
-
-                    <!-- 3D Isometric Preview Card -->
-                    <div class="preview-card compact">
+                    <div class="preview-area">
                         <div class="preview-header">
                             <span class="preview-title" id="calcShapeTitle">القطاع</span>
                             <span class="preview-badge" id="calcDensityBadge">8.55 g/cm³</span>
@@ -1349,36 +1317,33 @@
                     </div>
                 </div>
 
-                <!-- Column 2: Pricing, Single Piece Weight Scale, and Quick Scrap Buttons [0% | 5% | 10%] -->
-                <div class="top-col">
+                <!-- Column 2: Single Card for Pricing, Scrap Buttons, and Single Piece Weight Line -->
+                <div class="top-card">
                     <!-- 1) Kg Price Input -->
-                    <div class="quick-panel-card">
-                        <span class="quick-panel-label" id="kgPriceLabel">سعر الكيلو (جنيه):</span>
+                    <div class="top-card-section">
+                        <label class="top-card-label" id="kgPriceLabel">سعر الكيلو (جنيه):</label>
                         <div class="quick-input-wrap">
                             <input type="number" id="inputPrice" placeholder="0" step="any" oninput="onPriceInput()">
                             <span class="quick-currency">EGP</span>
                         </div>
                     </div>
 
-                    <!-- 2) Single Piece Weight Scale Box -->
-                    <div class="quick-panel-card scale-box">
-                        <span class="scale-label" id="unitWeightLabel">وزن القطعة الواحدة</span>
-                        <div class="scale-display">
-                            <strong id="statUnitWeight">0.00</strong>
-                            <span class="scale-unit">kg</span>
-                        </div>
-                    </div>
-
-                    <!-- 3) Quick Scrap Buttons [0% | 5% | 10%] -->
-                    <div class="quick-panel-card scrap-box">
-                        <div class="scrap-header">
-                            <span id="scrapLabel">نسبة الهالك (Scrap):</span>
-                            <strong id="scrapValBadge" class="scrap-badge">0%</strong>
-                        </div>
+                    <!-- 2) Quick Scrap Buttons [0% | 5% | 10%] (No repeated value in header) -->
+                    <div class="top-card-section" style="margin: 6px 0;">
+                        <label class="top-card-label" id="scrapLabel">نسبة الهالك:</label>
                         <div class="scrap-btn-group">
                             <button type="button" class="scrap-btn active" data-val="0" onclick="setScrap(0)">0%</button>
                             <button type="button" class="scrap-btn" data-val="5" onclick="setScrap(5)">5%</button>
                             <button type="button" class="scrap-btn" data-val="10" onclick="setScrap(10)">10%</button>
+                        </div>
+                    </div>
+
+                    <!-- 3) Single Piece Weight Line at Bottom -->
+                    <div class="piece-weight-line">
+                        <span class="piece-weight-label" id="unitWeightLabel">وزن القطعة:</span>
+                        <div class="piece-weight-val">
+                            <strong id="statUnitWeight">0.00</strong>
+                            <span>kg</span>
                         </div>
                     </div>
                 </div>
@@ -1568,10 +1533,10 @@
                 pieces: 'العدد (Pieces)',
                 piecesUnit: 'قطعة',
                 kgPrice: 'سعر الكيلو (جنيه):',
-                unitWeight: 'وزن القطعة الواحدة',
+                unitWeight: 'وزن القطعة:',
                 batchWeight: 'إجمالي وزن العدد',
                 batchCost: 'التكلفة التقديرية',
-                scrapLabel: 'نسبة الهالك (Scrap):',
+                scrapLabel: 'نسبة الهالك:',
                 addToBOM: '+ إضافة لمنتج / مقايسة مشروع',
                 newProject: '+ مشروع جديد',
                 projectProducts: 'منتجات المشروع:',
@@ -1626,10 +1591,10 @@
                 pieces: 'Quantity (Pieces)',
                 piecesUnit: 'pcs',
                 kgPrice: 'Kg Price (EGP):',
-                unitWeight: 'Single Piece Weight',
+                unitWeight: '1 pc weight:',
                 batchWeight: 'Total Batch Weight',
                 batchCost: 'Estimated Batch Cost',
-                scrapLabel: 'Scrap % (Allowance):',
+                scrapLabel: 'Scrap %:',
                 addToBOM: '+ Add to Product / Project BOM',
                 newProject: '+ New Project',
                 projectProducts: 'Project Products:',
@@ -1676,20 +1641,20 @@
 
         // 13 STANDARD METALS + CUSTOM ALLOY
         const METALS = [
-            { id: 'brass', arName: 'نحاس أصفر (Brass)', enName: 'Brass', density: 8.55, defaultPrice: 580, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' },
-            { id: 'copper', arName: 'نحاس أحمر (Copper)', enName: 'Pure Copper', density: 8.96, defaultPrice: 690, color: '#c86d44', shade: '#8c4322', light: '#e39674' },
-            { id: 'bronze', arName: 'برونز (Bronze)', enName: 'Bronze', density: 8.80, defaultPrice: 620, color: '#a87948', shade: '#734f29', light: '#cca276' },
-            { id: 'ss201', arName: 'ستانلس ستيل 201 (SS 201)', enName: 'Stainless Steel 201', density: 7.80, defaultPrice: 180, color: '#94a3b8', shade: '#64748b', light: '#cbd5e1' },
-            { id: 'ss304', arName: 'ستانلس ستيل 304 (SS 304)', enName: 'Stainless Steel 304', density: 7.93, defaultPrice: 220, color: '#a8b2bd', shade: '#717b85', light: '#d1d9e0' },
-            { id: 'ss316', arName: 'ستانلس ستيل 316 (SS 316)', enName: 'Stainless Steel 316', density: 8.00, defaultPrice: 280, color: '#cbd5e1', shade: '#8b99ab', light: '#f1f5f9' },
-            { id: 'chrome', arName: 'كروم (Chromium)', enName: 'Chromium', density: 7.19, defaultPrice: 350, color: '#e2e8f0', shade: '#94a3b8', light: '#ffffff' },
-            { id: 'steel', arName: 'حديد / صلب كربوني (Steel)', enName: 'Carbon Steel', density: 7.85, defaultPrice: 65, color: '#788696', shade: '#4e5966', light: '#a3b1c2' },
-            { id: 'castiron', arName: 'حديد زهر (Cast Iron)', enName: 'Cast Iron', density: 7.20, defaultPrice: 55, color: '#6b7280', shade: '#4b5563', light: '#9ca3af' },
-            { id: 'aluminum', arName: 'ألومنيوم (Aluminum)', enName: 'Aluminum', density: 2.70, defaultPrice: 240, color: '#bfd7ed', shade: '#82a3c2', light: '#e3f0fc' },
-            { id: 'zinc', arName: 'زنك (Zinc)', enName: 'Zinc', density: 7.14, defaultPrice: 160, color: '#8fa3b0', shade: '#5e717d', light: '#bccad4' },
-            { id: 'lead', arName: 'رصاص (Lead)', enName: 'Lead', density: 11.34, defaultPrice: 140, color: '#737d87', shade: '#4b535c', light: '#9aa4ad' },
-            { id: 'titanium', arName: 'تيتانيوم (Titanium)', enName: 'Titanium', density: 4.51, defaultPrice: 950, color: '#9ca3af', shade: '#6b7280', light: '#d1d5db' },
-            { id: 'custom', arName: 'سبيكة مخصصة (Custom)', enName: 'Custom Alloy', density: 8.50, defaultPrice: 500, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' }
+            { id: 'brass', arName: 'نحاس أصفر', enName: 'Brass', density: 8.55, defaultPrice: 580, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' },
+            { id: 'copper', arName: 'نحاس أحمر', enName: 'Pure Copper', density: 8.96, defaultPrice: 690, color: '#c86d44', shade: '#8c4322', light: '#e39674' },
+            { id: 'bronze', arName: 'برونز', enName: 'Bronze', density: 8.80, defaultPrice: 620, color: '#a87948', shade: '#734f29', light: '#cca276' },
+            { id: 'ss201', arName: 'ستانلس ستيل 201', enName: 'Stainless Steel 201', density: 7.80, defaultPrice: 180, color: '#94a3b8', shade: '#64748b', light: '#cbd5e1' },
+            { id: 'ss304', arName: 'ستانلس ستيل 304', enName: 'Stainless Steel 304', density: 7.93, defaultPrice: 220, color: '#a8b2bd', shade: '#717b85', light: '#d1d9e0' },
+            { id: 'ss316', arName: 'ستانلس ستيل 316', enName: 'Stainless Steel 316', density: 8.00, defaultPrice: 280, color: '#cbd5e1', shade: '#8b99ab', light: '#f1f5f9' },
+            { id: 'chrome', arName: 'كروم', enName: 'Chromium', density: 7.19, defaultPrice: 350, color: '#e2e8f0', shade: '#94a3b8', light: '#ffffff' },
+            { id: 'steel', arName: 'حديد / صلب كربوني', enName: 'Carbon Steel', density: 7.85, defaultPrice: 65, color: '#788696', shade: '#4e5966', light: '#a3b1c2' },
+            { id: 'castiron', arName: 'حديد زهر', enName: 'Cast Iron', density: 7.20, defaultPrice: 55, color: '#6b7280', shade: '#4b5563', light: '#9ca3af' },
+            { id: 'aluminum', arName: 'ألومنيوم', enName: 'Aluminum', density: 2.70, defaultPrice: 240, color: '#bfd7ed', shade: '#82a3c2', light: '#e3f0fc' },
+            { id: 'zinc', arName: 'زنك', enName: 'Zinc', density: 7.14, defaultPrice: 160, color: '#8fa3b0', shade: '#5e717d', light: '#bccad4' },
+            { id: 'lead', arName: 'رصاص', enName: 'Lead', density: 11.34, defaultPrice: 140, color: '#737d87', shade: '#4b535c', light: '#9aa4ad' },
+            { id: 'titanium', arName: 'تيتانيوم', enName: 'Titanium', density: 4.51, defaultPrice: 950, color: '#9ca3af', shade: '#6b7280', light: '#d1d5db' },
+            { id: 'custom', arName: 'سبيكة مخصصة', enName: 'Custom Alloy', density: 8.50, defaultPrice: 500, color: '#d4b16a', shade: '#9e7e3e', light: '#ebd29b' }
         ];
 
         // 13 STANDARD SHAPES WITH ISOMETRIC SVG GENERATORS
@@ -2058,8 +2023,7 @@
             updateFooterDisplay();
 
             if (currentView === 'calc') {
-                const shapeName = isAr ? `${currentShape.ar} (${currentShape.en})` : `${currentShape.en} (${currentShape.ar})`;
-                document.getElementById('calcShapeTitle').innerText = shapeName;
+                document.getElementById('calcShapeTitle').innerText = isAr ? currentShape.ar : currentShape.en;
             }
         }
 
@@ -2092,7 +2056,7 @@
             document.getElementById('projectsView').classList.add('hidden');
 
             const isAr = currentLang === 'ar';
-            document.getElementById('calcShapeTitle').innerText = isAr ? `${currentShape.ar} (${currentShape.en})` : `${currentShape.en} (${currentShape.ar})`;
+            document.getElementById('calcShapeTitle').innerText = isAr ? currentShape.ar : currentShape.en;
             document.getElementById('activeSvgContainer').innerHTML = currentShape.svg(currentMetal.color, currentMetal.shade, currentMetal.light);
 
             // Update active unit toggle in top nav
@@ -2143,7 +2107,7 @@
 
             select.innerHTML = METALS.map(m => {
                 const name = isAr ? m.arName : m.enName;
-                return `<option value="${m.id}">${name} (${m.density})</option>`;
+                return `<option value="${m.id}">${name}</option>`;
             }).join('');
 
             select.value = currentMetal.id;
