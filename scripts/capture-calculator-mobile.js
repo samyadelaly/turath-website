@@ -11,14 +11,24 @@ const brainDir = 'C:\\Users\\SAM\\.gemini\\antigravity\\brain\\a8530eea-fe2d-417
 
 async function capture() {
   const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
-  const tempDir = path.join(os.tmpdir(), 'pup-edge-' + Date.now());
+  const tempDir = path.join(os.tmpdir(), 'pup-edge-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8));
   if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
 
   const browser = await puppeteer.launch({
     executablePath: edgePath,
-    headless: 'new',
+    headless: true,
     userDataDir: tempDir,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu']
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--no-first-run',
+      '--no-default-browser-check',
+      '--disable-background-networking',
+      '--disable-features=Translate,OptimizationHints',
+      '--remote-debugging-port=0'
+    ]
   });
 
   const page = await browser.newPage();
@@ -26,8 +36,8 @@ async function capture() {
 
   const fileUrl = 'file:///' + path.resolve(rootDir, 'calculator.html').replace(/\\/g, '/');
   console.log('Navigating to file URL:', fileUrl);
-  await page.goto(fileUrl, { waitUntil: 'domcontentloaded' });
-  await new Promise(r => setTimeout(r, 1000));
+  await page.goto(fileUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await new Promise(r => setTimeout(r, 800));
 
   // 1. Capture Simplified Home View (13 Shapes Grid)
   const homePath = path.join(brainDir, 'mobile_preview_grid.png');
@@ -35,14 +45,18 @@ async function capture() {
   fs.copyFileSync(homePath, path.join(rootDir, 'mobile_preview_grid.png'));
   console.log('Home grid screenshot captured.');
 
-  // 2. Open Calculator for Round Tube, select Copper (#c86d44), enter dimensions
+  // 2. Open Calculator for Round Tube, select Copper (#c86d44), set 5% scrap, test integrated units
   await page.evaluate(() => {
     showCalcView('round-tube');
     setMetalById('copper');
-    // Enter dimensions in mm
+    // Set scrap to 5%
+    setScrap(5);
+    // Enter dimensions with integrated units:
+    // D in mm (50.8), T in mm (2.0), L in m (1 m)
     document.getElementById('dim_D').value = '50.8';
     document.getElementById('dim_T').value = '2.0';
-    document.getElementById('dim_L').value = '1000';
+    setFieldUnit('L', 'm');
+    document.getElementById('dim_L').value = '1';
     document.getElementById('inputQty').value = '4';
     calculate();
   });
@@ -63,8 +77,11 @@ async function capture() {
     // Add another part: Brass Sheet
     showCalcView('sheet');
     setMetalById('brass');
-    document.getElementById('dim_L').value = '2000';
-    document.getElementById('dim_W').value = '1000';
+    setScrap(10);
+    setFieldUnit('L', 'm');
+    document.getElementById('dim_L').value = '2';
+    setFieldUnit('W', 'm');
+    document.getElementById('dim_W').value = '1';
     document.getElementById('dim_T').value = '3';
     document.getElementById('inputQty').value = '1';
     calculate();
@@ -77,10 +94,12 @@ async function capture() {
     // Add another product: Carbon Steel Base
     showCalcView('rect-tube');
     setMetalById('steel');
+    setScrap(0);
     document.getElementById('dim_W').value = '80';
     document.getElementById('dim_H').value = '40';
     document.getElementById('dim_T').value = '3';
-    document.getElementById('dim_L').value = '1500';
+    setFieldUnit('L', 'm');
+    document.getElementById('dim_L').value = '1.5';
     document.getElementById('inputQty').value = '6';
     calculate();
 
@@ -88,6 +107,9 @@ async function capture() {
     document.getElementById('modalProductNameInput').value = 'شاسيه كونسول';
     document.getElementById('modalProductQtyInput').value = 1;
     confirmAddPartToProduct();
+
+    const toast = document.getElementById('toastNotice');
+    if (toast) toast.style.display = 'none';
 
     showProjectsView();
   });

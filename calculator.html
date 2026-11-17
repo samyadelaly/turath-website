@@ -178,11 +178,6 @@
             font-family: 'Space Mono', monospace;
         }
 
-        .btn-outline .badge-count {
-            background-color: var(--accent);
-            color: var(--accent-text);
-        }
-
         /* Section Titles */
         .section-header {
             display: flex;
@@ -314,7 +309,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .back-btn {
@@ -331,72 +326,59 @@
             padding: 4px 0;
         }
 
-        .unit-toggle {
-            display: flex;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .unit-btn {
-            padding: 5px 12px;
-            font-size: 12px;
-            font-weight: 800;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .unit-btn.active {
-            background-color: var(--accent);
-            color: var(--accent-text);
-        }
-
-        /* Metal Selector Inside Calc */
-        .control-group {
+        /* Smart 2-Column Upper Section in Calculator View */
+        .calc-top-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 10px;
             margin-bottom: 14px;
+            align-items: stretch;
         }
 
-        .control-group label {
+        .top-col {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group.compact {
+            margin-bottom: 0;
+        }
+
+        .control-group.compact label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             font-weight: 700;
         }
 
-        select {
+        .control-group.compact select {
             width: 100%;
             background-color: var(--bg-card);
             color: var(--accent);
             border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
+            padding: 8px 10px;
+            border-radius: 9px;
+            font-size: 11px;
             font-weight: 800;
             outline: none;
-            transition: border-color 0.25s ease, color 0.25s ease;
             cursor: pointer;
+            transition: border-color 0.2s;
         }
 
-        select:focus {
-            border-color: var(--accent);
-        }
-
-        /* 3D Isometric Preview Card */
-        .preview-card {
+        /* 3D Isometric Preview Card (Compact) */
+        .preview-card.compact {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 14px;
+            border-radius: 10px;
+            padding: 8px 10px;
+            margin-bottom: 0;
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             position: relative;
         }
 
@@ -405,36 +387,192 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .preview-title {
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 800;
             color: var(--accent);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 110px;
         }
 
         .preview-badge {
-            font-size: 10px;
+            font-size: 9px;
             background-color: var(--bg-input);
             color: var(--text-muted);
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 2px 6px;
+            border-radius: 5px;
             border: 1px solid var(--border-color);
             font-family: 'Space Mono', monospace;
             font-weight: 700;
         }
 
-        #activeSvgContainer svg {
-            width: 220px;
-            height: 125px;
+        .preview-card.compact #activeSvgContainer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Input Rows */
+        .preview-card.compact #activeSvgContainer svg {
+            width: 100%;
+            max-width: 170px;
+            height: 92px;
+        }
+
+        /* Right Quick Panel Cards */
+        .quick-panel-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .quick-panel-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .quick-input-wrap {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 7px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .quick-input-wrap:focus-within {
+            border-color: var(--accent);
+        }
+
+        .quick-input-wrap input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
+            padding: 6px 8px;
+            font-family: 'Space Mono', monospace;
+            outline: none;
+            direction: ltr;
+        }
+
+        .quick-currency {
+            padding: 0 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            flex-shrink: 0;
+        }
+
+        /* Digital Scale Box (Single Piece Weight) */
+        .scale-box {
+            background: linear-gradient(145deg, #1f1f1f, #272727);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            padding: 7px 8px;
+        }
+
+        .scale-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            display: block;
+        }
+
+        .scale-display {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 2px;
+        }
+
+        .scale-display strong {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            line-height: 1.1;
+        }
+
+        .scale-unit {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Scrap % Box */
+        .scrap-box {
+            padding: 6px 8px;
+        }
+
+        .scrap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .scrap-badge {
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .scrap-btn-group {
+            display: flex;
+            gap: 2px;
+            background-color: var(--bg-input);
+            padding: 2px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .scrap-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.15s ease;
+        }
+
+        .scrap-btn.active {
+            background-color: var(--accent);
+            color: var(--accent-text);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Dimension Inputs with Integrated Unit Selectors */
         .inputs-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 9px;
             margin-bottom: 14px;
         }
 
@@ -453,8 +591,8 @@
         }
 
         .input-label {
-            width: 135px;
-            padding: 12px;
+            width: 120px;
+            padding: 10px 12px;
             font-size: 12px;
             font-weight: 700;
             color: var(--text-main);
@@ -472,7 +610,7 @@
             flex: 1;
             background: transparent;
             border: none;
-            padding: 12px;
+            padding: 10px;
             color: #ffffff;
             font-size: 15px;
             font-weight: 700;
@@ -483,13 +621,40 @@
             font-family: 'Space Mono', monospace;
         }
 
-        .input-unit {
-            padding: 0 12px;
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--accent);
-            font-family: 'Space Mono', monospace;
+        /* Field Unit Segmented Buttons */
+        .field-unit-group {
+            display: flex;
+            background-color: var(--bg-input);
+            border-right: 1px solid var(--border-color);
+            padding: 2px;
+            gap: 2px;
+            border-radius: 6px;
+            margin: 0 6px;
             flex-shrink: 0;
+        }
+
+        html[dir="rtl"] .field-unit-group {
+            border-right: none;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .f-unit-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.15s ease;
+        }
+
+        .f-unit-btn.active {
+            background-color: var(--accent);
+            color: var(--accent-text);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
         /* Live Calc Result Box */
@@ -497,7 +662,7 @@
             background-color: var(--bg-card-subtle);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 12px;
+            padding: 10px 12px;
             margin-bottom: 14px;
             display: flex;
             justify-content: space-between;
@@ -548,6 +713,12 @@
             flex: 1;
             padding: 8px 10px;
             font-size: 12px;
+            background-color: var(--bg-input);
+            color: var(--accent);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 800;
+            outline: none;
         }
 
         .btn-icon {
@@ -1061,65 +1232,91 @@
             </div>
         </div>
 
-        <!-- VIEW 2: CALCULATOR VIEW -->
+        <!-- VIEW 2: CALCULATOR VIEW (Smart 2-Column Upper Section + Integrated Row Units) -->
         <div id="calcView" class="hidden">
-            <!-- Top Nav inside Calc -->
+            <!-- Top Nav inside Calc (Clean back button without bulky top unit toggle) -->
             <div class="top-nav">
                 <button class="back-btn" onclick="showHomeView()">
                     <span id="backToProfilesText">← كل القطاعات</span>
                 </button>
-                <div class="unit-toggle">
-                    <button id="unitMm" class="unit-btn active" onclick="setUnit('mm')">mm</button>
-                    <button id="unitCm" class="unit-btn" onclick="setUnit('cm')">cm</button>
-                    <button id="unitM" class="unit-btn" onclick="setUnit('m')">m</button>
+            </div>
+
+            <!-- Smart 2-Column Upper Section -->
+            <div class="calc-top-grid">
+                <!-- Column 1: Metal Select & 3D Isometric Preview -->
+                <div class="top-col">
+                    <div class="control-group compact">
+                        <label id="metalSelectLabel">نوع المعدن والسبيكة:</label>
+                        <select id="calcMetalSelect" onchange="onCalcMetalChange()"></select>
+                    </div>
+
+                    <!-- Custom Density Row (Hidden unless custom selected) -->
+                    <div id="customDensityRow" class="input-row compact hidden" style="margin-top:4px;">
+                        <div class="input-label" id="customDensityLabel" style="width:70px; font-size:10px; padding:6px 8px;">كثافة مخصصة</div>
+                        <input type="number" id="customDensityInput" placeholder="0" step="0.01" oninput="calculate()" style="padding:6px; font-size:12px;">
+                        <div class="input-unit" style="font-size:10px; padding:0 6px;">g/cm³</div>
+                    </div>
+
+                    <!-- 3D Isometric Preview Card -->
+                    <div class="preview-card compact">
+                        <div class="preview-header">
+                            <span class="preview-title" id="calcShapeTitle">القطاع</span>
+                            <span class="preview-badge" id="calcDensityBadge">8.55 g/cm³</span>
+                        </div>
+                        <div id="activeSvgContainer"></div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Pricing & Scale Quick Panel -->
+                <div class="top-col">
+                    <!-- Kg Price Card -->
+                    <div class="quick-panel-card">
+                        <span class="quick-panel-label" id="kgPriceLabel">سعر الكيلو (جنيه):</span>
+                        <div class="quick-input-wrap">
+                            <input type="number" id="inputPrice" placeholder="0" step="any" oninput="onPriceInput()">
+                            <span class="quick-currency">EGP</span>
+                        </div>
+                    </div>
+
+                    <!-- Single Piece Weight Scale Box -->
+                    <div class="quick-panel-card scale-box">
+                        <span class="scale-label" id="unitWeightLabel">وزن القطعة الواحدة</span>
+                        <div class="scale-display">
+                            <strong id="statUnitWeight">0.00</strong>
+                            <span class="scale-unit">kg</span>
+                        </div>
+                    </div>
+
+                    <!-- Scrap % Quick Buttons -->
+                    <div class="quick-panel-card scrap-box">
+                        <div class="scrap-header">
+                            <span id="scrapLabel">نسبة الهالك (Scrap):</span>
+                            <strong id="scrapValBadge" class="scrap-badge">0%</strong>
+                        </div>
+                        <div class="scrap-btn-group">
+                            <button type="button" class="scrap-btn active" data-val="0" onclick="setScrap(0)">0%</button>
+                            <button type="button" class="scrap-btn" data-val="5" onclick="setScrap(5)">5%</button>
+                            <button type="button" class="scrap-btn" data-val="10" onclick="setScrap(10)">10%</button>
+                            <button type="button" class="scrap-btn" data-val="15" onclick="setScrap(15)">15%</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Metal Selector at Top of Calc View -->
-            <div class="control-group">
-                <label id="metalSelectLabel">نوع المعدن والسبيكة (يغير لون وهوية الواجهة تلقائياً):</label>
-                <select id="calcMetalSelect" onchange="onCalcMetalChange()"></select>
-            </div>
-
-            <!-- Custom Density Row (Hidden unless custom selected) -->
-            <div id="customDensityRow" class="input-row hidden" style="margin-bottom: 14px;">
-                <div class="input-label" id="customDensityLabel">الكثافة المخصصة</div>
-                <input type="number" id="customDensityInput" placeholder="0" step="0.01" oninput="calculate()">
-                <div class="input-unit">g/cm³</div>
-            </div>
-
-            <!-- 3D Isometric Preview Card -->
-            <div class="preview-card">
-                <div class="preview-header">
-                    <span class="preview-title" id="calcShapeTitle">القطاع</span>
-                    <span class="preview-badge" id="calcDensityBadge">8.55 g/cm³</span>
-                </div>
-                <div id="activeSvgContainer"></div>
-            </div>
-
-            <!-- Dynamic Dimension Inputs (clean, placeholder 0) -->
+            <!-- Dynamic Dimension Inputs with Integrated Unit Selectors (mm | cm | m) -->
             <div class="inputs-list" id="dynamicInputs"></div>
 
-            <!-- Pieces & Kg Price -->
-            <div class="inputs-list">
+            <!-- Pieces (Quantity) Row -->
+            <div class="inputs-list" style="margin-bottom:12px;">
                 <div class="input-row">
                     <div class="input-label" id="piecesLabel">العدد (Pieces)</div>
                     <input type="number" id="inputQty" value="1" min="1" step="1" oninput="calculate()">
                     <div class="input-unit" id="piecesUnitLabel">قطعة</div>
                 </div>
-                <div class="input-row">
-                    <div class="input-label" id="kgPriceLabel">سعر الكيلو (Kg Price)</div>
-                    <input type="number" id="inputPrice" placeholder="0" step="any" oninput="onPriceInput()">
-                    <div class="input-unit">EGP</div>
-                </div>
             </div>
 
-            <!-- Live Calculation Stats -->
+            <!-- Live Calculation Stats (Batch Weight & Total Cost) -->
             <div class="live-calc-box">
-                <div class="calc-stat">
-                    <span id="unitWeightLabel">وزن القطعة الواحدة</span>
-                    <strong id="statUnitWeight">0.00 kg</strong>
-                </div>
                 <div class="calc-stat">
                     <span id="batchWeightLabel">إجمالي وزن العدد</span>
                     <strong id="statBatchWeight">0.00 kg</strong>
@@ -1211,7 +1408,7 @@
             <!-- Choose Project -->
             <div class="control-group">
                 <label id="modalProjectLabel">المشروع المستهدف:</label>
-                <select id="modalProjectSelect"></select>
+                <select id="modalProjectSelect" style="width:100%; background:var(--bg-input); border:1px solid var(--border-color); color:var(--accent); padding:10px; border-radius:8px; font-weight:800;"></select>
             </div>
 
             <!-- Product Name Input & Quick Chips -->
@@ -1284,14 +1481,15 @@
                 contactChat: 'محادثة',
                 backToProfiles: '← كل القطاعات',
                 backToHome: '← العودة للرئيسية',
-                metalSelectLabel: 'نوع المعدن والسبيكة (يغير لون وهوية الواجهة تلقائياً):',
-                customDensity: 'الكثافة المخصصة',
+                metalSelectLabel: 'نوع المعدن والسبيكة:',
+                customDensity: 'كثافة مخصصة',
                 pieces: 'العدد (Pieces)',
                 piecesUnit: 'قطعة',
-                kgPrice: 'سعر الكيلو (جنيه)',
+                kgPrice: 'سعر الكيلو (جنيه):',
                 unitWeight: 'وزن القطعة الواحدة',
                 batchWeight: 'إجمالي وزن العدد',
                 batchCost: 'التكلفة التقديرية',
+                scrapLabel: 'نسبة الهالك (Scrap):',
                 addToBOM: '+ إضافة لمنتج / مقايسة مشروع',
                 newProject: '+ مشروع جديد',
                 projectProducts: 'منتجات المشروع:',
@@ -1329,6 +1527,7 @@
                 totalWeightCol: 'إجمالي الوزن',
                 totalCostCol: 'إجمالي التكلفة',
                 piecesWord: 'قطع',
+                scrapBadge: 'هالك',
                 presetProducts: ['ترابيزة طعام', 'كرسي صالون', 'كونسول ميتال', 'وحدة إضاءة', 'بوابة / بارتشن', 'مقبض باب', 'درابزين سلم']
             },
             en: {
@@ -1340,14 +1539,15 @@
                 contactChat: 'Chat',
                 backToProfiles: '← All Profiles',
                 backToHome: '← Back to Home',
-                metalSelectLabel: 'Metal & Alloy Type (Dynamically updates theme & density):',
+                metalSelectLabel: 'Metal & Alloy Type:',
                 customDensity: 'Custom Density',
                 pieces: 'Quantity (Pieces)',
                 piecesUnit: 'pcs',
-                kgPrice: 'Kg Price (EGP)',
-                unitWeight: 'Single Unit Weight',
+                kgPrice: 'Kg Price (EGP):',
+                unitWeight: 'Single Piece Weight',
                 batchWeight: 'Total Batch Weight',
                 batchCost: 'Estimated Batch Cost',
+                scrapLabel: 'Scrap % (Allowance):',
                 addToBOM: '+ Add to Product / Project BOM',
                 newProject: '+ New Project',
                 projectProducts: 'Project Products:',
@@ -1385,6 +1585,7 @@
                 totalWeightCol: 'Total Weight',
                 totalCostCol: 'Total Cost',
                 piecesWord: 'pcs',
+                scrapBadge: 'Scrap',
                 presetProducts: ['Dining Table', 'Living Chair', 'Metal Console', 'Lighting Fixture', 'Partition / Gate', 'Door Handle', 'Stair Handrail']
             }
         };
@@ -1662,7 +1863,8 @@
         // APP STATE
         let currentShape = SHAPES[0];
         let currentMetal = METALS[0];
-        let currentUnit = 'mm'; // 'mm' | 'cm' | 'm'
+        let currentScrap = 0; // 0, 5, 10, 15 (%)
+        let fieldUnits = {}; // { [fieldId]: 'mm' | 'cm' | 'm' }
         let currentView = 'home'; // 'home' | 'calc' | 'projects'
         let savedPrices = JSON.parse(localStorage.getItem('turath_metal_prices_v2') || '{}');
         let projects = JSON.parse(localStorage.getItem('turath_projects_v2') || '[]');
@@ -1733,10 +1935,11 @@
             document.getElementById('backToProfilesText').innerText = t('backToProfiles');
             document.getElementById('metalSelectLabel').innerText = t('metalSelectLabel');
             document.getElementById('customDensityLabel').innerText = t('customDensity');
-            document.getElementById('piecesLabel').innerText = t('pieces');
-            document.getElementById('piecesUnitLabel').innerText = t('piecesUnit');
             document.getElementById('kgPriceLabel').innerText = t('kgPrice');
             document.getElementById('unitWeightLabel').innerText = t('unitWeight');
+            document.getElementById('scrapLabel').innerText = t('scrapLabel');
+            document.getElementById('piecesLabel').innerText = t('pieces');
+            document.getElementById('piecesUnitLabel').innerText = t('piecesUnit');
             document.getElementById('batchWeightLabel').innerText = t('batchWeight');
             document.getElementById('batchCostLabel').innerText = t('batchCost');
             document.getElementById('addToBOMBtnText').innerText = t('addToBOM');
@@ -1801,6 +2004,7 @@
             currentView = 'calc';
             if (shapeId) {
                 currentShape = SHAPES.find(s => s.id === shapeId) || SHAPES[0];
+                fieldUnits = {};
             }
             document.getElementById('homeView').classList.add('hidden');
             document.getElementById('calcView').classList.remove('hidden');
@@ -1843,7 +2047,7 @@
 
             select.innerHTML = METALS.map(m => {
                 const name = isAr ? m.arName : m.enName;
-                return `<option value="${m.id}">${name} - ${m.density} g/cm³</option>`;
+                return `<option value="${m.id}">${name} (${m.density})</option>`;
             }).join('');
 
             select.value = currentMetal.id;
@@ -1900,11 +2104,21 @@
             }
         }
 
+        // SCRAP % SELECTOR
+        function setScrap(percent) {
+            currentScrap = percent;
+            document.querySelectorAll('.scrap-btn').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.val) === percent);
+            });
+            const badge = document.getElementById('scrapValBadge');
+            if (badge) badge.innerText = `${percent}%`;
+            calculate();
+        }
+
         // SHAPES GRID
         function renderShapesGrid() {
             const grid = document.getElementById('shapesGridContainer');
             if (!grid) return;
-            const isAr = currentLang === 'ar';
 
             grid.innerHTML = SHAPES.map(shape => `
                 <div class="shape-card" onclick="showCalcView('${shape.id}')">
@@ -1915,43 +2129,7 @@
             `).join('');
         }
 
-        // UNIT SWITCHER (mm | cm | m)
-        function setUnit(newUnit) {
-            if (currentUnit === newUnit) return;
-            
-            // Proportional conversion of existing dimension inputs
-            const oldUnit = currentUnit;
-            currentUnit = newUnit;
-
-            document.getElementById('unitMm').classList.toggle('active', newUnit === 'mm');
-            document.getElementById('unitCm').classList.toggle('active', newUnit === 'cm');
-            document.getElementById('unitM').classList.toggle('active', newUnit === 'm');
-
-            // Conversion factors to cm
-            const toCm = { mm: 0.1, cm: 1.0, m: 100.0 };
-            const fromCm = { mm: 10.0, cm: 1.0, m: 0.01 };
-
-            currentShape.fields.forEach(f => {
-                const el = document.getElementById(`dim_${f.id}`);
-                if (el && el.value !== "" && !isNaN(el.value)) {
-                    const raw = parseFloat(el.value);
-                    if (raw > 0) {
-                        const inCm = raw * toCm[oldUnit];
-                        const inNew = inCm * fromCm[newUnit];
-                        // format cleanly
-                        el.value = Number(inNew.toPrecision(6)).toString();
-                    }
-                }
-            });
-
-            document.querySelectorAll('.dim-unit-tag').forEach(tag => {
-                tag.innerText = currentUnit;
-            });
-
-            calculate();
-        }
-
-        // DYNAMIC DIMENSION INPUTS (Clean: empty, placeholder="0")
+        // PER-ROW DYNAMIC DIMENSION INPUTS WITH SEGMENTED UNIT SELECTORS (mm | cm | m)
         function renderDynamicInputs() {
             const container = document.getElementById('dynamicInputs');
             if (!container) return;
@@ -1959,17 +2137,54 @@
 
             container.innerHTML = currentShape.fields.map(f => {
                 const label = isAr ? f.ar : f.en;
+                if (!fieldUnits[f.id]) fieldUnits[f.id] = 'mm';
+                const u = fieldUnits[f.id];
+
                 return `
                     <div class="input-row">
                         <div class="input-label">${label}</div>
                         <input type="number" id="dim_${f.id}" placeholder="0" step="any" oninput="calculate()">
-                        <div class="input-unit dim-unit-tag">${currentUnit}</div>
+                        <div class="field-unit-group" id="unitGroup_${f.id}">
+                            <button type="button" class="f-unit-btn ${u === 'mm' ? 'active' : ''}" onclick="setFieldUnit('${f.id}', 'mm')">mm</button>
+                            <button type="button" class="f-unit-btn ${u === 'cm' ? 'active' : ''}" onclick="setFieldUnit('${f.id}', 'cm')">cm</button>
+                            <button type="button" class="f-unit-btn ${u === 'm' ? 'active' : ''}" onclick="setFieldUnit('${f.id}', 'm')">m</button>
+                        </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // CALCULATION LOGIC
+        function setFieldUnit(fieldId, newUnit) {
+            const oldUnit = fieldUnits[fieldId] || 'mm';
+            if (oldUnit === newUnit) return;
+
+            fieldUnits[fieldId] = newUnit;
+
+            // Update UI buttons
+            const grp = document.getElementById(`unitGroup_${fieldId}`);
+            if (grp) {
+                grp.querySelectorAll('.f-unit-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.innerText === newUnit);
+                });
+            }
+
+            // Proportional conversion of existing value in this input
+            const inputEl = document.getElementById(`dim_${fieldId}`);
+            if (inputEl && inputEl.value !== "" && !isNaN(inputEl.value)) {
+                const raw = parseFloat(inputEl.value);
+                if (raw > 0) {
+                    const toCm = { mm: 0.1, cm: 1.0, m: 100.0 };
+                    const fromCm = { mm: 10.0, cm: 1.0, m: 0.01 };
+                    const inCm = raw * toCm[oldUnit];
+                    const inNew = inCm * fromCm[newUnit];
+                    inputEl.value = Number(inNew.toPrecision(6)).toString();
+                }
+            }
+
+            calculate();
+        }
+
+        // CALCULATION LOGIC (With Digital Scale & Scrap Allowance)
         function calculate() {
             let density = currentMetal.density;
             if (currentMetal.id === 'custom') {
@@ -1978,42 +2193,56 @@
             const densityBadge = document.getElementById('calcDensityBadge');
             if (densityBadge) densityBadge.innerText = `${density} g/cm³`;
 
-            // Unit factors to cm
-            const factorMap = { mm: 0.1, cm: 1.0, m: 100.0 };
-            const factor = factorMap[currentUnit] || 0.1;
-
+            const toCmFactor = { mm: 0.1, cm: 1.0, m: 100.0 };
             const valsInCm = {};
             let hasAtLeastOneVal = false;
 
             currentShape.fields.forEach(f => {
                 const raw = parseFloat(document.getElementById(`dim_${f.id}`)?.value) || 0;
                 if (raw > 0) hasAtLeastOneVal = true;
-                valsInCm[f.id] = raw * factor;
+                const u = fieldUnits[f.id] || 'mm';
+                valsInCm[f.id] = raw * (toCmFactor[u] || 0.1);
             });
 
             const qty = parseFloat(document.getElementById('inputQty')?.value) || 1;
             const price = parseFloat(document.getElementById('inputPrice')?.value) || 0;
 
             let unitWeightKg = 0;
-            let batchWeightKg = 0;
+            let batchNetWeightKg = 0;
+            let batchWeightWithScrap = 0;
             let batchCostEgp = 0;
 
             if (hasAtLeastOneVal) {
                 const volumeCm3 = currentShape.calc(valsInCm) || 0;
                 if (volumeCm3 > 0) {
                     unitWeightKg = (volumeCm3 * density) / 1000;
-                    batchWeightKg = unitWeightKg * qty;
-                    batchCostEgp = batchWeightKg * price;
+                    batchNetWeightKg = unitWeightKg * qty;
+                    // Apply Scrap Allowance
+                    const scrapFactor = 1 + (currentScrap / 100);
+                    batchWeightWithScrap = batchNetWeightKg * scrapFactor;
+                    batchCostEgp = batchWeightWithScrap * price;
                 }
             }
 
             lastUnitWeight = unitWeightKg;
-            lastBatchWeight = batchWeightKg;
+            lastBatchWeight = batchWeightWithScrap;
             lastBatchCost = batchCostEgp;
 
-            document.getElementById('statUnitWeight').innerText = `${unitWeightKg.toFixed(2)} kg`;
-            document.getElementById('statBatchWeight').innerText = `${batchWeightKg.toFixed(2)} kg`;
-            document.getElementById('statBatchCost').innerText = `${batchCostEgp.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+            // Single Piece Weight (Scale in Top-Right Column)
+            const scaleEl = document.getElementById('statUnitWeight');
+            if (scaleEl) scaleEl.innerText = unitWeightKg.toFixed(2);
+
+            // Batch Stats (Total Weight with Scrap & Total Cost)
+            const batchWeightEl = document.getElementById('statBatchWeight');
+            if (batchWeightEl) {
+                const scrapNotice = currentScrap > 0 ? ` (+${currentScrap}%)` : '';
+                batchWeightEl.innerText = `${batchWeightWithScrap.toFixed(2)} kg${scrapNotice}`;
+            }
+
+            const batchCostEl = document.getElementById('statBatchCost');
+            if (batchCostEl) {
+                batchCostEl.innerText = `${batchCostEgp.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EGP`;
+            }
 
             updateFooterDisplay();
         }
@@ -2082,13 +2311,15 @@
                 const partsHtml = (prod.parts || []).map(part => {
                     prodUnitWeight += (part.unitWeight * part.partQty);
                     prodUnitCost += part.totalCost;
+                    const scrapBadge = part.scrap > 0 ? ` <span style="color:var(--accent); font-size:10px;">(+${part.scrap}% ${t('scrapBadge') || 'هالك'})</span>` : '';
+
                     return `
                         <div class="part-row">
                             <div class="part-info">
                                 <div class="part-info-top">
                                     <span class="part-metal-chip" style="background-color: ${part.metalColor};"></span>
                                     <span class="part-shape-name">${part.shapeName}</span>
-                                    <span style="font-size:10px; color:var(--text-muted);">(${part.partQty} ${t('piecesWord')})</span>
+                                    <span style="font-size:10px; color:var(--text-muted);">(${part.partQty} ${t('piecesWord')})${scrapBadge}</span>
                                 </div>
                                 <div class="part-dims">${part.metalName} | ${part.dims}</div>
                             </div>
@@ -2350,7 +2581,8 @@
             const isAr = currentLang === 'ar';
             const dimParts = currentShape.fields.map(f => {
                 const val = document.getElementById(`dim_${f.id}`)?.value || 0;
-                return `${f.id}:${val}${currentUnit}`;
+                const u = fieldUnits[f.id] || 'mm';
+                return `${f.id}:${val}${u}`;
             }).join(' × ');
 
             const newPart = {
@@ -2361,7 +2593,7 @@
                 metalName: isAr ? currentMetal.arName : currentMetal.enName,
                 metalColor: currentMetal.color,
                 dims: dimParts,
-                unit: currentUnit,
+                scrap: currentScrap,
                 partQty: partQty,
                 unitWeight: lastUnitWeight,
                 totalWeight: lastBatchWeight,
@@ -2419,8 +2651,9 @@
             proj.products.forEach((prod, pIdx) => {
                 msg += `\n*${pIdx + 1}. ${prod.name}* (${isAr ? 'الكمية:' : 'Qty:'} ${prod.qty})\n`;
                 (prod.parts || []).forEach(part => {
+                    const scrapStr = part.scrap > 0 ? ` [${part.scrap}% ${isAr ? 'هالك' : 'Scrap'}]` : '';
                     msg += `   ▪ ${part.shapeName} [${part.metalName}]\n`;
-                    msg += `     ${part.dims} | ${isAr ? 'العدد بالمنتج:' : 'Per unit:'} ${part.partQty} | ${part.totalWeight.toFixed(2)} kg\n`;
+                    msg += `     ${part.dims}${scrapStr} | ${isAr ? 'العدد بالمنتج:' : 'Per unit:'} ${part.partQty} | ${part.totalWeight.toFixed(2)} kg\n`;
                 });
             });
 
@@ -2470,7 +2703,8 @@
             proj.products.forEach((prod, pIdx) => {
                 msg += `\n[${pIdx + 1}] ${prod.name} (${isAr ? 'عدد:' : 'Qty:'} ${prod.qty})\n`;
                 (prod.parts || []).forEach(part => {
-                    msg += ` - ${part.shapeName} (${part.metalName}) | ${part.dims} | عدد: ${part.partQty} | وزن: ${part.totalWeight.toFixed(2)} kg | تكلفة: ${part.totalCost.toFixed(2)} EGP\n`;
+                    const scrapStr = part.scrap > 0 ? ` [${part.scrap}% ${isAr ? 'هالك' : 'Scrap'}]` : '';
+                    msg += ` - ${part.shapeName} (${part.metalName}) | ${part.dims}${scrapStr} | عدد: ${part.partQty} | وزن: ${part.totalWeight.toFixed(2)} kg | تكلفة: ${part.totalCost.toFixed(2)} EGP\n`;
                 });
             });
 
