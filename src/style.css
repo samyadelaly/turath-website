@@ -2631,11 +2631,31 @@ html[dir="rtl"] .about-brand-tag {
   width: 100% !important;
 }
 
-/* Section 3 (Collections) Right Alignment in RTL */
+/* Section 3 (Collections) Right Alignment in RTL: Flush alignment for Title & Description */
 html[dir="rtl"] #collections-title,
 html[dir="rtl"] .collections-title,
+html[dir="rtl"] #scene-03 .collections-title,
+html[dir="rtl"] #scene-03 #collections-title {
+  text-align: right !important;
+  direction: rtl !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+}
+
+html[dir="rtl"] #scene-03 p,
+html[dir="rtl"] #scene-03 p.collections-text-anim,
+html[dir="rtl"] #scene-03 .collections-text-anim,
 html[dir="rtl"] .collections-title + p {
   text-align: right !important;
+  direction: rtl !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+  margin-left: auto !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 /* Section 5 (Masterpieces) Card Text strictly right-aligned */
@@ -2864,6 +2884,29 @@ html[dir="rtl"] .contact-section #contact-bg-media img {
     display: inline-block !important;
     font-size: clamp(0.72rem, 0.85vw, 0.85rem) !important;
     padding: 0 2px !important;
+  }
+
+  /* 3. Scene 03 Collections Header Arabic Alignment: Description flush right with "المجموعات" */
+  html[dir="rtl"] #scene-03 .collections-title,
+  html[dir="rtl"] #scene-03 #collections-title {
+    text-align: right !important;
+    direction: rtl !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+  html[dir="rtl"] #scene-03 p,
+  html[dir="rtl"] #scene-03 p.collections-text-anim,
+  html[dir="rtl"] #scene-03 .collections-text-anim {
+    text-align: right !important;
+    direction: rtl !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    margin-right: 0 !important;
+    margin-left: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
 
   /* 3. Scene 03 Collections: Exact match with Desktop proportions, starting from RIGHT in Arabic */
