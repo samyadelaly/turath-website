@@ -1268,20 +1268,18 @@ function initCollectionsHorizontalScroll() {
     if (trackPrevBtn) trackPrevBtn.addEventListener('click', () => scrollCollections(-1));
     if (trackNextBtn) trackNextBtn.addEventListener('click', () => scrollCollections(1));
 
-    // Native scroll update for dashes
+    // Native scroll update for dashes (direction-agnostic via getBoundingClientRect)
     collectionsTrack.addEventListener('scroll', () => {
       if (!dashes.length) return;
-      if (collectionsTrack.scrollLeft <= 10) {
-        updateCollectionDashes(0);
-        return;
-      }
       const cards = collectionsTrack.querySelectorAll('.collection-card');
-      const trackCenter = collectionsTrack.scrollLeft + collectionsTrack.clientWidth / 2;
+      const trackRect = collectionsTrack.getBoundingClientRect();
+      const trackCenter = trackRect.left + trackRect.width / 2;
       let activeIndex = 0;
       let minDistance = Infinity;
 
       cards.forEach((card, idx) => {
-        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const cardRect = card.getBoundingClientRect();
+        const cardCenter = cardRect.left + cardRect.width / 2;
         const dist = Math.abs(trackCenter - cardCenter);
         if (dist < minDistance) {
           minDistance = dist;
@@ -1706,11 +1704,13 @@ function initScene06() {
 
     slatsTrack.addEventListener("scroll", () => {
       const items = slatsTrack.querySelectorAll(".video-slat-item");
-      const trackCenter = slatsTrack.scrollLeft + slatsTrack.clientWidth / 2;
+      const trackRect = slatsTrack.getBoundingClientRect();
+      const trackCenter = trackRect.left + trackRect.width / 2;
       let activeIdx = 0;
       let minDist = Infinity;
       items.forEach((item, idx) => {
-        const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+        const itemRect = item.getBoundingClientRect();
+        const itemCenter = itemRect.left + itemRect.width / 2;
         const dist = Math.abs(trackCenter - itemCenter);
         if (dist < minDist) {
           minDist = dist;
@@ -2196,22 +2196,21 @@ function handleInitialDeepLink() {
 }
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
-// Premium Knockout Preloader hide logic (Synchronized Asset, Font, Menu & Layout Ready)
+// Premium Knockout Preloader hide logic (Fast, silky-smooth & zero-hang)
 function hideLuxuryPreloader() {
   const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
   if (!preloader || preloader.dataset.hiding === 'true') return;
   preloader.dataset.hiding = 'true';
 
-  const isReturning = (sessionStorage.getItem('turath_returning_from_subpage') === '1');
   const elapsed = performance.now() - (window.__turath_load_start || 0);
-  const minDuration = isReturning ? 350 : 1000;
+  const minDuration = 350;
   const remaining = Math.max(0, minDuration - elapsed);
 
   function dismiss() {
     if (preloader.dataset.dismissed === 'true') return;
     preloader.dataset.dismissed = 'true';
     requestAnimationFrame(() => {
-      preloader.style.transition = 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s cubic-bezier(0.16, 1, 0.3, 1)';
+      preloader.style.transition = 'opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
       preloader.classList.add('opacity-0', 'pointer-events-none', 'preloader-hidden');
       preloader.style.opacity = '0';
       preloader.style.pointerEvents = 'none';
@@ -2222,20 +2221,24 @@ function hideLuxuryPreloader() {
       setTimeout(() => {
         preloader.style.visibility = 'hidden';
         preloader.style.display = 'none';
-      }, 1000);
+      }, 450);
     });
   }
 
-  // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
-  const safetyTimeout = setTimeout(dismiss, 1800);
+  // Mandatory Safety Fallback: Guarantee dismissal within 450ms under any network condition
+  const safetyTimeout = setTimeout(dismiss, 450);
 
-  const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, remaining));
-  const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-
-  Promise.all([minDisplayPromise, fontsPromise]).then(() => {
+  setTimeout(() => {
     clearTimeout(safetyTimeout);
     dismiss();
-  });
+  }, remaining);
+}
+
+// Immediately trigger preloader dismissal on DOMContentLoaded (never wait for heavy images or network lag)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', hideLuxuryPreloader, { once: true });
+} else {
+  hideLuxuryPreloader();
 }
 
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded
@@ -2300,12 +2303,12 @@ window.addEventListener('load', () => {
   if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
 });
 
-// Safety fallback: ensure preloader hides, body reveals, and layout settles even if an asset hangs
+// Safety fallback: ensure body reveals and layout settles even if an asset hangs
 setTimeout(() => {
   if (!isWindowAssetsLoaded) {
     onWindowAssetsLoaded();
   }
-}, 3500);
+}, 1200);
 
 
 // ==========================================================================

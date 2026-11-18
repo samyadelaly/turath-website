@@ -1935,7 +1935,7 @@ select:-webkit-autofill:active {
   box-sizing: border-box !important;
   overflow: hidden !important;
   opacity: 1;
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: opacity, visibility;
 }
 
@@ -2559,9 +2559,9 @@ html[dir="rtl"] .hero-wordmark-placeholder {
   align-self: flex-start !important;
 }
 
-/* Keep Collections Track horizontal scroll container direction natural for smooth gesture physics */
+/* Collections Track in Arabic starts naturally from the right */
 html[dir="rtl"] .collections-track {
-  direction: ltr !important;
+  direction: rtl !important;
 }
 
 /* Header logo hidden on hero; only visible from Section 2 onwards when scrolled */
@@ -2750,11 +2750,11 @@ html[dir="rtl"] .grid-cols-3 > div:first-child {
   justify-self: start !important;
 }
 
-/* Ensure video slats and bespoke slices flow LTR like English */
+/* Arabic Craftsmanship in Motion flows RTL naturally from the right */
 html[dir="rtl"] .video-slats-grid,
 html[dir="rtl"] #video-slats-track,
 html[dir="rtl"] .craft-slats-container {
-  direction: ltr !important;
+  direction: rtl !important;
 }
 
 html[dir="rtl"] .about-fullscreen-layer {
@@ -2866,12 +2866,16 @@ html[dir="rtl"] .contact-section #contact-bg-media img {
     padding: 0 2px !important;
   }
 
-  /* 3. Scene 03 Collections: Exact match with English Desktop proportions */
+  /* 3. Scene 03 Collections: Exact match with Desktop proportions, starting from RIGHT in Arabic */
+  html[dir="rtl"] #scene-03 .collections-wrapper,
+  html[lang="ar"] #scene-03 .collections-wrapper {
+    direction: rtl !important;
+  }
   html[dir="rtl"] #scene-03 .collections-track,
   html[lang="ar"] #scene-03 .collections-track {
     display: flex !important;
     flex-direction: row !important;
-    direction: ltr !important;
+    direction: rtl !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
     scroll-snap-type: x mandatory !important;
@@ -2881,8 +2885,8 @@ html[dir="rtl"] .contact-section #contact-bg-media img {
     margin-left: auto !important;
     margin-right: auto !important;
     padding: 1rem 3rem !important;
-    scroll-padding-left: 3rem !important;
     scroll-padding-right: 3rem !important;
+    scroll-padding-left: 0 !important;
     height: auto !important;
   }
   html[dir="rtl"] #scene-03 .collection-card,
@@ -2893,7 +2897,7 @@ html[dir="rtl"] .contact-section #contact-bg-media img {
     height: 420px !important;
     aspect-ratio: 9/16 !important;
     flex-shrink: 0 !important;
-    scroll-snap-align: center !important;
+    scroll-snap-align: start !important;
     border-radius: 12px !important;
   }
   html[dir="rtl"] #scene-03 .collection-card-img,
@@ -2904,15 +2908,31 @@ html[dir="rtl"] .contact-section #contact-bg-media img {
     object-position: center !important;
   }
 
-  /* 4. Scene 06 Video Slats: Exact match with English Desktop starting position */
+  /* 4. Scene 06 Video Slats: Start from RIGHT in Arabic Desktop */
+  html[dir="rtl"] #scene-06 .scene06-header,
+  html[lang="ar"] #scene-06 .scene06-header {
+    text-align: right !important;
+    align-items: flex-start !important;
+  }
+  html[dir="rtl"] #scene-06 .scene06-title,
+  html[lang="ar"] #scene-06 .scene06-title,
+  html[dir="rtl"] #scene-06 .scene06-desc,
+  html[lang="ar"] #scene-06 .scene06-desc {
+    text-align: right !important;
+  }
   html[dir="rtl"] #scene-06 .craft-slats-container,
   html[lang="ar"] #scene-06 .craft-slats-container {
-    direction: ltr !important;
+    direction: rtl !important;
   }
   html[dir="rtl"] #video-slats-track,
   html[lang="ar"] #video-slats-track {
-    direction: ltr !important;
+    direction: rtl !important;
     justify-content: flex-start !important;
-    scroll-padding-left: 1.5rem !important;
+    scroll-padding-right: 1.5rem !important;
+    scroll-padding-left: 0 !important;
+  }
+  html[dir="rtl"] #video-slats-track .video-slat-item,
+  html[lang="ar"] #video-slats-track .video-slat-item {
+    scroll-snap-align: start !important;
   }
 }

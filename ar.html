@@ -601,6 +601,27 @@
       <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
     </svg>
   </div>
+  <script>
+  (function(){
+    var p = document.getElementById('preloader') || document.querySelector('.preloader');
+    if (!p) return;
+    function d(){
+      if (p.dataset.autoDismissed === 'true') return;
+      p.dataset.autoDismissed = 'true';
+      p.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
+      p.style.opacity = '0';
+      p.style.pointerEvents = 'none';
+      setTimeout(function(){ p.style.display = 'none'; p.style.visibility = 'hidden'; }, 400);
+    }
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(d, 300);
+    } else {
+      document.addEventListener('DOMContentLoaded', function(){ setTimeout(d, 300); }, { once: true });
+      window.addEventListener('load', function(){ setTimeout(d, 100); }, { once: true });
+      setTimeout(d, 450);
+    }
+  })();
+</script>
   <!-- Meta Pixel noscript fallback -->
   <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
@@ -845,7 +866,7 @@
       </div>
     </div>
 
-    <div class="collections-wrapper relative z-10 w-full h-[55vh] md:h-[60vh] flex items-center lg:h-auto lg:w-full lg:flex lg:items-center" style="direction: ltr !important;">
+    <div class="collections-wrapper relative z-10 w-full h-[55vh] md:h-[60vh] flex items-center lg:h-auto lg:w-full lg:flex lg:items-center" style="direction: rtl !important;">
       <!-- Left Floating Arrow Button -->
       <button id="track-prev-btn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Left">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -1087,7 +1108,7 @@
     </div>
 
     <!-- Header Section (Without 06 / TURATH IN ACTION eyebrow) -->
-    <div class="scene06-header w-full max-w-[1240px] text-center sm:text-left mb-1 sm:mb-2 relative z-20">
+    <div class="scene06-header w-full max-w-[1240px] text-right mb-1 sm:mb-2 relative z-20">
       <h2 class="scene06-title craftsmanship-text-anim text-[#D7C797]">الحرفية في الحركة</h2>
       <p class="scene06-desc craftsmanship-text-anim">
         نظرة مباشرة من داخل الورشة ومواقع التركيب
@@ -1095,7 +1116,7 @@
     </div>
 
     <!-- Vertical Video Slats Grid (Taller architectural cards) -->
-    <div class="craft-slats-container w-full max-w-[1360px] relative z-20 flex items-center mt-3 sm:mt-4" style="direction: ltr !important;">
+    <div class="craft-slats-container w-full max-w-[1360px] relative z-20 flex items-center mt-3 sm:mt-4" style="direction: rtl !important;">
       <!-- Left Floating Arrow Button (Identical to Collections in style, colors, and hover animation) -->
       <button id="slats-prev-btn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-[70] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/25 bg-black/70 hover:bg-black/95 hover:border-white/70 text-white flex items-center justify-center transition-all backdrop-blur-md cursor-pointer shadow-2xl hover:scale-105" aria-label="Scroll Slats Left">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -1104,7 +1125,7 @@
       </button>
 
             <!-- Video Slats Track (9 Videos: Alternating New & Heritage Workshop Craftsmanship) -->
-      <div class="video-slats-grid px-8 sm:px-12 md:px-16 lg:flex lg:overflow-x-auto lg:gap-4 lg:w-full lg:max-w-7xl lg:px-4 lg:mx-auto" id="video-slats-track" style="direction: ltr !important;">
+      <div class="video-slats-grid px-8 sm:px-12 md:px-16 lg:flex lg:overflow-x-auto lg:gap-4 lg:w-full lg:max-w-7xl lg:px-4 lg:mx-auto" id="video-slats-track" style="direction: rtl !important;">
         <!-- Slat 01 -->
         <a href="action-ar.html?film=0" class="video-slat-item group aspect-[9/14] h-[58vh] max-h-[520px] w-auto mx-auto rounded-2xl overflow-hidden lg:h-[340px] lg:w-[195px] shrink-0" id="slat-item-0" aria-label="تشكيل ولحام وتلميع كونسول الأغصان النحاسية">
           <div class="slat-media-box">

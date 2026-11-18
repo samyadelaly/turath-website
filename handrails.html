@@ -12,7 +12,7 @@
       // 1. Instantly blackout screen (Inline Force)
       var preloader = document.getElementById('preloader') || document.querySelector('.preloader');
       if (preloader) {
-        preloader.style.cssText = 'transition: none !important; display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 99999 !important;';
+        preloader.style.cssText = 'transition: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; display: none !important;';
       }
       
       // 2. Instantly kill menu overlay (Inline Force)
@@ -371,6 +371,27 @@
       <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
     </svg>
   </div>
+  <script>
+  (function(){
+    var p = document.getElementById('preloader') || document.querySelector('.preloader');
+    if (!p) return;
+    function d(){
+      if (p.dataset.autoDismissed === 'true') return;
+      p.dataset.autoDismissed = 'true';
+      p.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
+      p.style.opacity = '0';
+      p.style.pointerEvents = 'none';
+      setTimeout(function(){ p.style.display = 'none'; p.style.visibility = 'hidden'; }, 400);
+    }
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(d, 300);
+    } else {
+      document.addEventListener('DOMContentLoaded', function(){ setTimeout(d, 300); }, { once: true });
+      window.addEventListener('load', function(){ setTimeout(d, 100); }, { once: true });
+      setTimeout(d, 450);
+    }
+  })();
+</script>
 
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black lg:h-[100dvh] lg:w-full lg:max-w-none lg:aspect-auto lg:rounded-none lg:shadow-none lg:my-0 lg:overflow-hidden">
@@ -702,7 +723,7 @@
       }
 
       // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
-      const safetyTimeout = setTimeout(dismiss, 1800);
+      const safetyTimeout = setTimeout(dismiss, 400);
 
       const mainMedia = document.getElementById('slider-image') || document.getElementById('slider-video') || document.getElementById('masterpiece-img');
 
@@ -731,7 +752,7 @@
         }
       });
 
-      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 250));
       const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
 
       Promise.all([mediaReadyPromise, minDisplayPromise, fontsPromise]).then(() => {
@@ -745,7 +766,7 @@
     } else {
       window.addEventListener('load', initPreloaderDismissal);
       document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(initPreloaderDismissal, 2000);
+        setTimeout(initPreloaderDismissal, 250);
       });
     }
   </script>
