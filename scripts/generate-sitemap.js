@@ -29,9 +29,16 @@ const data = JSON.parse(fs.readFileSync(productsDataPath, 'utf8'));
 
 const urls = [];
 
-// 1. Homepage & Catalog Hub
+// 1. Homepages (English & Arabic) & Catalog Hub
 urls.push({
   loc: `${BASE_URL}/`,
+  lastmod: today,
+  changefreq: 'daily',
+  priority: '1.0'
+});
+
+urls.push({
+  loc: `${BASE_URL}/ar.html`,
   lastmod: today,
   changefreq: 'daily',
   priority: '1.0'
@@ -44,19 +51,19 @@ urls.push({
   priority: '0.9'
 });
 
-// 2. Category Pages
+// 2. Category Pages (English + Arabic)
 const categoryFiles = [
-  'lighting.html',
-  'mirrors.html',
-  'tables.html',
-  'handles.html',
-  'handrails.html',
-  'decor.html',
-  'wall-art.html',
-  'partitions.html',
-  'tableware.html',
-  'masterpieces.html',
-  'action.html'
+  'lighting.html', 'lighting-ar.html',
+  'mirrors.html', 'mirrors-ar.html',
+  'tables.html', 'tables-ar.html',
+  'handles.html', 'handles-ar.html',
+  'handrails.html', 'handrails-ar.html',
+  'decor.html', 'decor-ar.html',
+  'wall-art.html', 'wall-art-ar.html',
+  'partitions.html', 'partitions-ar.html',
+  'tableware.html', 'tableware-ar.html',
+  'masterpieces.html', 'masterpieces-ar.html',
+  'action.html', 'action-ar.html'
 ];
 
 for (const catFile of categoryFiles) {
@@ -115,6 +122,9 @@ Allow: /
 User-agent: GPTBot
 Allow: /
 
+User-agent: ChatGPT-User
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
 
@@ -122,6 +132,24 @@ User-agent: PerplexityBot
 Allow: /
 
 User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: FacebookBot
 Allow: /
 
 Sitemap: https://turath-egypt.vercel.app/sitemap.xml
@@ -134,11 +162,17 @@ fs.writeFileSync(robotsPublicPath, robotsTxt.trim() + '\n', 'utf8');
 if (fs.existsSync(distDir)) {
   fs.writeFileSync(sitemapDistPath, sitemapXml.trim() + '\n', 'utf8');
   fs.writeFileSync(robotsDistPath, robotsTxt.trim() + '\n', 'utf8');
+  const llmsPublic = path.join(publicDir, 'llms.txt');
+  const llmsDist = path.join(distDir, 'llms.txt');
+  if (fs.existsSync(llmsPublic)) fs.copyFileSync(llmsPublic, llmsDist);
+  const llmsFullPublic = path.join(publicDir, 'llms-full.txt');
+  const llmsFullDist = path.join(distDir, 'llms-full.txt');
+  if (fs.existsSync(llmsFullPublic)) fs.copyFileSync(llmsFullPublic, llmsFullDist);
 }
 
 console.log(`\n======================================================`);
 console.log(`Sitemap generated successfully!`);
 console.log(`Saved to: ${sitemapPublicPath}${fs.existsSync(distDir) ? ' and ' + sitemapDistPath : ''}`);
-console.log(`Total URLs: ${urls.length} (1 homepage, ${categoryFiles.length} categories, ${productCount} products)`);
+console.log(`Total URLs: ${urls.length} (2 homepages, ${categoryFiles.length} categories, ${productCount} products)`);
 console.log(`Robots.txt verified with all AI search engine permissions.`);
 console.log(`======================================================\n`);

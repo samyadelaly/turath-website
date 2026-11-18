@@ -8,7 +8,8 @@ const rootDir = path.resolve(__dirname, '..');
 
 const BASE_URL = 'https://turath-egypt.vercel.app';
 const productsDataPath = path.join(rootDir, 'data', 'products.json');
-const outputPath = path.join(rootDir, 'public', 'feed.xml');
+const outputPublicPath = path.join(rootDir, 'public', 'feed.xml');
+const outputDistPath = path.join(rootDir, 'dist', 'feed.xml');
 
 function sanitizeCdata(str) {
   if (!str) return '';
@@ -77,8 +78,12 @@ ${itemsXml.join('\n')}
 </rss>
 `;
 
-  fs.writeFileSync(outputPath, xmlContent, 'utf8');
-  console.log(`Successfully generated feed.xml with ${itemCount} products at ${outputPath}`);
+  fs.mkdirSync(path.dirname(outputPublicPath), { recursive: true });
+  fs.writeFileSync(outputPublicPath, xmlContent, 'utf8');
+  if (fs.existsSync(path.dirname(outputDistPath))) {
+    fs.writeFileSync(outputDistPath, xmlContent, 'utf8');
+  }
+  console.log(`Successfully generated feed.xml with ${itemCount} products at ${outputPublicPath}`);
 }
 
 generateFeed().catch(err => {

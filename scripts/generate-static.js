@@ -57,15 +57,15 @@ const CATEGORIES = [
     slug: 'lighting',
     file: 'lighting.html',
     title: 'Lighting Fixtures',
-    titleAr: 'وحدات إضاءة نحاسية معمارية',
-    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة معمارية، دلايات نحاس، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية, Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    titleAr: 'وحدات إضاءة وثريات نحاسية فاخرة',
+    defaultKeywords: 'نحاس، نجف، أبليك، إضاءة فاخرة، دلايات نحاس، صناعة يدوية، ورشة تراث، سامي عادل، القاهرة التاريخية, Turath, Brass Lighting, Wall Sconce, Hammered Brass, Handcrafted Metalwork, Egyptian Heritage, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'mirrors',
     file: 'mirrors.html',
     title: 'Solid Brass Mirrors',
-    titleAr: 'مرايا نحاس أصفر مصمت',
-    defaultKeywords: 'مرايا، مرايات نحاس، أرابيسك، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث, Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    titleAr: 'مرايا نحاس أصفر فاخرة',
+    defaultKeywords: 'مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث, Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'tables',
@@ -78,8 +78,8 @@ const CATEGORIES = [
     slug: 'handles',
     file: 'handles.html',
     title: 'Architectural Handles',
-    titleAr: 'مقابض أبواب نحاسية معمارية',
-    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات معمارية، نحاس مصمت، تراث, Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    titleAr: 'مقابض أبواب نحاسية فاخرة',
+    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات فاخرة، نحاس مصمت، تراث, Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'handrails',
@@ -120,8 +120,8 @@ const CATEGORIES = [
     slug: 'masterpieces',
     file: 'masterpieces.html',
     title: 'Architectural Masterpieces',
-    titleAr: 'روائع نحاسية معمارية نادرة',
-    defaultKeywords: 'تحف نحاسية، أعمال معمارية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث, Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    titleAr: 'روائع نحاسية فنية نادرة',
+    defaultKeywords: 'تحف نحاسية، أعمال فنية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث, Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'action',
@@ -246,8 +246,8 @@ for (const cat of CATEGORIES) {
         "image": ${JSON.stringify(fullImageUrl)},
         "url": ${JSON.stringify(fullProductUrl)},
         "category": ${JSON.stringify(cat.title)},
-        "material": "Solid Brass & Copper (نحاس أصفر وأحمر مصمت)",
-        "keywords": "solid brass, unlacquered brass, architectural metalwork, antique brass, hammered copper, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, تشطيبات معمارية, ورشة نحاس بالجمالية",
+        "material": "Solid Brass & Copper (نحاس أصفر وأحمر خالص عالي النقاء)",
+        "keywords": "solid brass, unlacquered brass, bespoke brass, antique brass, hammered copper, Egypt, GCC, Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, Oman, Africa, نحاس أصفر خالص, نحاس أحمر نقي, سبك نحاس, تشطيبات فاخرة, ورشة نحاس بالجمالية, المهندس سامي عادل",
         "brand": {
           "@type": "Brand",
           "name": "TURATH EGYPT"

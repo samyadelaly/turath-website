@@ -477,6 +477,80 @@ function initNavDrawer() {
       return;
     }
 
+    if (realId === 'scene-03' || cleanHash === 'gallery' || cleanHash === 'collections') {
+      if (typeof initBelowFold === 'function') {
+        initBelowFold();
+      }
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
+      const collectionsTrack = document.querySelector('.collections-track');
+      if (collectionsTrack) {
+        collectionsTrack.scrollTo({ left: 0, behavior: 'instant' });
+        collectionsTrack.scrollLeft = 0;
+        try {
+          sessionStorage.removeItem('turath_collections_scroll');
+          sessionStorage.setItem('turath_collections_scroll', '0');
+        } catch(e) {}
+      }
+      savedCollectionsScrollLeft = 0;
+
+      const dashes = document.querySelectorAll('#scene-03 .dash-indicator');
+      if (dashes && dashes.length) {
+        dashes.forEach((d, i) => {
+          const isActive = i === 0;
+          d.classList.toggle('active', isActive);
+          if (isActive) {
+            d.classList.add('bg-[#D7C797]');
+            d.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
+          } else {
+            d.classList.remove('bg-[#D7C797]', 'bg-white');
+            d.classList.add('bg-[#D7C797]/30');
+          }
+        });
+      }
+
+      const target = document.getElementById('scene-03');
+      if (target) {
+        const allMatching = ScrollTrigger.getAll().filter(t => {
+          if (!t.trigger) return false;
+          const triggerEl = typeof t.trigger === 'string' ? document.querySelector(t.trigger) : t.trigger;
+          return triggerEl === target || (t.pin && triggerEl && triggerEl.contains && triggerEl.contains(target));
+        });
+        const st = allMatching.find(t => t.pin || (t.vars && t.vars.start === 'top top')) || allMatching[0];
+        const targetY = st && typeof st.start === 'number' ? st.start : (target.getBoundingClientRect().top + window.scrollY);
+
+        gsap.to(window, {
+          scrollTo: { y: targetY, autoKill: false },
+          duration: 1.2,
+          ease: 'power2.inOut',
+          onUpdate: () => {
+            const track = document.querySelector('.collections-track');
+            if (track && track.scrollLeft > 0) {
+              track.scrollLeft = 0;
+            }
+          },
+          onComplete: () => {
+            const track = document.querySelector('.collections-track');
+            if (track) {
+              track.scrollLeft = 0;
+            }
+            savedCollectionsScrollLeft = 0;
+            try {
+              sessionStorage.removeItem('turath_collections_scroll');
+            } catch(e) {}
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, '', '#gallery');
+            }
+            if (typeof updateActiveNavigation === 'function') {
+              updateActiveNavigation('#gallery');
+            }
+          }
+        });
+        return;
+      }
+    }
+
     if (realId === 'contact') {
       const contactEl = document.getElementById('contact');
       if (contactEl) {
@@ -552,6 +626,15 @@ function initNavDrawer() {
       if (href && href.startsWith('#')) {
         e.preventDefault();
         closeMenu();
+        if (href === '#gallery' || href === '#collections') {
+          const track = document.querySelector('.collections-track');
+          if (track) {
+            track.scrollTo({ left: 0, behavior: 'instant' });
+            track.scrollLeft = 0;
+          }
+          savedCollectionsScrollLeft = 0;
+          try { sessionStorage.removeItem('turath_collections_scroll'); } catch(e) {}
+        }
         smoothScrollToSemanticHash(href);
       } else {
         closeMenu();
@@ -566,6 +649,15 @@ function initNavDrawer() {
       const href = link.getAttribute('href');
       if (href && href.startsWith('#')) {
         e.preventDefault();
+        if (href === '#gallery' || href === '#collections') {
+          const track = document.querySelector('.collections-track');
+          if (track) {
+            track.scrollTo({ left: 0, behavior: 'instant' });
+            track.scrollLeft = 0;
+          }
+          savedCollectionsScrollLeft = 0;
+          try { sessionStorage.removeItem('turath_collections_scroll'); } catch(e) {}
+        }
         smoothScrollToSemanticHash(href);
       }
     });
@@ -594,9 +686,11 @@ function initHeroAnimations() {
 
   if (!hero) return;
 
+  const isRtl = document.documentElement.dir === 'rtl' || document.body.classList.contains('is-rtl');
+
   // Set initial transform origin for clean, jitter-free scaling
   if (wordmarkWrap) {
-    gsap.set(wordmarkWrap, { transformOrigin: 'left center' });
+    gsap.set(wordmarkWrap, { transformOrigin: isRtl ? 'right center' : 'left center' });
   }
 
   // Calculate dynamic docking deltas from hero placeholder to navbar dock slot
@@ -613,7 +707,9 @@ function initHeroAnimations() {
 
     wordmarkWrap.style.transform = prevTransform;
 
-    const startX = pRect.left - sRect.left;
+    // In LTR, left edge aligns with dock slot left.
+    // In RTL, right edge aligns with dock slot right (both placed on the right of the screen).
+    const startX = isRtl ? (pRect.right - sRect.right) : (pRect.left - sRect.left);
     const startY = (pRect.top + pRect.height / 2) - (sRect.top + sRect.height / 2);
     const dockedScale = 0.55;
 
@@ -633,12 +729,24 @@ function initHeroAnimations() {
     });
 
     if (scrambleEngine) {
-      wordmarkWrap.addEventListener('mouseenter', () => {
+      const triggerScramble = (e) => {
+        // Prevent triggering scramble if the event was on or inside the hero scroll button
+        if (e && e.target && (e.target.id === 'hero-scroll-btn' || e.target.closest('#hero-scroll-btn'))) {
+          return;
+        }
         const curScroll = window.pageYOffset || document.documentElement.scrollTop;
         if (curScroll < 50) {
           scrambleEngine.triggerScramble();
         }
-      });
+      };
+      
+      // Attach hover/click to the wordmark element ONLY, never to the arrow button
+      const wordmarkEl = document.getElementById('hero-wordmark') || document.querySelector('.hero-wordmark');
+      if (wordmarkEl) {
+        wordmarkEl.addEventListener('mouseenter', triggerScramble);
+        wordmarkEl.addEventListener('click', triggerScramble);
+        wordmarkEl.addEventListener('touchstart', triggerScramble, { passive: true });
+      }
     }
   }
 
@@ -652,6 +760,9 @@ function initHeroAnimations() {
       scrub: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
+        if (window.__isHeroBtnScrolling) {
+          return;
+        }
         if (scrambleEngine) {
           scrambleEngine.onScrollProgress(self.progress, window.pageYOffset || document.documentElement.scrollTop);
         }
@@ -806,9 +917,39 @@ function initScrollBtn() {
   if (heroBtn) {
     heroBtn.removeAttribute('onclick'); 
     
-    heroBtn.addEventListener('click', function(e) {
-      e.preventDefault();
+    // Stop touch and pointer events from bubbling to wordmarkWrap to prevent any wordmark animation
+    heroBtn.addEventListener('touchstart', function(e) {
       e.stopPropagation();
+    }, { passive: true });
+
+    heroBtn.addEventListener('pointerdown', function(e) {
+      e.stopPropagation();
+    });
+
+    const triggerScrollToSection2 = function(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      window.__isHeroBtnScrolling = true;
+
+      // Ensure wordmark remains clean and un-scrambled during scroll down
+      const wordmarkEl = document.getElementById('hero-wordmark');
+      if (wordmarkEl) {
+        const isAr = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar';
+        if (isAr) {
+          wordmarkEl.textContent = 'تراث';
+          wordmarkEl.style.fontFamily = "'Cairo', sans-serif";
+          wordmarkEl.style.fontWeight = '800';
+        } else {
+          const chars = wordmarkEl.querySelectorAll('.scramble-char');
+          chars.forEach(ch => {
+            if (ch.dataset.char) ch.textContent = ch.dataset.char;
+            ch.style.fontFamily = "'Syne', sans-serif";
+          });
+        }
+      }
 
       if (typeof initBelowFold === 'function') {
         initBelowFold();
@@ -824,6 +965,7 @@ function initScrollBtn() {
       }
 
       const targetPos = getScene02ScrollY();
+      const initialY = window.pageYOffset || document.documentElement.scrollTop;
 
       // Use GSAP scrollTo with autoKill: false so no layout shifts or touch events can interrupt it
       gsap.to(window, {
@@ -861,8 +1003,27 @@ function initScrollBtn() {
           if (typeof updateActiveNavigation === 'function') {
             updateActiveNavigation('#about');
           }
+          window.__isHeroBtnScrolling = false;
         }
       });
+
+      // Reliable native smooth scroll fallback if GSAP did not initiate scroll
+      setTimeout(() => {
+        const curY = window.pageYOffset || document.documentElement.scrollTop;
+        if (Math.abs(curY - initialY) < 5) {
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+        setTimeout(() => {
+          window.__isHeroBtnScrolling = false;
+        }, 800);
+      }, 100);
+    };
+
+    heroBtn.addEventListener('click', triggerScrollToSection2);
+    heroBtn.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      triggerScrollToSection2(e);
     });
   }
 }
@@ -1062,16 +1223,22 @@ function initCollectionsHorizontalScroll() {
     const trackPrevBtn = document.getElementById('track-prev-btn');
     const trackNextBtn = document.getElementById('track-next-btn');
 
-    // Restore saved collections scroll position if available
+    // Restore saved collections scroll position only if returning from a subpage without explicit hash
     try {
+      const isReturning = sessionStorage.getItem('turath_returning_from_subpage') === '1';
+      const hash = window.location.hash;
+      const isExplicitGallery = hash === '#gallery' || hash === '#collections';
       const savedPos = sessionStorage.getItem('turath_collections_scroll');
-      if (savedPos && collectionsTrack) {
+
+      if (isReturning && !isExplicitGallery && savedPos && collectionsTrack) {
         const parsed = parseFloat(savedPos);
         if (!isNaN(parsed) && parsed > 0) {
           requestAnimationFrame(() => {
             collectionsTrack.scrollLeft = parsed;
           });
         }
+      } else if (collectionsTrack) {
+        collectionsTrack.scrollLeft = 0;
       }
     } catch (e) {}
 
@@ -1104,6 +1271,10 @@ function initCollectionsHorizontalScroll() {
     // Native scroll update for dashes
     collectionsTrack.addEventListener('scroll', () => {
       if (!dashes.length) return;
+      if (collectionsTrack.scrollLeft <= 10) {
+        updateCollectionDashes(0);
+        return;
+      }
       const cards = collectionsTrack.querySelectorAll('.collection-card');
       const trackCenter = collectionsTrack.scrollLeft + collectionsTrack.clientWidth / 2;
       let activeIndex = 0;
@@ -1141,7 +1312,11 @@ function initCollectionsHorizontalScroll() {
         updateCollectionDashes(i);
         const cards = collectionsTrack.querySelectorAll('.collection-card');
         if (cards[i]) {
-          cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          if (i === 0) {
+            collectionsTrack.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
         }
       });
     });
@@ -1848,6 +2023,7 @@ initDynamicShareButton();
 initTouchDragThreshold();
 initAnalyticsTracking();
 initMediaProtection();
+initLanguageToggle();
 
 // Performance Optimization: Defer below-the-fold heavy GSAP timelines and ScrollTriggers
 let isBelowFoldInitialized = false;
@@ -1928,6 +2104,30 @@ function handleInitialDeepLink() {
     targetY = 0;
   } else if (realId === 'scene-02' || realId === 'about') {
     targetY = getScene02ScrollY();
+  } else if (realId === 'scene-03' || hashToResolve === 'gallery' || hashToResolve === 'collections') {
+    const collectionsTrack = document.querySelector('.collections-track');
+    if (collectionsTrack) {
+      collectionsTrack.scrollLeft = 0;
+    }
+    savedCollectionsScrollLeft = 0;
+    try { sessionStorage.removeItem('turath_collections_scroll'); } catch(e) {}
+    const dashes = document.querySelectorAll('#scene-03 .dash-indicator');
+    if (dashes && dashes.length) {
+      dashes.forEach((d, i) => {
+        const isActive = i === 0;
+        d.classList.toggle('active', isActive);
+        if (isActive) {
+          d.classList.add('bg-[#D7C797]');
+          d.classList.remove('bg-[#D7C797]/30', 'bg-white', 'bg-white/30');
+        } else {
+          d.classList.remove('bg-[#D7C797]', 'bg-white');
+          d.classList.add('bg-[#D7C797]/30');
+        }
+      });
+    }
+    const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
+    const st = triggers.find(t => t.pin) || triggers[0];
+    targetY = st && typeof st.start === 'number' ? st.start : (target.getBoundingClientRect().top + window.scrollY);
   } else if (realId === 'contact') {
     const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
     const contactST = triggers.find(t => t.vars && t.vars.end === 'top top') || triggers[0];
@@ -2355,4 +2555,360 @@ function initMediaProtection() {
       return false;
     }
   }, { capture: true });
+}
+
+
+// ==========================================================================
+// 18. MULTILINGUAL & RTL ENGINE (ARABIC / ENGLISH DYNAMIC SWITCHER)
+// ==========================================================================
+
+const TURATH_I18N = {
+  ar: {
+    toggleBtn: 'EN',
+    dir: 'rtl',
+    lang: 'ar',
+    // Mobile & Desktop Nav
+    navHome: 'الرئيسية',
+    navAbout: 'عن تراث',
+    navCollections: 'مجموعاتنا',
+    navBespoke: 'تصنيع حسب الطلب',
+    navMasterpieces: 'مختارات مميزة',
+    navCraft: 'حرفيتنا',
+    navContact: 'تواصل معنا',
+    navFaq: 'أسئلة شائعة',
+    // Hero
+    heroEyebrow: 'ورشة تراث مصر ..',
+    heroHeadline1: 'شغفٌ',
+    heroHeadline2: 'بالإبداع ..',
+    heroBottomTitle: 'تميز الحرفية اليدوية في النحاس الأصفر والأحمر من مصر منذ 2012',
+    heroBottomDesc: 'تراث هي ورشة مصرية متخصصة في التشكيل اليدوي للنحاس الأصفر والأحمر والقطع الفنية المعمارية المصممة حسب الطلب في القاهرة التاريخية منذ 2012.',
+    // Scene 02 About
+    about1Title: 'عن تراث',
+    about1Desc: 'تراث هي ورشة مصرية متخصصة في التشكيل اليدوي للنحاس الأصفر والأحمر والقطع الفنية المصممة حسب الطلب. تأسست عام 2012 على يد سامي عادل، ويقع مقرها في القاهرة التاريخية بالقرب من باب النصر في حي الجمالية.',
+    about2Title: 'حرفتنا',
+    about2Desc: 'نجمع بين الحرفية المصرية الأصيلة والتصميم المعاصر لابتكار قطع مميزة تناسب المساحات السكنية والفندقية والتجارية، تُنفّذ يدوياً بأيدي أمهر الحرفيين بأساليب متوارثة عبر الأجيال.',
+    about3Title: 'رؤيتنا',
+    about3Desc: 'الحفاظ على فن تشكيل المعادن اليدوي بالإبداع والدقة والتصميم الخالد.',
+    aboutBrandTag: 'تراث — صناعة يدوية مصرية.',
+    // Scene 03 Collections
+    collectionsTitle: 'مجموعاتنا',
+    collectionsSubtitle: 'اكتشف مجموعاتنا المشغولة يدوياً من النحاس الأصفر والأحمر، المصنوعة بحرفية أصيلة وتصميم مميز.',
+    collectionsCta: 'استكشف المجموعة ←',
+    cardTitles: [
+      'وحدات إضاءة نحاسية',
+      'مرايا نحاسية',
+      'طاولات وكونسول نحاسي',
+      'مقابض أبواب نحاسية',
+      'درابزين سلالم نحاسي',
+      'تحف وصواني ديكور نحاسية',
+      'لوحات جدارية وتجليد نحاس',
+      'قواطع وفواصل وأرفف نحاسية',
+      'أدوات مائدة وأواني ضيافة نحاسية'
+    ],
+    // Bespoke Form
+    bespokeTitle: 'التصنيع حسب الطلب',
+    bespokeSubtitle: 'أخبرنا بتفاصيل طلبك المخصص',
+    fullNameLabel: 'الاسم الكامل',
+    fullNamePlaceholder: 'أدخل اسمك بالكامل',
+    emailLabel: 'البريد الإلكتروني',
+    emailPlaceholder: 'Turath.egypt@gmail.com',
+    phoneLabel: 'رقم الهاتف / واتساب',
+    phonePlaceholder: '002 01016771010',
+    materialLabel: 'نوع المعدن',
+    materialOptions: [
+      'اختر نوع المعدن',
+      'نحاس أصفر',
+      'نحاس أحمر',
+      'ألومنيوم',
+      'ستانلس ستيل',
+      'حديد'
+    ],
+    messageLabel: 'تفاصيل ومقاسات المشروع',
+    messagePlaceholder: 'اكتب تفاصيل المقاسات، نوع التشطيب، والكمية المطلوبة...',
+    submitBtn: 'إرسال الطلب',
+    formError: 'تعذر إرسال الطلب حالياً. يرجى المحاولة مرة أخرى أو مراسلتنا مباشرة على واتساب أو عبر Turath.egypt@gmail.com',
+    formSuccess: 'شكراً لتواصلك معنا. سيقوم فريقنا بمراجعة طلبك والرد عليك في أقرب وقت.',
+    // Scene 05 Signature
+    scene05Headline: 'مختارات تراث النحاسية المميزة',
+    scene05Desc: 'أكثر أعمالنا طلباً ومبيعاً، منفذة يدوياً من النحاس الأصفر والأحمر والمعادن المختلفة لتلبي مختلف الأذواق ومتطلبات المشاريع.',
+    scene05Btn: 'استعرض الأكثر مبيعاً',
+    // Scene 06 Motion
+    scene06Title: 'الحرفية في الحركة',
+    scene06Desc: 'نظرة مباشرة من داخل الورشة ومواقع التركيب',
+    // Scene 07 Founder
+    founderTitle: 'المؤسس | سامي عادل',
+    founderSubhead: 'من التصميم الجرافيكي والتسويق البصري إلى حرفية تشكيل النحاس',
+    founderBio: 'تأسست ورشة تراث عام 2012 لتتوج مسيرة سامي عادل وانتقاله من التصميم الجرافيكي والتسويق البصري إلى فنون تشكيل المعادن اليدوية، حيث يجمع اليوم بين دقة التصميم الحديث وأصالة الحرفية المصرية في النحاس الأصفر والأحمر بالقاهرة التاريخية.',
+    // Contact
+    contactTitle: 'تواصل مع تراث',
+    contactSubtitle: 'طلبات تصنيع النحاس حسب الطلب والاستشارات الخاصة.',
+    contactAddressLabel: 'عنوان الورشة',
+    contactAddress: 'عمارة كحلة، باب النصر، حي الجمالية، القاهرة التاريخية، مصر.',
+    footerCopy: 'موقع تراث مصر 2026 — تطوير سامي عادل'
+  },
+  en: {
+    toggleBtn: 'ع',
+    dir: 'ltr',
+    lang: 'en',
+    // Mobile & Desktop Nav
+    navHome: 'HOME',
+    navAbout: 'ABOUT',
+    navCollections: 'COLLECTIONS',
+    navBespoke: 'BESPOKE',
+    navMasterpieces: 'MASTERPIECES',
+    navCraft: 'CRAFTSMANSHIP',
+    navContact: 'CONTACT',
+    navFaq: 'FAQ',
+    // Hero
+    heroEyebrow: 'SCROLL TURATH WEBSITE..',
+    heroHeadline1: 'DEVOTED',
+    heroHeadline2: 'TO CREATIVITY ..',
+    heroBottomTitle: 'Handcrafted Brass & Copper Excellence from Egypt',
+    heroBottomDesc: 'Premium handcrafted brass, copper and decorative metal products, made in Cairo, Egypt for luxury homes, hotels, restaurants, palaces and commercial projects worldwide. Gamaliya Street, Historic Cairo, Egypt.',
+    // Scene 02 About
+    about1Title: 'ABOUT TURATH',
+    about1Desc: 'TURATH is an Egyptian workshop specializing in handcrafted brass, copper, and custom decorative pieces. Founded in 2012 by Samy Adel, the workshop is located in Historic Cairo, near Bab El-Nasr in El-Gamaliya.',
+    about2Title: 'OUR CRAFT',
+    about2Desc: 'We combine traditional Egyptian craftsmanship with contemporary design to create distinctive pieces for residential, hospitality, and commercial spaces. Each piece is handcrafted by skilled artisans using techniques passed down through generations.',
+    about3Title: 'OUR VISION',
+    about3Desc: 'Preserving the art of handmade metalwork through creativity, precision, and timeless design.',
+    aboutBrandTag: 'TURATH — Handcrafted in Egypt.',
+    // Scene 03 Collections
+    collectionsTitle: 'OUR COLLECTIONS',
+    collectionsSubtitle: 'Explore our handcrafted collections in brass and copper, created with traditional craftsmanship and distinctive design.',
+    collectionsCta: 'Explore →',
+    cardTitles: [
+      'LIGHTING COLLECTION',
+      'BRASS MIRRORS',
+      'TABLES & CONSOLES',
+      'BRASS DOOR HANDLES',
+      'BRASS HANDRAILS',
+      'DECORATIVE OBJECTS',
+      'WALL ART & REPOUSSÉ',
+      'PARTITIONS & SHELVING',
+      'BRASS & COPPER TABLEWARE'
+    ],
+    // Bespoke Form
+    bespokeTitle: 'BESPOKE MANUFACTURING',
+    bespokeSubtitle: 'Tell us about your custom request',
+    fullNameLabel: 'Full Name',
+    fullNamePlaceholder: 'Your full name',
+    emailLabel: 'Email',
+    emailPlaceholder: 'Turath.egypt@gmail.com',
+    phoneLabel: 'Phone / WhatsApp',
+    phonePlaceholder: '002 01016771010',
+    materialLabel: 'Material',
+    materialOptions: [
+      'Select primary metal',
+      'BRASS',
+      'COPPER',
+      'Aluminium',
+      'Stainless steel',
+      'Iron'
+    ],
+    messageLabel: 'Project Details & Specifications',
+    messagePlaceholder: 'Describe dimensions, finishes, quantity, and design intent...',
+    submitBtn: 'SUBMIT INQUIRY',
+    formError: 'Unable to submit inquiry at this time. Please try again or email us directly at Turath.egypt@gmail.com',
+    formSuccess: 'Thank you for your inquiry. Our team will review your request and get back to you soon.',
+    // Scene 05 Signature
+    scene05Headline: 'SIGNATURE HANDCRAFTED<br />CREATIONS',
+    scene05Desc: 'Our best-selling pieces and most requested custom creations, handcrafted in brass, copper, and other metals to suit diverse interior styles and project needs.',
+    scene05Btn: 'Click to see the best selling products',
+    // Scene 06 Motion
+    scene06Title: 'CRAFTSMANSHIP IN MOTION',
+    scene06Desc: 'A direct look at our workshop & delivered installations',
+    // Scene 07 Founder
+    founderTitle: 'FOUNDER | SAMY ADEL',
+    founderSubhead: 'FROM GRAPHIC DESIGN & MARKETING TO BRASS & COPPER CRAFTSMANSHIP',
+    founderBio: 'Founded in 2012, Turath is the culmination of Samy Adel’s transition from graphic design and visual marketing to handcrafted metalwork. Today, he merges modern design precision with authentic Egyptian brass and copper craftsmanship in Historic Cairo.',
+    // Contact
+    contactTitle: 'CONNECT WITH TURATH',
+    contactSubtitle: 'Bespoke brass & copper commissions and private consultations.',
+    contactAddressLabel: 'Workshop Address',
+    contactAddress: 'Bab El-Nasr, El-Gamaliya, Kahla Building, Historic Cairo, Egypt.',
+    footerCopy: 'Turath Egypt 2026 website — Developed by Samy Adel'
+  }
+};
+
+export function applyTurathLanguage(lang) {
+  const data = TURATH_I18N[lang] || TURATH_I18N.ar;
+  document.documentElement.setAttribute('dir', data.dir);
+  document.documentElement.setAttribute('lang', data.lang);
+  if (data.dir === 'rtl') {
+    document.documentElement.classList.add('is-rtl');
+  } else {
+    document.documentElement.classList.remove('is-rtl');
+  }
+
+  // Toggle button text (shows the other language name)
+  const toggleText = document.getElementById('lang-toggle-text');
+  if (toggleText) toggleText.innerText = data.toggleBtn;
+
+  // Hero
+  const eyebrow = document.getElementById('hero-eyebrow');
+  if (eyebrow) eyebrow.innerText = data.heroEyebrow;
+  const h1 = document.getElementById('hero-headline-1');
+  if (h1) h1.innerText = data.heroHeadline1;
+  const h2 = document.getElementById('hero-headline-2');
+  if (h2) h2.innerText = data.heroHeadline2;
+  const bTitle = document.getElementById('hero-bottom-title');
+  if (bTitle) bTitle.innerText = data.heroBottomTitle;
+  const bDesc = document.getElementById('hero-bottom-desc');
+  if (bDesc) bDesc.innerText = data.heroBottomDesc;
+
+  // Scene 02 About
+  const a1 = document.getElementById('about-text-1');
+  if (a1) {
+    const t = a1.querySelector('.about-title');
+    const p = a1.querySelector('.about-desc');
+    if (t) t.innerText = data.about1Title;
+    if (p) p.innerText = data.about1Desc;
+  }
+  const a2 = document.getElementById('about-text-2');
+  if (a2) {
+    const t = a2.querySelector('.about-title');
+    const p = a2.querySelector('.about-desc');
+    if (t) t.innerText = data.about2Title;
+    if (p) p.innerText = data.about2Desc;
+  }
+  const a3 = document.getElementById('about-text-3');
+  if (a3) {
+    const t = a3.querySelector('.about-title');
+    const p = a3.querySelector('.about-desc');
+    const tag = a3.querySelector('.about-brand-tag');
+    if (t) t.innerText = data.about3Title;
+    if (p) p.innerText = data.about3Desc;
+    if (tag) tag.innerText = data.aboutBrandTag;
+  }
+
+  // Scene 03 Collections
+  const colTitle = document.getElementById('collections-title');
+  if (colTitle) colTitle.innerText = data.collectionsTitle;
+  const colSub = document.querySelector('#scene-03 .collections-text-anim.text-sm');
+  if (colSub) colSub.innerText = data.collectionsSubtitle;
+
+  const cards = document.querySelectorAll('#scene-03 .collection-card');
+  cards.forEach((card, idx) => {
+    const t = card.querySelector('.collection-card-title');
+    const cta = card.querySelector('.collection-card-cta');
+    if (t && data.cardTitles[idx]) t.innerText = data.cardTitles[idx];
+    if (cta) cta.innerText = data.collectionsCta;
+  });
+
+  // Bespoke Form
+  const bTitleEl = document.getElementById('bespoke-title');
+  if (bTitleEl) bTitleEl.innerText = data.bespokeTitle;
+  const bSubEl = document.getElementById('bespoke-subtitle');
+  if (bSubEl) bSubEl.innerText = data.bespokeSubtitle;
+
+  const fnLabel = document.getElementById('label-fullName');
+  if (fnLabel) fnLabel.innerText = data.fullNameLabel;
+  const fnInput = document.getElementById('fullName');
+  if (fnInput) fnInput.placeholder = data.fullNamePlaceholder;
+
+  const emLabel = document.getElementById('label-email');
+  if (emLabel) emLabel.innerText = data.emailLabel;
+  const emInput = document.getElementById('email');
+  if (emInput) emInput.placeholder = data.emailPlaceholder;
+
+  const phLabel = document.getElementById('label-phone');
+  if (phLabel) phLabel.innerText = data.phoneLabel;
+  const phInput = document.getElementById('phone');
+  if (phInput) phInput.placeholder = data.phonePlaceholder;
+
+  const matLabel = document.getElementById('label-material');
+  if (matLabel) matLabel.innerText = data.materialLabel;
+  const matSelect = document.getElementById('material');
+  if (matSelect && matSelect.options && data.materialOptions) {
+    for (let i = 0; i < matSelect.options.length && i < data.materialOptions.length; i++) {
+      matSelect.options[i].text = data.materialOptions[i];
+    }
+  }
+
+  const msgLabel = document.getElementById('label-message');
+  if (msgLabel) msgLabel.innerText = data.messageLabel;
+  const msgInput = document.getElementById('message');
+  if (msgInput) msgInput.placeholder = data.messagePlaceholder;
+
+  const submitBtn = document.getElementById('btn-submit-inquiry');
+  if (submitBtn) submitBtn.innerText = data.submitBtn;
+
+  const formErr = document.getElementById('form-error');
+  if (formErr) formErr.innerText = data.formError;
+  const formSucc = document.getElementById('form-success');
+  if (formSucc) formSucc.innerText = data.formSuccess;
+
+  // Scene 05 Signature
+  const s05Headline = document.querySelector('#scene05-content-card .scene05-headline');
+  if (s05Headline) s05Headline.innerHTML = data.scene05Headline;
+  const s05Desc = document.querySelector('#scene05-content-card .scene05-description');
+  if (s05Desc) s05Desc.innerText = data.scene05Desc;
+  const s05Btn = document.querySelector('#scene05-content-card .scene05-cta-button span');
+  if (s05Btn) s05Btn.innerText = data.scene05Btn;
+
+  // Scene 06 Motion
+  const s06Title = document.querySelector('.scene06-title');
+  if (s06Title) s06Title.innerText = data.scene06Title;
+  const s06Desc = document.querySelector('.scene06-desc');
+  if (s06Desc) s06Desc.innerText = data.scene06Desc;
+
+  // Scene 07 Founder
+  const fName = document.querySelector('.founder-name');
+  if (fName) fName.innerText = data.founderTitle;
+  const fSub = document.querySelector('.founder-subhead');
+  if (fSub) fSub.innerText = data.founderSubhead;
+  const fBio = document.querySelector('.founder-bio p');
+  if (fBio) fBio.innerText = data.founderBio;
+
+  // Contact
+  const cTitle = document.querySelector('#contact .hero-bottom-title.about-title');
+  if (cTitle) cTitle.innerText = data.contactTitle;
+  const cSub = document.querySelector('#contact p.text-xs.sm\:text-sm');
+  if (cSub) cSub.innerText = data.contactSubtitle;
+
+  // Desktop nav links
+  const desktopLinks = document.querySelectorAll('.desktop-nav-link');
+  if (desktopLinks && desktopLinks.length >= 6) {
+    if (desktopLinks[0]) desktopLinks[0].innerText = data.navHome;
+    if (desktopLinks[1]) desktopLinks[1].innerText = data.navAbout;
+    if (desktopLinks[2]) desktopLinks[2].innerText = data.navCollections;
+    if (desktopLinks[3]) desktopLinks[3].innerText = data.navBespoke;
+    if (desktopLinks[4]) desktopLinks[4].innerText = data.navMasterpieces;
+    if (desktopLinks[5]) desktopLinks[5].innerText = data.navCraft;
+  }
+
+  // Mobile drawer links
+  const navLinks = document.querySelectorAll('.nav-menu-link');
+  if (navLinks && navLinks.length >= 6) {
+    if (navLinks[0]) navLinks[0].innerText = data.navCollections;
+    if (navLinks[1]) navLinks[1].innerText = data.navCraft;
+    if (navLinks[2]) navLinks[2].innerText = data.navBespoke;
+    if (navLinks[3]) navLinks[3].innerText = data.navAbout;
+    if (navLinks[4]) navLinks[4].innerText = data.navFaq;
+    if (navLinks[5]) navLinks[5].innerText = data.navContact;
+  }
+}
+
+export function initLanguageToggle() {
+  const btn = document.getElementById('lang-toggle-btn');
+  const toggleText = document.getElementById('lang-toggle-text');
+  const isArabicDoc = document.documentElement.getAttribute('lang') === 'ar' || 
+                      document.documentElement.getAttribute('dir') === 'rtl' ||
+                      window.location.pathname.includes('ar.html') ||
+                      window.location.pathname.endsWith('/ar');
+
+  if (toggleText) {
+    toggleText.innerText = isArabicDoc ? 'EN' : 'ع';
+  }
+
+  if (btn) {
+    btn.setAttribute('href', isArabicDoc ? '/index.html' : '/ar.html');
+    btn.setAttribute('aria-label', isArabicDoc ? 'Switch to English' : 'التحويل للغة العربية');
+    btn.setAttribute('title', isArabicDoc ? 'English Version' : 'النسخة العربية');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = isArabicDoc ? '/index.html' : '/ar.html';
+    });
+  }
 }

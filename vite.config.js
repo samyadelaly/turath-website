@@ -111,7 +111,18 @@ export default defineConfig({
         tableware: resolve(__dirname, 'tableware.html'),
         action: resolve(__dirname, 'action.html'),
         masterpieces: resolve(__dirname, 'masterpieces.html'),
-        calculator: resolve(__dirname, 'calculator.html')
+        calculator: resolve(__dirname, 'calculator.html'),
+        lightingAr: resolve(__dirname, 'lighting-ar.html'),
+        mirrorsAr: resolve(__dirname, 'mirrors-ar.html'),
+        tablesAr: resolve(__dirname, 'tables-ar.html'),
+        handlesAr: resolve(__dirname, 'handles-ar.html'),
+        handrailsAr: resolve(__dirname, 'handrails-ar.html'),
+        decorAr: resolve(__dirname, 'decor-ar.html'),
+        wallArtAr: resolve(__dirname, 'wall-art-ar.html'),
+        partitionsAr: resolve(__dirname, 'partitions-ar.html'),
+        tablewareAr: resolve(__dirname, 'tableware-ar.html'),
+        actionAr: resolve(__dirname, 'action-ar.html'),
+        masterpiecesAr: resolve(__dirname, 'masterpieces-ar.html')
       },
       output: {
         manualChunks(id) {

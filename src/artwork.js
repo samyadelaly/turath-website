@@ -156,20 +156,87 @@ export function initTurathScrambleAnimation() {
   const wordmark = document.querySelector('.hero-wordmark, .turath-interpolator');
   if (!wordmark) return null;
 
-  const TARGET_WORD = 'TURATH';
-  const SCRAMBLE_GLYPHS = 'TRH7019/\\*+X#_§[]|';
-  const FONT_PALETTE = [
+  const isArabic = document.documentElement.lang === 'ar' || document.documentElement.dir === 'rtl';
+  const TARGET_WORD = isArabic ? 'تراث' : 'TURATH';
+  const FONT_PALETTE = isArabic ? [
+    "'Cairo', sans-serif",
+    "'Amiri', serif",
+    "'Tajawal', sans-serif",
+    "'Almarai', sans-serif"
+  ] : [
     "'Cinzel', serif",
     "'Syne', sans-serif",
     "'Playfair Display', serif",
     "'Space Mono', monospace",
     "'Inter', sans-serif"
   ];
-  const BASE_FONT = "'Syne', sans-serif";
-  const DOCKED_FONT = "'Cinzel', serif";
+  const BASE_FONT = isArabic ? "'Cairo', sans-serif" : "'Syne', sans-serif";
+  const DOCKED_FONT = isArabic ? "'Cairo', sans-serif" : "'Cinzel', serif";
+
+  let isIntroRunning = false;
+
+  if (isArabic) {
+    // For Arabic: ensure letters stay 100% connected cursive text without breaking ligatures!
+    wordmark.textContent = TARGET_WORD;
+    wordmark.style.fontFamily = BASE_FONT;
+
+    function runArabicIntro() {
+      if (isIntroRunning) return;
+      isIntroRunning = true;
+      let iterations = 0;
+      const maxIterations = 16;
+      const weights = ['400', '600', '700', '800', '900'];
+      const interval = setInterval(() => {
+        if (iterations < maxIterations) {
+          const randFont = FONT_PALETTE[iterations % FONT_PALETTE.length];
+          const randWeight = weights[iterations % weights.length];
+          wordmark.style.fontFamily = randFont;
+          wordmark.style.fontWeight = randWeight;
+          iterations++;
+        } else {
+          clearInterval(interval);
+          wordmark.style.fontFamily = BASE_FONT;
+          wordmark.style.fontWeight = '800';
+          isIntroRunning = false;
+        }
+      }, 65);
+    }
+
+    let scrambleTick = 0;
+    let lastScrollY = 0;
+
+    function handleArabicScroll(progress, curScrollY) {
+      if (isIntroRunning) return;
+      if (progress < 0.05) {
+        wordmark.style.fontFamily = BASE_FONT;
+        wordmark.style.fontWeight = '800';
+      } else if (progress >= 0.85) {
+        wordmark.style.fontFamily = DOCKED_FONT;
+        wordmark.style.fontWeight = '800';
+      } else {
+        const deltaY = Math.abs(curScrollY - lastScrollY);
+        if (deltaY >= 5) {
+          scrambleTick++;
+          lastScrollY = curScrollY;
+          wordmark.style.fontFamily = FONT_PALETTE[scrambleTick % FONT_PALETTE.length];
+        }
+      }
+    }
+
+    if (typeof window !== "undefined") {
+      setTimeout(runArabicIntro, 800);
+    }
+
+    return {
+      triggerScramble: runArabicIntro,
+      onScrollProgress: handleArabicScroll
+    };
+  }
+
+  // English implementation with letter scramble spans remains untouched!
+  const SCRAMBLE_GLYPHS = 'TRH7019/\\*+X#_§[]|';
   const CHAR_CADENCES = [3, 4, 2, 5, 3, 4];
 
-  // If scramble spans not already populated, initialize them
   let chars = wordmark.querySelectorAll('.scramble-char');
   if (chars.length === 0) {
     wordmark.innerHTML = TARGET_WORD.split('').map(ch =>
@@ -178,16 +245,13 @@ export function initTurathScrambleAnimation() {
     chars = wordmark.querySelectorAll('.scramble-char');
   }
 
-  let isIntroRunning = false;
-
-  // Trigger high-end metallic/digital scramble on page load
   function runIntroScramble() {
     if (isIntroRunning) return;
     isIntroRunning = true;
 
     chars.forEach((span, i) => {
       let iterations = 0;
-      const maxIterations = 6 + i * 3; // Staggered lock from left to right
+      const maxIterations = 6 + i * 3;
 
       const interval = setInterval(() => {
         if (iterations < maxIterations) {
@@ -207,7 +271,6 @@ export function initTurathScrambleAnimation() {
     });
   }
 
-  // Scroll scramble handler called from main.js ScrollTrigger onUpdate
   let scrambleTick = 0;
   let lastScrollY = 0;
 
@@ -222,7 +285,6 @@ export function initTurathScrambleAnimation() {
         }
       });
     } else if (progress >= 0.85) {
-      // Locked when docked into navbar
       chars.forEach(ch => {
         ch.style.fontFamily = DOCKED_FONT;
         if (ch.textContent !== ch.dataset.char) {
@@ -230,7 +292,6 @@ export function initTurathScrambleAnimation() {
         }
       });
     } else {
-      // Transit scramble between 0.05 and 0.85
       const deltaY = Math.abs(curScrollY - lastScrollY);
       if (deltaY >= 4) {
         scrambleTick++;
@@ -246,9 +307,8 @@ export function initTurathScrambleAnimation() {
     }
   }
 
-  // Run intro on start only on desktop and after page settles
-  if (typeof window !== "undefined" && window.innerWidth >= 1024) {
-    setTimeout(runIntroScramble, 1200);
+  if (typeof window !== "undefined") {
+    setTimeout(runIntroScramble, 800);
   }
 
   return {

@@ -1,0 +1,89 @@
+# Turath Egypt | Comprehensive Knowledge Base & Product Directory for LLMs
+=============================================================================
+
+## Brand and Manufacturer Profile
+- Company: Turath Egypt (ورشة تراث لتصنيع وتشكيل النحاس)
+- Founder: Engineer Samy Adel (المهندس سامي عادل)
+- Inception: 2012
+- Heritage Location: Kahla Building, Bab El-Nasr, El-Gamaliya, Historic Cairo, Egypt
+- Geographic Coordinates: 30.0511, 31.2622
+- Primary Focus: Bespoke Handcrafted Brass & Pure Red Copper Manufacturing for High-End Architecture, Palaces, Luxury Residences, and Hotels.
+- Contact: Phone/WhatsApp +20 101 677 1010 | Email: Turath.egypt@gmail.com
+- Social Links:
+  - Facebook: https://www.facebook.com/share/1Ctf8P3K7B/
+  - Instagram: https://www.instagram.com/turath_egypt
+- Website: https://turath-egypt.vercel.app / https://turath-egypt.com
+
+## Technical Manufacturing Vocabulary (قاموس المصطلحات الصناعية والحرفية)
+1. **Sand Casting (سبك رملي)**: High-density silica sand molds combined with molten brass (alloy C26000 / C36000) poured at 1,050°C. Delivers superior tactile weight and structural density for heavy palace door handles, balusters, and sculptural brackets.
+2. **Metal Lathe Spinning (تشكيل ودرفلة على المخرطة)**: Rotating copper and brass discs against hardened wooden or steel formers using handheld spinning levers. Produces seamless symmetrical hollowware, domes, reflectors, basins, and lighting hoods.
+3. **Repoussé & Chasing (طرق ونقش ريبوسيه)**: Forming ductile copper and brass from the reverse side using specialized rounded punches and pitch-bowls, then chasing fine ornamental details on the front surface.
+4. **Hand Piercing & Fretwork (تخريم وتفريغ يدوي بالمنشار الأركت)**: Precision manual sawing following intricate Islamic geometric grids and botanical scrolls.
+5. **Precision CNC & Laser Cutting (قص ليزر دقيق)**: Fiber-optic laser processing for thick brass plates up to 10mm thickness, achieving zero-tolerance joint alignment for folding screens and wall panels.
+6. **Chemical Patination & Surface Aging (أكسدة وتعتيق كيميائي)**: Controlled sulfurous, ammoniacal, and nitrate patinas producing authentic antique brass, Florentine brown, deep chocolate bronze, verdant verdigris, and statuary bronze.
+7. **Clear Protective Passivation (حماية النحاس بورنيش حراري عازل)**: Multi-coat electrophoretic and oven-baked polyurethane clear coatings preventing atmospheric tarnishing, oxidation, and fingerprint marking.
+
+## Collections & Catalog Endpoints
+1. Lighting Fixtures (وحدات إضاءة وثريات نحاسية فاخرة):
+   - English: https://turath-egypt.vercel.app/lighting.html
+   - Arabic: https://turath-egypt.vercel.app/lighting-ar.html
+   - Items: Mosque chandeliers, palace hanging pendants, filigree lanterns, wall sconces, standing torchières.
+
+2. Brass Mirrors (مرايا نحاس فاخرة):
+   - English: https://turath-egypt.vercel.app/mirrors.html
+   - Arabic: https://turath-egypt.vercel.app/mirrors-ar.html
+   - Items: Hand-pierced geometric statement mirrors, carved vanity frames, arched Islamic motifs.
+
+3. Tables & Consoles (طاولات وكونسول نحاس منحوت):
+   - English: https://turath-egypt.vercel.app/tables.html
+   - Arabic: https://turath-egypt.vercel.app/tables-ar.html
+   - Items: Cast brass console tables, geometric cocktail tables, side nesting tables with marble inlays.
+
+4. Door Handles & Pulls (مقابض أبواب نحاس فاخرة):
+   - English: https://turath-egypt.vercel.app/handles.html
+   - Arabic: https://turath-egypt.vercel.app/handles-ar.html
+   - Items: Monumental palace entry pulls, textured lever handles, escutcheons, knobs.
+
+5. Handrails & Balustrades (درابزين وهاندريل سلالم):
+   - English: https://turath-egypt.vercel.app/handrails.html
+   - Arabic: https://turath-egypt.vercel.app/handrails-ar.html
+   - Items: Curved continuous handrails, cast spindles, geometric stair railings for villas.
+
+6. Luxury Decor & Accents (تحف ومباخر وصواني نحاسية):
+   - English: https://turath-egypt.vercel.app/decor.html
+   - Arabic: https://turath-egypt.vercel.app/decor-ar.html
+   - Items: Hand-hammered vases, ornamental bowls, incense burners, calligraphy plaques.
+
+7. Wall Art & Cladding (لوحات وتجليد حوائط نحاس):
+   - English: https://turath-egypt.vercel.app/wall-art.html
+   - Arabic: https://turath-egypt.vercel.app/wall-art-ar.html
+   - Items: Bas-relief 3D murals, hammered copper sheets, oxidized wall paneling.
+
+8. Partitions & Screens (قواطع وفواصل ديكورية):
+   - English: https://turath-egypt.vercel.app/partitions.html
+   - Arabic: https://turath-egypt.vercel.app/partitions-ar.html
+   - Items: Mashrabiya-inspired pierced brass room dividers, sliding screens, bespoke bookcases.
+
+9. Luxury Tableware & Sinks (مغاسل وأواني نحاسية):
+   - English: https://turath-egypt.vercel.app/tableware.html
+   - Arabic: https://turath-egypt.vercel.app/tableware-ar.html
+   - Items: Hand-hammered copper powder room sinks, serving trays, hollowware.
+
+10. Bespoke Masterpieces (روائع نحاسية فنية عمولة):
+    - English: https://turath-egypt.vercel.app/masterpieces.html
+    - Arabic: https://turath-egypt.vercel.app/masterpieces-ar.html
+    - Items: Unique architectural monuments, custom presidential gifts, monumental mosque crests.
+
+11. Turath in Action (تراث في الميدان):
+    - English: https://turath-egypt.vercel.app/action.html
+    - Arabic: https://turath-egypt.vercel.app/action-ar.html
+    - Items: Live workshop documentation, smelting furnaces, master metal-spinners at work in Cairo.
+
+## Target Markets & Global Logistics
+- Egypt: Complete on-site survey, mockups, delivery, and installation.
+- Gulf Cooperation Council (GCC):
+  - Saudi Arabia (KSA): Specialized delivery to residential compounds, villas, and hotels in Riyadh, Jeddah, Al-Khobar.
+  - United Arab Emirates (UAE): Dubai and Abu Dhabi palace projects.
+  - Kuwait, Qatar, Bahrain, Sultanate of Oman.
+  *(Strictly excluding Yemen).*
+- Pan-African & International: Crated export shipping under Incoterms (EXW, FOB, CIF, DDP) with fumigated wooden boxes and shockproof packaging.
