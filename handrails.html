@@ -486,10 +486,12 @@
     const nextBtn = document.getElementById('next-btn');
 
     if (currentIndex !== 0 && sliderData[currentIndex]) {
-      imgEl.src = sliderData[currentIndex].src;
-      if (sourceDesktopEl) {
-        sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
-      }
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = targetSrc;
+        }
       imgEl.alt = sliderData[currentIndex].title;
       titleEl.innerText = sliderData[currentIndex].title;
       descEl.innerText = sliderData[currentIndex].desc;
@@ -528,9 +530,11 @@
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = sliderData[currentIndex].src;
+        const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
         if (sourceDesktopEl) {
-          sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+          sourceDesktopEl.srcset = targetSrc;
         }
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;

@@ -499,7 +499,7 @@
   {
     "id": "tableware-item-1",
     "src": "/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg",
-    "desktopSrc": "/assets/images/tableware/sculptural-fluid-brass-vessel-pair.jpg",
+    "desktopSrc": "/assets/images/tableware/sculptural-fluid-brass-vessel-pair-desktop.jpg",
     "title": "زوج أواني مائدة نحاسية انسيابية منحوتة",
     "desc": "زوج من أواني وأطباق التقديم المنحوتة والمسبوكة يدوياً من النحاس الأصفر بحواف انسيابية ولمسة معتّقة دافئة.",
     "titleEn": "SCULPTURAL FLUID BRASS VESSEL PAIR",
@@ -510,7 +510,7 @@
   {
     "id": "tableware-item-2",
     "src": "/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg",
-    "desktopSrc": "/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg",
+    "desktopSrc": "/assets/images/tableware/royal-arabesque-brass-tea-service-set-desktop.jpg",
     "title": "طقم شاي وضيافة نحاس مصري منقوش يدوياً",
     "desc": "طقم ضيافة مصري فاخر يضم إبريق شاي من النحاس الأصفر المنقوش يدوياً مع كاسات بأكمام نحاسية مخرمة وصينية دائرية محفورة.",
     "titleEn": "EGYPTIAN FILIGREE BRASS TEA SERVICE SET",
@@ -521,7 +521,7 @@
   {
     "id": "tableware-item-3",
     "src": "/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg",
-    "desktopSrc": "/assets/images/tableware/artisan-beaded-solid-copper-cup.jpg",
+    "desktopSrc": "/assets/images/tableware/artisan-beaded-solid-copper-cup-desktop.jpg",
     "title": "كوب ضيافة من النحاس الأحمر الصافي",
     "desc": "كوب ضيافة فاخر مسحوب يدوياً من النحاس الأحمر الصافي، يتميز بحافة محببة دقيقة ولمعان معدني دافئ.",
     "titleEn": "ARTISAN BEADED SOLID COPPER CUP",
@@ -532,7 +532,7 @@
   {
     "id": "tableware-item-4",
     "src": "/assets/images/tableware/tableware-01.jpg",
-    "desktopSrc": "/assets/images/tableware/tableware-01.jpg",
+    "desktopSrc": "/assets/images/tableware/tableware-01-desktop.jpg",
     "title": "سخان ضيافة وفحم نحاس محفور بالخط العربي",
     "desc": "سخان طعام وضيافة يعمل بالفحم مصنوع يدوياً من النحاس الأصفر، مزين بنقوش الخط العربي وتخريم تراثي دقيق.",
     "titleEn": "ENGRAVED BRASS HOSPITALITY BRAZIER",
@@ -543,7 +543,7 @@
   {
     "id": "tableware-item-5",
     "src": "/assets/images/tableware/tableware-02.jpg",
-    "desktopSrc": "/assets/images/tableware/tableware-02.jpg",
+    "desktopSrc": "/assets/images/tableware/tableware-02-desktop.jpg",
     "title": "منقد وشواية طاولة من النحاس المنقوش",
     "desc": "منقد ضيافة للطاولة مصنوع يدوياً من النحاس الأصفر مع جوانب محفورة يدوياً وشبكة علوية متينة.",
     "titleEn": "GEOMETRIC BRASS TABLETOP BRAZIER",
@@ -554,7 +554,7 @@
   {
     "id": "tableware-item-6",
     "src": "/assets/images/tableware/tableware-03.jpg",
-    "desktopSrc": "/assets/images/tableware/tableware-03.jpg",
+    "desktopSrc": "/assets/images/tableware/tableware-03-desktop.jpg",
     "title": "طبق وصينية تقديم دائرية من النحاس الأحمر المطروق",
     "desc": "صينية وطبق تقديم دائري تقليدي من النحاس الأحمر المطروق يدوياً ومزود بمقابض مسبوكة من النحاس الأصفر.",
     "titleEn": "HAMMERED SOLID COPPER SERVING DISH",
@@ -565,7 +565,7 @@
   {
     "id": "tableware-item-7",
     "src": "/assets/images/tableware/tableware-04.jpg",
-    "desktopSrc": "/assets/images/tableware/tableware-04.jpg",
+    "desktopSrc": "/assets/images/tableware/tableware-04-desktop.jpg",
     "title": "سخان بوفيه وضيافة من النحاس المخرم",
     "desc": "سخان تقديم مستطيل من النحاس الأصفر مخرم يدوياً بزخارف نجمية مصرية أصيلة لحفظ حرارة الطعام.",
     "titleEn": "PIERCED HERITAGE BRASS FOOD WARMER",
@@ -576,7 +576,7 @@
   {
     "id": "tableware-item-8",
     "src": "/assets/images/tableware/tableware-05.jpg",
-    "desktopSrc": "/assets/images/tableware/tableware-05.jpg",
+    "desktopSrc": "/assets/images/tableware/tableware-05-desktop.jpg",
     "title": "طبق ضيافة وتقديم مقسم من النحاس المعتق",
     "desc": "طبق ضيافة مقسم بتصميم عضوي حر مسبوك من النحاس الأصفر بتشطيب معتّق داكن لتقديم المأكولات الفاخرة.",
     "titleEn": "ORGANIC CAST ANTIQUED BRASS SERVING DISH",
@@ -615,10 +615,12 @@
         });
     
         if (currentIndex !== 0 && sliderData[currentIndex]) {
-          imgEl.src = sliderData[currentIndex].src;
-          if (sourceDesktopEl) {
-            sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
-          }
+          const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = targetSrc;
+        }
           imgEl.alt = sliderData[currentIndex].title;
           titleEl.innerText = sliderData[currentIndex].title;
           descEl.innerText = sliderData[currentIndex].desc;
@@ -657,9 +659,11 @@
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = sliderData[currentIndex].src;
+        const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
         if (sourceDesktopEl) {
-          sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+          sourceDesktopEl.srcset = targetSrc;
         }
         imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;

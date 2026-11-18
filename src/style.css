@@ -2227,11 +2227,11 @@ select:-webkit-autofill:active {
   }
 
   .video-slat-item {
-    width: 252px !important;
-    min-width: 252px !important;
-    max-width: 252px !important;
-    height: 510px !important;
-    max-height: 510px !important;
+    width: clamp(175px, 21.5vh, 200px) !important;
+    min-width: clamp(175px, 21.5vh, 200px) !important;
+    max-width: clamp(175px, 21.5vh, 200px) !important;
+    height: clamp(310px, 38vh, 355px) !important;
+    max-height: clamp(310px, 38vh, 355px) !important;
     aspect-ratio: 9/16 !important;
     flex-shrink: 0 !important;
     border-radius: 14px !important;

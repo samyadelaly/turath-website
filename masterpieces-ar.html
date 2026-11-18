@@ -629,14 +629,17 @@
     const nextBtn = document.getElementById('next-btn');
 
     function syncSlide(idx) {
-      if (!sliderData[idx]) return;
-      imgEl.src = sliderData[idx].src;
-      imgEl.alt = sliderData[idx].title;
+      if (!masterpiecesData[idx]) return;
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+      const currentItem = masterpiecesData[idx];
+      const targetSrc = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
       if (sourceDesktopEl) {
-        sourceDesktopEl.srcset = sliderData[idx].desktopSrc || sliderData[idx].src;
+        sourceDesktopEl.srcset = targetSrc;
       }
-      titleEl.innerText = sliderData[idx].title;
-      descEl.innerText = sliderData[idx].desc;
+      imgEl.src = targetSrc;
+      imgEl.alt = currentItem.title;
+      titleEl.innerText = currentItem.title;
+      descEl.innerText = currentItem.desc;
     }
 
     // Build Dash indicators dynamically

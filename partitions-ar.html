@@ -491,7 +491,7 @@
   {
     "id": "partitions-item-1",
     "src": "/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg",
-    "desktopSrc": "/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg",
+    "desktopSrc": "/assets/images/partitions/amber-scallop-architectural-brass-screen-desktop.jpg",
     "title": "قاطع وفواصل نحاس خالص بتصميم متداخل",
     "desc": "بارتشن وفاصل ديكور شاهق بإطار من النحاس الأصفر يضم وحدات متداخلة بتصميم فني متناغم.",
     "titleEn": "SCALLOP PATTERN SOLID BRASS SCREEN",
@@ -502,7 +502,7 @@
   {
     "id": "partitions-item-2",
     "src": "/assets/images/partitions/rhombus-geometric-brass-bookcase.jpg",
-    "desktopSrc": "/assets/images/partitions/rhombus-geometric-brass-bookcase.jpg",
+    "desktopSrc": "/assets/images/partitions/rhombus-geometric-brass-bookcase-desktop.jpg",
     "title": "مكتبة ووحدة عرض نحاس بتصميم معين مركزي",
     "desc": "مكتبة ووحدة عرض فاخرة ملحومة يدوياً من قطاعات النحاس الأصفر المربعة، يتوسطها شكل معين بارز مع أرفف زجاجية.",
     "titleEn": "RHOMBUS GEOMETRIC BRASS BOOKCASE",
@@ -513,7 +513,7 @@
   {
     "id": "partitions-item-3",
     "src": "/assets/images/partitions/partition-01.jpg",
-    "desktopSrc": "/assets/images/partitions/partition-01.jpg",
+    "desktopSrc": "/assets/images/partitions/partition-01-desktop.jpg",
     "title": "مكتبة نحاس عصرية بأرفف غير متماثلة",
     "desc": "مكتبة مفتوحة الإطار مصنوعة بدقة من النحاس الأصفر مع أرفف عرض زجاجية متدرجة بتوزيع عصري.",
     "titleEn": "ASYMMETRIC SOLID BRASS BOOKCASE",
@@ -524,7 +524,7 @@
   {
     "id": "partitions-item-4",
     "src": "/assets/images/partitions/partition-02.jpg",
-    "desktopSrc": "/assets/images/partitions/partition-02.jpg",
+    "desktopSrc": "/assets/images/partitions/partition-02-desktop.jpg",
     "title": "فاصل غرف قائم من قضبان النحاس الخالص عالي الجودة",
     "desc": "فاصل غرف قائم بذاته مصمم من تكوينات متداخلة لقضبان النحاس الأصفر مرتكزة على قاعدة مثلثة متينة.",
     "titleEn": "GEOMETRIC BRASS ROOM DIVIDER",
@@ -535,7 +535,7 @@
   {
     "id": "partitions-item-5",
     "src": "/assets/images/partitions/partition-03.jpg",
-    "desktopSrc": "/assets/images/partitions/partition-03.jpg",
+    "desktopSrc": "/assets/images/partitions/partition-03-desktop.jpg",
     "title": "قاطع ديكور نحاس مخرم بنقش المتاهة",
     "desc": "لوح قاطع ديكور رأسي من النحاس الأصفر مخرم بنقش المتاهة المتداخلة بدقة متناهية.",
     "titleEn": "LABYRINTH PIERCED BRASS SCREEN PANEL",
@@ -546,7 +546,7 @@
   {
     "id": "partitions-item-6",
     "src": "/assets/images/partitions/partition-04.jpg",
-    "desktopSrc": "/assets/images/partitions/partition-04.jpg",
+    "desktopSrc": "/assets/images/partitions/partition-04-desktop.jpg",
     "title": "فاصل شرائح نحاس خالص متدرجة",
     "desc": "فاصل مكاني مكون من شرائح وقوائم متدرجة من النحاس الأصفر تسمح بمرور الضوء وتكوين ظلال متناغمة.",
     "titleEn": "RHYTHMIC SLAT SOLID BRASS PARTITION",
@@ -557,7 +557,7 @@
   {
     "id": "partitions-item-7",
     "src": "/assets/images/partitions/partition-05.jpg",
-    "desktopSrc": "/assets/images/partitions/partition-05.jpg",
+    "desktopSrc": "/assets/images/partitions/partition-05-desktop.jpg",
     "title": "وحدة أرفف عرض متدرجة من النحاس الخالص عالي الجودة",
     "desc": "وحدة أرفف عرض متعددة المستويات مصنوعة من قطاعات النحاس الأصفر المربعة مع أرفف زجاجية شفافة.",
     "titleEn": "STEPPED SOLID BRASS DISPLAY SHELF",
@@ -596,10 +596,12 @@
         });
     
         if (currentIndex !== 0 && sliderData[currentIndex]) {
-          imgEl.src = sliderData[currentIndex].src;
-          if (sourceDesktopEl) {
-            sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
-          }
+          const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = targetSrc;
+        }
           imgEl.alt = sliderData[currentIndex].title;
           titleEl.innerText = sliderData[currentIndex].title;
           descEl.innerText = sliderData[currentIndex].desc;
@@ -638,9 +640,11 @@
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = sliderData[currentIndex].src;
+        const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
         if (sourceDesktopEl) {
-          sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+          sourceDesktopEl.srcset = targetSrc;
         }
         imgEl.alt = sliderData[currentIndex].title;
         titleEl.innerText = sliderData[currentIndex].title;

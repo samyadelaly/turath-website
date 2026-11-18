@@ -454,7 +454,7 @@
   {
     "id": "handrails-item-1",
     "src": "/assets/images/handrails/handrail-01.jpg",
-    "desktopSrc": "/assets/images/handrails/handrail-01.jpg",
+    "desktopSrc": "/assets/images/handrails/handrail-01-desktop.jpg",
     "title": "درابزين سلالم نحاس مخرم بزخارف نباتية",
     "desc": "درابزين سلالم فاخر يتميز بألواح من النحاس الأصفر المخرمة يدوياً بزخارف أوراق الشجر النباتية مع مقبض نحاسي متصل.",
     "titleEn": "BOTANICAL PIERCED BRASS BALUSTRADE",
@@ -465,7 +465,7 @@
   {
     "id": "handrails-item-2",
     "src": "/assets/images/handrails/handrail-02.jpg",
-    "desktopSrc": "/assets/images/handrails/handrail-02.jpg",
+    "desktopSrc": "/assets/images/handrails/handrail-02-desktop.jpg",
     "title": "درابزين سلالم ببرامق نحاس خالص مشطوفة",
     "desc": "درابزين سلالم مخصص من النحاس الأصفر يضم برامق مشطوفة بدقة مع مقبض علوي متصل عالي اللمعان.",
     "titleEn": "FACETED BRASS SPINDLE BALUSTRADE",
@@ -497,10 +497,12 @@
     const nextBtn = document.getElementById('next-btn');
 
     if (currentIndex !== 0 && sliderData[currentIndex]) {
-      imgEl.src = sliderData[currentIndex].src;
-      if (sourceDesktopEl) {
-        sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
-      }
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
+        if (sourceDesktopEl) {
+          sourceDesktopEl.srcset = targetSrc;
+        }
       imgEl.alt = sliderData[currentIndex].title;
       titleEl.innerText = sliderData[currentIndex].title;
       descEl.innerText = sliderData[currentIndex].desc;
@@ -539,9 +541,11 @@
       descEl.style.opacity = '0.3';
 
       setTimeout(() => {
-        imgEl.src = sliderData[currentIndex].src;
+        const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+        const targetSrc = (isDesktop && sliderData[currentIndex].desktopSrc) ? sliderData[currentIndex].desktopSrc : sliderData[currentIndex].src;
+        imgEl.src = targetSrc;
         if (sourceDesktopEl) {
-          sourceDesktopEl.srcset = sliderData[currentIndex].desktopSrc || sliderData[currentIndex].src;
+          sourceDesktopEl.srcset = targetSrc;
         }
         titleEl.innerText = sliderData[currentIndex].title;
         descEl.innerText = sliderData[currentIndex].desc;
