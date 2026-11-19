@@ -426,7 +426,7 @@
   </script>
   <!-- Critical Anti-FOUC & Strict Preloader Styles -->
   <style>
-    /* شاشة اللودر المعتمة */
+    /* شاشة اللودر المعتمة (Live Background Knockout / Multiply Blend) */
     #loader, .loader-wrapper, #preloader, #luxury-preloader, .preloader {
       position: fixed !important;
       inset: 0 !important;
@@ -437,13 +437,15 @@
       width: 100vw !important;
       height: 100vh !important;
       z-index: 99999 !important;
-      background-color: #141414 !important; /* نفس درجة الأسود الداكن في الصورة */
+      background-color: #141414 !important; /* لون أسود داكن معتم */
+      mix-blend-mode: multiply !important; /* السحر: يحول النص الأبيض لفتحة شفافة تكشف خلفية ومحتوى الموقع الحي */
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       transition: opacity 0.6s ease, visibility 0.6s ease !important;
       overflow: hidden !important;
       box-sizing: border-box !important;
+      pointer-events: all;
     }
     #loader.opacity-0, .loader-wrapper.opacity-0,
     #preloader.opacity-0, #luxury-preloader.opacity-0, .preloader.opacity-0,
@@ -468,44 +470,50 @@
       height: 1px !important;
       max-height: 1px !important;
     }
-    /* تنسيق الكلمة (خلفية نحاسية مفرغة بالحجم العريض الفاخر) */
+    /* تنسيق الكلمة: أبيض صريح بدون أي ستروك أو شادو أو حدود أو خلفية ثابتة */
     .loader-brand,
     .loader-title {
-      color: transparent !important;
-      -webkit-text-fill-color: transparent !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
       -webkit-text-stroke: 0 !important;
-      background-image: url('/images/hero-brass.jpg'), url('/assets/images/brushed-brass.jpg'), linear-gradient(135deg, #dfba73 0%, #c5a059 40%, #e8c87e 70%, #9a7836 100%) !important;
-      background-size: cover !important;
-      background-position: center !important;
-      -webkit-background-clip: text !important;
-      background-clip: text !important;
+      text-stroke: none !important;
+      border: none !important;
+      outline: none !important;
+      text-shadow: none !important;
+      box-shadow: none !important;
+      background: none !important;
+      background-image: none !important;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
       text-transform: uppercase;
-      font-weight: 700 !important;
+      font-weight: 500 !important;
       line-height: 1.1 !important;
       user-select: none;
-      transition: all 0.3s ease;
+      transition: none !important;
     }
 
-    /* 1. النسخة العربية: كلمة "تراث" بنفس فونت العناوين العربي وأكبر بنسبة قليلة */
+    /* 1. النسخة العربية: كلمة "تراث" بنفس فونت العناوين العربي ووزن 500 وبدون تباعد */
     html[lang="ar"] .loader-brand,
     html[dir="rtl"] .loader-brand,
     html[lang="ar"] .loader-title,
     html[dir="rtl"] .loader-title {
-      font-family: var(--font-ar-heading, 'Cairo', 'Tajawal', sans-serif) !important; /* نفس فونت العناوين العربي عندك */
-      font-size: clamp(4.2rem, 13vw, 9.8rem) !important; /* أكبر بنسبة قليلة من الإنجليزي */
+      font-family: var(--font-ar-heading, 'Amiri', 'Cairo', serif) !important;
+      font-size: clamp(2.7rem, 10vw, 5.6rem) !important;
+      font-weight: 500 !important;
       letter-spacing: 0 !important;
       padding-left: 0 !important;
       direction: rtl !important;
     }
 
-    /* 2. النسخة الإنجليزية: نفس الفونت العريض والنسبة (مثل TARQ في الصورة) */
+    /* 2. النسخة الإنجليزية: كلمة TURATH بوزن 500 وتباعد 0.06em وحجم 55%-60% من الموبايل */
     html[lang="en"] .loader-brand,
     html[dir="ltr"] .loader-brand,
     html[lang="en"] .loader-title,
     html[dir="ltr"] .loader-title {
-      font-family: 'Montserrat', 'Syne', 'Plus Jakarta Sans', sans-serif !important; /* أو فونت العناوين الإنجليزي عندك */
-      font-size: clamp(3.5rem, 11vw, 8.5rem) !important; /* حجم كبير وعريض يملأ منتصف الشاشة بنفس النسبة */
-      letter-spacing: 0.08em !important;
+      font-family: var(--font-heading, 'Syne', sans-serif) !important;
+      font-size: clamp(2.2rem, 8.5vw, 4.8rem) !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.06em !important;
       direction: ltr !important;
     }
     /* توحيد حجم عنوان الـ Founder مع باقي عناوين الصفحة */
