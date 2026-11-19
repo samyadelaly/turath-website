@@ -7,7 +7,7 @@
     <item>
       <g:id>lighting-item-1</g:id>
       <g:title><![CDATA[SCULPTURAL HAMMERED BRASS SCROLL SCONCE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A statement architectural wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture.]]></g:description>
+      <g:description><![CDATA[A statement bespoke wall sconce formed from an overlapping curved scroll of solid brass, hand-hammered with a shimmering dimpled texture.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/hammered-brass-scroll-sconce.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -20,7 +20,7 @@
     </item>
     <item>
       <g:id>lighting-item-2</g:id>
-      <g:title><![CDATA[ELONGATED ARABESQUE TEARDROP PENDANT | Turath Egypt]]></g:title>
+      <g:title><![CDATA[ELONGATED GEOMETRIC FILIGREE TEARDROP PENDANT | Turath Egypt]]></g:title>
       <g:description><![CDATA[An elongated solid brass pendant hand-pierced with traditional eight-point star medallions, casting an enchanting concentric floor projection.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-2/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/elongated-arabesque-teardrop-pendant.jpg</g:image_link>
@@ -35,7 +35,7 @@
     <item>
       <g:id>lighting-item-3</g:id>
       <g:title><![CDATA[EGYPTIAN CEREMONIAL BRASS CHANDELIER | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A monumental ceremonial brass lantern inspired by classical Egyptian architecture, suspended by ornate chains with pierced arabesque motifs.]]></g:description>
+      <g:description><![CDATA[A monumental ceremonial brass lantern inspired by classical Egyptian architecture, suspended by ornate chains with pierced geometric and floral motifs.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-3/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/mamluk-royal-brass-chandelier.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -77,7 +77,7 @@
     <item>
       <g:id>lighting-item-6</g:id>
       <g:title><![CDATA[SCULPTURAL BRASS MONSTERA SCONCE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An organic architectural wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows.]]></g:description>
+      <g:description><![CDATA[An organic bespoke wall fixture featuring twin hand-carved solid brass Monstera leaves on slender crossed stems casting dramatic botanical shadows.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-6/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/sculptural-brass-monstera-sconce.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -91,7 +91,7 @@
     <item>
       <g:id>lighting-item-7</g:id>
       <g:title><![CDATA[TRI-STEM BRASS GLOBE FLOOR LAMP | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A statuesque three-branch solid brass floor lamp featuring staggered architectural stems topped with clear hand-blown glass illuminating spheres.]]></g:description>
+      <g:description><![CDATA[A statuesque three-branch solid brass floor lamp featuring staggered bespoke stems topped with clear hand-blown glass illuminating spheres.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-7/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/tri-stem-brass-globe-floor-lamp.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -133,7 +133,7 @@
     <item>
       <g:id>lighting-item-10</g:id>
       <g:title><![CDATA[BRASS DOME TRIPOD FLOOR LAMP | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A mid-century inspired architectural floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips.]]></g:description>
+      <g:description><![CDATA[A mid-century inspired bespoke floor lamp featuring a solid spun brass dome diffuser perched on a minimalist blackened tripod with brass ferrule tips.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-10/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/brass-dome-tripod-floor-lamp.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -147,7 +147,7 @@
     <item>
       <g:id>lighting-item-11</g:id>
       <g:title><![CDATA[ROSETTE MEDALLION BRASS PENDANT | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite Arabesque filigree.]]></g:description>
+      <g:description><![CDATA[A magnificent onion-profile solid brass pendant featuring a central star rosette medallion hand-perforated with exquisite geometric and floral filigree.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-11/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/rosette-medallion-brass-pendant.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -188,8 +188,8 @@
     </item>
     <item>
       <g:id>lighting-item-14</g:id>
-      <g:title><![CDATA[DOMED ARABESQUE BRASS LANTERN | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate arabesque filigree.]]></g:description>
+      <g:title><![CDATA[DOMED GEOMETRIC FILIGREE BRASS LANTERN | Turath Egypt]]></g:title>
+      <g:description><![CDATA[A handcrafted solid brass table lantern crowned with an onion dome finial, richly detailed with intricate geometric and floral filigree.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-14/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/domed-arabesque-brass-lantern.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -203,7 +203,7 @@
     <item>
       <g:id>lighting-item-15</g:id>
       <g:title><![CDATA[CELESTIAL VERDIGRIS BRASS SCONCE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm architectural halo.]]></g:description>
+      <g:description><![CDATA[A circular concave solid brass dish sconce centered with a verdigris patinated orb, casting an eclipse-like warm bespoke halo.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-15/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/celestial-verdigris-brass-sconce.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -245,7 +245,7 @@
     <item>
       <g:id>lighting-item-18</g:id>
       <g:title><![CDATA[PIERCED OVOID BRASS LANTERN | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An egg-shaped solid brass table lamp intricately perforated with traditional arabesque filigree, casting mesmerizing geometric shadows.]]></g:description>
+      <g:description><![CDATA[An egg-shaped solid brass table lamp intricately perforated with traditional geometric and floral filigree, casting mesmerizing geometric shadows.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-18/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/pierced-ovoid-brass-lantern.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -258,7 +258,7 @@
     </item>
     <item>
       <g:id>lighting-item-19</g:id>
-      <g:title><![CDATA[ARABESQUE SPHERICAL PENDANT | Turath Egypt]]></g:title>
+      <g:title><![CDATA[GEOMETRIC FILIGREE SPHERICAL PENDANT | Turath Egypt]]></g:title>
       <g:description><![CDATA[A hand-pierced spherical solid brass pendant light suspended by an antiqued brass chain, radiating a warm ambient celestial glow.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-19/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/arabesque-spherical-brass-pendant.jpg</g:image_link>
@@ -273,7 +273,7 @@
     <item>
       <g:id>lighting-item-20</g:id>
       <g:title><![CDATA[PATINATED BRASS DISC TRIPTYCH | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A vertical triptych of three hand-hammered patinated brass disc sconces, each casting a soft golden halo of indirect architectural light.]]></g:description>
+      <g:description><![CDATA[A vertical triptych of three hand-hammered patinated brass disc sconces, each casting a soft golden halo of indirect bespoke light.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-20/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/patinated-brass-disc-triptych.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -315,7 +315,7 @@
     <item>
       <g:id>lighting-item-23</g:id>
       <g:title><![CDATA[GEOMETRIC BRASS PLATE SCONCE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination.]]></g:description>
+      <g:description><![CDATA[An bespoke wall sconce sculpted from layered rectilinear brushed solid brass plates, casting multi-directional warm halo illumination.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-23/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/geometric-brass-plate-sconce.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -371,7 +371,7 @@
     <item>
       <g:id>lighting-item-27</g:id>
       <g:title><![CDATA[DUAL CAPSULE ARCHED BRASS SCONCE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A dramatic double-light architectural sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon.]]></g:description>
+      <g:description><![CDATA[A dramatic double-light bespoke sconce featuring curved solid brass arched arms and twin frosted glass capsules mounted on a slotted escutcheon.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-27/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/dual-capsule-arched-brass-sconce.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -385,7 +385,7 @@
     <item>
       <g:id>lighting-item-28</g:id>
       <g:title><![CDATA[SOLID BRASS APPLIQUE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, architectural glow.]]></g:description>
+      <g:description><![CDATA[A handcrafted solid brass wall sconce featuring a textured finish that casts a warm, bespoke glow.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-28/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/lighting-hero.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -413,7 +413,7 @@
     <item>
       <g:id>lighting-item-30</g:id>
       <g:title><![CDATA[KINETIC BRASS PENDANT | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A minimalist architectural chandelier featuring slender balanced brass arms and radiating globe illumination.]]></g:description>
+      <g:description><![CDATA[A minimalist bespoke chandelier featuring slender balanced brass arms and radiating globe illumination.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-30/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/lighting-kinetic-pendant.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -426,8 +426,8 @@
     </item>
     <item>
       <g:id>lighting-item-31</g:id>
-      <g:title><![CDATA[ENGRAVED ARABESQUE LANTERN | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic arabesque motifs.]]></g:description>
+      <g:title><![CDATA[ENGRAVED GEOMETRIC FILIGREE LANTERN | Turath Egypt]]></g:title>
+      <g:description><![CDATA[A cylindrical pierced brass pendant meticulously hand-carved with traditional Islamic geometric and floral motifs.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/lighting-item-31/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/lighting/lighting-arabesque-lantern.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -469,7 +469,7 @@
     <item>
       <g:id>mirrors-item-1</g:id>
       <g:title><![CDATA[ISLAMIC STAR FILIGREE ROUND MIRROR | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and arabesque filigree.]]></g:description>
+      <g:description><![CDATA[A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and geometric and floral filigree.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/mirrors-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -497,7 +497,7 @@
     <item>
       <g:id>mirrors-item-3</g:id>
       <g:title><![CDATA[FACETED OCTAGONAL BRASS MIRROR | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.]]></g:description>
+      <g:description><![CDATA[An bespoke wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/mirrors-item-3/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/mirrors/faceted-octagonal-brass-mirror.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -553,7 +553,7 @@
     <item>
       <g:id>mirrors-item-7</g:id>
       <g:title><![CDATA[SCALLOPED BRASS INLAY MIRROR | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.]]></g:description>
+      <g:description><![CDATA[An bespoke tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/mirrors-item-7/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/mirrors/mirror-02.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -623,7 +623,7 @@
     <item>
       <g:id>mirrors-item-12</g:id>
       <g:title><![CDATA[RADIANT BRASS SUNBURST BRANCH MIRROR | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.]]></g:description>
+      <g:description><![CDATA[A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural bespoke energy.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/mirrors-item-12/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/mirrors/mirror-07.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -665,7 +665,7 @@
     <item>
       <g:id>tables-item-1</g:id>
       <g:title><![CDATA[STAGGERED BRASS PLATE CYLINDER TABLE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A sculptural drum side table featuring a clear glass top supported by an architectural cylinder of vertical brass rods and staggered patinated rectangular plates.]]></g:description>
+      <g:description><![CDATA[A sculptural drum side table featuring a clear glass top supported by an bespoke cylinder of vertical brass rods and staggered patinated rectangular plates.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/tables-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/tables/staggered-brass-plate-cylinder-table.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -679,7 +679,7 @@
     <item>
       <g:id>tables-item-2</g:id>
       <g:title><![CDATA[TIERED BRASS TUBULAR NESTING TABLES | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A refined pair of tiered accent drink tables with clear glass tops supported by slender brushed solid brass columns and architectural tiered cross stretchers.]]></g:description>
+      <g:description><![CDATA[A refined pair of tiered accent drink tables with clear glass tops supported by slender brushed solid brass columns and bespoke tiered cross stretchers.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/tables-item-2/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/tables/tiered-brass-tubular-nesting-tables.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -707,7 +707,7 @@
     <item>
       <g:id>tables-item-4</g:id>
       <g:title><![CDATA[GEOMETRIC BRASS X-BASE TUFTED BENCH | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A luxurious console bench combining a deeply tufted charcoal velvet cushion with an architectural geometric solid brass X-frame trestle base.]]></g:description>
+      <g:description><![CDATA[A luxurious console bench combining a deeply tufted charcoal velvet cushion with an bespoke geometric solid brass X-frame trestle base.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/tables-item-4/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/tables/geometric-brass-x-base-tufted-bench.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -777,7 +777,7 @@
     <item>
       <g:id>tables-item-9</g:id>
       <g:title><![CDATA[FLUTED COLUMN BRASS CONSOLE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Nero Marquina marble console anchored by architectural fluted brass uprights mounted to a solid polished plinth.]]></g:description>
+      <g:description><![CDATA[Nero Marquina marble console anchored by bespoke fluted brass uprights mounted to a solid polished plinth.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/tables-item-9/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/tables/table-05.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -805,7 +805,7 @@
     <item>
       <g:id>handles-item-2</g:id>
       <g:title><![CDATA[HAMMERED HONEYCOMB BRASS PULL | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A rectilinear architectural door pull in solid brass with beveled perimeter borders framing a densely hand-hammered honeycomb textural core.]]></g:description>
+      <g:description><![CDATA[A rectilinear bespoke door pull in solid brass with beveled perimeter borders framing a densely hand-hammered honeycomb textural core.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/handles-item-2/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/handles/hammered-honeycomb-brass-pull.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -819,7 +819,7 @@
     <item>
       <g:id>handles-item-3</g:id>
       <g:title><![CDATA[SCULPTURAL FLUID MAGMA BRASS PULL | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A monumental full-height architectural door pull hand-cast in solid brass, capturing liquid ripples and dynamic molten geological flows.]]></g:description>
+      <g:description><![CDATA[A monumental full-height bespoke door pull hand-cast in solid brass, capturing liquid ripples and dynamic molten geological flows.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/handles-item-3/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/handles/sculptural-fluid-magma-brass-pull.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -889,7 +889,7 @@
     <item>
       <g:id>handles-item-8</g:id>
       <g:title><![CDATA[SCULPTED TWIG VERTICAL PULL | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An elongated solid brass architectural pull with undulating organic contours and hand-finished bronze undertones.]]></g:description>
+      <g:description><![CDATA[An elongated solid brass bespoke pull with undulating organic contours and hand-finished bronze undertones.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/handles-item-8/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/handles/handle-03.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -917,7 +917,7 @@
     <item>
       <g:id>handrails-item-1</g:id>
       <g:title><![CDATA[BOTANICAL BRASS & MARBLE BALUSTRADE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural parapet featuring intricate pierced brass leaf screens framed by rich Italian rouge marble.]]></g:description>
+      <g:description><![CDATA[An bespoke parapet featuring intricate pierced brass leaf screens framed by rich Italian rouge marble.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/handrails-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/handrails/handrail-01.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -944,7 +944,7 @@
     </item>
     <item>
       <g:id>decor-item-1</g:id>
-      <g:title><![CDATA[HERITAGE ARABESQUE BRASS WALL CHARGER | Turath Egypt]]></g:title>
+      <g:title><![CDATA[HERITAGE GEOMETRIC FILIGREE BRASS WALL CHARGER | Turath Egypt]]></g:title>
       <g:description><![CDATA[A monumental wall-mounted circular charger hand-etched in solid brass, featuring intricate classical Islamic floral arabesques and radiating star medallions.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/decor-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/decor/royal-arabesque-brass-wall-charger.jpg</g:image_link>
@@ -1056,8 +1056,8 @@
     </item>
     <item>
       <g:id>decor-item-9</g:id>
-      <g:title><![CDATA[ARABESQUE BRASS WALL NICHE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural solid brass wall sculpture featuring flowing arabesque ribbon motifs and an integrated display ledge.]]></g:description>
+      <g:title><![CDATA[GEOMETRIC FILIGREE BRASS WALL NICHE | Turath Egypt]]></g:title>
+      <g:description><![CDATA[An bespoke solid brass wall sculpture featuring flowing geometric and floral ribbon motifs and an integrated display ledge.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/decor-item-9/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/decor/decor-04.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1127,7 +1127,7 @@
     <item>
       <g:id>wall-art-item-4</g:id>
       <g:title><![CDATA[OPENWORK LEAF BRASS PANEL | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A tall architectural brass screen featuring pierced organic leaf venation cast with delicate sculptural permeability.]]></g:description>
+      <g:description><![CDATA[A tall bespoke brass screen featuring pierced organic leaf venation cast with delicate sculptural permeability.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/wall-art-item-4/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/wall-art/wall-art-01.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1141,7 +1141,7 @@
     <item>
       <g:id>wall-art-item-5</g:id>
       <g:title><![CDATA[REPOUSSÉ BRASS MEDALLION PANEL | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An embossed solid brass architectural wall panel celebrating classical concentric rosettes and relief rope-twist borders.]]></g:description>
+      <g:description><![CDATA[An embossed solid brass bespoke wall panel celebrating classical concentric rosettes and relief rope-twist borders.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/wall-art-item-5/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/wall-art/wall-art-02.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1197,7 +1197,7 @@
     <item>
       <g:id>partitions-item-1</g:id>
       <g:title><![CDATA[AMBER SCALLOP ARCHITECTURAL BRASS SCREEN | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A tall architectural brass partition screen featuring an organic cascading pattern of artisan scalloped fish-scale panels in antique amber glass and solid brass framing.]]></g:description>
+      <g:description><![CDATA[A tall bespoke brass partition screen featuring an organic cascading pattern of artisan scalloped fish-scale panels in antique amber glass and solid brass framing.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/partitions-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/partitions/amber-scallop-architectural-brass-screen.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1211,7 +1211,7 @@
     <item>
       <g:id>partitions-item-2</g:id>
       <g:title><![CDATA[RHOMBUS GEOMETRIC BRASS BOOKCASE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A monumental architectural bookcase hand-welded from solid square brass tubing, featuring a bold central diamond focal structure with cantilevered open glass display shelving.]]></g:description>
+      <g:description><![CDATA[A monumental bespoke bookcase hand-welded from solid square brass tubing, featuring a bold central diamond focal structure with cantilevered open glass display shelving.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/partitions-item-2/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/partitions/rhombus-geometric-brass-bookcase.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1239,7 +1239,7 @@
     <item>
       <g:id>partitions-item-4</g:id>
       <g:title><![CDATA[GEOMETRIC BRASS ROOM DIVIDER | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A freestanding architectural screen crafted with angular brass rod compositions anchored to a sculptural triangular base.]]></g:description>
+      <g:description><![CDATA[A freestanding bespoke screen crafted with angular brass rod compositions anchored to a sculptural triangular base.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/partitions-item-4/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/partitions/partition-02.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1267,7 +1267,7 @@
     <item>
       <g:id>partitions-item-6</g:id>
       <g:title><![CDATA[RHYTHMIC SLAT BRASS PARTITION | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural spatial divider composed of staggered solid brass uprights creating dynamic shadow play and light filtration.]]></g:description>
+      <g:description><![CDATA[An bespoke spatial divider composed of staggered solid brass uprights creating dynamic shadow play and light filtration.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/partitions-item-6/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/partitions/partition-04.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1308,7 +1308,7 @@
     </item>
     <item>
       <g:id>tableware-item-2</g:id>
-      <g:title><![CDATA[ARABESQUE BRASS TEA SERVICE SET | Turath Egypt]]></g:title>
+      <g:title><![CDATA[GEOMETRIC FILIGREE BRASS TEA SERVICE SET | Turath Egypt]]></g:title>
       <g:description><![CDATA[An opulent Egyptian hospitality service featuring a hand-chased brass teapot pouring into filigree-sleeved glasses upon a circular etched brass tray.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/tableware-item-2/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/tableware/royal-arabesque-brass-tea-service-set.jpg</g:image_link>
@@ -1351,7 +1351,7 @@
     <item>
       <g:id>tableware-item-5</g:id>
       <g:title><![CDATA[GEOMETRIC BRASS GRILL BRAZIER | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved arabesque side panels.]]></g:description>
+      <g:description><![CDATA[Artisan brass tabletop brazier with a heavy-gauge stainless grill and hand-engraved geometric and floral side panels.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/tableware-item-5/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/tableware/tableware-02.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1378,8 +1378,8 @@
     </item>
     <item>
       <g:id>tableware-item-7</g:id>
-      <g:title><![CDATA[ARABESQUE BRASS FOOD WARMER | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A rectangular low-profile brass serving brazier showcasing openwork pierced arabesque motifs.]]></g:description>
+      <g:title><![CDATA[GEOMETRIC FILIGREE BRASS FOOD WARMER | Turath Egypt]]></g:title>
+      <g:description><![CDATA[A rectangular low-profile brass serving brazier showcasing openwork pierced geometric and floral motifs.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/tableware-item-7/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/tableware/tableware-04.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1407,7 +1407,7 @@
     <item>
       <g:id>masterpieces-item-1</g:id>
       <g:title><![CDATA[SCULPTURAL CAST BRASS BRANCH CONSOLE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A signature architectural console table featuring organic cast solid brass branch structure supporting a hand-honed black marble slab.]]></g:description>
+      <g:description><![CDATA[A signature bespoke console table featuring organic cast solid brass branch structure supporting a hand-honed black marble slab.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/masterpieces-item-1/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/masterpieces/sculptural-brass-branch-console.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1449,7 +1449,7 @@
     <item>
       <g:id>masterpieces-item-4</g:id>
       <g:title><![CDATA[RADIANT BRASS SUNBURST BRANCH MIRROR | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.]]></g:description>
+      <g:description><![CDATA[A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural bespoke energy.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/masterpieces-item-4/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/masterpieces/radiant-brass-sunburst-mirror.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1477,7 +1477,7 @@
     <item>
       <g:id>masterpieces-item-6</g:id>
       <g:title><![CDATA[PAIR CAST BRASS BRANCH PULLS | Turath Egypt]]></g:title>
-      <g:description><![CDATA[A magnificent pair of monumental architectural door handles cast in solid brass, echoing natural organic tree branches.]]></g:description>
+      <g:description><![CDATA[A magnificent pair of monumental bespoke door handles cast in solid brass, echoing natural organic tree branches.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/masterpieces-item-6/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/masterpieces/pair-cast-brass-branch-handles.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1491,7 +1491,7 @@
     <item>
       <g:id>masterpieces-item-7</g:id>
       <g:title><![CDATA[HAMMERED BRASS CYLINDER APPLIQUE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural wall sconce hand-hammered from solid brass sheet with overlapping curve geometry, diffusing a warm golden ambiance.]]></g:description>
+      <g:description><![CDATA[An bespoke wall sconce hand-hammered from solid brass sheet with overlapping curve geometry, diffusing a warm golden ambiance.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/masterpieces-item-7/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/masterpieces/hammered-brass-curved-applique.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1519,7 +1519,7 @@
     <item>
       <g:id>masterpieces-item-9</g:id>
       <g:title><![CDATA[SCULPTURAL CAST BRASS BRANCH HANDLE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[An architectural statement door pull hand-cast in solid brass with natural tree branch contours and hand-finished warm patina.]]></g:description>
+      <g:description><![CDATA[An bespoke statement door pull hand-cast in solid brass with natural tree branch contours and hand-finished warm patina.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/masterpieces-item-9/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/masterpieces/sculptural-brass-branch-handle.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1547,7 +1547,7 @@
     <item>
       <g:id>action-item-2</g:id>
       <g:title><![CDATA[THE ART OF REPOUSSÉ & HAND-CHISELING | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Master artisans sculpting intricate floral and arabesque motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.]]></g:description>
+      <g:description><![CDATA[Master artisans sculpting intricate floral and geometric and floral motifs directly into heavy-gauge solid brass sheets using tempered steel chisels in the historic alleys of Cairo.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-2/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-2.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1575,7 +1575,7 @@
     <item>
       <g:id>action-item-4</g:id>
       <g:title><![CDATA[PRECISION PIERCING & ARCHITECTURAL LATTICEWORK | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Intricate geometric perforations and architectural fretwork pierced meticulously by hand with jeweler saws, casting ethereal arabesque shadow and light projections.]]></g:description>
+      <g:description><![CDATA[Intricate geometric perforations and bespoke fretwork pierced meticulously by hand with jeweler saws, casting ethereal geometric and floral shadow and light projections.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-4/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-4.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1617,7 +1617,7 @@
     <item>
       <g:id>action-item-7</g:id>
       <g:title><![CDATA[ARCHITECTURAL BRASS HANDRAIL & BALUSTRADE | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Precision architectural brass balusters and handrail installation designed with mirror-polished brass geometric joints for luxury residential villas.]]></g:description>
+      <g:description><![CDATA[Precision bespoke brass balusters and handrail installation designed with mirror-polished brass geometric joints for luxury residential villas.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-7/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-7.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1631,7 +1631,7 @@
     <item>
       <g:id>action-item-8</g:id>
       <g:title><![CDATA[GRAND CHANDELIER STRUCTURAL ASSEMBLY | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged architectural lighting installations engineered for luxury palaces and grand ballrooms.]]></g:description>
+      <g:description><![CDATA[Full-scale workshop assembly, structural joinery, and balancing of monumental hand-forged bespoke lighting installations engineered for luxury palaces and grand ballrooms.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-8/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-8.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>
@@ -1645,7 +1645,7 @@
     <item>
       <g:id>action-item-9</g:id>
       <g:title><![CDATA[HISTORIC CALLIGRAPHY BRASS LANTERN | Turath Egypt]]></g:title>
-      <g:description><![CDATA[Intricately pierced Islamic Thuluth calligraphy and arabesque fretwork on a traditional handcrafted brass lantern casting ethereal shadow patterns.]]></g:description>
+      <g:description><![CDATA[Intricately pierced Islamic Thuluth calligraphy and geometric and floral fretwork on a traditional handcrafted brass lantern casting ethereal shadow patterns.]]></g:description>
       <g:link>https://turath-egypt.vercel.app/products/action-item-9/</g:link>
       <g:image_link>https://turath-egypt.vercel.app/assets/images/action-poster-9.jpg</g:image_link>
       <g:brand>Turath Egypt</g:brand>

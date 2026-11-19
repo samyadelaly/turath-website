@@ -65,7 +65,7 @@ const CATEGORIES = [
     file: 'mirrors.html',
     title: 'Solid Brass Mirrors',
     titleAr: 'مرايا نحاس أصفر فاخرة',
-    defaultKeywords: 'مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث, Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث, Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'tables',
@@ -77,9 +77,9 @@ const CATEGORIES = [
   {
     slug: 'handles',
     file: 'handles.html',
-    title: 'Architectural Handles',
+    title: 'Bespoke Brass Handles',
     titleAr: 'مقابض أبواب نحاسية فاخرة',
-    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات فاخرة، نحاس مصمت، تراث, Turath, Door Pulls, Brass Handles, Architectural Hardware, Sand Casting, Luxury Villas, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'مقابض أبواب، مقابض نحاس، سبك نحاس، إكسسوارات فاخرة، نحاس خالص، تراث, Turath, Door Pulls, Brass Handles, Luxury Hardware, Sand Casting, Luxury Villas, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'handrails',
@@ -93,7 +93,7 @@ const CATEGORIES = [
     file: 'decor.html',
     title: 'Decorative Objects',
     titleAr: 'تحف وصواني ديكور نحاسية',
-    defaultKeywords: 'أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث, Turath, Wall Charger, Brass Plate, Arabesque Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'أطباق نحاس، صواني معلقة، تحف نحاسية، حفر على النحاس، فنون إسلامية، خان الخليلي، تراث, Turath, Wall Charger, Brass Plate, Geometric & Floral Relief, Islamic Antiques, Egyptian Artisans, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'wall-art',
@@ -107,7 +107,7 @@ const CATEGORIES = [
     file: 'partitions.html',
     title: 'Partitions & Screens',
     titleAr: 'قواطع وفواصل ديكور نحاسية',
-    defaultKeywords: 'قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث, Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Architectural Metal, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
+    defaultKeywords: 'قواطع نحاسية، بارتشن، مشربية، زجاج عنبري، فواصل ديكور، تراث, Turath, Brass Partitions, Screens, Mashrabiya, Amber Glass, Space Dividers, Bespoke Metal, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
   {
     slug: 'tableware',
@@ -119,7 +119,7 @@ const CATEGORIES = [
   {
     slug: 'masterpieces',
     file: 'masterpieces.html',
-    title: 'Architectural Masterpieces',
+    title: 'Signature Masterpieces',
     titleAr: 'روائع نحاسية فنية نادرة',
     defaultKeywords: 'تحف نحاسية، أعمال فنية نادرة، كونسول نحاس منحوت، سبك نحاس عضوي، ورشة تراث, Turath, Masterpieces, Sculptural Brass, Luxury Atelier, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي'
   },
@@ -359,7 +359,7 @@ for (const cat of CATEGORIES) {
     <div class="sr-only">
       <h1>${escapeHtml(item.title)} — ${escapeHtml(item.titleAr)}</h1>
       <p>${escapeHtml(bilingualDesc)}</p>
-      <p>Material: Solid Brass & Copper. Atelier: Historic Cairo, Egypt. Custom bespoke architectural fabrication.</p>
+      <p>Material: Solid Brass & Copper. Atelier: Historic Cairo, Egypt. Custom bespoke bespoke fabrication.</p>
       <nav aria-label="Product Navigation">
         <a href="/products/${prevItem.id}/">Previous: ${escapeHtml(prevItem.title)}</a>
         <a href="/products/${nextItem.id}/">Next: ${escapeHtml(nextItem.title)}</a>
@@ -442,16 +442,16 @@ const masterCatalogHtml = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
-  <title>Complete Architectural Catalog | فهرس تحف ومنتجات النحاس | TURATH — Bespoke Solid Brass &amp; Copper</title>
-  <meta name="description" content="Explore the complete bespoke collection of handcrafted solid brass &amp; copper chandeliers, mirrors, consoles, handrails, partitions, and architectural decor by Turath Egypt. — الدليل الكامل لمنتجات ورشة تراث مصر لتصنيع النحاس الأصفر والأحمر بالجمالية.">
+  <title>Complete Bespoke Catalog | فهرس تحف ومنتجات النحاس | TURATH — Bespoke Solid Brass &amp; Copper</title>
+  <meta name="description" content="Explore the complete bespoke collection of handcrafted solid brass &amp; copper chandeliers, mirrors, consoles, handrails, partitions, and bespoke decor by Turath Egypt. — الدليل الكامل لمنتجات ورشة تراث مصر لتصنيع النحاس الأصفر والأحمر بالجمالية.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="${BASE_URL}/products/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="${BASE_URL}/products/">
-  <meta property="og:title" content="Complete Architectural Catalog | TURATH — Bespoke Solid Brass &amp; Copper">
-  <meta property="og:description" content="Handcrafted solid brass &amp; copper lighting, mirrors, furniture, and architectural cladding crafted in Historic Cairo.">
+  <meta property="og:title" content="Complete Bespoke Catalog | TURATH — Bespoke Solid Brass &amp; Copper">
+  <meta property="og:description" content="Handcrafted solid brass &amp; copper lighting, mirrors, furniture, and bespoke cladding crafted in Historic Cairo.">
   <meta property="og:image" content="${BASE_URL}/turath-brand-logo.jpg">
 
   <!-- Favicon & Icons -->
@@ -473,7 +473,7 @@ const masterCatalogHtml = `<!DOCTYPE html>
     "@type": "CollectionPage",
     "name": "Turath Complete Bespoke Metalwork Catalog",
     "url": "${BASE_URL}/products/",
-    "description": "Complete catalog of 118+ handcrafted solid brass and copper architectural lighting, furniture, mirrors, and decor.",
+    "description": "Complete catalog of 118+ handcrafted solid brass and copper bespoke lighting, furniture, mirrors, and decor.",
     "publisher": {
       "@type": "Organization",
       "logo": "${BASE_URL}/turath-brand-logo.jpg",
@@ -508,13 +508,13 @@ const masterCatalogHtml = `<!DOCTYPE html>
       <p class="text-xs md:text-sm font-semibold tracking-[0.3em] uppercase text-[#D7C797] mb-3">HISTORIC CAIRO ATELIER</p>
       <h1 class="text-3xl md:text-5xl font-bold tracking-wider uppercase text-white mb-6">Complete Product Catalog</h1>
       <p class="text-white/70 text-sm md:text-base leading-relaxed">
-        Browse our comprehensive portfolio of 118+ bespoke solid brass and copper architectural fixtures, handcrafted lanterns, sculptural mirrors, partitions, and museum-grade masterworks.
+        Browse our comprehensive portfolio of 118+ bespoke solid brass and copper bespoke fixtures, handcrafted lanterns, sculptural mirrors, partitions, and museum-grade masterworks.
       </p>
     </div>
 
     <!-- Category Direct Links -->
     <section class="mb-16">
-      <h2 class="text-sm font-semibold tracking-[0.25em] uppercase text-white/50 mb-6 text-center">Architectural Collections</h2>
+      <h2 class="text-sm font-semibold tracking-[0.25em] uppercase text-white/50 mb-6 text-center">Bespoke Collections</h2>
       <div class="flex flex-wrap justify-center gap-3">
         ${CATEGORIES.map(c => `
           <a href="/${c.file}" class="px-5 py-2.5 rounded-full border border-white/15 bg-white/[0.02] hover:border-[#D7C797] hover:text-[#D7C797] text-xs md:text-sm font-medium tracking-wider transition-all">
@@ -544,7 +544,7 @@ const masterCatalogHtml = `<!DOCTYPE html>
   </main>
 
   <footer class="border-t border-white/10 py-8 px-6 text-center text-xs text-white/40 tracking-wider">
-    &copy; ${new Date().getFullYear()} TURATH EGYPT — Bespoke Solid Brass &amp; Copper Architectural Metalwork. All rights reserved.
+    &copy; ${new Date().getFullYear()} TURATH EGYPT — Bespoke Solid Brass &amp; Copper Bespoke Metalwork. All rights reserved.
   </footer>
 </body>
 </html>

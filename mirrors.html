@@ -66,8 +66,8 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="googlebot" content="index, follow">
   <title>Solid Brass Mirrors | مرايا نحاس أصفر عالي النقاء | TURATH — Bespoke Solid Brass & Copper</title>
-  <meta name="description" content="Handcrafted solid brass framed and etched wall mirrors, arabesque filigree designs forged in Historic Cairo. — مرايا ومرايات مداخل نحاس أصفر محفور ومفرغ يدوي بتصميمات إسلامية وعصرية.">
-  <meta name="keywords" content="مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي">
+  <meta name="description" content="Handcrafted solid brass framed and etched wall mirrors, geometric and floral filigree designs forged in Historic Cairo. — مرايا ومرايات مداخل نحاس أصفر محفور ومفرغ يدوي بتصميمات إسلامية وعصرية.">
+  <meta name="keywords" content="مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي">
 
     <!-- Favicon & Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -85,7 +85,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://turath-egypt.vercel.app/mirrors.html">
   <meta property="og:title" content="Solid Brass Mirrors | مرايا نحاس أصفر عالي النقاء | TURATH — Bespoke Solid Brass & Copper">
-  <meta property="og:description" content="Handcrafted solid brass framed and etched wall mirrors, arabesque filigree designs forged in Historic Cairo. — مرايا ومرايات مداخل نحاس أصفر محفور ومفرغ يدوي بتصميمات إسلامية وعصرية.">
+  <meta property="og:description" content="Handcrafted solid brass framed and etched wall mirrors, geometric and floral filigree designs forged in Historic Cairo. — مرايا ومرايات مداخل نحاس أصفر محفور ومفرغ يدوي بتصميمات إسلامية وعصرية.">
   <meta property="og:image" content="/assets/images/mirrors/mirror-01.jpg">
 
   <!-- Google Fonts -->
@@ -263,17 +263,17 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Architectural Mirrors",
+          "name": "Bespoke Mirrors",
           "item": "https://turath-egypt.vercel.app/mirrors.html"
         }
       ]
     },
     {
       "@type": "CollectionPage",
-      "name": "Architectural Mirrors | مرايات نحاسية فاخرة | TURATH",
+      "name": "Bespoke Mirrors | مرايات نحاسية فاخرة | TURATH",
       "description": "Luxury handcrafted solid brass and copper framed mirrors, featuring fluted profiles, acid-etched patinas, and monumental custom dimensions.",
       "url": "https://turath-egypt.vercel.app/mirrors.html",
-      "keywords": "solid brass, architectural metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
+      "keywords": "solid brass, bespoke metalwork, unlacquered brass, antique brass finish, Egypt, GCC, US, UK, نحاس أصفر, نحاس أحمر, ورشة تصنيع نحاس",
       "publisher": {
         "@type": "Organization",
           "logo": "https://turath-egypt.vercel.app/turath-brand-logo.jpg",
@@ -312,7 +312,7 @@
       },
       "mainEntity": {
         "@type": "ItemList",
-        "name": "Architectural Mirrors Collection",
+        "name": "Bespoke Mirrors Collection",
         "numberOfItems": 14,
         "itemListElement": [
           {
@@ -437,6 +437,35 @@
     ]
   }
   </script>
+
+  <style id="turath-preloader-css">
+    #preloader, #luxury-preloader, .preloader {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 99999 !important;
+      pointer-events: none !important;
+      background: transparent !important;
+      transition: opacity 0.35s ease, visibility 0.35s ease !important;
+    }
+    #preloader.opacity-0,
+    #preloader.preloader-hidden,
+    #preloader[data-dismissed="true"],
+    #preloader[data-auto-dismissed="true"],
+    #luxury-preloader.opacity-0,
+    #luxury-preloader.preloader-hidden,
+    #luxury-preloader[data-dismissed="true"],
+    #luxury-preloader[data-auto-dismissed="true"] {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      display: none !important;
+    }
+  </style>
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
   <!-- Meta Pixel noscript fallback -->
@@ -447,35 +476,39 @@
     <svg width="100%" height="100%" class="w-full h-full">
       <defs>
         <mask id="knockout-text">
-          <!-- White background means solid, black text means transparent hole -->
           <rect width="100%" height="100%" fill="white" />
-          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="300" fill="black" letter-spacing="0.1em" font-family="sans-serif" class="knockout-animate">TURATH</text>
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="600" fill="black" letter-spacing="0.1em" font-family="'Cinzel', sans-serif" class="knockout-animate">TURATH</text>
         </mask>
       </defs>
       <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
     </svg>
   </div>
-  <script>
-  (function(){
-    var p = document.getElementById('preloader') || document.querySelector('.preloader');
-    if (!p) return;
-    function d(){
-      if (p.dataset.autoDismissed === 'true') return;
-      p.dataset.autoDismissed = 'true';
-      p.style.transition = 'opacity 0.4s ease, visibility 0.4s ease';
-      p.style.opacity = '0';
-      p.style.pointerEvents = 'none';
-      setTimeout(function(){ p.style.display = 'none'; p.style.visibility = 'hidden'; }, 400);
-    }
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      setTimeout(d, 300);
-    } else {
-      document.addEventListener('DOMContentLoaded', function(){ setTimeout(d, 300); }, { once: true });
-      window.addEventListener('load', function(){ setTimeout(d, 100); }, { once: true });
-      setTimeout(d, 450);
-    }
-  })();
-</script>
+  
+  <script id="turath-preloader-dismissal">
+    (function(){
+      var p = document.getElementById('preloader') || document.querySelector('.preloader') || document.getElementById('luxury-preloader');
+      if (!p) return;
+      function dismissPreloader(){
+        if (p.dataset.dismissed === 'true') return;
+        p.dataset.dismissed = 'true';
+        p.dataset.autoDismissed = 'true';
+        p.classList.add('opacity-0', 'preloader-hidden');
+        p.style.setProperty('opacity', '0', 'important');
+        p.style.setProperty('pointer-events', 'none', 'important');
+        setTimeout(function(){
+          p.style.setProperty('display', 'none', 'important');
+          p.style.setProperty('visibility', 'hidden', 'important');
+        }, 350);
+      }
+      if (document.readyState === 'complete') {
+        setTimeout(dismissPreloader, 250);
+      } else {
+        window.addEventListener('load', function(){ setTimeout(dismissPreloader, 200); }, { once: true });
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(dismissPreloader, 300); }, { once: true });
+        setTimeout(dismissPreloader, 400);
+      }
+    })();
+  </script>
 
   <main class="min-h-screen bg-[#050505] text-white overflow-hidden">
     <div class="relative w-full h-[100dvh] md:h-[90vh] md:aspect-[9/16] md:mx-auto bg-black lg:h-[100dvh] lg:w-full lg:max-w-none lg:aspect-auto lg:rounded-none lg:shadow-none lg:my-0 lg:overflow-hidden">
@@ -488,6 +521,7 @@
         </div>
         <span class="justify-self-center page-title-turath text-center whitespace-nowrap text-xs md:text-sm font-light tracking-[0.2em] sm:tracking-[0.3em] uppercase text-white/90">BRASS MIRRORS</span>
         <div class="justify-self-end flex items-center gap-3" style="justify-self: end; display: flex; align-items: center; gap: 0.75rem;">
+        <a id="lang-toggle-btn" href="/mirrors-ar.html" class="lang-toggle-btn text-[#D7C797] border border-[#D7C797]/40 px-2 py-0.5 rounded text-xs font-bold hover:bg-[#D7C797]/20 transition-all cursor-pointer pointer-events-auto" aria-label="النسخة العربية" title="النسخة العربية">ع</a>
         <a id="product-wa-btn" href="https://wa.me/201016771010" target="_blank" rel="noopener noreferrer" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;" class="w-6 h-6 icon-turath text-[#D7C797]/85 hover:text-[#D7C797] transition-colors cursor-pointer pointer-events-auto flex items-center justify-center shrink-0" aria-label="Inquire on WhatsApp" title="Inquire on WhatsApp">
           <svg width="20" height="20" style="width: 20px; height: 20px; max-width: 20px; max-height: 20px; display: block;" class="w-5 h-5 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
         </a>
@@ -519,7 +553,7 @@
       <!-- Bottom Overlay: AI Description & Dashes -->
       <div class="absolute bottom-0 left-0 w-full p-6 pb-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-50 flex flex-col items-center gap-6">
         <p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-lg font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">
-          A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and arabesque filigree.
+          A monumental circular wall mirror encircled by a wide, hand-pierced solid brass frame adorned with interlaced Islamic star patterns and geometric and floral filigree.
         </p>
         <div id="dashes-container" class="flex justify-center items-center gap-1.5 sm:gap-2 w-full max-w-sm sm:max-w-md px-4 overflow-hidden"></div>
       </div>
@@ -549,13 +583,13 @@
       <li><a href="/lighting.html">Lighting Collection (وحدات إضاءة وثريات نحاسية فاخرة)</a></li>
       <li><a href="/mirrors.html">Solid Brass Mirrors (مرايا نحاس أصفر عالي النقاء)</a></li>
       <li><a href="/tables.html">Tables & Consoles (طاولات وكونسول نحاسي فاخر)</a></li>
-      <li><a href="/handles.html">Architectural Handles (مقابض أبواب نحاسية فاخرة)</a></li>
+      <li><a href="/handles.html">Bespoke Handles (مقابض أبواب نحاسية فاخرة)</a></li>
       <li><a href="/handrails.html">Custom Handrails (درابزين وهندريل نحاس مخصص)</a></li>
       <li><a href="/decor.html">Decorative Objects (تحف وصواني ديكور نحاسية)</a></li>
       <li><a href="/wall-art.html">Brass & Copper Wall Art (لوحات جدارية نحاس)</a></li>
       <li><a href="/partitions.html">Partitions & Screens (قواطع وفواصل نحاسية)</a></li>
       <li><a href="/tableware.html">Luxury Tableware (أدوات مائدة وأواني ضيافة نحاسية)</a></li>
-      <li><a href="/masterpieces.html">Architectural Masterpieces (روائع نحاسية نادرة)</a></li>
+      <li><a href="/masterpieces.html">Bespoke Masterpieces (روائع نحاسية نادرة)</a></li>
       <li><a href="/action.html">Turath in Action (حرفية النحاس في الورش التاريخية)</a></li>
     </ul>
   </nav>
@@ -678,18 +712,26 @@
       dashesContainer.appendChild(dash);
         });
     
-        function syncSlide(idx) {
-      if (!masterpiecesData[idx]) return;
-      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-      const currentItem = masterpiecesData[idx];
-      const targetSrc = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : currentItem.src;
-      if (sourceDesktopEl) {
+        
+    function syncSlide(idx) {
+      var data = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
+      if (!data || !data[idx]) return;
+      var currentItem = data[idx];
+      var isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+      var targetSrc = (isDesktop && currentItem.desktopSrc) ? currentItem.desktopSrc : (currentItem.src || currentItem.video);
+      if (sourceDesktopEl && currentItem.desktopSrc) {
         sourceDesktopEl.srcset = targetSrc;
       }
-      imgEl.src = targetSrc;
-      imgEl.alt = currentItem.title;
-      titleEl.innerText = currentItem.title;
-      descEl.innerText = currentItem.desc;
+      if (imgEl) {
+        imgEl.src = targetSrc;
+        imgEl.alt = currentItem.titleEn || currentItem.title;
+      }
+      if (titleEl) {
+        titleEl.innerText = currentItem.titleEn || currentItem.title;
+      }
+      if (descEl) {
+        descEl.innerText = currentItem.descEn || currentItem.descriptionEn || currentItem.desc || currentItem.description;
+      }
     }
 
     if (currentIndex >= 0 && sliderData[currentIndex]) {
@@ -707,11 +749,11 @@
         var __nextItem = __catalogArr[__nextIdx];
         if (prevBtn && __prevItem) {
           prevBtn.href = '/products/' + __prevItem.id + '/';
-          prevBtn.setAttribute('aria-label', 'Previous item: ' + __prevItem.title);
+          prevBtn.setAttribute('aria-label', 'Previous item: ' + (__prevItem.titleEn || __prevItem.title));
         }
         if (nextBtn && __nextItem) {
           nextBtn.href = '/products/' + __nextItem.id + '/';
-          nextBtn.setAttribute('aria-label', 'Next item: ' + __nextItem.title);
+          nextBtn.setAttribute('aria-label', 'Next item: ' + (__nextItem.titleEn || __nextItem.title));
         }
       }
   
@@ -979,7 +1021,7 @@
   </script>
   <script>
     // Enrich slider items with metadata from catalog for instant reactive SEO
-    var __turathCatalog = [{"id":"mirrors-item-1","title":"EGYPTIAN STAR FILIGREE ROUND MIRROR","titleAr":"مرآة دائرية بنقوش النجوم الإسلامية المخرمة","description":"A circular wall mirror encircled by a wide, hand-pierced brass frame adorned with interlaced Egyptian star patterns and filigree.","descriptionAr":"مرآة جدارية دائرية ضخمة محاطة بإطار عريض من النحاس الأصفر الخالص المفرغ يدويًا بزخارف النجوم الإسلامية المعقدة وفنون الزخارف الهندسية الإسلامية الأصيلة.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-2","title":"ORGANIC FLUID BRASS MIRROR","titleAr":"ORGANIC FLUID BRASS MIRROR","description":"A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed brass contour frame.","descriptionAr":"A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/organic-fluid-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-3","title":"FACETED OCTAGONAL BRASS MIRROR","titleAr":"FACETED OCTAGONAL BRASS MIRROR","description":"A wall mirror set within a substantial, hand-finished brass frame featuring bold chamfered bevels and clean mitered geometry.","descriptionAr":"An architectural wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/faceted-octagonal-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-4","title":"BOTANICAL TREE BRANCH BRASS MIRROR","titleAr":"BOTANICAL LAUREL BRANCH BRASS MIRROR","description":"A circular decorative wall mirror embraced by a sculptural, hand-forged brass tree branch with delicate hand-carved leaves blossoming along the rim.","descriptionAr":"A circular decorative wall mirror embraced by a sculptural, hand-forged solid brass laurel vine with delicate hand-carved leaves blossoming along the rim.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/botanical-laurel-branch-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-5","title":"HAND-ENGRAVED BRASS MIRROR GALLERY SET","titleAr":"MANDALA BRASS MIRROR GALLERY COLLECTION","description":"A curated salon ensemble of seven hand-engraved circular brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.","descriptionAr":"A curated salon ensemble of seven hand-engraved circular solid brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mandala-brass-mirror-gallery-collection.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-6","title":"EGYPTIAN STAR GEOMETRIC BRASS MIRROR","titleAr":"ISLAMIC STAR GEOMETRIC BRASS MIRROR","description":"A circular mirror encompassed by an intricate hand-cut brass border featuring traditional eight-point star geometric fretwork.","descriptionAr":"A circular mirror encompassed by an intricate hand-cut solid brass border featuring Islamic eight-point star geometric fretwork.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-01.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-7","title":"SCALLOPED BRASS INLAY MIRROR","titleAr":"SCALLOPED BRASS INLAY MIRROR","description":"A tall statement mirror framed in brass with handcrafted artisan fish-scale brass inlays and aged patina.","descriptionAr":"An architectural tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-02.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-8","title":"TUBULAR OVAL BRASS MIRROR","titleAr":"TUBULAR OVAL BRASS MIRROR","description":"An oval pill-shaped mirror encased in concentric brass tubular bands with a hand-brushed satin luster.","descriptionAr":"A pill-shaped mirror encased in concentric solid brass tubular bands with a hand-brushed satin luster.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-03.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-9","title":"PIERCED GEOMETRIC BRASS MIRROR","titleAr":"PIERCED GEOMETRIC BRASS MIRROR","description":"A square wall mirror enveloped by hand-pierced brass geometric latticework reflecting authentic Egyptian metalcraft.","descriptionAr":"A square wall mirror enveloped by hand-pierced solid brass geometric latticework reflecting authentic Egyptian metalcraft.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-04.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-10","title":"SCULPTED BRASS PALM LEAF MIRROR","titleAr":"SCULPTED BRASS LEAF MIRROR","description":"An organic silhouette mirror adorned with a hand-cast and chased brass botanical palm leaf relief.","descriptionAr":"An organic silhouette mirror adorned with a hand-cast and chased solid brass botanical palm leaf relief.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-05.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-11","title":"ORGANIC CAST BRASS BRANCH MIRROR","titleAr":"ORGANIC CAST BRASS BRANCH MIRROR","description":"A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished brass.","descriptionAr":"A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished solid brass.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-06.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-12","title":"RADIANT BRASS SUNBURST BRANCH MIRROR","titleAr":"RADIANT BRASS SUNBURST BRANCH MIRROR","description":"A statement sunburst wall mirror featuring hand-forged brass branches radiating outward with dynamic energy.","descriptionAr":"A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural architectural energy.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-07.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-13","title":"FILIGREE BRASS FLORAL SCROLLWORK MIRROR","titleAr":"FILIGREE BRASS SCROLLWORK MIRROR","description":"An artisanal round mirror surrounded by layered brass petals embellished with delicate hand-spun wire filigree scrollwork.","descriptionAr":"An artisanal round mirror surrounded by layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-08.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-14","title":"TEXTURED BRASS STUDDED MIRROR","titleAr":"TEXTURED BRASS STUDDED HALO MIRROR","description":"A circular convex mirror framed by a multi-tiered constellation of hand-hammered brass nailheads and tactile pins.","descriptionAr":"A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Architectural Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-09.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"}];
+    var __turathCatalog = [{"id":"mirrors-item-1","title":"EGYPTIAN STAR FILIGREE ROUND MIRROR","titleAr":"مرآة دائرية بنقوش النجوم الإسلامية المخرمة","description":"A circular wall mirror encircled by a wide, hand-pierced brass frame adorned with interlaced Egyptian star patterns and filigree.","descriptionAr":"مرآة جدارية دائرية ضخمة محاطة بإطار عريض من النحاس الأصفر الخالص المفرغ يدويًا بزخارف النجوم الإسلامية المعقدة وفنون الزخارف الهندسية الإسلامية الأصيلة.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/islamic-star-filigree-round-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-2","title":"ORGANIC FLUID BRASS MIRROR","titleAr":"ORGANIC FLUID BRASS MIRROR","description":"A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed brass contour frame.","descriptionAr":"A contemporary statement mirror sculpted in an organic, asymmetrical fluid silhouette with a minimalist brushed solid brass contour bezel.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/organic-fluid-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-3","title":"FACETED OCTAGONAL BRASS MIRROR","titleAr":"FACETED OCTAGONAL BRASS MIRROR","description":"A wall mirror set within a substantial, hand-finished brass frame featuring bold chamfered bevels and clean mitered geometry.","descriptionAr":"An bespoke wall mirror set within a substantial, hand-finished solid brass frame featuring bold chamfered bevels and clean mitered geometry.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/faceted-octagonal-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-4","title":"BOTANICAL TREE BRANCH BRASS MIRROR","titleAr":"BOTANICAL LAUREL BRANCH BRASS MIRROR","description":"A circular decorative wall mirror embraced by a sculptural, hand-forged brass tree branch with delicate hand-carved leaves blossoming along the rim.","descriptionAr":"A circular decorative wall mirror embraced by a sculptural, hand-forged solid brass laurel vine with delicate hand-carved leaves blossoming along the rim.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/botanical-laurel-branch-brass-mirror.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-5","title":"HAND-ENGRAVED BRASS MIRROR GALLERY SET","titleAr":"MANDALA BRASS MIRROR GALLERY COLLECTION","description":"A curated salon ensemble of seven hand-engraved circular brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.","descriptionAr":"A curated salon ensemble of seven hand-engraved circular solid brass mirrors, each showcasing distinct geometric mandalas and classical filigree motifs.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mandala-brass-mirror-gallery-collection.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-6","title":"EGYPTIAN STAR GEOMETRIC BRASS MIRROR","titleAr":"ISLAMIC STAR GEOMETRIC BRASS MIRROR","description":"A circular mirror encompassed by an intricate hand-cut brass border featuring traditional eight-point star geometric fretwork.","descriptionAr":"A circular mirror encompassed by an intricate hand-cut solid brass border featuring Islamic eight-point star geometric fretwork.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-01.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-7","title":"SCALLOPED BRASS INLAY MIRROR","titleAr":"SCALLOPED BRASS INLAY MIRROR","description":"A tall statement mirror framed in brass with handcrafted artisan fish-scale brass inlays and aged patina.","descriptionAr":"An bespoke tall mirror framed in solid brass with handcrafted artisan fish-scale brass inlays and aged patina.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-02.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-8","title":"TUBULAR OVAL BRASS MIRROR","titleAr":"TUBULAR OVAL BRASS MIRROR","description":"An oval pill-shaped mirror encased in concentric brass tubular bands with a hand-brushed satin luster.","descriptionAr":"A pill-shaped mirror encased in concentric solid brass tubular bands with a hand-brushed satin luster.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-03.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-9","title":"PIERCED GEOMETRIC BRASS MIRROR","titleAr":"PIERCED GEOMETRIC BRASS MIRROR","description":"A square wall mirror enveloped by hand-pierced brass geometric latticework reflecting authentic Egyptian metalcraft.","descriptionAr":"A square wall mirror enveloped by hand-pierced solid brass geometric latticework reflecting authentic Egyptian metalcraft.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-04.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-10","title":"SCULPTED BRASS PALM LEAF MIRROR","titleAr":"SCULPTED BRASS LEAF MIRROR","description":"An organic silhouette mirror adorned with a hand-cast and chased brass botanical palm leaf relief.","descriptionAr":"An organic silhouette mirror adorned with a hand-cast and chased solid brass botanical palm leaf relief.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-05.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-11","title":"ORGANIC CAST BRASS BRANCH MIRROR","titleAr":"ORGANIC CAST BRASS BRANCH MIRROR","description":"A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished brass.","descriptionAr":"A sculptural circular mirror enveloped by hand-chiseled organic branch web motifs in polished solid brass.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-06.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-12","title":"RADIANT BRASS SUNBURST BRANCH MIRROR","titleAr":"RADIANT BRASS SUNBURST BRANCH MIRROR","description":"A statement sunburst wall mirror featuring hand-forged brass branches radiating outward with dynamic energy.","descriptionAr":"A statement sunburst wall mirror featuring hand-forged solid brass branches radiating with sculptural bespoke energy.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-07.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-13","title":"FILIGREE BRASS FLORAL SCROLLWORK MIRROR","titleAr":"FILIGREE BRASS SCROLLWORK MIRROR","description":"An artisanal round mirror surrounded by layered brass petals embellished with delicate hand-spun wire filigree scrollwork.","descriptionAr":"An artisanal round mirror surrounded by layered solid brass petals embellished with delicate hand-spun wire filigree scrollwork.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-08.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"},{"id":"mirrors-item-14","title":"TEXTURED BRASS STUDDED MIRROR","titleAr":"TEXTURED BRASS STUDDED HALO MIRROR","description":"A circular convex mirror framed by a multi-tiered constellation of hand-hammered brass nailheads and tactile pins.","descriptionAr":"A circular convex halo mirror enveloped by a multi-tiered constellation of hand-hammered solid brass nailheads and tactile pins.","keywords":"مرايا، مرايات نحاس، مفرغ إسلامي، زخارف إسلامية، نحاس مفرغ، صناعة يدوية، تراث، Turath, Brass Mirror, Islamic Star Filigree, Handcrafted Mirrors, Bespoke Brass, Historic Cairo, ورشة نحاس بالجمالية, تشكيل نحاس عمولة, ديكورات نحاسية, تصنيع نجف عمولة, Custom brass fabrication, Handcrafted copper decor, Bespoke metalwork, تصنيع نحاس يدوي","image":"/assets/images/mirrors/mirror-09.jpg","categorySlug":"mirrors","categoryTitle":"Solid Brass Mirrors","categoryTitleAr":"مرايا نحاس أصفر عالي النقاء","categoryFile":"mirrors.html"}];
     var __dataArray = (typeof sliderData !== 'undefined') ? sliderData : ((typeof filmsData !== 'undefined') ? filmsData : ((typeof masterpiecesData !== 'undefined') ? masterpiecesData : []));
     if (__dataArray && __dataArray.length) {
       __dataArray.forEach(function(item, idx) {

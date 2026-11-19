@@ -156,7 +156,7 @@ function updateActiveNavigation(forceHash) {
   const currentPath = window.location.pathname;
   const currentHash = (forceHash || window.location.hash || '').toLowerCase();
   const cleanPath = (currentPath.split('/').pop() || 'index.html').toLowerCase();
-  const isHomePage = cleanPath === '' || cleanPath === 'index.html' || currentPath === '/';
+  const isHomePage = cleanPath === '' || cleanPath === 'index.html' || cleanPath === 'ar.html' || currentPath === '/' || currentPath === '/ar';
 
   // Map alias hashes to normalized semantic hash
   let normalizedHash = currentHash;
@@ -2584,7 +2584,7 @@ const TURATH_I18N = {
     heroHeadline1: 'شغفٌ',
     heroHeadline2: 'بالإبداع ..',
     heroBottomTitle: 'تميز الحرفية اليدوية في النحاس الأصفر والأحمر من مصر منذ 2012',
-    heroBottomDesc: 'تراث هي ورشة مصرية متخصصة في التشكيل اليدوي للنحاس الأصفر والأحمر والقطع الفنية المعمارية المصممة حسب الطلب في القاهرة التاريخية منذ 2012.',
+    heroBottomDesc: 'تراث هي ورشة مصرية متخصصة في التشكيل اليدوي للنحاس الأصفر والأحمر والقطع الفنية الفاخرة المصممة حسب الطلب في القاهرة التاريخية منذ 2012.',
     // Scene 02 About
     about1Title: 'عن تراث',
     about1Desc: 'تراث هي ورشة مصرية متخصصة في التشكيل اليدوي للنحاس الأصفر والأحمر والقطع الفنية المصممة حسب الطلب. تأسست عام 2012 على يد سامي عادل، ويقع مقرها في القاهرة التاريخية بالقرب من باب النصر في حي الجمالية.',
