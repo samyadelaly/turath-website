@@ -1924,7 +1924,7 @@ select:-webkit-autofill:active {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* تثبيت شاشة اللودر */
+/* شاشة اللودر المعتمة */
 #loader, .loader-wrapper, #preloader, #luxury-preloader, .preloader {
   position: fixed !important;
   inset: 0 !important;
@@ -1935,11 +1935,11 @@ select:-webkit-autofill:active {
   width: 100vw !important;
   height: 100vh !important;
   z-index: 99999 !important;
-  background-color: #0b0b0b !important; /* لون الخلفية الداكنة عندك */
+  background-color: #141414 !important; /* نفس درجة الأسود الداكن في الصورة */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: opacity 0.5s ease, visibility 0.5s ease !important;
+  transition: opacity 0.6s ease, visibility 0.6s ease !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -1958,12 +1958,8 @@ body.loading-lock {
   overflow: hidden !important;
 }
 
-header, nav:not(.sr-only) {
+header, nav:not(.sr-only), header, nav {
   min-height: 72px; /* ثبت ارتفاع الهيدر عشان المنيو مينطش وقت التحميل */
-}
-
-header, nav {
-  min-height: 72px;
 }
 
 nav.sr-only, .sr-only {
@@ -1972,39 +1968,44 @@ nav.sr-only, .sr-only {
   max-height: 1px !important;
 }
 
-/* التنسيق الأساسي لكلمة اللودر (شفافة ومفرغة بحدود ذهبية/نحاسية) */
+/* تنسيق الكلمة (خلفية نحاسية مفرغة بالحجم العريض الفاخر) */
 .loader-brand,
 .loader-title {
-  color: transparent !important; /* تجعل داخل الحروف شفافاً تماماً */
+  color: transparent !important;
   -webkit-text-fill-color: transparent !important;
-  -webkit-text-stroke: 1.2px #c5a059; /* سمك ولون الحدود المفرغة (نحاسي/ذهبي) */
+  -webkit-text-stroke: 0 !important;
+  background-image: url('/images/hero-brass.jpg'), url('/assets/images/brushed-brass.jpg'), linear-gradient(135deg, #dfba73 0%, #c5a059 40%, #e8c87e 70%, #9a7836 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
   text-transform: uppercase;
-  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
   user-select: none;
   transition: all 0.3s ease;
 }
 
-/* 1. في النسخة العربية: كلمة "تراث" بنفس فونت العناوين العربي وحجم أكبر قليلاً */
+/* 1. النسخة العربية: كلمة "تراث" بنفس فونت العناوين العربي وأكبر بنسبة قليلة */
 html[lang="ar"] .loader-brand,
 html[dir="rtl"] .loader-brand,
 html[lang="ar"] .loader-title,
 html[dir="rtl"] .loader-title {
-  font-family: var(--font-ar-heading, 'Amiri', 'Cairo', serif) !important; /* نفس فونت العناوين العربي */
-  font-size: clamp(2.4rem, 5vw, 3.6rem) !important; /* أكبر بنسبة قليلة عن الإنجليزي */
-  letter-spacing: 0 !important; /* إلغاء تباعد الحروف حتى لا تتقطع الحروف العربية */
+  font-family: var(--font-ar-heading, 'Cairo', 'Tajawal', sans-serif) !important; /* نفس فونت العناوين العربي عندك */
+  font-size: clamp(4.2rem, 13vw, 9.8rem) !important; /* أكبر بنسبة قليلة من الإنجليزي */
+  letter-spacing: 0 !important;
   padding-left: 0 !important;
   direction: rtl !important;
 }
 
-/* 2. في النسخة الإنجليزية: كلمة "TURATH" بنفس فونت العناوين الإنجليزي وبنفس حجمها الطبيعي */
+/* 2. النسخة الإنجليزية: نفس الفونت العريض والنسبة (مثل TARQ في الصورة) */
 html[lang="en"] .loader-brand,
 html[dir="ltr"] .loader-brand,
 html[lang="en"] .loader-title,
 html[dir="ltr"] .loader-title {
-  font-family: var(--font-en-heading, 'Cinzel', 'Cormorant Garamond', serif) !important; /* نفس فونت العناوين الإنجليزي */
-  font-size: clamp(1.8rem, 4vw, 2.8rem) !important; /* الحجم الأصلي كما هو */
-  letter-spacing: 0.35em !important;
-  padding-left: 0.35em; /* موازنة التباعد في المنتصف */
+  font-family: 'Montserrat', 'Syne', 'Plus Jakarta Sans', sans-serif !important; /* أو فونت العناوين الإنجليزي عندك */
+  font-size: clamp(3.5rem, 11vw, 8.5rem) !important; /* حجم كبير وعريض يملأ منتصف الشاشة بنفس النسبة */
+  letter-spacing: 0.08em !important;
   direction: ltr !important;
 }
 
