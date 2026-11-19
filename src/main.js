@@ -6,13 +6,15 @@ window.addEventListener('pageshow', function (event) {
     (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType('navigation')[0] && window.performance.getEntriesByType('navigation')[0].type === 'back_forward');
 
   if (isBack) {
-    // A. Ensure preloader never traps clicks or blocks interactions
-    const preloader = document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader');
-    if (preloader) {
-      preloader.style.pointerEvents = 'none';
-      preloader.style.opacity = '0';
-      preloader.style.visibility = 'hidden';
-      preloader.style.display = 'none';
+    // A. Show loader during back-nav restoration and dismiss smoothly once layout settles
+    const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+    if (loader) {
+      loader.style.opacity = '1';
+      loader.style.visibility = 'visible';
+      loader.style.pointerEvents = 'auto';
+      loader.classList.remove('opacity-0', 'preloader-hidden');
+      document.body.classList.add('loading-lock');
+      hideLoaderSmoothly();
     }
     document.documentElement.classList.remove('is-returning-preloader');
     try {
@@ -2197,48 +2199,60 @@ function handleInitialDeepLink() {
 
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 // Premium Knockout Preloader hide logic (Fast, silky-smooth & zero-hang)
-function hideLuxuryPreloader() {
-  const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
-  if (!preloader || preloader.dataset.hiding === 'true') return;
-  preloader.dataset.hiding = 'true';
+// إخفاء اللودر فقط بعد اكتمال تحميل الخطوط والصور واستقرار الصفحة تماماً
+export function hideLoaderSmoothly() {
+  const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+  if (!loader) {
+    document.body.classList.remove('loading-lock');
+    return;
+  }
 
-  const elapsed = performance.now() - (window.__turath_load_start || 0);
-  const minDuration = 350;
-  const remaining = Math.max(0, minDuration - elapsed);
-
-  function dismiss() {
-    if (preloader.dataset.dismissed === 'true') return;
-    preloader.dataset.dismissed = 'true';
-    requestAnimationFrame(() => {
-      preloader.style.transition = 'opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
-      preloader.classList.add('opacity-0', 'pointer-events-none', 'preloader-hidden');
-      preloader.style.opacity = '0';
-      preloader.style.pointerEvents = 'none';
+  // انتظار تحميل الخطوط (Fonts) + مهلة أمان 800ms لترتيب العناصر والمنيو بالكامل
+  const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+  fontsPromise.then(() => {
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      loader.style.visibility = 'hidden';
+      loader.style.pointerEvents = 'none';
+      loader.classList.add('opacity-0', 'preloader-hidden');
+      document.body.classList.remove('loading-lock'); // فك قفل السكرول
       document.documentElement.classList.remove('is-returning-preloader');
       try {
         sessionStorage.removeItem('turath_returning_from_subpage');
       } catch(e) {}
-      setTimeout(() => {
-        preloader.style.visibility = 'hidden';
-        preloader.style.display = 'none';
-      }, 450);
-    });
-  }
-
-  // Mandatory Safety Fallback: Guarantee dismissal within 450ms under any network condition
-  const safetyTimeout = setTimeout(dismiss, 450);
-
-  setTimeout(() => {
-    clearTimeout(safetyTimeout);
-    dismiss();
-  }, remaining);
+    }, 800); // زوّد الرقم ده (مثلاً 1000 أو 1200) لو عايز وقت أطول لترتيب العناصر
+  }).catch(() => {
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      loader.style.visibility = 'hidden';
+      loader.style.pointerEvents = 'none';
+      loader.classList.add('opacity-0', 'preloader-hidden');
+      document.body.classList.remove('loading-lock');
+    }, 800);
+  });
 }
 
-// Immediately trigger preloader dismissal on DOMContentLoaded (never wait for heavy images or network lag)
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', hideLuxuryPreloader, { once: true });
-} else {
-  hideLuxuryPreloader();
+// يشتغل عند التحميل الأول
+window.addEventListener('load', hideLoaderSmoothly);
+
+// يشتغل عند الرجوع من أي صفحة فرعية (Back Button / bfcache) لمنع نطّ المنيو
+window.addEventListener('pageshow', (event) => {
+  const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+  if (event.persisted && loader) {
+    loader.style.opacity = '1';
+    loader.style.visibility = 'visible';
+    loader.style.pointerEvents = 'auto';
+    loader.classList.remove('opacity-0', 'preloader-hidden');
+    document.body.classList.add('loading-lock');
+    hideLoaderSmoothly();
+  }
+});
+
+// Alias for backwards compatibility
+const hideLuxuryPreloader = hideLoaderSmoothly;
+
+if (document.readyState === 'complete') {
+  hideLoaderSmoothly();
 }
 
 // Window load handler: refresh ScrollTrigger strictly after all images & window assets are fully loaded

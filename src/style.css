@@ -1779,14 +1779,17 @@ select:-webkit-autofill:active {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
+/* توحيد حجم عنوان الـ Founder مع باقي عناوين الصفحة */
+.founder-section h2,
+.founder-title,
 .founder-name {
   font-family: var(--font-sans, 'Inter', sans-serif) !important;
-  font-size: clamp(1.4rem, 3.2vw, 2.3rem);
-  font-weight: 800;
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem) !important; /* نفس مقاس العناوين الرئيسية في الموقع */
+  font-weight: 600 !important;
   letter-spacing: 0.05em;
   color: #FFFFFF;
-  line-height: 1.15;
-  margin: 0 auto 0.35rem auto;
+  line-height: 1.3 !important;
+  margin: 0 auto 1rem auto !important;
   text-align: center;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
 }
@@ -1921,38 +1924,76 @@ select:-webkit-autofill:active {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Premium Knockout Preloader */
-#preloader, #luxury-preloader, .preloader {
+/* تثبيت شاشة اللودر */
+#loader, .loader-wrapper, #preloader, #luxury-preloader, .preloader {
   position: fixed !important;
   inset: 0 !important;
   top: 0 !important;
   left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
   z-index: 99999 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
+  background-color: #0b0b0b !important; /* لون الخلفية الداكنة عندك */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: opacity 0.5s ease, visibility 0.5s ease !important;
   overflow: hidden !important;
-  opacity: 1;
-  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: opacity, visibility;
+  box-sizing: border-box !important;
 }
 
-#preloader.opacity-0, #luxury-preloader.opacity-0,
-#preloader.preloader-hidden, #luxury-preloader.preloader-hidden {
+#loader.opacity-0, .loader-wrapper.opacity-0,
+#preloader.opacity-0, #luxury-preloader.opacity-0, .preloader.opacity-0,
+#loader.preloader-hidden, .loader-wrapper.preloader-hidden,
+#preloader.preloader-hidden, #luxury-preloader.preloader-hidden, .preloader.preloader-hidden {
   opacity: 0 !important;
   pointer-events: none !important;
   visibility: hidden !important;
 }
 
-.knockout-animate {
-  transform-origin: center;
-  animation: textBreathe 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* منع حركة الجسم والمنيو أثناء التحميل */
+body.loading-lock {
+  overflow: hidden !important;
 }
-@keyframes textBreathe {
-  0% { transform: scale(0.95); }
-  100% { transform: scale(1); }
+
+header, nav:not(.sr-only) {
+  min-height: 72px; /* ثبت ارتفاع الهيدر عشان المنيو مينطش وقت التحميل */
+}
+
+header, nav {
+  min-height: 72px;
+}
+
+nav.sr-only, .sr-only {
+  min-height: 0 !important;
+  height: 1px !important;
+  max-height: 1px !important;
+}
+
+/* تنسيق كلمة TURATH في اللودر بالنسب والفونت الكلاسيكي القديم */
+.loader-brand, .loader-title {
+  color: #D7C797;
+  font-family: 'Cinzel', 'Cormorant Garamond', 'Playfair Display', serif !important;
+  font-size: clamp(1.8rem, 4vw, 2.8rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.35em !important;
+  text-transform: uppercase;
+  line-height: 1.2 !important;
+  direction: ltr !important; /* ضمان عدم تأثر المسافات باتجاه الصفحة العربي */
+  padding-left: 0.35em; /* موازنة الـ letter-spacing في المنتصف بالظبط */
+  user-select: none;
+}
+
+html[dir="rtl"] .loader-brand,
+html[dir="rtl"] .loader-title {
+  font-family: 'Amiri', 'Cinzel', 'Cormorant Garamond', serif !important;
+  font-size: clamp(2rem, 4.5vw, 3.2rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  direction: rtl !important;
+  padding-left: 0 !important;
 }
 
 /* Anti-FOUC Header Icons Strict Sizing */

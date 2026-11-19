@@ -9,10 +9,16 @@
   <script>
   window.addEventListener('pageshow', function (event) {
     if (event.persisted || (window.performance && window.performance.navigation && window.performance.navigation.type === 2)) {
-      // 1. Instantly hide any preloader so it never blocks clicks
-      var preloader = document.getElementById('preloader') || document.querySelector('.preloader');
-      if (preloader) {
-        preloader.style.cssText = 'transition: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; display: none !important;';
+      // 1. Maintain loader during back-nav restoration and dismiss smoothly once layout settles
+      var loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+      if (loader) {
+        loader.style.opacity = '1';
+        loader.style.visibility = 'visible';
+        loader.style.pointerEvents = 'auto';
+        document.body.classList.add('loading-lock');
+        if (typeof hideLoaderSmoothly === 'function') {
+          hideLoaderSmoothly();
+        }
       }
       
       // 2. Cleanly reset mobile menu overlay (No permanent display:none lockout)
@@ -418,10 +424,12 @@
       } catch(e) {}
     })();
   </script>
-  <!-- Critical Anti-FOUC & Strict Preloader Styles (Matches Subpages) -->
+  <!-- Critical Anti-FOUC & Strict Preloader Styles -->
   <style>
-    #preloader, #luxury-preloader, .preloader {
+    /* تثبيت شاشة اللودر */
+    #loader, .loader-wrapper, #preloader, #luxury-preloader, .preloader {
       position: fixed !important;
+      inset: 0 !important;
       top: 0 !important;
       left: 0 !important;
       right: 0 !important;
@@ -429,19 +437,58 @@
       width: 100vw !important;
       height: 100vh !important;
       z-index: 99999 !important;
-      pointer-events: none !important;
-      transition: opacity 1s ease-in-out !important;
-      background: transparent !important;
-      opacity: 1 !important;
-      visibility: visible !important;
+      background-color: #0b0b0b !important; /* لون الخلفية الداكنة عندك */
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: opacity 0.5s ease, visibility 0.5s ease !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
     }
-    #preloader.opacity-0,
-    #preloader.preloader-hidden,
-    #luxury-preloader.opacity-0,
-    #luxury-preloader.preloader-hidden {
+    #loader.opacity-0, .loader-wrapper.opacity-0,
+    #preloader.opacity-0, #luxury-preloader.opacity-0, .preloader.opacity-0,
+    #loader.preloader-hidden, .loader-wrapper.preloader-hidden,
+    #preloader.preloader-hidden, #luxury-preloader.preloader-hidden, .preloader.preloader-hidden {
       opacity: 0 !important;
       pointer-events: none !important;
       visibility: hidden !important;
+    }
+    /* منع حركة الجسم والمنيو أثناء التحميل */
+    body.loading-lock {
+      overflow: hidden !important;
+    }
+    header, nav:not(.sr-only) {
+      min-height: 72px; /* ثبت ارتفاع الهيدر عشان المنيو مينطش وقت التحميل */
+    }
+    header, nav {
+      min-height: 72px;
+    }
+    nav.sr-only, .sr-only {
+      min-height: 0 !important;
+      height: 1px !important;
+      max-height: 1px !important;
+    }
+    /* تنسيق كلمة TURATH في اللودر بالنسب والفونت الكلاسيكي القديم */
+    .loader-brand, .loader-title {
+      color: #D7C797;
+      font-family: 'Cinzel', 'Cormorant Garamond', 'Playfair Display', serif !important;
+      font-size: clamp(1.8rem, 4vw, 2.8rem) !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.35em !important;
+      text-transform: uppercase;
+      line-height: 1.2 !important;
+      direction: ltr !important; /* ضمان عدم تأثر المسافات باتجاه الصفحة العربي */
+      padding-left: 0.35em; /* موازنة الـ letter-spacing في المنتصف بالظبط */
+      user-select: none;
+    }
+    /* توحيد حجم عنوان الـ Founder مع باقي عناوين الصفحة */
+    .founder-section h2,
+    .founder-title,
+    .founder-name {
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem) !important; /* نفس مقاس العناوين الرئيسية في الموقع */
+      font-weight: 600 !important;
+      line-height: 1.3 !important;
+      margin-bottom: 1rem !important;
     }
   </style>
   
@@ -610,44 +657,61 @@
     }
   </style>
 </head>
-<body class="bg-black main-page">
-  <!-- Premium Knockout Preloader (Identical to Subpages) -->
-  <div id="preloader" class="preloader fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;">
-    <svg width="100%" height="100%" class="w-full h-full">
-      <defs>
-        <mask id="knockout-text">
-          <rect width="100%" height="100%" fill="white" />
-          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="600" fill="black" letter-spacing="0.1em" font-family="'Cinzel', sans-serif" class="knockout-animate">TURATH</text>
-        </mask>
-      </defs>
-      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
-    </svg>
+<body class="bg-black main-page loading-lock">
+  <!-- تثبيت شاشة اللودر -->
+  <div id="loader" class="loader-wrapper preloader">
+    <span class="loader-brand loader-title">TURATH</span>
   </div>
   
-  <script id="turath-preloader-dismissal">
-    (function(){
-      var p = document.getElementById('preloader') || document.querySelector('.preloader') || document.getElementById('luxury-preloader');
-      if (!p) return;
-      function dismissPreloader(){
-        if (p.dataset.dismissed === 'true') return;
-        p.dataset.dismissed = 'true';
-        p.dataset.autoDismissed = 'true';
-        p.classList.add('opacity-0', 'preloader-hidden');
-        p.style.setProperty('opacity', '0', 'important');
-        p.style.setProperty('pointer-events', 'none', 'important');
-        setTimeout(function(){
-          p.style.setProperty('display', 'none', 'important');
-          p.style.setProperty('visibility', 'hidden', 'important');
-        }, 350);
+  <script id="turath-loader-script">
+    // إخفاء اللودر فقط بعد اكتمال تحميل الخطوط والصور واستقرار الصفحة تماماً
+    function hideLoaderSmoothly() {
+      const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+      if (!loader) {
+        document.body.classList.remove('loading-lock');
+        return;
       }
-      if (document.readyState === 'complete') {
-        setTimeout(dismissPreloader, 250);
-      } else {
-        window.addEventListener('load', function(){ setTimeout(dismissPreloader, 200); }, { once: true });
-        document.addEventListener('DOMContentLoaded', function(){ setTimeout(dismissPreloader, 300); }, { once: true });
-        setTimeout(dismissPreloader, 400);
+
+      // انتظار تحميل الخطوط (Fonts) + مهلة أمان 800ms لترتيب العناصر والمنيو بالكامل
+      const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+      fontsPromise.then(() => {
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+          loader.style.pointerEvents = 'none';
+          loader.classList.add('opacity-0', 'preloader-hidden');
+          document.body.classList.remove('loading-lock'); // فك قفل السكرول
+        }, 800); // زوّد الرقم ده (مثلاً 1000 أو 1200) لو عايز وقت أطول لترتيب العناصر
+      }).catch(() => {
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+          loader.style.pointerEvents = 'none';
+          loader.classList.add('opacity-0', 'preloader-hidden');
+          document.body.classList.remove('loading-lock');
+        }, 800);
+      });
+    }
+
+    // يشتغل عند التحميل الأول
+    window.addEventListener('load', hideLoaderSmoothly);
+
+    // يشتغل عند الرجوع من أي صفحة فرعية (Back Button / bfcache) لمنع نطّ المنيو
+    window.addEventListener('pageshow', (event) => {
+      const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+      if (event.persisted && loader) {
+        loader.style.opacity = '1';
+        loader.style.visibility = 'visible';
+        loader.style.pointerEvents = 'auto';
+        loader.classList.remove('opacity-0', 'preloader-hidden');
+        document.body.classList.add('loading-lock');
+        hideLoaderSmoothly();
       }
-    })();
+    });
+
+    if (document.readyState === 'complete') {
+      hideLoaderSmoothly();
+    }
   </script>
   <!-- Meta Pixel noscript fallback -->
   <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
@@ -1300,7 +1364,7 @@
   <!-- ========================================================================
        07 — FOUNDER (SAMY ADEL ABDALLAH / SCROLL-DRIVEN ILLUMINATION CROSSFADE)
        ======================================================================== -->
-  <section id="scene-07" class="relative w-full h-[100dvh] min-h-[100dvh] z-70 bg-black overflow-hidden flex flex-col justify-start items-center p-6 md:p-12" data-theme="dark">
+  <section id="scene-07" class="relative w-full h-[100dvh] min-h-[100dvh] z-70 bg-black overflow-hidden flex flex-col justify-start items-center p-6 md:p-12 founder-section" data-theme="dark">
     <!-- Anchor alias -->
     <a id="founder" class="sr-only"></a>
 
@@ -1330,7 +1394,7 @@
     <div class="relative z-40 w-full max-w-[860px] mt-16 sm:mt-20 md:mt-22 px-4 text-center mx-auto">
       <div class="founder-editorial-card text-center">
         <span class="founder-tag"></span>
-        <h2 class="founder-name">
+        <h2 class="founder-name founder-title">
           FOUNDER | SAMY ADEL
         </h2>
         <h3 class="founder-subhead">

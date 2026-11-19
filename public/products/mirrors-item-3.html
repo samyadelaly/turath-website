@@ -365,23 +365,16 @@
       display: none !important;
     }
   </style>
-  <link rel="stylesheet" crossorigin href="./assets/style-CaSK8e-4.css">
+  <link rel="stylesheet" crossorigin href="./assets/style-rs5498B8.css">
 </head>
-<body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black">
+<body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black loading-lock">
   <!-- Meta Pixel noscript fallback -->
   <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
       <!-- Premium Knockout Preloader -->
-  <div id="preloader" class="preloader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; z-index: 99999; pointer-events: none; transition: opacity 1s ease-in-out; background: transparent;" class="fixed inset-0 w-screen h-screen z-[99999] pointer-events-none transition-opacity duration-1000 ease-in-out">
-    <svg width="100%" height="100%" class="w-full h-full">
-      <defs>
-        <mask id="knockout-text">
-          <rect width="100%" height="100%" fill="white" />
-          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="clamp(4rem, 15vw, 12rem)" font-weight="600" fill="black" letter-spacing="0.1em" font-family="'Cinzel', sans-serif" class="knockout-animate">TURATH</text>
-        </mask>
-      </defs>
-      <rect width="100%" height="100%" fill="#0a0a0a" mask="url(#knockout-text)" />
-    </svg>
+  <!-- تثبيت شاشة اللودر -->
+  <div id="loader" class="loader-wrapper preloader">
+    <span class="loader-brand loader-title">TURATH</span>
   </div>
   
   <script id="turath-preloader-dismissal">
@@ -833,73 +826,59 @@
 
   
 
-        // Premium Knockout Preloader: Synchronized Asset, Font & Layout Ready
-    function initPreloaderDismissal() {
-      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
-      if (!preloader || preloader.dataset.dismissed === 'true') return;
-
-      function dismiss() {
-        if (preloader.dataset.dismissed === 'true') return;
-        preloader.dataset.dismissed = 'true';
-        requestAnimationFrame(() => {
-          preloader.style.opacity = '0';
-          preloader.style.pointerEvents = 'none';
-          preloader.classList.add('opacity-0', 'preloader-hidden');
-        });
+        // إخفاء اللودر فقط بعد اكتمال تحميل الخطوط والصور واستقرار الصفحة تماماً
+    function hideLoaderSmoothly() {
+      const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+      if (!loader) {
+        document.body.classList.remove('loading-lock');
+        return;
       }
 
-      // Mandatory Safety Fallback: Guarantee dismissal within 1800ms under any network condition
-      const safetyTimeout = setTimeout(dismiss, 400);
-
-      const mainMedia = document.getElementById('slider-image') || document.getElementById('slider-video') || document.getElementById('masterpiece-img');
-
-      const mediaReadyPromise = new Promise((resolve) => {
-        if (!mainMedia) return resolve();
-        if (mainMedia.tagName && mainMedia.tagName.toLowerCase() === 'video') {
-          if (mainMedia.readyState >= 2) return resolve();
-          mainMedia.addEventListener('loadeddata', () => resolve(), { once: true });
-          mainMedia.addEventListener('canplay', () => resolve(), { once: true });
-          setTimeout(resolve, 800);
-          return;
-        }
-        if (mainMedia.complete && mainMedia.naturalWidth > 0) {
-          if (mainMedia.decode) {
-            mainMedia.decode().then(resolve).catch(resolve);
-          } else {
-            resolve();
-          }
-        } else {
-          mainMedia.addEventListener('load', () => {
-            if (mainMedia.decode) mainMedia.decode().then(resolve).catch(resolve);
-            else resolve();
-          }, { once: true });
-          mainMedia.addEventListener('error', resolve, { once: true });
-          setTimeout(resolve, 1000);
-        }
-      });
-
-      const minDisplayPromise = new Promise((resolve) => setTimeout(resolve, 250));
+      // انتظار تحميل الخطوط (Fonts) + مهلة أمان 800ms لترتيب العناصر والمنيو بالكامل
       const fontsPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-
-      Promise.all([mediaReadyPromise, minDisplayPromise, fontsPromise]).then(() => {
-        clearTimeout(safetyTimeout);
-        dismiss();
+      fontsPromise.then(() => {
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+          loader.style.pointerEvents = 'none';
+          loader.classList.add('opacity-0', 'preloader-hidden');
+          document.body.classList.remove('loading-lock'); // فك قفل السكرول
+        }, 800); // زوّد الرقم ده (مثلاً 1000 أو 1200) لو عايز وقت أطول لترتيب العناصر
+      }).catch(() => {
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+          loader.style.pointerEvents = 'none';
+          loader.classList.add('opacity-0', 'preloader-hidden');
+          document.body.classList.remove('loading-lock');
+        }, 800);
       });
     }
 
+    // يشتغل عند التحميل الأول
+    window.addEventListener('load', hideLoaderSmoothly);
+
+    // يشتغل عند الرجوع من أي صفحة فرعية (Back Button / bfcache) لمنع نطّ المنيو
+    window.addEventListener('pageshow', (event) => {
+      const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
+      if (event.persisted && loader) {
+        loader.style.opacity = '1';
+        loader.style.visibility = 'visible';
+        loader.style.pointerEvents = 'auto';
+        loader.classList.remove('opacity-0', 'preloader-hidden');
+        document.body.classList.add('loading-lock');
+        hideLoaderSmoothly();
+      }
+    });
+
     if (document.readyState === 'complete') {
-      initPreloaderDismissal();
-    } else {
-      window.addEventListener('load', initPreloaderDismissal);
-      document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(initPreloaderDismissal, 250);
-      });
+      hideLoaderSmoothly();
     }
   </script>
 
   <script>
     function initExitPreloader() {
-      const preloader = (document.getElementById('preloader') || document.getElementById('luxury-preloader') || document.querySelector('.preloader'));
+      const preloader = (document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper'));
       if (!preloader) return;
       const exitLinks = document.querySelectorAll('.arrow-turath, a[href*="index.html"]');
       exitLinks.forEach(link => {
