@@ -2198,7 +2198,7 @@ function handleInitialDeepLink() {
 }
 
 export function updateLoaderText() {
-  const loaderTextEl = document.querySelector('.loader-brand, .loader-title');
+  const loaderTextEl = document.querySelector('.loader-brand, .loader-title, .loader-mask-text');
   if (!loaderTextEl) return;
 
   const isArabic =

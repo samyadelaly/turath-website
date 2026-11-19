@@ -365,16 +365,24 @@
       display: none !important;
     }
   </style>
-  <link rel="stylesheet" crossorigin href="./assets/style-FU63TPyg.css">
+  <link rel="stylesheet" crossorigin href="./assets/style-YNPokS5w.css">
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black loading-lock">
   <!-- Meta Pixel noscript fallback -->
   <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=148068092481360&ev=PageView&noscript=1"
   /></noscript>
       <!-- Premium Knockout Preloader -->
-  <!-- تثبيت شاشة اللودر -->
+  <!-- تثبيت شاشة اللودر المعتمة 100% مع تفريغ الكلمة بقناع SVG -->
   <div id="loader" class="loader-wrapper preloader">
-    <span class="loader-brand loader-title">TURATH</span>
+    <svg class="loader-svg" width="100%" height="100%">
+      <defs>
+        <mask id="loader-knockout-mask">
+          <rect width="100%" height="100%" fill="#ffffff" />
+          <text class="loader-brand loader-title loader-mask-text" x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000">TURATH</text>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="#111111" mask="url(#loader-knockout-mask)" />
+    </svg>
   </div>
   
   <script id="turath-preloader-dismissal">
@@ -950,7 +958,7 @@
   
 
         function updateLoaderText() {
-      const loaderTextEl = document.querySelector('.loader-brand, .loader-title');
+      const loaderTextEl = document.querySelector('.loader-brand, .loader-title, .loader-mask-text');
       if (!loaderTextEl) return;
 
       const isArabic =

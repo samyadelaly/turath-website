@@ -426,7 +426,7 @@
   </script>
   <!-- Critical Anti-FOUC & Strict Preloader Styles -->
   <style>
-    /* شاشة اللودر المعتمة (Live Background Knockout / Multiply Blend) */
+    /* تثبيت شاشة اللودر المعتمة 100% مع تفريغ النص بقناع SVG */
     #loader, .loader-wrapper, #preloader, #luxury-preloader, .preloader {
       position: fixed !important;
       inset: 0 !important;
@@ -437,8 +437,8 @@
       width: 100vw !important;
       height: 100vh !important;
       z-index: 99999 !important;
-      background-color: #141414 !important; /* لون أسود داكن معتم */
-      mix-blend-mode: multiply !important; /* السحر: يحول النص الأبيض لفتحة شفافة تكشف خلفية ومحتوى الموقع الحي */
+      background-color: transparent !important;
+      opacity: 1 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
@@ -446,6 +446,16 @@
       overflow: hidden !important;
       box-sizing: border-box !important;
       pointer-events: all;
+    }
+    #loader:not(:has(.loader-svg)) {
+      background-color: #111111 !important;
+    }
+    .loader-svg {
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+      position: absolute !important;
+      inset: 0 !important;
     }
     #loader.opacity-0, .loader-wrapper.opacity-0,
     #preloader.opacity-0, #luxury-preloader.opacity-0, .preloader.opacity-0,
@@ -470,49 +480,48 @@
       height: 1px !important;
       max-height: 1px !important;
     }
-    /* تنسيق الكلمة: أبيض صريح بدون أي ستروك أو شادو أو حدود أو خلفية ثابتة */
+    /* تنسيق النص المفرغ داخل القناع: صافي وبدون ستروك أو ظلال أو حدود */
     .loader-brand,
-    .loader-title {
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-      -webkit-text-stroke: 0 !important;
+    .loader-title,
+    .loader-mask-text {
       text-stroke: none !important;
+      -webkit-text-stroke: 0 !important;
       border: none !important;
       outline: none !important;
       text-shadow: none !important;
       box-shadow: none !important;
-      background: none !important;
-      background-image: none !important;
-      -webkit-background-clip: border-box !important;
-      background-clip: border-box !important;
-      text-transform: uppercase;
-      font-weight: 500 !important;
-      line-height: 1.1 !important;
       user-select: none;
-      transition: none !important;
     }
 
-    /* 1. النسخة العربية: كلمة "تراث" بنفس فونت العناوين العربي ووزن 500 وبدون تباعد */
+    /* 1. النسخة العربية: كلمة "تراث" بضعف الحجم (2x) وبنفس فونت العناوين العربي (Cairo) وبدون تباعد */
     html[lang="ar"] .loader-brand,
     html[dir="rtl"] .loader-brand,
     html[lang="ar"] .loader-title,
-    html[dir="rtl"] .loader-title {
-      font-family: var(--font-ar-heading, 'Amiri', 'Cairo', serif) !important;
-      font-size: clamp(2.7rem, 10vw, 5.6rem) !important;
-      font-weight: 500 !important;
+    html[dir="rtl"] .loader-title,
+    html[lang="ar"] .loader-mask-text,
+    html[dir="rtl"] .loader-mask-text {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-size: clamp(5.5rem, 19vw, 11rem) !important;
+      font-weight: 800 !important;
       letter-spacing: 0 !important;
       padding-left: 0 !important;
       direction: rtl !important;
     }
 
-    /* 2. النسخة الإنجليزية: كلمة TURATH بوزن 500 وتباعد 0.06em وحجم 55%-60% من الموبايل */
+    /* 2. النسخة الإنجليزية: كلمة TURATH أكبر بنسبة 15-20% مع الحفاظ على الفونت والنسبة */
     html[lang="en"] .loader-brand,
     html[dir="ltr"] .loader-brand,
     html[lang="en"] .loader-title,
-    html[dir="ltr"] .loader-title {
+    html[dir="ltr"] .loader-title,
+    html[lang="en"] .loader-mask-text,
+    html[dir="ltr"] .loader-mask-text {
       font-family: var(--font-heading, 'Syne', sans-serif) !important;
-      font-size: clamp(2.2rem, 8.5vw, 4.8rem) !important;
+      font-size: clamp(2.6rem, 10vw, 5.6rem) !important;
       font-weight: 500 !important;
+      letter-spacing: 0.06em !important;
+      direction: ltr !important;
+      text-transform: uppercase !important;
+    }
       letter-spacing: 0.06em !important;
       direction: ltr !important;
     }
@@ -699,14 +708,22 @@
   </style>
 </head>
 <body class="bg-black main-page loading-lock" dir="rtl">
-  <!-- تثبيت شاشة اللودر -->
+  <!-- تثبيت شاشة اللودر المعتمة 100% مع تفريغ الكلمة بقناع SVG -->
   <div id="loader" class="loader-wrapper preloader">
-    <span class="loader-brand loader-title">تراث</span>
+    <svg class="loader-svg" width="100%" height="100%">
+      <defs>
+        <mask id="loader-knockout-mask">
+          <rect width="100%" height="100%" fill="#ffffff" />
+          <text class="loader-brand loader-title loader-mask-text" x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000">تراث</text>
+        </mask>
+      </defs>
+      <rect width="100%" height="100%" fill="#111111" mask="url(#loader-knockout-mask)" />
+    </svg>
   </div>
   
   <script id="turath-loader-script">
     function updateLoaderText() {
-      const loaderTextEl = document.querySelector('.loader-brand, .loader-title');
+      const loaderTextEl = document.querySelector('.loader-brand, .loader-title, .loader-mask-text');
       if (!loaderTextEl) return;
 
       const isArabic =
