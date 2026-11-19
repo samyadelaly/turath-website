@@ -916,7 +916,26 @@
 
   
 
-        // إخفاء اللودر فقط بعد اكتمال تحميل الخطوط والصور واستقرار الصفحة تماماً
+        function updateLoaderText() {
+      const loaderTextEl = document.querySelector('.loader-brand, .loader-title');
+      if (!loaderTextEl) return;
+
+      const isArabic =
+        document.documentElement.lang === 'ar' ||
+        document.documentElement.dir === 'rtl' ||
+        (function() { try { return localStorage.getItem('lang') === 'ar'; } catch(e) { return false; } })();
+
+      loaderTextEl.textContent = isArabic ? 'تراث' : 'TURATH';
+    }
+
+    // تشغيل التحديث فوراً قبل اختفاء اللودر
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateLoaderText);
+    } else {
+      updateLoaderText();
+    }
+
+    // إخفاء اللودر فقط بعد اكتمال تحميل الخطوط والصور واستقرار الصفحة تماماً
     function hideLoaderSmoothly() {
       const loader = document.getElementById('loader') || document.getElementById('preloader') || document.querySelector('.loader, .preloader, .loader-wrapper');
       if (!loader) {

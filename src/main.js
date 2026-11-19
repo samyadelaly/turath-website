@@ -2197,6 +2197,25 @@ function handleInitialDeepLink() {
   }, 100);
 }
 
+export function updateLoaderText() {
+  const loaderTextEl = document.querySelector('.loader-brand, .loader-title');
+  if (!loaderTextEl) return;
+
+  const isArabic =
+    document.documentElement.lang === 'ar' ||
+    document.documentElement.dir === 'rtl' ||
+    (function() { try { return localStorage.getItem('lang') === 'ar'; } catch(e) { return false; } })();
+
+  loaderTextEl.textContent = isArabic ? 'تراث' : 'TURATH';
+}
+
+// تشغيل التحديث فوراً قبل اختفاء اللودر
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', updateLoaderText);
+} else {
+  updateLoaderText();
+}
+
 // Stabilize GSAP calculations and safely handle cross-page anchor navigation
 // Premium Knockout Preloader hide logic (Fast, silky-smooth & zero-hang)
 // إخفاء اللودر فقط بعد اكتمال تحميل الخطوط والصور واستقرار الصفحة تماماً

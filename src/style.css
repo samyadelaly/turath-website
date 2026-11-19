@@ -1972,28 +1972,40 @@ nav.sr-only, .sr-only {
   max-height: 1px !important;
 }
 
-/* تنسيق كلمة TURATH في اللودر بالنسب والفونت الكلاسيكي القديم */
-.loader-brand, .loader-title {
-  color: #D7C797;
-  font-family: 'Cinzel', 'Cormorant Garamond', 'Playfair Display', serif !important;
-  font-size: clamp(1.8rem, 4vw, 2.8rem) !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.35em !important;
+/* التنسيق الأساسي لكلمة اللودر (شفافة ومفرغة بحدود ذهبية/نحاسية) */
+.loader-brand,
+.loader-title {
+  color: transparent !important; /* تجعل داخل الحروف شفافاً تماماً */
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 1.2px #c5a059; /* سمك ولون الحدود المفرغة (نحاسي/ذهبي) */
   text-transform: uppercase;
   line-height: 1.2 !important;
-  direction: ltr !important; /* ضمان عدم تأثر المسافات باتجاه الصفحة العربي */
-  padding-left: 0.35em; /* موازنة الـ letter-spacing في المنتصف بالظبط */
   user-select: none;
+  transition: all 0.3s ease;
 }
 
+/* 1. في النسخة العربية: كلمة "تراث" بنفس فونت العناوين العربي وحجم أكبر قليلاً */
+html[lang="ar"] .loader-brand,
 html[dir="rtl"] .loader-brand,
+html[lang="ar"] .loader-title,
 html[dir="rtl"] .loader-title {
-  font-family: 'Amiri', 'Cinzel', 'Cormorant Garamond', serif !important;
-  font-size: clamp(2rem, 4.5vw, 3.2rem) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.05em !important;
-  direction: rtl !important;
+  font-family: var(--font-ar-heading, 'Amiri', 'Cairo', serif) !important; /* نفس فونت العناوين العربي */
+  font-size: clamp(2.4rem, 5vw, 3.6rem) !important; /* أكبر بنسبة قليلة عن الإنجليزي */
+  letter-spacing: 0 !important; /* إلغاء تباعد الحروف حتى لا تتقطع الحروف العربية */
   padding-left: 0 !important;
+  direction: rtl !important;
+}
+
+/* 2. في النسخة الإنجليزية: كلمة "TURATH" بنفس فونت العناوين الإنجليزي وبنفس حجمها الطبيعي */
+html[lang="en"] .loader-brand,
+html[dir="ltr"] .loader-brand,
+html[lang="en"] .loader-title,
+html[dir="ltr"] .loader-title {
+  font-family: var(--font-en-heading, 'Cinzel', 'Cormorant Garamond', serif) !important; /* نفس فونت العناوين الإنجليزي */
+  font-size: clamp(1.8rem, 4vw, 2.8rem) !important; /* الحجم الأصلي كما هو */
+  letter-spacing: 0.35em !important;
+  padding-left: 0.35em; /* موازنة التباعد في المنتصف */
+  direction: ltr !important;
 }
 
 /* Anti-FOUC Header Icons Strict Sizing */
