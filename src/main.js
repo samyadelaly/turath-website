@@ -119,7 +119,7 @@ ScrollTrigger.addEventListener("refreshInit", (e) => {
   }
 
   const collectionsTrack = document.querySelector('.collections-track');
-  if (collectionsTrack && collectionsTrack.scrollLeft > 0) {
+  if (collectionsTrack && Math.abs(collectionsTrack.scrollLeft) > 0) {
     savedCollectionsScrollLeft = collectionsTrack.scrollLeft;
   }
   const slatsTrack = document.getElementById("video-slats-track");
@@ -130,7 +130,7 @@ ScrollTrigger.addEventListener("refreshInit", (e) => {
 
 ScrollTrigger.addEventListener("refresh", () => {
   const collectionsTrack = document.querySelector('.collections-track');
-  if (collectionsTrack && savedCollectionsScrollLeft > 0) {
+  if (collectionsTrack && typeof savedCollectionsScrollLeft === 'number' && Math.abs(savedCollectionsScrollLeft) > 0) {
     collectionsTrack.scrollLeft = savedCollectionsScrollLeft;
   }
   const slatsTrack = document.getElementById("video-slats-track");
@@ -156,7 +156,8 @@ function updateActiveNavigation(forceHash) {
   const desktopLinks = document.querySelectorAll('.desktop-nav-menu a');
 
   const currentPath = window.location.pathname;
-  const currentHash = (forceHash || window.location.hash || '').toLowerCase();
+  const hashString = typeof forceHash === 'string' ? forceHash : window.location.hash;
+  const currentHash = (hashString || '').toLowerCase();
   const cleanPath = (currentPath.split('/').pop() || 'index.html').toLowerCase();
   const isHomePage = cleanPath === '' || cleanPath === 'index.html' || cleanPath === 'ar.html' || currentPath === '/' || currentPath === '/ar';
 
@@ -174,6 +175,8 @@ function updateActiveNavigation(forceHash) {
     normalizedHash = '#masterpieces';
   } else if (normalizedHash === '#scene-07') {
     normalizedHash = '#founder';
+  } else if (normalizedHash === '#faq-anchor') {
+    normalizedHash = '#faq';
   } else if (normalizedHash === '#contact-turath') {
     normalizedHash = '#contact';
   }
@@ -383,6 +386,8 @@ function initNavDrawer() {
     'action': 'craftsmanship',
     'scene-07': 'founder',
     'founder': 'founder',
+    'faq': 'faq',
+    'faq-anchor': 'faq',
     'contact': 'contact',
     'contact-turath': 'contact'
   };
@@ -399,6 +404,8 @@ function initNavDrawer() {
     'craftsmanship': 'scene-06',
     'action': 'scene-06',
     'founder': 'scene-07',
+    'faq': 'faq',
+    'faq-anchor': 'faq',
     'contact': 'contact',
     'contact-turath': 'contact',
     'scene-01': 'scene-01',
@@ -426,6 +433,13 @@ function initNavDrawer() {
         }
       });
       return;
+    }
+
+    if (typeof initBelowFold === 'function') {
+      initBelowFold();
+    }
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
     }
 
     if (realId === 'scene-02' || realId === 'about') {
@@ -528,7 +542,7 @@ function initNavDrawer() {
           ease: 'power2.inOut',
           onUpdate: () => {
             const track = document.querySelector('.collections-track');
-            if (track && track.scrollLeft > 0) {
+            if (track && Math.abs(track.scrollLeft) > 0) {
               track.scrollLeft = 0;
             }
           },
@@ -580,9 +594,9 @@ function initNavDrawer() {
       if (founderEl) {
         const triggers = ScrollTrigger.getAll().filter(t => t.trigger === founderEl);
         const st = triggers.find(t => t.pin) || triggers[0];
-        // Target 65% of the pinned illumination crossfade where the founder & lamp are 100% lit
+        // Target 35% of the pinned illumination crossfade where the founder & lamp are 100% lit in the daytime phase
         const targetY = st && typeof st.start === 'number'
-          ? (st.start + (st.end - st.start) * 0.45)
+          ? (st.start + (st.end - st.start) * 0.35)
           : (founderEl.getBoundingClientRect().top + window.scrollY);
         gsap.to(window, {
           scrollTo: { y: targetY, autoKill: false },
@@ -591,6 +605,31 @@ function initNavDrawer() {
           onComplete: () => {
             if (window.history && window.history.replaceState) {
               window.history.replaceState(null, '', '#founder');
+            }
+          }
+        });
+        return;
+      }
+    }
+
+    if (realId === 'faq') {
+      const faqEl = document.getElementById('faq');
+      if (faqEl) {
+        const triggers = ScrollTrigger.getAll().filter(t => t.trigger === faqEl);
+        const revealST = triggers.find(t => t.vars && t.vars.end === 'top top');
+        const targetY = revealST && typeof revealST.end === 'number'
+          ? revealST.end
+          : (faqEl.getBoundingClientRect().top + window.scrollY);
+        gsap.to(window, {
+          scrollTo: { y: targetY, autoKill: false },
+          duration: 1.2,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, '', '#faq');
+            }
+            if (typeof updateActiveNavigation === 'function') {
+              updateActiveNavigation('#faq');
             }
           }
         });
@@ -1234,7 +1273,7 @@ function initCollectionsHorizontalScroll() {
 
       if (isReturning && !isExplicitGallery && savedPos && collectionsTrack) {
         const parsed = parseFloat(savedPos);
-        if (!isNaN(parsed) && parsed > 0) {
+        if (!isNaN(parsed) && Math.abs(parsed) > 0) {
           requestAnimationFrame(() => {
             collectionsTrack.scrollLeft = parsed;
           });
@@ -1245,11 +1284,18 @@ function initCollectionsHorizontalScroll() {
     } catch (e) {}
 
     let scrollSaveTimer = null;
+    let scrollPauseTimer = null;
     collectionsTrack.addEventListener('scroll', () => {
+      collectionsTrack.classList.add('is-scrolling');
+      clearTimeout(scrollPauseTimer);
+      scrollPauseTimer = setTimeout(() => {
+        collectionsTrack.classList.remove('is-scrolling');
+      }, 150);
+
       clearTimeout(scrollSaveTimer);
       scrollSaveTimer = setTimeout(() => {
         try {
-          if (collectionsTrack.scrollLeft > 0) {
+          if (Math.abs(collectionsTrack.scrollLeft) > 0) {
             sessionStorage.setItem('turath_collections_scroll', collectionsTrack.scrollLeft.toString());
           }
         } catch (e) {}
@@ -1259,8 +1305,11 @@ function initCollectionsHorizontalScroll() {
     function scrollCollections(direction) {
       const card = collectionsTrack.querySelector('.collection-card');
       const scrollStep = card ? (card.offsetWidth + 16) : (collectionsTrack.clientWidth * 0.8);
+      const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar' || window.getComputedStyle(collectionsTrack).direction === 'rtl';
+      // Invert card movement direction for Arabic site per user specification
+      const dirMultiplier = isRTL ? direction : -direction;
       collectionsTrack.scrollBy({
-        left: direction * scrollStep,
+        left: dirMultiplier * scrollStep,
         behavior: 'smooth'
       });
     }
@@ -1377,10 +1426,12 @@ function initBespokeTransition() {
       }
     });
 
-    // 1. 3 vertical slices enter with staggered clipPath inset (fully level before text starts)
+    const isDesktop = window.innerWidth >= 1024;
+
+    // 1. 3 vertical slices enter with clipPath inset (synchronized on desktop to eliminate black background behind image)
     bespokeEntranceTl.to(bespokeSlices, {
       clipPath: 'inset(0% 0% 0% 0%)',
-      stagger: 0.12,
+      stagger: isDesktop ? 0 : 0.12,
       ease: 'power2.inOut',
       duration: 0.70
     }, 0);
@@ -1659,8 +1710,11 @@ function initScene06() {
     if (!slatsTrack) return;
     const card = slatsTrack.querySelector(".video-slat-item");
     const step = card ? (card.offsetWidth + 20) : (slatsTrack.clientWidth * 0.7);
+    const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar';
+    // Invert craftsmanship slats movement direction for Arabic site per user specification
+    const dirMultiplier = isRTL ? -direction : direction;
     slatsTrack.scrollBy({
-      left: direction * step,
+      left: dirMultiplier * step,
       behavior: "smooth"
     });
   }
@@ -1759,16 +1813,16 @@ function initScene07() {
     }
   );
 
-  // Pinned Dwell Phase: Section 07 pins at top throughout the 150vh scroll gap before Contact arrives
-  const contact = document.querySelector("#contact");
+  // Pinned Dwell Phase: Section 07 pins at top throughout the 150vh scroll gap before FAQ arrives
+  const nextSectionAfter07 = document.querySelector("#faq") || document.querySelector("#contact");
   const founderTL = gsap.timeline({
     scrollTrigger: {
       trigger: scene07,
       start: "top top",
-      endTrigger: contact || undefined,
-      end: contact ? "top top" : "+=200vh", // Extended end matching the 150vh gap (e.g. +=200vh+)
+      endTrigger: nextSectionAfter07 || undefined,
+      end: nextSectionAfter07 ? "top top" : "+=200vh", // Extended end matching the 150vh gap (e.g. +=200vh+)
       pin: true,
-      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by Contact
+      pinSpacing: false, // Strict curtain reveal: stays pinned until covered by FAQ / Contact
       scrub: 1.5,
       anticipatePin: 1
     }
@@ -1814,39 +1868,288 @@ function initScene07() {
   }
 }
 
-// 11. SECTION 08: CONTACT TURATH (DYNAMIC CORNER MORPHING & OVERLAP SCROLL)
-function initContactSection() {
-  const contact = document.querySelector("#contact");
-  if (!contact) return;
+// 10.5. SECTION: FAQ (TURATH FAQ / 2-STEP SCROLLING MORPHING & PING-PONG VIDEO SCRUB)
+function initFaqSection() {
+  const faqSection = document.querySelector("#faq");
+  if (!faqSection) return;
 
-  // Initial corner styling: extreme circular dome radius 50vw 50vw 0 0
-  gsap.set(contact, {
-    borderTopLeftRadius: "50vw",
-    borderTopRightRadius: "50vw"
+  // 2-step geometric staircase reveal (Two-Step Scrolling Morphing matching English & Scenes 05/06)
+  // In LTR: Right column leads at 0vh, middle at 33vh, left at 66vh
+  // In RTL: Mirrored horizontally from right to left so left column (mirrored artwork) leads at 0vh
+  const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar';
+  const startPoly = isRTL
+    ? 'polygon(0% 100%, 0% 0vh, 33.33% 0vh, 33.33% 33vh, 66.66% 33vh, 66.66% 66vh, 100% 66vh, 100% 100%)'
+    : 'polygon(0% 100%, 0% 66vh, 33.33% 66vh, 33.33% 33vh, 66.66% 33vh, 66.66% 0vh, 100% 0vh, 100% 100%)';
+
+  const endPoly = 'polygon(0% 100%, 0% 0vh, 33.33% 0vh, 33.33% 0vh, 66.66% 0vh, 66.66% 0vh, 100% 0vh, 100% 100%)';
+
+  gsap.set(faqSection, { 
+    clipPath: startPoly 
   });
 
-  // Extreme Circular Dome Morphing Animation:
-  // Starts as a massive circular dome (50vw radius) rising up from bottom of viewport,
-  // morphing down to 0px (sharp full-width rectangular container) when docked at top.
-  gsap.fromTo(contact,
-    {
-      borderTopLeftRadius: "50vw",
-      borderTopRightRadius: "50vw",
-      y: 60
-    },
-    {
-      borderTopLeftRadius: "0px",
-      borderTopRightRadius: "0px",
-      y: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: contact,
-        start: "top bottom", // Starts as top of Contact enters bottom of viewport
-        end: "top top",      // Ends when Contact reaches top of viewport
-        scrub: 1.2           // Smooth inertia scrub
+  gsap.to(faqSection, {
+    clipPath: endPoly,
+    ease: "none",
+    scrollTrigger: {
+      trigger: faqSection,
+      start: "top bottom",
+      end: "top top",
+      scrub: 1.5
+    }
+  });
+
+  // Parallax zoom on background media (mirrored horizontally in RTL so artwork sits on the left)
+  const faqMedia = document.getElementById("faq-bg-media");
+  if (faqMedia) {
+    gsap.fromTo(faqMedia,
+      { scale: 1.08 },
+      {
+        scale: 1.0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: faqSection,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: 1.5,
+          pinSpacing: false
+        }
+      }
+    );
+  }
+
+  // Header Title Reveal: Animating the inner h2 cleanly as it ascends
+  const faqTitle = faqSection.querySelector(".faq-sticky-header h2");
+  if (faqTitle) {
+    gsap.fromTo(faqTitle,
+      { y: 15, opacity: 0.3 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: faqSection,
+          start: "top 75%", // Visible early as it begins ascending
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  }
+
+  // Staggered fade and rise for the visible FAQ cards upon section docking
+  const initialFaqCards = faqSection.querySelectorAll(".faq-scroll-list .faq-card");
+  if (initialFaqCards.length) {
+    gsap.fromTo(Array.from(initialFaqCards).slice(0, 6),
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: faqSection,
+          start: "top 30%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  }
+
+  // 60fps/120fps Canvas Ping-Pong Video Scrubbing on Mobile & Tablet (Zero Stutter, Zero Dropped Frames)
+  const faqCanvas = document.getElementById("faq-scroll-canvas");
+  if (faqCanvas) {
+    const ctx = faqCanvas.getContext("2d");
+    const totalFrames = 60;
+    const frames = [];
+    let currentFrameIdx = 0;
+    let targetFrameIdx = 0;
+    let framesLoaded = 0;
+
+    const isArabic = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar';
+    const framesFolder = isArabic ? '/frames/faq-ar' : '/frames/faq-en';
+
+    const drawFrame = (frameNum) => {
+      const idx = Math.max(0, Math.min(totalFrames - 1, Math.round(frameNum)));
+      const img = frames[idx];
+      if (!img || !img.complete || !img.naturalWidth || !ctx) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      const w = faqCanvas.clientWidth || window.innerWidth;
+      const h = faqCanvas.clientHeight || window.innerHeight;
+
+      if (faqCanvas.width !== Math.round(w * dpr) || faqCanvas.height !== Math.round(h * dpr)) {
+        faqCanvas.width = Math.round(w * dpr);
+        faqCanvas.height = Math.round(h * dpr);
+      }
+
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, w, h);
+
+      // Cover scaling
+      const imgRatio = img.naturalWidth / img.naturalHeight;
+      const canvasRatio = w / h;
+      let drawW, drawH, drawX, drawY;
+
+      if (canvasRatio > imgRatio) {
+        drawW = w;
+        drawH = w / imgRatio;
+        drawX = 0;
+        drawY = (h - drawH) / 2;
+      } else {
+        drawH = h;
+        drawW = h * imgRatio;
+        drawX = (w - drawW) / 2;
+        drawY = 0;
+      }
+
+      ctx.drawImage(img, drawX, drawY, drawW, drawH);
+      ctx.restore();
+    };
+
+    // Preload frames progressively
+    for (let i = 1; i <= totalFrames; i++) {
+      const img = new Image();
+      const num = String(i).padStart(3, '0');
+      img.src = `${framesFolder}/frame_${num}.webp`;
+      img.onload = () => {
+        framesLoaded++;
+        if (framesLoaded === 1) {
+          drawFrame(0);
+        }
+      };
+      frames.push(img);
+    }
+
+    // Ping-Pong calculation: 0 to 0.5 moves forward (0 -> 59), 0.5 to 1.0 moves backward (59 -> 0)
+    const updateTargetFromProgress = (progress) => {
+      const clamped = Math.max(0, Math.min(1, progress));
+      let normalized = 0;
+      if (clamped <= 0.5) {
+        normalized = clamped * 2;
+      } else {
+        normalized = (1 - clamped) * 2;
+      }
+      targetFrameIdx = normalized * (totalFrames - 1);
+    };
+
+    // ScrollTrigger integration
+    ScrollTrigger.create({
+      trigger: faqSection,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        updateTargetFromProgress(self.progress);
+      }
+    });
+
+    // Native scroll fallback / touch listener
+    const onScrollFaq = () => {
+      if (window.innerWidth >= 1025) return;
+      const rect = faqSection.getBoundingClientRect();
+      const scrollDistance = faqSection.offsetHeight - window.innerHeight;
+      if (scrollDistance <= 0) return;
+      const progress = Math.max(0, Math.min(1, -rect.top / scrollDistance));
+      updateTargetFromProgress(progress);
+    };
+    window.addEventListener("scroll", onScrollFaq, { passive: true });
+
+    // Smooth Lerp loop for instantaneous hardware-accelerated 60fps/120fps playback
+    const smoothCanvasScrubLoop = () => {
+      if (window.innerWidth < 1025) {
+        const diff = targetFrameIdx - currentFrameIdx;
+        if (Math.abs(diff) > 0.02) {
+          currentFrameIdx += diff * 0.18;
+          drawFrame(currentFrameIdx);
+        }
+      }
+      requestAnimationFrame(smoothCanvasScrubLoop);
+    };
+    requestAnimationFrame(smoothCanvasScrubLoop);
+
+    // Resize handler
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 1025) {
+        drawFrame(currentFrameIdx);
+      }
+    }, { passive: true });
+  }
+}
+
+// 11. SECTION 08: CONTACT TURATH (ARCHITECTURAL 2-STEP GEOMETRIC SCROLLING MORPHING ASCENDING OVER FAQ)
+function initContactSection() {
+  const contact = document.querySelector("#contact");
+  const faqSection = document.querySelector("#faq");
+  if (!contact) return;
+
+  // Clear any residual border radius
+  contact.style.borderTopLeftRadius = '0px';
+  contact.style.borderTopRightRadius = '0px';
+
+  const isMobile = window.innerWidth < 1024;
+
+  // Curtain overlap: Pin FAQ when its bottom reaches bottom of viewport,
+  // allowing Contact to climb directly OVER it as the user scrolls
+  if (faqSection) {
+    ScrollTrigger.create({
+      trigger: faqSection,
+      start: "bottom bottom",
+      endTrigger: contact,
+      end: "top top",
+      pin: true,
+      pinSpacing: false,
+      anticipatePin: 1
+    });
+  }
+
+  // Signature Architectural Geometric 2-step Staircase Reveal matching Scenes 05 & 06
+  const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar';
+  const startPoly = isRTL
+    ? "polygon(0% 100%, 0% 0%, 33% 0%, 33% 33%, 66% 33%, 66% 66%, 100% 66%, 100% 100%)"
+    : "polygon(0% 100%, 0% 66%, 33% 66%, 33% 33%, 66% 33%, 66% 0%, 100% 0%, 100% 100%)";
+
+  const endPoly = "polygon(0% 100%, 0% 0%, 33% 0%, 33% 0%, 66% 0%, 66% 0%, 100% 0%, 100% 100%)";
+
+  gsap.set(contact, { 
+    clipPath: startPoly,
+    borderTopLeftRadius: '0px',
+    borderTopRightRadius: '0px'
+  });
+
+  gsap.to(contact, {
+    clipPath: endPoly,
+    ease: "none",
+    scrollTrigger: {
+      trigger: contact,
+      start: "top bottom",
+      end: isMobile ? "top 35%" : "top top", // Completes reveal early on mobile/tablet so it reaches 100% without getting stuck
+      scrub: 1.2,
+      invalidateOnRefresh: true,
+      onLeave: () => {
+        contact.style.clipPath = 'none';
       }
     }
-  );
+  });
+
+  // Parallax subtle float on contact background media
+  const contactMedia = document.getElementById("contact-bg-media");
+  if (contactMedia) {
+    gsap.fromTo(contactMedia,
+      { y: -25 },
+      {
+        y: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: contact,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: 1.2
+        }
+      }
+    );
+  }
 }
 
 // 12. PHONE DROPDOWN (CALL & WHATSAPP)
@@ -1903,6 +2206,7 @@ function initSemanticHashTracking() {
     { id: 'scene-05', hash: 'masterpieces' },
     { id: 'scene-06', hash: 'craftsmanship' },
     { id: 'scene-07', hash: 'founder' },
+    { id: 'faq',      hash: 'faq' },
     { id: 'contact',  hash: 'contact' }
   ];
 
@@ -2039,6 +2343,7 @@ function initBelowFold() {
   initFeaturedProducts();
   initScene06();
   initScene07();
+  initFaqSection();
   initContactSection();
   if (typeof ScrollTrigger !== 'undefined') {
     ScrollTrigger.refresh();
@@ -2140,7 +2445,13 @@ function handleInitialDeepLink() {
     const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
     const st = triggers.find(t => t.pin) || triggers[0];
     targetY = st && typeof st.start === 'number'
-      ? (st.start + (st.end - st.start) * 0.45)
+      ? (st.start + (st.end - st.start) * 0.35)
+      : (target.getBoundingClientRect().top + window.scrollY);
+  } else if (realId === 'faq') {
+    const triggers = ScrollTrigger.getAll().filter(t => t.trigger === target);
+    const revealST = triggers.find(t => t.vars && t.vars.end === 'top top');
+    targetY = revealST && typeof revealST.end === 'number'
+      ? revealST.end
       : (target.getBoundingClientRect().top + window.scrollY);
   } else {
     const allMatching = ScrollTrigger.getAll().filter(t => {
@@ -2576,21 +2887,63 @@ function initAnalyticsTracking() {
   }
 }
 
-// 17. SURGICAL MEDIA PROTECTION (IMAGES & VIDEOS)
+// 17. GLOBAL HARDENED MEDIA & ASSET DOWNLOAD/SAVE PROTECTION
 function initMediaProtection() {
-  document.addEventListener('contextmenu', (e) => {
-    if (e.target.closest('img, video, [data-protected-media], .collection-card-img, .slat-video')) {
+  const isProtectedTarget = (target) => {
+    if (!target) return false;
+    if (
+      target.closest('img, video, canvas, picture, [data-protected-media], .collection-card-img, .slat-video, .slider-card, #slider-image, #masterpiece-img, #slider-video, .video-stream') ||
+      target.tagName === 'IMG' ||
+      target.tagName === 'VIDEO' ||
+      target.tagName === 'CANVAS' ||
+      target.tagName === 'PICTURE'
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const preventMediaContext = (e) => {
+    if (isProtectedTarget(e.target)) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  };
+  window.addEventListener('contextmenu', preventMediaContext, { capture: true });
+  document.addEventListener('contextmenu', preventMediaContext, { capture: true });
+
+  const preventMediaDrag = (e) => {
+    if (isProtectedTarget(e.target)) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  };
+  window.addEventListener('dragstart', preventMediaDrag, { capture: true });
+  document.addEventListener('dragstart', preventMediaDrag, { capture: true });
+
+  // Prevent browser save shortcuts (Ctrl+S / Cmd+S)
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
       e.preventDefault();
       return false;
     }
   }, { capture: true });
 
-  document.addEventListener('dragstart', (e) => {
-    if (e.target.closest('img, video, [data-protected-media], .collection-card-img, .slat-video')) {
-      e.preventDefault();
-      return false;
-    }
-  }, { capture: true });
+  // Secure all video elements against native download & PIP
+  const secureVideos = () => {
+    document.querySelectorAll('video').forEach(v => {
+      v.setAttribute('controlsList', 'nodownload nofullscreen noremoteplayback');
+      v.setAttribute('disablePictureInPicture', 'true');
+      v.setAttribute('disableRemotePlayback', 'true');
+      v.setAttribute('oncontextmenu', 'return false;');
+    });
+  };
+  secureVideos();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', secureVideos);
+  }
 }
 
 
@@ -2694,7 +3047,7 @@ const TURATH_I18N = {
     navMasterpieces: 'MASTERPIECES',
     navCraft: 'CRAFTSMANSHIP',
     navContact: 'CONTACT',
-    navFaq: 'FAQ',
+    navFaq: 'TURATH FAQ',
     // Hero
     heroEyebrow: 'SCROLL TURATH WEBSITE..',
     heroHeadline1: 'DEVOTED',

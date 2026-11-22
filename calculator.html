@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDYBS5D7CZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-PDYBS5D7CZ');
+    </script>
     <!-- Meta Pixel Code -->
     <script>
       !function(f,b,e,v,n,t,s)
@@ -1241,6 +1250,15 @@
         .toast.show {
             opacity: 1;
             transform: translateY(0);
+        }
+    
+        /* Media & Profile SVG Download/Save Protection */
+        img, svg, canvas {
+            -webkit-user-drag: none !important;
+            user-drag: none !important;
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
         }
     </style>
 </head>
@@ -2819,6 +2837,25 @@
                 installBtn.classList.add('hidden');
             });
         }
+
+        
+        // Media Protection (Disable right click on visuals, drag & save shortcuts)
+        const preventMediaContext = (e) => {
+            if (e.target && (e.target.closest('img, svg, canvas') || e.target.tagName === 'IMG' || e.target.tagName === 'SVG' || e.target.tagName === 'CANVAS')) {
+                e.preventDefault();
+                return false;
+            }
+        };
+        window.addEventListener('contextmenu', preventMediaContext, { capture: true });
+        document.addEventListener('contextmenu', preventMediaContext, { capture: true });
+        window.addEventListener('dragstart', preventMediaContext, { capture: true });
+        document.addEventListener('dragstart', preventMediaContext, { capture: true });
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+                return false;
+            }
+        }, { capture: true });
 
         // Launch
         initApp();

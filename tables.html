@@ -761,28 +761,99 @@
     if (shareBtn) {
       shareBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        const title = (typeof titleEl !== 'undefined' && titleEl) ? titleEl.innerText : document.title;
         
         // Extract category slug from URL
         const path = window.location.pathname;
         const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
-        const categorySlug = match ? match[1] : 'lighting';
+        let categorySlug = match ? match[1].toLowerCase() : 'lighting';
+        if (categorySlug === 'index' || !categorySlug) categorySlug = 'lighting';
         
-        // Determine active product ID based on current slide
-        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) ? sliderData[currentIndex] : null;
-        const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        // Determine active product item & ID based on current slide
+        const currentItem = (typeof sliderData !== 'undefined' && sliderData[currentIndex]) 
+          ? sliderData[currentIndex] 
+          : (typeof masterpiecesData !== 'undefined' && masterpiecesData[currentIndex])
+          ? masterpiecesData[currentIndex]
+          : null;
         
-        // Construct specific SSG share URL
-        const shareUrl = window.location.origin + '/products/' + activeProductId + '/';
+        const activeProductId = (currentItem && currentItem.id) 
+          ? currentItem.id 
+          : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
+        
+        const title = (currentItem && currentItem.title) || (typeof titleEl !== 'undefined' && titleEl ? titleEl.innerText : document.title);
+        const desc = (currentItem && currentItem.desc) || ('A handcrafted authentic pure brass masterpiece by Turath Egypt.');
+        
+        const shareUrl = `https://turath-egypt.vercel.app/products/${activeProductId}/`;
+        const shareTitle = title + ' | Turath Egypt';
+        const shareText = `${title}\n${desc}\n\nExplore high-resolution handcrafted brass details and craftsmanship:`;
+
+        // Capture product image as File for native share
+        let fileToShare = null;
+        try {
+          const imgEl = document.getElementById('slider-image') || document.getElementById('masterpiece-img') || document.querySelector('.slider-card img');
+          if (imgEl && navigator.canShare) {
+            let blob = null;
+            if (imgEl.naturalWidth > 0) {
+              const canvas = document.createElement('canvas');
+              canvas.width = imgEl.naturalWidth;
+              canvas.height = imgEl.naturalHeight;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(imgEl, 0, 0);
+              blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.90));
+            }
+            if (!blob && imgEl.src) {
+              const res = await fetch(imgEl.src);
+              blob = await res.blob();
+            }
+            if (blob) {
+              const file = new File([blob], activeProductId + '.jpg', { type: 'image/jpeg' });
+              if (navigator.canShare({ files: [file] })) {
+                fileToShare = file;
+              }
+            }
+          }
+        } catch(err) {}
 
         if (navigator.share) {
           try {
-            await navigator.share({ title: title, url: shareUrl });
-          } catch (err) {}
-        } else if (navigator.clipboard) {
-          await navigator.clipboard.writeText(shareUrl);
+            const shareData = {
+              title: shareTitle,
+              text: shareText,
+              url: shareUrl
+            };
+            if (fileToShare) {
+              shareData.files = [fileToShare];
+            }
+            await navigator.share(shareData);
+            return;
+          } catch (err) {
+            if (fileToShare) {
+              try {
+                await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+                return;
+              } catch (e2) {}
+            }
+          }
+        }
+
+        // Clipboard copy fallback with golden toast
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(shareUrl);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = shareUrl;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          showShareToast('Link copied to clipboard!');
           shareBtn.classList.add('text-white', 'scale-110');
           setTimeout(() => shareBtn.classList.remove('text-white', 'scale-110'), 1500);
+        } catch(err) {
+          showShareToast('Link copied to clipboard!');
         }
       });
     }
@@ -793,7 +864,6 @@
       productWaBtn.addEventListener('click', (e) => {
         e.preventDefault();
         
-        // Extract category slug from URL
         const path = window.location.pathname;
         const match = path.match(/\/([a-z0-9-]+)(?:\.html)?$/i);
         let categorySlug = match ? match[1].toLowerCase() : 'lighting';
@@ -803,14 +873,11 @@
           ? sliderData[currentIndex] 
           : (typeof masterpiecesData !== 'undefined' && masterpiecesData[currentIndex])
           ? masterpiecesData[currentIndex]
-          : (typeof filmsData !== 'undefined' && filmsData[currentIndex])
-          ? filmsData[currentIndex]
           : null;
         const title = (currentItem && currentItem.title) || (typeof titleEl !== 'undefined' && titleEl ? titleEl.innerText : document.title);
         
-        // Determine active product ID and full product link (Produces Rich Preview with Picture in WhatsApp)
         const activeProductId = (currentItem && currentItem.id) ? currentItem.id : `${categorySlug}-item-${(typeof currentIndex !== 'undefined' ? currentIndex : 0) + 1}`;
-        const productUrl = `${window.location.origin}/products/${activeProductId}/`;
+        const productUrl = `https://turath-egypt.vercel.app/products/${activeProductId}/`;
 
         // Track Conversion Events
         if (typeof window.fbq === 'function') {
@@ -820,30 +887,84 @@
           window.gtag('event', 'generate_lead', { event_category: 'WhatsApp', event_label: title });
         }
 
-        const waText = `مرحباً ورشة تراث، أود الاستفسار عن تفصيل وسعر هذه القطعة:\n${title}\n${productUrl}`;
+        const waText = `Hello Turath Egypt, I would like to inquire about customizing and pricing for this piece:\n${title}\n${productUrl}`;
         window.open('https://wa.me/201016771010?text=' + encodeURIComponent(waText), '_blank', 'noopener,noreferrer');
       });
     }
 
-    // Surgical Image & Media Protection
-    document.addEventListener('contextmenu', (e) => {
-      if (e.target.closest('img, video, [data-protected-media], #slider-image, #masterpiece-img, .video-stream')) {
+    
+    function showShareToast(message) {
+      let toast = document.getElementById('turath-share-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'turath-share-toast';
+        toast.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,18,16,0.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(215,199,151,0.6);color:#D7C797;padding:10px 24px;border-radius:30px;font-family:sans-serif;font-size:13px;letter-spacing:0.05em;z-index:999999;box-shadow:0 10px 35px rgba(0,0,0,0.7);opacity:0;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);pointer-events:none;';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = message;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(20px)';
+      }, 2500);
+    }
+
+
+    // Hardened Global Media & Asset Protection (Images & Videos)
+    const isProtectedTarget = (target) => {
+      if (!target) return false;
+      return !!(
+        target.closest('img, video, canvas, picture, [data-protected-media], #slider-image, #masterpiece-img, #slider-video, .video-stream, .slider-card') ||
+        target.tagName === 'IMG' ||
+        target.tagName === 'VIDEO' ||
+        target.tagName === 'CANVAS' ||
+        target.tagName === 'PICTURE'
+      );
+    };
+
+    const preventMediaContext = (e) => {
+      if (isProtectedTarget(e.target)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+    window.addEventListener('contextmenu', preventMediaContext, { capture: true });
+    document.addEventListener('contextmenu', preventMediaContext, { capture: true });
+
+    const preventMediaDrag = (e) => {
+      if (isProtectedTarget(e.target)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+    window.addEventListener('dragstart', preventMediaDrag, { capture: true });
+    document.addEventListener('dragstart', preventMediaDrag, { capture: true });
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
         e.preventDefault();
         return false;
       }
     }, { capture: true });
 
-    document.addEventListener('dragstart', (e) => {
-      if (e.target.closest('img, video, [data-protected-media], #slider-image, #masterpiece-img, .video-stream')) {
-        e.preventDefault();
-        return false;
-      }
-    }, { capture: true });
+    const securePageVideos = () => {
+      document.querySelectorAll('video').forEach(v => {
+        v.setAttribute('controlsList', 'nodownload nofullscreen noremoteplayback');
+        v.setAttribute('disablePictureInPicture', 'true');
+        v.setAttribute('disableRemotePlayback', 'true');
+        v.setAttribute('oncontextmenu', 'return false;');
+      });
+    };
+    securePageVideos();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', securePageVideos);
+    }
 
-
-  
-
-        function updateLoaderText() {
+    function updateLoaderText() {
       const loaderTextEl = document.querySelector('.loader-brand, .loader-title, .loader-mask-text');
       if (!loaderTextEl) return;
 

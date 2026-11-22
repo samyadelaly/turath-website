@@ -1,56 +1,301 @@
-# Turath Egypt | ورشة تراث لتصنيع النحاس
-> The leading atelier in Egypt, the Middle East, and Africa for bespoke handcrafted brass and pure red copper fabrication, founded in 2012 by Engineer Samy Adel in Bab El-Nasr, El-Gamaliya, Historic Cairo.
+# TURATH Egypt — Products & Manufacturing Knowledge Base
+> Bespoke Solid Brass & Pure Red Copper Manufacturing from Historic Cairo, Egypt
+> Founded in 2012 by Lead Engineer Samy Adel (المهندس سامي عادل)
+> Location: Kahla Building, Bab El-Nasr, El-Gamaliya, Historic Cairo, Egypt
+> Website: https://turath-egypt.vercel.app/
+> Direct Contact: +201016771010 | Turath.egypt@gmail.com
 
-## Overview & Identity
-- **Brand**: Turath Egypt (تراث مصر)
-- **Legal/Workshop Name**: ورشة تراث لتصنيع وتشكيل النحاس
-- **Founder & Director**: Engineer Samy Adel (المهندس سامي عادل)
-- **Established**: 2012
-- **Location**: Kahla Building, Bab El-Nasr, El-Gamaliya, Historic Cairo, Egypt (القاهرة التاريخية)
-- **Coordinates**: 30.0511° N, 31.2622° E
-- **Website**: https://turath-egypt.vercel.app / https://turath-egypt.com
-- **Phone / WhatsApp**: +20 101 677 1010
-- **Email**: Turath.egypt@gmail.com
-- **Official Facebook**: https://www.facebook.com/share/1Ctf8P3K7B/
-- **Instagram**: https://www.instagram.com/turath_egypt
+---
 
-## Core Industrial & Artisanal Capabilities (تقنيات التصنيع والسبك)
-- **Sand Casting & Precision Metal Casting**: Traditional Cairo sand molds and precision investment casting for heavy solid handles, finials, hardware, and sculptural ornaments (سبك رملي ودقيق).
-- **Metal Lathe Spinning (تشكيل ودرفلة النحاس على المخرطة)**: Spinning seamless domes, bowls, shades, and circular trays from solid brass and pure copper discs.
-- **Hand Repoussé & Chasing (طرق ونقش وتفريغ ريبوسيه)**: 3D high-relief hammering on sheet copper and brass for monumental murals, wall panels, and artistic doors.
-- **Hand Piercing & Fretwork (تخريم وتفريغ يدوي بالمنشار)**: Intricate Islamic geometric patterns, floral motifs, and pierced openwork lanterns.
-- **High-Precision CNC & Laser Piercing**: Cutting heavy-gauge brass plates for architectural dividers and custom screens.
-- **Brazing & Silver Soldering (لحام فضة ونحاس)**: Seamless structural welding and invisible joints.
-- **Finishes & Chemical Patination (أكسدة وتعتيق النحاس)**: Antique bronze, verdigris, oil-rubbed bronze, brushed satin, mirror-polished brass, sealed with industrial heat-cured clear lacquer for lifetime anti-tarnish protection.
+## About TURATH
+TURATH is an Egyptian artisanal atelier and manufacturing workshop specializing in custom, high-purity yellow brass and red copper metalwork. Combining centuries of historic Cairo metalcraft with modern architectural precision, TURATH designs and fabricates luxury bespoke lighting, mirrors, furniture, consoles, architectural handrails, doors pulls, wall cladding, partitions, and decorative tableware for luxury residences, palaces, hotels, and commercial developments across Egypt, the GCC (Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, Oman), Africa, and internationally.
 
-## Architectural & Interior Collections
-- **1. Lighting Fixtures (وحدات إضاءة وثريات نحاسية)**: Monumental mosque & palace chandeliers, pendant lanterns, wall sconces, and floor lamps.
-- **2. Brass Mirrors (مرايا نحاس فاخرة)**: Hand-carved, pierced geometric frames, and antique finished vanity mirrors.
-- **3. Tables & Consoles (طاولات وكونسول نحاس منحوت)**: Sculptural brass consoles, marble-topped coffee tables, and dining banquettes.
-- **4. Door Handles & Pulls (مقابض أبواب نحاس فاخرة)**: Heavy cast front-door pulls, palace entryway handles, and custom cabinet knobs.
-- **5. Handrails & Balustrades (درابزين وهاندريل سلالم)**: Curved spiral balustrades, hand-forged spindles, and polished handrails for private villas.
-- **6. Luxury Decor & Hollowware (تحف ومباخر وصواني)**: Hand-hammered brass vases, incense burners, and centerpieces.
-- **7. Wall Art & Cladding (لوحات وتجليد حوائط نحاس)**: 3D repoussé panels, patinated copper reliefs, and textured metal cladding.
-- **8. Partitions & Screens (قواطع وفواصل ديكورية)**: Pierced geometric mashrabiya dividers, bookcases, and decorative folding screens.
-- **9. Luxury Tableware & Sinks (مغاسل وأواني نحاسية)**: Handcrafted copper washbasins, dining charger plates, and serving trays.
-- **10. Bespoke Masterpieces (روائع نحاسية فنية عمولة)**: One-of-a-kind bespoke commissions designed to client blueprint specifications.
+---
 
-## Geographic Coverage & Export (مناطق الخدمة والشحن)
-- **Egypt (مصر)**: Cairo, Giza, New Administrative Capital, Alexandria, North Coast, Red Sea, Upper Egypt.
-- **Gulf Cooperation Council (GCC - دول الخليج العربي)**:
-  - Saudi Arabia (المملكة العربية السعودية) — Riyadh, Jeddah, Dammam, Al-Khobar, NEOM.
-  - United Arab Emirates (الإمارات العربية المتحدة) — Dubai, Abu Dhabi, Sharjah.
-  - Kuwait (الكويت) — Kuwait City.
-  - Qatar (قطر) — Doha.
-  - Bahrain (البحرين) — Manama.
-  - Oman (سلطنة عمان) — Muscat.
-  *(Note: Strict export adherence across the GCC).*
-- **Africa (قارة إفريقيا)**: Comprehensive project export to North Africa (Morocco, Algeria, Libya, Tunisia) and Pan-African luxury hospitality developments.
-- **International**: United States, United Kingdom, France, and Europe via reinforced wooden crate shipping.
+## Frequently Asked Questions (FAQ)
 
-## URLs & Key Documentation
-- Full AI & Technical Index: https://turath-egypt.vercel.app/llms-full.txt
-- English Catalog Hub: https://turath-egypt.vercel.app/
-- Arabic Catalog Hub: https://turath-egypt.vercel.app/ar.html
-- Product Feed (Google Merchant): https://turath-egypt.vercel.app/feed.xml
-- Sitemap (143 URLs): https://turath-egypt.vercel.app/sitemap.xml
+### Section 1: About TURATH & Manufacturing
+
+**Q01: What is TURATH?**
+TURATH is an Egyptian workshop specializing in custom brass and copper manufacturing, combining traditional craftsmanship with contemporary and heritage-inspired designs.
+
+**Q02: What products does TURATH manufacture?**
+Our collections include mirrors, lighting, tables and consoles, handles, handrails, decorative objects, brass and copper wall art, partitions and bookcases, and tableware.
+
+**Q03: Does TURATH create custom-made products?**
+Yes. We manufacture custom pieces according to each client's requirements, including the requested dimensions, design details, and finishes.
+
+**Q04: Can TURATH manufacture products from technical drawings or reference images?**
+Yes. We can work from technical drawings and reference images, reviewing the details required for manufacturing.
+
+**Q05: Does TURATH manufacture individual pieces or project quantities?**
+Both. We manufacture individual custom pieces as well as multiple units and quantities for projects.
+
+**Q06: What types of projects does TURATH work on?**
+We work on residential, hospitality, restaurant, palace, commercial, and architectural projects, according to each project's requirements.
+
+### Section 2: Materials & Finishes
+
+**Q07: What are the main materials used by TURATH?**
+Our primary materials are Yellow Brass and Red Copper.
+
+**Q08: What is the difference between Yellow Brass and Red Copper?**
+They differ in colour, characteristics, and final appearance. The appropriate material is selected according to the design, intended use, and desired result.
+
+**Q09: Does TURATH offer different brass and copper finishes?**
+Yes. Available finishes include polished, satin, antique, and patinated appearances, depending on the product and design.
+
+**Q10: Can TURATH create an aged finish on brass or copper?**
+Yes. We can apply ageing and patina effects to achieve an antique appearance or a distinctive surface colour and texture.
+
+**Q11: Can clients request a specific colour or finish?**
+Yes. The requested colour and finish can be discussed according to the material, design, and manufacturing requirements.
+
+**Q12: How should brass and copper products be maintained?**
+Maintenance depends on the material and finish. Gentle cleaning is recommended, while harsh chemicals and abrasive tools should be avoided.
+
+### Section 3: Mirrors
+
+**Q13: Does TURATH manufacture brass mirror frames?**
+Yes. We manufacture brass mirror frames in a range of designs, from classic to contemporary.
+
+**Q14: Can TURATH make mirrors in custom dimensions?**
+Yes. Mirrors can be manufactured in custom dimensions to suit the available space and requested design.
+
+**Q15: Can TURATH create a mirror based on a reference image?**
+Yes. We can review a reference image and assess the design details required for manufacturing.
+
+**Q16: Does TURATH manufacture decorative mirrors for projects?**
+Yes. We create custom mirrors for homes, hotels, restaurants, and interior and architectural projects.
+
+### Section 4: Lighting
+
+**Q17: What types of lighting does TURATH manufacture?**
+We manufacture brass lighting products, including lamps, pendant lights, chandeliers, lanterns, and other custom designs.
+
+**Q18: Can TURATH manufacture large brass chandeliers?**
+Yes. Large chandeliers and lighting installations can be manufactured according to the design, dimensions, and project requirements.
+
+**Q19: Can lighting designs be customised?**
+Yes. The shape, dimensions, details, and finish can be customised to suit the space and interior design.
+
+**Q20: Does TURATH manufacture lighting for hotels and commercial projects?**
+Yes. We manufacture custom lighting for hotels, restaurants, residential developments, and commercial projects.
+
+**Q21: Can TURATH manufacture matching lighting units in sets?**
+Yes. Multiple units can be manufactured according to an agreed design and consistent specifications.
+
+### Section 5: Tables & Consoles
+
+**Q22: Does TURATH manufacture brass tables and consoles?**
+Yes. We manufacture tables and consoles featuring brass details and structures in a variety of custom designs.
+
+**Q23: Can tables and consoles be made in custom dimensions?**
+Yes. Dimensions, design, and details can be specified according to the space and the client's requirements.
+
+**Q24: Does TURATH manufacture tables and consoles for hospitality projects?**
+Yes. We can manufacture individual pieces or coordinated sets for homes, hotels, and other projects.
+
+### Section 6: Handles
+
+**Q25: Does TURATH manufacture brass door handles?**
+Yes. We manufacture brass door handles and metal accessories in a variety of designs.
+
+**Q26: Can handles be manufactured to custom dimensions?**
+Yes. Handles can be made according to the requested dimensions, design, and details.
+
+**Q27: Can TURATH manufacture handles for an entire project?**
+Yes. We can manufacture coordinated handle sets with consistent specifications to suit the doors and overall project design.
+
+### Section 7: Handrails
+
+**Q28: Does TURATH manufacture brass handrails?**
+Yes. We manufacture handrails and architectural metal elements according to the design and site requirements.
+
+**Q29: Can TURATH create custom handrail designs?**
+Yes. Manufacturing can be based on technical drawings, reference images, and agreed dimensions.
+
+**Q30: Does TURATH undertake handrail work for large projects?**
+Yes. Handrail works can be manufactured for architectural, residential, and hospitality projects according to their scope and requirements.
+
+### Section 8: Decorative Objects
+
+**Q31: What types of decorative objects does TURATH manufacture?**
+We manufacture a variety of brass and metal decorative objects according to the requested design, purpose, and appearance.
+
+**Q32: Can TURATH create a decorative object from a custom design?**
+Yes. Custom pieces can be developed from drawings, reference images, or agreed design concepts.
+
+**Q33: Does TURATH manufacture decorative objects for homes and hotels?**
+Yes. We create decorative pieces for homes, hotels, restaurants, commercial spaces, and private projects.
+
+### Section 9: Brass & Copper Wall Art
+
+**Q34: Does TURATH manufacture brass and copper wall art?**
+Yes. We create wall art and decorative wall pieces using Yellow Brass and Red Copper.
+
+**Q35: Can TURATH manufacture large-scale metal wall art?**
+Yes. Large wall pieces can be assessed and manufactured according to the design, dimensions, and site requirements.
+
+**Q36: Can custom artistic designs and patterns be made in brass or copper?**
+Yes. Custom designs, patterns, and decorative details can be manufactured using available drawings or references.
+
+**Q37: Does TURATH create architectural brass wall installations?**
+Yes. We manufacture custom brass wall pieces for interior, architectural, hospitality, and public-space projects.
+
+### Section 10: Partitions & Bookcases
+
+**Q38: Does TURATH manufacture brass architectural partitions?**
+Yes. We manufacture custom partitions and interior dividers using brass and metal elements.
+
+**Q39: Can partitions be manufactured to fit specific spaces?**
+Yes. Partitions can be made according to site dimensions, technical drawings, and the requested design.
+
+**Q40: Does TURATH manufacture bookcases with brass details?**
+Yes. We manufacture bookcases and display units featuring metal structures and details according to the design and available space.
+
+**Q41: Can partitions and bookcases be manufactured as part of a complete project?**
+Yes. They can be manufactured as part of a wider interior or architectural project, according to the agreed scope of work.
+
+### Section 11: Tableware
+
+**Q42: What types of tableware does TURATH manufacture?**
+Our tableware collection includes trays, pots, serving pieces, and selected household and restaurant supplies made from brass and copper.
+
+**Q43: Is TURATH tableware functional or purely decorative?**
+The collection includes practical serving and functional pieces, as well as decorative items, depending on each product's design.
+
+**Q44: Can trays and serving pieces be made in custom dimensions?**
+Yes. Custom dimensions, shapes, and details can be discussed for made-to-order products.
+
+**Q45: Can TURATH supply tableware quantities for restaurants and hotels?**
+Yes. We can manufacture quantities for restaurants, hotels, and other projects according to the agreed design and order requirements.
+
+### Section 12: Manufacturing Techniques
+
+**Q46: What manufacturing techniques does TURATH use?**
+Our manufacturing methods include hand forming and hammering, custom fabrication and assembly, casting using sand or other moulds, cutting, bending and shaping, welding and brazing, polishing and surface finishing, and patina and chemical oxidation.
+
+**Q47: Does TURATH use traditional handcrafting methods?**
+Yes. Handcrafting plays an essential role in shaping and producing many of our brass and copper products and details.
+
+**Q48: Can different manufacturing techniques be combined in one product?**
+Yes. Different techniques can be combined according to the design and manufacturing requirements.
+
+**Q49: Does TURATH collaborate with specialised external workshops?**
+Yes. We collaborate with specialised external workshops when additional processes or expertise are required for a project.
+
+### Section 13: Client Inquiries & Projects
+
+**Q50: How can I request a custom product from TURATH?**
+You can contact us and share your product idea, reference images, available drawings, and dimensions so we can discuss the requirements.
+
+**Q51: What information is needed to request a quotation?**
+It is helpful to provide a product description, dimensions, reference images or drawings, required quantity, and preferred finish, if available.
+
+**Q52: Can TURATH undertake large brass and metal architectural works?**
+Yes. We can manufacture large-scale architectural brass and metal works according to technical drawings, project requirements, and the agreed manufacturing scope.
+
+**Q53: Can TURATH manufacture multiple products with consistent specifications?**
+Yes. Multiple pieces can be manufactured according to agreed designs and specifications to meet project requirements.
+
+**Q54: Does TURATH offer international shipping?**
+International shipping arrangements can be discussed according to the product, project requirements, and agreement with the client.
+
+**Q55: Does manufacturing time vary from one product to another?**
+Yes. Production time depends on the product's size, design complexity, quantity, and finishing requirements.
+
+**Q56: How can I contact TURATH to discuss a new project?**
+You can contact TURATH through our official website or communication channels and share your project details to discuss manufacturing possibilities and the next steps.
+
+---
+
+## Summary
+TURATH – Custom Brass & Copper Manufacturing from Egypt
+We turn ideas and designs into carefully crafted brass and metal products for residential, architectural, and commercial projects.
+
+## Collections Index
+- Lighting Fixtures: https://turath-egypt.vercel.app/lighting.html
+- Solid Brass Mirrors: https://turath-egypt.vercel.app/mirrors.html
+- Tables & Consoles: https://turath-egypt.vercel.app/tables.html
+- Architectural Handles: https://turath-egypt.vercel.app/handles.html
+- Custom Handrails: https://turath-egypt.vercel.app/handrails.html
+- Decorative Objects: https://turath-egypt.vercel.app/decor.html
+- Brass & Copper Wall Art: https://turath-egypt.vercel.app/wall-art.html
+- Partitions & Bookcases: https://turath-egypt.vercel.app/partitions.html
+- Tableware: https://turath-egypt.vercel.app/tableware.html
+- Masterpieces: https://turath-egypt.vercel.app/masterpieces.html
+- Workshop Action: https://turath-egypt.vercel.app/action.html
+
+
+---
+
+## Workshop Crafts & Industry Keywords Glossary (قاموس مصطلحات وخامات الورشة)
+TURATH atelier is indexed for the following craftsmanship terminology, custom bespoke items, and raw materials:
+
+1. **الخامات والقطاعات الهندسية (Raw Materials & Profiles):**
+   - خامة نحاس أصفر وأحمر (Solid Brass CuZn40 & Pure Red Copper 99.9%)
+   - ألواح نحاس (Solid Brass & Copper Sheets / Plates)
+   - مواسير نحاس معمارية (Architectural Brass Pipes & Tubes)
+   - زوايا نحاس وزوي حرف L (Brass Angle Profiles & L-Trims)
+   - قطاعات وقنوات حرف U نحاس (Brass U-Channels & C-Profiles)
+   - شرائح وبراويز نحاس للأرضيات والرخام (Brass Inlay Strips & Flooring Dividers)
+   - سلك نحاس مجدول وشبك زخرفي (Braided Brass Wire & Decorative Mesh)
+   - أعمدة نحاس وقوائم مصمتة (Solid Brass Columns & Balusters)
+
+2. **الإضاءة والنجف والأباليك (Bespoke Lighting & Chandeliers):**
+   - وحدات إضاءة نحاسية (Handcrafted Brass Lighting Fixtures)
+   - أباليك نحاس جدارية (Handcrafted Brass Wall Sconces)
+   - نجف سبك نحاس رملي ثقيل (Sand-Cast Solid Brass Chandeliers)
+   - ثريات نحاس فخمة للمجالس والقصور (Grand Palace & Majlis Brass Chandeliers)
+   - فوانيس نحاسية إسلامية وخان الخليلي (Traditional & Modern Egyptian Brass Lanterns)
+   - لامباديرات نحاس أرضية (Solid Brass Floor Lamps & Torchieres)
+
+3. **الأثاث والديكور والمرايا (Furniture, Decor & Mirrors):**
+   - كونسول نحاس رخام فاخر (Luxury Brass Console Tables with Marble)
+   - ترابيزات جانبية نحاس وطاولات قهوة (Cast Brass Side Tables & Coffee Tables)
+   - مرايا نحاس صالون مفرغة ومضيئة (Ornate Hand-Pierced Brass Vanity Mirrors)
+   - كاونترات نحاس استقبال ومطاعم وبارات (Bespoke Brass Reception Counters & Bar Tops)
+   - دفايات نحاس ديكور وشاشات حماية (Brass Fireplace Surrounds & Screens)
+   - شوايات نحاس ومناقل فحم ملكية (Artisanal Brass Charcoal Mangals & Grills)
+   - قصرية زرع نحاس وبوت نباتات (Hand-Hammered Brass Planters & Flower Urns)
+   - تماثيل نحاس ومجسمات فنية (Sculptured Brass Statues & Animal Sculptures)
+   - علب نحاس وصناديق مطعمة (Handmade Brass Keepsake Boxes & Caskets)
+   - بلص نحاس وقوارير تراثية (Heritage Brass Flasks & Traditional Vessels)
+
+4. **التشطيبات المعمارية والتجاليد (Architectural & Cladding):**
+   - تجليد حوائط نحاس مطروق وبانوهات جدارية (Hammered Brass Wall Cladding & Relief Panels)
+   - درابزين سلالم نحاس وكوبستات فلل وقصور (Architectural Brass Staircase Handrails & Balustrades)
+   - قواطع بارتشن نحاس ليزر ومفرغ يدوياً (Pierced & Laser-Cut Brass Screens & Partitions)
+
+5. **السباكة والحمامات والمغاسل (Plumbing, Baths & Sinks):**
+   - دوش نحاس أنتيك وأنظمة استحمام ظاهرة (Exposed Vintage Brass Shower Systems)
+   - حنفيات وخلاطات نحاس فاخرة (Luxury Solid Brass Taps & Mixers)
+   - مغاسل نحاس للضيوف وأحواض مطابخ وحمامات (Handcrafted Brass Sinks & Powder Room Basins)
+   - فواطات نحاس وإكسسوارات حمام ملكية (Solid Brass Towel Rails & Bath Hardware)
+
+6. **أدوات الضيافة والمائدة والقهوة (Hospitality & Tableware):**
+   - كنك نحاس وسبرتايات قهوة يدوية (Handmade Copper & Brass Turkish Coffee Sets)
+   - أطباق نحاس وصواني تقديم منقوشة (Hand-Etched Brass Wall Plates & Serving Trays)
+   - كوبايات نحاس وكاسات ضيافة فخمة (Handcrafted Brass & Copper Goblets & Tumblers)
+
+7. **الإكسسوارات والمقابض وأوشاش الكهرباء (Hardware & Fittings):**
+   - أوكر نحاس ومقابض أبواب قصور وفلل (Hand-Cast Brass Door Knobs & Villa Pulls)
+   - زراير نحاس ومقابض درف مطابخ وخزائن (Solid Brass Cabinet Knobs & Furniture Pulls)
+   - وش كهرباء نحاس مصمت وشاسيهات مفاتيح (Solid Brass Switch Plates & Socket Covers)
+   - أرقام نحاس للفلل والمنازل والقصور (Custom Cast Brass House & Villa Numbers)
+   - إكسسوارات نحاس هندسية مخصصة (Custom Architectural Brass Hardware)
+
+8. **الحرف والتقنيات اليدوية التراثية (Techniques & Craftsmanship):**
+   - فن الروباسيه والروباصيه وطرق النحاس البارز (Repoussé & Chasing Metalwork)
+   - حفر ونقش يدوي دقيق على النحاس (Precision Brass Hand-Engraving & Etching)
+   - زينكوغراف وكليشيهات حفر كيميائي (Zincography & Chemical Acid Brass Etching)
+   - خراطة نحاس وتشكيل دوران هيدروليكي (Brass Lathe Spinning & Turning)
+   - سبك نحاس رملي وقوالب شمع مفقود (Traditional Sand-Casting & Lost-Wax Brass)
+   - تقاوير نحاس وأقماع مشكلة يدوياً (Hand-Spun Brass Cones & Funnels)
+   - أكسدة وتعتيق النحاس أنتيك وباتينا (Artisan Chemical Patina & Antique Oxidation)
+
+9. **الأسواق الإقليمية والتصدير (Regional & GCC Markets):**
+   - تفصيل نحاس بالرياض وجدة والمملكة العربية السعودية
+   - ثريات ومجالس نحاس دبي وأبوظبي والإمارات
+   - شحن وتصدير النحاس المشغول من القاهرة التاريخية إلى الخليج ودول العالم

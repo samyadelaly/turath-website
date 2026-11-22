@@ -142,7 +142,9 @@ export default defineConfig({
     allowedHosts: true,
     cors: true,
     watch: {
-      ignored: ['**/public/video/**', '**/*.mp4', '**/scratch/**', '**/*.tmp']
+      usePolling: true,
+      interval: 1000,
+      ignored: ['**/public/video/**', '**/*.mp4', '**/scratch/**', '**/*.tmp', '**/*.png', '**/*.jpg']
     }
   },
   preview: {
