@@ -28,8 +28,7 @@ const urlList = [
   `https://${host}/masterpieces.html`,
   `https://${host}/masterpieces-ar.html`,
   `https://${host}/action.html`,
-  `https://${host}/action-ar.html`,
-  `https://${host}/calculator.html`
+  `https://${host}/action-ar.html`
 ];
 
 const payload = JSON.stringify({
