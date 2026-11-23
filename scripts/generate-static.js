@@ -21,6 +21,33 @@ if (fs.existsSync(distDir)) {
   fs.mkdirSync(distProductsOutputDir, { recursive: true });
 }
 
+// Extract actual compiled CSS asset path produced by Vite from dist/index.html
+const distIndexHtmlPath = path.join(distDir, 'index.html');
+if (!fs.existsSync(distIndexHtmlPath)) {
+  console.error('\n[FATAL ERROR] dist/index.html not found! Vite build must complete successfully before running generate-static.js.\n');
+  process.exit(1);
+}
+
+const distIndexHtml = fs.readFileSync(distIndexHtmlPath, 'utf8');
+const cssLinkMatch = distIndexHtml.match(/<link\s+[^>]*rel=["']stylesheet["'][^>]*href=["']([^"']*style-[^"']+\.css)["'][^>]*>/i)
+  || distIndexHtml.match(/<link\s+[^>]*href=["']([^"']*style-[^"']+\.css)["'][^>]*rel=["']stylesheet["'][^>]*>/i);
+
+if (!cssLinkMatch || !cssLinkMatch[1]) {
+  console.error('\n[FATAL ERROR] Could not find a valid compiled CSS stylesheet link (style-*.css) in dist/index.html!\n');
+  process.exit(1);
+}
+
+const rawCssHref = cssLinkMatch[1];
+const compiledCssFileName = path.basename(rawCssHref);
+const physicalCssPath = path.join(distDir, 'assets', compiledCssFileName);
+
+if (!fs.existsSync(physicalCssPath)) {
+  console.error(`\n[FATAL ERROR] Extracted CSS asset file "${compiledCssFileName}" does not exist in ${path.join(distDir, 'assets')}!\n`);
+  process.exit(1);
+}
+
+console.log(`[generate-static] Successfully resolved compiled CSS from dist/index.html: ${compiledCssFileName}`);
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -189,6 +216,21 @@ for (const cat of CATEGORIES) {
     if (!pageHtml.includes('<base href="/">')) {
       pageHtml = pageHtml.replace('<head>', '<head>\n  <base href="/">');
     }
+
+    // Ensure product page links to the verified compiled CSS asset
+    pageHtml = pageHtml.replace(
+      /<link\s+rel=["']stylesheet["']\s+crossorigin\s+href=["'][^"']*style-[^"']+\.css["']\s*\/?>/i,
+      `<link rel="stylesheet" crossorigin href="./assets/${compiledCssFileName}">`
+    ).replace(
+      /<link\s+rel=["']stylesheet["']\s+href=["'][^"']*(?:\.\/)?src\/style\.css["']\s*\/?>/i,
+      `<link rel="stylesheet" crossorigin href="./assets/${compiledCssFileName}">`
+    );
+
+    // Normalize Service Worker registration line to LF to prevent trailing carriage return whitespace in git diff
+    pageHtml = pageHtml.replace(
+      /([^\n\r]*navigator\.serviceWorker\.register[^\n\r]*)\r\n/g,
+      '$1\n'
+    );
 
     // 2. Remove inherited category-level hreflang tags from standalone product pages
     pageHtml = pageHtml.replace(/\s*<link\s+rel=["']alternate["']\s+hreflang=["'][^"']*["']\s+href=["'][^"']*["']\s*\/?>/gi, '');
@@ -511,11 +553,11 @@ const masterCatalogHtml = `<!DOCTYPE html>
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <!-- Google Fonts & Tailwind -->
+  <!-- Google Fonts & Stylesheet -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/${compiledCssFileName}">
 
   <!-- CollectionPage JSON-LD -->
   <script type="application/ld+json">

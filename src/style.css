@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /**
  * TURATH (تراث) — Clean Master Foundation & Hero Architecture
  * Step 1: Global Foundation & CSS Reset

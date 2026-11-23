@@ -91,7 +91,7 @@
   <link rel="manifest" href="/manifest.json">
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
+      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(function() {}); });
     }
   </script>
 
@@ -419,7 +419,6 @@
   </noscript>
   
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com" defer></script>
 
   <link rel="stylesheet" href="./src/style.css">
   <style> 
@@ -576,9 +575,6 @@
       letter-spacing: 0.06em !important;
       direction: ltr !important;
       text-transform: uppercase !important;
-    }
-      letter-spacing: 0.06em !important;
-      direction: ltr !important;
     }
     /* توحيد حجم عنوان الـ Founder مع باقي عناوين الصفحة */
     .founder-section h2,

@@ -82,7 +82,7 @@
   <link rel="manifest" href="./manifest.json">
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
+      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(function() {}); });
     }
   </script>
 
@@ -117,7 +117,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Space+Mono:wght@700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com" defer></script>
 
   <!-- Critical Anti-FOUC & Strict Sizing Styles -->
   <style>
@@ -213,7 +212,8 @@
       left: 0 !important;
       width: 100% !important;
       height: 100% !important;
-      object-fit: cover !important;
+      -o-object-fit: cover !important;
+         object-fit: cover !important;
     }
   </style>
   <style> 
@@ -376,7 +376,7 @@
       display: none !important;
     }
   </style>
-  <link rel="stylesheet" crossorigin href="./assets/style-CXPpjeLS.css">
+  <link rel="stylesheet" crossorigin href="./assets/style-_mAUdzdW.css">
 </head>
 <body class="bg-[#050505] text-white antialiased overflow-hidden selection:bg-[#D7C797] selection:text-black loading-lock">
   <!-- Meta Pixel noscript fallback -->

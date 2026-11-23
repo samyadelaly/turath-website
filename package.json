@@ -10,9 +10,12 @@
   },
   "devDependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "autoprefixer": "^10.4.20",
     "localtunnel": "^2.0.2",
+    "postcss": "^8.4.49",
     "puppeteer-core": "^25.16.0",
     "sharp": "^0.35.5",
+    "tailwindcss": "^3.4.17",
     "vite": "^6.0.0",
     "vite-plugin-image-optimizer": "^2.0.3"
   },
