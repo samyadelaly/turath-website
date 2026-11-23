@@ -83,6 +83,11 @@ for (const [categoryKey, categoryData] of Object.entries(data.categories)) {
     const productId = item.id;
     if (!productId) continue;
 
+    // Exclude non-canonical showcase items to ensure 100% canonical index (Google Search Central best practice)
+    if (item.canonicalId || item.canonicalUrl || item.isShowcaseOf) {
+      continue;
+    }
+
     urls.push({
       loc: `${BASE_URL}/products/${productId}/`,
       lastmod: today,
@@ -113,10 +118,18 @@ ${urls
 const robotsTxt = `User-agent: *
 Allow: /
 
+# Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# OpenAI Crawlers (ChatGPT Search & AI Training)
+User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: GPTBot
@@ -125,24 +138,32 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
+# Google AI & Gemini Crawlers
 User-agent: Google-Extended
 Allow: /
 
-User-agent: PerplexityBot
+User-agent: GoogleOther
 Allow: /
 
+# Anthropic Claude Crawlers
 User-agent: ClaudeBot
 Allow: /
 
 User-agent: Claude-Web
 Allow: /
 
+# Perplexity AI Crawler
+User-agent: PerplexityBot
+Allow: /
+
+# Apple Intelligence Crawlers
 User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
 
+# Foundational AI & Research Crawlers
 User-agent: CCBot
 Allow: /
 
@@ -152,6 +173,10 @@ Allow: /
 User-agent: FacebookBot
 Allow: /
 
+User-agent: YouBot
+Allow: /
+
+# Sitemap Location
 Sitemap: https://turath-egypt.vercel.app/sitemap.xml
 `;
 

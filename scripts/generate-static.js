@@ -171,6 +171,7 @@ for (const cat of CATEGORIES) {
     const nextItem = catItems[(idx + 1) % catItems.length];
 
     const fullProductUrl = `${BASE_URL}/products/${productId}/`;
+    const canonicalTargetUrl = item.isShowcaseOf || (item.canonicalUrl ? `${BASE_URL}${item.canonicalUrl}` : fullProductUrl);
     const fullImageUrl = `${BASE_URL}${item.image}`;
     const imageMimeType = getMimeType(item.image);
     const bilingualTitle = `${item.title} | ${item.titleAr} | TURATH — Bespoke Solid Brass & Copper`;
@@ -189,8 +190,8 @@ for (const cat of CATEGORIES) {
       pageHtml = pageHtml.replace('<head>', '<head>\n  <base href="/">');
     }
 
-    // 2. Set Self-Referencing Canonical URL (CRITICAL)
-    pageHtml = pageHtml.replace(/<link\s+rel="canonical"\s+href="[^"]*"/i, `<link rel="canonical" href="${fullProductUrl}"`);
+    // 2. Set Canonical URL (Self-Referencing or Primary Product Target for Showcase Duplicates)
+    pageHtml = pageHtml.replace(/<link\s+rel="canonical"\s+href="[^"]*"/i, `<link rel="canonical" href="${canonicalTargetUrl}"`);
 
     // 3. Set unique <title> and meta description
     pageHtml = pageHtml.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(bilingualTitle)}</title>`);
@@ -240,11 +241,12 @@ for (const cat of CATEGORIES) {
       },
       {
         "@type": "Product",
+        "@id": ${JSON.stringify(canonicalTargetUrl)},
         "name": ${JSON.stringify(item.title)},
         "alternateName": ${JSON.stringify(item.titleAr)},
         "description": ${JSON.stringify(bilingualDesc)},
         "image": ${JSON.stringify(fullImageUrl)},
-        "url": ${JSON.stringify(fullProductUrl)},
+        "url": ${JSON.stringify(canonicalTargetUrl)},
         "category": ${JSON.stringify(cat.title)},
         "material": "Solid Brass & Copper (نحاس أصفر وأحمر خالص عالي النقاء)",
         "keywords": "solid brass, unlacquered brass, bespoke brass, antique brass, hammered copper, Egypt, GCC, Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, Oman, Africa, نحاس أصفر خالص, نحاس أحمر نقي, سبك نحاس, تشطيبات فاخرة, ورشة نحاس بالجمالية, المهندس سامي عادل",
@@ -273,7 +275,7 @@ for (const cat of CATEGORIES) {
           "priceCurrency": "EGP",
           "availability": "https://schema.org/MadeToOrder",
           "itemCondition": "https://schema.org/NewCondition",
-          "url": ${JSON.stringify(fullProductUrl)},
+          "url": ${JSON.stringify(canonicalTargetUrl)},
           "seller": {
             "@type": "Organization",
             "name": "TURATH EGYPT"
