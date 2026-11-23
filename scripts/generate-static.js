@@ -352,11 +352,11 @@ for (const cat of CATEGORIES) {
     // Initial Title & Description
     pageHtml = pageHtml.replace(
       /<h1\s+id="slider-title"[^>]*>[\s\S]*?<\/h1>/i,
-      `<h1 id="slider-title" class="text-lg md:text-xl lg:text-3xl xl:text-4xl font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">${escapeHtml(item.title)}</h1>`
+      `<h1 id="slider-title" class="text-lg md:text-xl lg:text-[21px] xl:text-[22px] font-bold tracking-[0.2em] text-white uppercase text-center drop-shadow-md">${escapeHtml(item.title)}</h1>`
     );
     pageHtml = pageHtml.replace(
       /<p\s+id="slider-desc"[^>]*>[\s\S]*?<\/p>/i,
-      `<p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-lg font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">${escapeHtml(itemDesc)}</p>`
+      `<p id="slider-desc" class="text-white/90 text-sm md:text-base lg:text-[15px] font-light tracking-wide text-center max-w-md lg:max-w-2xl drop-shadow-md leading-relaxed min-h-[3rem]">${escapeHtml(itemDesc)}</p>`
     );
 
     // Initial Media (image / desktop source or video)
