@@ -93,11 +93,11 @@
   <meta property="og:title" content="SUNBURST PIERCED BRASS SCONCE | SUNBURST PIERCED BRASS SCONCE | TURATH — Bespoke Solid Brass &amp; Copper">
   <meta property="og:description" content="A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall. — A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall.">
   <meta property="og:image" content="https://turath-egypt.vercel.app/assets/images/lighting/sunburst-pierced-brass-sconce.jpg">
-  <meta property="og:image:secure_url" content="https://turath-egypt.vercel.app/assets/images/lighting/lighting-hero.jpg">
+  <meta property="og:image:secure_url" content="https://turath-egypt.vercel.app/assets/images/lighting/sunburst-pierced-brass-sconce.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:alt" content="Handcrafted Bespoke Brass Lighting Fixtures — TURATH Egypt Atelier">
+  <meta property="og:image:alt" content="SUNBURST PIERCED BRASS SCONCE - SUNBURST PIERCED BRASS SCONCE | Handcrafted Solid Brass &amp; Copper | ورشة تراث مصر">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="ar_EG">
 
@@ -109,7 +109,7 @@
   <meta name="twitter:title" content="SUNBURST PIERCED BRASS SCONCE | SUNBURST PIERCED BRASS SCONCE | TURATH — Bespoke Solid Brass &amp; Copper">
   <meta name="twitter:description" content="A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall. — A circular flush wall sconce crafted from solid brass with concentric micro-perforations casting a dramatic, radiating sunburst shadow across the wall.">
   <meta name="twitter:image" content="https://turath-egypt.vercel.app/assets/images/lighting/sunburst-pierced-brass-sconce.jpg">
-  <meta name="twitter:image:alt" content="Handcrafted Bespoke Brass Lighting Fixtures — TURATH Egypt Atelier">
+  <meta name="twitter:image:alt" content="SUNBURST PIERCED BRASS SCONCE - SUNBURST PIERCED BRASS SCONCE | Handcrafted Solid Brass &amp; Copper | ورشة تراث مصر">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -226,12 +226,10 @@
     } 
   </style>
   <link rel="canonical" href="https://turath-egypt.vercel.app/products/lighting-item-5/">
-  <link rel="alternate" hreflang="en" href="https://turath-egypt.vercel.app/lighting.html">
-  <link rel="alternate" hreflang="ar" href="https://turath-egypt.vercel.app/lighting-ar.html">
-  <link rel="alternate" hreflang="x-default" href="https://turath-egypt.vercel.app/lighting.html">
   <script>
     // Dynamic Metadata & Route Sync Utility
     function updateTurathDynamicMeta(item) {
+      if (!item || window.location.pathname.includes('/products/')) return;
       if (!item) return;
       var title = (item.title || '') + (item.titleAr ? ' | ' + item.titleAr : '') + ' | TURATH — Bespoke Solid Brass & Copper';
       var desc = ((item.desc || item.description || '') + (item.descAr || item.descriptionAr ? ' — ' + (item.descAr || item.descriptionAr) : '')).trim();
@@ -316,6 +314,7 @@
           "logo": "https://turath-egypt.vercel.app/turath-brand-logo.jpg",
           "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
           "url": "https://turath-egypt.vercel.app/",
+          "foundingDate": "2012",
           "areaServed": [
             { "@type": "Country", "name": "Egypt" },
             { "@type": "Country", "name": "Saudi Arabia" },
@@ -325,18 +324,6 @@
             { "@type": "Country", "name": "United States" },
             { "@type": "Country", "name": "United Kingdom" }
           ]
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EGP",
-          "availability": "https://schema.org/MadeToOrder",
-          "itemCondition": "https://schema.org/NewCondition",
-          "url": "https://turath-egypt.vercel.app/products/lighting-item-5/",
-          "seller": {
-            "@type": "Organization",
-            "name": "TURATH EGYPT"
-          }
         }
       }
     ]
@@ -858,17 +845,22 @@
     }
 
     if (prevBtn) {
-      prevBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex - 1); });
+      if (prevBtn && !window.location.pathname.includes('/products/')) { prevBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex - 1); }); }
     }
     if (nextBtn) {
-      nextBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex + 1); });
+      if (nextBtn && !window.location.pathname.includes('/products/')) { nextBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex + 1); }); }
     }
 
     // Keyboard navigation
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
-      if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
-    });
+        if (window.location.pathname.includes('/products/')) {
+          if (e.key === 'ArrowLeft' && prevBtn && prevBtn.href) { window.location.href = prevBtn.href; }
+          if (e.key === 'ArrowRight' && nextBtn && nextBtn.href) { window.location.href = nextBtn.href; }
+        } else {
+          if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
+          if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
+        }
+      });
 
     // Touch swipe support
     let touchStartX = 0;
@@ -884,11 +876,13 @@
         touchEndX = e.changedTouches[0].screenX;
         const diff = touchEndX - touchStartX;
         if (Math.abs(diff) > 40) {
-          if (diff < 0) {
-            updateSlider(currentIndex + 1);
-          } else {
-            updateSlider(currentIndex - 1);
-          }
+          if (window.location.pathname.includes('/products/')) {
+        if (diff < 0 && nextBtn && nextBtn.href) { window.location.href = nextBtn.href; }
+        else if (diff > 0 && prevBtn && prevBtn.href) { window.location.href = prevBtn.href; }
+      } else {
+        if (diff < 0) { updateSlider(currentIndex + 1); }
+        else { updateSlider(currentIndex - 1); }
+      }
         }
       }, { passive: true });
     }

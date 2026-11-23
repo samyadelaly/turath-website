@@ -190,26 +190,33 @@ for (const cat of CATEGORIES) {
       pageHtml = pageHtml.replace('<head>', '<head>\n  <base href="/">');
     }
 
-    // 2. Set Canonical URL (Self-Referencing or Primary Product Target for Showcase Duplicates)
+    // 2. Remove inherited category-level hreflang tags from standalone product pages
+    pageHtml = pageHtml.replace(/\s*<link\s+rel=["']alternate["']\s+hreflang=["'][^"']*["']\s+href=["'][^"']*["']\s*\/?>/gi, '');
+    pageHtml = pageHtml.replace(/\s*<link\s+rel=["']alternate["']\s+href=["'][^"']*["']\s+hreflang=["'][^"']*["']\s*\/?>/gi, '');
+
+    // 3. Set Canonical URL (Self-Referencing or Primary Product Target for Showcase Duplicates)
     pageHtml = pageHtml.replace(/<link\s+rel="canonical"\s+href="[^"]*"/i, `<link rel="canonical" href="${canonicalTargetUrl}"`);
 
-    // 3. Set unique <title> and meta description
+    // 4. Set unique <title> and meta description
     pageHtml = pageHtml.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(bilingualTitle)}</title>`);
     pageHtml = pageHtml.replace(/<meta\s+name="description"\s+content="[^"]*"/i, `<meta name="description" content="${escapeHtml(bilingualDesc)}"`);
 
-    // 4. Update Open Graph and Twitter Card tags
+    // 5. Update Open Graph and Twitter Card tags with product-specific image and alt
     pageHtml = pageHtml.replace(/<meta\s+property="og:url"\s+content="[^"]*"/i, `<meta property="og:url" content="${fullProductUrl}"`);
     pageHtml = pageHtml.replace(/<meta\s+property="og:title"\s+content="[^"]*"/i, `<meta property="og:title" content="${escapeHtml(bilingualTitle)}"`);
     pageHtml = pageHtml.replace(/<meta\s+property="og:description"\s+content="[^"]*"/i, `<meta property="og:description" content="${escapeHtml(bilingualDesc)}"`);
     pageHtml = pageHtml.replace(/<meta\s+property="og:image"\s+content="[^"]*"/i, `<meta property="og:image" content="${fullImageUrl}"`);
+    pageHtml = pageHtml.replace(/<meta\s+property="og:image:secure_url"\s+content="[^"]*"/i, `<meta property="og:image:secure_url" content="${fullImageUrl}"`);
+    pageHtml = pageHtml.replace(/<meta\s+property="og:image:alt"\s+content="[^"]*"/i, `<meta property="og:image:alt" content="${escapeHtml(imageAlt)}"`);
     pageHtml = pageHtml.replace(/<meta\s+property="og:type"\s+content="[^"]*"/i, `<meta property="og:type" content="product"`);
 
     pageHtml = pageHtml.replace(/<meta\s+name="twitter:url"\s+content="[^"]*"/i, `<meta name="twitter:url" content="${fullProductUrl}"`);
     pageHtml = pageHtml.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"/i, `<meta name="twitter:title" content="${escapeHtml(bilingualTitle)}"`);
     pageHtml = pageHtml.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"/i, `<meta name="twitter:description" content="${escapeHtml(bilingualDesc)}"`);
     pageHtml = pageHtml.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"/i, `<meta name="twitter:image" content="${fullImageUrl}"`);
+    pageHtml = pageHtml.replace(/<meta\s+name="twitter:image:alt"\s+content="[^"]*"/i, `<meta name="twitter:image:alt" content="${escapeHtml(imageAlt)}"`);
 
-    // 5. Inject Product + Manufacturer JSON-LD Schema with Cleaned Multi-Market Taxonomy
+    // 6. Inject Product + Manufacturer JSON-LD Schema (No fabricated prices, valid Made-to-Order craftsmanship)
     const productJsonLd = `
   <!-- Product & Manufacturer JSON-LD Schema (Cleaned Multi-Market Taxonomy) -->
   <script type="application/ld+json">
@@ -259,6 +266,7 @@ for (const cat of CATEGORIES) {
           "logo": "${BASE_URL}/turath-brand-logo.jpg",
           "name": "Turath Egypt - ورشة تراث لتصنيع النحاس",
           "url": "${BASE_URL}/",
+          "foundingDate": "2012",
           "areaServed": [
             { "@type": "Country", "name": "Egypt" },
             { "@type": "Country", "name": "Saudi Arabia" },
@@ -268,18 +276,6 @@ for (const cat of CATEGORIES) {
             { "@type": "Country", "name": "United States" },
             { "@type": "Country", "name": "United Kingdom" }
           ]
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EGP",
-          "availability": "https://schema.org/MadeToOrder",
-          "itemCondition": "https://schema.org/NewCondition",
-          "url": ${JSON.stringify(canonicalTargetUrl)},
-          "seller": {
-            "@type": "Organization",
-            "name": "TURATH EGYPT"
-          }
         }
       }
     ]
@@ -388,6 +384,59 @@ for (const cat of CATEGORIES) {
         `let initialIndex = ${idx};`
       );
     }
+
+    // 10. Standalone Product Page JavaScript Optimization:
+    // A. Prevent updateTurathDynamicMeta from mutating canonical tag or pushing ?product= query params on standalone product pages
+    pageHtml = pageHtml.replace(
+      /function\s+updateTurathDynamicMeta\s*\(\s*item\s*\)\s*\{/g,
+      `function updateTurathDynamicMeta(item) {\n      if (!item || window.location.pathname.includes('/products/')) return;`
+    );
+
+    // B. Navigation arrows: Allow natural page navigation without preventDefault() interception on standalone product pages
+    pageHtml = pageHtml.replace(
+      /(?:if\s*\(\s*prevBtn\s*\)\s*)?prevBtn\.addEventListener\('click',\s*\(\s*e\s*\)\s*=>\s*\{\s*e\.preventDefault\(\);\s*updateSlider\(currentIndex\s*-\s*1\);\s*\}\);/g,
+      `if (prevBtn && !window.location.pathname.includes('/products/')) { prevBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex - 1); }); }`
+    );
+    pageHtml = pageHtml.replace(
+      /(?:if\s*\(\s*nextBtn\s*\)\s*)?nextBtn\.addEventListener\('click',\s*\(\s*e\s*\)\s*=>\s*\{\s*e\.preventDefault\(\);\s*updateSlider\(currentIndex\s*\+\s*1\);\s*\}\);/g,
+      `if (nextBtn && !window.location.pathname.includes('/products/')) { nextBtn.addEventListener('click', (e) => { e.preventDefault(); updateSlider(currentIndex + 1); }); }`
+    );
+
+    // C. Keyboard navigation: Natural navigation on standalone product pages
+    pageHtml = pageHtml.replace(
+      /window\.addEventListener\('keydown',\s*\(\s*e\s*\)\s*=>\s*\{\s*if\s*\(e\.key\s*===\s*'ArrowLeft'\)\s*updateSlider\(currentIndex\s*-\s*1\);\s*if\s*\(e\.key\s*===\s*'ArrowRight'\)\s*updateSlider\(currentIndex\s*\+\s*1\);\s*\}\);/g,
+      `window.addEventListener('keydown', (e) => {
+        if (window.location.pathname.includes('/products/')) {
+          if (e.key === 'ArrowLeft' && prevBtn && prevBtn.href) { window.location.href = prevBtn.href; }
+          if (e.key === 'ArrowRight' && nextBtn && nextBtn.href) { window.location.href = nextBtn.href; }
+        } else {
+          if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
+          if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
+        }
+      });`
+    );
+
+    // D. Touch swipe navigation: Natural navigation on standalone product pages
+    pageHtml = pageHtml.replace(
+      /if\s*\(\s*diff\s*<\s*0\s*\)\s*\{\s*updateSlider\(currentIndex\s*\+\s*1\);\s*\}\s*else\s*\{\s*updateSlider\(currentIndex\s*-\s*1\);\s*\}/g,
+      `if (window.location.pathname.includes('/products/')) {
+        if (diff < 0 && nextBtn && nextBtn.href) { window.location.href = nextBtn.href; }
+        else if (diff > 0 && prevBtn && prevBtn.href) { window.location.href = prevBtn.href; }
+      } else {
+        if (diff < 0) { updateSlider(currentIndex + 1); }
+        else { updateSlider(currentIndex - 1); }
+      }`
+    );
+    pageHtml = pageHtml.replace(
+      /if\s*\(\s*swipeDistance\s*>\s*45\s*\)\s*\{\s*updateSlider\(currentIndex\s*-\s*1\);[\s\S]*?updateSlider\(currentIndex\s*\+\s*1\);\s*\}\s*\}/g,
+      `if (swipeDistance > 45) {
+        if (window.location.pathname.includes('/products/') && prevBtn && prevBtn.href) { window.location.href = prevBtn.href; }
+        else { updateSlider(currentIndex - 1); }
+      } else if (swipeDistance < -45) {
+        if (window.location.pathname.includes('/products/') && nextBtn && nextBtn.href) { window.location.href = nextBtn.href; }
+        else { updateSlider(currentIndex + 1); }
+      }`
+    );
 
     // 1. Write file to public/products/${productId}/index.html AND public/products/${productId}.html
     const itemDir = path.join(productsOutputDir, productId);
